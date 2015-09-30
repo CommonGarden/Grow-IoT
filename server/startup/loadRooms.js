@@ -1,6 +1,6 @@
 Meteor.startup(function () {
-  if (Parties.find().count() === 0) {
-    var parties = [
+  if (Rooms.find().count() === 0) {
+    var rooms = [
       {'name': 'Dubstep-Free Zone',
         'description': 'Fast just got faster with Nexus S.'},
       {'name': 'All dubstep all the time',
@@ -8,7 +8,7 @@ Meteor.startup(function () {
       {'name': 'Savage lounging',
         'description': 'Leisure suit required. And only fiercest manners.'}
     ];
-    for (var i = 0; i < parties.length; i++)
-      Parties.insert({name: parties[i].name, description: parties[i].description});
+    for (var i = 0; i < rooms.length; i++)
+      Rooms.insert({name: rooms[i].name, description: rooms[i].description});
   }
 });

@@ -1,7 +1,7 @@
-angular.module('socially',['angular-meteor', 'ui.router']);
+angular.module('grow',['angular-meteor', 'ui.router']);
 
 function onReady() {
-  angular.bootstrap(document, ['socially']);
+  angular.bootstrap(document, ['grow']);
 }
 
 if (Meteor.isCordova)

@@ -1,5 +1,5 @@
-Meteor.publish("parties", function () {
-  return Parties.find({
+Meteor.publish("rooms", function () {
+  return Rooms.find({
     $or:[
       {$and:[
         {"public": true},

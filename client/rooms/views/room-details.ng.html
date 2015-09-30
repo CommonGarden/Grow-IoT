@@ -1,0 +1,13 @@
+Here you will see and change the details of the room:
+
+<input ng-model="room.name">
+<input ng-model="room.description">
+<label>Is public</label>
+<input type="checkbox" ng-model="room.public">
+
+<ul>
+  Users:
+  <li ng-repeat="user in users">
+    <div>{{ user.emails[0].address }}</div>
+  </li>
+</ul>
