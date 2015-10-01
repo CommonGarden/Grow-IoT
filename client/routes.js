@@ -28,6 +28,36 @@ angular.module("grow").config(['$urlRouterProvider', '$stateProvider', '$locatio
             return $meteor.requireUser();
           }]
         }
+      })
+      .state('login', {
+        url: '/login',
+        templateUrl: 'client/users/views/login.ng.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'lc'
+      })
+      .state('register',{
+        url: '/register',
+        templateUrl: 'client/users/views/register.ng.html',
+        controller: 'RegisterCtrl',
+        controllerAs: 'rc'
+      })
+      .state('resetpw', {
+        url: '/resetpw',
+        templateUrl: 'client/users/views/reset-password.ng.html',
+        controller: 'ResetCtrl',
+        controllerAs: 'rpc'
+      })
+      .state('logout', {
+        url: '/logout',
+        resolve: {
+          "logout": ['$meteor', '$state', function($meteor, $state) {
+            return $meteor.logout().then(function(){
+              $state.go('rooms');
+            }, function(err){
+              console.log('logout error - ', err);
+            });
+          }]
+        }
       });
 
     $urlRouterProvider.otherwise("/rooms");
