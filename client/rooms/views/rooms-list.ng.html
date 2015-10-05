@@ -1,22 +1,13 @@
-<form>
-  <label>Name</label>
-  <input ng-model="newRoom.name">
-  <label>Description</label>
-  <input ng-model="newRoom.description">
-  <!-- <label>Public</label> -->
-  <!-- <input type="checkbox" ng-model="newRoom.public"> -->  
-  <button ng-click="newRoom.owner=$root.currentUser._id; rooms.push(newRoom)">Add</button>
-</form>
+<div class="row">
+  <div ng-if="!rooms.length">
+    <div ng-include="client/rooms/views/room-details.ng.html"></div>
+  </div>
 
-<div ng-if="!rooms.length">
-  <p>Get started growing!</p>
-  <button>Grow!</button>
+  <ul ng-if="rooms.length">
+    <li ng-repeat="room in rooms">
+      <a href="/rooms/{{room._id}}">{{room.name}}</a>
+      <p>{{room.description}}</p>
+      <button ng-click="remove(room)">X</button>
+    </li>
+  </ul>
 </div>
-
-<ul>
-  <li ng-repeat="room in rooms">
-    <a href="/rooms/{{room._id}}">{{room.name}}</a>
-    <p>{{room.description}}</p>
-    <button ng-click="remove(room)">X</button>
-  </li>
-</ul>

@@ -1,13 +1,43 @@
-Here you will see and change the details of the room:
+<!-- New plant / environment setting -->
+<div ng-if="editing">
+	Here you will see and change the details of the room:
 
-<input ng-model="room.name">
-<input ng-model="room.description">
-<label>Is public</label>
-<input type="checkbox" ng-model="room.public">
+	<input ng-model="room.name">
+	<input ng-model="room.description">
 
-<ul>
-  Users:
-  <li ng-repeat="user in users">
-    <div>{{ user.emails[0].address }}</div>
-  </li>
-</ul>
+	<label>Is outside?</label>
+	<input type="checkbox" ng-model="room.outside">
+
+	<label>Gets sunlight?</label>
+	<input type="checkbox" ng-model="room.sunlight">
+
+	<button ng-click="editing = false">Save</button>
+</div>
+
+<button ng-click="editing = true">Edit</button>
+<button ng-click="">Problem with plant</button>
+<button>Remove plant</button>
+
+<p>
+	<button ng-click="takePicture()" 
+			type="button" 
+			class="btn btn-default" 
+			aria-label="Take photo">Take picture</button>
+</p>
+
+<!-- Plant info -->
+{{room.name}}
+<!-- 
+
+Status
+Plant age
+Time til harvest
+
+Temperature
+Humidity
+Ph
+Soil moisture 
+Light
+EC
+
+ -->
