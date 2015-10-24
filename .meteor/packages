@@ -16,18 +16,17 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-angular
-angularui:angular-ui-router
+accounts-ui             # Meteor Accounts is a complete user account system.
 accounts-password
-accounts-ui
-urigo:angular-blaze-template
 accounts-facebook
 accounts-twitter
-gfk:notifications
-mdg:camera
-angularui:angular-ui-bootstrap
-less
-twbs:bootstrap
-service-configuration
-aldeed:simple-schema
-commongarden:meshblu
+
+gfk:notifications       # Add reactive notifications to your meteor application.
+mdg:camera              # Allows you to take photos on desktop and mobile with a single function call.
+less                    # Dynamic stylesheet language.
+twbs:bootstrap          # Bootstrap CSS framework
+service-configuration   # ??? Manage the configuration for third-party services. Is this needed?
+aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
+
+commongarden:meshblu    # Meteor smart package for communicating with the Meshblu machine-to-machine
+                        # instant messaging platform for the Internet of things (IoT).
