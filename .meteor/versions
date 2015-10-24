@@ -83,7 +83,6 @@ routepolicy@1.0.6
 service-configuration@1.0.5
 session@1.1.1
 sha@1.0.4
-softwarerero:accounts-t9n@1.0.9
 spacebars@1.0.7
 spacebars-compiler@1.0.7
 srp@1.0.4
@@ -97,7 +96,5 @@ ui@1.0.8
 underscore@1.0.4
 urigo:angular-blaze-template@0.0.1
 url@1.0.5
-useraccounts:bootstrap@1.12.3
-useraccounts:core@1.12.3
 webapp@1.2.2
 webapp-hashing@1.0.5
