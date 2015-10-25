@@ -4,6 +4,7 @@ class Device extends share.BaseDocument
   # token: token of the device
   # owner:
   #   _id
+  # onlineSince
 
   @Meta
     name: 'Device'

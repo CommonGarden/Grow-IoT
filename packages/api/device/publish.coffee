@@ -9,6 +9,10 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
       _id: 1
   throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
+  Device.documents.update device._id
+    $set:
+      onlineSince: new Date()
+
   query =
     'device._id': device._id
     createdAt:
@@ -33,3 +37,15 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
   @onStop =>
     handle?.stop()
     handle = null
+
+    # Wait for 5 seconds before marking device offline. It might be just reconnecting.
+    Meteor.setTimeout =>
+      Device.documents.update
+        _id: device._id
+        onlineSince:
+          $lt: new Date(new Date().valueOf() - 5000)
+      ,
+        $set:
+          onlineSince: false
+    ,
+      5000 # ms
