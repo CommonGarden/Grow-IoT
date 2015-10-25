@@ -28,8 +28,6 @@ twbs:bootstrap          # Bootstrap CSS framework
 service-configuration   # ??? Manage the configuration for third-party services. Is this needed?
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
-commongarden:meshblu    # Meteor smart package for communicating with the Meshblu machine-to-machine
-                        # instant messaging platform for the Internet of things (IoT).
 kadira:flow-router
 kadira:blaze-layout
 

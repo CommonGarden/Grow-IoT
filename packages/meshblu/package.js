@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'grow-app',
+  name: 'meshblu',
   version: '0.1.0'
 });
 
@@ -13,17 +13,14 @@ Package.onUse(function (api) {
 
   // 3rd party dependencies.
   api.use([
-    'peerlibrary:blaze-components@0.15.0'
+    'commongarden:meshblu@1.30.1_1'
   ]);
 
   // Internal dependencies.
   api.use([
-    'meshblu'
   ]);
 
   api.addFiles([
-    'main.html',
-    'main.coffee',
-    'body.html'
-  ], 'client');
+    'base.coffee'
+  ], 'server');
 });
