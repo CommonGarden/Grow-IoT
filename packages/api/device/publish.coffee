@@ -9,7 +9,7 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
       _id: 1
   throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-  Device.documents.update device._id
+  Device.documents.update device._id,
     $set:
       onlineSince: new Date()
 
@@ -24,9 +24,7 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
       createdAt: 1
 
   handle = Message.documents.find(query, options).observeChanges
-    added: (id, fields) ->
-      fields.createdAt = fields.createdAt.valueOf()
-
+    added: (id, fields) =>
       @added 'CommonGarden.messages', id, fields
       @removed 'CommonGarden.messages', id
 
