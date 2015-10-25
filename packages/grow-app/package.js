@@ -18,7 +18,7 @@ Package.onUse(function (api) {
   // 3rd party dependencies.
   api.use([
     'kadira:flow-router@2.7.0',
-    'kadira:blaze-layout@2.2.0',
+    'kadira:blaze-layout@2.2.0'
   ]);
 
   // Internal dependencies.
