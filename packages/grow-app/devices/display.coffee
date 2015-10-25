@@ -47,13 +47,13 @@ class Device.DisplayComponent extends UIComponent
   onAcid: (event) ->
     event.preventDefault()
 
-    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'acid', 30, (error) ->
+    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'acid', 5, (error) ->
       console.log "Error", error if error
 
   onBase: (event) ->
     event.preventDefault()
 
-    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'base', 30, (error) ->
+    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'base', 5, (error) ->
       console.log "Error", error if error
 
   device: ->
