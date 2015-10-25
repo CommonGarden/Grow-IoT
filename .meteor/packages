@@ -31,3 +31,4 @@ aldeed:simple-schema    # A simple, reactive schema validation package for Meteo
 commongarden:meshblu    # Meteor smart package for communicating with the Meshblu machine-to-machine
                         # instant messaging platform for the Internet of things (IoT).
 kadira:flow-router
+kadira:blaze-layout
