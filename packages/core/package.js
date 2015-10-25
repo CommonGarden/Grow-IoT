@@ -25,16 +25,17 @@ Package.onUse(function (api) {
 
   api.export('User');
   api.export('Device');
+  api.export('Data');
+  api.export('Message', 'server');
 
   api.addFiles([
-    'publish.coffee'
-  ], 'server');
-
-  api.addFiles([
-    'underscore.coffee',
     'base.coffee',
-    'triggers.coffee',
     'documents/user.coffee',
     'documents/device.coffee',
+    'documents/data.coffee'
   ]);
+
+  api.addFiles([
+    'documents/messages.coffee'
+  ], 'server');
 });

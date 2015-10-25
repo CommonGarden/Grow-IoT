@@ -7,14 +7,10 @@ class Device.ListComponent extends UIComponent
     @canNew = new ComputedField =>
       !!Meteor.userId()
 
-    @subscribe 'Meeting.list'
     @subscribe 'Device.list'
 
-  devicesWithoutMeeting: ->
-    Device.documents.find
-      # Devices which do not have even the first meeting list item.
-      'meetings.0':
-        $exists: false
+  devicesList: ->
+    Device.documents.find()
 
 class Device.ListItemComponent extends UIComponent
   @register 'Device.ListItemComponent'
