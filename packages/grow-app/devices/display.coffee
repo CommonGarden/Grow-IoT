@@ -19,10 +19,10 @@ class Device.DisplayComponent extends UIComponent
         fields:
           title: 1
 
-      if device
-        share.PageTitle device.title
-      else
-        share.PageTitle "Not found"
+      # if device
+      #   share.PageTitle device.title
+      # else
+      #   share.PageTitle "Not found"
 
   device: ->
     Device.documents.findOne @currentDeviceId()
@@ -33,10 +33,10 @@ class Device.DisplayComponent extends UIComponent
 FlowRouter.route '/device/:_id',
   name: 'Device.display'
   action: (params, queryParams) ->
-    BlazeLayout.render 'ColumnsLayoutComponent',
+    BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.DisplayComponent'
-      first: 'Comment.ListComponent'
-      second: 'Point.ListComponent'
-      third: 'Motion.ListComponent'
+      # first: 'Comment.ListComponent'
+      # second: 'Point.ListComponent'
+      # third: 'Motion.ListComponent'
 
     # We set PageTitle after we get devicetitle.

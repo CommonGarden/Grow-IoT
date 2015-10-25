@@ -49,3 +49,13 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
           onlineSince: false
     ,
       5000 # ms
+
+new PublishEndpoint 'Device.list', ->
+  Device.documents.find {}
+    # fields: Device.PUBLISH_FIELDS()
+
+new PublishEndpoint 'Device.one', (documentId) ->
+  check documentId, Match.DocumentId
+
+  Device.documents.find documentId
+    # fields: Device.PUBLISH_FIELDS()
