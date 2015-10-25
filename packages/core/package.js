@@ -26,13 +26,16 @@ Package.onUse(function (api) {
   api.export('User');
   api.export('Device');
   api.export('Data');
-  api.export('Message');
+  api.export('Message', 'server');
 
   api.addFiles([
     'base.coffee',
     'documents/user.coffee',
     'documents/device.coffee',
-    'documents/data.coffee',
-    'documents/messages.coffee'
+    'documents/data.coffee'
   ]);
+
+  api.addFiles([
+    'documents/messages.coffee'
+  ], 'server');
 });
