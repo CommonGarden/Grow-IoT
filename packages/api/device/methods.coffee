@@ -25,6 +25,6 @@ Meteor.methods
       token: Random.secret TOKEN_LENGTH
       registeredAt: new Date()
 
-    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert registeredAt
+    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
     document
