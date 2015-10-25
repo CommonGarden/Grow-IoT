@@ -1,12 +1,12 @@
 TOKEN_LENGTH = 32
 
 Meteor.methods
-  'CommonGarden.sendData': (auth, data) ->
+  'CommonGarden.sendData': (auth, body) ->
     check auth,
       # TODO: Do better checks.
       uuid: Match.NonEmptyString
       token: Match.NonEmptyString
-    check data, Object
+    check body, Object
 
     device = Device.documents.findOne auth,
       fields:
@@ -16,7 +16,7 @@ Meteor.methods
     !!Data.documents.insert
       device:
         _id: device._id
-      data: data
+      body: body
       insertedAt: new Date()
 
   'CommonGarden.registerDevice': ->

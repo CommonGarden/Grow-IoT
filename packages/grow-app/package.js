@@ -30,6 +30,7 @@ Package.onUse(function (api) {
   ]);
 
   api.addFiles([
+    'layout/accounts.coffee',
     'layout/layout.html',
     'layout/layout.coffee',
     'layout/header.html',

@@ -52,8 +52,10 @@ new PublishEndpoint 'Device.list', ->
   Device.documents.find {}
     # fields: Device.PUBLISH_FIELDS()
 
-new PublishEndpoint 'Device.one', (documentId) ->
-  check documentId, Match.DocumentId
+new PublishEndpoint 'Device.one', (deviceUuid) ->
+  # TODO: Do better checks.
+  check deviceUuid, Match.NonEmptyString
 
-  Device.documents.find documentId
+  Device.documents.find
+    uuid: deviceUuid
     # fields: Device.PUBLISH_FIELDS()
