@@ -25,6 +25,8 @@ Package.onUse(function (api) {
 
   api.export('User');
   api.export('Device');
+  api.export('Data');
+  api.export('Message');
 
   api.addFiles([
     'publish.coffee'
@@ -36,5 +38,7 @@ Package.onUse(function (api) {
     'triggers.coffee',
     'documents/user.coffee',
     'documents/device.coffee',
+    'documents/data.coffee',
+    'documents/messages.coffee'
   ]);
 });

@@ -23,7 +23,9 @@ Package.onUse(function (api) {
 
   // Internal dependencies.
   api.use([
-    'ui-components'
+    'ui-components',
+    'core',
+    'api'
   ]);
 
   api.addFiles([
