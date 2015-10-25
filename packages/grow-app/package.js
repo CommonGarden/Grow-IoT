@@ -8,22 +8,29 @@ Package.onUse(function (api) {
 
   // Core dependencies.
   api.use([
-    'coffeescript'
+    'coffeescript',
+    'underscore',
+    'accounts-ui',
+    'accounts-password',
+    'accounts-facebook',
+    'accounts-twitter'
   ]);
 
   // 3rd party dependencies.
   api.use([
-    'peerlibrary:blaze-components@0.15.0'
+    'kadira:flow-router@2.7.0',
+    'kadira:blaze-layout@2.2.0',
   ]);
 
   // Internal dependencies.
   api.use([
-    'meshblu'
+    'ui-components'
   ]);
 
   api.addFiles([
-    'main.html',
-    'main.coffee',
-    'body.html'
+    'flow-router/layout.html',
+    'flow-router/layout.coffee',
+    'flow-router/header.html',
+    'flow-router/header.coffee',
   ], 'client');
 });

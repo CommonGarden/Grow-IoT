@@ -20,7 +20,6 @@ caching-html-compiler@1.0.2
 callback-hook@1.0.4
 check@1.0.6
 coffeescript@1.0.10
-commongarden:meshblu@1.30.1_1
 cosmos:browserify@0.8.1
 ddp@1.2.2
 ddp-client@1.2.1
@@ -53,7 +52,6 @@ livedata@1.0.15
 localstorage@1.0.5
 logging@1.0.8
 mdg:camera@1.2.0
-meshblu@0.1.0
 meteor@1.1.9
 meteor-base@1.0.1
 minifiers@1.1.7
@@ -72,7 +70,6 @@ ordered-dict@1.0.4
 peerlibrary:assert@0.2.5
 peerlibrary:base-component@0.14.0
 peerlibrary:blaze-components@0.15.0
-peerlibrary:blocking@0.5.2
 peerlibrary:computed-field@0.3.0
 peerlibrary:reactive-field@0.1.0
 promise@0.5.0
@@ -96,6 +93,7 @@ tracker@1.0.9
 twbs:bootstrap@3.3.5
 twitter@1.1.5
 ui@1.0.8
+ui-components@0.1.0
 underscore@1.0.4
 url@1.0.5
 webapp@1.2.2
