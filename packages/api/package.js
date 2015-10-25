@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'meshblu',
+  name: 'api',
   version: '0.1.0'
 });
 
@@ -13,7 +13,6 @@ Package.onUse(function (api) {
 
   // 3rd party dependencies.
   api.use([
-    'commongarden:meshblu@1.30.1_1'
   ]);
 
   // Internal dependencies.
@@ -21,6 +20,5 @@ Package.onUse(function (api) {
   ]);
 
   api.addFiles([
-    'base.coffee'
-  ], 'server');
+  ]);
 });
