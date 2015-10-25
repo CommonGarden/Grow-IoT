@@ -32,5 +32,7 @@ Package.onUse(function (api) {
     'flow-router/layout.coffee',
     'flow-router/header.html',
     'flow-router/header.coffee',
+    'flow-router/footer.coffee',
+    'flow-router/footer.html'
   ], 'client');
 });
