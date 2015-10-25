@@ -29,6 +29,15 @@ class Device.DisplayComponent extends UIComponent
       # else
       #   share.PageTitle "Not found"
 
+  onRendered: ->
+    currentValue = $('#set-ph').val()
+    $('.glyphicon-chevron-left').on 'click', ->
+      currentValue = parseFloat(currentValue) - 0.1
+      $('#set-ph').val(currentValue)
+    $('.glyphicon-chevron-right').on 'click', ->
+      currentValue = parseFloat(currentValue) + 0.1
+      $('#set-ph').val(currentValue)
+
   device: ->
     Device.documents.findOne
       uuid: @currentDeviceUuid()
