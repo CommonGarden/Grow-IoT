@@ -29,13 +29,7 @@ Package.onUse(function (api) {
   api.export('Message');
 
   api.addFiles([
-    'publish.coffee'
-  ], 'server');
-
-  api.addFiles([
-    'underscore.coffee',
     'base.coffee',
-    'triggers.coffee',
     'documents/user.coffee',
     'documents/device.coffee',
     'documents/data.coffee',
