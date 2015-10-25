@@ -33,4 +33,4 @@ FlowRouter.route '/device/new',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.NewComponent'
 
-    share.PageTitle "New Device"
+    # share.PageTitle "New Device"

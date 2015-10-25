@@ -7,9 +7,9 @@
     </div>
   {{/if}}
   <div class="section">
-    {{#if devicesWithoutMeeting.exists}}
+    {{#if devicesList.exists}}
       <div class="collection z-depth-1">
-        {{#each devicesWithoutMeeting}}
+        {{#each devicesList}}
           {{> Device.ListItemComponent}}
         {{/each}}
       </div>

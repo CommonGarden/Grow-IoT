@@ -18,7 +18,8 @@ Package.onUse(function (api) {
   // 3rd party dependencies.
   api.use([
     'kadira:flow-router@2.7.0',
-    'kadira:blaze-layout@2.2.0'
+    'kadira:blaze-layout@2.2.0',
+    'peerlibrary:computed-field@0.3.0'
   ]);
 
   // Internal dependencies.
@@ -29,16 +30,19 @@ Package.onUse(function (api) {
   ]);
 
   api.addFiles([
-    'flow-router/layout.html',
-    'flow-router/layout.coffee',
-    'flow-router/header.html',
-    'flow-router/header.coffee',
-    'flow-router/footer.coffee',
-    'flow-router/footer.html',
-    'flow-router/style.styl',
+    'layout/layout.html',
+    'layout/layout.coffee',
+    'layout/header.html',
+    'layout/header.coffee',
+    'layout/footer.coffee',
+    'layout/footer.html',
+    'layout/style.styl',
+    'layout/not-found.coffee',
+    'layout/not-found.html',
     'devices/display.coffee',
     'devices/display.html',
     'devices/list.coffee',
+    'devices/list.html',
     'devices/new.coffee',
     'devices/new.html'
   ], 'client');
