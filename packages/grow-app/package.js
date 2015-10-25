@@ -11,7 +11,8 @@ Package.onUse(function (api) {
     'coffeescript',
     'underscore',
     'accounts-ui',
-    'accounts-password'
+    'accounts-password',
+    'stylus'
   ]);
 
   // 3rd party dependencies.
@@ -31,6 +32,8 @@ Package.onUse(function (api) {
     'flow-router/header.html',
     'flow-router/header.coffee',
     'flow-router/footer.coffee',
-    'flow-router/footer.html'
+    'flow-router/footer.html',
+    'flow-router/routes.coffee',
+    'flow-router/style.styl'
   ], 'client');
 });
