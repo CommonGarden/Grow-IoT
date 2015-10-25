@@ -1,0 +1,23 @@
+<template name="Discussion.ListComponent">
+  {{#if canNew}}
+    <div class="fixed-action-btn">
+      <a href="{{pathFor 'Discussion.new'}}" class="btn-floating btn-large waves-effect waves-light red">
+        <i class="large material-icons">add</i>
+      </a>
+    </div>
+  {{/if}}
+  <div class="section">
+    {{#if discussionsWithoutMeeting.exists}}
+      <div class="collection z-depth-1">
+        {{#each discussionsWithoutMeeting}}
+          {{> Discussion.ListItemComponent}}
+        {{/each}}
+      </div>
+    {{/if}}
+    {{! TODO: Add lists for each meeting, collections with header. }}
+  </div>
+</template>
+
+<template name="Discussion.ListItemComponent">
+  <a href="{{pathFor 'Discussion.display' params=data}}" class="collection-item">{{title}}</a>
+</template>
