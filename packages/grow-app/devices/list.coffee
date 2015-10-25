@@ -1,5 +1,5 @@
-class Discussion.ListComponent extends UIComponent
-  @register 'Discussion.ListComponent'
+class Device.ListComponent extends UIComponent
+  @register 'Device.ListComponent'
 
   onCreated: ->
     super
@@ -8,21 +8,19 @@ class Discussion.ListComponent extends UIComponent
       !!Meteor.userId()
 
     @subscribe 'Meeting.list'
-    @subscribe 'Discussion.list'
+    @subscribe 'Device.list'
 
-  discussionsWithoutMeeting: ->
-    Discussion.documents.find
-      # Discussions which do not have even the first meeting list item.
+  devicesWithoutMeeting: ->
+    Device.documents.find
+      # Devices which do not have even the first meeting list item.
       'meetings.0':
         $exists: false
 
-class Discussion.ListItemComponent extends UIComponent
-  @register 'Discussion.ListItemComponent'
+class Device.ListItemComponent extends UIComponent
+  @register 'Device.ListItemComponent'
 
 FlowRouter.route '/',
-  name: 'Discussion.list'
+  name: 'Device.list'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Discussion.ListComponent'
-
-    share.PageTitle "Discussions"
+      main: 'Device.ListComponent'
