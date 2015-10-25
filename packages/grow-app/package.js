@@ -37,6 +37,8 @@ Package.onUse(function (api) {
     'layout/footer.coffee',
     'layout/footer.html',
     'layout/style.styl',
+    'layout/not-found.coffee',
+    'layout/not-found.html',
     'devices/display.coffee',
     'devices/display.html',
     'devices/list.coffee',
