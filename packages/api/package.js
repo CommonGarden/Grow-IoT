@@ -29,6 +29,7 @@ Package.onUse(function (api) {
 
   api.addFiles([
     'device/publish.coffee',
+    'device/server-methods.coffee',
     'data/publish.coffee'
   ], 'server');
 });

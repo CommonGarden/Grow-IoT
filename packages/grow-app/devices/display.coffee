@@ -29,6 +29,23 @@ class Device.DisplayComponent extends UIComponent
       # else
       #   share.PageTitle "Not found"
 
+  events: ->
+    super.concat
+      'click .acid': @onAcid
+      'click .base': @onBase
+
+  onAcid: (event) ->
+    event.preventDefault()
+
+    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'acid', 30, (error) ->
+      console.log "Error", error if error
+
+  onBase: (event) ->
+    event.preventDefault()
+
+    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'base', 30, (error) ->
+      console.log "Error", error if error
+
   device: ->
     Device.documents.findOne
       uuid: @currentDeviceUuid()
