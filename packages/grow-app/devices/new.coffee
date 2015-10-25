@@ -1,5 +1,5 @@
-class Discussion.NewComponent extends UIComponent
-  @register 'Discussion.NewComponent'
+class Device.NewComponent extends UIComponent
+  @register 'Device.NewComponent'
 
   onCreated: ->
     super
@@ -9,28 +9,28 @@ class Discussion.NewComponent extends UIComponent
 
   events: ->
     super.concat
-      'submit .discussion-new': @onSubmit
+      'submit .device-new': @onSubmit
 
   onSubmit: (event) ->
     event.preventDefault()
 
-    Meteor.call 'Discussion.new',
+    Meteor.call 'Device.new',
       title: @$('[name="title"]').val()
       description: @$('[name="description"]').val()
     ,
       (error, documentId) =>
         if error
-          console.error "New discussion error", error
-          alert "New discussion error: #{error.reason or error}"
+          console.error "New deviceerror", error
+          alert "New deviceerror: #{error.reason or error}"
           return
 
-        FlowRouter.go 'Discussion.display',
+        FlowRouter.go 'Device.display',
           _id: documentId
 
-FlowRouter.route '/discussion/new',
-  name: 'Discussion.new'
+FlowRouter.route '/device/new',
+  name: 'Device.new'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Discussion.NewComponent'
+      main: 'Device.NewComponent'
 
-    share.PageTitle "New Discussion"
+    share.PageTitle "New Device"

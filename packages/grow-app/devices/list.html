@@ -1,16 +1,16 @@
-<template name="Discussion.ListComponent">
+<template name="Device.ListComponent">
   {{#if canNew}}
     <div class="fixed-action-btn">
-      <a href="{{pathFor 'Discussion.new'}}" class="btn-floating btn-large waves-effect waves-light red">
+      <a href="{{pathFor 'Device.new'}}" class="btn-floating btn-large waves-effect waves-light red">
         <i class="large material-icons">add</i>
       </a>
     </div>
   {{/if}}
   <div class="section">
-    {{#if discussionsWithoutMeeting.exists}}
+    {{#if devicesWithoutMeeting.exists}}
       <div class="collection z-depth-1">
-        {{#each discussionsWithoutMeeting}}
-          {{> Discussion.ListItemComponent}}
+        {{#each devicesWithoutMeeting}}
+          {{> Device.ListItemComponent}}
         {{/each}}
       </div>
     {{/if}}
@@ -18,6 +18,6 @@
   </div>
 </template>
 
-<template name="Discussion.ListItemComponent">
-  <a href="{{pathFor 'Discussion.display' params=data}}" class="collection-item">{{title}}</a>
+<template name="Device.ListItemComponent">
+  <a href="{{pathFor 'Device.display' params=data}}" class="collection-item">{{title}}</a>
 </template>

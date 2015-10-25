@@ -33,9 +33,11 @@ Package.onUse(function (api) {
     'flow-router/header.coffee',
     'flow-router/footer.coffee',
     'flow-router/footer.html',
-    'flow-router/routes.coffee',
-    'flow-router/detailsView.coffee',
-    'flow-router/detailsView.html',
-    'flow-router/style.styl'
+    'flow-router/style.styl',
+    'devices/display.coffee',
+    'devices/display.html',
+    'devices/list.coffee',
+    'devices/new.coffee',
+    'devices/new.html'
   ], 'client');
 });
