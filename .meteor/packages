@@ -32,3 +32,5 @@ commongarden:meshblu    # Meteor smart package for communicating with the Meshbl
                         # instant messaging platform for the Internet of things (IoT).
 kadira:flow-router
 kadira:blaze-layout
+
+grow-app
