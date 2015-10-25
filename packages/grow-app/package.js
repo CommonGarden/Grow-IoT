@@ -30,13 +30,13 @@ Package.onUse(function (api) {
   ]);
 
   api.addFiles([
-    'flow-router/layout.html',
-    'flow-router/layout.coffee',
-    'flow-router/header.html',
-    'flow-router/header.coffee',
-    'flow-router/footer.coffee',
-    'flow-router/footer.html',
-    'flow-router/style.styl',
+    'layout/layout.html',
+    'layout/layout.coffee',
+    'layout/header.html',
+    'layout/header.coffee',
+    'layout/footer.coffee',
+    'layout/footer.html',
+    'layout/style.styl',
     'devices/display.coffee',
     'devices/display.html',
     'devices/list.coffee',
