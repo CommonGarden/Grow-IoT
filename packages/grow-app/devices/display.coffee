@@ -34,6 +34,16 @@ class Device.DisplayComponent extends UIComponent
       'click .acid': @onAcid
       'click .base': @onBase
 
+      'click .glyphicon-chevron-left': (event) =>
+        currentValue = @$('#set-ph').val()
+        currentValue = parseFloat(currentValue) - 0.1
+        @$('#set-ph').val(currentValue)
+
+      'click .glyphicon-chevron-right': (event) =>
+        currentValue = @$('#set-ph').val()
+        currentValue = parseFloat(currentValue) + 0.1
+        @$('#set-ph').val(currentValue)
+
   onAcid: (event) ->
     event.preventDefault()
 

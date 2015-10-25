@@ -7,7 +7,7 @@
         <button type="button" class="acid">Send acid for 10 s</button>
         <button type="button" class="base">Send acid for 10 s</button>
         <h1>Current Ph: 7.2</h1>
-        <h2 class="target-ph">Target Ph: <span class="glyphicon glyphicon-chevron-left"></span><input type="text" value="7.0" class="small-input"><span class="glyphicon glyphicon-chevron-right"></span></h2>
+        <h2 class="target-ph">Target Ph: <span class="glyphicon glyphicon-chevron-left"></span><input type="text" value="7.0" id="set-ph" class="small-input"><span class="glyphicon glyphicon-chevron-right"></span></h2>
         {{#each datapoints}}
           <p>{{insertedAt}}: {{body.pH}}</p>
         {{/each}}
