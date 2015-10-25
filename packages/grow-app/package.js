@@ -34,6 +34,8 @@ Package.onUse(function (api) {
     'flow-router/footer.coffee',
     'flow-router/footer.html',
     'flow-router/routes.coffee',
+    'flow-router/detailsView.coffee',
+    'flow-router/detailsView.html',
     'flow-router/style.styl'
   ], 'client');
 });

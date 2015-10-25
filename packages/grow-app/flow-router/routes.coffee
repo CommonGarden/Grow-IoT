@@ -4,5 +4,5 @@ FlowRouter.route '/',
 
 FlowRouter.route '/details',
   action: (params, queryParams) ->
-    BlazeLayout.render 'MainLayoutComponent'
+    BlazeLayout.render 'DetailsView'
     
