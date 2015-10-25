@@ -10,7 +10,7 @@ Package.onUse(function (api) {
   api.use([
     'coffeescript',
     'underscore',
-    'accounts-ui',
+    'accounts-ui-unstyled',
     'accounts-password',
     'stylus'
   ]);
