@@ -2,7 +2,7 @@ class Data extends share.BaseDocument
   # insertedAt
   # device: device associated with data
   #   _id
-  # data
+  # body
 
   @Meta
     name: 'Data'

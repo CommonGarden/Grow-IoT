@@ -4,18 +4,23 @@ class Device.DisplayComponent extends UIComponent
   onCreated: ->
     super
 
-    @currentDeviceId = new ComputedField =>
-      FlowRouter.getParam '_id'
+    @currentDeviceUuid = new ComputedField =>
+      FlowRouter.getParam 'uuid'
 
     @autorun (computation) =>
-      deviceId = @currentDeviceId()
-      return unless deviceId
-      @subscribe 'Device.one', deviceId
+      deviceUuid = @currentDeviceUuid()
+      return unless deviceUuid
+
+      @subscribe 'Device.one', deviceUuid
+
+      @subscribe 'Data.points', deviceUuid
 
     @autorun (computation) =>
       return unless @subscriptionsReady()
 
-      device= Device.documents.findOne @currentDeviceId(),
+      device = Device.documents.findOne
+        uuid: @currentDeviceUuid()
+      ,
         fields:
           title: 1
 
@@ -25,12 +30,17 @@ class Device.DisplayComponent extends UIComponent
       #   share.PageTitle "Not found"
 
   device: ->
-    Device.documents.findOne @currentDeviceId()
+    Device.documents.findOne
+      uuid: @currentDeviceUuid()
+
+  datapoints: ->
+    Data.documents.find
+      'device._id': @device()?._id
 
   notFound: ->
     @subscriptionsReady() and not @device()
 
-FlowRouter.route '/device/:_id',
+FlowRouter.route '/device/:uuid',
   name: 'Device.display'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
