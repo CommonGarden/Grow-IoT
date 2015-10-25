@@ -17,12 +17,14 @@ Meteor.methods
       device:
         _id: device._id
       data: data
+      insertedAt: new Date()
 
   'CommonGarden.registerDevice': ->
-    auth =
+    document =
       uuid: Meteor.uuid()
       token: Random.secret TOKEN_LENGTH
+      registeredAt: new Date()
 
-    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert auth
+    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert registeredAt
 
-    auth
+    document

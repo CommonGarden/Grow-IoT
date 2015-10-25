@@ -1,4 +1,5 @@
 class Device extends share.BaseDocument
+  # registeredAt
   # uuid: UUID of the device
   # token: token of the device
   # owner:
