@@ -1,4 +1,4 @@
-TOKEN_LENGTH = 24
+TOKEN_LENGTH = 32
 
 Meteor.methods
   'CommonGarden.sendData': (auth, data) ->
@@ -22,7 +22,7 @@ Meteor.methods
   'CommonGarden.registerDevice': ->
     document =
       uuid: Meteor.uuid()
-      token: Random.secret TOKEN_LENGTH
+      token: Random.id TOKEN_LENGTH
       registeredAt: new Date()
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
