@@ -2,12 +2,14 @@
   {{#if notFound}}
     {{> NotFoundComponent}}
   {{else}}
-    <div class="section">
+    <div class="section jumbotron">
       <div class="col-lg-12">
-        <h4>
+<!--         <h4>
           {{device.uuid}}
         </h4>
-        <p>{{device.token}}</p>
+        <p>{{device.token}}</p> -->
+        <h1>Current Ph: 7.2</h1>
+        <h2 class="target-ph">Target Ph: <span class="glyphicon glyphicon-chevron-left"></span><input type="text" value="7.0" class="small-input"><span class="glyphicon glyphicon-chevron-right"></span></h2>
       </div>
     </div>
   {{/if}}
