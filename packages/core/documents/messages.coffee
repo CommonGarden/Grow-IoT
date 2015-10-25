@@ -19,7 +19,7 @@ class Message extends share.BaseDocument
       body: message
 
 # Auto-expire messages after MESSAGES_TTL seconds.
-Messages.Meta.collection._ensureIndex
+Message.Meta.collection._ensureIndex
   createdAt: 1
 ,
   expireAfterSeconds: MESSAGES_TTL
