@@ -1,8 +1,0 @@
-<form ng-if="$root.currentUser">
-	<label>Name</label>
-	<input ng-model="newRoom.name">
-
-	<!-- <label>Public</label> -->
-	<!-- <input type="checkbox" ng-model="newRoom.public"> -->  
-	<button ng-click="newRoom.owner=$root.currentUser._id; rooms.push(newRoom)">Add</button>
-</form>

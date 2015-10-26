@@ -1,0 +1,30 @@
+<template name="Device.NewComponent">
+  {{#if canNew}}
+    <div class="section">
+      <div class="row">
+        <form class="col s12 device-new">
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="text" name="title" id="new-device-title" required />
+              <label for="new-device-title">Title</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              {{! TODO: Make this a reach-text textarea. }}
+              <textarea name="description" id="new-point-description" class="materialize-textarea" required></textarea>
+              <label for="new-point-description">Description</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 center-align">
+              <button type="submit" name="new" class="btn waves-effect waves-light"><i class="material-icons left">send</i>Open new device</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  {{else}}
+    {{> NotFoundComponent}}
+  {{/if}}
+</template>
