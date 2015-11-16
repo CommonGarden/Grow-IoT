@@ -5,17 +5,17 @@
         <i class="large material-icons">add</i>
       </a>
     </div>
+    <div class="section">
+      {{#if devicesList.exists}}
+        <div class="collection z-depth-1">
+          {{#each devicesList}}
+            {{> Device.ListItemComponent}}
+          {{/each}}
+        </div>
+      {{/if}}
+      {{! TODO: Add lists for each meeting, collections with header. }}
+    </div>
   {{/if}}
-  <div class="section">
-    {{#if devicesList.exists}}
-      <div class="collection z-depth-1">
-        {{#each devicesList}}
-          {{> Device.ListItemComponent}}
-        {{/each}}
-      </div>
-    {{/if}}
-    {{! TODO: Add lists for each meeting, collections with header. }}
-  </div>
 </template>
 
 <template name="Device.ListItemComponent">
