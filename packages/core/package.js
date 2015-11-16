@@ -9,7 +9,7 @@ Package.onUse(function (api) {
   // Core dependencies.
   api.use([
     'coffeescript',
-    'accounts-base',
+    'accounts-password',
     'ddp-client',
     'underscore',
     'ecmascript'
