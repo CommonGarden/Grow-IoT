@@ -24,3 +24,4 @@ service-configuration   # ??? Manage the configuration for third-party services.
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
 grow-app
+react

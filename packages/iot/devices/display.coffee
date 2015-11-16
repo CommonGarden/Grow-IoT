@@ -24,10 +24,8 @@ class Device.DisplayComponent extends UIComponent
         fields:
           title: 1
 
-      # if device
-      #   share.PageTitle device.title
-      # else
-      #   share.PageTitle "Not found"
+    @canNew = new ComputedField =>
+      !!Meteor.userId()
 
   events: ->
     super.concat
@@ -72,8 +70,3 @@ FlowRouter.route '/device/:uuid',
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.DisplayComponent'
-      # first: 'Comment.ListComponent'
-      # second: 'Point.ListComponent'
-      # third: 'Motion.ListComponent'
-
-    # We set PageTitle after we get devicetitle.

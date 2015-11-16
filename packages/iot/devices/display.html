@@ -1,7 +1,8 @@
 <template name="Device.DisplayComponent">
   {{#if notFound}}
     {{> NotFoundComponent}}
-  {{else}}
+  {{/if}}
+  {{#if canNew}}
     <div class="section jumbotron">
       <div class="col-lg-12">
         <h1>Current Ph: 7.2</h1>

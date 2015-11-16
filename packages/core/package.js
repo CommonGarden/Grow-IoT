@@ -11,7 +11,8 @@ Package.onUse(function (api) {
     'coffeescript',
     'accounts-base',
     'ddp-client',
-    'underscore'
+    'underscore',
+    'ecmascript'
   ]);
 
   // 3rd party dependencies.

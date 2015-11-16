@@ -12,7 +12,8 @@ Package.onUse(function (api) {
     'underscore',
     'accounts-ui-unstyled',
     'accounts-password',
-    'stylus'
+    'stylus',
+    'ecmascript'
   ]);
 
   // 3rd party dependencies.
