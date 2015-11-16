@@ -13,7 +13,7 @@ body {
 .navbar {
   background-color: rgba(60, 118, 61, 0.67);
 
-  .navbar-brand: {
+  .navbar-brand {
     color: white !important;
     font-size: 32px;
     margin-top: 20px;
@@ -21,12 +21,18 @@ body {
   }
 }
 
-
 .logo {
   height: 60px;
   width: auto;
   float: left;
   margin: 1em;
+}
+
+.collection-item {
+  display: block;
+  background-color: white;
+  padding: 10px;
+  margin: 5px;
 }
 
 .small-input {
