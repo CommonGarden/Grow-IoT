@@ -47,6 +47,8 @@ Package.onUse(function (api) {
     'devices/new.coffee',
     'devices/new.html',
     'users/register.html',
-    'users/register.coffee'
+    'users/register.coffee',
+    'users/login.html',
+    'users/login.coffee'
   ], 'client');
 });
