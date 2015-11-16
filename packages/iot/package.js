@@ -10,7 +10,6 @@ Package.onUse(function (api) {
   api.use([
     'coffeescript',
     'underscore',
-    'accounts-ui-unstyled',
     'accounts-password',
     'fourseven:scss',
     'ecmascript'
