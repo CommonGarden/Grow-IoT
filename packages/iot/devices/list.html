@@ -2,7 +2,7 @@
   {{#if canNew}}
     <div class="fixed-action-btn">
       <a href="{{pathFor 'Device.new'}}" class="btn-floating btn-large waves-effect waves-light red">
-        <i class="large material-icons">add</i>
+        <button type="button" class="btn btn-default">Add Device</button>
       </a>
     </div>
     <div class="section">
@@ -20,6 +20,6 @@
 
 <template name="Device.ListItemComponent">
   <div class="collection-item">
-    <p>Device ID: <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a></p>
+      <p>Device ID: <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a></p>
   </div>
 </template>
