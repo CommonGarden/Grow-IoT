@@ -19,5 +19,7 @@
 </template>
 
 <template name="Device.ListItemComponent">
-  <a href="{{pathFor 'Device.display' params=data}}" class="collection-item">{{uuid}}</a>
+  <div class="collection-item">
+    <p>Device ID: <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a></p>
+  </div>
 </template>
