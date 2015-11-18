@@ -17,14 +17,13 @@ class User.RegisterComponent extends UIComponent
     	email: $('[name="email"]').val()
     	password: $('[name="password"]').val()
     Accounts.createUser(inputs,
-	    (error, documentId) =>
+	    (error) =>
 	      if error
 	        console.error "Registration error", error
 	        alert "Registration error: #{error.reason or error}"
 	        return
-
-		    FlowRouter.go 'Device.display',
-		      _id: documentId)
+	      else
+		    	FlowRouter.go 'Device.display')
 
  FlowRouter.route '/register',
   name: 'User.register'
