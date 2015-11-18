@@ -9,23 +9,22 @@ class User.RegisterComponent extends UIComponent
 
   events: ->
     super.concat
-      'submit .user-register': @onSubmit
+      'submit form': @onSubmit
 
   onSubmit: (event) ->
     event.preventDefault()
+    inputs =
+    	email: $('[name="email"]').val()
+    	password: $('[name="password"]').val()
+    Accounts.createUser(inputs,
+	    (error, documentId) =>
+	      if error
+	        console.error "Registration error", error
+	        alert "Registration error: #{error.reason or error}"
+	        return
 
-    Meteor.call 'User.register',
-      email: @$('[name="email"]').val()
-      password: @$('[name="password"]').val()
-    ,
-      (error, documentId) =>
-        if error
-          console.error "New deviceerror", error
-          alert "New deviceerror: #{error.reason or error}"
-          return
-
-        FlowRouter.go 'Device.display',
-          _id: documentId
+		    FlowRouter.go 'Device.display',
+		      _id: documentId)
 
  FlowRouter.route '/register',
   name: 'User.register'

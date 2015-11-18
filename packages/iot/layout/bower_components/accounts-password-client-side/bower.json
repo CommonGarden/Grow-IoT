@@ -1,0 +1,30 @@
+{
+  "name": "accounts-password-client-side",
+  "version": "0.3.1",
+  "main": "./dist/accounts-password-client-side.bundle.min.js",
+  "dependencies": {
+    "meteor-client-side": "~0.2.3",
+    "accounts-base-client-side": "~0.1.1"
+  },
+  "homepage": "https://github.com/idanwe/accounts-password-client-side",
+  "authors": [
+    "Idan Wender <idanwe2@gmail.com>"
+  ],
+  "description": "Use Meteor's accounts-password package with[meteor-client-side",
+  "keywords": [
+    "meteor",
+    "accounts",
+    "password",
+    "ddp",
+    "client",
+    "side"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

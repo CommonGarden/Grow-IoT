@@ -31,8 +31,13 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
+          {{ #if currentUser }}
+          <li>Signed in as {{ currentUser._id }}</li>
+          <li><a href="#" class="logout">Logout</a></li>
+          {{ else }}
           <a class="navbar-text" href="/register">Register</a>
           <a class="navbar-text" href="/login">Login</a>
+          {{ /if }}
         </ul>
       </div>
 

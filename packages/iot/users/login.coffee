@@ -9,23 +9,21 @@ class User.LoginComponent extends UIComponent
 
   events: ->
     super.concat
-      'submit .user-register': @onSubmit
+      'submit form': @onSubmit
 
   onSubmit: (event) ->
     event.preventDefault()
-
-    Meteor.call 'User.login',
-      email: @$('[name="email"]').val()
-      password: @$('[name="password"]').val()
-    ,
+    email = $('[name="email"]').val()
+    password = $('[name="password"]').val()
+    Meteor.loginWithPassword(email, password, 
       (error, documentId) =>
         if error
-          console.error "New deviceerror", error
-          alert "New deviceerror: #{error.reason or error}"
+          console.error "Login error", error
+          alert "Login error: #{error.reason or error}"
           return
 
         FlowRouter.go 'Device.display',
-          _id: documentId
+          _id: documentId)
 
  FlowRouter.route '/login',
   name: 'User.login'
