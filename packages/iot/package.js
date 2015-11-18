@@ -11,7 +11,7 @@ Package.onUse(function (api) {
     'coffeescript',
     'underscore',
     'accounts-password',
-    'stylus',
+    'fourseven:scss',
     'ecmascript'
   ]);
 
@@ -37,7 +37,7 @@ Package.onUse(function (api) {
     'layout/header.coffee',
     'layout/footer.coffee',
     'layout/footer.html',
-    'layout/style.styl',
+    'layout/style.scss',
     'layout/not-found.coffee',
     'layout/not-found.html',
     'devices/display.coffee',

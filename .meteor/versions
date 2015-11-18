@@ -31,6 +31,7 @@ ejson@1.0.7
 email@1.0.7
 es5-shim@4.1.13
 fastclick@1.0.7
+fourseven:scss@0.9.6
 geojson-utils@1.0.4
 gfk:notifications@1.1.4
 grow-app@0.1.0
@@ -92,7 +93,6 @@ spacebars@1.0.7
 spacebars-compiler@1.0.7
 srp@1.0.4
 standard-minifiers@1.0.1
-stylus@2.511.0_2
 templating@1.1.4
 templating-tools@1.0.0
 tracker@1.0.9
