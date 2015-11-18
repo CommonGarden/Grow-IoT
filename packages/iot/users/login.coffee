@@ -22,8 +22,8 @@ class User.LoginComponent extends UIComponent
           alert "Login error: #{error.reason or error}"
           return
         else
-        FlowRouter.go 'Device.display',
-          _id: documentId)
+          FlowRouter.go 'Device.display',
+            _id: documentId)
 
  FlowRouter.route '/login',
   name: 'User.login'
