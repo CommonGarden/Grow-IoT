@@ -107,6 +107,16 @@ body {
   }
 }
 
-.container {
-  width: 80%;
+.form-container {
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+  padding: 20px;
+  height: 80%;
+  max-width: 300px;
+  background-color: #DDDDDD;
+}
+
+.form-control {
+  max-width: 25em;
 }
