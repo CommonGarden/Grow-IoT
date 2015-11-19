@@ -1,6 +1,15 @@
 @import url(https//fonts.googleapis.com/css?family=Roboto400,300);
 
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
 html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   height: 100%;
 }
 
@@ -18,6 +27,16 @@ body {
     font-size: 32px;
     margin-top: 20px;
     font-weight: 300;
+  }
+
+  .navbar-toggle {
+    margin-top: 25px;
+  }
+
+  @media (min-width: 768px) {
+    .navbar-right {
+      margin-top: 17px;
+    }
   }
 }
 
@@ -86,4 +105,8 @@ body {
     top: 12px;
     left: 12px;
   }
+}
+
+.container {
+  width: 80%;
 }
