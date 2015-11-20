@@ -32,6 +32,11 @@ body {
   .navbar-toggle {
     margin-top: 25px;
   }
+  
+  .navbar-text {
+    color: #272822;
+    padding-left: 20px;
+  }
 
   @media (min-width: 768px) {
     .navbar-right {
