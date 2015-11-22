@@ -1,6 +1,18 @@
 [![Slack Status](https://floating-lake-8796.herokuapp.com/badge.svg)](https://floating-lake-8796.herokuapp.com)
 
-# A work in progress
+# Meteor IoT
+Meteor IoT is meant to be a starter internet of things project. It handles messaging between server and client devices, registering and claiming devices under user accounts, providing a basic but extensible UI for managing devices.
 
-Sign up for the mailing-list at http://commongarden.org or watch this repo for updates.
+# Installing Meteor IoT
 
+First, you need to install meteor on your OS, which you can do by fallowing [the simple instructions on the Meteor website]().
+
+Next, open up Terminal clone the repository:
+
+```
+git clone https://github.com/CommonGarden/Meteor-IoT
+cd Meteor-IoT
+meteor
+```
+
+And that's it! You should now have an application running on http://localhost:3000
