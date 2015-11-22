@@ -23,6 +23,6 @@ twbs:bootstrap          # Bootstrap CSS framework
 service-configuration   # ??? Manage the configuration for third-party services. Is this needed?
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
-grow-app
-react
+iot
 accounts-password
+fixtures

@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'grow-app',
+  name: 'iot',
   version: '0.1.0'
 });
 
