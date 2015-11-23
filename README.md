@@ -16,3 +16,7 @@ meteor
 ```
 
 And that's it! You should now have an application running on http://localhost:3000
+
+# License
+
+Meteor-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
