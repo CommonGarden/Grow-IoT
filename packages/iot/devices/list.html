@@ -12,6 +12,9 @@
             {{> Device.ListItemComponent}}
           {{/each}}
         </div>
+      {{else}}
+        <!-- Empty State: no devices. Should be more well-designed, this is a placeholder. -->
+        <div>Get started by adding some devices!</div>
       {{/if}}
       {{! TODO: Add lists for each meeting, collections with header. }}
     </div>

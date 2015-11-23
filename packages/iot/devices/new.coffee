@@ -26,9 +26,3 @@ class Device.NewComponent extends UIComponent
 
         FlowRouter.go 'Device.display',
           _id: documentId
-
-FlowRouter.route '/device/new',
-  name: 'Device.new'
-  action: (params, queryParams) ->
-    BlazeLayout.render 'MainLayoutComponent',
-      main: 'Device.NewComponent'

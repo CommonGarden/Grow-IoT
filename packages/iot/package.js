@@ -10,6 +10,7 @@ Package.onUse(function (api) {
   api.use([
     'coffeescript',
     'underscore',
+    'accounts-ui',
     'accounts-password',
     'fourseven:scss',
     'ecmascript'
@@ -46,9 +47,11 @@ Package.onUse(function (api) {
     'devices/list.html',
     'devices/new.coffee',
     'devices/new.html',
-    'users/register.html',
-    'users/register.coffee',
+    'devices/routes.coffee',
+    'users/login.coffee',
     'users/login.html',
-    'users/login.coffee'
+    'users/register.coffee',
+    'users/register.html',
+    'users/routes.coffee'
   ], 'client');
 });
