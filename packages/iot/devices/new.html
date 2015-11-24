@@ -1,29 +1,22 @@
 <template name="Device.NewComponent">
   {{#if canNew}}
-    <div class="section">
-      <div class="row">
-        <form class="col s12 device-new">
-          <div class="row">
-            <div class="input-field col s12">
-              <input type="text" name="title" id="new-device-title" required />
-              <label for="new-device-title">Title</label>
-            </div>
+      <div class="form-container">
+        <h4>Claim this device</h4>
+        <form role="form" class="device-new">
+          <div class="form-group">
+            <label for="new-device-title">Enter device token:</label>
+            <input class="form-control" type="text" name="token" id="new-device-token" required/>
           </div>
-          <div class="row">
-            <div class="input-field col s12">
-              {{! TODO: Make this a reach-text textarea. }}
-              <textarea name="description" id="new-point-description" class="materialize-textarea" required></textarea>
-              <label for="new-point-description">Description</label>
-            </div>
+          <div class="form-group">
+            {{! TODO: Make this a reach-text textarea. }}
+            <label for="new-device-notes">Notes:</label>
+            <textarea class="form-control" name="notes" id="new-device-notes" required></textarea>
           </div>
-          <div class="row">
-            <div class="input-field col s12 center-align">
-              <button type="submit" name="new" class="btn waves-effect waves-light"><i class="material-icons left">send</i>Open new device</button>
-            </div>
+          <div class="form-group">
+            <input class="btn btn-success" type="submit" value="Claim"/>
           </div>
         </form>
       </div>
-    </div>
   {{else}}
     {{> NotFoundComponent}}
   {{/if}}

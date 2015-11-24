@@ -48,6 +48,12 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
     ,
       5000 # ms
 
+new PublishEndpoint 'Device.belongs_to_user_list', ->
+  Device.documents.find
+    'owner._id': @userId
+    # fields: Device.PUBLISH_FIELDS()
+
+
 new PublishEndpoint 'Device.list', ->
   Device.documents.find {}
     # fields: Device.PUBLISH_FIELDS()
