@@ -9,14 +9,14 @@ class Device.ListComponent extends UIComponent
 
     @subscribe 'Device.list'
 
-  devicesList: ->
+  unclaimedDevicesList: ->
     Device.documents.find()
 
 class Device.ListItemComponent extends UIComponent
   @register 'Device.ListItemComponent'
 
 FlowRouter.route '/',
-  name: 'Device.list'
+  name: 'Device.belongs_to_user_list'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.ListComponent'
