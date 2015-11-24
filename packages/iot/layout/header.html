@@ -25,13 +25,14 @@
         </button>
 
         <img class="logo" src="/white_flower.png">
-        <a class="navbar-brand" href="/rooms">Grow</a>
+        <a class="navbar-brand" href="/">Grow</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           {{ #if currentUser }}
+          <li><a class="" href="/new"><i class="glyphicon glyphicon-plus new-device"></i></a></li>
           <li><a href="#" class="logout">Logout</a></li>
           {{ else }}
           <a class="navbar-text" href="/register">Sign Up</a>

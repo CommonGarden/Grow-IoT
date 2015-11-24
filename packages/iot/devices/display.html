@@ -1,20 +1,26 @@
 <template name="Device.DisplayComponent">
-  {{#if notFound}}
-    {{> NotFoundComponent}}
-  {{/if}}
-  {{#if canNew}}
-    <div class="section jumbotron">
-      <div class="col-lg-12">
-        <h1>Current Ph: 7.2</h1>
-        <h2 class="target-ph">Target Ph: <span class="glyphicon glyphicon-chevron-left"></span><input type="text" value="7.0" id="set-ph" class="small-input"><span class="glyphicon glyphicon-chevron-right"></span></h2>
-        <p class="wee-margin-top">
-          <button type="button" class="acid btn">Pump Acid</button>
-          <button type="button" class="base btn">Pump Base</button>
-        </p>
-        {{#each datapoints}}
-          <p>{{insertedAt}}: {{body.pH}}</p>
-        {{/each}}
-      </div>
-    </div>
-  {{/if}}
+	Here we create the display component based on information contained in the device document.
+
+	{{name}}
+	{{description}}
+	{{type}}
+
+	{{#each sensor}}
+		{{name}}
+		{{unit}}
+		{{currentValue}}
+	{{/each}}
+
+	{{#each actuator}}
+		{{currentState}}
+		{{name}}
+		{{action}}
+	{{/each}}
+
+	{{input}}
+
+	<!-- We might show information like UUID or Token under a more info tab... or something similar. We can iterate
+	on the design and presentation of this info. -->
+
+<!-- Todo: Include a menu with basic CRUD options for the the devce. -->
 </template>

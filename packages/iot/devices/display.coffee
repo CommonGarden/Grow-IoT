@@ -27,33 +27,6 @@ class Device.DisplayComponent extends UIComponent
     @canNew = new ComputedField =>
       !!Meteor.userId()
 
-  events: ->
-    super.concat
-      'click .acid': @onAcid
-      'click .base': @onBase
-
-      'click .glyphicon-chevron-left': (event) =>
-        currentValue = @$('#set-ph').val()
-        currentValue = parseFloat(currentValue) - 0.1
-        @$('#set-ph').val(currentValue)
-
-      'click .glyphicon-chevron-right': (event) =>
-        currentValue = @$('#set-ph').val()
-        currentValue = parseFloat(currentValue) + 0.1
-        @$('#set-ph').val(currentValue)
-
-  onAcid: (event) ->
-    event.preventDefault()
-
-    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'acid', 5, (error) ->
-      console.log "Error", error if error
-
-  onBase: (event) ->
-    event.preventDefault()
-
-    Meteor.call 'Device.sendCommand', @currentDeviceUuid(), 'base', 5, (error) ->
-      console.log "Error", error if error
-
   device: ->
     Device.documents.findOne
       uuid: @currentDeviceUuid()
@@ -65,8 +38,15 @@ class Device.DisplayComponent extends UIComponent
   notFound: ->
     @subscriptionsReady() and not @device()
 
-FlowRouter.route '/device/:uuid',
-  name: 'Device.display'
-  action: (params, queryParams) ->
-    BlazeLayout.render 'MainLayoutComponent',
-      main: 'Device.DisplayComponent'
+  ## Todo: Get device info and metadata so we can display it in the template. Ideally we can create 
+  ## templates (list, detail, etc.) and data-models that work for a large number of devices... as opposed to 
+  ## creating a new template for every device.
+  # type: ->
+  #   @device.type
+
+  # name: ->
+  #   @device.name
+
+  # # Unit of measurement.
+  # unit: ->
+  #   @device.unit

@@ -20,3 +20,5 @@ FlowRouter.route '/',
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.ListComponent'
+
+

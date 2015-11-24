@@ -57,6 +57,7 @@ body {
   background-color: white;
   padding: 10px;
   margin: 5px;
+  border: solid 1px #cecece;
 }
 
 .small-input {
@@ -112,10 +113,6 @@ body {
   }
 }
 
-.grow-green {
-  background-color: #709C6F !important;
-}
-
 .form-container {
   display: block;
   margin: auto;
@@ -126,7 +123,6 @@ body {
   background-color: #DDDDDD;
 }
 
-
 .form-control {
   max-width: 25em;
 }
@@ -134,3 +130,4 @@ body {
 .claim {
   float: right;
 }
+

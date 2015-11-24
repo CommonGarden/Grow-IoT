@@ -7,6 +7,9 @@
             {{> Device.ListItemComponent}}
           {{/each}}
         </div>
+      {{else}}
+        <!-- Empty State: no devices. Should be more well-designed, this is a placeholder. -->
+        <div>Get started by adding some devices!</div>
       {{/if}}
       {{! TODO: Add lists for each meeting, collections with header. }}
     </div>
@@ -15,7 +18,7 @@
 
 <template name="Device.ListItemComponent">
   <div class="collection-item">
-    <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a>
+    <p>Device ID: <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a></p>
     <a href="{{pathFor 'Device.new' params=uuid}}" class="claim btn btn-default">Claim</a>
   </div>
 </template>
