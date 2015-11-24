@@ -1,4 +1,4 @@
-[![Slack Status](https://floating-lake-8796.herokuapp.com/badge.svg)](https://floating-lake-8796.herokuapp.com)
+[![Slack Status](http://slack.commongarden.org/badge.svg)](http://slack.commongarden.org)
 
 # Meteor IoT
 Meteor IoT is meant to be a starter internet of things project. It handles messaging between server and client devices, registering and claiming devices under user accounts, providing a basic but extensible UI for managing devices.
@@ -26,8 +26,8 @@ Please read:
 ### Reach out
 Get involved with our community in any way you are interested:
 
-* [Join us on Slack](https://floating-lake-8796.herokuapp.com/) — Collaboration and real time discussions.
-* [Forum](http://meta.commongarden.org/) — General discussion and support by the Common Garden community.
+* [Join us on Slack](http://slack.commongarden.org) — Collaboration and real time discussions.
+* [Forum](http://forum.commongarden.org/) — General discussion and support by the Common Garden community.
 
 ## License
 
