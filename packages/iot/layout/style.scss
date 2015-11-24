@@ -112,6 +112,10 @@ body {
   }
 }
 
+.grow-green {
+  background-color: #709C6F !important;
+}
+
 .form-container {
   display: block;
   margin: auto;
@@ -122,6 +126,11 @@ body {
   background-color: #DDDDDD;
 }
 
+
 .form-control {
   max-width: 25em;
+}
+
+.claim {
+  float: right;
 }
