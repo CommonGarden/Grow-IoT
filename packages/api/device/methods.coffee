@@ -28,3 +28,12 @@ Meteor.methods
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
     document
+
+  'CommonGarden.claimDevice': (uuid, userID) ->
+    # Should add an owner to that device document....
+    console.log userID
+    device = Device.documents.findOne
+      'uuid': uuid
+    Device.documents.update device._id,
+      $set:
+        'owner._id': userID

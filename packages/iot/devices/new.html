@@ -1,7 +1,18 @@
 <template name="Device.NewComponent">
-  {{#if canNew}}
     <div class="section">
       <div class="row">
+        {{#if devicesList.exists}}
+          <div class="collection z-depth-1">
+            {{#each devicesList}}
+              {{> Device.UnclaimedListItemComponent}}
+            {{/each}}
+          </div>
+        {{else}}
+          <div>No unclaimed devices were detected on your network.</div>
+
+        {{/if}}
+      </div>
+<!--       <div class="row">
         <form class="col s12 device-new">
           <div class="row">
             <div class="input-field col s12">
@@ -22,9 +33,12 @@
             </div>
           </div>
         </form>
-      </div>
+      </div> -->
     </div>
-  {{else}}
-    {{> NotFoundComponent}}
-  {{/if}}
+</template>
+
+<template name="Device.UnclaimedListItemComponent">
+  <div class="collection-item">
+      <p>Device ID: <a href="#">{{uuid}}</a></p>
+  </div>
 </template>

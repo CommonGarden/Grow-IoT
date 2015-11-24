@@ -4,9 +4,6 @@ class Device.ListComponent extends UIComponent
   onCreated: ->
     super
 
-    @canNew = new ComputedField =>
-      !!Meteor.userId()
-
     @subscribe 'Device.list'
 
   devicesList: ->
