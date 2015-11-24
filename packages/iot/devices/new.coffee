@@ -4,8 +4,10 @@ class Device.NewComponent extends UIComponent
   onCreated: ->
     super
 
-    @canNew = new ComputedField =>
-      !!Meteor.userId()
+    @subscribe 'Device.unclaimedList'
+
+  devicesList: ->
+    Device.documents.find()
 
   events: ->
     super.concat
@@ -13,10 +15,12 @@ class Device.NewComponent extends UIComponent
 
   onSubmit: (event) ->
     event.preventDefault()
+    @claimDevice("0e9520d0-b7c5-4fdc-bb11-7607e43de4e3", Meteor.userId())
 
-    Meteor.call 'Device.new',
-      title: @$('[name="title"]').val()
-      description: @$('[name="description"]').val()
+  claimDevice: (uuid, userId) ->
+    Meteor.call 'CommonGarden.claimDevice',
+      uuid,
+      userId,
     ,
       (error, documentId) =>
         if error
@@ -26,3 +30,6 @@ class Device.NewComponent extends UIComponent
 
         FlowRouter.go 'Device.display',
           _id: documentId
+
+class Device.UnclaimedListItemComponent extends UIComponent
+  @register 'Device.UnclaimedListItemComponent'
