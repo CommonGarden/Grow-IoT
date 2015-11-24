@@ -14,9 +14,3 @@ class Device.ListComponent extends UIComponent
 
 class Device.ListItemComponent extends UIComponent
   @register 'Device.ListItemComponent'
-
-FlowRouter.route '/',
-  name: 'Device.list'
-  action: (params, queryParams) ->
-    BlazeLayout.render 'MainLayoutComponent',
-      main: 'Device.ListComponent'
