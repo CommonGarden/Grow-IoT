@@ -1,14 +1,9 @@
 <template name="Device.ListComponent">
   {{#if canNew}}
-    <div class="fixed-action-btn">
-      <a href="{{pathFor 'Device.new'}}" class="btn-floating btn-large waves-effect waves-light red">
-        <i class="large material-icons">add</i>
-      </a>
-    </div>
     <div class="section">
-      {{#if devicesList.exists}}
+      {{#if unclaimedDevicesList.exists}}
         <div class="collection z-depth-1">
-          {{#each devicesList}}
+          {{#each unclaimedDevicesList}}
             {{> Device.ListItemComponent}}
           {{/each}}
         </div>
@@ -19,5 +14,8 @@
 </template>
 
 <template name="Device.ListItemComponent">
-  <a href="{{pathFor 'Device.display' params=data}}" class="collection-item">{{uuid}}</a>
+  <div class="collection-item">
+    <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a>
+    <a href="{{pathFor 'Device.new' params=uuid}}" class="claim btn btn-default">Claim</a>
+  </div>
 </template>
