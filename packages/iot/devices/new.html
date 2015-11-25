@@ -1,40 +1,23 @@
 <template name="Device.NewComponent">
   {{#if devicesList.exists}}
       {{#each devicesList}}
-        {{> Device.UnclaimedListItemComponent}}
+      <div class="row jumbotron unclaimed" data-uuid="{{uuid}}">
+        <div class="col-lg-12">
+          <p>Device ID: <a href="#">{{uuid}}</a></p>
+          <p>Name: <a href="#">{{name}}</a></p>
+        </div>        
+      </div>
       {{/each}}
   {{else}}
     <!-- Empty State: needs more work. -->
-    <div>No unclaimed devices were detected on your network.</div>
-  {{/if}}
-<!--       <div class="row">
-        <form class="col s12 device-new">
-          <div class="row">
-            <div class="input-field col s12">
-              <input type="text" name="title" id="new-device-title" required />
-              <label for="new-device-title">Title</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              {{! TODO: Make this a reach-text textarea. }}
-              <textarea name="description" id="new-point-description" class="materialize-textarea" required></textarea>
-              <label for="new-point-description">Description</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12 center-align">
-              <button type="submit" name="new" class="btn waves-effect waves-light"><i class="material-icons left">send</i>Open new device</button>
-            </div>
-          </div>
-        </form>
-      </div> -->
-</template>
-
-<template name="Device.UnclaimedListItemComponent">
-  <div class="row">
-    <div class="col-lg-12">
-      <p>Device ID: <a href="#">{{uuid}}</a></p>
+    <div class="row jumbotron">
+      <div class="col-lg-12">
+        <p>No unclaimed devices were detected on your network. Are your devices powered on?</p>
+        <p>
+          <button class="btn-lg scan">Scan again</button>
+          <!-- <button class="btn-lg manual">Help</button> -->
+        </p>
+      </div>
     </div>
-  </div>
+  {{/if}}
 </template>

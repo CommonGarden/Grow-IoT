@@ -43,6 +43,8 @@ class Device.DisplayComponent extends UIComponent
     @subscriptionsReady() and not @device()
 
   remove: ->
+    # Todo: add an alert so that a user has to confirm deletion.
+
     Meteor.call 'CommonGarden.removeDevice',
       @currentDeviceUuid(),
       Meteor.userId(),
@@ -54,15 +56,16 @@ class Device.DisplayComponent extends UIComponent
           return
 
         FlowRouter.go 'Device.list'
+
   ## Todo: Get device info and metadata so we can display it in the template. Ideally we can create 
   ## templates (list, detail, etc.) and data-models that work for a large number of devices... as opposed to 
   ## creating a new template for every device.
-  # type: ->
-  #   @device.type
+  type: ->
+    @device.type
 
-  # name: ->
-  #   @device.name
+  name: ->
+    @device.name
 
-  # # Unit of measurement.
-  # unit: ->
-  #   @device.unit
+  # Unit of measurement.
+  unit: ->
+    @device.unit
