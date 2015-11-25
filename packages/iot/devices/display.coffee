@@ -24,13 +24,6 @@ class Device.DisplayComponent extends UIComponent
         fields:
           title: 1
 
-    @canNew = new ComputedField =>
-      !!Meteor.userId()
-
-  events: ->
-    super.concat
-      'click .remove': @remove
-
   device: ->
     Device.documents.findOne
       uuid: @currentDeviceUuid()
@@ -39,12 +32,15 @@ class Device.DisplayComponent extends UIComponent
     Data.documents.find
       'device._id': @device()?._id
 
+  events: ->
+    super.concat
+      'click .remove': @remove
+
   notFound: ->
     @subscriptionsReady() and not @device()
 
   remove: ->
-    # Todo: add an alert so that a user has to confirm deletion.
-
+    # TODO: add an alert so that a user has to confirm deletion.
     Meteor.call 'CommonGarden.removeDevice',
       @currentDeviceUuid(),
       Meteor.userId(),
@@ -56,16 +52,3 @@ class Device.DisplayComponent extends UIComponent
           return
 
         FlowRouter.go 'Device.list'
-
-  ## Todo: Get device info and metadata so we can display it in the template. Ideally we can create 
-  ## templates (list, detail, etc.) and data-models that work for a large number of devices... as opposed to 
-  ## creating a new template for every device.
-  type: ->
-    @device.type
-
-  name: ->
-    @device.name
-
-  # Unit of measurement.
-  unit: ->
-    @device.unit

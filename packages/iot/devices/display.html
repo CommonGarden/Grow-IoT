@@ -1,24 +1,31 @@
 <template name="Device.DisplayComponent">
-	Here we create the display component based on information contained in the device document.
+	{{#if notFound}}
+		{{> NotFoundComponent}}
+	{{else}}
+		<div class="row">
+			<div class="col-lg-12">
+				{{device.name}}
+				{{device.description}}
+				{{device.type}}
 
-	{{name}}
-	{{description}}
-	{{type}}
+				{{#each device.sensor}}
+					{{name}}
+					{{unit}}
+					{{currentValue}}
+				{{/each}}
 
-	{{#each sensor}}
-		{{name}}
-		{{unit}}
-		{{currentValue}}
-	{{/each}}
+				{{#each device.actuator}}
+					{{currentState}}
+					{{name}}
+					{{action}}
+				{{/each}}
+			</div>
+		</div>
 
-	{{#each actuator}}
-		{{currentState}}
-		{{name}}
-		{{action}}
-	{{/each}}
-
-	<!-- Todo: Include a menu with basic CRUD options for the the devce. -->
-	<div class="row">
-		<button class="btn remove">Remove device</button>
-	</div>
+		<!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be
+		less noticable. -->
+		<div class="row">
+			<button class="btn remove">Remove device</button>
+		</div>
+	{{/if}}
 </template>
