@@ -43,15 +43,11 @@ Meteor.methods
         'owner._id': userID
 
 
-  'CommonGarden.removeDevice': (auth) ->
-    check auth,
-      # TODO: Do better checks.
-      uuid: Match.NonEmptyString
-      token: Match.NonEmptyString
-
-    device = Device.documents.findOne auth,
-      fields:
-        _id: 1
+  'CommonGarden.removeDevice': (uuid, userID) ->
+    # TODO: do better checks.
+    device = Device.documents.findOne
+      'uuid': uuid
+      'owner._id': userID
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
     Device.documents.remove device._id

@@ -27,6 +27,10 @@ class Device.DisplayComponent extends UIComponent
     @canNew = new ComputedField =>
       !!Meteor.userId()
 
+  events: ->
+    super.concat
+      'click .remove': @remove
+
   device: ->
     Device.documents.findOne
       uuid: @currentDeviceUuid()
@@ -38,6 +42,18 @@ class Device.DisplayComponent extends UIComponent
   notFound: ->
     @subscriptionsReady() and not @device()
 
+  remove: ->
+    Meteor.call 'CommonGarden.removeDevice',
+      @currentDeviceUuid(),
+      Meteor.userId(),
+    ,
+      (error, documentId) =>
+        if error
+          console.error "New deviceerror", error
+          alert "New deviceerror: #{error.reason or error}"
+          return
+
+        FlowRouter.go 'Device.list'
   ## Todo: Get device info and metadata so we can display it in the template. Ideally we can create 
   ## templates (list, detail, etc.) and data-models that work for a large number of devices... as opposed to 
   ## creating a new template for every device.
