@@ -19,6 +19,9 @@ Meteor.methods
       body: body
       insertedAt: new Date()
 
+
+  # TODO: Should take an optional config argument so that when it creates the device
+  # we ratain any meta data.
   'CommonGarden.registerDevice': ->
     document =
       uuid: Meteor.uuid()
@@ -29,11 +32,26 @@ Meteor.methods
 
     document
 
+
+  # CURRENTLY A HACK
   'CommonGarden.claimDevice': (uuid, userID) ->
     # Should add an owner to that device document....
-    console.log userID
     device = Device.documents.findOne
       'uuid': uuid
     Device.documents.update device._id,
       $set:
         'owner._id': userID
+
+
+  'CommonGarden.removeDevice': (auth) ->
+    check auth,
+      # TODO: Do better checks.
+      uuid: Match.NonEmptyString
+      token: Match.NonEmptyString
+
+    device = Device.documents.findOne auth,
+      fields:
+        _id: 1
+    throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
+
+    Device.documents.remove device._id
