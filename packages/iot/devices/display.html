@@ -4,9 +4,9 @@
 	{{else}}
 		<div class="row">
 			<div class="col-lg-12">
-				{{device.name}}
-				{{device.description}}
-				{{device.type}}
+				<h2>{{device.name}}</h2>
+				<p>{{device.description}}</p>
+				<p>{{device.type}}</p>
 
 				{{#each device.sensor}}
 					{{name}}
@@ -19,13 +19,11 @@
 					{{name}}
 					{{action}}
 				{{/each}}
-			</div>
-		</div>
 
-		<!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be
-		less noticable. -->
-		<div class="row">
-			<button class="btn remove">Remove device</button>
+			    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be
+				less noticable. -->
+				<p><button class="btn remove">Remove device</button></p>
+			</div>
 		</div>
 	{{/if}}
 </template>
