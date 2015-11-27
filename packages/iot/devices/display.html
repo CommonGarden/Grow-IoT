@@ -2,28 +2,34 @@
 	{{#if notFound}}
 		{{> NotFoundComponent}}
 	{{else}}
-		<div class="row">
-			<div class="col-lg-12">
-				<h2>{{device.name}}</h2>
-				<p>{{device.description}}</p>
-				<p>{{device.type}}</p>
+  	<div class="row jumbotron">
+		<div class="col-lg-12">
+			<h2>{{thing.name}}</h2>
+			<p>{{thing.description}}</p>
+			<p>{{thing.type}}</p>
 
-				{{#each device.sensor}}
-					{{name}}
-					{{unit}}
-					{{currentValue}}
-				{{/each}}
+			{{#if onlineSince}}
+				<p>Online!</p>
+			{{else}}
+				<p>Not Online.</p>
+			{{/if}}
 
-				{{#each device.actuator}}
-					{{currentState}}
-					{{name}}
-					{{action}}
-				{{/each}}
+			{{#each thing.sensors}}
+				<!-- Should build a realtime chart from the data points here -->
+				{{name}}
+				{{unit}}
+				{{currentValue}}
+			{{/each}}
 
-			    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be
-				less noticable. -->
-				<p><button class="btn remove">Remove device</button></p>
-			</div>
+			{{#each thing.actuators}}
+				{{type}}
+				<!-- TODO: add actions... which send commands. -->
+			{{/each}}
+
+		    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be
+			less noticable. -->
+			<p><button class="btn remove">Remove device</button></p>
 		</div>
+	</div>
 	{{/if}}
 </template>
