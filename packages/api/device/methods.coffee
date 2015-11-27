@@ -22,11 +22,16 @@ Meteor.methods
 
   # TODO: Should take an optional config argument so that when it creates the device
   # we ratain any meta data.
-  'CommonGarden.registerDevice': ->
+  'CommonGarden.registerDevice': (deviceInfo) ->
+    # TODO: we need to run checks on deviceInfo, then add that info to the device
+    # document
+    check deviceInfo, Object
+
     document =
       uuid: Meteor.uuid()
       token: Random.id TOKEN_LENGTH
       registeredAt: new Date()
+      thing: deviceInfo
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 

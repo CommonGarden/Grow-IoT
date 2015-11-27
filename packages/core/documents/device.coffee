@@ -9,4 +9,5 @@ class Device extends share.BaseDocument
   @Meta
     name: 'Device'
     fields: =>
+      # TODO: make this more secure.
       owner: @ReferenceField User, [], false

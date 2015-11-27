@@ -28,6 +28,11 @@ class Device.DisplayComponent extends UIComponent
     Device.documents.findOne
       uuid: @currentDeviceUuid()
 
+  thing: ->
+    device = Device.documents.findOne
+      uuid: @currentDeviceUuid()
+    device.thing
+
   datapoints: ->
     Data.documents.find
       'device._id': @device()?._id
@@ -38,6 +43,19 @@ class Device.DisplayComponent extends UIComponent
 
   notFound: ->
     @subscriptionsReady() and not @device()
+
+  # TODO: add send command function.
+  command: (type, options) ->
+    Meteor.call 'Device.sendCommand',
+      @currentDeviceUuid(),
+      type,
+      options,
+    ,
+      (error, documentId) =>
+        if error
+          console.error "New deviceerror", error
+          alert "New deviceerror: #{error.reason or error}"
+          return
 
   remove: ->
     # TODO: add an alert so that a user has to confirm deletion.

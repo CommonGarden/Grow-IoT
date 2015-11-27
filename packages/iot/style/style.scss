@@ -93,7 +93,7 @@ body {
   margin-top: 1em;
 }
 
-.new-device {
+.nav-menu-icon {
   color: white;
   font-family: 'Glyphicons Halflings';
   font-style: normal;
@@ -106,6 +106,12 @@ body {
   &:before {
     position: relative;
     bottom: 5px;
+  }
+
+  &.caret {
+    position: relative;
+    bottom: 18px;
+    left: 3px;
   }
 }
 
