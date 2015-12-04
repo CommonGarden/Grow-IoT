@@ -2,6 +2,7 @@ class Device extends share.BaseDocument
   # registeredAt
   # uuid: UUID of the device
   # token: token of the device
+  # thing: a model of the device and its api
   # owner:
   #   _id
   # onlineSince
@@ -9,5 +10,4 @@ class Device extends share.BaseDocument
   @Meta
     name: 'Device'
     fields: =>
-      # TODO: make this more secure.
       owner: @ReferenceField User, [], false

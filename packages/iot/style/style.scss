@@ -113,6 +113,12 @@ body {
     bottom: 18px;
     left: 3px;
   }
+
+  &.glyphicon-home {
+    font-size: 1.1em;
+    position: relative;
+    bottom: 1em;
+  }
 }
 
 .list-item {

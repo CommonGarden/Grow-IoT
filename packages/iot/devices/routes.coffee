@@ -26,8 +26,16 @@ loggedIn.route '/',
 
 
 # User must be logged in to claim a new device.
-loggedIn.route '/new',
-  name: 'Device.new'
+loggedIn.route '/new-device',
+  name: 'Device.newDevice'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.NewComponent'
+
+# User must be logged in to claim a new device.
+loggedIn.route '/new-thing',
+  name: 'Device.newThing'
+  action: (params, queryParams) ->
+    BlazeLayout.render 'MainLayoutComponent',
+      main: 'Device.NewThingComponent'
+

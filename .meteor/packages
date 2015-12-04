@@ -26,3 +26,4 @@ aldeed:simple-schema    # A simple, reactive schema validation package for Meteo
 grow-app
 react
 accounts-password
+d3js:d3

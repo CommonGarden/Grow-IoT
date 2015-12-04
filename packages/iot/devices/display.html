@@ -8,15 +8,18 @@
 			<p>{{thing.description}}</p>
 			<p>{{thing.type}}</p>
 
-			{{#if onlineSince}}
+			{{#if device.onlineSince}}
 				<p>Online!</p>
 			{{else}}
 				<p>Not Online.</p>
 			{{/if}}
 
-			{{#each datapoints}}
-          		<p>{{insertedAt}}: {{body.pH}}</p>
-        	{{/each}}
+			{{> Device.LineChartComponent}}
+
+			<!-- TODO: Create better ways to visualize this. -->
+<!-- 			{{#each datapoints}}
+          		<p>{{insertedAt}}, {{body.temperature}}, {{body.humidity}}</p>
+        	{{/each}} -->
 
 			{{#each thing.actuators}}
 				{{type}}
@@ -24,6 +27,7 @@
 			{{/each}}
 
 		    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be less noticable. -->
+		    <p><button class="btn add-image">Add image</button></p>
 			<p><button class="btn rename">Rename device</button></p>
 			<p><button class="btn remove">Remove device</button></p>
 		</div>

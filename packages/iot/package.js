@@ -27,7 +27,8 @@ Package.onUse(function (api) {
   api.use([
     'ui-components',
     'core',
-    'api'
+    'api',
+    'session'
   ]);
 
   api.addFiles([
@@ -44,8 +45,12 @@ Package.onUse(function (api) {
     'devices/display.html',
     'devices/list.coffee',
     'devices/list.html',
-    'devices/new.coffee',
-    'devices/new.html',
+    'devices/linechart.coffee',
+    'devices/linechart.html',
+    'devices/new_device.coffee',
+    'devices/new_device.html',
+    'devices/new_thing.coffee',
+    'devices/new_thing.html',
     'devices/routes.coffee',
     'users/login.coffee',
     'users/login.html',
