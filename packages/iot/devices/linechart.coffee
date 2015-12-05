@@ -7,24 +7,6 @@ class Device.LineChartComponent extends UIComponent
     @currentDeviceUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
-    @autorun (computation) =>
-      deviceUuid = @currentDeviceUuid()
-      return unless deviceUuid
-
-      @subscribe 'Device.one', deviceUuid
-
-      @subscribe 'Data.points', deviceUuid
-
-    # @autorun (computation) =>
-    #   return unless @subscriptionsReady()
-
-    #   device = Device.documents.findOne
-    #     uuid: @currentDeviceUuid()
-    #   ,
-    #     fields:
-    #       title: 1
-
-
   onRendered: ->
     super
 
@@ -48,7 +30,7 @@ class Device.LineChartComponent extends UIComponent
     yAxis = d3.svg.axis().scale(y).orient('left')
     svg = d3.select('#lineChart').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
     svg.append('g').attr('class', 'x axis').attr 'transform', 'translate(0,' + height + ')'
-    svg.append('g').attr('class', 'y axis').append('text').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text 'Price ($)'
+    svg.append('g').attr('class', 'y axis').append('text').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text 'Temperature (f)'
 
     @device = new ComputedField =>
       Device.documents.findOne

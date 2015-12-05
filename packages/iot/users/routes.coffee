@@ -21,4 +21,17 @@ Accounts.onLogin ->
   if redirect?
     unless redirect is '/login'
       FlowRouter.go redirect
-      
+
+# Routes in this group are for logged in users. Unauthenticated users
+# will be redirected to login / signup.
+loggedIn = FlowRouter.group
+ triggersEnter: [ ->
+   unless Meteor.loggingIn() or Meteor.userId()
+     route = FlowRouter.current()
+     unless route.route.name is 'login'
+       Session.set 'redirectAfterLogin', route.path
+     FlowRouter.go '/login'
+ ]
+    
+
+  

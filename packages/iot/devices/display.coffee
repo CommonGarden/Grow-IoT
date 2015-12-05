@@ -28,11 +28,6 @@ class Device.DisplayComponent extends UIComponent
     Device.documents.findOne
       uuid: @currentDeviceUuid()
 
-  # thing: ->
-  #   device = Device.documents.findOne
-  #     uuid: @currentDeviceUuid()
-  #   device.thing
-
   datapoints: ->
     Data.documents.find
       'device._id': @device()?._id

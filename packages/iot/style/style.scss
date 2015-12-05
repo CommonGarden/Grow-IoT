@@ -124,6 +124,7 @@ body {
 .list-item {
   background-color: white;
   cursor: pointer;
+  padding: 10px;
 }
 
 .form-container {
@@ -159,4 +160,31 @@ body {
   }
 }
 
+@media only screen and (max-width: 767px) {
+  .container > .navbar-header {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .navbar-header {
+    float: left;
+  }
+
+  .navbar-right {
+    float: right !important;
+    margin-right: -15px;
+  }
+
+  .navbar .navbar-right {
+    margin-top: 17px;
+  }
+  
+  .navbar-nav {
+    margin: 0;
+  }
+
+  .navbar-nav > li {
+    float: left;
+  }
+}
 

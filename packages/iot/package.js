@@ -52,6 +52,8 @@ Package.onUse(function (api) {
     'devices/new_thing.coffee',
     'devices/new_thing.html',
     'devices/routes.coffee',
+    'users/account.coffee',
+    'users/account.html',
     'users/login.coffee',
     'users/login.html',
     'users/register.coffee',

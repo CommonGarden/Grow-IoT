@@ -11,3 +11,24 @@ class Device.ListComponent extends UIComponent
 
 class Device.ListItemComponent extends UIComponent
   @register 'Device.ListItemComponent'
+
+  onCreated: ->
+  	super
+
+  	device = Template.currentData()
+
+  	@autorun (computation) =>
+      deviceUuid = device.uuid
+      return unless deviceUuid
+
+      @subscribe 'Device.one', deviceUuid
+
+      @subscribe 'Data.points', deviceUuid
+
+      @currentValue = new ComputedField =>
+        dataPoint = Data.documents.findOne
+          'device._id': device?._id
+        ,
+          'sort':
+            'insertedAt': -1
+        dataPoint?.body.temperature

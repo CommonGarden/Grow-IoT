@@ -20,7 +20,7 @@
         IoT devices.</p>
         <p>In the future, we hope to simplify this process immensely.</p>
         <p>
-          <a href="{{pathFor 'Device.new'}}" class="">
+          <a href="{{pathFor 'Device.newDevice'}}" class="">
             <button type="button" class="btn btn-default btn-lg">Add Device</button>
           </a>
         </p>
@@ -33,6 +33,7 @@
 <template name="Device.ListItemComponent">
   <div class="list-item">
       <h2>{{thing.name}}</h2>
+      {{currentValue}}
       <p>Device ID: <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a></p>
 
       <!-- TODO: implement UI for this. -->
