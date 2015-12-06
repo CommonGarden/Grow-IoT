@@ -25,10 +25,13 @@ class Device.ListItemComponent extends UIComponent
 
       @subscribe 'Data.points', deviceUuid
 
-      @currentValue = new ComputedField =>
+      @dataPoint = new ComputedField =>
         dataPoint = Data.documents.findOne
           'device._id': device?._id
         ,
           'sort':
             'insertedAt': -1
-        dataPoint?.body.temperature
+        dataPoint?.body
+
+  currentValue: ->
+  	@dataPoint()
