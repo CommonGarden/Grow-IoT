@@ -31,14 +31,11 @@
 </template>
 
 <template name="Device.ListItemComponent">
-  <div class="list-item">
+  <div class="list-item device" data-uuid="{{uuid}}">
       <h2>{{thing.name}}</h2>
       {{#each currentValue.readings}}
-        {{type}}
-        {{value}}
-        {{unit}}
+        <p>{{type}}: {{value}} {{unit}}</p>
       {{/each}}
-      <p>Device ID: <a href="{{pathFor 'Device.display' params=data}}">{{uuid}}</a></p>
 
       <!-- TODO: implement UI for this. -->
       {{#if onlineSince}}
