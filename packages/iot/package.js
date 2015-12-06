@@ -34,6 +34,8 @@ Package.onUse(function (api) {
   api.addFiles([
     'layout/layout.html',
     'layout/layout.coffee',
+    'layout/loader.coffee',
+    'layout/loader.html',
     'layout/header.html',
     'layout/header.coffee',
     'layout/footer.coffee',

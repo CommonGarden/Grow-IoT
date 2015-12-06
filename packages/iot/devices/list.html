@@ -1,32 +1,35 @@
 <template name="Device.ListComponent">
-  {{#if devicesList.exists}}
+  {{#if Template.subscriptionsReady}}
+    {{#if devicesList.exists}}
 
-    <div class="row jumbotron">
-      <div class="col-lg-12">
-        <h3>Your things</h3>
-        {{#each devicesList}}
-          {{> Device.ListItemComponent}}
-        {{/each}}
+      <div class="row jumbotron">
+        <div class="col-lg-12">
+          <h3>Your things</h3>
+          {{#each devicesList}}
+            {{> Device.ListItemComponent}}
+          {{/each}}
+        </div>
       </div>
-    </div>
 
+    {{else}}
+      <!-- Empty State: no devices. Should be more well-designed, this is a placeholder. -->
+      <div class="row jumbotron">
+        <div class="col-lg-12">
+          <h2>Get started by adding some devices!</h2>
+          <p>Currently, devices needed to be powered on, running the
+          IoT-connect script, and connected to the wifi network. See the <a href="">GitHub documentation</a> for more information about connecting
+          IoT devices.</p>
+          <p>In the future, we hope to simplify this process immensely.</p>
+          <p>
+            <a href="{{pathFor 'Device.newDevice'}}" class="">
+              <button type="button" class="btn btn-default btn-lg">Add Device</button>
+            </a>
+          </p>
+        </div>
+      </div>
+    {{/if}}
   {{else}}
-    <!-- Empty State: no devices. Should be more well-designed, this is a placeholder. -->
-    <div class="row jumbotron">
-      <div class="col-lg-12">
-        <h2>Get started by adding some devices!</h2>
-        <p>Currently, devices needed to be powered on, running the
-        IoT-connect script, and connected to the wifi network. See the <a href="">GitHub documentation</a> for more information about connecting
-        IoT devices.</p>
-        <p>In the future, we hope to simplify this process immensely.</p>
-        <p>
-          <a href="{{pathFor 'Device.newDevice'}}" class="">
-            <button type="button" class="btn btn-default btn-lg">Add Device</button>
-          </a>
-        </p>
-      </div>
-    </div>
-
+    {{> LoaderComponent}}
   {{/if}}
 </template>
 

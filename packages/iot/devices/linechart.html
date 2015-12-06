@@ -1,3 +1,7 @@
 <template name="Device.LineChartComponent">
-    <svg id="lineChart"></svg>
+	{{#if Template.subscriptionsReady}}
+		<svg id="lineChart"></svg>
+	{{else}}
+    	{{> LoaderComponent}}
+	{{/if}}
 </template>
