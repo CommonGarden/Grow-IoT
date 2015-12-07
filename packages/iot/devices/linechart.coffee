@@ -36,7 +36,7 @@ class Device.LineChartComponent extends UIComponent
       Device.documents.findOne
         uuid: @currentDeviceUuid()
 
-    # TODO: it would be cool if these visulization components could be more reusable
+    # TODO: it would be cool if these visulization components could be more reusable.
     @datapoints = new ComputedField =>
       Data.documents.find
         'device._id': @device()?._id

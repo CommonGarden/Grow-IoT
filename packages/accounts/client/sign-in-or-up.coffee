@@ -23,7 +23,7 @@ class LoginComponent extends UIComponent
   onRendered: ->
     super
 
-    $('#sign-in-with-email').validate(
+    $('#sign-in-with-email').validate
       rules:
         emailAddress:
           required: true
@@ -52,21 +52,12 @@ class LoginComponent extends UIComponent
         # Take the correct path according to what the user clicked and
         # our session variable is equal to.
         if createOrSignIn == "create"
-          Accounts.createUser(user, (error)->
+          Accounts.createUser user, (error)->
             if error
               alert error.reason
-            else
-              # If all works as expected, we need to hide our modal backdrop (lol, Bootstrap).
-              $('.modal-backdrop').hide()
-          )
         else
-          Meteor.loginWithPassword(user.email, user.password, (error)->
+          Meteor.loginWithPassword user.email, user.password, (error)->
             if error
               alert error.reason
             else
-              # If all works as expected, we need to hide our modal backdrop (lol, Bootstrap).
-              $('.modal-backdrop').hide()          
-              FlowRouter.go 'Device.list',
-                _id: documentId
-          )
-    )
+              FlowRouter.go 'Device.list'
