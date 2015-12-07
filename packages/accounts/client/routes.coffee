@@ -4,16 +4,16 @@
 exposed = FlowRouter.group {}
 
 exposed.route '/login',
-  name: 'User.login'
+  name: 'LoginComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'User.LoginComponent'
+      main: 'LoginComponent'
 
 exposed.route '/register',
-  name: 'User.register'
+  name: 'LoginComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'User.RegisterComponent'
+      main: 'LoginComponent'
 
 # Redirect after login to original destination
 Accounts.onLogin ->

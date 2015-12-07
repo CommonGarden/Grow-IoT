@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'grow-app',
+  name: 'iot',
   version: '0.1.0'
 });
 
@@ -10,8 +10,6 @@ Package.onUse(function (api) {
   api.use([
     'coffeescript',
     'underscore',
-    'accounts-ui',
-    'accounts-password',
     'fourseven:scss',
     'ecmascript'
   ]);
@@ -53,13 +51,6 @@ Package.onUse(function (api) {
     'devices/new_device.html',
     'devices/new_thing.coffee',
     'devices/new_thing.html',
-    'devices/routes.coffee',
-    'users/account.coffee',
-    'users/account.html',
-    'users/login.coffee',
-    'users/login.html',
-    'users/register.coffee',
-    'users/register.html',
-    'users/routes.coffee'
+    'devices/routes.coffee'
   ], 'client');
 });

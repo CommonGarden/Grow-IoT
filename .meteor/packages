@@ -18,14 +18,14 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 gfk:notifications       # Add reactive notifications to your meteor application.
 mdg:camera              # Allows you to take photos on desktop and mobile with a single function call.
-less                    # Dynamic stylesheet language.
 twbs:bootstrap          # Bootstrap CSS framework
-service-configuration   # ??? Manage the configuration for third-party services. Is this needed?
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
-grow-app
-react
+iot
 accounts-password
 d3js:d3
 audit-argument-checks
 browser-policy
+email
+meteorhacks:ssr
+accounts
