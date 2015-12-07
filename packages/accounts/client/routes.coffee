@@ -15,6 +15,13 @@ exposed.route '/register',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'LoginComponent'
 
+exposed.route '/reset-password',
+  name: 'ResetPasswordComponent'
+  action: (params, queryParams) ->
+    BlazeLayout.render 'MainLayoutComponent',
+      main: 'ResetPasswordComponent'
+
+
 # Redirect after login to original destination
 Accounts.onLogin ->
   redirect = Session.get 'redirectAfterLogin'
@@ -33,5 +40,3 @@ loggedIn = FlowRouter.group
      FlowRouter.go '/login'
  ]
     
-
-  

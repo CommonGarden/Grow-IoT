@@ -21,6 +21,8 @@ class LoginComponent extends UIComponent
         e.preventDefault()
 
   onRendered: ->
+    super
+
     $('#sign-in-with-email').validate(
       rules:
         emailAddress:

@@ -28,15 +28,16 @@ Package.onUse(function (api) {
     'ui-components',
     'core',
     'api',
-    'session',
-    'email'
+    'session'
   ]);
 
   // Client files
   api.addFiles([
     'client/routes.coffee',
     'client/sign-in-or-up.coffee',
-    'client/sign-in-or-up.html'
+    'client/sign-in-or-up.html',
+    'client/reset-password.coffee',
+    'client/reset-password.html'
   ], 'client');
 
   // Server files
