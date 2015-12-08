@@ -54,7 +54,15 @@ class LoginComponent extends UIComponent
         if createOrSignIn == "create"
           Accounts.createUser user, (error)->
             if error
+              # If the user is already registered they may have pressed the wrong button.
+              if error.reason == "Email already exists."
+                Meteor.loginWithPassword user.email, user.password, (error)->
+                  if error
+                    alert error.reason
+            else
+              FlowRouter.go 'Device.list'
               alert error.reason
+
         else
           Meteor.loginWithPassword user.email, user.password, (error)->
             if error
