@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'grow-app',
+  name: 'iot',
   version: '0.1.0'
 });
 
@@ -10,8 +10,6 @@ Package.onUse(function (api) {
   api.use([
     'coffeescript',
     'underscore',
-    'accounts-ui',
-    'accounts-password',
     'fourseven:scss',
     'ecmascript'
   ]);
@@ -27,12 +25,15 @@ Package.onUse(function (api) {
   api.use([
     'ui-components',
     'core',
-    'api'
+    'api',
+    'session'
   ]);
 
   api.addFiles([
     'layout/layout.html',
     'layout/layout.coffee',
+    'layout/loader.coffee',
+    'layout/loader.html',
     'layout/header.html',
     'layout/header.coffee',
     'layout/footer.coffee',
@@ -44,13 +45,16 @@ Package.onUse(function (api) {
     'devices/display.html',
     'devices/list.coffee',
     'devices/list.html',
-    'devices/new.coffee',
-    'devices/new.html',
+    'devices/list_item.coffee',
+    'devices/list_item.html',
+    'devices/linechart.coffee',
+    'devices/linechart.html',
+    'devices/new_device.coffee',
+    'devices/new_device.html',
+    'devices/new_thing.coffee',
+    'devices/new_thing.html',
     'devices/routes.coffee',
-    'users/login.coffee',
-    'users/login.html',
-    'users/register.coffee',
-    'users/register.html',
-    'users/routes.coffee'
+    'devices/dashboard.coffee',
+    'devices/dashboard.html'
   ], 'client');
 });

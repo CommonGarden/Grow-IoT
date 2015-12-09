@@ -50,10 +50,10 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
 
 # This is a nasty temporary HACK
 new PublishEndpoint 'Device.unclaimedList', ->
-  # TODO: adjust query to not return devices with an owner.
+  # TODO: adjust query to not return devices without an owner.
   Device.documents.find
     'owner._id':
-      $ne: @userId
+      $exists: false
 # / End nasty hack
 
 new PublishEndpoint 'Device.list', ->

@@ -40,7 +40,8 @@ Meteor.methods
 
   # CURRENTLY A HACK
   'CommonGarden.claimDevice': (uuid, userID) ->
-    # Should add an owner to that device document....
+    check uuid, Match.NonEmptyString
+    check userID, Match.NonEmptyString
     device = Device.documents.findOne
       'uuid': uuid
     Device.documents.update device._id,
@@ -49,7 +50,8 @@ Meteor.methods
 
 
   'CommonGarden.removeDevice': (uuid, userID) ->
-    # TODO: do better checks.
+    check uuid, Match.NonEmptyString
+    check userID, Match.NonEmptyString
     device = Device.documents.findOne
       'uuid': uuid
       'owner._id': userID

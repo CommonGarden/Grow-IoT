@@ -9,5 +9,13 @@ class Device.ListComponent extends UIComponent
   devicesList: ->
     Device.documents.find()
 
-class Device.ListItemComponent extends UIComponent
-  @register 'Device.ListItemComponent'
+  events: ->
+    super.concat
+      'click .device': @viewDevice
+
+  viewDevice: (event) ->
+    # Build path from the data-uuid attribute
+    params = { uuid: event.currentTarget.dataset.uuid }
+    path = FlowRouter.path("Device.display", params);
+    
+    FlowRouter.go path

@@ -1,0 +1,15 @@
+<template name="Device.ListItemComponent">
+  <div class="list-item device" data-uuid="{{uuid}}">
+      <h2>{{thing.name}}</h2>
+      {{#each currentValue.readings}}
+        <p>{{type}}: {{value}} {{unit}}</p>
+      {{/each}}
+
+      <!-- TODO: implement UI for this. -->
+      {{#if onlineSince}}
+        <p>Online!</p>
+      {{else}}
+        <p>Not Online.</p>
+      {{/if}}
+  </div>
+</template>

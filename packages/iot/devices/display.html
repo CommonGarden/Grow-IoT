@@ -1,35 +1,37 @@
 <template name="Device.DisplayComponent">
-	{{#if notFound}}
-		{{> NotFoundComponent}}
-	{{else}}
-  	<div class="row jumbotron">
-		<div class="col-lg-12">
-			<h2>{{thing.name}}</h2>
-			<p>{{thing.description}}</p>
-			<p>{{thing.type}}</p>
+	{{#if notFound }}
+		{{> NotFoundComponent }}
+	{{else}}	
+		{{#if Template.subscriptionsReady}}
+		  	<div class="row jumbotron">
+				<div class="col-lg-12">
+					<h2>{{ device.thing.name }}</h2>
+					<p>{{ device.thing.description }}</p>
+					<p>{{ device.thing.type }}</p>
 
-			{{#if onlineSince}}
-				<p>Online!</p>
-			{{else}}
-				<p>Not Online.</p>
-			{{/if}}
+					{{#if device.onlineSince }}
+						<p>Online!</p>
+					{{else}}
+						<p>Not Online.</p>
+					{{/if}}
 
-			{{#each thing.sensors}}
-				<!-- Should build a realtime chart from the data points here -->
-				{{name}}
-				{{unit}}
-				{{currentValue}}
-			{{/each}}
+					{{#each thing.sensors}}
+						{{name}}
+						<!-- TODO: pass in property that we want to be graphing data for -->
+						{{> Device.LineChartComponent property = "temperature" }}
+					{{/each}}
 
-			{{#each thing.actuators}}
-				{{type}}
-				<!-- TODO: add actions... which send commands. -->
-			{{/each}}
+				    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be less noticable. -->
+					<!-- <p><button class="btn rename">Rename device</button></p> -->
+					<p><button class="btn remove">Remove device</button></p>
 
-		    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be
-			less noticable. -->
-			<p><button class="btn remove">Remove device</button></p>
-		</div>
-	</div>
+
+					<!-- TODO: optionally show image if this thing supports images -->
+				    <!-- <p><button class="btn add-image">Add image</button></p> -->
+				</div>
+			</div>
+		{{else}}
+			{{> LoaderComponent}}
+		{{/if}}
 	{{/if}}
 </template>
