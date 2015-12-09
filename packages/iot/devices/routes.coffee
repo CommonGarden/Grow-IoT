@@ -19,10 +19,10 @@ loggedIn.route '/device/:uuid',
 
 # User must be logged in to see dashboard
 loggedIn.route '/',
-  name: 'Device.list'
+  name: 'Dashboard'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Device.ListComponent'
+      main: 'Dashboard'
 
 
 # User must be logged in to claim a new device.

@@ -15,7 +15,11 @@
 						<p>Not Online.</p>
 					{{/if}}
 
-					{{> Device.LineChartComponent property = "temperature" }}
+					{{#each thing.sensors}}
+						{{name}}
+						<!-- TODO: pass in property that we want to be graphing data for -->
+						{{> Device.LineChartComponent property = "temperature" }}
+					{{/each}}
 
 				    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be less noticable. -->
 					<!-- <p><button class="btn rename">Rename device</button></p> -->

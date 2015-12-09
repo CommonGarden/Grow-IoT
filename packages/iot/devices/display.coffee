@@ -64,4 +64,5 @@ class Device.DisplayComponent extends UIComponent
           alert "New deviceerror: #{error.reason or error}"
           return
 
-        FlowRouter.go 'Device.list'
+        # TODO: show flash message confirmation.
+        FlowRouter.go 'Dashboard'

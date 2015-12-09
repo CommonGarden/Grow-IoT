@@ -6,8 +6,10 @@ class Device.NewComponent extends UIComponent
 
     @subscribe 'Device.unclaimedList'
 
-  devicesList: ->
-    Device.documents.find()
+  unclaimedDevicesList: ->
+    Device.documents.find
+      'owner._id':
+        $exists: false
 
   events: ->
     super.concat
@@ -27,4 +29,4 @@ class Device.NewComponent extends UIComponent
           alert "New deviceerror: #{error.reason or error}"
           return
 
-        FlowRouter.go 'Device.list'
+        FlowRouter.go 'Dashboard'

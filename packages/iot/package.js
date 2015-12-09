@@ -45,12 +45,16 @@ Package.onUse(function (api) {
     'devices/display.html',
     'devices/list.coffee',
     'devices/list.html',
+    'devices/list_item.coffee',
+    'devices/list_item.html',
     'devices/linechart.coffee',
     'devices/linechart.html',
     'devices/new_device.coffee',
     'devices/new_device.html',
     'devices/new_thing.coffee',
     'devices/new_thing.html',
-    'devices/routes.coffee'
+    'devices/routes.coffee',
+    'devices/dashboard.coffee',
+    'devices/dashboard.html'
   ], 'client');
 });

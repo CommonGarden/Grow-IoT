@@ -1,8 +1,7 @@
 <template name="Device.NewComponent">
-  {{#if devicesList.exists}}
-      <!-- Need to do a better job of conveying what is going on in this view. -->
+  {{#if unclaimedDevicesList.exists}}
       <h3>Unclaimed devices nearby</h3>
-      {{#each devicesList}}
+      {{#each unclaimedDevicesList}}
       <div class="row jumbotron unclaimed list-item" data-uuid="{{uuid}}">
         <div class="col-lg-12">
           <p>Name: {{thing.name}}</p>
@@ -11,10 +10,16 @@
       </div>
       {{/each}}
   {{else}}
-    <!-- Empty State: needs more work. -->
+    <!-- Empty State: needs more work. Should give people adequate help with connecting devices. -->
     <div class="row jumbotron">
       <div class="col-lg-12">
-        <p>No unclaimed devices were detected on your network. Are your devices powered on?</p>
+        <p>No unclaimed devices were detected on your network, waiting for devices to join.</p>
+        <p>Are your devices powered on?</p>
+        <!-- TODO: show ip address automatically for easier configuration. -->
+        <!-- <p>Turn you devices on an make sure they are configured so that the host points to this ip: {{getIP}}</p> -->
+<!-- <p>See the <a href="">documentation</a> for more information about creating common garden drivers.</p>
+ -->        
+        <button class="btn btn-lg btn-primary">Help</button>
       </div>
     </div>
   {{/if}}
