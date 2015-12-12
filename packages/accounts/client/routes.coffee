@@ -39,4 +39,10 @@ loggedIn = FlowRouter.group
        Session.set 'redirectAfterLogin', route.path
      FlowRouter.go '/login'
  ]
-    
+
+loggedIn.route '/account',
+  name: 'AccountPageComponent'
+  action: (params, queryParams) ->
+    BlazeLayout.render 'MainLayoutComponent',
+      main: 'AccountPageComponent'
+  

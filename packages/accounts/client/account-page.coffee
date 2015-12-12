@@ -1,2 +1,5 @@
 class AccountPageComponent extends UIComponent
-	@register 'AccountPageComponent'
+  @register 'AccountPageComponent'
+
+  onCreated: ->
+    super
