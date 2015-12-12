@@ -38,10 +38,3 @@ loggedIn.route '/new-thing',
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.NewThingComponent'
-
-# User must be logged in to visit account page
-loggedIn.route '/account',
-  name: 'Account'
-  action: (params, queryParams) ->
-    BlazeLayout.render 'MainLayoutComponent',
-      main: 'AccountComponent'

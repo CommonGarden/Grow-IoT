@@ -27,12 +27,12 @@ class ResetPasswordComponent extends UIComponent
 			messages:
 				emailAddress:
 					required: "Please enter your email address."
-					email: "Is that a real email?"
+					email: "Please enter a valid email."
 			submitHandler: ->
 				email = $('#recovery-email').val()
 				Accounts.forgotPassword { email: email }, (err) ->
 					if err
-						Session.set 'displayMessage', 'Password Reset Error &amp; Doh'
+						Session.set 'displayMessage', 'Password Reset Error'
 					else
 						Session.set 'displayMessage', 'Email Sent &amp; Please check your email.'
 
@@ -42,11 +42,11 @@ class ResetPasswordComponent extends UIComponent
 					required: true
 			messages:
 				newPassword:
-					required: "Pop in a passwordarooni for me there, will ya?"
+					required: "Please enter a password."
 			submitHandler: ->
 				pw = $('#new-password-password').val()
 				Accounts.resetPassword Session.get('resetPassword'), pw, (err) ->
 					if err
-						Session.set 'displayMessage', 'Password Reset Error &amp; Sorry'
+						Session.set 'displayMessage', 'Password Reset Error'
 					else
 						Session.set 'resetPassword', null
