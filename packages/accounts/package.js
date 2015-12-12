@@ -33,6 +33,8 @@ Package.onUse(function (api) {
 
   // Client files
   api.addFiles([
+    'client/account-page.coffee',
+    'client/account-page.html',
     'client/routes.coffee',
     'client/sign-in-or-up.coffee',
     'client/sign-in-or-up.html',
