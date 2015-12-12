@@ -32,10 +32,10 @@ class LoginComponent extends UIComponent
           required: true
       messages:
         emailAddress:
-          required: "Gonna need an email, there, friend!"
-          email: "Is that a real email? What a trickster!"
+          required: "Please enter an email address."
+          email: "Please enter a valid email address."
         password:
-          required: "Pop in a passwordarooni for me there, will ya?"
+          required: "Please enter a password."
       submitHandler: ->
         # Once our validation passes, we need to make a decision on
         # whether we want to sign the user up, or, log them in. To do
