@@ -1,3 +1,5 @@
+# TODO: move to separate visualizations folder.
+
 class Device.LineChartComponent extends UIComponent
   @register 'Device.LineChartComponent'
 

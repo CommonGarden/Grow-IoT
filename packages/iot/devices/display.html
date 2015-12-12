@@ -18,16 +18,24 @@
 					{{#each thing.sensors}}
 						{{name}}
 						<!-- TODO: pass in property that we want to be graphing data for -->
-						{{> Device.LineChartComponent property = "temperature" }}
+						{{> Device.LineChartComponent property = type }}
 					{{/each}}
 
-				    <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be less noticable. -->
+					{{#each thing.actuators}}
+						{{name}}
+					{{/each}}
+
+				  <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be less noticable. -->
 					<!-- <p><button class="btn rename">Rename device</button></p> -->
 					<p><button class="btn remove">Remove device</button></p>
 
 
 					<!-- TODO: optionally show image if this thing supports images -->
-				    <!-- <p><button class="btn add-image">Add image</button></p> -->
+					{{#if device.thing.imageURL}}
+						<img src="{{device.thing.imageURL}}">
+					{{/if}}
+					<!-- TODO: add image if thing doesn't have one. -->
+				  <!-- <p><button class="btn add-image">Add image</button></p> -->
 				</div>
 			</div>
 		{{else}}

@@ -60,15 +60,17 @@ class LoginComponent extends UIComponent
                 Meteor.loginWithPassword user.email, user.password, (error)->
                   if error
                     alert error.reason
+                  else
+                    FlowRouter.go 'Dashboard'
               else
                 alert error.reason
 
             else
-              FlowRouter.go 'Device.list'
+              FlowRouter.go 'Dashboard'
 
         else
           Meteor.loginWithPassword user.email, user.password, (error)->
             if error
               alert error.reason
             else
-              FlowRouter.go 'Device.list'
+              FlowRouter.go 'Dashboard'

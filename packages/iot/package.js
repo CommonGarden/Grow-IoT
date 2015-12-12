@@ -51,10 +51,12 @@ Package.onUse(function (api) {
     'devices/linechart.html',
     'devices/new_device.coffee',
     'devices/new_device.html',
-    'devices/new_thing.coffee',
-    'devices/new_thing.html',
+    // 'devices/new_thing.coffee',
+    // 'devices/new_thing.html',
     'devices/routes.coffee',
     'devices/dashboard.coffee',
-    'devices/dashboard.html'
+    'devices/dashboard.html',
+    'viz/gauge.coffee',
+    'viz/gauge.html'
   ], 'client');
 });
