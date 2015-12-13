@@ -1,10 +1,10 @@
 [![Slack Status](http://slack.commongarden.org/badge.svg)](http://slack.commongarden.org)
 
-# Installing CommonGarden-IoT
+# Installing CommonGarden-IoT (OSX and Linux)
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
 ```
-https://www.meteor.com/install
+curl https://install.meteor.com/ | sh
 ```
 
 Then clone the repo, enter the new directory, and start meteor.
