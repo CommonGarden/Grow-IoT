@@ -13,11 +13,19 @@ Meteor.methods
         _id: 1
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-    !!Data.documents.insert
-      device:
-        _id: device._id
-      body: body
-      insertedAt: new Date()
+    # Filter events from other data.
+    if body.event?
+      !!Events.documents.insert
+        device:
+          _id: device._id
+        body: body
+        insertedAt: new Date()
+    else
+      !!Data.documents.insert
+        device:
+          _id: device._id
+        body: body
+        insertedAt: new Date()
 
 
   # TODO: Should take an optional config argument so that when it creates the device

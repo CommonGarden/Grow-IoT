@@ -155,6 +155,16 @@ body {
   display: none;
 }
 
+.device-settings {
+  .glyphicon {
+    // font-size: 2em;
+    color: gray;
+  }
+  .caret {
+    color: gray;
+  }
+}
+
 
 // Visualizations
 // TODO: break out into separate file.

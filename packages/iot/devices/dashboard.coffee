@@ -7,6 +7,5 @@ class Dashboard extends UIComponent
   	@autorun (computation) =>
 			@subscribe 'Device.list'
 
-			return unless @subscriptionsReady()
 			@devices = Device.documents.find
 				'owner._id': Meteor.userId()

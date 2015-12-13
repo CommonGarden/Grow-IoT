@@ -3,9 +3,16 @@
 		{{> NotFoundComponent }}
 	{{else}}	
 		{{#if Template.subscriptionsReady}}
-		  	<div class="row jumbotron">
-				<div class="col-lg-12">
-					<h2>{{ device.thing.name }}</h2>
+	  	<div class="row">
+				<div class="col-lg-4">
+					<h2>{{ device.thing.name }}	<span class="dropdown pull-right device-settings">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret nav-menu-icon"></span></a>
+            <ul class="dropdown-menu">
+              <!-- <li role="separator" class="divider"></li> -->
+              <li><a href="#" class="rename">Rename device</a></li>
+              <li><a href="#" class="remove">Delete device</a></li>
+            </ul>
+          </span></h2>
 					<p>{{ device.thing.description }}</p>
 					<p>{{ device.thing.type }}</p>
 
@@ -15,14 +22,9 @@
 						<p>Not Online.</p>
 					{{/if}}
 
-					{{#each thing.sensors}}
-						<!-- TODO: pass in property that we want to be graphing data for -->
-						{{> Device.LineChartComponent property=type }}
-					{{/each}}
-
 					{{#if device.onlineSince }}
 						{{#each thing.actuators}}
-							<h4>{{name}}</h4>
+							<h4>Commands</h4>
 							<div>
 								{{#each model.actions}}			
 									<button class="btn command" data-name="{{name}}">{{name}}</button>
@@ -31,10 +33,11 @@
 						{{/each}}
 					{{/if}}
 
-				  <!-- TODO: Include a menu with basic CRUD options for the the devce. These should be in a gear menu. -->
-					<!-- <p><button class="btn rename">Rename device</button></p> -->
-					<h5><button class="btn remove">Remove device</button></h5>
-
+					{{#if eventLog}}
+						{{#each eventLog}}
+							<p>{{body.event.name}}</p>
+						{{/each}}
+					{{/if}}
 
 					<!-- TODO: optionally show image if this thing supports images -->
 					{{#if device.thing.imageURL}}
@@ -43,6 +46,14 @@
 					<!-- TODO: add image if thing doesn't have one. -->
 				  <!-- <p><button class="btn add-image">Add image</button></p> -->
 				</div>
+
+				<div class="col-lg-8">
+					{{#each thing.sensors}}
+						<!-- TODO: pass in property that we want to be graphing data for -->
+						{{> Device.LineChartComponent property=type }}
+					{{/each}}
+				</div>
+
 			</div>
 		{{else}}
 			{{> LoaderComponent}}

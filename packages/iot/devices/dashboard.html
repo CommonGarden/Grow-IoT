@@ -1,10 +1,10 @@
 <template name="Dashboard">
   {{#if Template.subscriptionsReady}}
-		<!-- {{#if devices.exists}} -->
+		{{#if devices.exists}}
 			{{> Device.ListComponent}}
-		<!-- {{else}} -->
-			<!-- {{> Device.NewComponent}} -->
-		<!-- {{/if}}	   -->
+		{{else}}
+			{{> Device.NewComponent}}
+		{{/if}}	  
   {{else}}
     {{> LoaderComponent}}
   {{/if}}
