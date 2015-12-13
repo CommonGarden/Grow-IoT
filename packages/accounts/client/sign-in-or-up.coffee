@@ -61,12 +61,13 @@ class LoginComponent extends UIComponent
                   if error
                     alert error.reason
                   else
-                    Bert.alert 'Welcome! Thanks for signing up.', 'success', 'growl-top-right'
+                    Bert.alert 'Login successful. Welcome back!', 'success', 'growl-top-right'
                     FlowRouter.go 'Dashboard'
               else
                 alert error.reason
 
             else
+              Bert.alert 'Welcome to Common Garden', 'success', 'growl-top-right'
               FlowRouter.go 'Dashboard'
 
         else

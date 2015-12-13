@@ -60,16 +60,16 @@ class Device.DisplayComponent extends UIComponent
     @subscriptionsReady() and not @device()
 
   remove: ->
-    # TODO: add an alert so that a user has to confirm deletion.
-    Meteor.call 'CommonGarden.removeDevice',
-      @currentDeviceUuid(),
-      Meteor.userId(),
-    ,
-      (error, documentId) =>
-        if error
-          console.error "New deviceerror", error
-          alert "New deviceerror: #{error.reason or error}"
-          return
+    if window.confirm("Are you sure you want to delete this device?")
+      Meteor.call 'CommonGarden.removeDevice',
+        @currentDeviceUuid(),
+        Meteor.userId(),
+      ,
+        (error, documentId) =>
+          if error
+            console.error "New deviceerror", error
+            alert "New deviceerror: #{error.reason or error}"
+            return
 
-        # TODO: show flash message confirmation.
-        FlowRouter.go 'Dashboard'
+          # TODO: show flash message confirmation.
+          FlowRouter.go 'Dashboard'

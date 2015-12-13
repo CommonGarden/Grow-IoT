@@ -83,6 +83,8 @@ class Device.LineChartComponent extends UIComponent
         .append('path')
         .attr('class', 'line')
         .attr('d', line(dataset))
-        .transition().duration(1000).remove()
+        .transition()
+        .duration(1000)
+        .remove()
       paths.exit().remove()
       return
