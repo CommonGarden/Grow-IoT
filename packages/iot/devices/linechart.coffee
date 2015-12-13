@@ -32,7 +32,7 @@ class Device.LineChartComponent extends UIComponent
     yAxis = d3.svg.axis().scale(y).orient('left')
     svg = d3.select('#lineChart').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
     svg.append('g').attr('class', 'x axis').attr 'transform', 'translate(0,' + height + ')'
-    svg.append('g').attr('class', 'y axis').append('text').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text 'Temperature (f)'
+    svg.append('g').attr('class', 'y axis').append('text').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text '' # TODO: Add unit value if it exists
 
     @device = new ComputedField =>
       Device.documents.findOne
@@ -78,9 +78,11 @@ class Device.LineChartComponent extends UIComponent
 
       # TODO: improve this.
       svg.select('.y.axis').transition().duration(1000).call yAxis
-      paths.enter().append('path').attr('class', 'line').attr 'd', line dataset
-      # paths.attr 'd', line dataset
-      # paths.attr('transform', null).transition().duration(5000).remove()
-
+      paths
+        .enter()
+        .append('path')
+        .attr('class', 'line')
+        .attr('d', line(dataset))
+        .transition().duration(1000).remove()
       paths.exit().remove()
       return
