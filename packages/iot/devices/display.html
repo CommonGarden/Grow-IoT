@@ -33,9 +33,12 @@
 						{{/each}}
 					{{/if}}
 
+					<hr/>
+
 					{{#if eventLog}}
+						<h4>Event log</h4>
 						{{#each eventLog}}
-							<p>{{body.event.name}}</p>
+							<p>{{body.event.name}}, {{body.timestamp}}</p>
 						{{/each}}
 					{{/if}}
 

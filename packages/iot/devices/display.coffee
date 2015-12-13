@@ -38,6 +38,9 @@ class Device.DisplayComponent extends UIComponent
   eventLog: ->
     Events.documents.find
       'device._id': @device()?._id
+    ,
+      'sort':
+        'body.timestamp': -1
   
   datapoints: ->
     Data.documents.find
