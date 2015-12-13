@@ -40,22 +40,24 @@ class Device.DisplayComponent extends UIComponent
   events: ->
     super.concat
       'click .remove': @remove
+      'click .command': (e) ->
+        e.preventDefault()
+        type = e.currentTarget.dataset.name
+        options = {}
+        Meteor.call 'Device.sendCommand',
+          @currentDeviceUuid(),
+          type,
+          options,
+        ,
+          (error, documentId) =>
+            if error
+              console.error "New deviceerror", error
+              alert "New deviceerror: #{error.reason or error}"
+              return
+
 
   notFound: ->
     @subscriptionsReady() and not @device()
-
-  # TODO: add send command function.
-  command: (type, options) ->
-    Meteor.call 'Device.sendCommand',
-      @currentDeviceUuid(),
-      type,
-      options,
-    ,
-      (error, documentId) =>
-        if error
-          console.error "New deviceerror", error
-          alert "New deviceerror: #{error.reason or error}"
-          return
 
   remove: ->
     # TODO: add an alert so that a user has to confirm deletion.

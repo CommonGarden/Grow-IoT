@@ -25,7 +25,7 @@ Meteor.methods
   'CommonGarden.registerDevice': (deviceInfo) ->
     # TODO: we need to run checks on deviceInfo, then add that info to the device
     # document
-    check deviceInfo, Object
+    # check deviceInfo, Object
 
     document =
       uuid: Meteor.uuid()
@@ -37,8 +37,10 @@ Meteor.methods
 
     document
 
+  # TODO: make it so users can add their user IDs to the device config to claim
+  # a device under their username.
 
-  # CURRENTLY A HACK
+  # CURRENTLY A HACK: this lists devices that don't have owners.
   'CommonGarden.claimDevice': (uuid, userID) ->
     check uuid, Match.NonEmptyString
     check userID, Match.NonEmptyString

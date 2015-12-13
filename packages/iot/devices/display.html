@@ -16,18 +16,24 @@
 					{{/if}}
 
 					{{#each thing.sensors}}
-						{{name}}
 						<!-- TODO: pass in property that we want to be graphing data for -->
-						{{> Device.LineChartComponent property = type }}
+						{{> Device.LineChartComponent property=type }}
 					{{/each}}
 
-					{{#each thing.actuators}}
-						{{name}}
-					{{/each}}
+					{{#if device.onlineSince }}
+						{{#each thing.actuators}}
+							<h4>{{name}}</h4>
+							<div>
+								{{#each model.actions}}			
+									<button class="btn command" data-name="{{name}}">{{name}}</button>
+								{{/each}}
+							</div>
+						{{/each}}
+					{{/if}}
 
 				  <!-- TODO: Include a menu with basic CRUD options for the the devce. This should be available from a device settings menu. The remove button should be less noticable. -->
 					<!-- <p><button class="btn rename">Rename device</button></p> -->
-					<p><button class="btn remove">Remove device</button></p>
+					<h5><button class="btn remove">Remove device</button></h5>
 
 
 					<!-- TODO: optionally show image if this thing supports images -->

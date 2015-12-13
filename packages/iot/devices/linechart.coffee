@@ -42,11 +42,6 @@ class Device.LineChartComponent extends UIComponent
     @datapoints = new ComputedField =>
       Data.documents.find
         'device._id': @device()?._id
-      ,
-        'sort':
-          'insertedAt': -1
-      ,
-        'limit': 5
       .fetch()
 
     @autorun (computation) =>
@@ -56,17 +51,19 @@ class Device.LineChartComponent extends UIComponent
       
       # TODO: For devices with enough data we could support multiple views of
       # of the data: years, months, weeks, days.
+      # PROBLEM: Currently we are loading and rerendering way too much data.
       x.domain d3.extent(dataset, (d) ->
         d.body.timestamp
       )
 
-      # TODO: make this more general rather than example specific.
-      # templateData = Template.currentData()
-      # property = templateData.property
+      templateData = Template.currentData()
+      property = templateData.property
       
       y.domain d3.extent(dataset, (d) ->
-        # need to get the value of the passed in property
-        d.body.readings[0].value
+        for reading in d.body.readings
+          if reading.type = property
+            value = reading.value
+        value
       )
 
       line = d3.svg.line().x((d) ->

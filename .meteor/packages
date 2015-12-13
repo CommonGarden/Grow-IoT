@@ -24,7 +24,7 @@ aldeed:simple-schema    # A simple, reactive schema validation package for Meteo
 iot
 accounts-password
 d3js:d3
-audit-argument-checks
+# audit-argument-checks
 browser-policy
 email
 meteorhacks:ssr
