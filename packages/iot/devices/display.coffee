@@ -51,7 +51,7 @@ class Device.DisplayComponent extends UIComponent
       'click .remove': @remove
       'click .command': (e) ->
         e.preventDefault()
-        type = e.currentTarget.dataset.name
+        type = e.currentTarget.dataset.call
         options = {}
         Meteor.call 'Device.sendCommand',
           @currentDeviceUuid(),

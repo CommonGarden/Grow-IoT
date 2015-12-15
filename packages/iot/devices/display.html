@@ -3,8 +3,8 @@
 		{{> NotFoundComponent }}
 	{{else}}	
 		{{#if Template.subscriptionsReady}}
-	  	<div class="row">
-				<div class="col-lg-4">
+	  	<div class="row dashboard">
+				<div class="col-lg-4 margin-right">
 					<h2>{{ device.thing.name }}	<span class="dropdown pull-right device-settings">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret nav-menu-icon"></span></a>
             <ul class="dropdown-menu">
@@ -17,20 +17,16 @@
 					<p>{{ device.thing.type }}</p>
 
 					{{#if device.onlineSince }}
-						<p>Online!</p>
-					{{else}}
-						<p>Not Online.</p>
-					{{/if}}
-
-					{{#if device.onlineSince }}
 						{{#each thing.actuators}}
-							<h4>Commands</h4>
+							<h4>{{name}}</h4>
 							<div>
 								{{#each model.actions}}			
-									<button class="btn command" data-name="{{name}}">{{name}}</button>
+									<button class="btn command" data-call="{{call}}">{{name}}</button>
 								{{/each}}
 							</div>
 						{{/each}}
+					{{else}}
+						<p><em>Not Online.</em></p>
 					{{/if}}
 
 					<hr/>
@@ -50,8 +46,9 @@
 				  <!-- <p><button class="btn add-image">Add image</button></p> -->
 				</div>
 
-				<div class="col-lg-8">
+				<div class="col-lg-6 sensor-viz">
 					{{#each thing.sensors}}
+						<h6 class="text-center">{{name}}</h6>
 						<!-- TODO: pass in property that we want to be graphing data for -->
 						{{> Device.LineChartComponent property=type }}
 					{{/each}}

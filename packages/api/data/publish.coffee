@@ -12,3 +12,7 @@ new PublishEndpoint 'Data.points', (deviceUuid) ->
 
   Data.documents.find
     'device._id': device._id
+  ,
+    'sort':
+      'insertedAt': -1
+    'limit': 100
