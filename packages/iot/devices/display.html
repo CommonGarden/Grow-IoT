@@ -50,7 +50,7 @@
 					{{#each thing.sensors}}
 						<h6 class="text-center">{{name}}</h6>
 						<!-- TODO: pass in property that we want to be graphing data for -->
-						{{> Device.LineChartComponent property=type }}
+						{{> Device.VisualizationComponent property=type chartType=chart}}
 					{{/each}}
 				</div>
 

@@ -47,16 +47,16 @@ Package.onUse(function (api) {
     'devices/list.html',
     'devices/list_item.coffee',
     'devices/list_item.html',
-    'devices/linechart.coffee',
-    'devices/linechart.html',
+    'devices/visualization/linechart.coffee',
+    'devices/visualization/linechart.html',
+    'devices/visualization/gauge.coffee',
+    'devices/visualization/gauge.html',
+    'devices/visualization/visualization.coffee',
+    'devices/visualization/visualization.html',
     'devices/new_device.coffee',
     'devices/new_device.html',
-    // 'devices/new_thing.coffee',
-    // 'devices/new_thing.html',
     'devices/routes.coffee',
     'devices/dashboard.coffee',
-    'devices/dashboard.html',
-    'viz/gauge.coffee',
-    'viz/gauge.html'
+    'devices/dashboard.html'
   ], 'client');
 });

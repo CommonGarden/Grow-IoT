@@ -13,8 +13,8 @@ Meteor.methods
         _id: 1
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-    # Filter events from other data.
-    if body.event?
+    # Filter events and property updates from other data.
+    if body.event? or body.properties?
       !!Events.documents.insert
         device:
           _id: device._id
