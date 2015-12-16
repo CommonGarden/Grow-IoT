@@ -1,0 +1,7 @@
+<template name="Device.VisualizationComponent">
+	{{#if lineChart}}
+		{{> Device.LineChartComponent property=property}}
+	{{else}}
+		{{> Device.GaugeComponent property=property}}
+	{{/if}}
+</template>

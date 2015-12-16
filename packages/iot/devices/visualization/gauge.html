@@ -1,0 +1,7 @@
+<template name="Device.GaugeComponent">
+	{{#if Template.subscriptionsReady}}
+		<div id="GaugeContainer" class="text-center"></div>
+	{{else}}
+    {{> LoaderComponent}}
+	{{/if}}
+</template>
