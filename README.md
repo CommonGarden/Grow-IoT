@@ -18,7 +18,7 @@ meteor
 And that's it! You should now have an application running on http://localhost:3000
 
 # Making a device driver
-A device driver is the birdge between a piece of hardware and the server. It is a essentially a driver script and a `config.json` file. 
+A device driver is the birdge between a piece of hardware and the server. It is a essentially a driver script and a `config.json` file. Think of the `config.json` file as a map or blue print, and the driver as the implementation of the blue print. 
 
 # The Config File
 The config file contains information like the following:
@@ -95,10 +95,6 @@ We can add both sensors and actuators. Each of these sensors and actuators suppo
 ```
 
 We might attatch additional metadata, like a name or like a link to the github repository of the driver.
-
-# Drivers
-
-To connect to a common garden instance you can use the node-common-garden-connect library.
 
 ## Contributing
 

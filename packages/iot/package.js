@@ -26,7 +26,8 @@ Package.onUse(function (api) {
     'ui-components',
     'core',
     'api',
-    'session'
+    'session',
+    'jquery'
   ]);
 
   api.addFiles([
@@ -57,6 +58,9 @@ Package.onUse(function (api) {
     'devices/new_device.html',
     'devices/routes.coffee',
     'devices/dashboard.coffee',
-    'devices/dashboard.html'
+    'devices/dashboard.html',
+    'grow/lib/jquery-cron.js',
+    'grow/grow_file_creator.coffee',
+    'grow/grow_file_creator.html'
   ], 'client');
 });

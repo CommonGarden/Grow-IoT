@@ -4,9 +4,12 @@ class Device.VisualizationComponent extends UIComponent
   onCreated: ->
   	super
 
+  	# Perhaps all visualization components can eventually inherit from this class
+  	# then real time visualization can become a package of it's own.
+
   	templateData = Template.currentData()
   	@chartType = templateData.chartType
   	if @chartType == "line"
-  		@lineChart = false
+  		@lineChart = true
 
   	@property = templateData.property

@@ -52,7 +52,7 @@ class Device.DisplayComponent extends UIComponent
       'click .command': (e) ->
         e.preventDefault()
         type = e.currentTarget.dataset.call
-        options = {}
+        options = e.currentTarget.dataset.options?
         Meteor.call 'Device.sendCommand',
           @currentDeviceUuid(),
           type,
@@ -62,8 +62,6 @@ class Device.DisplayComponent extends UIComponent
             if error
               console.error "New deviceerror", error
               alert "New deviceerror: #{error.reason or error}"
-              return
-
 
   notFound: ->
     @subscriptionsReady() and not @device()
@@ -78,7 +76,6 @@ class Device.DisplayComponent extends UIComponent
           if error
             console.error "New deviceerror", error
             alert "New deviceerror: #{error.reason or error}"
-            return
-
-          # TODO: show flash message confirmation.
-          FlowRouter.go 'Dashboard'
+          else
+            Bert.alert 'Device deleted.', 'success', 'growl-top-right'
+            FlowRouter.go 'Dashboard'

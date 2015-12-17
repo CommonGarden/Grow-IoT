@@ -87,7 +87,6 @@ class Device.GaugeComponent extends UIComponent
 
     @autorun (computation) =>
       datapoint = @datapoint()
-      # Mid value should be the current value
       value = datapoint.body.readings[0].value
       pointerPath = @buildPointerPath(value)
       pointerLine = d3.svg.line().x((d) ->
@@ -102,9 +101,6 @@ class Device.GaugeComponent extends UIComponent
       pointerContainer.selectAll('text').data([ value ]).enter().append('svg:text').attr('x', @config.cx).attr('y', @config.size - (@config.cy / 4) - fontSize).attr('dy', fontSize / 2).attr('text-anchor', 'middle').style('font-size', fontSize + 'px').style('fill', '#000').style 'stroke-width', '0px'
       @redraw @config.min, 0
       return
-    # HACK RETURNS RANDOM VALUE
-    # overflow = 0
-    # @redraw(@config.min - overflow + (@config.max - @config.min + overflow*2) *  Math.random(), 200)
 
   buildPointerPath: (value) ->
     delta = @config.range / 13

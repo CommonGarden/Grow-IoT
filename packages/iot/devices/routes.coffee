@@ -38,3 +38,9 @@ loggedIn.route '/new-thing',
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.NewThingComponent'
+
+loggedIn.route '/new-grow-file',
+  name: 'GrowFileCreatorComponent'
+  action: (params, queryParams) ->
+    BlazeLayout.render 'MainLayoutComponent',
+      main: 'GrowFileCreatorComponent'      

@@ -16,6 +16,10 @@
 					<p>{{ device.thing.description }}</p>
 					<p>{{ device.thing.type }}</p>
 
+					{{#each device.thing.model.actions}}			
+						<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
+					{{/each}}
+
 					{{#if device.onlineSince }}
 						{{#each thing.actuators}}
 							<h4>{{name}}</h4>
