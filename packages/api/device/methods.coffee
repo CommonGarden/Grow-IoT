@@ -77,6 +77,24 @@ Meteor.methods
 
     Device.documents.remove device._id
 
+  # Starting to think that devices are a specific type of thing.
+  # Todo: make device and thing the same but add new methods for non-devices.
+  'CommonGarden.newThing': (thing) ->
+    # TODO: we need to run checks on deviceInfo, then add that info to the device
+    # document
+    # check deviceInfo, Object
+
+    document =
+      uuid: Meteor.uuid()
+      token: Random.id TOKEN_LENGTH
+      registeredAt: new Date()
+      thing: thing
+
+    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
+
+    document
+
+
   # TODO add relationships better devices, currently this is a one way relationship.
   # 'CommonGarden.addRelationship': (device1uuid, device2uuid, relationship) ->
   #   check device1uuid, Match.NonEmptyString

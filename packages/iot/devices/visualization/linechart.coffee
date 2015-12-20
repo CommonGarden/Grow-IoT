@@ -9,10 +9,12 @@ class Device.LineChartComponent extends UIComponent
     @currentDeviceUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
+  property: ->
+    templateData = Template.currentData()
+    templateData.property
+
   onRendered: ->
     super
-
-    # need to do this for multiple sensors...
 
     # Set up line chart
     margin = 
@@ -32,7 +34,7 @@ class Device.LineChartComponent extends UIComponent
     ])
     xAxis = d3.svg.axis().scale(x).orient('bottom')
     yAxis = d3.svg.axis().scale(y).orient('left')
-    svg = d3.select('#lineChart').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+    svg = d3.select('#' + @property()).attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
     svg.append('g').attr('class', 'x axis').attr 'transform', 'translate(0,' + height + ')'
     svg.append('g').attr('class', 'y axis').append('text').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text '' # TODO: Add unit value if it exists
 
@@ -58,12 +60,9 @@ class Device.LineChartComponent extends UIComponent
         d.body.timestamp
       )
 
-      templateData = Template.currentData()
-      property = templateData.property
-      
       y.domain d3.extent(dataset, (d) ->
         for reading in d.body.readings
-          if reading.type = property
+          if reading.type = @property()
             value = reading.value
         value
       )
