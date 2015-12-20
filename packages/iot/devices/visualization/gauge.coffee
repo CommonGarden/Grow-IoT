@@ -7,17 +7,17 @@ class Device.GaugeComponent extends UIComponent
     @currentDeviceUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
-    templateData = Template.currentData()
-    property = templateData.property
-
-    # Create configuration.
-    # HACK: this will be configurable.
+    # HACK: this should be configurable.
     @configure {
       size: 300,
-      label: property,
+      label: @property(),
       min: 0,
       max: 14    
     }
+
+  property: ->
+    templateData = Template.currentData()
+    templateData.property
 
   configure: (configuration) ->
     @config = configuration
@@ -44,22 +44,19 @@ class Device.GaugeComponent extends UIComponent
       Device.documents.findOne
         uuid: @currentDeviceUuid()
 
-    # TODO: it would be cool if these visulization components could be more reusable.
     @datapoint = new ComputedField =>
       Data.documents.findOne
         'device._id': @device()?._id
 
-    @body = d3.select('#GaugeContainer').append('svg:svg').attr('class', 'gauge').attr('width', @config.size).attr('height', @config.size)
+    @body = d3.select('#' + @property()).append('svg:svg').attr('class', 'gauge').attr('width', @config.size).attr('height', @config.size)
     @body.append('svg:circle').attr('cx', @config.cx).attr('cy', @config.cy).attr('r', @config.raduis).style('fill', '#ccc').style('stroke', '#000').style 'stroke-width', '0.5px'
     @body.append('svg:circle').attr('cx', @config.cx).attr('cy', @config.cy).attr('r', 0.9 * @config.raduis).style('fill', '#fff').style('stroke', '#e0e0e0').style 'stroke-width', '2px'
-    # Could be
+
     for index of @config.greenZones
       @drawBand @config.greenZones[index].from, @config.greenZones[index].to, @config.greenColor
     for index of @config.yellowZones
       @drawBand @config.yellowZones[index].from, @config.yellowZones[index].to, @config.yellowColor
     for index of @config.redZones
-      # console.log @config.redZones[index].from
-      # console.log @config.redZones[index].to
       @drawBand @config.redZones[index].from, @config.redZones[index].to, @config.redColor
     if undefined != @config.label
       fontSize = Math.round(@config.size / 9)
@@ -87,6 +84,7 @@ class Device.GaugeComponent extends UIComponent
 
     @autorun (computation) =>
       datapoint = @datapoint()
+      # Todo: get value by using the property.
       value = datapoint.body.readings[0].value
       pointerPath = @buildPointerPath(value)
       pointerLine = d3.svg.line().x((d) ->

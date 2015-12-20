@@ -9,6 +9,13 @@ class Device.LineChartComponent extends UIComponent
     @currentDeviceUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
+  property: ->
+    templateData = Template.currentData()
+    templateData.property
+
+  onRendered: ->
+    super
+
     @device = new ComputedField =>
       Device.documents.findOne
         uuid: @currentDeviceUuid()
@@ -17,13 +24,6 @@ class Device.LineChartComponent extends UIComponent
       Data.documents.find
         'device._id': @device()?._id
       .fetch()
-
-  property: ->
-    templateData = Template.currentData()
-    templateData.property
-
-  onRendered: ->
-    super
 
     # Set up line chart
     margin = 
