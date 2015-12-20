@@ -9,6 +9,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret nav-menu-icon"></span></a>
             <ul class="dropdown-menu">
               <!-- <li role="separator" class="divider"></li> -->
+              <li><a href="#" class="advanced">Show advanced info</a></li>
               <li><a href="#" class="rename">Rename device</a></li>
               <li><a href="#" class="remove">Delete device</a></li>
             </ul>
@@ -21,8 +22,13 @@
 					{{/each}}
 
 					{{#if device.onlineSince }}
-						{{#each thing.actuators}}
+						{{#each device.thing.actuators}}
 							<h4>{{name}}</h4>
+							<div class="state">
+								{{#each model.properties}}
+									<h5>{{state}}</h5>
+								{{/each}}
+							</div>
 							<div>
 								{{#each model.actions}}			
 									<button class="btn command" data-call="{{call}}">{{name}}</button>

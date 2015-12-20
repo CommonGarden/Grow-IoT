@@ -7,6 +7,10 @@ class Device.DisplayComponent extends UIComponent
     @currentDeviceUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
+    @device = new ComputedField =>
+      Device.documents.findOne
+        uuid: @currentDeviceUuid()
+
     @autorun (computation) =>
       deviceUuid = @currentDeviceUuid()
       return unless deviceUuid
@@ -27,12 +31,11 @@ class Device.DisplayComponent extends UIComponent
           title: 1
 
   device: ->
-    Device.documents.findOne
-      uuid: @currentDeviceUuid()
+    console.log @device()
+    @device()
 
   thing: ->
-    device = Device.documents.findOne
-      uuid: @currentDeviceUuid()
+    device = @device()
     device.thing
 
   eventLog: ->

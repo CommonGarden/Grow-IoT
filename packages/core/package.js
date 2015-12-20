@@ -28,6 +28,7 @@ Package.onUse(function (api) {
   api.export('Device');
   api.export('Data');
   api.export('Events');
+  api.export('Relationships');
   api.export('Message', 'server');
 
   api.addFiles([
@@ -35,7 +36,8 @@ Package.onUse(function (api) {
     'documents/user.coffee',
     'documents/device.coffee',
     'documents/data.coffee',
-    'documents/events.coffee'
+    'documents/events.coffee',
+    'documents/relationships.coffee'
   ]);
 
   api.addFiles([
