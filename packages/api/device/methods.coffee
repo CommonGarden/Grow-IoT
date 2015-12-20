@@ -39,9 +39,6 @@ Meteor.methods
         body: body
         insertedAt: new Date()
 
-
-  # TODO: Should take an optional config argument so that when it creates the device
-  # we ratain any meta data.
   'CommonGarden.registerDevice': (deviceInfo) ->
     # TODO: we need to run checks on deviceInfo, then add that info to the device
     # document
@@ -81,20 +78,20 @@ Meteor.methods
     Device.documents.remove device._id
 
   # TODO add relationships better devices, currently this is a one way relationship.
-  'CommonGarden.addRelationship': (device1uuid, device2uuid, relationship) ->
-    check device1uuid, Match.NonEmptyString
-    check device2uuid, Match.NonEmptyString
-    check relationship, Object
+  # 'CommonGarden.addRelationship': (device1uuid, device2uuid, relationship) ->
+  #   check device1uuid, Match.NonEmptyString
+  #   check device2uuid, Match.NonEmptyString
+  #   check relationship, Object
     
-    # Get the device document for the first device. 
-    device = Device.documents.findOne
-      'uuid': device1uuid
+  #   # Get the device document for the first device. 
+  #   device = Device.documents.findOne
+  #     'uuid': device1uuid
 
-    !!Relationships.documents.insert
-      device:
-        _id: device._id
-      body: relationship
-      insertedAt: new Date()
+  #   !!Relationships.documents.insert
+  #     device:
+  #       _id: device._id
+  #     body: relationship
+  #     insertedAt: new Date()
 
   ## TODO: Remove relationship
   # 'CommonGarden.removeRelationship': (device1uuid, device2uuid, relationship) ->
