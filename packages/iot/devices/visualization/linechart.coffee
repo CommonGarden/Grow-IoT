@@ -12,6 +12,8 @@ class Device.LineChartComponent extends UIComponent
   onRendered: ->
     super
 
+    # need to do this for multiple sensors...
+
     # Set up line chart
     margin = 
       top: 20
