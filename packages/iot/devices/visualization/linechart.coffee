@@ -9,6 +9,15 @@ class Device.LineChartComponent extends UIComponent
     @currentDeviceUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
+    @device = new ComputedField =>
+      Device.documents.findOne
+        uuid: @currentDeviceUuid()
+
+    @datapoints = new ComputedField =>
+      Data.documents.find
+        'device._id': @device()?._id
+      .fetch()
+
   property: ->
     templateData = Template.currentData()
     templateData.property
@@ -37,16 +46,6 @@ class Device.LineChartComponent extends UIComponent
     svg = d3.select('#' + @property()).attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
     svg.append('g').attr('class', 'x axis').attr 'transform', 'translate(0,' + height + ')'
     svg.append('g').attr('class', 'y axis').append('text').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text '' # TODO: Add unit value if it exists
-
-    @device = new ComputedField =>
-      Device.documents.findOne
-        uuid: @currentDeviceUuid()
-
-    # TODO: it would be cool if these visulization components could be more reusable.
-    @datapoints = new ComputedField =>
-      Data.documents.find
-        'device._id': @device()?._id
-      .fetch()
 
     @autorun (computation) =>
       dataset = @datapoints()
