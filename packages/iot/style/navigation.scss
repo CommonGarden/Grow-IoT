@@ -1,0 +1,119 @@
+// Navbar
+.nav-menu-icon {
+  color: white;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3.8em;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  text-decoration: none !important;
+
+  &:before {
+    position: relative;
+    bottom: 5px;
+  }
+
+  &.caret {
+    position: relative;
+    bottom: 18px;
+    left: 3px;
+  }
+
+  &.glyphicon-home {
+    font-size: 1.1em;
+    position: relative;
+    bottom: 1em;
+  }
+}
+
+.navbar {
+  background-color: rgba(60, 118, 61, 0.67);
+
+  .navbar-brand {
+    color: white !important;
+    font-size: 32px;
+    margin-top: 20px;
+    font-weight: 300;
+  }
+
+  .navbar-toggle {
+    margin-top: 25px;
+  }
+  
+  .navbar-text {
+    color: #272822;
+    padding-left: 20px;
+  }
+}
+
+.cg-nav-bar {
+  min-height: 105px;
+}
+
+.dropdown-menu > li > a {
+  font-size: 1.5em;
+  padding: 5px 50px;
+}
+
+// MEDIA QUERIES
+@media (min-width: 768px) {
+  .navbar-right {
+    margin-top: 17px;
+  }
+}
+
+// For small screen devices.
+@media (max-width: 767px) {
+  .navbar-nav {
+    margin: 0;
+
+    > li {
+      float: left;
+    }
+
+    &.navbar-right {
+      margin-top: 17px;
+      float: right !important;
+      margin-right: -15px;
+    }
+
+    .dropdown {
+      &.open {
+        .dropdown-menu {
+          right: 0;
+          left: auto;
+          position: absolute;
+          top: 100%;
+          z-index: 1000;
+          float: left;
+          min-width: 160px;
+          padding: 5px 0;
+          margin: 2px 0 0;
+          font-size: 14px;
+          text-align: left;
+          list-style: none;
+          background-color: #fff;
+          -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+          border: 1px solid #ccc;
+          border: 1px solid rgba(0, 0, 0, .15);
+          border-radius: 4px;
+          -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        }
+      }
+    }
+  }
+
+  .container > .navbar-header {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .navbar-header {
+    float: left;
+  }  
+}
+
+

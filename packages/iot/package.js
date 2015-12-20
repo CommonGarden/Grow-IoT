@@ -40,6 +40,7 @@ Package.onUse(function (api) {
     'layout/footer.coffee',
     'layout/footer.html',
     'style/style.scss',
+    'style/navigation.scss',
     'layout/not-found.coffee',
     'layout/not-found.html',
     'devices/display.coffee',
@@ -56,11 +57,13 @@ Package.onUse(function (api) {
     'devices/visualization/visualization.html',
     'devices/new_device.coffee',
     'devices/new_device.html',
-    'devices/routes.coffee',
+    'routes.coffee',
     'devices/dashboard.coffee',
     'devices/dashboard.html',
     'grow/lib/jquery-cron.js',
     'grow/grow_file_creator.coffee',
-    'grow/grow_file_creator.html'
+    'grow/grow_file_creator.html',
+    'things/new_thing.coffee',
+    'things/new_thing.html'
   ], 'client');
 });

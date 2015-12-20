@@ -19,62 +19,6 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-
-// Navbar
-.nav-menu-icon {
-  color: white;
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 3.8em;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  text-decoration: none !important;
-
-  &:before {
-    position: relative;
-    bottom: 5px;
-  }
-
-  &.caret {
-    position: relative;
-    bottom: 18px;
-    left: 3px;
-  }
-
-  &.glyphicon-home {
-    font-size: 1.1em;
-    position: relative;
-    bottom: 1em;
-  }
-}
-
-.navbar {
-  background-color: rgba(60, 118, 61, 0.67);
-
-  .navbar-brand {
-    color: white !important;
-    font-size: 32px;
-    margin-top: 20px;
-    font-weight: 300;
-  }
-
-  .navbar-toggle {
-    margin-top: 25px;
-  }
-  
-  .navbar-text {
-    color: #272822;
-    padding-left: 20px;
-  }
-
-  @media (min-width: 768px) {
-    .navbar-right {
-      margin-top: 17px;
-    }
-  }
-}
-
 .dashboard {
   padding: 40px;
 }
@@ -85,15 +29,6 @@ body {
 
 .margin-right {
   margin-right: 3em;
-}
-
-.cg-nav-bar {
-  min-height: 105px;
-}
-
-.dropdown-menu > li > a {
-  font-size: 1.5em;
-  padding: 5px 50px;
 }
 
 .logo {
@@ -127,6 +62,7 @@ body {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
+// Maybe make our own class rather than over-riding bootstrap?
 .jumbotron {
   background: none;
   padding-left: 30px !important;
@@ -198,36 +134,6 @@ body {
     stroke-width: 1.5px;
   }
 }
-
-@media only screen and (max-width: 767px) {
-  .container > .navbar-header {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .navbar-header {
-    float: left;
-  }
-
-  .navbar-right {
-    float: right !important;
-    margin-right: -15px;
-  }
-
-  .navbar .navbar-right {
-    margin-top: 17px;
-  }
-  
-  .navbar-nav {
-    margin: 0;
-  }
-
-  .navbar-nav > li {
-    float: left;
-  }
-}
-
-
 
 .cron-button {
     height: 16px;
