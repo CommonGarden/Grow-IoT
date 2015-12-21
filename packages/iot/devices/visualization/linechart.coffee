@@ -31,6 +31,7 @@ class Device.LineChartComponent extends UIComponent
       right: 20
       bottom: 30
       left: 50
+    # TODO: make this a bit more reponsive for smaller devices?
     width = 600 - (margin.left) - (margin.right)
     height = 400 - (margin.top) - (margin.bottom)
     x = d3.time.scale().range([

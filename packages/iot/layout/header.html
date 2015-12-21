@@ -22,7 +22,11 @@
         {{#if dashboard}}
           <img class="logo" src="/logo.png">
         {{else}}
-          <i class="glyphicon glyphicon-chevron-left"></i>
+          {{ #if currentUser }}
+            <i class="glyphicon glyphicon-chevron-left"></i>
+          {{else}}
+            <img class="logo" src="/logo.png">
+          {{/if}}
         {{/if}}
         </a>
       </div>
