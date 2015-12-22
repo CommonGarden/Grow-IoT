@@ -13,7 +13,7 @@ Meteor.methods
         _id: 1
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-    # Update properties if need be.
+    # Update main properties if need be.
     if body.properties?
       Device.documents.update device._id,
         $set:
@@ -62,10 +62,21 @@ Meteor.methods
     check userID, Match.NonEmptyString
     device = Device.documents.findOne
       'uuid': uuid
+    deviceCount = Device.documents.find().count()
     Device.documents.update device._id,
       $set:
         'owner._id': userID
+        'order': deviceCount
 
+  # TODO: Perhaps make this function more general to allow updating the description, etc.
+  # 'CommonGarden.renameDevice': (uuid, newName) ->
+  #   check uuid, Match.NonEmptyString
+  #   check newName, Match.NonEmptyString
+  #   device = Device.documents.findOne
+  #     'uuid': uuid
+  #   Device.documents.update device._id,
+  #     $set:
+  #       'thing.name': newName
 
   'CommonGarden.removeDevice': (uuid, userID) ->
     check uuid, Match.NonEmptyString
@@ -80,10 +91,7 @@ Meteor.methods
   # Starting to think that devices are a specific type of thing.
   # Todo: make device and thing the same but add new methods for non-devices.
   'CommonGarden.newThing': (thing) ->
-    # TODO: we need to run checks on deviceInfo, then add that info to the device
-    # document
-    # check deviceInfo, Object
-
+    # TODO: checks.
     document =
       uuid: Meteor.uuid()
       token: Random.id TOKEN_LENGTH
@@ -93,6 +101,14 @@ Meteor.methods
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
     document
+
+  'CommonGarden.updateDeviceListOrder': (items) ->
+    # TODO: checks
+    for item in items
+      Device.documents.update item._id,
+        $set:
+          'order': item.order
+
 
 
   # TODO add relationships better devices, currently this is a one way relationship.

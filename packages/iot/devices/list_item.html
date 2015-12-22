@@ -1,5 +1,5 @@
 <template name="Device.ListItemComponent">
-  <div class="list-item device" data-uuid="{{uuid}}">
+  <li class="list-item device" data-uuid="{{uuid}}" data-id="{{_id}}">
       <h2>{{thing.name}}</h2>
 
       {{#if onlineSince}}
@@ -10,5 +10,5 @@
       {{else}}
         <p><em>Not Online.</em></p>
       {{/if}}
-  </div>
+  </li>
 </template>

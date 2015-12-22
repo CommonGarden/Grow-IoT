@@ -5,23 +5,26 @@
 		{{#if Template.subscriptionsReady}}
 	  	<div class="row dashboard">
 				<div class="col-lg-4 margin-right">
-					<h2>{{ device.thing.name }}	<span class="dropdown pull-right device-settings">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret nav-menu-icon"></span></a>
-            <ul class="dropdown-menu">
-              <!-- <li role="separator" class="divider"></li> -->
-              <li><a href="#" class="advanced">Show advanced info</a></li>
-              <li><a href="#" class="rename">Rename device</a></li>
-              <li><a href="#" class="remove">Delete device</a></li>
-            </ul>
-          </span></h2>
+					<h2>{{ device.thing.name }}
+						<span class="dropdown pull-right device-settings">
+	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret nav-menu-icon"></span></a>
+	            <ul class="dropdown-menu">
+	              <!-- <li><a href="#" class="rename">Rename device</a></li> -->
+	              <!-- <li role="separator" class="divider"></li> -->
+	              <li><a href="#" class="remove">Delete device</a></li>
+	            </ul>
+	          </span>
+          </h2>
 					<p>{{ device.thing.description }}</p>
 					<p>{{ device.thing.type }}</p>
 
-					{{#each device.thing.model.actions}}			
-						<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
-					{{/each}}
-
 					{{#if device.onlineSince }}
+						<!-- Primary actions -->
+						{{#each device.thing.model.actions}}
+							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
+						{{/each}}
+
+						<!-- Actuators -->
 						{{#each device.thing.actuators}}
 							<h4>{{name}}</h4>
 							<div class="state">
@@ -35,6 +38,7 @@
 								{{/each}}
 							</div>
 						{{/each}}
+
 					{{else}}
 						<p><em>Not Online.</em></p>
 					{{/if}}
@@ -57,11 +61,13 @@
 				</div>
 
 				<div class="col-lg-6 sensor-viz">
-					{{#each thing.sensors}}
-						<h6 class="text-center">{{name}}</h6>
-						<!-- TODO: pass in property that we want to be graphing data for -->
-						{{> Device.VisualizationComponent property=type chartType=chart}}
-					{{/each}}
+					{{#if device.onlineSince }}
+						{{#each thing.sensors}}
+							<h6 class="text-center">{{name}}</h6>
+							<!-- TODO: pass in property that we want to be graphing data for -->
+							{{> Device.VisualizationComponent property=type chartType=chart}}
+						{{/each}}
+					{{/if}}
 				</div>
 
 			</div>

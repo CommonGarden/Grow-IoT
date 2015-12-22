@@ -1,5 +1,3 @@
-# TODO: move to separate visualizations folder.
-
 class Device.LineChartComponent extends UIComponent
   @register 'Device.LineChartComponent'
 
@@ -55,14 +53,16 @@ class Device.LineChartComponent extends UIComponent
       
       # TODO: For devices with enough data we could support multiple views of
       # of the data: years, months, weeks, days.
-      # PROBLEM: Currently we are loading and rerendering way too much data.
       x.domain d3.extent(dataset, (d) ->
         d.body.timestamp
       )
 
+      templateData = Template.currentData()
+      property = templateData.property
+
       y.domain d3.extent(dataset, (d) ->
         for reading in d.body.readings
-          if reading.type = @property()
+          if reading.type = property
             value = reading.value
         value
       )

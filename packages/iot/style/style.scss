@@ -74,12 +74,18 @@ body {
   margin-top: 1em;
 }
 
+.sortable {
+  li {
+    list-style: none;
+  }
+}
 
 .list-item {
   background-color: white;
   cursor: pointer;
   padding: 10px;
   margin-bottom: 10px;
+  margin-left: -40px;
 }
 
 .form-container {
@@ -116,7 +122,7 @@ body {
 
 // Visualizations
 // TODO: break out into separate file.
-.lineChart{
+.linechart{
   .axis path,
   .axis line {
     fill: none;

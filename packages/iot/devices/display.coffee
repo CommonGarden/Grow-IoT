@@ -31,7 +31,6 @@ class Device.DisplayComponent extends UIComponent
           title: 1
 
   device: ->
-    console.log @device()
     @device()
 
   thing: ->
@@ -52,6 +51,7 @@ class Device.DisplayComponent extends UIComponent
   events: ->
     super.concat
       'click .remove': @remove
+      # 'click .rename': @rename
       'click .command': (e) ->
         e.preventDefault()
         type = e.currentTarget.dataset.call
@@ -68,6 +68,10 @@ class Device.DisplayComponent extends UIComponent
 
   notFound: ->
     @subscriptionsReady() and not @device()
+
+  # rename: (e) ->
+  #   e.preventDefault()
+    # TODO: rename device.
 
   remove: ->
     if window.confirm("Are you sure you want to delete this device?")

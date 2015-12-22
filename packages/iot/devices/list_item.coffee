@@ -1,4 +1,4 @@
-class Device.ListItemComponent extends UIComponent
+class Device.ListItemComponent extends Device.ListComponent
   @register 'Device.ListItemComponent'
 
   onCreated: ->

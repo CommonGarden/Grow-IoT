@@ -6,6 +6,30 @@ class Device.ListComponent extends UIComponent
 
     @subscribe 'Device.list'
 
+  onRendered: ->
+    super
+
+    # Based on: https://themeteorchef.com/snippets/adding-drag-and-drop-sorting-to-lists/
+    $ ($) ->
+      sortableList = $('.sortable')
+      sortableList.sortable( 'destroy' )
+      sortableList.sortable()
+      sortableList.sortable().off( 'sortupdate' )
+      sortableList.sortable().on 'sortupdate', () ->
+        items = []
+
+        $('.sortable li').each ( index, element ) ->
+          items.push
+            _id: $( element ).data( 'id' )
+            order: index + 1
+
+        Meteor.call 'CommonGarden.updateDeviceListOrder',
+          items
+        ,
+          (error, documentId) =>
+            if error
+              console.log error.reason
+
   devicesList: ->
     Device.documents.find()
 
@@ -16,6 +40,5 @@ class Device.ListComponent extends UIComponent
   viewDevice: (event) ->
     # Build path from the data-uuid attribute
     params = { uuid: event.currentTarget.dataset.uuid }
-    path = FlowRouter.path("Device.display", params);
-    
+    path = FlowRouter.path('Device.display', params)
     FlowRouter.go path
