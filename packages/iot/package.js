@@ -18,7 +18,8 @@ Package.onUse(function (api) {
   api.use([
     'kadira:flow-router@2.7.0',
     'kadira:blaze-layout@2.2.0',
-    'peerlibrary:computed-field@0.3.0'
+    'peerlibrary:computed-field@0.3.0',
+    'themeteorchef:jquery-validation'
   ]);
 
   // Internal dependencies.
@@ -43,6 +44,8 @@ Package.onUse(function (api) {
     'style/navigation.scss',
     'layout/not-found.coffee',
     'layout/not-found.html',
+    'layout/dashboard.coffee',
+    'layout/dashboard.html',
     'devices/display.coffee',
     'devices/display.html',
     'devices/list.coffee',
@@ -58,13 +61,19 @@ Package.onUse(function (api) {
     'devices/new_device.coffee',
     'devices/new_device.html',
     'devices/lib/html5-sortable.jquery.min.js',
+    'environments/display.coffee',
+    'environments/display.html',
+    'environments/list.coffee',
+    'environments/list.html',
+    'environments/list_item.coffee',
+    'environments/list_item.html',
+    'environments/new_environment.coffee',
+    'environments/new_environment.html',
     'routes.coffee',
-    'devices/dashboard.coffee',
-    'devices/dashboard.html',
-    'grow/lib/jquery-cron.js',
-    'grow/grow_file_creator.coffee',
-    'grow/grow_file_creator.html',
-    'things/new_thing.coffee',
-    'things/new_thing.html'
+    'plants/lib/jquery-cron.js',
+    'plants/grow_file_creator.coffee',
+    'plants/grow_file_creator.html',
+    'plants/new_plant.coffee',
+    'plants/new_plant.html'
   ], 'client');
 });

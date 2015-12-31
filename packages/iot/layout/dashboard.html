@@ -1,9 +1,9 @@
 <template name="Dashboard">
   {{#if Template.subscriptionsReady}}
-		{{#if devices.exists}}
-			{{> Device.ListComponent}}
+		{{#if environments.exists}}
+			{{> Environment.ListComponent}}
 		{{else}}
-			{{> Device.NewComponent}}
+			{{> Environment.NewComponent}}
 		{{/if}}	  
   {{else}}
     {{> LoaderComponent}}

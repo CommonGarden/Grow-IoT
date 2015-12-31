@@ -2,8 +2,6 @@ Meteor.methods
   'Device.sendCommand': (deviceUuid, type, options) ->
     # TODO: Do better checks.
     check deviceUuid, Match.NonEmptyString
-    # check type, Match.OneOf 'acid', 'base'
-    # check duration, Match.Integer
 
     device = Device.documents.findOne
       uuid: deviceUuid

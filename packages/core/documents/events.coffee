@@ -7,5 +7,3 @@ class Events extends share.BaseDocument
   @Meta
     name: 'Events'
     collection: 'Events'
-    fields: =>
-      device: @ReferenceField Device

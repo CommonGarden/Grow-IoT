@@ -25,13 +25,15 @@ Package.onUse(function (api) {
   ]);
 
   api.addFiles([
-    'device/methods.coffee'
+    'device/methods.coffee',
+    'environment/methods.coffee'
   ]);
 
   api.addFiles([
     'device/publish.coffee',
     'device/server-methods.coffee',
     'data/publish.coffee',
-    'events/publish.coffee'
+    'events/publish.coffee',
+    'environment/publish.coffee'
   ], 'server');
 });

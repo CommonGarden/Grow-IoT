@@ -36,3 +36,5 @@ alanning:roles
 mrt:moment
 wylio:mandrill
 force-ssl
+cfs:standard-packages
+cfs:gridfs

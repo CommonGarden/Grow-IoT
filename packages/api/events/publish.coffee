@@ -1,5 +1,4 @@
 new PublishEndpoint 'Events.device', (deviceUuid) ->
-  # TODO: Do better checks.
   check deviceUuid, Match.NonEmptyString
 
   device = Device.documents.findOne

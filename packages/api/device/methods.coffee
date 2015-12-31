@@ -40,9 +40,11 @@ Meteor.methods
         insertedAt: new Date()
 
   'CommonGarden.registerDevice': (deviceInfo) ->
-    # TODO: we need to run checks on deviceInfo, then add that info to the device
-    # document
+    # TODO: better checks
     # check deviceInfo, Object
+
+    # TODO if the user has specified a username or user id in their config file,
+    # then claim the device under that account.
 
     document =
       uuid: Meteor.uuid()
@@ -54,8 +56,6 @@ Meteor.methods
 
     document
 
-  # TODO: make it so users can add their user IDs to the device config to claim
-  # a device under their username.
   # CURRENTLY A HACK: this lists devices that don't have owners.
   'CommonGarden.claimDevice': (uuid, userID) ->
     check uuid, Match.NonEmptyString
@@ -68,16 +68,6 @@ Meteor.methods
         'owner._id': userID
         'order': deviceCount
 
-  # TODO: Perhaps make this function more general to allow updating the description, etc.
-  # 'CommonGarden.renameDevice': (uuid, newName) ->
-  #   check uuid, Match.NonEmptyString
-  #   check newName, Match.NonEmptyString
-  #   device = Device.documents.findOne
-  #     'uuid': uuid
-  #   Device.documents.update device._id,
-  #     $set:
-  #       'thing.name': newName
-
   'CommonGarden.removeDevice': (uuid, userID) ->
     check uuid, Match.NonEmptyString
     check userID, Match.NonEmptyString
@@ -88,53 +78,9 @@ Meteor.methods
 
     Device.documents.remove device._id
 
-  # Starting to think that devices are a specific type of thing.
-  # Todo: make device and thing the same but add new methods for non-devices.
-  'CommonGarden.newThing': (thing) ->
-    # TODO: checks.
-    document =
-      uuid: Meteor.uuid()
-      token: Random.id TOKEN_LENGTH
-      registeredAt: new Date()
-      thing: thing
-
-    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
-
-    document
-
   'CommonGarden.updateDeviceListOrder': (items) ->
     # TODO: checks
     for item in items
       Device.documents.update item._id,
         $set:
           'order': item.order
-
-
-
-  # TODO add relationships better devices, currently this is a one way relationship.
-  # 'CommonGarden.addRelationship': (device1uuid, device2uuid, relationship) ->
-  #   check device1uuid, Match.NonEmptyString
-  #   check device2uuid, Match.NonEmptyString
-  #   check relationship, Object
-    
-  #   # Get the device document for the first device. 
-  #   device = Device.documents.findOne
-  #     'uuid': device1uuid
-
-  #   !!Relationships.documents.insert
-  #     device:
-  #       _id: device._id
-  #     body: relationship
-  #     insertedAt: new Date()
-
-  ## TODO: Remove relationship
-  # 'CommonGarden.removeRelationship': (device1uuid, device2uuid, relationship) ->
-  #   check device1uuid, Match.NonEmptyString
-  #   check device2uuid, Match.NonEmptyString
-  #   check relationship, Object
-    
-  #   # Get the device document for the first device. 
-  #   device = Device.documents.findOne
-  #     'uuid': device1uuid
-
-

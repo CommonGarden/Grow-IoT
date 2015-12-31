@@ -1,0 +1,11 @@
+<template name="Environment.ListComponent">
+  <div class="row jumbotron">
+    <div class="col-lg-12">
+      <ul class="sortable">
+	      {{#each devicesList}}
+	        {{> Environment.ListItemComponent}}
+	      {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>
