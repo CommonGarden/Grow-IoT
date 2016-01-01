@@ -1,10 +1,13 @@
-class Device.NewComponent extends UIComponent
-  @register 'Device.NewComponent'
+class Environment.NewDeviceComponent extends UIComponent
+  @register 'Environment.NewDeviceComponent'
 
   onCreated: ->
     super
 
     @subscribe 'Device.unclaimedList'
+
+    @currentEnvironmentUuid = new ComputedField =>
+      FlowRouter.getParam 'uuid'
 
   unclaimedDevicesList: ->
     Device.documents.find
@@ -16,12 +19,15 @@ class Device.NewComponent extends UIComponent
       'click .unclaimed': @claimDevice
 
   claimDevice: (event) ->
+    event.preventDefault()
+    
     # We get the uuid from the data-uuid attribute
-    uuid = event.currentTarget.dataset.uuid
+    deviceUuid = event.currentTarget.dataset.uuid
 
     Meteor.call 'CommonGarden.claimDevice',
-      uuid,
+      deviceUuid,
       Meteor.userId(),
+      @currentEnvironmentUuid(),
     ,
       (error, documentId) =>
         if error

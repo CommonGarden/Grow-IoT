@@ -6,4 +6,4 @@ new PublishEndpoint 'Environment.one', (uuid) ->
   check uuid, Match.NonEmptyString
 
   Environment.documents.find
-    uuid: uuid
+    'uuid': uuid

@@ -56,17 +56,25 @@ Meteor.methods
 
     document
 
-  # CURRENTLY A HACK: this lists devices that don't have owners.
-  'CommonGarden.claimDevice': (uuid, userID) ->
-    check uuid, Match.NonEmptyString
+  'CommonGarden.claimDevice': (deviceUuid, userID, envionmentUuid) ->
+    check deviceUuid, Match.NonEmptyString
     check userID, Match.NonEmptyString
+    check envionmentUuid, Match.NonEmptyString
+
     device = Device.documents.findOne
-      'uuid': uuid
+      'uuid': deviceUuid
     deviceCount = Device.documents.find().count()
     Device.documents.update device._id,
       $set:
         'owner._id': userID
+        'environment': envionmentUuid
         'order': deviceCount
+
+    environment = Environment.documents.findOne
+      'uuid': envionmentUuid
+    Environment.documents.update environment._id,
+      $addToSet:
+        'devices': deviceUuid
 
   'CommonGarden.removeDevice': (uuid, userID) ->
     check uuid, Match.NonEmptyString

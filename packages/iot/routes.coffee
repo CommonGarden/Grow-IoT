@@ -38,18 +38,18 @@ loggedIn.route '/',
 
 
 # User must be logged in to claim a new device.
-loggedIn.route '/new-device',
-  name: 'Device.newDevice'
+loggedIn.route '/environment/:uuid/new-device',
+  name: 'Environment.NewDeviceComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Device.NewComponent'
+      main: 'Environment.NewDeviceComponent'
 
 # User must be logged in to claim a new device.
-loggedIn.route '/new-thing',
-  name: 'Device.newThing'
-  action: (params, queryParams) ->
-    BlazeLayout.render 'MainLayoutComponent',
-      main: 'Device.NewThingComponent'
+# loggedIn.route '/new-thing',
+#   name: 'Device.newThing'
+#   action: (params, queryParams) ->
+#     BlazeLayout.render 'MainLayoutComponent',
+#       main: 'Device.NewThingComponent'
 
 loggedIn.route '/new-grow-file',
   name: 'GrowFileCreatorComponent'
