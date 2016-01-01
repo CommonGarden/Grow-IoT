@@ -56,33 +56,43 @@ Meteor.methods
 
     document
 
-  'CommonGarden.claimDevice': (deviceUuid, userID, envionmentUuid) ->
+  'CommonGarden.claimDevice': (deviceUuid, userID, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
     check userID, Match.NonEmptyString
-    check envionmentUuid, Match.NonEmptyString
+    check environmentUuid, Match.NonEmptyString
 
     device = Device.documents.findOne
       'uuid': deviceUuid
     deviceCount = Device.documents.find().count()
     Device.documents.update device._id,
-      $set:
+      '$set':
         'owner._id': userID
-        'environment': envionmentUuid
+        'environment': environmentUuid
         'order': deviceCount
 
-    environment = Environment.documents.findOne
-      'uuid': envionmentUuid
-    Environment.documents.update environment._id,
-      $addToSet:
+    Environment.documents.update
+      'uuid': environmentUuid
+      'owner._id': userID
+    ,
+      '$addToSet':
         'devices': deviceUuid
 
-  'CommonGarden.removeDevice': (uuid, userID) ->
+  'CommonGarden.removeDevice': (uuid, userID, environmentUuid) ->
     check uuid, Match.NonEmptyString
     check userID, Match.NonEmptyString
+    check environmentUuid, Match.NonEmptyString
+
     device = Device.documents.findOne
       'uuid': uuid
       'owner._id': userID
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
+
+    Environment.documents.update
+      'uuid': environmentUuid
+      'owner._id': userID
+    ,
+      '$pull':
+        'devices': uuid
 
     Device.documents.remove device._id
 
@@ -90,5 +100,5 @@ Meteor.methods
     # TODO: checks
     for item in items
       Device.documents.update item._id,
-        $set:
+        '$set':
           'order': item.order

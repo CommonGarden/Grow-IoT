@@ -56,10 +56,10 @@ new PublishEndpoint 'Device.unclaimedList', ->
       $exists: false
 # / End nasty hack
 
-new PublishEndpoint 'Device.list', ->
+new PublishEndpoint 'Device.list', (environmentUuid) ->
   Device.documents.find
     'owner._id': @userId
-    # fields: Device.PUBLISH_FIELDS()
+    'environment': environmentUuid
 
 new PublishEndpoint 'Device.one', (deviceUuid) ->
   # TODO: Do better checks.
@@ -67,4 +67,3 @@ new PublishEndpoint 'Device.one', (deviceUuid) ->
 
   Device.documents.find
     uuid: deviceUuid
-    # fields: Device.PUBLISH_FIELDS()

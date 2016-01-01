@@ -8,7 +8,7 @@ class Environment.NewDeviceComponent extends UIComponent
 
     @currentEnvironmentUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
-
+    
   unclaimedDevicesList: ->
     Device.documents.find
       'owner._id':

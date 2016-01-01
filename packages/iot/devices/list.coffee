@@ -4,7 +4,10 @@ class Device.ListComponent extends UIComponent
   onCreated: ->
     super
 
-    @subscribe 'Device.list'
+    @currentEnvironmentUuid = new ComputedField =>
+      FlowRouter.getParam 'uuid'
+
+    @subscribe 'Device.list', @currentEnvironmentUuid()
 
   onRendered: ->
     super

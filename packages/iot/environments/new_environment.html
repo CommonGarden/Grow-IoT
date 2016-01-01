@@ -3,20 +3,27 @@
   <div class="row jumbotron">
     <div class="col-lg-12">
       <form id="New-Environment">
+        <p>To get started create your first growing environment to which you will be adding plants and devices.</p>
+        <p>Just give it a name like <em>Patio</em> or <em>Green house</em>, and select whether it is an indoor or outdoor environment.</p>
         <div class="form-group">
-          <p>To get started create your first environment where you will be adding plants and devices.</p>
-          <p>Just give it a name like <em>Living room</em>, <em>Green house</em>, or <em>Backyard garden
-          </em>.</p>
-          <div class="input-group" style="display:block">
-            <input type="name"
-                    id="environment-name" 
-                    name="name"
-                    class="form-control"
-                    placeholder="name" />
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-primary" value="Go">Start growing</button>
-            </span>
+          <input type="name"
+                 id="environment-name" 
+                 name="name"
+                 class="form-control"
+                 placeholder="name" />
+          <div class="radio">
+            <label>
+              <input type="radio" name="optionsRadios" id="inside" value="inside" checked>
+              Indoors
+            </label>
           </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="optionsRadios" id="outside" value="outside">
+              Outdoors
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary" value="Go">Start growing</button>
         </div>
       </form>
     </div>
