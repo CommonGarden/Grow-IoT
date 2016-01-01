@@ -74,6 +74,8 @@ Package.onUse(function (api) {
     'plants/grow_file_creator.coffee',
     'plants/grow_file_creator.html',
     'plants/new_plant.coffee',
-    'plants/new_plant.html'
+    'plants/new_plant.html',
+    'notifications/notifications.coffee',
+    'notifications/notifications.html'
   ], 'client');
 });

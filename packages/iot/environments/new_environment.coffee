@@ -6,23 +6,32 @@ class Environment.NewComponent extends UIComponent
 
   events: ->
     super.concat
-      'submit form': @newEnvironment
+      'submit form': (e)->
+        # Prevent form submission so it's deferred to our validator.
+        e.preventDefault()
 
-  # TODO: Validate form.
-  newEnvironment: (event) ->
-    event.preventDefault()
-    console.log "Called."
+  onRendered: ->
+    super
 
-    name = "Patio"
+    $('#New-Environment').validate
+      rules:
+        name:
+          required: true
+      messages:
+        emailAddress:
+          required: "Please enter a name."
+      submitHandler: ->
+        name = $('#environment-name').val()
+        Meteor.call 'Environment.new',
+          name,
+          Meteor.userId(),
+        ,
+          (error, documentId) =>
+            if error
+              console.error "New enivironmenterror", error
+              alert "New enivironmenterror: #{error.reason or error}"
+              return
 
-    Meteor.call 'Environment.new',
-      name,
-      Meteor.userId(),
-    ,
-      (error, documentId) =>
-        if error
-          console.error "New enivironmenterror", error
-          alert "New enivironmenterror: #{error.reason or error}"
-          return
-
-        FlowRouter.go 'Dashboard'
+            params = { uuid: documentId.uuid }
+            path = FlowRouter.path('Environment.display', params)
+            FlowRouter.go path

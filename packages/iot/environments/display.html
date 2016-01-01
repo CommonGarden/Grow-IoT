@@ -5,22 +5,28 @@
 		{{#if Template.subscriptionsReady}}
 	  	<div class="row dashboard">
 				<div class="col-lg-12 margin-right">
-					<h2>{{ environment.name }}
-						<span class="dropdown pull-right device-settings">
-	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret nav-menu-icon"></span></a>
-	            <ul class="dropdown-menu">
-	              <!-- <li><a href="#" class="rename">Rename</a></li> -->
-	              <!-- <li role="separator" class="divider"></li> -->
-	              <li><a href="#" class="remove">Delete</a></li>
-	            </ul>
-	          </span>
-          </h2>
-
-					<!-- Devices -->
 					{{#if devices.exists}}
+						<h2>{{ environment.name }}
+							<span class="dropdown pull-right device-settings">
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret nav-menu-icon"></span></a>
+		            <ul class="dropdown-menu">
+		              <!-- <li><a href="#" class="rename">Rename</a></li> -->
+		              <!-- <li role="separator" class="divider"></li> -->
+		              <li><a href="#" class="remove">Delete</a></li>
+		            </ul>
+		          </span>
+		        </h2>
+
+						<!-- Devices -->
 						{{> Device.ListComponent}}
+						<!-- / Devices -->
+
 					{{else}}
-						{{> Device.NewComponent}}
+						<div class="jumbotron">
+							<p>Get started growing in this environment by adding devices or plants.</p>
+							<a href="/new-device"><button class="btn btn-lg">New Device</button></a>
+							<a href="/new-plant"><button class="btn btn-lg">New Plant</button></a>
+						</div>
 					{{/if}}	
 				</div>
 

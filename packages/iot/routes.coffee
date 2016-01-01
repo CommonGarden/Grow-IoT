@@ -17,6 +17,18 @@ loggedIn.route '/device/:uuid',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.DisplayComponent'
 
+# loggedIn.route '/devices/',
+#   name: 'Device.list'
+#   action: (params, queryParams) ->
+#     BlazeLayout.render 'MainLayoutComponent',
+#       main: 'Device.ListComponent'
+
+loggedIn.route '/environment/:uuid',
+  name: 'Environment.display'
+  action: (params, queryParams) ->
+    BlazeLayout.render 'MainLayoutComponent',
+      main: 'Environment.DisplayComponent'
+
 # User must be logged in to see dashboard
 loggedIn.route '/',
   name: 'Dashboard'

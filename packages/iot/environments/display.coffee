@@ -28,6 +28,10 @@ class Environment.DisplayComponent extends UIComponent
         fields:
           title: 1
 
+  events: ->
+    super.concat
+      'click .remove': @remove
+
   devices: ->
     Device.documents.find()
 
@@ -36,3 +40,17 @@ class Environment.DisplayComponent extends UIComponent
 
   notFound: ->
     @subscriptionsReady() and not @environment()
+
+  remove: ->
+    if window.confirm("Are you sure you want to delete this Environment?")
+      Meteor.call 'Environment.delete',
+        @currentEnvironmentUuid(),
+        Meteor.userId(),
+      ,
+        (error, documentId) =>
+          if error
+            console.error "New environment error", error
+            alert "New environment error: #{error.reason or error}"
+          else
+            Bert.alert 'Environment deleted.', 'success', 'growl-top-right'
+            FlowRouter.go 'Dashboard'
