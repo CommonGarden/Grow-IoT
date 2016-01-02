@@ -23,7 +23,7 @@ class Environment.ListComponent extends UIComponent
             _id: $( element ).data( 'id' )
             order: index + 1
 
-        Meteor.call 'CommonGarden.updateEnvironmentListOrder',
+        Meteor.call 'Environment.updateListOrder',
           items
         ,
           (error, documentId) =>

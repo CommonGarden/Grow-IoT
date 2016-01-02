@@ -4,15 +4,15 @@ class Environment.ListItemComponent extends Environment.ListComponent
   onRendered: ->
     super
 
-    @uuid = ->
-      environment = Template.currentData()
-      environment.uuid
-
     @autorun (computation) =>
+      @subscribe 'Environment.one', Template.currentData().uuid
 
-      @subscribe 'Environment.one', @uuid()
+  deviceCount: ->
+    Environment.documents.findOne
+      'uuid': Template.currentData().uuid
+    .devices?.length
 
-    @deviceCount = new ComputedField =>
-      environment = Environment.documents.findOne
-        'uuid': @uuid()
-      environment?.devices?.length
+  indoorsOrOutdoors: ->
+    Environment.documents.findOne
+      'uuid': Template.currentData().uuid
+    .type

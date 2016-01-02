@@ -52,7 +52,6 @@ class Environment.DisplayComponent extends UIComponent
     if window.confirm("Are you sure you want to delete this Environment?")
       Meteor.call 'Environment.delete',
         @currentEnvironmentUuid(),
-        Meteor.userId(),
       ,
         (error, documentId) =>
           if error

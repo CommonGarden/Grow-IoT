@@ -22,9 +22,10 @@ class Environment.NewComponent extends UIComponent
           required: "Please enter a name."
       submitHandler: ->
         name = $('#environment-name').val()
+        insideOrOutside = $('input[name=insideOrOutside]:checked').val()
         Meteor.call 'Environment.new',
           name,
-          Meteor.userId(),
+          insideOrOutside,
         ,
           (error, documentId) =>
             if error

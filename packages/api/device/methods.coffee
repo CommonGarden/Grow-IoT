@@ -75,7 +75,7 @@ Meteor.methods
       'owner._id': userID
     ,
       '$addToSet':
-        'devices': deviceUuid
+        'devices': device._id
 
   'CommonGarden.removeDevice': (uuid, userID, environmentUuid) ->
     check uuid, Match.NonEmptyString
@@ -92,12 +92,13 @@ Meteor.methods
       'owner._id': userID
     ,
       '$pull':
-        'devices': uuid
+        'devices': device._id
 
     Device.documents.remove device._id
 
-  'CommonGarden.updateDeviceListOrder': (items) ->
+  'CommonGarden.updateListOrder': (items) ->
     # TODO: checks
+
     for item in items
       Device.documents.update item._id,
         '$set':

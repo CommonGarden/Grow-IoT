@@ -109,13 +109,15 @@ body {
   display: none;
 }
 
-.device-settings {
+.advanced-options {
   .glyphicon {
-    // font-size: 2em;
     color: gray;
+    vertical-align: middle;
+    margin-left: 5px;
   }
   .caret {
     color: gray;
+    vertical-align: middle;
   }
 }
 
