@@ -33,6 +33,7 @@ class Device.ListComponent extends UIComponent
             if error
               console.log error.reason
 
+  # TODO: Sort this list based on the order
   devicesList: ->
     Device.documents.find()
 

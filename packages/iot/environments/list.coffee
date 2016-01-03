@@ -30,6 +30,7 @@ class Environment.ListComponent extends UIComponent
             if error
               console.log error.reason
 
+  # TODO: Sort this list based on the order and rename.
   devicesList: ->
     Environment.documents.find()
 
