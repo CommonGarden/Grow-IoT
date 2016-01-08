@@ -8,5 +8,5 @@ class Notifications extends share.BaseDocument
   @Meta
     name: 'Notifications'
     collection: 'Notifications'
-    fields: =>
-      device: @ReferenceField Device
+    # fields: =>
+    #   device: @ReferenceField Device

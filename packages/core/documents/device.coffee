@@ -13,3 +13,4 @@ class Device extends share.BaseDocument
     name: 'Device'
     fields: =>
       owner: @ReferenceField User, [], false
+      # environment: @ReferenceField Environment, [], false

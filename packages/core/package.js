@@ -17,7 +17,7 @@ Package.onUse(function (api) {
 
   // 3rd party dependencies.
   api.use([
-    'peerlibrary:peerdb@0.19.1'
+    'peerlibrary:peerdb@0.19.3'
   ]);
 
   // Internal dependencies.
