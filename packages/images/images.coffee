@@ -1,15 +1,16 @@
-class Images extends UIComponent
-	@register 'Images'
+class Images.Upload extends UIComponent
+	@register 'Images.Upload'
 
 	onCreated: ->
 		super
 
 	events: ->
 		super.concat
-			'click .upload': (event) ->
+			'change .myFileInput': (event) ->
 				FS.Utility.eachFile event, (file) ->
-					Images.insert file, (err, fileObj) ->
-						# Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
-						return
-					return
-
+					newFile = new FS.File(file)
+					Images.insert newFile, (err, fileObj) ->
+						if err
+	            Bert.alert 'Upload failed.', 'error', 'growl-top-right'
+	          else
+	          	Bert.alert 'Upload successful.', 'success', 'growl-top-right'
