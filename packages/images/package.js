@@ -20,7 +20,8 @@ Package.onUse(function (api) {
     'kadira:flow-router@2.7.0',
     'cfs:standard-packages',
     'cfs:gridfs',
-    'cfs:filesystem'
+    'cfs:filesystem',
+    'mdg:camera'
   ]);
 
   // Internal dependencies.

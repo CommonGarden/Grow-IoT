@@ -11,6 +11,15 @@ class Images.Upload extends UIComponent
 					newFile = new FS.File(file)
 					Images.insert newFile, (err, fileObj) ->
 						if err
-	            Bert.alert 'Upload failed.', 'error', 'growl-top-right'
-	          else
-	          	Bert.alert 'Upload successful.', 'success', 'growl-top-right'
+							Bert.alert 'Upload failed.', 'error', 'growl-top-right'
+						else
+							Bert.alert 'Upload successful.', 'success', 'growl-top-right'
+			
+			'click .take-pic': (event) ->
+				MeteorCamera.getPicture [], (err, data) ->
+					newFile = new FS.File(data)
+					Images.insert newFile, (err, fileObj) ->
+						if err
+							Bert.alert 'Image save failed.', 'error', 'growl-top-right'
+						else
+							Bert.alert 'Image saved', 'success', 'growl-top-right'
