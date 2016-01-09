@@ -1,10 +1,8 @@
 <!-- Kill this? Turn devices into things? -->
-<template name="Device.NewThingComponent">
+<template name="Plant.NewComponent">
   <!-- Todo: add a search box to search for kings of things. -->
-  <h3>Add a new thing:</h3>
-  <ul>
-    <li><a href="">Plant</a></li>
-    <li><a href="">Room</a></li>
-    <li><a href="">Relationship</a></li>
-  </ul>
+  {{> Image.Upload}}
+  <form>
+  	<input type="text" placeholder="Name">
+  </form>
 </template>

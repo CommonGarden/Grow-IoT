@@ -30,6 +30,7 @@ Package.onUse(function (api) {
   api.export('Events');
   api.export('Environment');
   api.export('Notifications');
+  api.export('Plant');
   api.export('Message', 'server');
 
   api.addFiles([
@@ -39,7 +40,8 @@ Package.onUse(function (api) {
     'documents/data.coffee',
     'documents/events.coffee',
     'documents/environment.coffee',
-    'documents/notifications.coffee'
+    'documents/notifications.coffee',
+    'documents/plant.coffee'
   ]);
 
   api.addFiles([

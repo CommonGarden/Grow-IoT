@@ -1,5 +1,5 @@
-class Device.NewThingComponent extends UIComponent
-  @register 'Device.NewThingComponent'
+class Plant.NewComponent extends UIComponent
+  @register 'Plant.NewComponent'
 
   onCreated: ->
     super

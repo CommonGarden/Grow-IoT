@@ -32,6 +32,7 @@ class Environment.DisplayComponent extends UIComponent
     super.concat
       'click .remove': @remove
       'click .new-device': @addDevice
+      'click .new-plant': @addPlant
 
   devices: ->
     Device.documents.find()
@@ -47,6 +48,13 @@ class Environment.DisplayComponent extends UIComponent
     params = { uuid: @currentEnvironmentUuid() }
     path = FlowRouter.path('Environment.NewDeviceComponent', params)
     FlowRouter.go path
+
+  addPlant: (e) ->
+    e.preventDefault()
+    # params = { uuid: @currentEnvironmentUuid() }
+    # path = FlowRouter.path('Environment.NewDeviceComponent', params)
+    FlowRouter.go 'Plant.NewComponent'
+
 
   remove: ->
     if window.confirm("Are you sure you want to delete this Environment?")
