@@ -28,6 +28,7 @@ Package.onUse(function (api) {
     'core',
     'api',
     'session',
+    'images',
     'jquery'
   ]);
 
