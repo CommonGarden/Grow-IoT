@@ -53,7 +53,7 @@ loggedIn.route '/new-grow-file',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'GrowFileCreatorComponent'
 
-loggedIn.route '/new-plant',
+loggedIn.route '/environment/:uuid/new-plant',
   name: 'Plant.NewComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',

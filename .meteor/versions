@@ -80,6 +80,7 @@ mdg:camera@1.2.0
 mdg:validation-error@0.2.0
 meteor@1.1.10
 meteor-base@1.0.1
+meteor-bootstrap-slider@0.0.0
 meteorhacks:ssr@2.2.0
 minifiers@1.1.7
 minimongo@1.0.10

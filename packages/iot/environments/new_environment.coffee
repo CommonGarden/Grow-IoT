@@ -18,7 +18,7 @@ class Environment.NewComponent extends UIComponent
         name:
           required: true
       messages:
-        emailAddress:
+        name:
           required: "Please enter a name."
       submitHandler: ->
         name = $('#environment-name').val()

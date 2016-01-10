@@ -51,10 +51,9 @@ class Environment.DisplayComponent extends UIComponent
 
   addPlant: (e) ->
     e.preventDefault()
-    # params = { uuid: @currentEnvironmentUuid() }
-    # path = FlowRouter.path('Environment.NewDeviceComponent', params)
-    FlowRouter.go 'Plant.NewComponent'
-
+    params = { uuid: @currentEnvironmentUuid() }
+    path = FlowRouter.path('Plant.NewComponent', params)
+    FlowRouter.go path
 
   remove: ->
     if window.confirm("Are you sure you want to delete this Environment?")

@@ -72,8 +72,6 @@ Package.onUse(function (api) {
     'environments/new_environment.html',
     'routes.coffee',
     'plants/lib/jquery-cron.js',
-    'plants/grow_file_creator.coffee',
-    'plants/grow_file_creator.html',
     'plants/new_plant.coffee',
     'plants/new_plant.html',
     'notifications/notifications.coffee',
