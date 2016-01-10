@@ -46,7 +46,7 @@ class Environment.DisplayComponent extends UIComponent
   addDevice: (e) ->
     e.preventDefault()
     params = { uuid: @currentEnvironmentUuid() }
-    path = FlowRouter.path('Environment.NewDeviceComponent', params)
+    path = FlowRouter.path('Device.NewComponent', params)
     FlowRouter.go path
 
   addPlant: (e) ->
