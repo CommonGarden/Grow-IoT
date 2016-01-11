@@ -44,8 +44,8 @@ class Environment.DisplayComponent extends UIComponent
 
   emptyState: ->
     # No plants or devices.
-    x = @devices() or @plants()
-    !x.exists()
+    x = @devices().exists() or @plants().exists()
+    !x
 
   environment: ->
     @environment()

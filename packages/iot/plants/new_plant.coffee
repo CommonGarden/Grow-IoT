@@ -37,7 +37,7 @@ class Plant.NewComponent extends UIComponent
 				,
 					(error, documentId) =>
 						if error
-							return
+							console.log error
 						else
 							FlowRouter.go 'Dashboard'
 

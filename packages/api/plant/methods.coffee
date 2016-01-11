@@ -1,11 +1,16 @@
 Meteor.methods
   'Plant.new': (plant, environmentUuid) ->
     # TODO: checks.
+    console.log plant
+
+    check plant, Object
+    check environmentUuid, Match.NonEmptyString
+
     document =
-      uuid: Meteor.uuid
-    	growInfo: plant
-    	environment: environmentUuid
-    	owner: 
+      uuid: Meteor.uuid()
+      plant: plant
+      environment: environmentUuid
+      owner:
         _id: Meteor.userId()
       timestamp: new Date()
 

@@ -17,6 +17,12 @@ loggedIn.route '/device/:uuid',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.DisplayComponent'
 
+loggedIn.route '/plant/:uuid',
+  name: 'Plant.DisplayComponent'
+  action: (params, queryParams) ->
+    BlazeLayout.render 'MainLayoutComponent',
+      main: 'Plant.DisplayComponent'
+
 # loggedIn.route '/devices/',
 #   name: 'Device.list'
 #   action: (params, queryParams) ->

@@ -44,5 +44,5 @@ class Plant.ListComponent extends UIComponent
   viewPlant: (event) ->
     # Build path from the data-uuid attribute
     params = { uuid: event.currentTarget.dataset.uuid }
-    path = FlowRouter.path('Plant.display', params)
+    path = FlowRouter.path('Plant.DisplayComponent', params)
     FlowRouter.go path
