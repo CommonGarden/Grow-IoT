@@ -74,6 +74,12 @@ Package.onUse(function (api) {
     'plants/lib/jquery-cron.js',
     'plants/new_plant.coffee',
     'plants/new_plant.html',
+    'plants/display.coffee',
+    'plants/display.html',
+    'plants/list_item.coffee',
+    'plants/list_item.html',
+    'plants/list.coffee',
+    'plants/list.html',
     'notifications/notifications.coffee',
     'notifications/notifications.html'
   ], 'client');

@@ -1,0 +1,71 @@
+<template name="Plant.DisplayComponent">
+	{{#if notFound }}
+		{{> NotFoundComponent }}
+	{{else}}	
+		{{#if Template.subscriptionsReady}}
+	  	<div class="row dashboard">
+				<div class="col-lg-4 margin-right">
+					<h2>{{ plant.thing.name }}
+						<span class="dropdown pull-right advanced-options">
+	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
+	            <ul class="dropdown-menu">
+	              <!-- <li><a href="#" class="rename">Rename</a></li> -->
+	              <!-- <li role="separator" class="divider"></li> -->
+	              <li><a href="#" class="remove">Delete</a></li>
+	            </ul>
+	          </span>
+          </h2>
+					<p>{{ plant.thing.description }}</p>
+					<p>{{ plant.thing.type }}</p>
+
+					{{#if plant.onlineSince }}
+						<!-- Primary actions -->
+						{{#each plant.thing.model.actions}}
+							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
+						{{/each}}
+
+						<!-- Actuators -->
+						{{#each plant.thing.actuators}}
+							<h4>{{name}}</h4>
+							<div class="state">
+								{{#each model.properties}}
+									<h5>{{state}}</h5>
+								{{/each}}
+							</div>
+							<div>
+								{{#each model.actions}}			
+									<button class="btn command" data-call="{{call}}">{{name}}</button>
+								{{/each}}
+							</div>
+						{{/each}}
+
+					{{else}}
+						<p><em>Not Online.</em></p>
+					{{/if}}
+
+					<hr/>
+
+					{{#if eventLog}}
+						<h4>Event log</h4>
+						{{#each eventLog}}
+							<p>{{body.event.name}}, {{body.timestamp}}</p>
+						{{/each}}
+					{{/if}}
+
+				</div>
+
+				<div class="col-lg-6 sensor-viz">
+					{{#if plant.onlineSince }}
+						{{#each thing.sensors}}
+							<h6 class="text-center">{{name}}</h6>
+							{{> Plant.VisualizationComponent property=type chartType=chart}}
+						{{/each}}
+					{{/if}}
+				</div>
+
+			</div>
+		{{else}}
+			{{> LoaderComponent}}
+		{{/if}}
+	{{/if}}
+</template>

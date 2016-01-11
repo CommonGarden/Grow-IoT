@@ -19,6 +19,8 @@ class Environment.DisplayComponent extends UIComponent
 
       @subscribe 'Device.list', uuid
 
+      @subscribe 'Plant.list', uuid
+
     @autorun (computation) =>
       return unless @subscriptionsReady()
 
@@ -36,6 +38,14 @@ class Environment.DisplayComponent extends UIComponent
 
   devices: ->
     Device.documents.find()
+
+  plants: ->
+    Plant.documents.find()
+
+  emptyState: ->
+    # No plants or devices.
+    x = @devices() or @plants()
+    !x.exists()
 
   environment: ->
     @environment()
