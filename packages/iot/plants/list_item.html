@@ -1,14 +1,5 @@
 <template name="Plant.ListItemComponent">
   <li class="list-item plant" data-uuid="{{uuid}}" data-id="{{_id}}">
-      <h2>{{thing.name}}</h2>
-
-      {{#if onlineSince}}
-        <p>Online!</p>
-        {{#each currentValue.readings}}
-          <p>{{type}}: {{value}} {{unit}}</p>
-        {{/each}}
-      {{else}}
-        <p><em>Not Online.</em></p>
-      {{/if}}
+      <h2>{{plant.name}}</h2>
   </li>
 </template>

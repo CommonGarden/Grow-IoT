@@ -1,8 +1,6 @@
 Meteor.methods
   'Plant.new': (plant, environmentUuid) ->
     # TODO: checks.
-    console.log plant
-
     check plant, Object
     check environmentUuid, Match.NonEmptyString
 

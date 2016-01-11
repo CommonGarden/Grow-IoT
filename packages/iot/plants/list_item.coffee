@@ -4,16 +4,16 @@ class Plant.ListItemComponent extends UIComponent
 	onCreated: ->
 		super
 
-		plant = Template.currentData()
+		# plant = Template.currentData()
 
-		@autorun (computation) =>
-			plantUuid = plant.uuid
-			return unless plantUuid
+		# @autorun (computation) =>
+		# 	plantUuid = plant.uuid
+		# 	return unless Template.currentData().uuid
 
-		@subscribe 'Plant.one', plantUuid
+		@subscribe 'Plant.one', Template.currentData().uuid
 
 	plant: ->
 		plant = Plant.documents.findOne
 			uuid: Template.currentData().uuid
 		console.log plant
-		plant
+		plant.plant

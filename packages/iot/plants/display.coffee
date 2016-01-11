@@ -17,9 +17,9 @@ class Plant.DisplayComponent extends UIComponent
 
       @subscribe 'Plant.one', plantUuid
 
-      @subscribe 'Data.points', plantUuid
+      # @subscribe 'Data.points', plantUuid
 
-      @subscribe 'Events.plant', plantUuid
+      # @subscribe 'Events.plant', plantUuid
 
     @autorun (computation) =>
       return unless @subscriptionsReady()
@@ -32,21 +32,6 @@ class Plant.DisplayComponent extends UIComponent
 
   plant: ->
     @plant()
-
-  thing: ->
-    plant = @plant()
-    plant.thing
-
-  eventLog: ->
-    Events.documents.find
-      'plant._id': @plant()?._id
-    ,
-      'sort':
-        'body.timestamp': -1
-  
-  datapoints: ->
-    Data.documents.find
-      'plant._id': @plant()?._id
 
   events: ->
     super.concat
