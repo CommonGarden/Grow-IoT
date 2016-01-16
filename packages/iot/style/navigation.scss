@@ -116,4 +116,34 @@
   }  
 }
 
+.bottom-menu-action {
+  li {
+    color: white !important;
+    font-size: 2em;
+    text-decoration: none !important;
+    margin-top: 40px;
+    margin-right: 1em;
+    display: inline;
+
+    a {
+      color: white !important;
+    }
+
+    &.dropdown {
+      margin-top: 12px;
+
+      .dropdown-menu {
+        font-size: .3em;
+        li {
+          color: black !important;
+
+          a {
+            color: black !important;
+          }
+        }
+      }
+    }
+  }
+}
+
 

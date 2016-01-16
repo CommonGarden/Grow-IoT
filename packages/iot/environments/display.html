@@ -26,26 +26,26 @@
 					{{#if emptyState}}
 						<div class="jumbotron">
 							<p>Get started growing in this environment by adding devices or plants.</p>
-							<button class="btn btn-lg new-device">New Device</button>
-							<button class="btn btn-lg new-plant">New Plant</button>
-							
-							<!-- TODO: decide whether we need this here. -->
-<!-- 							<h2 style="display: inline;">
-								<span class="dropdown advanced-options">
-			            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
-			            <ul class="dropdown-menu">
-			            	<li><a href="#">Show advanced options</a></li>
-			              <li><a href="#" class="remove">Cancel</a></li>
-			            </ul>
-		        		</span>
-		        	</h2> -->
+							<button class="btn btn-lg new-device"><i class="glyphicon glyphicon-dashboard"></i> New IoT Device</button>
+							<button class="btn btn-lg new-plant"><i class="glyphicon glyphicon-tree-deciduous"></i> New Plant</button>
 						</div>
 					{{else}}
-						<!-- TODO: Make this into the bottom menu. -->
-						<div class="environment-actions">
-							<button class="btn btn-lg new-device">New Device</button>
-							<button class="btn btn-lg new-plant">New Plant</button>
-						</div>
+						<nav class="navbar navbar-default navbar-fixed-bottom cg-nav-bar">
+					    <div class="container">
+					      <ul class="nav navbar-nav bottom-menu-action">
+					        <li class="new-device"><i class="glyphicon glyphicon-dashboard"></i> New IoT Device</li>
+					        <li class="new-plant"><i class="glyphicon glyphicon-tree-deciduous"></i> New Plant</li>
+					      </ul>
+					      <ul class="nav navbar-nav navbar-right bottom-menu-action">
+					      	<li class="dropdown pull-right">
+				            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
+				            <ul class="dropdown-menu">
+				              <li><a href="#" class="remove">Delete Environment</a></li>
+				            </ul>
+			            </li>
+					      </ul>
+					    </div>
+					  </nav>
 					{{/if}}	
 				</div>
 

@@ -15,5 +15,4 @@ class Plant.ListItemComponent extends UIComponent
 	plant: ->
 		plant = Plant.documents.findOne
 			uuid: Template.currentData().uuid
-		console.log plant
 		plant.plant
