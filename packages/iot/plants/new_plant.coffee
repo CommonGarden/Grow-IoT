@@ -45,12 +45,3 @@ class Plant.NewComponent extends UIComponent
   	# $("#ex6").slider()
   	# $("#ex6").on "slide", (slideEvt) ->
   	# 	$("#ex6SliderVal").text(slideEvt.value)
-
-    # Jquery cron examp
-  	# $ ($) ->
-			# $('#example1').cron({
-			#   initial: '42 3 * * 5'
-			#   onChange: ->
-			#     $('#example1-val').text $(this).cron('value')
-			# })
-

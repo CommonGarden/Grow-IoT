@@ -16,7 +16,6 @@
 	          </span>
           </h2>
 					<p>{{ device.thing.description }}</p>
-					<p>{{ device.thing.type }}</p>
 
 					{{#if device.onlineSince }}
 						<!-- Primary actions -->
@@ -30,6 +29,11 @@
 							<div class="state">
 								{{#each model.properties}}
 									<h5>{{state}}</h5>
+									<!-- TODO: Add cron -->
+									<!-- Jquery cron example -->
+<!-- 				 	<div id='example1'></div>
+		  		<p>Generated cron entry: <span class='example-text' id='example1-val'></span></p>
+ -->
 								{{/each}}
 							</div>
 							<div>
@@ -59,6 +63,8 @@
 						{{#each thing.sensors}}
 							<h6 class="text-center">{{name}}</h6>
 							{{> Device.VisualizationComponent property=type chartType=chart}}
+							<!-- TODO: Add cron -->
+							<!-- Logging data 'read cron expression' -->
 						{{/each}}
 					{{/if}}
 				</div>

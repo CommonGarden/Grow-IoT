@@ -14,6 +14,16 @@
 	            </ul>
 	          </span>
           </h2>
+
+          <div>
+				    {{#each images}}
+				      <div>
+				        <a href="{{this.url}}" target="_blank"><img src="{{this.url store='thumbs' uploading='/images/uploading.gif' storing='/images/storing.gif'}}" alt="" class="thumbnail" /></a>
+				      </div>
+				    {{/each}}
+          </div>
+
+
           {{> Images.Upload}}
           <!-- What other actions could go here? -->
           <button class="btn">Status update</button>

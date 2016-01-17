@@ -30,6 +30,18 @@ class Device.DisplayComponent extends UIComponent
         fields:
           title: 1
 
+  onRendered: ->
+    super
+
+    # Jquery cron examp
+    # $ ($) ->
+      # $('#example1').cron({
+      #   initial: '42 3 * * 5'
+      #   onChange: ->
+      #     $('#example1-val').text $(this).cron('value')
+      # })
+
+
   device: ->
     @device()
 

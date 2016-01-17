@@ -33,6 +33,9 @@ class Plant.DisplayComponent extends UIComponent
   plant: ->
     @plant()
 
+  images: ->
+    Images.files.find({})
+
   events: ->
     super.concat
       'click .remove': @remove
