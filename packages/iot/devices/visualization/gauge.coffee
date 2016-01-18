@@ -83,14 +83,14 @@ class Device.GaugeComponent extends UIComponent
     
 
     @autorun (computation) =>
-      datapoint = @datapoint()
+      data = @datapoint()
       # Todo: get value by using the property.
-      value = datapoint.body.readings[0].value
+      value = data.body.readings[3].value
       pointerPath = @buildPointerPath(value)
       pointerLine = d3.svg.line().x((d) ->
         d.x
       ).y((d) ->
-        `var fontSize`
+        # `var fontSize`
         d.y
       ).interpolate('basis')
       pointerContainer.selectAll('path').data([ pointerPath ]).enter().append('svg:path').attr('d', pointerLine).style('fill', '#dc3912').style('stroke', '#c63310').style 'fill-opacity', 0.7

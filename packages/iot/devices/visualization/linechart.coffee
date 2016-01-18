@@ -50,19 +50,16 @@ class Device.LineChartComponent extends UIComponent
       dataset = @datapoints()
 
       paths = svg.selectAll('path.line').data( dataset )
-      
-      # TODO: For devices with enough data we could support multiple views of
-      # of the data: years, months, weeks, days.
+
       x.domain d3.extent(dataset, (d) ->
         d.body.timestamp
       )
 
-      templateData = Template.currentData()
-      property = templateData.property
+      property = Template.currentData().property
 
       y.domain d3.extent(dataset, (d) ->
         for reading in d.body.readings
-          if reading.type = property
+          if reading.type == property
             value = reading.value
         value
       )
@@ -70,14 +67,15 @@ class Device.LineChartComponent extends UIComponent
       line = d3.svg.line().x((d) ->
         x d.body.timestamp
       ).y((d) ->
-        y d.body.readings[0].value
+        for reading in d.body.readings
+          if reading.type == property
+            value = reading.value
+        y value
       ).interpolate("linear")
 
       #Update X axis
       svg.select('.x.axis').transition().duration(1000).call xAxis
       #Update Y axis
-
-      # TODO: improve this.
       svg.select('.y.axis').transition().duration(1000).call yAxis
       paths
         .enter()
