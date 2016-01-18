@@ -30,18 +30,6 @@ class Device.DisplayComponent extends UIComponent
         fields:
           title: 1
 
-  onRendered: ->
-    super
-
-    # Jquery cron examp
-    # $ ($) ->
-      # $('#example1').cron({
-      #   initial: '42 3 * * 5'
-      #   onChange: ->
-      #     $('#example1-val').text $(this).cron('value')
-      # })
-
-
   device: ->
     @device()
 
@@ -63,19 +51,6 @@ class Device.DisplayComponent extends UIComponent
   events: ->
     super.concat
       'click .remove': @remove
-      'click .command': (e) ->
-        e.preventDefault()
-        type = e.currentTarget.dataset.call
-        options = e.currentTarget.dataset.options?
-        Meteor.call 'Device.sendCommand',
-          @currentDeviceUuid(),
-          type,
-          options,
-        ,
-          (error, documentId) =>
-            if error
-              console.error "New deviceerror", error
-              alert "New deviceerror: #{error.reason or error}"
 
   notFound: ->
     @subscriptionsReady() and not @device()

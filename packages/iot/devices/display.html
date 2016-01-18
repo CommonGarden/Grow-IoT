@@ -17,36 +17,19 @@
           </h2>
 					<p>{{ device.thing.description }}</p>
 
-					{{#if device.onlineSince }}
+					<!-- {{#if device.onlineSince }} -->
 						<!-- Primary actions -->
 						{{#each device.thing.model.actions}}
 							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
 						{{/each}}
 
 						<!-- Actuators -->
-						{{#each device.thing.actuators}}
-							<h4>{{name}}</h4>
-							<div class="state">
-								{{#each model.properties}}
-									<h5>{{state}}</h5>
-									<!-- TODO: Add cron -->
-									<!-- Jquery cron example -->
-<!-- 				 	<div id='example1'></div>
-		  		<p>Generated cron entry: <span class='example-text' id='example1-val'></span></p>
- -->
-								{{/each}}
-							</div>
-							<div>
-								{{#each model.actions}}			
-									<button class="btn command" data-call="{{call}}">{{name}}</button>
-								{{/each}}
-							</div>
-						{{/each}}
+						{{> Device.ActuatorComponent}}
 
-					{{else}}
+<!-- 					{{else}}
 						<p><em>Not Online.</em></p>
 					{{/if}}
-
+ -->
 					<hr/>
 
 					{{#if eventLog}}

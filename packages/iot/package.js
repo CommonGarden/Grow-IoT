@@ -61,6 +61,8 @@ Package.onUse(function (api) {
     'devices/visualization/visualization.html',
     'devices/new_device.coffee',
     'devices/new_device.html',
+    'devices/actuator.coffee',
+    'devices/actuator.html',
     'lib/html5-sortable.jquery.min.js',
     'environments/display.coffee',
     'environments/display.html',
