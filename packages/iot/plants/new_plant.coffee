@@ -39,7 +39,9 @@ class Plant.NewComponent extends UIComponent
 						if error
 							console.log error
 						else
-							FlowRouter.go 'Dashboard'
+							params = { uuid: currentEnvironmentUuid() }
+							path = FlowRouter.path('Environment.display', params)
+							FlowRouter.go path
 
   	# Slider example
   	# $("#ex6").slider()
