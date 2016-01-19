@@ -41,5 +41,5 @@ class Environment.ListComponent extends UIComponent
   viewEnvironment: (event) ->
     # Build path from the data-uuid attribute
     params = { uuid: event.currentTarget.dataset.uuid }
-    path = FlowRouter.path('Environment.display', params)
+    path = FlowRouter.path('Environment.DisplayComponent', params)
     FlowRouter.go path

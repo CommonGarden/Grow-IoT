@@ -40,7 +40,7 @@ class Plant.NewComponent extends UIComponent
 							console.log error
 						else
 							params = { uuid: currentEnvironmentUuid() }
-							path = FlowRouter.path('Environment.display', params)
+							path = FlowRouter.path('Environment.DisplayComponent', params)
 							FlowRouter.go path
 
   	# Slider example

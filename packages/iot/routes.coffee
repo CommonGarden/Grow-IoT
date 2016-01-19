@@ -30,7 +30,7 @@ loggedIn.route '/plant/:uuid',
 #       main: 'Device.ListComponent'
 
 loggedIn.route '/environment/:uuid',
-  name: 'Environment.display'
+  name: 'Environment.DisplayComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Environment.DisplayComponent'

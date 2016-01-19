@@ -47,3 +47,4 @@ class Device.ActuatorComponent extends Device.DisplayComponent
                   if error
                     console.error "New deviceerror", error
                     alert "New deviceerror: #{error.reason or error}"
+              # TODO: update crons in the device document.
