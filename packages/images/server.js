@@ -29,3 +29,7 @@ Images.allow({
  return true;
  }
 });
+
+new PublishEndpoint('Images.one', function() {
+  return Images.files.find({});
+});

@@ -15,13 +15,11 @@
 	          </span>
           </h2>
 
-          <div>
-				    {{#each images}}
-				      <div>
-				        <a href="{{this.url}}" target="_blank"><img src="{{this.url store='thumbs' uploading='/images/uploading.gif' storing='/images/storing.gif'}}" alt="" class="thumbnail" /></a>
-				      </div>
-				    {{/each}}
-          </div>
+			    {{#each images}}
+			      <div>
+			        <a href="{{this.url}}" target="_blank"><img src="{{this.url}}" alt="" class="thumbnail" /></a>
+			      </div>
+			    {{/each}}
 
 
           {{> Images.Upload}}

@@ -17,6 +17,8 @@ class Plant.DisplayComponent extends UIComponent
 
       @subscribe 'Plant.one', plantUuid
 
+      @subscribe 'Images.one'
+
       # @subscribe 'Data.points', plantUuid
 
       # @subscribe 'Events.plant', plantUuid
