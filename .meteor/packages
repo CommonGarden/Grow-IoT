@@ -38,6 +38,5 @@ force-ssl
 cfs:standard-packages
 cfs:gridfs
 raix:ui-dropped-event
-images
 cfs:filesystem
 meteor-bootstrap-slider

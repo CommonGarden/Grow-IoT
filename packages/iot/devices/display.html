@@ -17,7 +17,7 @@
           </h2>
 					<p>{{ device.thing.description }}</p>
 
-					<!-- {{#if device.onlineSince }} -->
+					{{#if device.onlineSince }}
 						<!-- Primary actions -->
 						{{#each device.thing.model.actions}}
 							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
@@ -26,10 +26,10 @@
 						<!-- Actuators -->
 						{{> Device.ActuatorComponent}}
 
-<!-- 					{{else}}
+					{{else}}
 						<p><em>Not Online.</em></p>
 					{{/if}}
- -->
+
 					<hr/>
 
 					{{#if eventLog}}

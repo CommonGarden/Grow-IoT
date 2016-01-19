@@ -19,7 +19,8 @@ Package.onUse(function (api) {
     'kadira:flow-router@2.7.0',
     'kadira:blaze-layout@2.2.0',
     'peerlibrary:computed-field@0.3.0',
-    'themeteorchef:jquery-validation'
+    'themeteorchef:jquery-validation',
+    'mdg:camera'
   ]);
 
   // Internal dependencies.
@@ -28,7 +29,6 @@ Package.onUse(function (api) {
     'core',
     'api',
     'session',
-    'images',
     'jquery'
   ]);
 
@@ -63,6 +63,8 @@ Package.onUse(function (api) {
     'devices/new_device.html',
     'devices/actuator.coffee',
     'devices/actuator.html',
+    'images/images.coffee',
+    'images/images.html',
     'lib/html5-sortable.jquery.min.js',
     'environments/display.coffee',
     'environments/display.html',

@@ -17,7 +17,10 @@ Package.onUse(function (api) {
 
   // 3rd party dependencies.
   api.use([
-    'peerlibrary:peerdb@0.19.3'
+    'peerlibrary:peerdb@0.19.3',
+    'cfs:standard-packages',
+    'cfs:gridfs',
+    'cfs:filesystem'
   ]);
 
   // Internal dependencies.
@@ -31,6 +34,7 @@ Package.onUse(function (api) {
   api.export('Environment');
   api.export('Notifications');
   api.export('Plant');
+  api.export('Images');
   api.export('Message', 'server');
 
   api.addFiles([
@@ -41,7 +45,8 @@ Package.onUse(function (api) {
     'documents/events.coffee',
     'documents/environment.coffee',
     'documents/notifications.coffee',
-    'documents/plant.coffee'
+    'documents/plant.coffee',
+    'documents/images.coffee'
   ]);
 
   api.addFiles([
