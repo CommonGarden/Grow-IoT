@@ -32,8 +32,8 @@ class Plant.DisplayComponent extends UIComponent
         fields:
           title: 1
 
-  plant: ->
-    @plant()
+  # plant: ->
+  #   @plant()
 
   images: ->
     Images.files.find({})
@@ -41,6 +41,23 @@ class Plant.DisplayComponent extends UIComponent
   events: ->
     super.concat
       'click .remove': @remove
+      'click .take-pic': @takePic
+
+  takePic: (event) ->
+    MeteorCamera.getPicture [], (err, data) ->
+      newFile = new FS.File(data)
+
+      # HACK: should do this with referencefields.
+      # newFile.plant = Plant.documents.findOne
+      #   uuid: FlowRouter.getParam 'uuid'
+
+      # Todo: create our own method.
+      Images.insert newFile, (err, fileObj) ->
+        if err
+          Bert.alert 'Image save failed.', 'error', 'growl-top-right'
+        else
+          Bert.alert 'Image saved', 'success', 'growl-top-right'
+
 
   notFound: ->
     @subscriptionsReady() and not @plant()

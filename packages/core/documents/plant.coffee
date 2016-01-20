@@ -13,3 +13,6 @@ class Plant extends share.BaseDocument
     name: 'Plant'
     fields: =>
       owner: @ReferenceField User, [], false
+
+      # TODO: add @ReferenceField for images featuring the plant.
+      

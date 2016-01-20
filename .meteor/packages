@@ -17,11 +17,11 @@ es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 gfk:notifications       # Add reactive notifications to your meteor application.
-mdg:camera              # Allows you to take photos on desktop and mobile with a single function call.
 twbs:bootstrap          # Bootstrap CSS framework
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
-iot
+grow-app
+cg-camera
 accounts-password
 d3js:d3
 # audit-argument-checks
