@@ -1,3 +1,4 @@
+// TODO: if we make progress with this package, let's publish it on Atmosphere.
 Package.describe({
   name: "cg-camera",
   summary: "Photos with one function call on desktop and mobile.",

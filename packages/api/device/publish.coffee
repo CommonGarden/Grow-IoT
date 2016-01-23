@@ -1,4 +1,4 @@
-new PublishEndpoint 'CommonGarden.messages', (auth) ->
+new PublishEndpoint 'Device.messages', (auth) ->
   check auth,
     # TODO: Do better checks.
     uuid: Match.NonEmptyString
@@ -25,8 +25,8 @@ new PublishEndpoint 'CommonGarden.messages', (auth) ->
 
   handle = Message.documents.find(query, options).observeChanges
     added: (id, fields) =>
-      @added 'CommonGarden.messages', id, fields
-      @removed 'CommonGarden.messages', id
+      @added 'Device.messages', id, fields
+      @removed 'Device.messages', id
 
       Message.documents.remove id
 

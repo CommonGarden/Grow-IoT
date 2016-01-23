@@ -58,9 +58,8 @@ class Device.DisplayComponent extends UIComponent
   remove: ->
     device = @device()
     if window.confirm("Are you sure you want to delete this device?")
-      Meteor.call 'CommonGarden.removeDevice',
+      Meteor.call 'Device.remove',
         @currentDeviceUuid(),
-        Meteor.userId(),
         device.environment,
       ,
         (error, documentId) =>

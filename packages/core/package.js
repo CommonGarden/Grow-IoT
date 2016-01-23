@@ -46,7 +46,8 @@ Package.onUse(function (api) {
     'documents/environment.coffee',
     'documents/notifications.coffee',
     'documents/plant.coffee',
-    'documents/images.coffee'
+    'documents/images.coffee',
+    'finalize-documents.coffee'
   ]);
 
   api.addFiles([
