@@ -3,32 +3,35 @@
 		{{> NotFoundComponent }}
 	{{else}}	
 		{{#if Template.subscriptionsReady}}
-	  	<div class="row dashboard">
+			<div class="row dashboard">
 				<div class="col-lg-4 margin-right">
-					<h2>{{ device.thing.name }}
-						<span class="dropdown pull-right advanced-options">
-	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
-	            <ul class="dropdown-menu">
-	              <!-- <li><a href="#" class="rename">Rename</a></li> -->
-	              <!-- <li role="separator" class="divider"></li> -->
-	              <li><a href="#" class="remove">Delete</a></li>
-	            </ul>
-	          </span>
-          </h2>
-					<p>{{ device.thing.description }}</p>
+					{{#with device.thing.model.properties}}
+						<h2>{{name}}
+							<span class="dropdown pull-right advanced-options">
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
+		            <ul class="dropdown-menu">
+		              <!-- <li><a href="#" class="rename">Rename</a></li> -->
+		              <!-- <li role="separator" class="divider"></li> -->
+		              <li><a href="#" class="remove">Delete</a></li>
+		            </ul>
+		          </span>
+	          </h2>
+						<p>{{description}}</p>
 
-					{{#if device.onlineSince }}
-						<!-- Primary actions -->
-						{{#each device.thing.model.actions}}
+					{{/with}}
+
+					<!-- {{#if device.onlineSince }} -->
+
+						{{#each  device.thing.model.actions}}
 							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
 						{{/each}}
 
 						<!-- Actuators -->
 						{{> Device.ActuatorComponent}}
 
-					{{else}}
+<!-- 					{{else}}
 						<p><em>Not Online.</em></p>
-					{{/if}}
+					{{/if}} -->
 
 					<hr/>
 
@@ -42,14 +45,16 @@
 				</div>
 
 				<div class="col-lg-6 sensor-viz">
-					{{#if device.onlineSince }}
+					<!-- {{#if device.onlineSince }} -->
 						{{#each thing.sensors}}
-							<h6 class="text-center">{{name}}</h6>
-							{{> Device.VisualizationComponent property=type chartType=chart}}
-							<!-- TODO: Add cron -->
-							<!-- Logging data 'read cron expression' -->
+							{{#with model.properties}}
+								<h6 class="text-center">{{name}}</h6>
+								{{> Device.VisualizationComponent property=type chartType=chart}}
+								<!-- TODO: Add cron -->
+								<!-- Logging data 'read cron expression' -->
+							{{/with}}
 						{{/each}}
-					{{/if}}
+					<!-- {{/if}} -->
 				</div>
 
 			</div>

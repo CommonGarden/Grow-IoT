@@ -31,26 +31,22 @@ Meteor.methods
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
     # TODO: better checks.
-    if body.properties?
-      Device.documents.update device._id,
-        $set:
-          'properties': body.properties
-
-    # Update actuators properties. Each actuator has it's own model.
-    if body.actuators?
-      Device.documents.update device._id,
-        $set:
-          'thing.actuators': body.actuators
+    Device.documents.update device._id,
+      $set:
+        'thing': body
 
 
   'Device.emitEvent': (auth, body) ->
-    # Filter events from other data.
-    if body.event?
-      !!Events.documents.insert
-        device:
-          _id: device._id
-        body: body
-        insertedAt: new Date()
+    device = Device.documents.findOne auth,
+      fields:
+        _id: 1
+    throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
+
+    !!Events.documents.insert
+      device:
+        _id: device._id
+      body: body
+      insertedAt: new Date()
 
   
   'Device.register': (deviceInfo) ->

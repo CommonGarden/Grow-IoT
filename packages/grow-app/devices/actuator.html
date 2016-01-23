@@ -1,18 +1,19 @@
 <template name="Device.ActuatorComponent">
 	{{#each actuators}}
-		<h4>{{name}}</h4>
-		<div class="state">
-			{{#each model.properties}}
+		{{#with model.properties}}
+			<h4>{{name}}</h4>
+			<div class="state">
 				<h5>{{state}}</h5>
-					{{#each crons}}
-						<div class="crons">
-							{{text}} every <span id="{{name}}"></span>			
-						</div>
-					{{/each}}
-			{{/each}}
-		</div>
+<!-- 				{{#each crons}}
+					<div class="crons">
+						{{text}} every <span id="{{name}}"></span>
+					</div>
+				{{/each}} -->
+ 			</div>
+		{{/with}}
+
 		<div>
-			{{#each model.actions}}			
+			{{#each model.actions}}
 				<button class="btn command" data-call="{{call}}">{{name}}</button>
 			{{/each}}
 		</div>
