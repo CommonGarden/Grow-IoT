@@ -1,7 +1,7 @@
 TOKEN_LENGTH = 32
 
 Meteor.methods
-  'CommonGarden.sendData': (auth, body) ->
+  'Device.sendData': (auth, body) ->
     check auth,
       # TODO: Do better checks.
       uuid: Match.NonEmptyString
@@ -12,39 +12,49 @@ Meteor.methods
       fields:
         _id: 1
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
+    
+    !!Data.documents.insert
+      device:
+        _id: device._id
+      body: body
+      insertedAt: new Date()
 
-    # Update main properties if need be.
-    if body.properties?
-      Device.documents.update device._id,
-        $set:
-          'properties': body.properties
 
-    # Update actuators properties. Each actuator has it's own model.
-    if body.actuators?
-      Device.documents.update device._id,
-        $set:
-          'thing.actuators': body.actuators
+  'Device.udpateProperties': (auth, body) ->
+    check auth,
+      uuid: Match.NonEmptyString
+      token: Match.NonEmptyString
 
-    # Filter events from other data.
-    if body.event?
-      !!Events.documents.insert
-        device:
-          _id: device._id
-        body: body
-        insertedAt: new Date()
-    else
-      !!Data.documents.insert
-        device:
-          _id: device._id
-        body: body
-        insertedAt: new Date()
+    device = Device.documents.findOne auth,
+      fields:
+        _id: 1
+    throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-  'CommonGarden.registerDevice': (deviceInfo) ->
+    # TODO: better checks.
+    Device.documents.update device._id,
+      $set:
+        'thing': body
+
+
+  'Device.emitEvent': (auth, body) ->
+    device = Device.documents.findOne auth,
+      fields:
+        _id: 1
+    throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
+
+    !!Events.documents.insert
+      device:
+        _id: device._id
+      body: body
+      insertedAt: new Date()
+
+  
+  'Device.register': (deviceInfo) ->
     # TODO: better checks
     # check deviceInfo, Object
 
     # TODO if the user has specified a username or user id in their config file,
-    # then claim the device under that account.
+    # then claim the device under that account. Call the claim device method.
 
     document =
       uuid: Meteor.uuid()
@@ -56,49 +66,51 @@ Meteor.methods
 
     document
 
-  'CommonGarden.claimDevice': (deviceUuid, userID, environmentUuid) ->
+
+  # For front end use.
+  'Device.claim': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
-    check userID, Match.NonEmptyString
     check environmentUuid, Match.NonEmptyString
 
+    # TODO: make sure this doesn't work for devices with an owner.
     device = Device.documents.findOne
       'uuid': deviceUuid
     deviceCount = Device.documents.find().count()
     Device.documents.update device._id,
       '$set':
-        'owner._id': userID
+        'owner._id': Meteor.userId()
         'environment': environmentUuid
         'order': deviceCount
 
     Environment.documents.update
       'uuid': environmentUuid
-      'owner._id': userID
+      'owner._id': Meteor.userId()
     ,
       '$addToSet':
         'devices': device._id
 
-  'CommonGarden.removeDevice': (uuid, userID, environmentUuid) ->
+
+  'Device.remove': (uuid, environmentUuid) ->
     check uuid, Match.NonEmptyString
-    check userID, Match.NonEmptyString
     check environmentUuid, Match.NonEmptyString
 
     device = Device.documents.findOne
       'uuid': uuid
-      'owner._id': userID
+      'owner._id': Meteor.userId()
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
     Environment.documents.update
       'uuid': environmentUuid
-      'owner._id': userID
+      'owner._id': Meteor.userId()
     ,
       '$pull':
         'devices': device._id
 
     Device.documents.remove device._id
 
-  'CommonGarden.updateListOrder': (items) ->
-    # TODO: checks
 
+  'Device.updateListOrder': (items) ->
+    # TODO: checks
     for item in items
       Device.documents.update item._id,
         '$set':

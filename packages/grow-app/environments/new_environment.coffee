@@ -34,5 +34,5 @@ class Environment.NewComponent extends UIComponent
               return
 
             params = { uuid: documentId.uuid }
-            path = FlowRouter.path('Environment.display', params)
+            path = FlowRouter.path('Environment.DisplayComponent', params)
             FlowRouter.go path

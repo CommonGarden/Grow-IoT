@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'iot',
+  name: 'grow-app',
   version: '0.1.0'
 });
 
@@ -19,7 +19,8 @@ Package.onUse(function (api) {
     'kadira:flow-router@2.7.0',
     'kadira:blaze-layout@2.2.0',
     'peerlibrary:computed-field@0.3.0',
-    'themeteorchef:jquery-validation'
+    'themeteorchef:jquery-validation',
+    'cg-camera'
   ]);
 
   // Internal dependencies.
@@ -28,10 +29,10 @@ Package.onUse(function (api) {
     'core',
     'api',
     'session',
-    'images',
     'jquery'
   ]);
 
+  // TODO: organize and document this better.
   api.addFiles([
     'layout/layout.html',
     'layout/layout.coffee',
@@ -74,6 +75,8 @@ Package.onUse(function (api) {
     'environments/new_environment.html',
     'routes.coffee',
     'lib/jquery-cron.js',
+    'plants/images.coffee',
+    'plants/images.html',
     'plants/new_plant.coffee',
     'plants/new_plant.html',
     'plants/display.coffee',

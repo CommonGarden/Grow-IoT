@@ -26,7 +26,7 @@ class Device.ListComponent extends UIComponent
             _id: $( element ).data( 'id' )
             order: index + 1
 
-        Meteor.call 'CommonGarden.updateListOrder',
+        Meteor.call 'Device.updateListOrder',
           items
         ,
           (error, documentId) =>

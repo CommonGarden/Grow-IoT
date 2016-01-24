@@ -24,9 +24,8 @@ class Device.NewComponent extends UIComponent
     # We get the uuid from the data-uuid attribute
     deviceUuid = event.currentTarget.dataset.uuid
 
-    Meteor.call 'CommonGarden.claimDevice',
+    Meteor.call 'Device.claim',
       deviceUuid,
-      Meteor.userId(),
       @currentEnvironmentUuid(),
     ,
       (error, documentId) =>

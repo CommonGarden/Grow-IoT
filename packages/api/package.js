@@ -28,7 +28,8 @@ Package.onUse(function (api) {
     'device/methods.coffee',
     'environment/methods.coffee',
     'notifications/methods.coffee',
-    'plant/methods.coffee'
+    'plant/methods.coffee',
+    'images/methods.coffee'
   ]);
 
   api.addFiles([
@@ -38,6 +39,7 @@ Package.onUse(function (api) {
     'events/publish.coffee',
     'environment/publish.coffee',
     'notifications/publish.coffee',
-    'plant/publish.coffee'
+    'plant/publish.coffee',
+    'images/publish.coffee'
   ], 'server');
 });

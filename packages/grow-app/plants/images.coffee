@@ -16,7 +16,7 @@ class Images.Upload extends UIComponent
 							Bert.alert 'Upload successful.', 'success', 'growl-top-right'
 			
 			'click .take-pic': (event) ->
-				MeteorCamera.getPicture [], (err, data) ->
+				MeteorCameraUI.getPicture [], (err, data) ->
 					newFile = new FS.File(data)
 					Images.insert newFile, (err, fileObj) ->
 						if err

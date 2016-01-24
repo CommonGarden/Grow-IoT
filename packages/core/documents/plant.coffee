@@ -13,3 +13,13 @@ class Plant extends share.BaseDocument
     name: 'Plant'
     fields: =>
       owner: @ReferenceField User, [], false
+      # environment: @ReferenceField Environment, ['uuid']
+      # TODO: add @ReferenceField for images featuring the plant.
+
+# class Plant extends Plant
+#   @Meta
+#     name: 'Plant'
+#     replaceParent: true
+#     fields: (fields) =>
+#       fields.environment = @ReferenceField Environment, [], true, 'plants'
+#       fields

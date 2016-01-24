@@ -10,4 +10,5 @@ class Environment extends share.BaseDocument
     name: 'Environment'
     fields: =>
       owner: @ReferenceField User, [], false
-      # devices: [@ReferenceField Device, ['uuid', 'thing']]
+      # devices: [@ReferenceField Device]
+      # plants: [@ReferenceField Plant]
