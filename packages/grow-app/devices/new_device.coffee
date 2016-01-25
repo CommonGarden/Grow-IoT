@@ -8,6 +8,8 @@ class Device.NewComponent extends UIComponent
 
     @currentEnvironmentUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
+
+    @subscribe 'Environment.one', @currentEnvironmentUuid()
     
   unclaimedDevicesList: ->
     Device.documents.find

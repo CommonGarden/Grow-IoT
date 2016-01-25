@@ -20,7 +20,7 @@ class Device.LineChartComponent extends UIComponent
 
     @datapoints = new ComputedField =>
       Data.documents.find
-        'device._id': @device()?._id
+        'device._id': @device()._id
       .fetch()
 
     # Set up line chart

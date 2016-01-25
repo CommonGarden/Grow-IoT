@@ -1,23 +1,11 @@
 class Environment.ListItemComponent extends Environment.ListComponent
   @register 'Environment.ListItemComponent'
 
-  onRendered: ->
+  onCreated: ->
     super
 
-    @autorun (computation) =>
-      @subscribe 'Environment.one', Template.currentData().uuid
+    @subscribe 'Environment.one', Template.currentData().uuid
 
-  deviceCount: ->
+  environment: ->
     Environment.documents.findOne
       'uuid': Template.currentData().uuid
-    .devices?.length
-
-  plantCount: ->
-    Environment.documents.findOne
-      'uuid': Template.currentData().uuid
-    .plants?.length
-
-  indoorsOrOutdoors: ->
-    Environment.documents.findOne
-      'uuid': Template.currentData().uuid
-    .type

@@ -59,7 +59,7 @@ new PublishEndpoint 'Device.unclaimedList', ->
 new PublishEndpoint 'Device.list', (environmentUuid) ->
   Device.documents.find
     'owner._id': @userId
-    'environment': environmentUuid
+    'environment.uuid': environmentUuid
 
 new PublishEndpoint 'Device.one', (deviceUuid) ->
   # TODO: Do better checks.
