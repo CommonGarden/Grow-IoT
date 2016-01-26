@@ -34,19 +34,7 @@
 
   <nav class="navbar navbar-default navbar-fixed-top cg-nav-bar">
     <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">
-        {{#if dashboard}}
-          <img class="logo" src="/logo.png">
-        {{else}}
-          {{ #if currentUser }}
-            <i class="glyphicon glyphicon-chevron-left"></i>
-          {{else}}
-            <img class="logo" src="/logo.png">
-          {{/if}}
-        {{/if}}
-        </a>
-      </div>
+      {{> BackButton}}
       <ul class="nav navbar-nav navbar-right">
         {{ #if currentUser }}
           {{> Notifications.NavUI}}

@@ -14,3 +14,11 @@ class Device extends share.BaseDocument
     fields: =>
       owner: @ReferenceField User, [], false
       environment: @ReferenceField Environment, Environment.REFERENCE_FIELDS(), false, 'devices'
+
+  getReference: ->
+    _.pick @, _.keys @constructor.REFERENCE_FIELDS()
+
+  @REFERENCE_FIELDS: ->
+    _id: 1
+    uuid: 1
+    # rule: 1

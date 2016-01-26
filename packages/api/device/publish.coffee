@@ -45,6 +45,17 @@ new PublishEndpoint 'Device.messages', (auth) ->
       ,
         $set:
           onlineSince: false
+
+      # Emit notification.
+      Meteor.call 'Notification.new',
+        "Device offline."
+      ,
+        (error, documentId) =>
+          if error
+            console.error "New Notification Error", error
+            alert "New Notification Error: #{error.reason or error}"
+          else
+            Bert.alert 'Device offline.', 'warning', 'growl-top-right'
     ,
       5000 # ms
 

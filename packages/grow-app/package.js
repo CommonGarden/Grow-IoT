@@ -48,6 +48,8 @@ Package.onUse(function (api) {
     'layout/not-found.html',
     'layout/dashboard.coffee',
     'layout/dashboard.html',
+    'layout/back-button.coffee',
+    'layout/back-button.html',
     'devices/display.coffee',
     'devices/display.html',
     'devices/list.coffee',

@@ -10,8 +10,8 @@ class Data extends share.BaseDocument
     fields: =>
       device: @ReferenceField Device
 
-    # triggers: =>
-    #   rules: @Trigger ['insertedAt', 'device', 'body'], (newDocument, oldDocument) ->
-    #     # Don't do anything when document is removed
-    #     return unless newDocument?._id
-    #     console.log newDocument?
+    triggers: =>
+      rules: @Trigger ['insertedAt', 'device', 'body'], (newDocument, oldDocument) ->
+        # Don't do anything when document is removed
+        return unless newDocument?._id
+        console.log newDocument?

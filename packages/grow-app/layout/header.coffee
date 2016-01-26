@@ -4,12 +4,6 @@ class HeaderComponent extends UIComponent
   onCreated: ->
   	super
 
-  dashboard: ->
-  	if FlowRouter.getRouteName() == "Dashboard"
-  		true
-  	else
-  		false
-
   events: ->
     super.concat
       'click .logout': @onLogout
