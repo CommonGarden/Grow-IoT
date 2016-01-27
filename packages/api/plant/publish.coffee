@@ -1,7 +1,7 @@
 new PublishEndpoint 'Plant.list', (environmentUuid) ->
   Plant.documents.find
     'owner._id': @userId
-    'environment': environmentUuid
+    'environment.uuid': environmentUuid
 
 new PublishEndpoint 'Plant.one', (uuid) ->
   # TODO: Do better checks.

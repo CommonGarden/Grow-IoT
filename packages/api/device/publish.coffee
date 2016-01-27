@@ -45,6 +45,17 @@ new PublishEndpoint 'Device.messages', (auth) ->
       ,
         $set:
           onlineSince: false
+
+      # Emit notification.
+      Meteor.call 'Notification.new',
+        "Device offline."
+      ,
+        (error, documentId) =>
+          if error
+            console.error "New Notification Error", error
+            alert "New Notification Error: #{error.reason or error}"
+          else
+            Bert.alert 'Device offline.', 'warning', 'growl-top-right'
     ,
       5000 # ms
 
@@ -59,7 +70,7 @@ new PublishEndpoint 'Device.unclaimedList', ->
 new PublishEndpoint 'Device.list', (environmentUuid) ->
   Device.documents.find
     'owner._id': @userId
-    'environment': environmentUuid
+    'environment.uuid': environmentUuid
 
 new PublishEndpoint 'Device.one', (deviceUuid) ->
   # TODO: Do better checks.

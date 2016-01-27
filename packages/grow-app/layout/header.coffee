@@ -4,12 +4,6 @@ class HeaderComponent extends UIComponent
   onCreated: ->
   	super
 
-  dashboard: ->
-  	if FlowRouter.getRouteName() == "Dashboard"
-  		true
-  	else
-  		false
-
   events: ->
     super.concat
       'click .logout': @onLogout
@@ -18,3 +12,9 @@ class HeaderComponent extends UIComponent
     event.preventDefault()
     Meteor.logout()
     FlowRouter.go '/login'
+
+  notdashboard: ->
+    if FlowRouter.getRouteName() == "Dashboard"
+      false
+    else
+      true

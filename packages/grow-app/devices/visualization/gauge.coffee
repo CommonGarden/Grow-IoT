@@ -42,11 +42,11 @@ class Device.GaugeComponent extends UIComponent
 
     @device = new ComputedField =>
       Device.documents.findOne
-        uuid: @currentDeviceUuid()
+        'uuid': @currentDeviceUuid()
 
     @datapoint = new ComputedField =>
       Data.documents.findOne
-        'device._id': @device()?._id
+        'device._id': @device()._id
 
     @body = d3.select('#' + @property()).append('svg:svg').attr('class', 'gauge').attr('width', @config.size).attr('height', @config.size)
     @body.append('svg:circle').attr('cx', @config.cx).attr('cy', @config.cy).attr('r', @config.raduis).style('fill', '#ccc').style('stroke', '#000').style 'stroke-width', '0.5px'
@@ -85,6 +85,7 @@ class Device.GaugeComponent extends UIComponent
     @autorun (computation) =>
       data = @datapoint()
       # Todo: get value by using the property.
+      debugger
       value = data.body.readings[3].value
       pointerPath = @buildPointerPath(value)
       pointerLine = d3.svg.line().x((d) ->

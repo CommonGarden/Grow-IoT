@@ -1,6 +1,14 @@
 class Plant.NewComponent extends UIComponent
 	@register 'Plant.NewComponent'
 
+	onCreated: ->
+		super
+
+		@currentEnvironmentUuid = new ComputedField =>
+			FlowRouter.getParam 'uuid'
+
+		@subscribe 'Environment.one', @currentEnvironmentUuid()
+
 	events: ->
 		super.concat
 			'submit form': (e)->

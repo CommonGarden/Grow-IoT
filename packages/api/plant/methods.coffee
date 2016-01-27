@@ -4,22 +4,21 @@ Meteor.methods
     check plant, Object
     check environmentUuid, Match.NonEmptyString
 
+    environment = Environment.documents.findOne
+      uuid: environmentUuid
+
     document =
       uuid: Meteor.uuid()
       plant: plant
-      environment: environmentUuid
+      environment:
+        environment.getReference()
       owner:
         _id: Meteor.userId()
       timestamp: new Date()
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Plant.documents.insert document
 
-    Environment.documents.update
-      'uuid': environmentUuid
-      'owner._id': Meteor.userId()
-    ,
-      '$addToSet':
-        'plants': document._id
+  # 'plant.move': -> # Move plant to a different environment?
 
   'Plant.remove': (uuid) ->
     plant = Plant.documents.findOne

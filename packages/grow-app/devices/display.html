@@ -20,7 +20,7 @@
 
 					{{/with}}
 
-					<!-- {{#if device.onlineSince }} -->
+					{{#if device.onlineSince }}
 
 						{{#each  device.thing.model.actions}}
 							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
@@ -29,9 +29,9 @@
 						<!-- Actuators -->
 						{{> Device.ActuatorComponent}}
 
-<!-- 					{{else}}
+					{{else}}
 						<p><em>Not Online.</em></p>
-					{{/if}} -->
+					{{/if}}
 
 					<hr/>
 
@@ -45,7 +45,7 @@
 				</div>
 
 				<div class="col-lg-6 sensor-viz">
-					<!-- {{#if device.onlineSince }} -->
+					{{#if device.onlineSince }}
 						{{#each thing.sensors}}
 							{{#with model.properties}}
 								<h6 class="text-center">{{name}}</h6>
@@ -54,7 +54,9 @@
 								<!-- Logging data 'read cron expression' -->
 							{{/with}}
 						{{/each}}
-					<!-- {{/if}} -->
+					{{else}}
+						<h4>Device offline</h4>
+					{{/if}}
 				</div>
 
 			</div>

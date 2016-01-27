@@ -1,28 +1,30 @@
 <template name="Environment.ListItemComponent">
   <li class="list-item device" data-uuid="{{uuid}}" data-id="{{_id}}">
-      <h2>{{name}}
-        <span class="pull-right">
-          {{#if deviceCount}}
-          	<span title="{{deviceCount}} devices connected">
-              <i class="glyphicon glyphicon-dashboard"></i> <span class="badge">{{deviceCount}} devices</span>
-            </span>
-          {{else}}
-            <!-- Should soon be a button to add a device to this environment, or maybe at least one device should be required -->
-            <span title="No devices connected">
-              <i class="glyphicon glyphicon-dashboard"></i> <span class="badge">0 devices</span>
-            </span>
-          {{/if}}
-          {{#if plantCount}}
-            <span title="{{plantCount}} plants in environment">
-          	  <i class="glyphicon glyphicon-tree-deciduous"></i><span class="badge">{{plantCount}} plants</span>
-            </span>
-          {{else}}
-            <!-- Maybe should be a button to add a plant to this growing environment -->
-            <span title="No plants in environment">
-          	  <i class="glyphicon glyphicon-tree-deciduous"></i><span class="badge">0 plants</span>
-            </span>
-          {{/if}}
-        </span>
-      </h2>
+      {{#with environment}}
+        <h2>{{name}}
+          <span class="pull-right">
+            {{#if deviceCount}}
+              <span title="{{deviceCount}} devices connected">
+                <i class="glyphicon glyphicon-dashboard"></i> <span class="badge">{{deviceCount}} devices</span>
+              </span>
+            {{else}}
+              <!-- Should soon be a button to add a device to this environment, or maybe at least one device should be required -->
+              <span title="No devices connected">
+                <i class="glyphicon glyphicon-dashboard"></i> <span class="badge">0 devices</span>
+              </span>
+            {{/if}}
+            {{#if plantCount}}
+              <span title="{{plantCount}} plants in environment">
+                <i class="glyphicon glyphicon-tree-deciduous"></i><span class="badge">{{plantCount}} plants</span>
+              </span>
+            {{else}}
+              <!-- Maybe should be a button to add a plant to this growing environment -->
+              <span title="No plants in environment">
+                <i class="glyphicon glyphicon-tree-deciduous"></i><span class="badge">0 plants</span>
+              </span>
+            {{/if}}
+          </span>
+        </h2>
+      {{/with}}
   </li>
 </template>

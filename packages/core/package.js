@@ -40,10 +40,10 @@ Package.onUse(function (api) {
   api.addFiles([
     'base.coffee',
     'documents/user.coffee',
+    'documents/environment.coffee',
     'documents/device.coffee',
     'documents/data.coffee',
     'documents/events.coffee',
-    'documents/environment.coffee',
     'documents/notifications.coffee',
     'documents/plant.coffee',
     'documents/images.coffee',

@@ -13,12 +13,12 @@ class Device extends share.BaseDocument
     name: 'Device'
     fields: =>
       owner: @ReferenceField User, [], false
-      # environment: @ReferenceField Environment, ['uuid']
-    
-# class Device extends Device
-#   @Meta
-#     name: 'Device'
-#     replaceParent: true
-#     fields: (fields) =>
-#       fields.environment = @ReferenceField Environment, [], true, 'devices'
-#       fields
+      environment: @ReferenceField Environment, Environment.REFERENCE_FIELDS(), false, 'devices'
+
+  getReference: ->
+    _.pick @, _.keys @constructor.REFERENCE_FIELDS()
+
+  @REFERENCE_FIELDS: ->
+    _id: 1
+    uuid: 1
+    # rule: 1
