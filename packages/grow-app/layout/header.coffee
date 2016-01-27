@@ -12,3 +12,9 @@ class HeaderComponent extends UIComponent
     event.preventDefault()
     Meteor.logout()
     FlowRouter.go '/login'
+
+  notdashboard: ->
+    if FlowRouter.getRouteName() == "Dashboard"
+      false
+    else
+      true
