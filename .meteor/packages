@@ -40,3 +40,5 @@ cfs:gridfs
 raix:ui-dropped-event
 cfs:filesystem
 meteor-bootstrap-slider
+vsivsi:job-collection
+percolate:synced-cron
