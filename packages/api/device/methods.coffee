@@ -70,15 +70,14 @@ Meteor.methods
   # For front end use.
   'Device.claim': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
+    check environmentUuid, Match.NonEmptyString
 
     # TODO: make sure this doesn't work for devices with an owner.
     device = Device.documents.findOne
       'uuid': deviceUuid
     environment = Environment.documents.findOne
       'uuid': environmentUuid
-    # deviceCount = Device.documents.find(
-    #   'owner._id': Meteor.userId()
-    # ).count()
+
     Device.documents.update device._id,
       '$set':
         'owner._id': Meteor.userId()
@@ -89,21 +88,13 @@ Meteor.methods
 
   # Device.move: -> # Move device to different environment?
 
-  'Device.remove': (uuid, environmentUuid) ->
+  'Device.remove': (uuid) ->
     check uuid, Match.NonEmptyString
-    check environmentUuid, Match.NonEmptyString
 
     device = Device.documents.findOne
       'uuid': uuid
       'owner._id': Meteor.userId()
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
-
-    # Environment.documents.update
-    #   'uuid': environmentUuid
-    #   'owner._id': Meteor.userId()
-    # ,
-    #   '$pull':
-    #     'devices': device._id
 
     Device.documents.remove device._id
 

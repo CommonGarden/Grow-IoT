@@ -60,7 +60,6 @@ class Device.DisplayComponent extends UIComponent
     if window.confirm("Are you sure you want to delete this device?")
       Meteor.call 'Device.remove',
         @currentDeviceUuid(),
-        device.environment,
       ,
         (error, documentId) =>
           if error
