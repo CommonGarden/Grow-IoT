@@ -1,5 +1,9 @@
 [![Slack Status](http://slack.commongarden.org/badge.svg)](http://slack.commongarden.org)
 
+[Feature Requests](http://forum.commongarden.org/c/feature-requests)
+
+[General Feedback](http://forum.commongarden.org/c/feedback)
+
 # Installing CommonGarden-IoT (OSX and Linux)
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
