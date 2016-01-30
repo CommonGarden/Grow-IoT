@@ -66,6 +66,20 @@ Meteor.methods
 
     document
 
+  'Device.registerComponents': (auth, components) ->
+    # TODO: better checks
+    # check components, Object
+
+    # TODO: give them a UUID call the new component method.
+    for component in components
+      console.log component
+      Meteor.call 'Component.create',
+        auth,
+        component,
+      , (error, documentId) =>
+          if error
+            console.error "New deviceerror", error
+            alert "New deviceerror: #{error.reason or error}"
 
   # For front end use.
   'Device.claim': (deviceUuid, environmentUuid) ->

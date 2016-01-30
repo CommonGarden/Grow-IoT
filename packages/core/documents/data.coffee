@@ -15,3 +15,6 @@ class Data extends share.BaseDocument
         # Don't do anything when document is removed
         return unless newDocument?._id
         # console.log newDocument
+
+        # Todo: check data against rules, emit notifications if need be.
+        # Todo: check for component events, and if the user is getting notifications for them.
