@@ -1,5 +1,5 @@
-class Device.ActuatorComponent extends Device.DisplayComponent
-  @register 'Device.ActuatorComponent'
+class Component.DisplayComponent extends Device.DisplayComponent
+  @register 'Component.DisplayComponent'
 
   onCreated: ->
     super

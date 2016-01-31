@@ -1,8 +1,8 @@
 class Component extends share.BaseDocument
   # registeredAt
-  # uuid: UUID of the device
-  # token: token of the device
-  # thing: a model of the device and its api
+  # uuid: UUID of the component
+  # token: token of the component
+  # thing: a model of the component and its api
   # owner:
   #   _id
   # environment: the place a thing belongs too.

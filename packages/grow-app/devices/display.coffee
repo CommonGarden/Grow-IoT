@@ -19,7 +19,7 @@ class Device.DisplayComponent extends UIComponent
 
       @subscribe 'Data.points', deviceUuid
 
-      @subscribe 'Events.device', deviceUuid
+      @subscribe 'Data.events', deviceUuid
 
     @autorun (computation) =>
       return unless @subscriptionsReady()
@@ -37,12 +37,13 @@ class Device.DisplayComponent extends UIComponent
     device = @device()
     device.thing
 
-  eventLog: ->
-    Events.documents.find
-      'device._id': @device()?._id
-    ,
-      'sort':
-        'body.timestamp': -1
+  # TODO: FIX THIS.
+  # eventLog: ->
+  #   Events.documents.find
+  #     'device._id': @device()?._id
+  #   ,
+  #     'sort':
+  #       'body.timestamp': -1
   
   datapoints: ->
     Data.documents.find

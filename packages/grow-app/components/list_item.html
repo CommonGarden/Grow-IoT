@@ -1,0 +1,15 @@
+<template name="Component.ListItemComponent">
+  <li class="list-item component" data-uuid="{{uuid}}" data-id="{{_id}}">
+    {{#with thing.model.properties}}
+      <h2>{{name}}</h2>
+    {{/with}}
+    {{#if onlineSince}}
+      <p>Online!</p>
+      {{#each currentValue.readings}}
+        <p>{{type}}: {{value}} {{unit}}</p>
+      {{/each}}
+    {{else}}
+      <p><em>Not Online.</em></p>
+    {{/if}}
+  </li>
+</template>

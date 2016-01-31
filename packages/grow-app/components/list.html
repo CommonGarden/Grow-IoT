@@ -1,0 +1,11 @@
+<template name="Component.ListComponent">
+  <div class="row jumbotron">
+    <div class="col-lg-12">
+      <ul class="sortable">
+        {{#each componentsList}}
+	        {{> Component.ListItemComponent}}
+	      {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>
