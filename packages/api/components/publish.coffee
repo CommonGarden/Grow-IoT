@@ -1,3 +1,4 @@
+# TODO: this should be limited to the user's components.
 new PublishEndpoint 'Component.list', ->
   Component.documents.find({})
     # 'owner._id': @userId

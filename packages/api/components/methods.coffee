@@ -33,7 +33,7 @@ Meteor.methods
       uuid: Meteor.uuid()
       device:
         _id: device._id
-      owner: device.owner
+      owner: device.owner._id
       registeredAt: new Date()
       component: component
 

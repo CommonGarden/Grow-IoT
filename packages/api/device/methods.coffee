@@ -53,37 +53,20 @@ Meteor.methods
     # TODO: better checks
     # check deviceInfo, Object
 
-    # TODO if the user has specified a username or user id in their config file,
-    # then claim the device under that account. Call the claim device method.
     document =
       uuid: Meteor.uuid()
       token: Random.id TOKEN_LENGTH
       registeredAt: new Date()
       thing: deviceInfo
 
-
-    if deviceInfo.owner?
-      if Meteor.isServer
-        user = Accounts.findUserByEmail(deviceInfo.owner)
-        document.owner = 
-          _id: user._id
-
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
-    if deviceInfo.owner?
-      auth =
-        uuid: document.uuid
-        token: document.token
-
-      # We should update these components with owner information...
-      # Maybe we should call them in claim device? Or if owner is set.
-      Meteor.call 'Device.registerComponents',
-        auth,
-        deviceInfo.components,
-      , (error, documentId) =>
-        if error
-          console.error "New deviceerror", error
-          alert "New deviceerror: #{error.reason or error}"
+    # TODO: claim device via config file?
+    # if deviceInfo.owner?
+    #   if Meteor.isServer
+    #     user = Accounts.findUserByEmail(deviceInfo.owner)
+    #     document.owner = 
+    #       _id: user._id
 
     document
 
@@ -120,7 +103,19 @@ Meteor.methods
           environment.getReference()
         # 'order': deviceCount
 
-  # Maybe users can download a config template to connect to the instance?
+    auth =
+      uuid: device.uuid
+      token: device.token
+
+    # We should update these components with owner information...
+    # Maybe we should call them in claim device? Or if owner is set.
+    Meteor.call 'Device.registerComponents',
+      auth,
+      device.thing.components,
+    , (error, documentId) =>
+      if error
+        console.error "New deviceerror", error
+        alert "New deviceerror: #{error.reason or error}"
 
   # Device.move: -> # Move device to different environment?
 

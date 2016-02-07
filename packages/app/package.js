@@ -67,12 +67,12 @@ Package.onUse(function (api) {
     'components/visualization/gauge.html',
     'components/visualization/visualization.coffee',
     'components/visualization/visualization.html',
-    'components/display.coffee',
-    'components/display.html',
+    'components/actuator.coffee',
+    'components/actuator.html',
     'components/list.coffee',
     'components/list.html',
-    'components/list_item.coffee',
-    'components/list_item.html',
+    'components/sensor.coffee',
+    'components/sensor.html',
 
     'lib/html5-sortable.jquery.min.js',
     

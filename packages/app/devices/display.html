@@ -19,8 +19,6 @@
 						
 						<p>{{description}}</p>
 
-						{{> Component.ListComponent type="properties"}}
-
 					{{/with}}
 
 <!-- 					{{#if device.onlineSince }} -->
@@ -38,13 +36,14 @@
  -->
 					<hr/>
 
-					{{#if eventLog}}
+					<!-- TODO: get events working again. -->
+<!-- 					{{#if eventLog}}
 						<h4>Event log</h4>
 						{{#each eventLog}}
 							<p>{{body.event.name}}, {{body.timestamp}}</p>
 						{{/each}}
 					{{/if}}
-
+ -->
 				</div>
 
 				<div class="col-lg-6 sensor-viz">

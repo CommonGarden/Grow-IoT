@@ -4,6 +4,8 @@ class Component.ListComponent extends UIComponent
   onCreated: ->
     super
 
+    @type = Template.currentData().type
+
     @subscribe 'Component.list'
 
   onRendered: ->
@@ -33,7 +35,8 @@ class Component.ListComponent extends UIComponent
   # TODO: filter this list based on type.
   componentsList: ->
     # console.log Component.documents.find({}).fetch()
-    Component.documents.find({})
+    Component.documents.find
+      "component.class": @type
 
   events: ->
     super.concat
