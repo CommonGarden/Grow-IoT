@@ -23,6 +23,14 @@ loggedIn.route '/plant/:uuid',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Plant.DisplayComponent'
 
+# NEEDED?
+# loggedIn.route '/component/:uuid',
+#   name: 'Component.DisplayComponent'
+#   action: (params, queryParams) ->
+#     BlazeLayout.render 'MainLayoutComponent',
+#       main: 'Component.DisplayComponent'
+
+
 # loggedIn.route '/devices/',
 #   name: 'Device.list'
 #   action: (params, queryParams) ->

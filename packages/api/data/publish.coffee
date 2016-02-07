@@ -4,7 +4,7 @@ new PublishEndpoint 'Data.points', (deviceUuid) ->
 
   device = Device.documents.findOne
     'uuid': deviceUuid
-    'owner._id': Meteor.userId()
+    'owner._id': this.userId
   ,
     fields:
       _id: 1

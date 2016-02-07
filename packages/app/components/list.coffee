@@ -4,10 +4,7 @@ class Component.ListComponent extends UIComponent
   onCreated: ->
     super
 
-    @currentEnvironmentUuid = new ComputedField =>
-      FlowRouter.getParam 'uuid'
-
-    @subscribe 'Component.list', @currentEnvironmentUuid()
+    @subscribe 'Component.list'
 
   onRendered: ->
     super
@@ -33,9 +30,10 @@ class Component.ListComponent extends UIComponent
             if error
               console.log error.reason
 
-  # TODO: Sort this list based on the order
-  ComponentsList: ->
-    Component.documents.find()
+  # TODO: filter this list based on type.
+  componentsList: ->
+    # console.log Component.documents.find({}).fetch()
+    Component.documents.find({})
 
   events: ->
     super.concat

@@ -9,6 +9,7 @@ class Data extends share.BaseDocument
     collection: 'Data'
     fields: =>
       device: @ReferenceField Device
+      # component: @ReferenceField Component
 
     triggers: =>
       rules: @Trigger ['insertedAt', 'device', 'body'], (newDocument, oldDocument) ->
@@ -17,4 +18,4 @@ class Data extends share.BaseDocument
         # console.log newDocument
 
         # Todo: check data against rules, emit notifications if need be.
-        # Todo: check for component events, and if the user is getting notifications for them.
+        # Todo: check for device/component events, and if the user is getting notifications for them.

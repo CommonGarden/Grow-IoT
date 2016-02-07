@@ -4,8 +4,16 @@ class Component.DisplayComponent extends Device.DisplayComponent
   onCreated: ->
     super
 
-    @actuators = new ComputedField =>
-      @device().thing.actuators
+    # @type = Template.currentData().type
+
+    @subscribe 'Component.one', Template.currentData().uuid
+
+    # @components = new ComputedField =>
+    #   @device().thing.components
+
+  component: ->
+    Component.documents.findOne
+      "uuid": Template.currentData().uuid
 
   events: ->
     super.concat

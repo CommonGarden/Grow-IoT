@@ -1,21 +1,21 @@
 Meteor.methods
-  'Component.sendData': (auth, body) ->
-  	# TODO: better checks.
-  	# uuid in this case is the component uuid given on creation
-  	check auth,
-      uuid: Match.NonEmptyString
-      token: Match.NonEmptyString
+  # 'Component.sendData': (auth, body) ->
+  # 	# TODO: better checks.
+  # 	# uuid in this case is the component uuid given on creation
+  # 	check auth,
+  #     uuid: Match.NonEmptyString
+  #     token: Match.NonEmptyString
 
-    device = Device.documents.findOne auth,
-      fields:
-        _id: 1
-    throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
+  #   device = Device.documents.findOne auth,
+  #     fields:
+  #       _id: 1
+  #   throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
     
-    !!Data.documents.insert
-      device:
-        _id: device._id
-      body: body
-      insertedAt: new Date()
+  #   !!Data.documents.insert
+  #     device:
+  #       _id: device._id
+  #     body: body
+  #     insertedAt: new Date()
 
   'Component.create': (auth, component) ->
   	# TODO: better checks.
@@ -29,11 +29,11 @@ Meteor.methods
         _id: 1
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-
     document =
       uuid: Meteor.uuid()
       device:
         _id: device._id
+      owner: device.owner
       registeredAt: new Date()
       component: component
 

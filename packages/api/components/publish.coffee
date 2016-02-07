@@ -1,7 +1,6 @@
-new PublishEndpoint 'Component.list', (environmentUuid) ->
-  Component.documents.find
-    'owner._id': @userId
-    'environment.uuid': environmentUuid
+new PublishEndpoint 'Component.list', ->
+  Component.documents.find({})
+    # 'owner._id': @userId
 
 new PublishEndpoint 'Component.one', (componentUuid) ->
   # TODO: Do better checks.

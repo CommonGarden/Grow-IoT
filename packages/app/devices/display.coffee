@@ -19,7 +19,7 @@ class Device.DisplayComponent extends UIComponent
 
       @subscribe 'Data.points', deviceUuid
 
-      @subscribe 'Data.events', deviceUuid
+      # @subscribe 'Data.events', deviceUuid
 
     @autorun (computation) =>
       return unless @subscriptionsReady()

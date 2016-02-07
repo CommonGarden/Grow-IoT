@@ -53,7 +53,6 @@ new PublishEndpoint 'Device.messages', (auth) ->
         (error, documentId) =>
           if error
             console.error "New Notification Error", error
-            alert "New Notification Error: #{error.reason or error}"
           else
             Bert.alert 'Device offline.', 'warning', 'growl-top-right'
     ,
@@ -67,10 +66,15 @@ new PublishEndpoint 'Device.unclaimedList', ->
       $exists: false
 # / End nasty hack
 
-new PublishEndpoint 'Device.list', (environmentUuid) ->
+# Maybe this should be a publish end point in Environment methods
+new PublishEndpoint 'Device.listByEnvironment', (environmentUuid) ->
   Device.documents.find
     'owner._id': @userId
     'environment.uuid': environmentUuid
+
+new PublishEndpoint 'Device.list', ->
+  Device.documents.find
+    'owner._id': @userId
 
 new PublishEndpoint 'Device.one', (deviceUuid) ->
   # TODO: Do better checks.
