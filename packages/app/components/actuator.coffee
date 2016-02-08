@@ -1,19 +1,19 @@
-class Component.DisplayComponent extends Device.DisplayComponent
-  @register 'Component.DisplayComponent'
+class Device.ActuatorComponent extends Device.DisplayComponent
+  @register 'Device.ActuatorComponent'
 
   onCreated: ->
     super
 
     # @type = Template.currentData().type
 
-    @subscribe 'Component.one', Template.currentData().uuid
+    # @subscribe 'Component.one', Template.currentData().uuid
 
     # @components = new ComputedField =>
     #   @device().thing.components
 
-  component: ->
-    Component.documents.findOne
-      "uuid": Template.currentData().uuid
+  # component: ->
+  #   Component.documents.findOne
+  #     "uuid": Template.currentData().uuid
 
   events: ->
     super.concat
