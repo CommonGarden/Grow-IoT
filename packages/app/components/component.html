@@ -1,6 +1,6 @@
-<template name="Device.Sensor">
-	<li data-uuid="{{component.uuid}}" data-id="{{component._id}}">
-		{{#with component.component}}
+<template name="Device.Component">
+	<li data-uuid="{{uuid}}" data-id="{{_id}}">
+		{{#with component}}
 			<h4>{{name}}</h4>
 			<div class="state">
 				<h5>{{state}}</h5>

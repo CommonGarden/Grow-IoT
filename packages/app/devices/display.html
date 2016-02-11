@@ -27,6 +27,12 @@
 							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
 						{{/each}}
 
+						{{#each device.thing.components}}
+							<ul>
+								{{> Device.Component}}
+							</ul>
+						{{/each}}
+
 						<!-- Actuators -->
 						<!-- {{> Device.ListComponent type="actuator"}} -->
 
