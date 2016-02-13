@@ -23,15 +23,17 @@
 
 <!-- 					{{#if device.onlineSince }} -->
 
-						{{#each  device.thing.actions}}
+						{{#each device.thing.actions}}
 							<p><button class="btn command" data-call="{{call}}" data-options="{{options}}">{{name}}</button></p>
 						{{/each}}
 
+						{{> Device.ActuatorListComponent}}
+<!-- 
 						{{#each device.thing.components}}
 							<ul>
-								{{> Device.Component}}
+								{{> Device.Component type=type class=class}}
 							</ul>
-						{{/each}}
+						{{/each}} -->
 
 						<!-- Actuators -->
 						<!-- {{> Device.ListComponent type="actuator"}} -->
@@ -53,6 +55,7 @@
 				</div>
 
 				<div class="col-lg-6 sensor-viz">
+					{{> Device.SensorListComponent}}
 					<!-- {{#if device.onlineSince }} -->
 						<!-- {{> Component.ListComponent type="sensor"}} -->
 					<!-- {{else}} -->

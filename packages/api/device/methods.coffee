@@ -16,7 +16,7 @@ Meteor.methods
     !!Data.documents.insert
       device:
         _id: device._id
-      body: body
+      data: body
       insertedAt: new Date()
 
 
@@ -69,20 +69,6 @@ Meteor.methods
     #       _id: user._id
 
     document
-
-  # 'Device.registerComponents': (auth, components) ->
-  #   # TODO: better checks
-  #   # check components, Object
-
-  #   # TODO: give them a UUID call the new component method.
-  #   for component in components
-  #     # console.log component
-  #     Meteor.call 'Component.create',
-  #       auth,
-  #       component,
-  #     , (error, documentId) =>
-  #         if error
-  #           console.error "New deviceerror", error
   
   # For front end use.
   # This is a hack.
@@ -102,20 +88,6 @@ Meteor.methods
         'environment':
           environment.getReference()
         # 'order': deviceCount
-
-    # auth =
-    #   uuid: device.uuid
-    #   token: device.token
-
-    # We should update these components with owner information...
-    # Maybe we should call them in claim device? Or if owner is set.
-    # Meteor.call 'Device.registerComponents',
-    #   auth,
-    #   device.thing.components,
-    # , (error, documentId) =>
-    #   if error
-    #     console.error "New deviceerror", error
-    #     alert "New deviceerror: #{error.reason or error}"
 
   # Device.move: -> # Move device to different environment?
 

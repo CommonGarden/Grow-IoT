@@ -1,3 +1,5 @@
+# Maybe this should just be a base class that the others inherit from?
+
 class Device.Component extends Device.DisplayComponent
   @register 'Device.Component'
 
@@ -6,18 +8,23 @@ class Device.Component extends Device.DisplayComponent
   # Components could eventually include their own templates.
 
   onCreated: ->
-  	super
+    super
 
-  	# Perhaps all visualization components can eventually inherit from this class
-  	# then real time visualization can become a package of it's own.
+    # Perhaps all visualization components can eventually inherit from this class
+    # then real time visualization can become a package of it's own.
 
-  	# templateData = Template.currentData()
-  	# @chartType = templateData.chartType
-  	# if @chartType == "line"
-  	# 	@lineChart = true
+    @type = Template.currentData().type
+    @class = Template.currentData().class
 
-  	# @property = templateData.property
-  
+    console.log @class
+    console.log @type
+
+    if @class == "sensor"
+      @sensor = true
+
+    if @class == "actuator"
+      @actuator = true
+
   events: ->
     super.concat
       'click .command': (e) ->

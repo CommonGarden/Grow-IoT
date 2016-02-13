@@ -1,0 +1,13 @@
+<template name="Device.ActuatorComponent">
+	<li class="actuator">
+		<h4>{{name}}</h4>
+		<div class="state">
+			<h5>{{state}}</h5>
+			</div>
+			<div class="actions">
+			{{#each actions}}
+				<button class="btn command" data-call="{{call}}">{{name}}</button>
+			{{/each}}
+		</div>
+	</li>
+</template>

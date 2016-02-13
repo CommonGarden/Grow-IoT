@@ -32,7 +32,7 @@ Package.onUse(function (api) {
     'jquery'
   ]);
 
-  // TODO: organize and document this better.
+  // Note: files are loaded in by order in the list, see Meteor docs for more info.
   api.addFiles([
     'layout/layout.html',
     'layout/layout.coffee',
@@ -67,12 +67,14 @@ Package.onUse(function (api) {
     'components/visualization/gauge.html',
     'components/visualization/visualization.coffee',
     'components/visualization/visualization.html',
-    'components/actuator.coffee',
-    'components/actuator.html',
-    'components/list.coffee',
-    'components/list.html',
-    'components/sensor.coffee',
-    'components/sensor.html',
+    'components/actuators/actuator.coffee',
+    'components/actuators/actuator.html',
+    'components/actuators/list.coffee',
+    'components/actuators/list.html',
+    'components/sensors/list.coffee',
+    'components/sensors/list.html',
+    'components/sensors/sensor.coffee',
+    'components/sensors/sensor.html',
     'components/component.coffee',
     'components/component.html',
 

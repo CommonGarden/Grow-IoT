@@ -57,6 +57,7 @@ class Device.LineChartComponent extends UIComponent
 
       property = Template.currentData().property
 
+      # TODO: clean up.
       y.domain d3.extent(dataset, (d) ->
         for reading in d.body.readings
           if reading.type == property
