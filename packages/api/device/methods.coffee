@@ -37,6 +37,12 @@ Meteor.methods
 
   # Need to test this works with v0.1 grow.js
   'Device.emitEvent': (auth, body) ->
+    check auth,
+      uuid: Match.NonEmptyString
+      token: Match.NonEmptyString
+
+    console.log "called."
+
     device = Device.documents.findOne auth,
       fields:
         _id: 1
