@@ -19,7 +19,7 @@ cd Grow-IoT
 meteor
 ```
 
-And that's it! You should now have an application running on http://localhost:3000
+And that's it! You should now have a meteor application running on http://localhost:3000
 
 # Making and connecting new devices
 For more info on making a device driver and connecting to Common Garden, see our [grow.js library](https://github.com/CommonGarden/grow.js).
