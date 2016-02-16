@@ -31,10 +31,7 @@ new PublishEndpoint 'Data.events', (deviceUuid) ->
 
   throw new Meteor.Error 'not-found', "Device '#{deviceUuid}' cannot be found." unless device
 
-  # TODO: refine query to remove data points
-  # console.log Data.documents.find
-  #   'device._id': device._id
-    # 'event': 1
-
+  # Return data documents with an event field.
   Data.documents.find
     'device._id': device._id
+    'event': 1

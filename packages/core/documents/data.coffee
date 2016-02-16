@@ -8,7 +8,7 @@ class Data extends share.BaseDocument
     name: 'Data'
     collection: 'Data'
     fields: =>
-      device: @ReferenceField Device
+      device: @ReferenceField Device, Device.REFERENCE_FIELDS()
 
     # triggers: =>
     #   rules: @Trigger ['insertedAt', 'device', 'body'], (newDocument, oldDocument) ->

@@ -6,7 +6,10 @@
 			</div>
 			<div class="actions">
 			{{#each actions}}
-				<button class="btn command" data-call="{{call}}">{{name}}</button>
+				<button class="btn command"
+						data-call="{{call}}"
+						data-options="{{options}}">
+						{{name}}</button>
 			{{/each}}
 		</div>
 	</li>

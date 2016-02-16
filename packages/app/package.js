@@ -60,6 +60,8 @@ Package.onUse(function (api) {
     'devices/list_item.html',
     'devices/new_device.coffee',
     'devices/new_device.html',
+    'devices/event_log.coffee',
+    'devices/event_log.html',
 
     'components/visualization/linechart.coffee',
     'components/visualization/linechart.html',
@@ -75,8 +77,6 @@ Package.onUse(function (api) {
     'components/sensors/list.html',
     'components/sensors/sensor.coffee',
     'components/sensors/sensor.html',
-    'components/component.coffee',
-    'components/component.html',
 
     'lib/html5-sortable.jquery.min.js',
     

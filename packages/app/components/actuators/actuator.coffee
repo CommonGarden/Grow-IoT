@@ -11,6 +11,7 @@ class Device.ActuatorComponent extends Device.DisplayComponent
       'click .command': (e) ->
         e.preventDefault()
         type = e.currentTarget.dataset.call
+        # OPTIONS NOT WORKING.
         options = e.currentTarget.dataset.options?
         Meteor.call 'Device.sendCommand',
           @currentDeviceUuid(),

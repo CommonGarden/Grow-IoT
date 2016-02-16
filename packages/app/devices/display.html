@@ -43,14 +43,7 @@
 					{{/if}}
  -->
 					<hr/>
-
-					<!-- TODO: get events working again. -->
-					{{#if eventLog}}
-						<h4>Event log</h4>
-						{{#each eventLog}}
-							<p>{{event.name}}, {{event.timestamp}}</p>
-						{{/each}}
-					{{/if}}
+					{{> Device.EventLogComponent}}
 
 				</div>
 

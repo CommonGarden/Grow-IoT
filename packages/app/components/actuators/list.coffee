@@ -7,9 +7,9 @@ class Device.ActuatorListComponent extends Device.DisplayComponent
     # console.log @device()
 
   actuators: ->
-  	device = @device()
-  	list = []
-  	for component in device.thing.components
-  		if component.class == "actuator"
-  			list.push component
-  	list
+    device = @device()
+    list = []
+    for component in device.thing.components
+      if component.template == "actuator"
+        list.push component
+    list
