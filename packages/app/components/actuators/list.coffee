@@ -4,8 +4,6 @@ class Device.ActuatorListComponent extends Device.DisplayComponent
   onCreated: ->
     super
 
-    # console.log @device()
-
   actuators: ->
     device = @device()
     list = []

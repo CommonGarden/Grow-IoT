@@ -5,9 +5,9 @@ class Device.SensorListComponent extends Device.DisplayComponent
     super
 
   sensors: ->
-  	device = @device()
-  	list = []
-  	for component in device.thing.components
-  		if component.class == "sensor"
-  			list.push component
-  	list
+    device = @device()
+    list = []
+    for component in device.thing.components
+      if component.template == "sensor"
+        list.push component
+    list
