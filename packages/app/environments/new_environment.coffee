@@ -33,6 +33,7 @@ class Environment.NewComponent extends UIComponent
               alert "New enivironmenterror: #{error.reason or error}"
               return
 
+            Bert.alert 'Environment ' + name + ' created.', 'success', 'growl-top-right'
             params = { uuid: documentId.uuid }
             path = FlowRouter.path('Environment.DisplayComponent', params)
             FlowRouter.go path

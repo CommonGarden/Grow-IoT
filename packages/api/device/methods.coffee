@@ -16,7 +16,7 @@ Meteor.methods
     !!Data.documents.insert
       device:
         _id: device._id
-      body: body
+      data: body
       insertedAt: new Date()
 
 
@@ -35,26 +35,29 @@ Meteor.methods
       $set:
         'thing': body
 
-
+  # Need to test this works with v0.1 grow.js
   'Device.emitEvent': (auth, body) ->
+    check auth,
+      uuid: Match.NonEmptyString
+      token: Match.NonEmptyString
+
+    console.log "called."
+
     device = Device.documents.findOne auth,
       fields:
         _id: 1
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-    !!Events.documents.insert
+    !!Data.documents.insert
       device:
         _id: device._id
-      body: body
+      event: body
       insertedAt: new Date()
 
   
   'Device.register': (deviceInfo) ->
     # TODO: better checks
     # check deviceInfo, Object
-
-    # TODO if the user has specified a username or user id in their config file,
-    # then claim the device under that account. Call the claim device method.
 
     document =
       uuid: Meteor.uuid()
@@ -64,10 +67,17 @@ Meteor.methods
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
+    # TODO: claim device via config file?
+    # if deviceInfo.owner?
+    #   if Meteor.isServer
+    #     user = Accounts.findUserByEmail(deviceInfo.owner)
+    #     document.owner = 
+    #       _id: user._id
+
     document
-
-
+  
   # For front end use.
+  # This is a hack.
   'Device.claim': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
     check environmentUuid, Match.NonEmptyString
@@ -84,7 +94,6 @@ Meteor.methods
         'environment':
           environment.getReference()
         # 'order': deviceCount
-
 
   # Device.move: -> # Move device to different environment?
 

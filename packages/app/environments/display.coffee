@@ -17,7 +17,7 @@ class Environment.DisplayComponent extends UIComponent
 
       @subscribe 'Environment.one', uuid
 
-      @subscribe 'Device.list', uuid
+      @subscribe 'Device.list'
 
       @subscribe 'Plant.list', uuid
 

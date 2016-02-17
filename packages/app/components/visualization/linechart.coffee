@@ -18,6 +18,9 @@ class Device.LineChartComponent extends UIComponent
       Device.documents.findOne
         uuid: @currentDeviceUuid()
 
+    # TODO: only get data by type: light, ph, etc.
+    property = Template.currentData().property
+
     @datapoints = new ComputedField =>
       Data.documents.find
         'device._id': @device()._id
@@ -52,25 +55,17 @@ class Device.LineChartComponent extends UIComponent
       paths = svg.selectAll('path.line').data( dataset )
 
       x.domain d3.extent(dataset, (d) ->
-        d.body.timestamp
+        d.timestamp
       )
 
-      property = Template.currentData().property
-
       y.domain d3.extent(dataset, (d) ->
-        for reading in d.body.readings
-          if reading.type == property
-            value = reading.value
-        value
+        d.data.value
       )
 
       line = d3.svg.line().x((d) ->
-        x d.body.timestamp
+        x d.timestamp
       ).y((d) ->
-        for reading in d.body.readings
-          if reading.type == property
-            value = reading.value
-        y value
+        y d.data.value
       ).interpolate("linear")
 
       #Update X axis
