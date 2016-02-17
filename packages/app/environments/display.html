@@ -16,9 +16,27 @@
 
 					{{#if emptyState}}
 						<div class="jumbotron">
-							<p>Get started growing in this environment by adding devices or plants.</p>
-							<button class="btn btn-lg new-device"><i class="glyphicon glyphicon-dashboard"></i> New IoT Device</button>
-							<button class="btn btn-lg new-plant"><i class="glyphicon glyphicon-tree-deciduous"></i> New Plant</button>
+							<p>Get started growing in this environment by adding devices:</p>
+							{{> Device.NewComponent}}
+<!-- 							<button class="btn btn-lg btn-primary new-device"><i class="glyphicon glyphicon-dashboard"></i> New Device</button> -->
+							<!-- Help modal -->
+					        <div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					          <div class="modal-dialog">
+					            <div class="modal-content">
+					              <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					                <h4 class="modal-title">Connecting devices</h4>
+					              </div>
+					              <div class="modal-body">
+					                <p>Turn you devices on an make sure they are configured so that the host points to <code>grow.commongarden.org</code>.</p>
+					                <p>For more information on creating common garden drivers please see the <a href="https//github.com/CommonGarden/CommonGarden-IoT/">documentation on GitHub</a>.</p>
+					              </div><!-- /.modal-body -->
+					            </div><!-- /.modal-content -->
+					          </div><!-- /.modal-dialog -->
+					        </div><!-- /.modal-fade -->
+					        <button class="btn btn-lg" data-toggle="modal" data-target="#helpmodal">Help</button>
+							<!-- TODO: add plant. I think there should first be a device before we have a plant. -->
+<!-- 							<button class="btn btn-lg new-plant"><i class="glyphicon glyphicon-tree-deciduous"></i> New Plant</button> -->
 						</div>
 					{{else}}
 						<nav class="navbar navbar-default navbar-fixed-bottom cg-nav-bar">
