@@ -17,11 +17,9 @@ class Environment.DisplayComponent extends UIComponent
 
       @subscribe 'Environment.one', uuid
 
-      @subscribe 'Device.list'
+      @subscribe 'Device.listByEnvironment', uuid
 
       @subscribe 'Plant.list', uuid
-
-      @subscribe 'Device.unassignedList'
 
     @autorun (computation) =>
       return unless @subscriptionsReady()
@@ -40,21 +38,14 @@ class Environment.DisplayComponent extends UIComponent
 
   devices: ->
     Device.documents.find
-      'environment':
-        'uuid': @currentEnvironmentUuid()
+      'environment.uuid': @currentEnvironmentUuid()
 
   plants: ->
     Plant.documents.find()
 
-  unassignedDevicesList: ->
-    Device.documents.find
-      'owner._id': @userId
-      'environment':
-        $exists: false
-
   emptyState: ->
     # No plants or devices.
-    x = @devices().exists() or @plants().exists() and !@unassignedDevicesList
+    x = @devices().exists()
     !x
 
   environment: ->
@@ -66,7 +57,7 @@ class Environment.DisplayComponent extends UIComponent
   addDevice: (e) ->
     e.preventDefault()
     params = { uuid: @currentEnvironmentUuid() }
-    path = FlowRouter.path('Device.NewComponent', params)
+    path = FlowRouter.path('Environment.NewDeviceComponent', params)
     FlowRouter.go path
 
   addPlant: (e) ->

@@ -50,10 +50,10 @@ loggedIn.route '/',
       main: 'Dashboard'
 
 loggedIn.route '/environment/:uuid/new-device',
-  name: 'Device.NewComponent'
+  name: 'Environment.NewDeviceComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Device.NewComponent'
+      main: 'Environment.NewDeviceComponent'
 
 loggedIn.route '/new-environment',
   name: 'Environment.NewComponent'
