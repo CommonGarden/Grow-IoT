@@ -21,6 +21,8 @@ class Environment.DisplayComponent extends UIComponent
 
       @subscribe 'Plant.list', uuid
 
+      @subscribe 'Device.unassignedList'
+
     @autorun (computation) =>
       return unless @subscriptionsReady()
 
@@ -37,14 +39,22 @@ class Environment.DisplayComponent extends UIComponent
       'click .new-plant': @addPlant
 
   devices: ->
-    Device.documents.find()
+    Device.documents.find
+      'environment':
+        'uuid': @currentEnvironmentUuid()
 
   plants: ->
     Plant.documents.find()
 
+  unassignedDevicesList: ->
+    Device.documents.find
+      'owner._id': @userId
+      'environment':
+        $exists: false
+
   emptyState: ->
     # No plants or devices.
-    x = @devices().exists() or @plants().exists()
+    x = @devices().exists() or @plants().exists() and !@unassignedDevicesList
     !x
 
   environment: ->

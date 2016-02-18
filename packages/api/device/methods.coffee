@@ -54,7 +54,7 @@ Meteor.methods
       event: body
       insertedAt: new Date()
 
-  
+
   'Device.register': (deviceInfo) ->
     # TODO: better checks
     # check deviceInfo, Object
@@ -65,19 +65,48 @@ Meteor.methods
       registeredAt: new Date()
       thing: deviceInfo
 
-    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
-
     # TODO: claim device via config file?
-    # if deviceInfo.owner?
-    #   if Meteor.isServer
-    #     user = Accounts.findUserByEmail(deviceInfo.owner)
-    #     document.owner = 
-    #       _id: user._id
+    if deviceInfo.owner?
+      if Meteor.isServer
+        user = Accounts.findUserByEmail(deviceInfo.owner)
+        document.owner = 
+          _id: user._id
+      else 
+        throw new Meteor.Error 'internal-error', 'The device has no owner.'
+
+    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
     document
   
-  # For front end use.
-  # This is a hack.
+  'Device.assignEnvironment': (deviceUuid, environmentUuid) ->
+    check deviceUuid, Match.NonEmptyString
+    check environmentUuid, Match.NonEmptyString
+
+    device = Device.documents.findOne
+      'uuid': deviceUuid
+      'owner._id': Meteor.userId()
+    environment = Environment.documents.findOne
+      'uuid': environmentUuid
+
+    Device.documents.update device._id,
+      '$set':
+        'environment':
+          environment.getReference()
+
+  'Device.unassignEnvironment': (deviceUuid, environmentUuid) ->
+    check deviceUuid, Match.NonEmptyString
+    check environmentUuid, Match.NonEmptyString
+
+    device = Device.documents.findOne
+      'uuid': deviceUuid
+      'owner._id': Meteor.userId()
+    environment = Environment.documents.findOne
+      'uuid': environmentUuid
+
+    Device.documents.update device._id,
+      '$unset':
+        'environment': ""
+
   'Device.claim': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
     check environmentUuid, Match.NonEmptyString

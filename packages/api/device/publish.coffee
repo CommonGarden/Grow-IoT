@@ -58,13 +58,11 @@ new PublishEndpoint 'Device.messages', (auth) ->
     ,
       5000 # ms
 
-# This is a nasty temporary HACK
-new PublishEndpoint 'Device.unclaimedList', ->
-  # TODO: adjust query to not return devices without an owner.
+new PublishEndpoint 'Device.unassignedList', ->
   Device.documents.find
-    'owner._id':
+    'owner._id': @userId
+    'environment':
       $exists: false
-# / End nasty hack
 
 # Maybe this should be a publish end point in Environment methods
 new PublishEndpoint 'Device.listByEnvironment', (environmentUuid) ->
@@ -75,6 +73,9 @@ new PublishEndpoint 'Device.listByEnvironment', (environmentUuid) ->
 new PublishEndpoint 'Device.list', ->
   Device.documents.find
     'owner._id': @userId
+    'environment':
+      $exists: true
+
 
 new PublishEndpoint 'Device.one', (deviceUuid) ->
   # TODO: Do better checks.

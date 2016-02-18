@@ -12,7 +12,7 @@ class Device extends share.BaseDocument
   @Meta
     name: 'Device'
     fields: =>
-      owner: @ReferenceField User, [], false
+      owner: @ReferenceField User, []
       environment: @ReferenceField Environment, Environment.REFERENCE_FIELDS(), false, 'devices'
 
   getReference: ->

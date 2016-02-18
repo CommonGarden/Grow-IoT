@@ -58,8 +58,6 @@ Package.onUse(function (api) {
     'devices/list.html',
     'devices/list_item.coffee',
     'devices/list_item.html',
-    'devices/new_device.coffee',
-    'devices/new_device.html',
     'devices/event_log.coffee',
     'devices/event_log.html',
 
@@ -79,7 +77,7 @@ Package.onUse(function (api) {
     'components/sensors/sensor.html',
 
     'lib/html5-sortable.jquery.min.js',
-    
+
     'environments/display.coffee',
     'environments/display.html',
     'environments/list.coffee',
@@ -88,11 +86,13 @@ Package.onUse(function (api) {
     'environments/list_item.html',
     'environments/new_environment.coffee',
     'environments/new_environment.html',
-    
+    'environments/new_device.coffee',
+    'environments/new_device.html',
+
     'routes.coffee',
-    
+
     'lib/jquery-cron.js',
-    
+
     'plants/images.coffee',
     'plants/images.html',
     'plants/new_plant.coffee',
@@ -103,7 +103,7 @@ Package.onUse(function (api) {
     'plants/list_item.html',
     'plants/list.coffee',
     'plants/list.html',
-    
+
     'notifications/notifications.coffee',
     'notifications/notifications.html'
   ], 'client');

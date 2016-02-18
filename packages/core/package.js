@@ -46,7 +46,6 @@ Package.onUse(function (api) {
     'documents/notifications.coffee',
     'documents/plant.coffee',
     'documents/images.coffee',
-    'documents/component.coffee',
     'finalize-documents.coffee'
   ]);
 
