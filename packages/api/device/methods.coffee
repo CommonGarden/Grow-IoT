@@ -6,7 +6,7 @@ Meteor.methods
       # TODO: Do better checks.
       uuid: Match.NonEmptyString
       token: Match.NonEmptyString
-    check body, Object
+    # check body, Object
 
     device = Device.documents.findOne auth,
       fields:
@@ -19,7 +19,8 @@ Meteor.methods
       data: body
       insertedAt: new Date()
 
-
+  # Can we do this better? As it is written now, we update the whole thing object.
+  # That's a lot of information to convey to update a property. : /
   'Device.udpateProperties': (auth, body) ->
     check auth,
       uuid: Match.NonEmptyString
@@ -40,8 +41,6 @@ Meteor.methods
     check auth,
       uuid: Match.NonEmptyString
       token: Match.NonEmptyString
-
-    console.log "called."
 
     device = Device.documents.findOne auth,
       fields:

@@ -34,4 +34,8 @@ new PublishEndpoint 'Data.events', (deviceUuid) ->
   # Return data documents with an event field.
   Data.documents.find
     'device._id': device._id
-    'event': 1
+    'event':
+      $exists: true
+  ,
+    'sort':
+      'insertedAt': -1

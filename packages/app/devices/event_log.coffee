@@ -7,14 +7,14 @@ class Device.EventLogComponent extends UIComponent
     @currentDeviceUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
-    @autorun (computation) =>
-      deviceUuid = @currentDeviceUuid()
-      return unless deviceUuid
-
-      @subscribe 'Device.one', deviceUuid
-
-      @subscribe 'Data.events', deviceUuid
+    @subscribe 'Data.events', @currentDeviceUuid()
 
   eventsLog: ->
     Data.documents.find
       'device.uuid': @currentDeviceUuid()
+      'event':
+        $exists: true
+    ,
+      'sort':
+        'insertedAt': -1
+

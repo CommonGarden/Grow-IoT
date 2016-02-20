@@ -4,6 +4,9 @@ class Environment.NewDeviceComponent extends UIComponent
   onCreated: ->
     super
 
+    @currentEnvironmentUuid = new ComputedField =>
+      FlowRouter.getParam 'uuid'
+
     @subscribe 'Device.unassignedList'
 
   unassignedDevicesList: ->
