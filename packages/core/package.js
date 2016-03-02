@@ -30,7 +30,7 @@ Package.onUse(function (api) {
   api.export('User');
   api.export('Device');
   api.export('Data');
-  api.export('Events');
+  api.export('Component');
   api.export('Environment');
   api.export('Notifications');
   api.export('Plant');
@@ -43,7 +43,6 @@ Package.onUse(function (api) {
     'documents/environment.coffee',
     'documents/device.coffee',
     'documents/data.coffee',
-    'documents/events.coffee',
     'documents/notifications.coffee',
     'documents/plant.coffee',
     'documents/images.coffee',

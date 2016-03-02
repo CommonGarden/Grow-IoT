@@ -1,20 +1,16 @@
-class Device.NewComponent extends UIComponent
-  @register 'Device.NewComponent'
+class Environment.NewDeviceComponent extends UIComponent
+  @register 'Environment.NewDeviceComponent'
 
   onCreated: ->
     super
 
-    @subscribe 'Device.unclaimedList'
-
     @currentEnvironmentUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
-    @subscribe 'Environment.one', @currentEnvironmentUuid()
-    
-  unclaimedDevicesList: ->
-    Device.documents.find
-      'owner._id':
-        $exists: false
+    @subscribe 'Device.unassignedList'
+
+  unassignedDevicesList: ->
+    Device.documents.find({})
 
   events: ->
     super.concat
@@ -26,7 +22,7 @@ class Device.NewComponent extends UIComponent
     # We get the uuid from the data-uuid attribute
     deviceUuid = event.currentTarget.dataset.uuid
 
-    Meteor.call 'Device.claim',
+    Meteor.call 'Device.assignEnvironment',
       deviceUuid,
       @currentEnvironmentUuid(),
     ,
@@ -36,6 +32,7 @@ class Device.NewComponent extends UIComponent
           alert "New deviceerror: #{error.reason or error}"
           return
 
+        # TODO: fix this.
         params = { uuid: @currentEnvironmentUuid() }
         path = FlowRouter.path('Environment.DisplayComponent', params)
         FlowRouter.go path

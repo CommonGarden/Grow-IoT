@@ -53,24 +53,29 @@ new PublishEndpoint 'Device.messages', (auth) ->
         (error, documentId) =>
           if error
             console.error "New Notification Error", error
-            alert "New Notification Error: #{error.reason or error}"
           else
             Bert.alert 'Device offline.', 'warning', 'growl-top-right'
     ,
       5000 # ms
 
-# This is a nasty temporary HACK
-new PublishEndpoint 'Device.unclaimedList', ->
-  # TODO: adjust query to not return devices without an owner.
+new PublishEndpoint 'Device.unassignedList', ->
   Device.documents.find
-    'owner._id':
+    'owner._id': @userId
+    'environment':
       $exists: false
-# / End nasty hack
 
-new PublishEndpoint 'Device.list', (environmentUuid) ->
+# Maybe this should be a publish end point in Environment methods
+new PublishEndpoint 'Device.listByEnvironment', (environmentUuid) ->
   Device.documents.find
     'owner._id': @userId
     'environment.uuid': environmentUuid
+
+new PublishEndpoint 'Device.list', ->
+  Device.documents.find
+    'owner._id': @userId
+    'environment':
+      $exists: true
+
 
 new PublishEndpoint 'Device.one', (deviceUuid) ->
   # TODO: Do better checks.

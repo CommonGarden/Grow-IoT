@@ -36,7 +36,6 @@ Package.onUse(function (api) {
     'device/publish.coffee',
     'device/server-methods.coffee',
     'data/publish.coffee',
-    'events/publish.coffee',
     'environment/publish.coffee',
     'notifications/publish.coffee',
     'plant/publish.coffee',

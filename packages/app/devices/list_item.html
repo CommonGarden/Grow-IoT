@@ -1,6 +1,6 @@
 <template name="Device.ListItemComponent">
   <li class="list-item device" data-uuid="{{uuid}}" data-id="{{_id}}">
-    {{#with thing.model.properties}}
+    {{#with thing}}
       <h2>{{name}}</h2>
     {{/with}}
     {{#if onlineSince}}

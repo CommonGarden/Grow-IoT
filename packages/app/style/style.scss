@@ -19,6 +19,10 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.small {
+  font-size: 0.8em !important;
+}
+
 .dashboard {
   padding: 40px;
 }
@@ -164,4 +168,9 @@ body {
     margin-left: 10px;
     color: #c77;
     font-size: 0.9em;
+}
+
+.unclaimed {
+  margin-right: 5px;
+  margin-left: 5px;
 }

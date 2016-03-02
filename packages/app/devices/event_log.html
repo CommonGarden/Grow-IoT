@@ -1,0 +1,8 @@
+<template name="Device.EventLogComponent">
+	{{#if eventsLog}}
+		<h4>Event log</h4>
+		{{#each eventsLog}}
+			<p>{{event.name}}, {{event.timestamp}}</p>
+		{{/each}}
+	{{/if}}
+</template>

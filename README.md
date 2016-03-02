@@ -4,7 +4,7 @@
 
 [General Feedback](http://forum.commongarden.org/c/feedback)
 
-# Installing CommonGarden-IoT (OSX and Linux)
+# Installing Grow-IoT (OSX and Linux)
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
 ```
@@ -14,18 +14,15 @@ curl https://install.meteor.com/ | sh
 Then clone the repo, enter the new directory, and start meteor.
 
 ```
-git clone https://github.com/CommonGarden/CommonGarden-IoT
-cd CommonGarden-IoT
+git clone https://github.com/CommonGarden/Grow-IoT
+cd Grow-IoT
 meteor
 ```
 
-And that's it! You should now have an application running on http://localhost:3000
+And that's it! You should now have a meteor application running on http://localhost:3000
 
 # Making and connecting new devices
-For more info on making a device driver and connecting to Common Garden, see our [grow.js library](https://github.com/CommonGarden/grow.js). Or checkout out one of these examples:
-
-* Simple LED light example: https://github.com/CommonGarden/cg-led-light-arduino
-* Arduino Growkit: https://github.com/CommonGarden/growkit-arduino
+For more info on making a device driver and connecting to Common Garden, see our [grow.js library](https://github.com/CommonGarden/grow.js).
 
 ## Contributing
 

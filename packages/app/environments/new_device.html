@@ -1,0 +1,27 @@
+<template name="Environment.NewDeviceComponent">
+  {{#if unassignedDevicesList.exists}}
+      <!-- <h3>Unclaimed devices nearby</h3> -->
+      {{#each unassignedDevicesList}}
+      <div class="row unclaimed jumbotron list-item" data-uuid="{{uuid}}">
+        <div class="col-lg-12">
+          <p>Name: {{thing.name}}</p>
+          <p>Device ID: {{uuid}}</p>
+        </div>        
+      </div>
+      {{/each}}
+  {{else}}
+    <!-- Empty State: needs more work. Should give people adequate help with connecting devices. -->
+    <div class="row jumbotron list-item">
+      <div class="col-lg-12">
+        <p>No unclaimed devices were detected on your network, waiting for devices to join. <em>They will be listed here upon connection.</em></p>
+
+        <p>For help connecting devices to this grow instance, refer to the <a href="" target="_blank">grow.js readme</a>.</p>
+
+        <hr/>
+
+        <p class="small">Note: once we get the alpha out the door, we're going to focus on making the usability of connecting devices much better. ; )</p>
+
+      </div>
+    </div>
+  {{/if}}
+</template>
