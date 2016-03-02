@@ -19,22 +19,38 @@ Meteor.methods
       data: body
       insertedAt: new Date()
 
+
   # Can we do this better? As it is written now, we update the whole thing object.
   # That's a lot of information to convey to update a property. : /
-  'Device.udpateProperties': (auth, body) ->
+  'Device.udpateProperty': (auth, componentName,  propertyKey, value) ->
     check auth,
       uuid: Match.NonEmptyString
       token: Match.NonEmptyString
+    check componentName, Match.NonEmptyString
+    check propertyKey, Match.NonEmptyString
 
+    # TODO: check value... though it could be many things, JSON object, boolean, null, a string, an array.
+    # It shouldn't be a function or contain any functions.
     device = Device.documents.findOne auth,
       fields:
         _id: 1
+        thing: 1
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
-    # TODO: better checks.
+    # Update the propery on the thing object
+    thing = device.thing
+    for key of thing
+      if key == 'components'
+        for item of thing.components
+          if thing.components[item].name == componentName
+            thing.components[item][propertyKey] = value
+      else if thing[key] == componentName
+        thing[key] = value
+
+    # Set the new thing object
     Device.documents.update device._id,
       $set:
-        'thing': body
+        'thing': thing
 
   # Need to test this works with v0.1 grow.js
   'Device.emitEvent': (auth, body) ->
@@ -55,8 +71,8 @@ Meteor.methods
 
 
   'Device.register': (deviceInfo) ->
-    # TODO: better checks
-    # check deviceInfo, Object
+    # TODO: better checks.
+    # Device info should be a valid json object.
 
     document =
       uuid: Meteor.uuid()

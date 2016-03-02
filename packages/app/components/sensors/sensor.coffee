@@ -1,11 +1,11 @@
-class Device.Sensor extends Device.DisplayComponent
-  @register 'Device.Sensor'
+class Device.SensorComponent extends Device.DisplayComponent
+  @register 'Device.SensorComponent'
 
   onCreated: ->
     super
 
     @type = Template.currentData().type
-    @class = Template.currentData().class
+    # @class = Template.currentData().class
 
   events: ->
     super.concat
