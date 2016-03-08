@@ -5,10 +5,12 @@
 		<p class="">{{description}}</p>
 		<div class="actions">
 			{{#each actions}}
-				<button class="btn command"
+				<p><button class="btn command"
 						data-call="{{call}}"
 						data-options="{{options}}">
 						{{name}}</button>
+					{{schedule}} <a href="#" class="small">change</a>
+				</p>
 			{{/each}}
 		</div>
 	</li>
