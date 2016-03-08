@@ -5,8 +5,10 @@
       <!-- {{> Device.SensorComponent type=type}} -->
       <li class="sensor">
         <h4>{{name}}</h4>
-          {{> Device.LineChartComponent property=type}}
+        {{> LineChartComponent property=type}}
+        <p class="">{{description}}</p>
           <div class="actions">
+          <!-- TODO: sensors have log data actions, need ui for scheduling. -->
           {{#each actions}}
             <button class="btn command" data-call="{{call}}">{{name}}</button>
             {{schedule}}

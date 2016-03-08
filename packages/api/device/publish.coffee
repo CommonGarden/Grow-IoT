@@ -76,7 +76,6 @@ new PublishEndpoint 'Device.list', ->
     'environment':
       $exists: true
 
-
 new PublishEndpoint 'Device.one', (deviceUuid) ->
   # TODO: Do better checks.
   check deviceUuid, Match.NonEmptyString
