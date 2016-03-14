@@ -51,6 +51,7 @@ Package.onUse(function (api) {
 
     'style/style.scss',
     'style/navigation.scss',
+    'style/responsive.scss',
 
     'devices/display.coffee',
     'devices/display.html',

@@ -35,7 +35,8 @@ class Device.ListComponent extends UIComponent
 
   # TODO: Sort this list based on the order
   devicesList: ->
-    Device.documents.find()
+    Device.documents.find
+      'environment.uuid': @currentEnvironmentUuid()
 
   events: ->
     super.concat

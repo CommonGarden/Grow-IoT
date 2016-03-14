@@ -20,8 +20,6 @@ Meteor.methods
       insertedAt: new Date()
 
 
-  # Can we do this better? As it is written now, we update the whole thing object.
-  # That's a lot of information to convey to update a property. : /
   'Device.udpateProperty': (auth, componentName,  propertyKey, value) ->
     check auth,
       uuid: Match.NonEmptyString
@@ -31,6 +29,7 @@ Meteor.methods
 
     # TODO: check value... though it could be many things, JSON object, boolean, null, a string, an array.
     # It shouldn't be a function or contain any functions.
+
     device = Device.documents.findOne auth,
       fields:
         _id: 1
@@ -52,7 +51,7 @@ Meteor.methods
       $set:
         'thing': thing
 
-  # Need to test this works with v0.1 grow.js
+
   'Device.emitEvent': (auth, body) ->
     check auth,
       uuid: Match.NonEmptyString
@@ -72,7 +71,7 @@ Meteor.methods
 
   'Device.register': (deviceInfo) ->
     # TODO: better checks.
-    # Device info should be a valid json object.
+    check deviceInfo, Object
 
     document =
       uuid: Meteor.uuid()
@@ -86,16 +85,19 @@ Meteor.methods
         user = Accounts.findUserByEmail(deviceInfo.owner)
         document.owner = 
           _id: user._id
-      else 
-        throw new Meteor.Error 'internal-error', 'The device has no owner.'
+    else
+      throw new Meteor.Error 'internal-error', 'The device has no owner.'
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
     document
-  
+
+
   'Device.assignEnvironment': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
     check environmentUuid, Match.NonEmptyString
+
+    console.log environmentUuid
 
     device = Device.documents.findOne
       'uuid': deviceUuid
@@ -103,10 +105,13 @@ Meteor.methods
     environment = Environment.documents.findOne
       'uuid': environmentUuid
 
+    throw new Meteor.Error 'unauthorized', "Unauthorized." unless environment
+
     Device.documents.update device._id,
       '$set':
         'environment':
           environment.getReference()
+
 
   'Device.unassignEnvironment': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
@@ -121,6 +126,7 @@ Meteor.methods
     Device.documents.update device._id,
       '$unset':
         'environment': ""
+
 
   'Device.claim': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
@@ -139,7 +145,6 @@ Meteor.methods
           environment.getReference()
         # 'order': deviceCount
 
-  # Device.move: -> # Move device to different environment?
 
   'Device.remove': (uuid) ->
     check uuid, Match.NonEmptyString
