@@ -1,3 +1,7 @@
+# Status: pre-alpha
+
+Make proposals or comment on issues if you want to contribute. I'm currently working to get this documented and released with a first draft of the UI soon. 
+
 [![Slack Status](http://slack.commongarden.org/badge.svg)](http://slack.commongarden.org)
 
 [Feature Requests](http://forum.commongarden.org/c/feature-requests)
