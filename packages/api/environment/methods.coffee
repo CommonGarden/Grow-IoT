@@ -1,12 +1,12 @@
 Meteor.methods
-  'Environment.new': (name, insideOrOutside) ->
+  'Environment.new': (name) ->
     check name, Match.NonEmptyString
-    check insideOrOutside, Match.NonEmptyString
+    # check insideOrOutside, Match.NonEmptyString
 
     document =
       uuid: Meteor.uuid()
       name: name
-      type: insideOrOutside
+      # type: insideOrOutside
       owner: 
         _id: Meteor.userId()
       created: new Date()

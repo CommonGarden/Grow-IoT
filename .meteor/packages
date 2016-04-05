@@ -42,3 +42,4 @@ meteor-bootstrap-slider
 vsivsi:job-collection
 percolate:synced-cron
 force-ssl
+perak:mqtt-collection

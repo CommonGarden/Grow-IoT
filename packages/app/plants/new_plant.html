@@ -2,7 +2,10 @@
   <!-- Todo: add a search box to search for kings of things. -->
   <form id="newPlant" class="form-container">
     <div class='row dashboard'>
-	  	<div class="col-12-lg">
+    	<div class="col-6-lg">
+    		{{> Images.Upload}}
+    	</div>
+	  	<div class="col-6-lg">
   			  <div class="form-group">
 				    <label for="plantName">Plant name</label>
 				    <input type="text" class="form-control" id="plantName" name="name" placeholder="Name">
@@ -90,11 +93,26 @@
 					</div>
 
 					<div class="form-group">
+			   	<label for="min-ph">Min Ph:</label>
+	        	<br/>
+        		<span class="glyphicon glyphicon-chevron-left"></span>
+        		<input type="text" value="" placeholder="5.0" id="min-ph" class="small-input">
+        		<span class="glyphicon glyphicon-chevron-right"></span>
+	        	
+        		<br/>
 	        	<label for="ph">Target Ph:</label>
 	        	<br/>
         		<span class="glyphicon glyphicon-chevron-left"></span>
-        		<input type="text" value="" placeholder="7.0" id="ph" class="small-input">
+        		<input type="text" value="" placeholder="6.0" id="ph" class="small-input">
         		<span class="glyphicon glyphicon-chevron-right"></span>
+
+        		<br/>
+        		<label for="max-ph">Max Ph:</label>
+	        	<br/>
+        		<span class="glyphicon glyphicon-chevron-left"></span>
+        		<input type="text" value="" placeholder="7.0" id="max-ph" class="small-input">
+        		<span class="glyphicon glyphicon-chevron-right"></span>
+
         	</div>
 
         	<hr/>

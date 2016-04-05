@@ -7,13 +7,13 @@
 # Installing Grow-IoT (OSX and Linux)
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
-```
+```bash
 curl https://install.meteor.com/ | sh
 ```
 
 Then clone the repo, enter the new directory, and start meteor.
 
-```
+```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
 meteor
@@ -40,4 +40,4 @@ Get involved with our community in any way you are interested:
 Special thanks to @mitar for contributing the starting point for this library. This work was also inspired by work the W3C interest group on the internet of things.
 
 ## License
-Meteor-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
+Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 

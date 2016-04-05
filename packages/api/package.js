@@ -6,6 +6,10 @@ Package.describe({
 Package.onUse(function (api) {
   api.versionsFrom('1.2.0.2');
 
+  Npm.depends({
+    'mime-types': '2.1.6'
+  });
+
   // Core dependencies.
   api.use([
     'coffeescript',
@@ -16,12 +20,17 @@ Package.onUse(function (api) {
   // 3rd party dependencies.
   api.use([
     'peerlibrary:middleware@0.1.1',
-    'peerlibrary:check-extension@0.2.0'
+    'peerlibrary:reactive-publish@0.1.3',
+    'peerlibrary:check-extension@0.2.0',
+    'peerlibrary:assert@0.2.5',
+    'fermuch:cheerio@0.19.0',
+    'peerlibrary:meteor-file@0.2.1'
   ]);
 
   // Internal dependencies.
   api.use([
-    'core'
+    'core',
+    'storage'
   ]);
 
   api.addFiles([
@@ -29,7 +38,8 @@ Package.onUse(function (api) {
     'environment/methods.coffee',
     'notifications/methods.coffee',
     'plant/methods.coffee',
-    'images/methods.coffee'
+    'images/methods.coffee',
+    'storagefile/methods.coffee'
   ]);
 
   api.addFiles([

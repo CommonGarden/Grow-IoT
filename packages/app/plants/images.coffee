@@ -1,5 +1,5 @@
-class Images.Upload extends UIComponent
-	@register 'Images.Upload'
+class StorageFile.Uploader extends UIComponent
+	@register 'StorageFile.Uploader'
 
 	onCreated: ->
 		super
@@ -16,10 +16,13 @@ class Images.Upload extends UIComponent
 							Bert.alert 'Upload successful.', 'success', 'growl-top-right'
 			
 			'click .take-pic': (event) ->
-				MeteorCameraUI.getPicture [], (err, data) ->
+				MeteorCamera.getPicture [], (err, data) ->
 					newFile = new FS.File(data)
-					Images.insert newFile, (err, fileObj) ->
+
+					# Todo: create our own method.
+					Meteor.call 'StorageFile.new', newFile, (err, fileObj) ->
 						if err
+							console.log err
 							Bert.alert 'Image save failed.', 'error', 'growl-top-right'
 						else
 							Bert.alert 'Image saved', 'success', 'growl-top-right'
