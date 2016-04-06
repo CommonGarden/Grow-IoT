@@ -28,11 +28,12 @@
 					{{/if}}
 
 					{{#if devices.exists}}
+						<h3><i class="glyphicon glyphicon-dashboard"></i> Devices</h3>
 						{{> Device.ListComponent}}
 					{{/if}}
 
 					{{#if plants.exists}}
-						<h3>Plants</h3>
+						<h3><i class="glyphicon glyphicon-tree-deciduous"></i> Plants</h3>
 						{{> Plant.ListComponent}}
 					{{/if}}
 
