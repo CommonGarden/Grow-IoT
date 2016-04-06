@@ -51,8 +51,7 @@ class Plant.DisplayComponent extends UIComponent
       # newFile.plant = Plant.documents.findOne
       #   uuid: FlowRouter.getParam 'uuid'
 
-      # Todo: create our own method.
-      Meteor.call 'StorageFile.new', newFile, (err, fileObj) ->
+      Meteor.call 'StorageFile.newFile', newFile, (err, fileObj) ->
         if err
           console.log err
           Bert.alert 'Image save failed.', 'error', 'growl-top-right'

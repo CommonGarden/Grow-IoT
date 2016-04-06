@@ -28,11 +28,11 @@
 					{{/if}}
 
 					{{#if devices.exists}}
-						<h2>{{ environment.name }}</h2>
 						{{> Device.ListComponent}}
 					{{/if}}
 
 					{{#if plants.exists}}
+						<h3>Plants</h3>
 						{{> Plant.ListComponent}}
 					{{/if}}
 

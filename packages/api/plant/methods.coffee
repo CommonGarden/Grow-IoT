@@ -18,11 +18,13 @@ Meteor.methods
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Plant.documents.insert document
 
-  # 'plant.move': -> # Move plant to a different environment?
-
   'Plant.remove': (uuid) ->
     plant = Plant.documents.findOne
       'uuid': uuid
       'owner._id': Meteor.userId()
 
     Plant.documents.remove plant._id
+
+
+  # Todo: Plant.edit
+  'Plant.edit': (uuid) ->

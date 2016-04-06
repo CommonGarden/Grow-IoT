@@ -20,7 +20,7 @@ class Device.ListItemComponent extends Device.ListComponent
         ,
           'sort':
             'insertedAt': -1
-        dataPoint?.body
+        dataPoint?.data
 
   currentValue: ->
   	@dataPoint()

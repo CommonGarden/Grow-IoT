@@ -18,9 +18,10 @@ class StorageFile.Uploader extends UIComponent
 			'click .take-pic': (event) ->
 				MeteorCamera.getPicture [], (err, data) ->
 					newFile = new FS.File(data)
-
-					# Todo: create our own method.
-					Meteor.call 'StorageFile.new', newFile, (err, fileObj) ->
+					options = {}
+					options.documentId = 
+					# Todo: pass in options.
+					Meteor.call 'StorageFile.upload', newFile, options (err, fileObj) ->
 						if err
 							console.log err
 							Bert.alert 'Image save failed.', 'error', 'growl-top-right'
