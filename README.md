@@ -24,6 +24,9 @@ And that's it! You should now have a meteor application running on http://localh
 # Making and connecting new devices
 For more info on making a device driver and connecting to Common Garden, see our [grow.js library](https://github.com/CommonGarden/grow.js).
 
+## Python support
+You can interact with the Meteor-IoT api through the [Python DDP library](https://github.com/hharnisc/python-ddp).
+
 ## Contributing
 
 Please read:
