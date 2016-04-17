@@ -17,7 +17,7 @@ class Plant.DisplayComponent extends UIComponent
 
       @subscribe 'Plant.one', plantUuid
 
-      @subscribe 'Images.one'
+      # @subscribe 'StorageFile'
 
       # @subscribe 'Data.points', plantUuid
 
@@ -35,8 +35,8 @@ class Plant.DisplayComponent extends UIComponent
   # plant: ->
   #   @plant()
 
-  images: ->
-    Images.files.find({})
+  # images: ->
+  #   Images.files.find({})
 
   events: ->
     super.concat
@@ -51,9 +51,9 @@ class Plant.DisplayComponent extends UIComponent
       # newFile.plant = Plant.documents.findOne
       #   uuid: FlowRouter.getParam 'uuid'
 
-      # Todo: create our own method.
-      Images.insert newFile, (err, fileObj) ->
+      Meteor.call 'StorageFile.newFile', newFile, (err, fileObj) ->
         if err
+          console.log err
           Bert.alert 'Image save failed.', 'error', 'growl-top-right'
         else
           Bert.alert 'Image saved', 'success', 'growl-top-right'

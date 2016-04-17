@@ -28,7 +28,12 @@ class Device.DisplayComponent extends UIComponent
         uuid: @currentDeviceUuid()
       ,
         fields:
-          title: 1
+          thing: 1
+
+      # Set page title to device name.
+      document.title = device.thing.name
+
+      device
 
   device: ->
     @device()

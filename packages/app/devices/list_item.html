@@ -5,9 +5,9 @@
     {{/with}}
     {{#if onlineSince}}
       <p>Online!</p>
-      {{#each currentValue.readings}}
-        <p>{{type}}: {{value}} {{unit}}</p>
-      {{/each}}
+      {{#with currentValue}}
+      <p>{{type}}: {{value}} {{unit}}</p>
+      {{/with}}
     {{else}}
       <p><em>Not Online.</em></p>
     {{/if}}

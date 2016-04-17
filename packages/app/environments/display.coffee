@@ -28,7 +28,12 @@ class Environment.DisplayComponent extends UIComponent
         uuid: @currentEnvironmentUuid()
       ,
         fields:
-          title: 1
+          name: 1
+
+      # Set page title to environment name.
+      document.title = environment.name
+
+      environment
 
   events: ->
     super.concat

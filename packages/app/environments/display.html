@@ -28,11 +28,12 @@
 					{{/if}}
 
 					{{#if devices.exists}}
-						<h2>{{ environment.name }}</h2>
+						<h3><i class="glyphicon glyphicon-dashboard"></i> Devices</h3>
 						{{> Device.ListComponent}}
 					{{/if}}
 
 					{{#if plants.exists}}
+						<h3><i class="glyphicon glyphicon-tree-deciduous"></i> Plants</h3>
 						{{> Plant.ListComponent}}
 					{{/if}}
 
@@ -42,9 +43,9 @@
 				        <li class="new-device">
 				          <i class="glyphicon glyphicon-dashboard"></i> New IoT Device
 				        </li>
-<!-- 					        <li class="new-plant">
+					        <li class="new-plant">
 				          <i class="glyphicon glyphicon-tree-deciduous"></i> New Plant
-				        </li> -->
+				        </li>
 				        <!-- TODO: should only show if we are capable of making a new rule (ie. there are devices present.) -->
 <!-- 					        <li class="new-plant">
 				          <i class="glyphicon glyphicon-plus"></i> New Rule
@@ -61,6 +62,6 @@
 				      </ul>
 				    </div>
 				  </nav>
-				  </div>
-				  </div>
+		</div>
+	</div>
 </template>

@@ -1,3 +1,4 @@
+# TODO: make into a more generic dashboard components.
 class Environment.ListComponent extends UIComponent
   @register 'Environment.ListComponent'
 
@@ -5,6 +6,8 @@ class Environment.ListComponent extends UIComponent
     super
 
     @subscribe 'Environment.list'
+
+    document.title = "Grow dashboard"
 
   onRendered: ->
     super

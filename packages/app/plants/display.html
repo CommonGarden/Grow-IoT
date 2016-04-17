@@ -14,21 +14,23 @@
 	            </ul>
 	          </span>
           </h2>
+          <!-- Make into more generic thing info? Version 1, may be a hack. -->
+          <p>Latin name: {{ plant.plant.latin }}</p>
+          <p>Latin name: {{ plant.plant.latin }}</p>
 
 			    {{#each images}}
 			      <div>
 			        <a href="{{this.url}}" target="_blank"><img src="{{this.url}}" alt="" class="thumbnail" /></a>
 			      </div>
 			    {{/each}}
-
-
-          {{> Images.Upload}}
+			
+			<button class="btn take-pic"><i class="glyphicon glyphicon-camera"></i> Take Picture</button>
           
           <!-- What other actions could go here? -->
-          <button class="btn">Status update</button>
+<!--      <button class="btn">Status update</button>
           <button class="btn">Problem</button>
           <button class="btn">Harvest</button>
-          <button class="btn">Review</button>
+          <button class="btn">Review</button> -->
 			</div>
 		</div>
 		{{else}}
