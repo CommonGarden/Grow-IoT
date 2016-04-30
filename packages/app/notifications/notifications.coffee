@@ -9,12 +9,12 @@ class Notifications.NavUI extends UIComponent
   notifications: ->
     Notifications.documents.find
       'owner._id': Meteor.userId()
-      'read': false
+      # 'read': false
 
   notificationCount: ->
     Notifications.documents.find
       'owner._id': Meteor.userId()
-      'read': false
+      # 'read': false
     .count()
 
 

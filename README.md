@@ -25,6 +25,10 @@ meteor
 
 And that's it! You should now have a meteor application running on http://localhost:3000
 
+# Setting up an instance on Meteor Galaxy
+
+You can easily host your own IoT network on [Meteor Galaxy](https://galaxy.meteor.com/).
+
 # Making and connecting new devices
 For more info on making a device driver and connecting to Common Garden, see our [grow.js library](https://github.com/CommonGarden/grow.js).
 

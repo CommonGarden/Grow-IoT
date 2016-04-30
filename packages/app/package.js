@@ -76,6 +76,8 @@ Package.onUse(function (api) {
     'components/sensors/list.html',
     'components/sensors/sensor.coffee',
     'components/sensors/sensor.html',
+    'components/action.coffee',
+    'components/action.html',
 
     'lib/html5-sortable.jquery.min.js',
 

@@ -15,12 +15,15 @@
 				          </span>
 			          	</h2>
 						
+						<button class="notifi">Notification</button>
+
 						<p>{{description}}</p>
 
 					{{/with}}
 
 					{{#each device.thing.actions}}
-						<p><button class="btn command" data-call="{{id}}" data-options="{{options}}">{{name}}</button></p>
+						{{> Device.ActionComponent}}
+						<!-- <p><button class="btn command" data-call="{{id}}" data-options="{{options}}">{{name}}</button></p> -->
 					{{/each}}
 
 					<hr/>

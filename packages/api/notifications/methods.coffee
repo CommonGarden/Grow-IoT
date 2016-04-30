@@ -4,7 +4,9 @@ Meteor.methods
     document =
       timestamp: new Date()
       notification: notification
+      owner:
+      	_id: Meteor.userId()
 
-    throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
+    throw new Meteor.Error 'internal-error', "Internal error." unless Notifications.documents.insert document
 
     document

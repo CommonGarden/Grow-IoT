@@ -51,9 +51,18 @@ class Device.DisplayComponent extends UIComponent
   events: ->
     super.concat
       'click .remove': @remove
+      'click .notifi': @notification
 
   notFound: ->
     @subscriptionsReady() and not @device()
+
+  notification: ->
+    Meteor.call 'Notifications.new',
+      "HEY!",
+    , 
+      (error, documentId) =>
+        if error
+          console.error "New notification error", error
 
   remove: ->
     device = @device()

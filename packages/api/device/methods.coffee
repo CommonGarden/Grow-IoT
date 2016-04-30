@@ -97,7 +97,7 @@ Meteor.methods
     check deviceUuid, Match.NonEmptyString
     check environmentUuid, Match.NonEmptyString
 
-    console.log environmentUuid
+    # console.log environmentUuid
 
     device = Device.documents.findOne
       'uuid': deviceUuid
