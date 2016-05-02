@@ -107,7 +107,11 @@ Package.onUse(function (api) {
     'plants/list.coffee',
     'plants/list.html',
 
-    'notifications/notifications.coffee',
-    'notifications/notifications.html'
+    'notifications/notification.coffee',
+    'notifications/notification.html',
+    'notifications/navui.coffee',
+    'notifications/navui.html',
+    'notifications/history.coffee',
+    'notifications/history.html'
   ], 'client');
 });

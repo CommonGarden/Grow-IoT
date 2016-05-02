@@ -14,8 +14,12 @@
 				            </ul>
 				          </span>
 			          	</h2>
-						
-						<button class="notifi">Notification</button>
+
+			          	{{#if onlineSince}}
+			          	  <!-- Device Online -->
+			          	{{else}}
+					      <h4><em>Not Online.</em></h4>
+					    {{/if}}
 
 						<p>{{description}}</p>
 
@@ -23,7 +27,6 @@
 
 					{{#each device.thing.actions}}
 						{{> Device.ActionComponent}}
-						<!-- <p><button class="btn command" data-call="{{id}}" data-options="{{options}}">{{name}}</button></p> -->
 					{{/each}}
 
 					<hr/>
@@ -36,12 +39,11 @@
 				</div>
 
 				<div class="col-lg-6 sensor-viz">
-					{{> Device.SensorListComponent}}
-					<!-- {{#if device.onlineSince }} -->
-						<!-- {{> Component.ListComponent type="sensor"}} -->
-					<!-- {{else}} -->
-						<!-- <h4>Device offline</h4> -->
-					<!-- {{/if}} -->
+					{{#if device.onlineSince }}
+						{{> Device.SensorListComponent}}
+					{{else}}
+						<h4>Device offline</h4>
+					{{/if}}
 				</div>
 
 			</div>

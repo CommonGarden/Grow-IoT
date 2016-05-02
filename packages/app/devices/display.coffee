@@ -56,14 +56,6 @@ class Device.DisplayComponent extends UIComponent
   notFound: ->
     @subscriptionsReady() and not @device()
 
-  notification: ->
-    Meteor.call 'Notifications.new',
-      "HEY!",
-    , 
-      (error, documentId) =>
-        if error
-          console.error "New notification error", error
-
   remove: ->
     device = @device()
     if window.confirm("Are you sure you want to delete this device?")

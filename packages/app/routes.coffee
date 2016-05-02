@@ -72,3 +72,9 @@ loggedIn.route '/environment/:uuid/new-plant',
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Plant.NewComponent'
+
+loggedIn.route '/notifications',
+  name: 'Notifications.History'
+  action: (params, queryParams) ->
+    BlazeLayout.render 'MainLayoutComponent',
+      main: 'Notifications.History'
