@@ -1,4 +1,3 @@
-<!-- TODO: make a components component? -->
 <template name="Device.ActuatorComponent">
 	<li class="actuator">
 		<h4>{{name}}</h4>
@@ -6,12 +5,7 @@
 		<p class="">{{description}}</p>
 		<div class="actions">
 			{{#each actions}}
-				<p><button class="btn command"
-						data-call="{{id}}"
-						data-options="{{options}}">
-						{{name}}</button>
-					{{schedule}} <a href="#" class="small">change</a>
-				</p>
+				{{> Device.ActionComponent}}
 			{{/each}}
 		</div>
 	</li>

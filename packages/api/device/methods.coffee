@@ -44,7 +44,7 @@ Meteor.methods
           if thing.components[item].name == componentName
             thing.components[item][propertyKey] = value
       else if thing[key] == componentName
-        thing[key] = value
+        thing[propertyKey] = value
 
     # Set the new thing object
     Device.documents.update device._id,

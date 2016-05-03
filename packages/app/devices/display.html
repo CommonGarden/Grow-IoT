@@ -15,7 +15,7 @@
 				          </span>
 			          	</h2>
 
-			          	{{#if onlineSince}}
+			          	{{#if device.onlineSince}}
 			          	  <!-- Device Online -->
 			          	{{else}}
 					      <h4><em>Not Online.</em></h4>
@@ -23,13 +23,13 @@
 
 						<p>{{description}}</p>
 
+						<p>{{state}}</p>
+
 					{{/with}}
 
 					{{#each device.thing.actions}}
 						{{> Device.ActionComponent}}
 					{{/each}}
-
-					<hr/>
 
 					{{> Device.ActuatorListComponent}}
 
