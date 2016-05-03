@@ -21,19 +21,19 @@ class Device.DisplayComponent extends UIComponent
 
       @subscribe 'Data.events', deviceUuid
 
-    # @autorun (computation) =>
-    #   return unless @subscriptionsReady()
+    @autorun (computation) =>
+      return unless @subscriptionsReady()
 
-    #   device = Device.documents.findOne
-    #     uuid: @currentDeviceUuid()
-    #   ,
-    #     fields:
-    #       thing: 1
+      device = Device.documents.findOne
+        uuid: @currentDeviceUuid()
+      ,
+        fields:
+          thing: 1
 
-    #   # Set page title to device name.
-    #   document.title = device.thing.name
+      # Set page title to device name.
+      document.title = device.thing.name
 
-    #   device
+      device
 
   device: ->
     @device()
