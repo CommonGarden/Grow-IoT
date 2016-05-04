@@ -1,6 +1,10 @@
 Meteor.methods
+  # Add links? For example if a device is offline, clicking on the notification
+  # takes you to the offline device.
   'Notifications.new': (notification, userId) ->
     check notification, Match.NonEmptyString
+
+    # There is probably a more elegant way of writing the following.
     if userId
       check userId, Match.NonEmptyString
       document =

@@ -1,5 +1,6 @@
 <template name="Device.ActionComponent">
 	<p>
+		{{#if device.onlineSince}}
 		<button class="btn command"
 				title="{{description}}" 
 				data-call="{{id}}"
@@ -7,5 +8,14 @@
 				{{name}}</button>
 		{{schedule}} 
 		<a href="#" class="small">change</a>
+		{{else}}
+		<button class="btn command"
+				title="{{description}}"
+				data-call="{{id}}"
+				data-options="{{options}}"
+				disabled>
+				{{name}}</button>
+		<em>Offline</em>
+		{{/if}}
 	</p>
 </template>

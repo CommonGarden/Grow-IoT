@@ -25,6 +25,11 @@ ul {
   padding: 0;
 }
 
+.state {
+  font-size: 0.5em !important;
+  margin-left: 1em;
+}
+
 .small {
   font-size: 0.8em !important;
 }
@@ -113,6 +118,9 @@ ul {
 // .form-control {
 //   max-width: 25em;
 // }
+.offline {
+  opacity: 0.5;
+}
 
 .loader {
   display: none;

@@ -1,15 +1,23 @@
 <template name="Device.ListItemComponent">
-  <li class="list-item device" data-uuid="{{uuid}}" data-id="{{_id}}" title="Click to see detail view. Drag to rearrange.">
-    {{#with thing}}
-      <h2>{{name}}</h2>
-    {{/with}}
-    {{#if onlineSince}}
-      <p>Online!</p>
-      {{#with currentValue}}
-      <p>{{type}}: {{value}} {{unit}}</p>
+  {{#if onlineSince}}
+    <li class="list-item device" data-uuid="{{uuid}}" data-id="{{_id}}" title="Click to see detail view. Drag to rearrange.">
+      {{#with thing}}
+        <h2>{{name}}</h2>
       {{/with}}
-    {{else}}
-      <p><em>Not Online.</em></p>
-    {{/if}}
-  </li>
+        <!-- TODO: include state here? -->
+        <!-- <p>State: Online!</p> -->
+      {{#with currentValue}}
+        <p>{{type}}: {{value}} {{unit}}</p>
+      {{/with}}
+    </li>
+  {{else}}
+    <li class="list-item device offline" data-uuid="{{uuid}}" data-id="{{_id}}" title="Click to see detail view. Drag to rearrange.">
+      {{#with thing}}
+        <h2>{{name}}</h2>
+      {{/with}}
+        <!-- TODO: include state here? -->
+        <!-- <p>State: Online!</p> -->
+      <p><em>Device offline</em></p>
+    </li>
+  {{/if}}
 </template>

@@ -31,7 +31,7 @@ class Thing.NewComponent extends UIComponent
 
 			submitHandler: ->
 				thing =
-					name: $('#plantName').val()
+					name: $('#thingName').val()
 
 				Meteor.call 'Thing.new',
 					thing,
@@ -44,8 +44,3 @@ class Thing.NewComponent extends UIComponent
 							params = { uuid: currentEnvironmentUuid() }
 							path = FlowRouter.path('Environment.DisplayComponent', params)
 							FlowRouter.go path
-
-  	# Slider example
-  	# $("#ex6").slider()
-  	# $("#ex6").on "slide", (slideEvt) ->
-  	# 	$("#ex6SliderVal").text(slideEvt.value)

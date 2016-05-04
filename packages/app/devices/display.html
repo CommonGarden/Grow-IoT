@@ -7,6 +7,16 @@
 				<div class="col-lg-6">
 					{{#with device.thing}}
 						<h2>{{name}}
+
+							{{#if device.onlineSince}}
+							  <!-- Device Online -->
+							  <em class="state">{{state}}</em>
+							{{else}}
+							  <!-- TODO: disable controls. -->
+							<em class="state">Not Online</em>
+							{{/if}}
+
+
 							<span class="dropdown pull-right advanced-options">
 				            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
 				            <ul class="dropdown-menu">
@@ -15,16 +25,8 @@
 				          </span>
 			          	</h2>
 
-			          	{{#if device.onlineSince}}
-			          	  <!-- Device Online -->
-			          	{{else}}
-			          	  <!-- TODO: disable controls. -->
-					      <h4><em>Not Online.</em></h4>
-					    {{/if}}
-
 						<p>{{description}}</p>
 
-						<p>{{state}}</p>
 
 					{{/with}}
 
