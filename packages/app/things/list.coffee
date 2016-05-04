@@ -1,5 +1,5 @@
-class Plant.ListComponent extends UIComponent
-  @register 'Plant.ListComponent'
+class Thing.ListComponent extends UIComponent
+  @register 'Thing.ListComponent'
 
   onCreated: ->
     super
@@ -7,7 +7,7 @@ class Plant.ListComponent extends UIComponent
     @currentEnvironmentUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
-    @subscribe 'Plant.list', @currentEnvironmentUuid()
+    @subscribe 'Thing.list', @currentEnvironmentUuid()
 
   onRendered: ->
     super
@@ -26,6 +26,7 @@ class Plant.ListComponent extends UIComponent
             _id: $( element ).data( 'id' )
             order: index + 1
 
+        # TODO: fix method call.
         Meteor.call 'CommonGarden.updateListOrder',
           items
         ,
@@ -34,15 +35,15 @@ class Plant.ListComponent extends UIComponent
               console.log error.reason
 
   # TODO: Sort this list based on the order
-  plantsList: ->
-    Plant.documents.find()
+  thingsList: ->
+    Thing.documents.find()
 
   events: ->
     super.concat
-      'click .plant': @viewPlant
+      'click .thing': @viewThing
 
-  viewPlant: (event) ->
+  viewThing: (event) ->
     # Build path from the data-uuid attribute
     params = { uuid: event.currentTarget.dataset.uuid }
-    path = FlowRouter.path('Plant.DisplayComponent', params)
+    path = FlowRouter.path('Thing.DisplayComponent', params)
     FlowRouter.go path

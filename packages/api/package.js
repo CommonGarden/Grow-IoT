@@ -37,7 +37,7 @@ Package.onUse(function (api) {
     'device/methods.coffee',
     'environment/methods.coffee',
     'notifications/methods.coffee',
-    'plant/methods.coffee',
+    'thing/methods.coffee',
     'images/methods.coffee',
     'storagefile/methods.coffee'
   ]);
@@ -48,7 +48,7 @@ Package.onUse(function (api) {
     'data/publish.coffee',
     'environment/publish.coffee',
     'notifications/publish.coffee',
-    'plant/publish.coffee',
+    'thing/publish.coffee',
     'images/publish.coffee'
   ], 'server');
 });

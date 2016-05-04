@@ -41,7 +41,7 @@ Package.onUse(function (api) {
   api.export('Environment');
   api.export('Notifications');
   api.export('StorageFile');
-  api.export('Plant');
+  api.export('Thing');
   api.export('Message', 'server');
 
   api.addFiles([
@@ -53,7 +53,7 @@ Package.onUse(function (api) {
     'documents/device.coffee',
     'documents/data.coffee',
     'documents/notifications.coffee',
-    'documents/plant.coffee',
+    'documents/thing.coffee',
     'documents/storagefile.coffee',
     'finalize-documents.coffee'
   ]);

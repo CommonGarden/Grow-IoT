@@ -16,9 +16,9 @@
 						{{> Device.ListComponent}}
 					{{/if}}
 
-					{{#if plants.exists}}
-						<h3><i class="glyphicon glyphicon-tree-deciduous"></i> Plants</h3>
-						{{> Plant.ListComponent}}
+					{{#if things.exists}}
+						<h3><i class="glyphicon glyphicon-tree-deciduous"></i> Things</h3>
+						{{> Thing.ListComponent}}
 					{{/if}}
 
 <!-- 					<nav class="navbar navbar-default navbar-fixed-bottom cg-nav-bar">
@@ -27,11 +27,11 @@
 				        <li class="new-device">
 				          <i class="glyphicon glyphicon-dashboard"></i> New IoT Device
 				        </li> -->
-<!-- 					        <li class="new-plant">
-				          <i class="glyphicon glyphicon-tree-deciduous"></i> New Plant
+<!-- 					        <li class="new-thing">
+				          <i class="glyphicon glyphicon-tree-deciduous"></i> New Thing
 				        </li> -->
 				        <!-- TODO: should only show if we are capable of making a new rule (ie. there are devices present.) -->
-<!-- 					        <li class="new-plant">
+<!-- 					        <li class="new-thing">
 				          <i class="glyphicon glyphicon-plus"></i> New Rule
 				        </li> -->
 				        <!-- / TODO -->

@@ -1,0 +1,64 @@
+<template name="Thing.NewComponent">
+  <!-- Todo: add a search box to search for kings of things. -->
+  <form id="newThing" class="form-container">
+    <div class='row dashboard'>
+    	<div class="col-6-lg">
+    		{{> Images.Upload}}
+    	</div>
+	  	<div class="col-6-lg">
+		  <div class="form-group">
+		    <label for="thingName">Thing name</label>
+		    <input type="text" class="form-control" id="thingName" name="name" placeholder="Name">
+		  </div>
+		  <div class="form-group">
+		    <label for="description">Short Description</label>
+		    <input type="text" class="form-control" id="description" name="latin" placeholder="Short description">
+		  </div>
+
+		  <div class="form-group">
+		    <label for="wikipedia-link">Wikipedia link</label>
+		    <input type="text" class="form-control" id="wikipedia-link" placeholder="Wikipedia link">
+		  </div>
+
+
+				  <!-- Jquery cron example -->
+<!-- 				 	<div id='example1'></div>
+		  		<p>Generated cron entry: <span class='example-text' id='example1-val'></span></p>
+ -->
+				  <!-- http://seiyria.com/bootstrap-slider/ -->
+<!-- 				  <input id="ex6" type="text" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
+					<span id="ex6CurrentSliderValLabel">Current Slider Value: <span id="ex6SliderVal">3</span></span> -->
+
+<!-- 					<div class="checkbox">
+					  <label>
+					    <input type="checkbox" value="">
+					    Option one is this and that&mdash;be sure to include why it's great
+					  </label>
+					</div>
+					<div class="checkbox disabled">
+					  <label>
+					    <input type="checkbox" value="" disabled>
+					    Option two is disabled
+					  </label>
+					</div>
+ -->
+
+
+<!--         	</div>
+ -->
+        	<hr/>
+
+				  <!-- <div class="form-group"> -->
+
+				    <!-- <p class="help-block">Example block-level help text here.</p> -->
+<!-- 				  </div> -->
+<!-- 				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox"> Contribute to searchable database of things
+				    </label>
+				  </div> -->
+				  <button type="submit" class="btn btn-default">Submit</button>
+  		</div>
+  	</div>
+  </form>
+</template>

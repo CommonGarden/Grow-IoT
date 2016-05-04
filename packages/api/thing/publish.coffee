@@ -1,11 +1,11 @@
-new PublishEndpoint 'Plant.list', (environmentUuid) ->
-  Plant.documents.find
+new PublishEndpoint 'Thing.list', (environmentUuid) ->
+  Thing.documents.find
     'owner._id': @userId
     'environment.uuid': environmentUuid
 
-new PublishEndpoint 'Plant.one', (uuid) ->
+new PublishEndpoint 'Thing.one', (uuid) ->
   # TODO: Do better checks.
   check uuid, Match.NonEmptyString
 
-  Plant.documents.find
+  Thing.documents.find
     uuid: uuid

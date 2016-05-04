@@ -1,7 +1,7 @@
 Meteor.methods
-  'Plant.new': (plant, environmentUuid) ->
+  'Thing.new': (thing, environmentUuid) ->
     # TODO: checks.
-    check plant, Object
+    check thing, Object
     check environmentUuid, Match.NonEmptyString
 
     environment = Environment.documents.findOne
@@ -9,22 +9,22 @@ Meteor.methods
 
     document =
       uuid: Meteor.uuid()
-      plant: plant
+      thing: thing
       environment:
         environment.getReference()
       owner:
         _id: Meteor.userId()
       timestamp: new Date()
 
-    throw new Meteor.Error 'internal-error', "Internal error." unless Plant.documents.insert document
+    throw new Meteor.Error 'internal-error', "Internal error." unless Thing.documents.insert document
 
-  'Plant.remove': (uuid) ->
-    plant = Plant.documents.findOne
+  'Thing.remove': (uuid) ->
+    thing = Thing.documents.findOne
       'uuid': uuid
       'owner._id': Meteor.userId()
 
-    Plant.documents.remove plant._id
+    Thing.documents.remove thing._id
 
 
-  # Todo: Plant.edit
-  'Plant.edit': (uuid) ->
+  # Todo: Thing.edit
+  'Thing.edit': (uuid) ->
