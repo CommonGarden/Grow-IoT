@@ -47,6 +47,15 @@ new PublishEndpoint 'Device.messages', (auth) ->
         $set:
           onlineSince: false
 
+      # Emit device event
+      Meteor.call 'Device.emitEvent',
+        auth,
+        { message: "Device offline" },
+      ,
+        (error, documentId) =>
+          if error
+            console.error "New Device.emitEvent Error", error
+
       # Emit notification.
       Meteor.call 'Notifications.new',
         "Device offline.",
