@@ -1,13 +1,21 @@
 Meteor.methods
-  'Notifications.new': (notification) ->
+  'Notifications.new': (notification, userId) ->
     check notification, Match.NonEmptyString
-
-    document =
-      timestamp: new Date()
-      notification: notification
-      read: false
-      owner:
-      	_id: Meteor.userId()
+    if userId
+      check userId, Match.NonEmptyString
+      document =
+        timestamp: new Date()
+        notification: notification
+        read: false
+        owner:
+          _id: userId
+    else
+      document =
+        timestamp: new Date()
+        notification: notification
+        read: false
+        owner:
+          _id: Meteor.userId()
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Notifications.documents.insert document
 
