@@ -50,7 +50,7 @@ new PublishEndpoint 'Device.messages', (auth) ->
       # Emit device event
       Meteor.call 'Device.emitEvent',
         auth,
-        { message: "Device offline" },
+        { name: "offline", message: "Device offline" },
       ,
         (error, documentId) =>
           if error

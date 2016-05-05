@@ -1,7 +1,7 @@
-# From: https://medium.com/@satyavh/using-flow-router-for-authentication-ba7bb2644f42#.vty74pkpy
-
 # Routes in this group are for logged in users. Unauthenticated users
 # will be redirected to login / signup.
+
+# From: https://medium.com/@satyavh/using-flow-router-for-authentication-ba7bb2644f42#.vty74pkpy
 loggedIn = FlowRouter.group
  triggersEnter: [ ->
    unless Meteor.loggingIn() or Meteor.userId()
@@ -17,25 +17,11 @@ loggedIn.route '/device/:uuid',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'Device.DisplayComponent'
 
-loggedIn.route '/plant/:uuid',
-  name: 'Plant.DisplayComponent'
+loggedIn.route '/thing/:uuid',
+  name: 'Thing.DisplayComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Plant.DisplayComponent'
-
-# NEEDED?
-# loggedIn.route '/component/:uuid',
-#   name: 'Component.DisplayComponent'
-#   action: (params, queryParams) ->
-#     BlazeLayout.render 'MainLayoutComponent',
-#       main: 'Component.DisplayComponent'
-
-
-# loggedIn.route '/devices/',
-#   name: 'Device.list'
-#   action: (params, queryParams) ->
-#     BlazeLayout.render 'MainLayoutComponent',
-#       main: 'Device.ListComponent'
+      main: 'Thing.DisplayComponent'
 
 loggedIn.route '/environment/:uuid',
   name: 'Environment.DisplayComponent'
@@ -67,11 +53,11 @@ loggedIn.route '/new-grow-file',
     BlazeLayout.render 'MainLayoutComponent',
       main: 'GrowFileCreatorComponent'
 
-loggedIn.route '/environment/:uuid/new-plant',
-  name: 'Plant.NewComponent'
+loggedIn.route '/environment/:uuid/new-thing',
+  name: 'Thing.NewComponent'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Plant.NewComponent'
+      main: 'Thing.NewComponent'
 
 loggedIn.route '/notifications',
   name: 'Notifications.History'
