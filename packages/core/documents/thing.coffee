@@ -1,4 +1,4 @@
-class Plant extends share.BaseDocument
+class Thing extends share.BaseDocument
   # registeredAt
   # uuid: UUID of the device
   # token: token of the device
@@ -10,7 +10,7 @@ class Plant extends share.BaseDocument
   # onlineSince
 
   @Meta
-    name: 'Plant'
+    name: 'Thing'
     fields: =>
       owner: @ReferenceField User, [], false
-      environment: @ReferenceField Environment, Environment.REFERENCE_FIELDS(), false, 'plants'
+      environment: @ReferenceField Environment, Environment.REFERENCE_FIELDS(), false, 'things'

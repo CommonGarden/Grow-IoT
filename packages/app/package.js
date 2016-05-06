@@ -76,6 +76,8 @@ Package.onUse(function (api) {
     'components/sensors/list.html',
     'components/sensors/sensor.coffee',
     'components/sensors/sensor.html',
+    'components/action.coffee',
+    'components/action.html',
 
     'lib/html5-sortable.jquery.min.js',
 
@@ -94,18 +96,22 @@ Package.onUse(function (api) {
 
     'lib/jquery-cron.js',
 
-    'plants/images.coffee',
-    'plants/images.html',
-    'plants/new_plant.coffee',
-    'plants/new_plant.html',
-    'plants/display.coffee',
-    'plants/display.html',
-    'plants/list_item.coffee',
-    'plants/list_item.html',
-    'plants/list.coffee',
-    'plants/list.html',
+    'things/images.coffee',
+    'things/images.html',
+    'things/new_thing.coffee',
+    'things/new_thing.html',
+    'things/display.coffee',
+    'things/display.html',
+    'things/list_item.coffee',
+    'things/list_item.html',
+    'things/list.coffee',
+    'things/list.html',
 
-    'notifications/notifications.coffee',
-    'notifications/notifications.html'
+    'notifications/notification.coffee',
+    'notifications/notification.html',
+    'notifications/navui.coffee',
+    'notifications/navui.html',
+    'notifications/history.coffee',
+    'notifications/history.html'
   ], 'client');
 });

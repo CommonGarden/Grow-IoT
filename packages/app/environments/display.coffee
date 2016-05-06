@@ -19,7 +19,7 @@ class Environment.DisplayComponent extends UIComponent
 
       @subscribe 'Device.listByEnvironment', uuid
 
-      @subscribe 'Plant.list', uuid
+      @subscribe 'Thing.list', uuid
 
     @autorun (computation) =>
       return unless @subscriptionsReady()
@@ -39,17 +39,17 @@ class Environment.DisplayComponent extends UIComponent
     super.concat
       'click .remove': @remove
       'click .new-device': @addDevice
-      'click .new-plant': @addPlant
+      'click .new-thing': @addThing
 
   devices: ->
     Device.documents.find
       'environment.uuid': @currentEnvironmentUuid()
 
-  plants: ->
-    Plant.documents.find()
+  things: ->
+    Thing.documents.find()
 
   emptyState: ->
-    # No plants or devices.
+    # No things or devices.
     x = @devices().exists()
     !x
 
@@ -65,10 +65,10 @@ class Environment.DisplayComponent extends UIComponent
     path = FlowRouter.path('Environment.NewDeviceComponent', params)
     FlowRouter.go path
 
-  addPlant: (e) ->
+  addThing: (e) ->
     e.preventDefault()
     params = { uuid: @currentEnvironmentUuid() }
-    path = FlowRouter.path('Plant.NewComponent', params)
+    path = FlowRouter.path('Thing.NewComponent', params)
     FlowRouter.go path
 
   remove: ->

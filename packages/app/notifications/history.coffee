@@ -1,5 +1,5 @@
-class Notifications.NavUI extends UIComponent
-  @register 'Notifications.NavUI'
+class Notifications.History extends UIComponent
+  @register 'Notifications.History'
 
   onCreated: ->
     super
@@ -9,14 +9,10 @@ class Notifications.NavUI extends UIComponent
   notifications: ->
     Notifications.documents.find
       'owner._id': Meteor.userId()
-      'read': false
+      # 'read': false
 
   notificationCount: ->
     Notifications.documents.find
       'owner._id': Meteor.userId()
-      'read': false
+      # 'read': false
     .count()
-
-
-class Notification extends UIComponent
-  @register 'Notification'

@@ -7,6 +7,7 @@ new PublishEndpoint 'Device.messages', (auth) ->
   device = Device.documents.findOne auth,
     fields:
       _id: 1
+      owner: 1
   throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
   Device.documents.update device._id,
@@ -46,15 +47,23 @@ new PublishEndpoint 'Device.messages', (auth) ->
         $set:
           onlineSince: false
 
+      # Emit device event
+      Meteor.call 'Device.emitEvent',
+        auth,
+        { name: "offline", message: "Device offline" },
+      ,
+        (error, documentId) =>
+          if error
+            console.error "New Device.emitEvent Error", error
+
       # Emit notification.
-      Meteor.call 'Notification.new',
-        "Device offline."
+      Meteor.call 'Notifications.new',
+        "Device offline.",
+        device.owner._id,
       ,
         (error, documentId) =>
           if error
             console.error "New Notification Error", error
-          else
-            Bert.alert 'Device offline.', 'warning', 'growl-top-right'
     ,
       5000 # ms
 

@@ -2,17 +2,36 @@
   <div class="row jumbotron">
     <div class="col-lg-12">
       <form id="New-Environment">
-        <p>To get started create your first growing environment to which you will be adding plants and devices.</p>
-        <p>Just give it a name like <em>Patio</em>, <em>Greenhouse</em>, or <em>kitchen</em>.</p>
+        <p>Environments are basic groupings for IoT devices.</p>
+        <p>To create an environment, just give it a name like <em>Patio</em>, <em>Greenhouse</em>, <em>Aquarium</em>, or <em>Kitchen</em>.</p>
         <div class="form-group">
           <input type="name"
                  id="environment-name" 
                  name="name"
                  class="form-control"
-                 placeholder="name" />
-          <button type="submit" class="btn btn-primary" value="Go">Start growing</button>
-          <!-- TODO: Add help modal. Which explains a bit more about what environments are. -->
+                 placeholder="Environment name" />
         </div>
+        
+        <!-- Submit form -->
+        <button type="submit" class="btn btn-primary btn-lg" value="Go">Create</button>
+
+        <!-- Help button and modal -->
+        <button class="btn btn-lg" data-toggle="modal" data-target="#helpmodal">More info</button>
+
+        <div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Environments</h4>
+              </div>
+              <div class="modal-body">
+                <p>Environments allow you to establish rules and relationships between the things in the environment.</p>
+                <p>Note: this an evolving feature. Environments will soon be able to contain things such as plants, as well as other environments (a room might contain an aquarium for example).</p>
+              </div><!-- /.modal-body -->
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal-fade -->
       </form>
     </div>
   </div>

@@ -7,6 +7,16 @@
 				<div class="col-lg-6">
 					{{#with device.thing}}
 						<h2>{{name}}
+
+							{{#if device.onlineSince}}
+							  <!-- Device Online -->
+							  <em class="state">{{state}}</em>
+							{{else}}
+							  <!-- TODO: disable controls. -->
+							<em class="state">Not Online</em>
+							{{/if}}
+
+
 							<span class="dropdown pull-right advanced-options">
 				            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
 				            <ul class="dropdown-menu">
@@ -14,16 +24,15 @@
 				            </ul>
 				          </span>
 			          	</h2>
-						
+
 						<p>{{description}}</p>
+
 
 					{{/with}}
 
 					{{#each device.thing.actions}}
-						<p><button class="btn command" data-call="{{id}}" data-options="{{options}}">{{name}}</button></p>
+						{{> Device.ActionComponent}}
 					{{/each}}
-
-					<hr/>
 
 					{{> Device.ActuatorListComponent}}
 
@@ -33,12 +42,11 @@
 				</div>
 
 				<div class="col-lg-6 sensor-viz">
-					{{> Device.SensorListComponent}}
-					<!-- {{#if device.onlineSince }} -->
-						<!-- {{> Component.ListComponent type="sensor"}} -->
-					<!-- {{else}} -->
-						<!-- <h4>Device offline</h4> -->
-					<!-- {{/if}} -->
+					{{#if device.onlineSince }}
+						{{> Device.SensorListComponent}}
+					{{else}}
+						<h4>Device offline</h4>
+					{{/if}}
 				</div>
 
 			</div>

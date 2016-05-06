@@ -1,5 +1,5 @@
-class Plant.NewComponent extends UIComponent
-	@register 'Plant.NewComponent'
+class Thing.NewComponent extends UIComponent
+	@register 'Thing.NewComponent'
 
 	onCreated: ->
 		super
@@ -21,26 +21,20 @@ class Plant.NewComponent extends UIComponent
 		currentEnvironmentUuid = new ComputedField =>
 			FlowRouter.getParam 'uuid'
 
-		$('#newPlant').validate
+		$('#newThing').validate
 			rules:
 				name:
 					required: true
 			messages:
 				name:
-					required: "Please give this plant a name."
+					required: "Please give this thing a name."
 
 			submitHandler: ->
-				plant =
-					name: $('#plantName').val()
-					latinName: $('#latinName').val()
-					minTemp: $('#minTemp').val()
-					maxTemp: $('#maxTemp').val()
-					lightRequirements: $('[name="lightRequirements"]').val()
-					humidity:	$('[name="humidity"]').val()
-					ph: $('#ph').val()
+				thing =
+					name: $('#thingName').val()
 
-				Meteor.call 'Plant.new',
-					plant,
+				Meteor.call 'Thing.new',
+					thing,
 					currentEnvironmentUuid(),
 				,
 					(error, documentId) =>
@@ -50,8 +44,3 @@ class Plant.NewComponent extends UIComponent
 							params = { uuid: currentEnvironmentUuid() }
 							path = FlowRouter.path('Environment.DisplayComponent', params)
 							FlowRouter.go path
-
-  	# Slider example
-  	# $("#ex6").slider()
-  	# $("#ex6").on "slide", (slideEvt) ->
-  	# 	$("#ex6SliderVal").text(slideEvt.value)

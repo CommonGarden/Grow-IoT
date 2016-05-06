@@ -1,39 +1,39 @@
-class Plant.DisplayComponent extends UIComponent
-  @register 'Plant.DisplayComponent'
+class Thing.DisplayComponent extends UIComponent
+  @register 'Thing.DisplayComponent'
 
   onCreated: ->
     super
 
-    @currentPlantUuid = new ComputedField =>
+    @currentThingUuid = new ComputedField =>
       FlowRouter.getParam 'uuid'
 
-    @plant = new ComputedField =>
-      Plant.documents.findOne
-        uuid: @currentPlantUuid()
+    @thing = new ComputedField =>
+      Thing.documents.findOne
+        uuid: @currentThingUuid()
 
     @autorun (computation) =>
-      plantUuid = @currentPlantUuid()
-      return unless plantUuid
+      thingUuid = @currentThingUuid()
+      return unless thingUuid
 
-      @subscribe 'Plant.one', plantUuid
+      @subscribe 'Thing.one', thingUuid
 
       # @subscribe 'StorageFile'
 
-      # @subscribe 'Data.points', plantUuid
+      # @subscribe 'Data.points', thingUuid
 
-      # @subscribe 'Events.plant', plantUuid
+      # @subscribe 'Events.thing', thingUuid
 
     @autorun (computation) =>
       return unless @subscriptionsReady()
 
-      plant = Plant.documents.findOne
-        uuid: @currentPlantUuid()
+      thing = Thing.documents.findOne
+        uuid: @currentThingUuid()
       ,
         fields:
           title: 1
 
-  # plant: ->
-  #   @plant()
+  # thing: ->
+  #   @thing()
 
   # images: ->
   #   Images.files.find({})
@@ -48,7 +48,7 @@ class Plant.DisplayComponent extends UIComponent
       newFile = new FS.File(data)
 
       # HACK: should do this with referencefields.
-      # newFile.plant = Plant.documents.findOne
+      # newFile.thing = Thing.documents.findOne
       #   uuid: FlowRouter.getParam 'uuid'
 
       Meteor.call 'StorageFile.newFile', newFile, (err, fileObj) ->
@@ -60,18 +60,18 @@ class Plant.DisplayComponent extends UIComponent
 
 
   notFound: ->
-    @subscriptionsReady() and not @plant()
+    @subscriptionsReady() and not @thing()
 
   remove: ->
-    plant = @plant()
-    if window.confirm("Are you sure you want to delete this plant?")
-      Meteor.call 'Plant.remove',
-        @currentPlantUuid(),
+    thing = @thing()
+    if window.confirm("Are you sure you want to delete this thing?")
+      Meteor.call 'Thing.remove',
+        @currentThingUuid(),
       ,
         (error, documentId) =>
           if error
-            console.error "New planterror", error
-            alert "New planterror: #{error.reason or error}"
+            console.error "New thingerror", error
+            alert "New thingerror: #{error.reason or error}"
           else
-            Bert.alert 'Plant deleted.', 'success', 'growl-top-right'
+            Bert.alert 'Thing deleted.', 'success', 'growl-top-right'
             FlowRouter.go 'Dashboard'

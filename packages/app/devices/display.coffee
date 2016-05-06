@@ -42,7 +42,7 @@ class Device.DisplayComponent extends UIComponent
     @device().thing
 
   components: ->
-    @device().thing.components
+    @device().thing.components?
   
   datapoints: ->
     Data.documents.find
@@ -51,6 +51,7 @@ class Device.DisplayComponent extends UIComponent
   events: ->
     super.concat
       'click .remove': @remove
+      'click .notifi': @notification
 
   notFound: ->
     @subscriptionsReady() and not @device()

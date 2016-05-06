@@ -1,0 +1,15 @@
+<template name="Notifications.History">
+  <div class="row">
+  	<div class="col-lg-6">
+	  <ul>
+	    {{#if notificationCount}}
+	      {{#each notifications}}
+	        {{> Notification}}
+	      {{/each}}
+	    {{else}}
+	      <li>No Notifications</li>
+	    {{/if}}
+	  </ul>
+  	</div>
+  </div>
+</template>

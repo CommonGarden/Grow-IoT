@@ -44,7 +44,7 @@ Meteor.methods
           if thing.components[item].name == componentName
             thing.components[item][propertyKey] = value
       else if thing[key] == componentName
-        thing[key] = value
+        thing[propertyKey] = value
 
     # Set the new thing object
     Device.documents.update device._id,
@@ -79,14 +79,15 @@ Meteor.methods
       registeredAt: new Date()
       thing: deviceInfo
 
-    # TODO: claim device via config file?
-    if deviceInfo.owner?
+    # HACK: should owner be required? Ultimately it would be nice to
+    # be able to configure / claim devices from the app.
+    if deviceInfo.owner
       if Meteor.isServer
         user = Accounts.findUserByEmail(deviceInfo.owner)
         document.owner = 
           _id: user._id
     else
-      throw new Meteor.Error 'internal-error', 'The device has no owner.'
+      throw new Meteor.Error 'internal-error', 'The device has no owner. Set the owner property to the email address of the account you want the device added to.'
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document
 
@@ -96,8 +97,6 @@ Meteor.methods
   'Device.assignEnvironment': (deviceUuid, environmentUuid) ->
     check deviceUuid, Match.NonEmptyString
     check environmentUuid, Match.NonEmptyString
-
-    console.log environmentUuid
 
     device = Device.documents.findOne
       'uuid': deviceUuid
