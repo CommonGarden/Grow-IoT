@@ -8,9 +8,9 @@
 [General Feedback](http://forum.commongarden.org/c/feedback)
 
 ## An Extensible, document-based, completely open source IoT Stack
-Together with [grow.js](), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run your own home network in the cloud, or as the basis for your own IoT app.
+Together with [grow.js](https://github.com/CommonGarden/grow.js), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run your own home network in the cloud, or as the basis for your own IoT app.
 
-After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, splitting up the code base into more useful modules, and contributing useful feedback / code back to [W3C Internet of Things interest group]().
+After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, splitting up the code base into more useful modules, and contributing useful feedback / code back to [W3C Internet of Things interest group](https://github.com/w3c/web-of-things-framework).
 
 # Getting Started with Grow-IoT (OSX and Linux)
 
@@ -33,13 +33,13 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 If you have a microcontroller like a raspberry pi, arduino, Chip, Tessel 2, etc... head on over to the [Grow.js library](https://github.com/CommonGarden/grow.js) to get started connecting it to Grow-IoT.
 
-If not, you can still try out the library, just follow the [quickstart example in the grow.js readme]().
+If not, you can still try out the library, just follow the [quickstart example in the grow.js readme](https://github.com/CommonGarden/grow.js).
 
 ### Setting up an instance on Meteor Galaxy
 
 You can easily host **your own** Grow-IoT instance on [Meteor Galaxy](https://galaxy.meteor.com/). See the Meteor Galaxy website for instructions on hosting a new meteor application.
 
-See [instructions in Grow.js for securely connecting devices to the instance]().
+See [instructions in Grow.js for securely connecting devices to the instance](https://github.com/CommonGarden/grow.js).
 
 ### Python support
 You can interact with the Grow-IoT api using the [Python DDP library](https://github.com/hharnisc/python-ddp).
