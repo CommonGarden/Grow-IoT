@@ -52,7 +52,7 @@ Now, let's make a file that defines our plant. **Be sure to set the 'owner' prop
 
 ```javascript
 // Import the grow.js library.
-var GrowInstance = require('./grow.js');
+var GrowInstance = require('grow.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
 var grow = new GrowInstance({
