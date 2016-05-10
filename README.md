@@ -1,4 +1,6 @@
 ### Status: Prototype
+\#Grow-IoT on [freenode](https://webchat.freenode.net/)
+
 Please open issues or PRs with suggestions for improvements. Let's make something useful!
 
 <!-- Should we just use gitter or IRC? -->
