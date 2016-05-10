@@ -1,4 +1,5 @@
-## Status: Working on Alpha release... please be comfortable with chaos until May 19th.
+### Status: Prototype
+Please open issues or PRs with suggestions for improvements. Let's make something useful!
 
 <!-- Should we just use gitter or IRC? -->
 <!-- [![Slack Status](http://slack.commongarden.org/badge.svg)](http://slack.commongarden.org) -->
@@ -7,10 +8,10 @@
 
 [General Feedback](http://forum.commongarden.org/c/feedback)
 
-## An Extensible, document-based, completely open source IoT Stack
-Together with [grow.js](https://github.com/CommonGarden/grow.js), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run your own home network in the cloud, or as the basis for your own IoT app.
+## An Extensible, completely open source IoT [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) Stack
+Together with [grow.js](https://github.com/CommonGarden/grow.js), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run *your own* home network in the cloud, or as the basis for your own IoT app.
 
-After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, splitting up the code base into more useful modules, and contributing useful feedback / code back to [W3C Internet of Things interest group](https://github.com/w3c/web-of-things-framework).
+After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, creating control systems, splitting up the code base into more useful modules, and contributing useful feedback / code back to [W3C Internet of Things interest group](https://github.com/w3c/web-of-things-framework).
 
 # Getting Started with Grow-IoT (OSX and Linux)
 
@@ -136,9 +137,11 @@ Create a new environment and you should see the device, click on it to add it to
 
 Like magic, you will see a generated UI based on the configuration object you passed in.
 
-[Insert screenshot]
+![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
 If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `example.js`.
+
+[Full grow.js documentation and examples can be found here](http://commongarden.github.io/grow.js/).
 
 ### Setting up an instance on Meteor Galaxy
 
@@ -160,9 +163,6 @@ Get involved with our community in any way you are interested:
 
 <!-- * [Join us on Slack](http://slack.commongarden.org) — Collaboration and real time discussions. -->
 * [Forum](http://forum.commongarden.org/) — General discussion and support by the Common Garden community.
-
-### Acknowledgements
-Special thanks to @mitar for contributing the starting point for this library. This work was also inspired by work the W3C interest group on the internet of things.
 
 ### License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
