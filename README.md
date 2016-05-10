@@ -33,7 +33,112 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 If you have a microcontroller like a raspberry pi, arduino, Chip, Tessel 2, etc... head on over to the [Grow.js library](https://github.com/CommonGarden/grow.js) to get started connecting it to Grow-IoT.
 
-If not, you can still try out the library, just follow the [quickstart example in the grow.js readme](https://github.com/CommonGarden/grow.js).
+If not, no worries! The quickstart tutorial below doesn't require any hardware or wiring. :party:
+
+# Quickstart
+If you haven't already, [install and start the Grow-IoT meteor application](https://github.com/CommonGarden/Grow-IoT), visit [http:localhost:3000/](http:localhost:3000/) and create an account (you will need it to add your device).
+
+Clone the repo and enter the new directory:
+```bash
+git clone https://github.com/CommonGarden/grow.js
+cd grow.js
+```
+
+Install the needed software dependencies with:
+
+```bash
+npm install
+```
+
+Note: if you haven't installed npm and node.js, please follow the [instructions to do so on the nodejs.org website](https://nodejs.org/en/).
+
+Now you are ready to run `example.js`!
+
+### Example.js
+
+Take a look at the file called, `example.js` copied below. **Be sure to set the 'owner' property to the email you created an account with.**
+
+```javascript
+// Import the grow.js library.
+var GrowInstance = require('./grow.js');
+
+// Create a new grow instance. Connects by default to localhost:3000
+var grow = new GrowInstance({
+    "name": "Light", // The display name for the thing.
+    "description": "An LED light with a basic on/off api.",
+    "state": "off", // The current state of the thing.
+
+    // SET THIS TO THE EMAIL OF THE ACCOUNT YOU CREATED ON THE GROW-IOT APP.
+    "owner": "jake@commongarden.org",
+    "actions": [ // A list of action objects
+        {
+            "name": "On", // Display name for the action
+            "description": "Turns the light on.", // Optional description
+            "id": "turn_light_on", // A unique id
+            "updateState": "on", // Updates state on function call
+            "schedule": "at 9:00am", // Optional scheduling using later.js
+            "event": "Light turned on", // Optional event to emit when called.
+            "function": function () {
+                // The implementation of the action.
+                // Here we simply log "Light on." See links to hardware
+                // examples below to begin using microcontrollers
+                console.log("Light on."); 
+            }
+        },
+        {
+            "name": "off",
+            "id": "turn_light_off",
+            "updateState": "off",
+            "schedule": "at 8:30pm",
+            "event": "Light turned off",
+            "function": function () {
+                console.log("Light off.");
+            }
+        }
+    ],
+    "events": [
+        {
+            "name": "Light data", // Events get a display name like actions
+            "id": "light_data", // An id that is unique to this device
+            "type": "light", // Data type. There might be different kinds of events?
+            "schedule": "every 1 second", // Currently required
+            "function": function () {
+                // function should return the event to emit when it should be emited.
+                return Math.random();
+            }
+        }
+    ]
+}, function start () {
+    // Optional Callback function. Calls turn_light_off function on start.
+    grow.callAction("turn_light_off");
+});
+```
+
+Run the script with:
+
+```bash
+node example.js
+```
+
+This does a couple of things:
+
+1. Connects to the host over the ddp protocol.
+
+2. Registers the device with host server. The information in config object is used to create a UI and API.
+
+3. Saves state to state.json so if the device powers off or resets, it resumes it's last configuration.
+
+4. Sets up readable and writable streams and listens for commands.
+
+Next, visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+Create a new environment and you should see the device, click on it to add it to the environment.
+
+Like magic, you will see a generated UI based on the configuration object you passed in.
+
+[Insert screenshot]
+
+If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `example.js`.
 
 ### Setting up an instance on Meteor Galaxy
 
