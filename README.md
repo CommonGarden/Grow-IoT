@@ -8,12 +8,15 @@ Please open issues or PRs with suggestions for improvements. Let's make somethin
 
 [General Feedback](http://forum.commongarden.org/c/feedback)
 
-## An Extensible, completely open source IoT [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) Stack
+## An extensible, open source stack for growing things
+
+![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
+
 Together with [grow.js](https://github.com/CommonGarden/grow.js), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run *your own* home network in the cloud, or as the basis for your own IoT app.
 
 After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, creating control systems, splitting up the code base into more useful modules, and contributing useful feedback / code back to [W3C Internet of Things interest group](https://github.com/w3c/web-of-things-framework).
 
-# Getting Started with Grow-IoT (OSX and Linux)
+# Installing Grow-IoT
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
 ```bash
@@ -32,32 +35,20 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 **Next step:** Create an account. You will use the email address you create your account with when you connect to your Grow-IoT instance.
 
-If you have a microcontroller like a raspberry pi, arduino, Chip, Tessel 2, etc... head on over to the [Grow.js library](https://github.com/CommonGarden/grow.js) to get started connecting it to Grow-IoT.
-
-If not, no worries! The quickstart tutorial below doesn't require any hardware or wiring. :party:
-
 # Quickstart
-If you haven't already, [install and start the Grow-IoT meteor application](https://github.com/CommonGarden/Grow-IoT), visit [http:localhost:3000/](http:localhost:3000/) and create an account (you will need it to add your device).
 
-Clone the repo and enter the new directory:
-```bash
-git clone https://github.com/CommonGarden/grow.js
-cd grow.js
-```
-
-Install the needed software dependencies with:
+First, make a Grow.JS project for the plant you want to monitor:
 
 ```bash
-npm install
+mkdir my-cool-plant
+cd my-cool-plant
+npm init -y
+npm install --save grow.js
 ```
 
-Note: if you haven't installed npm and node.js, please follow the [instructions to do so on the nodejs.org website](https://nodejs.org/en/).
+Now, let's make a file that defines our plant. **Be sure to set the 'owner' property to the email you created an account with.**
 
-Now you are ready to run `example.js`!
-
-### Example.js
-
-Take a look at the file called, `example.js` copied below. **Be sure to set the 'owner' property to the email you created an account with.**
+**plant.js**
 
 ```javascript
 // Import the grow.js library.
@@ -118,28 +109,30 @@ var grow = new GrowInstance({
 Run the script with:
 
 ```bash
-node example.js
+node plant.js
 ```
-
-This does a couple of things:
-
-1. Connects to the host over the ddp protocol.
-
-2. Registers the device with host server. The information in config object is used to create a UI and API.
-
-3. Saves state to state.json so if the device powers off or resets, it resumes it's last configuration.
-
-4. Sets up readable and writable streams and listens for commands.
 
 Next, visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-Create a new environment and you should see the device, click on it to add it to the environment.
+Create a new environment and you should see the device. Click on it to add it to the environment.
 
 Like magic, you will see a generated UI based on the configuration object you passed in.
 
 ![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
-If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `example.js`.
+If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `plant.js`.
+
+### Cool! What did I just do? 
+
+Well, running `plant.js` for the first time:
+
+1. Connects to the Grow-IoT host (ddp).
+
+2. Registers the device with host server. The information in config object is used to create a UI and API.
+
+3. Saves state to a file `state.json`, so if the device powers off or resets, it resumes it's last configuration.
+
+4. Sets up readable and writable streams and listens for commands.
 
 [Full grow.js documentation and examples can be found here](http://commongarden.github.io/grow.js/).
 
