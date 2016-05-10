@@ -81,12 +81,16 @@ Meteor.methods
 
     # HACK: should owner be required? Ultimately it would be nice to
     # be able to configure / claim devices from the app.
-    if deviceInfo.owner
-      if Meteor.isServer
-        user = Accounts.findUserByEmail(deviceInfo.owner)
-        document.owner = 
-          _id: user._id
-    else
+    try
+      if deviceInfo.owner
+        if Meteor.isServer
+          user = Accounts.findUserByEmail(deviceInfo.owner)
+          document.owner = 
+            _id: user._id
+      else
+        throw new Meteor.Error 'internal-error', 'The device has no owner. Set the owner property to the email address of the account you want the device added to.'
+    catch error
+      # TODO: better error message
       throw new Meteor.Error 'internal-error', 'The device has no owner. Set the owner property to the email address of the account you want the device added to.'
 
     throw new Meteor.Error 'internal-error', "Internal error." unless Device.documents.insert document

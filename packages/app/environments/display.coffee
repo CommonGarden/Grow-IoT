@@ -46,7 +46,8 @@ class Environment.DisplayComponent extends UIComponent
       'environment.uuid': @currentEnvironmentUuid()
 
   things: ->
-    Thing.documents.find()
+    Thing.documents.find
+      'environment.uuid': @currentEnvironmentUuid()
 
   emptyState: ->
     # No things or devices.
