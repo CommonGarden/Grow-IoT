@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CommonGarden/Thing.js.git"
+    "url": "https://github.com/CommonGarden/Thing.js"
   },
   "keywords": [
     "IoT",
@@ -19,7 +19,7 @@
   "author": "CommonGarden",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CommonGarden/Thing.js.git/issues"
+    "url": "https://github.com/CommonGarden/Thing.js/issues"
   },
   "devDependencies": {
     "babel": "^5.8.21",
