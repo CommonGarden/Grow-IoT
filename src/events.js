@@ -26,8 +26,7 @@ import {setInterval, parse} from 'later'
 
 var Events = {
   /**
-   * Constructs a new events object.
-   * @constructor
+   * Register a new events object.
    * @param {Object} config  
    * @return     A new events object
  */

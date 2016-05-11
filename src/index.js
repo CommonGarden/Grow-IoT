@@ -5,6 +5,11 @@ var _ = require('underscore')
 
 
 class Thing {
+  /**
+   * Constructs a new thing object.
+   * @param {Object} config  
+   * @return     A new events object
+  */
   constructor(config) {
     if (!config) {
       throw new Error('Thing.js requires an config object.');
@@ -24,19 +29,6 @@ class Thing {
     this.actions = Actions.register(config);
     this.events = Events.register(config);
   }
-
-  // callAction(actionId) {
-  //   return Actions.callAction(actionId);
-  // }
-
-  // updateAction(actionId) {
-  //   // return Actions.callAction(actionId);
-  // }
-
-  // updateState(newState) {
-  //   // Not sure if allowing the updating of any 
-  // }
-
 };
 
 export default Thing;

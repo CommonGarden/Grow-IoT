@@ -26,8 +26,7 @@ import {setInterval, parse} from 'later'
 
 var Actions = {
   /**
-   * Constructs a new actions object.
-   * @constructor
+   * Registers actions and returns a new actions object
    * @param {Object} config  
    * @return     A new grow instance.
  */

@@ -9,7 +9,7 @@ module.exports = function() {
     // Setup test things
     global.thing1 = {
       "name": "Light",
-      "desription": "An LED light with a basic on/off api.",
+      "description": "An LED light with a basic on/off api.",
       "state": "off",
       "actions": [
           {

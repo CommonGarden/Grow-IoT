@@ -1,19 +1,25 @@
 import Thing from '../../src/index';
 
+/*
+  TODO:
+  * callback?
+  * update property
+*/
+
 describe('A feature test', () => {
   beforeEach(() => {
     global.testThing = new Thing(thing1);
-
   });
 
-  it('should have been run once', () => {
+  it('should have been constructed correctly', () => {
     console.log(testThing);
-    // expect(thing.constructor).to.have.been.calledOnce;
+    expect(testThing.name).to.equal('Light');
+    expect(testThing.description).to.equal('An LED light with a basic on/off api.');
   });
 
-  // it('should have always returned hello', () => {
-  //   expect(Thing.constructor).to.have.always.returned('hello');
-  // });
+  it('should be able to call a registered action.', () => {
+    expect(testThing.actions.callAction('turn_light_on')).to.equal('Light on.');
+  });
 
   afterEach(() => {
     delete global.testThing;
