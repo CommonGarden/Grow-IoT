@@ -8,7 +8,8 @@ const del         = require('del');
 const path        = require('path');
 const mkdirp      = require('mkdirp');
 const isparta     = require('isparta');
-const esperanto   = require('esperanto');
+const rollup      = require('rollup');
+const babel       = require('babel');
 
 const manifest          = require('./package.json');
 const config            = manifest.to5BoilerplateOptions;
@@ -62,37 +63,77 @@ gulp.task('lint-test', function() {
 
 // Build two versions of the library
 gulp.task('build', ['lint-src', 'clean'], function(done) {
-  esperanto.bundle({
-    base: 'src',
-    entry: config.entryFileName
-  }).then(function(bundle) {
-    var res = bundle.toUmd({
-      sourceMap: true,
-      sourceMapSource: config.entryFileName + '.js',
-      sourceMapFile: exportFileName + '.js',
-      name: config.exportVarName
-    });
 
-    // Write the generated sourcemap
-    mkdirp.sync(destinationFolder);
-    var sourceFile = path.join(destinationFolder, exportFileName + '.js');
-    fs.writeFileSync(sourceFile, res.map.toString());
+  /**
+   * Create a promise based on the result of the webpack compiling script
+   */
 
-    $.file(exportFileName + '.js', res.code, { src: true })
-      .pipe($.plumber())
-      .pipe($.sourcemaps.init({ loadMaps: true }))
-      .pipe($.babel({ blacklist: ['useStrict'] }))
-      .pipe($.sourcemaps.write('./', {addComment: false}))
-      .pipe(gulp.dest(destinationFolder))
-      .pipe($.filter(['*', '!**/*.js.map']))
-      .pipe($.rename(exportFileName + '.min.js'))
-      .pipe($.uglifyjs({
-        outSourceMap: true,
-        inSourceMap: destinationFolder + '/' + exportFileName + '.js.map'
-      }))
-      .pipe(gulp.dest(destinationFolder))
-      .on('end', done);
-  });
+  return new Promise(function(resolve, reject) {
+
+    rollup.rollup({
+      // The bundle's starting point. This file will be
+      // included, along with the minimum necessary code
+      // from its dependencies
+      entry: './src/index.js'
+    }).then( function ( bundle ) {
+
+      // convert to valid es5 code with babel
+      var result = babel.transform(
+        // create a single bundle file
+        bundle.generate({
+          format: 'cjs'
+        }).code,
+        {
+          moduleId: global.library,
+          moduleIds: true,
+          comments: false,
+          presets: ['es2015'],
+          plugins: ['transform-es2015-modules-umd']
+        }
+      ).code
+
+      mkdirp('./dist', function() {
+        try {
+          fs.writeFileSync(`./dist/${ global.library }.js`, result, 'utf8')
+          resolve()
+        } catch (e) {
+          reject(e)
+        }
+      })
+
+    }).catch(e =>{ console.log(e) })
+  })
+  // esperanto.bundle({
+  //   base: 'src',
+  //   entry: config.entryFileName
+  // }).then(function(bundle) {
+  //   var res = bundle.toUmd({
+  //     sourceMap: true,
+  //     sourceMapSource: config.entryFileName + '.js',
+  //     sourceMapFile: exportFileName + '.js',
+  //     name: config.exportVarName
+  //   });
+
+  //   // Write the generated sourcemap
+  //   mkdirp.sync(destinationFolder);
+  //   var sourceFile = path.join(destinationFolder, exportFileName + '.js');
+  //   fs.writeFileSync(sourceFile, res.map.toString());
+
+  //   $.file(exportFileName + '.js', res.code, { src: true })
+  //     .pipe($.plumber())
+  //     .pipe($.sourcemaps.init({ loadMaps: true }))
+  //     .pipe($.babel({ blacklist: ['useStrict'] }))
+  //     .pipe($.sourcemaps.write('./', {addComment: false}))
+  //     .pipe(gulp.dest(destinationFolder))
+  //     .pipe($.filter(['*', '!**/*.js.map']))
+  //     .pipe($.rename(exportFileName + '.min.js'))
+  //     .pipe($.uglifyjs({
+  //       outSourceMap: true,
+  //       inSourceMap: destinationFolder + '/' + exportFileName + '.js.map'
+  //     }))
+  //     .pipe(gulp.dest(destinationFolder))
+  //     .on('end', done);
+  // });
 });
 
 gulp.task('coverage', ['lint-src', 'lint-test'], function(done) {

@@ -1,6 +1,6 @@
 /* Basic tests for actions module.*/
 
-import Actions from '../../src/actions';
+import Actions from '../../lib/actions';
 
 /*
   TODO:

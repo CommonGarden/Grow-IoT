@@ -1,4 +1,4 @@
-import Thing from '../../src/index';
+import Thing from '../../lib/index';
 
 /*
   TODO:

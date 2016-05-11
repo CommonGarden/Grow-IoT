@@ -1,6 +1,6 @@
 /* Basic tests for events module.*/
 
-import Events from '../../src/events';
+import Events from '../../lib/events';
 
 /*
   TODO:
