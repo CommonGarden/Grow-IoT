@@ -5,7 +5,6 @@ import Actions from '../../lib/actions';
 /*
   TODO:
   * Test calling an action with options.
-
 */
 
 describe('Test actions', () => {

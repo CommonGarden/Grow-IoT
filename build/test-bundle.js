@@ -13,17 +13,11 @@ babelHelpers.classCallCheck = function (instance, Constructor) {
 babelHelpers;
 
 global.expect = require('chai').expect;
-// global.sinon = require('sinon');
-// global.chai.use(require('sinon-chai'));
 
 require('babel/register');
 
 (function setup() {
   beforeEach(function () {
-
-    // this.sandbox = global.sinon.sandbox.create();
-    // global.stub = this.sandbox.stub.bind(this.sandbox);
-    // global.spy = this.sandbox.spy.bind(this.sandbox);
 
     // Setup test things
     global.thing1 = {
@@ -63,10 +57,7 @@ require('babel/register');
   });
 
   afterEach(function () {
-    // delete global.stub;
-    // delete global.spy;
     delete global.thing1;
-    // this.sandbox.restore();
   });
 })();
 
@@ -180,7 +171,6 @@ var Actions = {
 /*
   TODO:
   * Test calling an action with options.
-
 */
 
 describe('Test actions', function () {
