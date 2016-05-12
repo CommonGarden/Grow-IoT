@@ -1,11 +1,10 @@
 global.expect = require('chai').expect;
 
-// require('babel/register');
-
 (function setup () {
   beforeEach(function() {
 
     // Setup test things
+    // In the future we can test multiple different kinds of things!
     global.thing1 = {
       'name': 'Light',
       'description': 'An LED light with a basic on/off api.',
