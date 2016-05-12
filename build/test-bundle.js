@@ -83,8 +83,8 @@ global.expect = require('chai').expect;
 })();
 
 // Documentation: https://nodejs.org/api/stream.html
-var Readable = require('stream').Readable;
-var Writable = require('stream').Writable;
+var Readable$2 = require('stream').Readable;
+var Writable$2 = require('stream').Writable;
 
 var API = {
   /**
@@ -188,12 +188,12 @@ If you are hosting on a cloud instance such as [Meteor Galaxy](https://galaxy.me
 */
 
 var _$2 = require('underscore');
-var DDPClient = require('ddp');
-var EJSON = require("ddp-ejson");
+var DDPClient$1 = require('ddp');
+var EJSON$1 = require("ddp-ejson");
 
 var DDP = {
   connect: function connect(config, callback) {
-    this.ddpclient = new DDPClient(_$2.defaults(config, {
+    this.ddpclient = new DDPClient$1(_$2.defaults(config, {
       host: 'localhost',
       port: 3000,
       ssl: false,
@@ -217,8 +217,8 @@ var DDP = {
       }
 
       // console.log(JSON.stringify(this.config));
-
-      this.ddpclient.call('Device.register', [this.config], function (error, result) {
+      // Break this out
+      this.ddpclient.call('Device.register', [config], function (error, result) {
         if (error) return callback(error);
 
         assert(result.uuid, result);
@@ -245,7 +245,7 @@ var DDP = {
         this._messageHandlerInstalled = true;
 
         this.ddpclient.on('message', function (data) {
-          data = EJSON.parse(data);
+          data = EJSON$1.parse(data);
 
           if (data.msg !== 'added' || data.collection !== 'Device.messages') {
             return;
@@ -265,6 +265,23 @@ var DDP = {
       this.writeChangesToGrowFile();
     }
 
+    // SETUP STREAMS
+    // Readable Stream: this is "readable" from the server perspective.
+    // The device publishes it's data to the readable stream.
+    this.readableStream = new Readable({ objectMode: true });
+
+    // We are pushing data when sensor measures it so we do not do anything
+    // when we get a request for more data. We just ignore it for now.
+    this.readableStream._read = function () {};
+
+    this.readableStream.on('error', function (error) {
+      console.log("Error", error.message);
+    });
+
+    // Writable stream: this is writable from the server perspective. A device listens on
+    // the writable stream to recieve new commands.
+    this.writableStream = new Writable({ objectMode: true });
+
     callback(null, result);
   }
 };
@@ -276,72 +293,151 @@ var Duplex = require('stream').Duplex;
 var fs = require('fs');
 var RSVP = require('rsvp');
 var later = require('later');
+var DDPClient = require('ddp');
+var EJSON = require("ddp-ejson");
+var Readable$1 = require('stream').Readable;
+var Writable$1 = require('stream').Writable;
 
 // Use local time.
 later.date.localTime();
 
 var Grow = function () {
-  // callAction: Actions.callAction,
-
-  function Grow(config) {
+  function Grow(config, callback) {
     babelHelpers.classCallCheck(this, Grow);
-
 
     this.thing = new Thing(config);
 
     // What does this do?
-    Duplex.call(this, _$1.defaults(this.thing, { objectMode: true, readableObjectMode: true, writableObjectMode: true }));
+    Duplex.call(this, _$1.defaults(config, { objectMode: true, readableObjectMode: true, writableObjectMode: true }));
 
     this.uuid = this.thing.uuid || null;
     this.token = this.thing.token || null;
 
-    // Remove?
-    this._messageHandlerInstalled = false;
+    this.ddpclient = new DDPClient(_$1.defaults(config, {
+      host: 'localhost',
+      port: 3000,
+      ssl: false,
+      maintainCollections: false
+    }));
 
-    // TODO: test to make sure actions are registered even when there is no connection.
-    DDP.connect(function (error, data) {
-      if (error) {
-        console.log(error);
+    this.ddpclient.connect(function (error, wasReconnect) {
+      if (error) return callback(error);
 
-        // TODO: register actions and make attempt to make reconnection.
-        // The idea is that if connection is lost the program shouldn't stop,
-        // but should also try to reconnect.
+      if (wasReconnect) {
+        console.log("Reestablishment of a Grow server connection.");
+      } else {
+        console.log("Grow server connection established.");
       }
 
-      // // These should register reguardless of whether device connects.
-      // var actionsRegistered = new RSVP.Promise(function(resolve, reject) {
-      //   try {
-      //     resolve(self.registerActions(config));
-      //   }
-      //   catch (error) {
-      //     reject(error);
-      //   }
-      // });
+      if (this.uuid || this.token) {
+        return this._afterConnect(callback, {
+          uuid: this.uuid,
+          token: this.token
+        });
+      }
 
-      // // These should register reguardless of whether device connects.
-      // var eventsRegistered = new RSVP.Promise(function(resolve, reject) {
-      //   try {
-      //     resolve(self.registerEvents(config));
-      //   }
-      //   catch (error) {
-      //     reject(error);
-      //   }
-      // });
+      // console.log(JSON.stringify(this.config));
+      // Break this out
+      this.ddpclient.call('Device.register', [config], function (error, result) {
+        if (error) return callback(error);
 
-      // actionsRegistered.then(function(value) {
-      //   self.pipeInstance();
+        assert$1(result.uuid, result);
+        assert$1(result.token, result);
 
-      //   if (!_.isUndefined(callback)) {
-      //     callback(null, self);
-      //   }
-      // });
+        this.uuid = result.uuid;
+        this.token = result.token;
+
+        this._afterConnect(callback, result);
+      });
     });
   }
 
-  // On _write, call API.sendData()
+  // Remove?
+  // this._messageHandlerInstalled = false;
+
+  // TODO: test to make sure actions are registered even when there is no connection.
+  // DDP.connect(function(error, data) {
+  //   if (error) { console.log(error); }
+
+  //   // // These should register reguardless of whether device connects.
+  //   var actionsRegistered = new RSVP.Promise(function(resolve, reject) {
+  //     try {
+  //       resolve(this.registerActions());
+  //     }
+  //     catch (error) {
+  //       reject(error);
+  //     }
+  //   });
+
+  //   actionsRegistered.then(function(value) {
+  //     self.pipeInstance();
+
+  //     if (!_.isUndefined(callback)) {
+  //       callback(null, self);
+  //     }
+  //   });
+  // });
+
+  /*
+  * Runs imediately after a successful connection. Makes sure a UUID and token are set.
+  */
 
 
   babelHelpers.createClass(Grow, [{
+    key: '_afterConnect',
+    value: function _afterConnect(callback, result) {
+      console.log('called');
+
+      this.ddpclient.subscribe('Device.messages', [{ uuid: this.uuid, token: this.token }], function (error) {
+        if (error) return callback(error);
+
+        if (!this._messageHandlerInstalled) {
+          this._messageHandlerInstalled = true;
+
+          this.ddpclient.on('message', function (data) {
+            data = EJSON.parse(data);
+
+            if (data.msg !== 'added' || data.collection !== 'Device.messages') {
+              return;
+            }
+
+            this.push(data.fields.body);
+          });
+        }
+      });
+
+      // Now check to see if we have a stored UUID.
+      // If no UUID is specified, store a new UUID.
+      if (_$1.isUndefined(this.config.uuid) || _$1.isUndefined(this.config.token)) {
+        this.config.uuid = result.uuid;
+        this.config.token = result.token;
+
+        this.writeChangesToGrowFile();
+      }
+
+      // SETUP STREAMS
+      // Readable Stream: this is "readable" from the server perspective.
+      // The device publishes it's data to the readable stream.
+      this.readableStream = new Readable$1({ objectMode: true });
+
+      // We are pushing data when sensor measures it so we do not do anything
+      // when we get a request for more data. We just ignore it for now.
+      this.readableStream._read = function () {};
+
+      this.readableStream.on('error', function (error) {
+        console.log("Error", error.message);
+      });
+
+      // Writable stream: this is writable from the server perspective. A device listens on
+      // the writable stream to recieve new commands.
+      this.writableStream = new Writable$1({ objectMode: true });
+
+      callback(null, result);
+    }
+
+    // On _write, call API.sendData()
+
+  }, {
     key: '_write',
     value: function _write(chunk, encoding, callback) {
       API.sendData(chunk, callback);
@@ -355,6 +451,28 @@ var Grow = function () {
   }, {
     key: '_read',
     value: function _read(size) {}
+  }, {
+    key: 'registerActions',
+    value: function registerActions() {
+      var actions = this.thing.actions;
+
+      // Sets up listening for actions on the writeable stream.
+      this.writableStream._write = function (command, encoding, callback) {
+        // console.log(command);
+        for (var action in this.actions) {
+          var actionId = this.actions[action].id;
+          if (command.type === actionId) {
+            if (command.options) {
+              this.callAction(actionId, command.options);
+            } else {
+              this.callAction(actionId);
+            }
+          }
+        }
+
+        callback(null);
+      };
+    }
   }]);
   return Grow;
 }();
@@ -362,13 +480,13 @@ var Grow = function () {
 ;
 
 describe('A feature test', function () {
-  beforeEach(function () {
-    global.testThing = new Grow(thing1);
-  });
+  // beforeEach(() => {
+  //   global.GrowInstance = new Grow(thing1);
+  // });
 
   it('should have been run once', function () {
-    // Ok we have Thing.js, now let's use it.
-    console.log(testThing);
+    // console.log(GrowInstance);
+    var GrowInstance = new Grow(thing1);
     // expect(thing.constructor).to.have.been.calledOnce;
   });
 
@@ -377,7 +495,7 @@ describe('A feature test', function () {
   // });
 
   afterEach(function () {
-    delete global.testThing;
+    delete global.GrowInstance;
   });
 });
 //# sourceMappingURL=test-bundle.js.map

@@ -1,14 +1,13 @@
 import Grow from '../../lib/index';
 
 describe('A feature test', () => {
-  beforeEach(() => {
-    global.testThing = new Grow(thing1);
-
-  });
+  // beforeEach(() => {
+  //   global.GrowInstance = new Grow(thing1);
+  // });
 
   it('should have been run once', () => {
-    // Ok we have Thing.js, now let's use it.
-    console.log(testThing);
+    // console.log(GrowInstance);
+    var GrowInstance = new Grow(thing1);
     // expect(thing.constructor).to.have.been.calledOnce;
   });
 
@@ -17,6 +16,6 @@ describe('A feature test', () => {
   // });
 
   afterEach(() => {
-    delete global.testThing;
+    delete global.GrowInstance;
   });
 });
