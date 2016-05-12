@@ -1,12 +1,13 @@
-import Thing from 'Thing.js';
+import Grow from '../../lib/index';
 
 describe('A feature test', () => {
   beforeEach(() => {
-    global.testThing = new Thing(thing1);
+    global.testThing = new Grow(thing1);
 
   });
 
   it('should have been run once', () => {
+    // Ok we have Thing.js, now let's use it.
     console.log(testThing);
     // expect(thing.constructor).to.have.been.calledOnce;
   });
