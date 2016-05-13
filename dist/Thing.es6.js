@@ -6,6 +6,48 @@ babelHelpers.classCallCheck = function (instance, Constructor) {
   }
 };
 
+babelHelpers.createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+babelHelpers.inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+babelHelpers.possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
 babelHelpers;
 
 /**
@@ -37,19 +79,21 @@ var later = require('later');
 var Actions = {
   /**
    * Registers actions and returns a new actions object
-   * @param {Object} config  
+   * @param {Object} thing  
    * @return     A new grow instance.
   */
 
-  register: function register(config) {
+  register: function register(thing) {
     this.actions = [];
     this.scheduledActions = [];
 
-    for (var key in config) {
+    // this.emit = thing.emit;
+
+    for (var key in thing) {
       // Check top level thing model for actions.
       if (key === 'actions') {
-        for (var action in config[key]) {
-          this.actions.push(config[key][action]);
+        for (var action in thing[key]) {
+          this.actions.push(thing[key][action]);
         }
       }
     }
@@ -90,6 +134,8 @@ var Actions = {
   callAction: function callAction(actionId, options) {
     var action = this.getActionByID(actionId);
 
+    this.emit(actionId);
+
     if (!_$1.isUndefined(options)) {
       return action.function(options);
     } else {
@@ -103,11 +149,13 @@ var Actions = {
    * @param {Object} action An action object.
    */
   startAction: function startAction(action) {
+    var _this = this;
+
     var meta = this.getActionByID(action);
     if (!_$1.isUndefined(meta.schedule)) {
       var schedule = later.parse.text(meta.schedule);
       var scheduledAction = later.setInterval(function () {
-        this.callAction(action);
+        _this.callAction(action);
       }, schedule);
       this.scheduledActions.push(scheduledAction);
       return scheduledAction;
@@ -123,7 +171,7 @@ var Actions = {
  * NOTE: Events currently run like jobs and so REQUIRE a schedule property. 
    This is not nice, let's rewrite.
  
- * The "events" property of the config object takes a list of event objects. For example:
+ * The "events" property of the thing object takes a list of event objects. For example:
 
         "events": [
             {
@@ -141,22 +189,26 @@ var Actions = {
 var _$2 = require('underscore');
 var later$1 = require('later');
 
-var Events = {
+var Events = function () {
   /**
    * Register a new events object.
-   * @param {Object} config  
+   * @param {Object} thing  
    * @return     A new events object
   */
 
-  register: function register(config) {
+  function Events(thing) {
+    babelHelpers.classCallCheck(this, Events);
+
     this.events = [];
     this.scheduledEvents = [];
 
-    for (var key in config) {
+    this.emit = thing.emit;
+
+    for (var key in thing) {
       // Check top level thing model for events.
       if (key === 'events') {
-        for (var event in config[key]) {
-          this.events.push(config[key][event]);
+        for (var event in thing[key]) {
+          this.events.push(thing[key][event]);
         }
       }
     }
@@ -168,92 +220,104 @@ var Events = {
         this.startEvent(eventId);
       }
     }
+  }
 
-    return this;
-  },
-
-
-  // THOUGHT: since this is the same for actions an events, could it just be 'getComponentById'?
   /**
    * Get event object based on the event id
    * @param {String} eventId  The id of the event object you want.
    * @returns {Object}
    */
-  getEventByID: function getEventByID(eventId) {
-    for (var i = this.events.length - 1; i >= 0; i--) {
-      if (this.events[i].id === eventId) {
-        return this.events[i];
+
+
+  babelHelpers.createClass(Events, [{
+    key: 'getEventByID',
+    value: function getEventByID(eventId) {
+      for (var i = this.events.length - 1; i >= 0; i--) {
+        if (this.events[i].id === eventId) {
+          return this.events[i];
+        }
       }
     }
-  },
 
+    /**
+     * Calls a registered event function.
+     * @param      {String}  eventId The id of the event to call.
+     * @param      {Object}  options Optional, options to call with the function.
+    */
 
-  /**
-   * Calls a registered event, emits event if the the event has an 'event'
-   * property defined. Updates the state if the event has an 'updateState'
-   * property specified.
-   * @param      {String}  eventId The id of the event to call.
-   * @param      {Object}  options Optional, options to call with the function.
-  */
-  callEvent: function callEvent(eventId, options) {
-    var event = this.getEventByID(eventId);
+  }, {
+    key: 'callEvent',
+    value: function callEvent(eventId, options) {
+      var event = this.getEventByID(eventId);
 
-    if (!_$2.isUndefined(options)) {
-      return event.function(options);
-    } else {
-      return event.function();
+      this.emit(eventId);
+
+      if (!_$2.isUndefined(options)) {
+        return event.function(options);
+      } else {
+        return event.function();
+      }
     }
-  },
 
+    /**
+     * Starts a reoccurring event if a schedule property is defined.
+     * @param {Object} event An event object.
+     */
 
-  /**
-   * Starts a reoccurring event if a schedule property is defined.
-   * @param {Object} event An event object.
-   */
-  startEvent: function startEvent(event) {
-    var meta = this.getEventByID(event);
-    if (!_$2.isUndefined(meta.schedule)) {
-      var schedule = later$1.parse.text(meta.schedule);
-      var scheduledEvent = later$1.setInterval(function () {
-        this.callEvent(event);
-      }, schedule);
-      this.scheduledEvents.push(scheduledEvent);
-      return scheduledEvent;
+  }, {
+    key: 'startEvent',
+    value: function startEvent(event) {
+      var _this = this;
+
+      var meta = this.getEventByID(event);
+      if (!_$2.isUndefined(meta.schedule)) {
+        var schedule = later$1.parse.text(meta.schedule);
+        var scheduledEvent = later$1.setInterval(function () {
+          _this.callEvent(event);
+        }, schedule);
+        this.scheduledEvents.push(scheduledEvent);
+        return scheduledEvent;
+      }
     }
-  }
-};
+  }]);
+  return Events;
+}();
+
+;
 
 var _ = require('underscore');
+var EventEmitter = require('events');
 
-var Thing =
-/**
- * Constructs a new thing object.
- * @param {Object} config  
- * @return     A new events object
-*/
-function Thing(config) {
-  babelHelpers.classCallCheck(this, Thing);
+var Thing = function (_EventEmitter) {
+  babelHelpers.inherits(Thing, _EventEmitter);
 
-  if (!config) {
-    throw new Error('Thing.js requires an config object.');
-  } else {
-    _.extend(this, config);
+  /**
+   * Constructs a new thing object.
+   * @param {Object} config
+   * @return     A new events object
+  */
+
+  function Thing(config) {
+    babelHelpers.classCallCheck(this, Thing);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Thing).call(this));
+
+    if (!config) {
+      throw new Error('Thing.js requires an config object.');
+    } else {
+      _.extend(_this, config);
+    }
+
+    // Register actions events
+    Actions.register(_this);
+    _this.events = new Events(_this);
+    return _this;
   }
 
-  try {
-    // We need the methods defined in the config, so we _.extend state.json.
-    var state = require('./state.json');
-    _.extend(this, state);
-  } catch (err) {}
-  // Do nothing.
-
-
-  // Register actions events
-  this.actions = Actions.register(config);
-  this.events = Events.register(config);
-};
+  return Thing;
+}(EventEmitter);
 
 ;
 
 export default Thing;
-//# sourceMappingURL=rollup-starter-project.es6.js.map
+//# sourceMappingURL=Thing.es6.js.map
