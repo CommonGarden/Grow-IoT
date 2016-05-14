@@ -1,6 +1,6 @@
 {
   "name": "Thing.js",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
   "main": "dist/Thing.umd.js",
   "jsnext:main": "dist/Thing.es6.js",
