@@ -85,14 +85,21 @@ require('babel/register');
         'function': function _function() {
           return 'Light off.';
         }
-      }],
-      'events': [{
+      }, {
         'name': 'Light data',
         'id': 'light_data',
         'type': 'light',
         'schedule': 'every 1 second',
         'function': function _function() {
+          // Normally, this would be publishing data on the readable stream.
           return 'data';
+        }
+      }],
+      'events': [{
+        'name': 'light data is data',
+        'on': 'light_data', // Hook into an action.
+        'function': function _function() {
+          console.log('this');
         }
       }]
     };
@@ -205,8 +212,6 @@ var Thing = function (_EventEmitter) {
       _.extend(_this, config);
     }
 
-    console.log(_this);
-
     // Register actions events
     _this.registerActions();
     _this.registerEvents();
@@ -244,8 +249,44 @@ var Thing = function (_EventEmitter) {
           this.startAction(actionId);
         }
       }
+    }
 
-      return this;
+    /**
+     * Register a new events object.
+     * @param {Object} thing  
+     * @return     A new events object
+    */
+
+  }, {
+    key: 'registerEvents',
+    value: function registerEvents() {
+      // this.events = [];
+
+      // Do we need scheduled events?
+      // this.scheduledEvents = [];
+
+      // this.emit = thing.emit;
+
+      for (var key in this) {
+        // Check top level thing model for events.
+        if (key === 'events') {
+          for (var event in this[key]) {
+            // this.events.push(thing[key][event]);
+            event = this[key][event];
+            this.on(event.on, function () {
+              event.function();
+            });
+          }
+        }
+      }
+
+      // for (var event in this.events) {
+      //   var eventId = this.events[event].id;
+      //   var event = this.getEventByID(eventId);
+      //   if (!_.isUndefined(event)) {
+      //     this.startEvent(eventId);
+      //   }
+      // }
     }
 
     /**
@@ -304,38 +345,6 @@ var Thing = function (_EventEmitter) {
         }, schedule);
         this.scheduledActions.push(scheduledAction);
         return scheduledAction;
-      }
-    }
-
-    /**
-    * Register a new events object.
-    * @param {Object} thing  
-    * @return     A new events object
-    */
-
-  }, {
-    key: 'registerEvents',
-    value: function registerEvents(thing) {
-      this.events = [];
-      this.scheduledEvents = [];
-
-      // this.emit = thing.emit;
-
-      for (var key in thing) {
-        // Check top level thing model for events.
-        if (key === 'events') {
-          for (var event in thing[key]) {
-            this.events.push(thing[key][event]);
-          }
-        }
-      }
-
-      for (var event in this.events) {
-        var eventId = this.events[event].id;
-        var event = this.getEventByID(eventId);
-        if (!_.isUndefined(event)) {
-          this.startEvent(eventId);
-        }
       }
     }
 
@@ -422,13 +431,22 @@ describe('Thing test', function () {
     expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
   });
 
-  it('should emit an event when called', function () {
+  it('should emit an event when an action is called', function () {
     var event = false;
     testThing.on('turn_light_on', function () {
       return event = true;
     });
     testThing.callAction('turn_light_on');
     expect(event).to.equal(true);
+  });
+
+  it('events should register properly', function () {
+    // var event = false;
+    // testThing.on('turn_light_on', () => {
+    //   return event = true;
+    // });
+    testThing.callAction('light_data');
+    // expect(event).to.equal(true);
   });
 
   afterEach(function () {

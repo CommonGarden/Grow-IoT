@@ -31,16 +31,24 @@ require('babel/register');
           'function': function () {
             return 'Light off.';
           }
-        }
-      ],
-      'events': [
+        },
         {
           'name': 'Light data',
           'id': 'light_data',
           'type': 'light',
           'schedule': 'every 1 second',
           'function': function () {
+            // Normally, this would be publishing data on the readable stream.
             return 'data';
+          }
+        }
+      ],
+      'events': [
+        {
+          'name': 'light data is data',
+          'on': 'light_data', // Hook into an action.
+          'function': () => {
+            return 'this';
           }
         }
       ]
