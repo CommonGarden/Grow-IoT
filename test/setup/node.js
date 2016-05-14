@@ -46,6 +46,7 @@ require('babel/register');
       'events': [
         {
           'name': 'light data is data',
+          'id': 'check_light_data',
           'on': 'light_data', // Hook into an action.
           'function': () => {
             return 'this';

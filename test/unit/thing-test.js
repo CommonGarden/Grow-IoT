@@ -16,6 +16,24 @@ describe('Thing test', () => {
     expect(testThing.description).to.equal('An LED light with a basic on/off api.');
   });
 
+  it('should register actions in the config object', () => {
+    expect(testThing.actions.length).to.equal(3);
+  });
+
+  it('should register events in the config object', () => {
+    expect(testThing.events.length).to.equal(1);
+  });
+
+  it('should return the right action object when given an action id.', () => {
+    var action = testThing.getActionByID('light_data');
+    expect(action.name).to.equal('Light data');
+  });
+
+  it('should return the right event object when given an event id.', () => {
+    var event = testThing.getEventByID('check_light_data');
+    expect(event.name).to.equal('light data is data');
+  });
+
   it('should be able to call a registered action.', () => {
     expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
   });
@@ -28,20 +46,6 @@ describe('Thing test', () => {
     testThing.callAction('turn_light_on');
     expect(event).to.equal(true);
   });
-
-  // it('should register events in the config object', () => {
-  //   console.log(thing);
-  //   expect(thing.events.length).to.equal(1);
-  // });
-
-  // it('should call the right event when given an eventId', () => {
-  //   expect(thing.events.callEvent('light_data')).to.equal('data');
-  // });
-
-  // it('should return the right event object when given an event id.', () => {
-  //   var event = thing.events.getEventByID('light_data');
-  //   expect(event.name).to.equal('Light data');
-  // });
 
   // This test is not working properly...
   it('events should register properly', () => {

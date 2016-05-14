@@ -97,9 +97,10 @@ require('babel/register');
       }],
       'events': [{
         'name': 'light data is data',
+        'id': 'check_light_data',
         'on': 'light_data', // Hook into an action.
         'function': function _function() {
-          console.log('this');
+          return 'this';
         }
       }]
     };
@@ -109,84 +110,6 @@ require('babel/register');
     delete global.thing1;
   });
 })();
-
-// /* Basic tests for actions module.*/
-
-// import Thing from '../../lib/index';
-
-// /*
-//   TODO:
-//   * Test calling an action with options.
-// */
-
-// describe('Test actions', () => {
-//   beforeEach(() => {
-//     global.thing = new Thing(thing1);
-//   });
-
-//   it('should register actions in the config object', () => {
-//     expect(thing.actions.length).to.equal(2);
-//   });
-
-//   it('should call the right action when given an actionId', () => {
-//     expect(thing.callAction('turn_light_on')).to.equal('Light on.');
-//   });
-
-//   it('should return the right action object when given an action id.', () => {
-//     var action = thing.actions.getActionByID('turn_light_on');
-//     expect(action.name).to.equal('On');
-//     expect(action.description).to.equal('Turns the light on.');
-//   });
-
-//   it('should emit an event when called', () => {
-//     var event = false;
-//     thing.actions.on('turn_light_on', () => {
-//       return event = true;
-//     });
-//     thing.actions.callAction('turn_light_on');
-//     expect(event).to.equal(true);
-//   });
-
-//   afterEach(() => {
-//     delete global.thing;
-//   });
-// });
-
-/* Basic tests for events module.*/
-
-// import Thing from '../../lib/index';
-
-/*
-  TODO:
-  * Test scheduled events
-*/
-
-/*
-describe('Test events', () => {
-  beforeEach(() => {
-    global.thing = new Thing(thing1);
-  });
-
-  it('should register events in the config object', () => {
-    console.log(thing);
-    expect(thing.events.length).to.equal(1);
-  });
-
-  it('should call the right event when given an eventId', () => {
-    expect(thing.events.callEvent('light_data')).to.equal('data');
-  });
-
-  it('should return the right event object when given an event id.', () => {
-    var event = thing.events.getEventByID('light_data');
-    expect(event.name).to.equal('Light data');
-  });
-
-  afterEach(() => {
-    delete global.thing;
-  });
-});
-
-*/
 
 var _ = require('underscore');
 var later = require('later');
@@ -198,7 +121,7 @@ var Thing = function (_EventEmitter) {
   /**
    * Constructs a new thing object.
    * @param {Object} config
-   * @return     A new events object
+   * @return     A new thing object
   */
 
   function Thing(config) {
@@ -219,28 +142,14 @@ var Thing = function (_EventEmitter) {
   }
 
   /**
-   * Registers actions and returns a new actions object
-   * @param {Object} thing  
-   * @return     A new grow instance.
-  */
+   * Registers actions and starts any scheduled actions.
+   */
 
 
   babelHelpers.createClass(Thing, [{
     key: 'registerActions',
     value: function registerActions() {
-      // this.actions = [];
       this.scheduledActions = [];
-
-      // this.emit = thing.emit;
-
-      // for (var key in thing) {
-      //   // Check top level thing model for actions.
-      //   if (key === 'actions') {
-      //     for (var action in thing[key]) {
-      //       this.actions.push(thing[key][action]);
-      //     }
-      //   }
-      // }
 
       for (var action in this.actions) {
         var actionId = this.actions[action].id;
@@ -252,26 +161,17 @@ var Thing = function (_EventEmitter) {
     }
 
     /**
-     * Register a new events object.
-     * @param {Object} thing  
-     * @return     A new events object
-    */
+     * Register a events and setup listeners.
+     */
 
   }, {
     key: 'registerEvents',
     value: function registerEvents() {
-      // this.events = [];
-
-      // Do we need scheduled events?
-      // this.scheduledEvents = [];
-
-      // this.emit = thing.emit;
 
       for (var key in this) {
         // Check top level thing model for events.
         if (key === 'events') {
           for (var event in this[key]) {
-            // this.events.push(thing[key][event]);
             event = this[key][event];
             this.on(event.on, function () {
               event.function();
@@ -279,14 +179,6 @@ var Thing = function (_EventEmitter) {
           }
         }
       }
-
-      // for (var event in this.events) {
-      //   var eventId = this.events[event].id;
-      //   var event = this.getEventByID(eventId);
-      //   if (!_.isUndefined(event)) {
-      //     this.startEvent(eventId);
-      //   }
-      // }
     }
 
     /**
@@ -412,7 +304,6 @@ var Thing = function (_EventEmitter) {
 
 /*
   TODO:
-  * callback?
   * update property
 */
 
@@ -425,6 +316,24 @@ describe('Thing test', function () {
     // console.log(testThing);
     expect(testThing.name).to.equal('Light');
     expect(testThing.description).to.equal('An LED light with a basic on/off api.');
+  });
+
+  it('should register actions in the config object', function () {
+    expect(testThing.actions.length).to.equal(3);
+  });
+
+  it('should register events in the config object', function () {
+    expect(testThing.events.length).to.equal(1);
+  });
+
+  it('should return the right action object when given an action id.', function () {
+    var action = testThing.getActionByID('light_data');
+    expect(action.name).to.equal('Light data');
+  });
+
+  it('should return the right event object when given an event id.', function () {
+    var event = testThing.getEventByID('check_light_data');
+    expect(event.name).to.equal('light data is data');
   });
 
   it('should be able to call a registered action.', function () {
@@ -440,6 +349,7 @@ describe('Thing test', function () {
     expect(event).to.equal(true);
   });
 
+  // This test is not working properly...
   it('events should register properly', function () {
     // var event = false;
     // testThing.on('turn_light_on', () => {
