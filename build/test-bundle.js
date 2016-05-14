@@ -167,9 +167,12 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'registerEvents',
     value: function registerEvents() {
+      this.scheduledEvents = [];
 
+      // Check top level thing model for events.
+
+      // TODO: don't do this with a for loop. Just check this.events.
       for (var key in this) {
-        // Check top level thing model for events.
         if (key === 'events') {
           for (var event in this[key]) {
             event = this[key][event];
@@ -177,6 +180,15 @@ var Thing = function (_EventEmitter) {
               event.function();
             });
           }
+        }
+      }
+
+      for (var event in this.events) {
+        var eventId = this.events[event].id;
+        // this is silly, because it's called both here and in startEvent...
+        var event = this.getEventByID(eventId);
+        if (!_.isUndefined(event)) {
+          this.startEvent(eventId);
         }
       }
     }
@@ -190,6 +202,8 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'getActionByID',
     value: function getActionByID(actionId) {
+      // Todo, check to make sure actions ex
+
       for (var i = this.actions.length - 1; i >= 0; i--) {
         if (this.actions[i].id === actionId) {
           return this.actions[i];
@@ -229,6 +243,7 @@ var Thing = function (_EventEmitter) {
     value: function startAction(action) {
       var _this2 = this;
 
+      // do we need to make the redundent call to getActionByID?
       var meta = this.getActionByID(action);
       if (!_.isUndefined(meta.schedule)) {
         var schedule = later.parse.text(meta.schedule);
@@ -256,6 +271,7 @@ var Thing = function (_EventEmitter) {
       }
     }
 
+    // This was a hack... delete?
     /**
      * Calls a registered event function.
      * @param      {String}  eventId The id of the event to call.
