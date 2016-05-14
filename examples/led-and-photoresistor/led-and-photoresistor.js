@@ -45,6 +45,9 @@ board.on("ready", function start() {
                 }
             }
         ],
+        // Logging data is both an event and action of sorts...
+        // QUESTION: how to know when to generate a chart vs. button...
+        // Maybe a data field?
         "events": [
             {
                 "name": "Light data", // Events get a display name like actions

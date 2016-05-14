@@ -266,18 +266,24 @@ var Grow = function () {
   }, {
     key: 'registerActions',
     value: function registerActions() {
-      var actions = this.thing.actions;
+      var _this3 = this;
 
       // Sets up listening for actions on the writeable stream.
       this.writableStream._write = function (command, encoding, callback) {
         if (command.options) {
-          actions.callAction(command.type, command.options);
+          _this3.thing.callAction(command.type, command.options);
         } else {
-          actions.callAction(command.type);
+          _this3.thing.callAction(command.type);
         }
 
         callback(null);
       };
+
+      console.log('ran');
+      // Listen for action events and emit them as events to Grow-IoT.
+      for (var action in this.thing.actions) {
+        console.log(action);
+      }
     }
 
     /**
@@ -373,10 +379,8 @@ util.inherits(Grow, Duplex);
 describe('A feature test', function () {
   it('should have setup actions correctly', function () {
     var GrowInstance = new Grow(thing1);
-    console.log(GrowInstance);
     expect(GrowInstance.thing.callAction('turn_light_on')).to.equal('Light on.');
     expect(GrowInstance.thing.callAction('turn_light_off')).to.equal('Light off.');
-    // delete GrowInstance;
   });
 
   // TODO
