@@ -11,3 +11,7 @@ You need to make sure that your arduino is flashed with Standard Firmata. Instru
 #### Tessel 2
 See the [tessel project website](https://tessel.io/) for all the documentation you need.
 
+
+
+TODO: these could be packaged as NPM modules.
+

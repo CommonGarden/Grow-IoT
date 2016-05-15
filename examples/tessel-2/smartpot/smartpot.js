@@ -1,10 +1,20 @@
-var GrowInstance = require('../../.././grow.js');
-// var tessel = require('tessel');s
+const GrowInstance = require('grow.js');
+const tessel = require('tessel');
+const climatelib = require('climate-si7020');
+
+// Docs: https://tessel.io/docs/communicationProtocols#gpio
+// Setup pins / modules
+var light_sensor_analog_pin = tessel.port.B.pin[1];
+var waterpump = tessel.port.B.pin[2];
+var ph_sensor_analog = tessel.port.B.pin[3];
+var ec_sensor_analog = tessel.port.B.pin[4];
+var climate = climatelib.use(tessel.port['A']);
 
 // Connects by default to localhost:3000
 var grow = new GrowInstance({
     "name": "Tessel 2 Smart Pot",
     "version": "0.1.5",
+    "board": "tessel-2", // Better way to identify this?
     "description": "A self watering, light controlling, sensor equipped smart pot.",
     "owner": "jake@commongarden.org",
     "components": [
@@ -13,7 +23,7 @@ var grow = new GrowInstance({
             "type": "light",
             "template": "sensor",
             "controller": "analog",
-            "actions": [
+            "data": [
                 {
                     "name": "Log light data",
                     "id": "log_light_data",
@@ -29,7 +39,7 @@ var grow = new GrowInstance({
             "type": "ph",
             "template": "sensor",
             "controller": "analog",
-            "actions": [
+            "data": [
                 {
                     "name": "Log ph data",
                     "id": "log_ph_data",
@@ -44,14 +54,16 @@ var grow = new GrowInstance({
             "name": "temperature sensor",
             "type": "temperature",
             "template": "sensor",
-            "controller": "analog",
-            "actions": [
+            "controller": "climate-si7020", // Name of the NPM package.
+            "data": [
                 {
                     "name": "Log temperature data",
                     "id": "log_temperature_data",
                     "schedule": "every 1 second",
                     "function": function () {
-                        console.log("temperature");
+                        climate.readTemperature('f', function(err, temp){
+                            console.log('Degrees:', temp.toFixed(4) + 'F';
+                        });
                     }
                 }
             ]
@@ -60,14 +72,16 @@ var grow = new GrowInstance({
             "name": "humidity sensor",
             "type": "humidity",
             "template": "sensor",
-            "controller": "analog",
-            "actions": [
+            "controller": "climate-si7020", // Name of the NPM package.
+            "data": [
                 {
                     "name": "Log humidity data",
                     "id": "log_humidity_data",
                     "schedule": "every 1 second",
                     "function": function () {
-                        console.log("humidity");
+                        climate.readHumidity(function(err, humid){
+                            console.log("humidity: " + humid.toFixed(4));
+                        }    
                     }
                 }
             ]
@@ -112,6 +126,9 @@ var grow = new GrowInstance({
                     "updateState": "watering",
                     "schedule": "at 9:00am",
                     "event": "Light turned on",
+                    "options": {
+                        "duration": "20 seconds"
+                    },
                     "function": function () {
                         console.log("watering");
                         // TODO update state for off and support options.
@@ -120,4 +137,9 @@ var grow = new GrowInstance({
             ]
         }
     ]
+}, () => {
+    // Optional callback function.
+    climate.on('error', (err) => {
+      this.emitEvent('error connecting module', err);
+    });
 });
