@@ -1,7 +1,7 @@
 import config from './rollup.config';
 
 config.format = 'umd';
-config.dest = 'dist/rollup-starter-project.umd.js';
-config.moduleName = 'rollupStarterProject';
+config.dest = 'dist/Thing.umd.js';
+config.moduleName = 'Thing';
 
 export default config;

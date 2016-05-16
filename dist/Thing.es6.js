@@ -1,7 +1,3 @@
-'use strict';
-
-require("source-map-support").install();
-
 var babelHelpers = {};
 
 babelHelpers.classCallCheck = function (instance, Constructor) {
@@ -53,67 +49,6 @@ babelHelpers.possibleConstructorReturn = function (self, call) {
 };
 
 babelHelpers;
-
-global.expect = require('chai').expect;
-
-require('babel/register');
-
-(function setup() {
-  beforeEach(function () {
-
-    // Setup test things
-    global.thing1 = {
-      'name': 'Light',
-      'description': 'An LED light with a basic on/off api.',
-      'state': 'off',
-      'actions': [{
-        'name': 'On',
-        'description': 'Turns the light on.',
-        'id': 'turn_light_on',
-        'updateState': 'on',
-        'schedule': 'at 9:00am',
-        'event': 'Light turned on',
-        'function': function _function() {
-          return 'Light on.';
-        }
-      }, {
-        'name': 'off',
-        'id': 'turn_light_off',
-        'updateState': 'off',
-        'schedule': 'at 8:30pm',
-        'event': 'Light turned off',
-        'function': function _function() {
-          return 'Light off.';
-        }
-      }, {
-        'name': 'Light data',
-        'id': 'light_data',
-        'type': 'light',
-        'schedule': 'every 1 second',
-        'function': function _function() {
-          // Normally, this would be publishing data on the readable stream.
-          return 'data';
-        }
-      }],
-      'events': [{
-        'name': 'light data is data',
-        'id': 'check_light_data',
-        'on': 'light_data', // Hook into an action.
-        'function': function _function() {
-          return 'this';
-        }
-      }, {
-        name: 'Change light bulb event',
-        id: 'change_light_bulb',
-        schedule: 'after 10 seconds' // Emits this event in 30s
-      }]
-    };
-  });
-
-  afterEach(function () {
-    delete global.thing1;
-  });
-})();
 
 var _ = require('underscore');
 var later = require('later');
@@ -302,60 +237,5 @@ var Thing = function (_EventEmitter) {
 
 ;
 
-/*
-  TODO:
-  * update property
-*/
-
-describe('Thing test', function () {
-  beforeEach(function () {
-    global.testThing = new Thing(thing1);
-  });
-
-  it('should have been constructed correctly', function () {
-    // console.log(testThing);
-    expect(testThing.name).to.equal('Light');
-    expect(testThing.description).to.equal('An LED light with a basic on/off api.');
-  });
-
-  it('should register actions in the config object', function () {
-    expect(testThing.actions.length).to.equal(3);
-  });
-
-  it('should register events in the config object', function () {
-    expect(testThing.events.length).to.equal(2);
-  });
-
-  it('should return the right action object when given an action id.', function () {
-    var action = testThing.getComponentByID('light_data');
-    expect(action.name).to.equal('Light data');
-  });
-
-  it('should return the right event object when given an id.', function () {
-    var component = testThing.getComponentByID('check_light_data');
-    expect(component.name).to.equal('light data is data');
-  });
-
-  it('should be able to call a registered action.', function () {
-    expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
-  });
-
-  it('should update a component property correctly', function () {
-    testThing.updateProperty('turn_light_on', 'schedule', 'at 9:30am');
-    expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
-  });
-
-  it('should emit an event when an action is called', function () {
-    var event = false;
-    testThing.on('turn_light_on', function () {
-      return event = true;
-    });
-    testThing.callAction('turn_light_on');
-    expect(event).to.equal(true);
-  });
-
-  afterEach(function () {
-    delete global.testThing;
-  });
-});
-//# sourceMappingURL=test-bundle.js.map
+export default Thing;
+//# sourceMappingURL=Thing.es6.js.map
