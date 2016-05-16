@@ -124,7 +124,7 @@ var Thing = function (_EventEmitter) {
 
   /**
    * Constructs a new thing object.
-   * @param {Object} config
+   * @param {Object} config a javascript object containing properties, events, and actions
    * @return     A new thing object
   */
 
@@ -139,14 +139,14 @@ var Thing = function (_EventEmitter) {
       _.extend(_this, config);
     }
 
-    // Register actions events
     _this.registerActions();
     _this.registerEvents();
     return _this;
   }
 
   /**
-   * Registers actions and starts any scheduled actions.
+   * Starts any scheduled actions.
+   * Todo: should also throw errors if actions don't have IDs or functions.
    */
 
 
@@ -168,7 +168,8 @@ var Thing = function (_EventEmitter) {
     }
 
     /**
-     * Register a events and setup listeners.
+     * Starts listeners and scheduled events.
+     * Todo: this needs better testing.
      */
 
   }, {
@@ -195,7 +196,7 @@ var Thing = function (_EventEmitter) {
     }
 
     /**
-     * Get component object based on the id
+     * Get component object (an action or event for example) based on the id
      * @param {String} ID  The id of the component object you want.
      * @returns {Object}
      */

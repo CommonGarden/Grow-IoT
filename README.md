@@ -11,11 +11,9 @@ A Thing is an extension of the [Node.js EventEmitter Class](https://nodejs.org/a
 * Updating properties
 * Calling actions
 * Setting up event listeners
-* Scheduling actions an events
+* Scheduling actions and events
 
 For example of how this can quickly be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js).
-
-Read the code and [documentation]() for more info. 
 
 ## Install
 ```bash

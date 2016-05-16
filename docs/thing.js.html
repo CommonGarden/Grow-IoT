@@ -61,7 +61,7 @@
               <tr>
                 <td>config</td>
                 <td>Object</td>
-                <td></td>
+                <td><p>a javascript object containing properties, events, and actions</p></td>
               </tr>
               <tr>
                 <td>return</td>
@@ -80,7 +80,6 @@
     _.extend(this, config);
   }
 
-  // Register actions events
   this.registerActions();
   this.registerEvents();
 }</code></pre>
@@ -91,7 +90,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerActions()</span><span>&nbsp;</span>
             </p>
           </section>
-          <div class="description"><p>Registers actions and starts any scheduled actions.</p></div>
+          <div class="description"><p>Starts any scheduled actions.<br />Todo: should also throw errors if actions don&#39;t have IDs or functions.</p></div>
           <pre><code class="language-javascript">registerActions () {
   this.scheduledActions = [];
 
@@ -113,7 +112,7 @@
               <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerEvents()</span><span>&nbsp;</span>
             </p>
           </section>
-          <div class="description"><p>Register a events and setup listeners.</p></div>
+          <div class="description"><p>Starts listeners and scheduled events.<br />Todo: this needs better testing.</p></div>
           <pre><code class="language-javascript">registerEvents () {
   this.scheduledEvents = [];
 
@@ -157,7 +156,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Get component object based on the id</p></div>
+          <div class="description"><p>Get component object (an action or event for example) based on the id</p></div>
           <pre><code class="language-javascript">getComponentByID (ID) {
   // Check top level component
   if (this.id === ID) {

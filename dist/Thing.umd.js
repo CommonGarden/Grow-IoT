@@ -65,7 +65,7 @@
 
     /**
      * Constructs a new thing object.
-     * @param {Object} config
+     * @param {Object} config a javascript object containing properties, events, and actions
      * @return     A new thing object
     */
 
@@ -80,14 +80,14 @@
         _.extend(_this, config);
       }
 
-      // Register actions events
       _this.registerActions();
       _this.registerEvents();
       return _this;
     }
 
     /**
-     * Registers actions and starts any scheduled actions.
+     * Starts any scheduled actions.
+     * Todo: should also throw errors if actions don't have IDs or functions.
      */
 
 
@@ -109,7 +109,8 @@
       }
 
       /**
-       * Register a events and setup listeners.
+       * Starts listeners and scheduled events.
+       * Todo: this needs better testing.
        */
 
     }, {
@@ -120,7 +121,6 @@
         // Check top level thing model for events.
         if (!_.isUndefined(this.events)) {
           for (var event in this.events) {
-            console.log(event);
             event = this.events[event];
 
             if (!_.isUndefined(event.schedule)) {
@@ -137,7 +137,7 @@
       }
 
       /**
-       * Get component object based on the id
+       * Get component object (an action or event for example) based on the id
        * @param {String} ID  The id of the component object you want.
        * @returns {Object}
        */
