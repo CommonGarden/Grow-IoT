@@ -1,6 +1,6 @@
 # Thing.js
 
-A javascript library for working with things! Inspired by [W3C web of things framework](), a thing is an javascript object that has:
+A javascript library for working with things! Loosely inspired by [W3C web of things framework](https://github.com/w3c/web-of-things-framework), a thing is an javascript object that has:
 
 * Properties
 * Actions
@@ -73,3 +73,4 @@ console.log(Light.state);
 
 ```
 
+Please open issues or PRs with thoughts || suggestions || proposals.
