@@ -25,17 +25,22 @@ describe('Thing test', () => {
   });
 
   it('should return the right action object when given an action id.', () => {
-    var action = testThing.getActionByID('light_data');
+    var action = testThing.getComponentByID('light_data');
     expect(action.name).to.equal('Light data');
   });
 
-  it('should return the right event object when given an event id.', () => {
-    var event = testThing.getEventByID('check_light_data');
-    expect(event.name).to.equal('light data is data');
+  it('should return the right event object when given an id.', () => {
+    var component = testThing.getComponentByID('check_light_data');
+    expect(component.name).to.equal('light data is data');
   });
 
   it('should be able to call a registered action.', () => {
     expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
+  });
+
+  it('should update a component property correctly', () => {
+    testThing.updateProperty('turn_light_on', 'schedule', 'at 9:30am')
+    expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
   });
 
   it('should emit an event when an action is called', () => {
@@ -45,16 +50,6 @@ describe('Thing test', () => {
     });
     testThing.callAction('turn_light_on');
     expect(event).to.equal(true);
-  });
-
-  // This test is not working properly...
-  it('events should register properly', () => {
-    // var event = false;
-    // testThing.on('turn_light_on', () => {
-    //   return event = true;
-    // });
-    testThing.callAction('light_data');
-    // expect(event).to.equal(true);
   });
 
   afterEach(() => {
