@@ -1,6 +1,6 @@
 {
   "name": "Thing.js",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
   "main": "dist/Thing.umd.js",
   "jsnext:main": "dist/Thing.es6.js",
@@ -36,6 +36,7 @@
     "chai": "^3.5.0",
     "eslint": "^2.5.3",
     "mocha": "^2.4.5",
+    "mr-doc-theme-cayman": "^1.4.1",
     "rollup": "^0.26.2",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-multi-entry": "^1.2.0",

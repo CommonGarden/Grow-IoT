@@ -102,6 +102,10 @@ require('babel/register');
         'function': function _function() {
           return 'this';
         }
+      }, {
+        name: 'Change light bulb event',
+        id: 'change_light_bulb',
+        schedule: 'after 10 seconds' // Emits this event in 30s
       }]
     };
   });
@@ -181,9 +185,11 @@ var Thing = function (_EventEmitter) {
             this.scheduleEvent(event);
           }
 
-          this.on(event.on, function () {
-            event.function();
-          });
+          if (!_.isUndefined(event.on)) {
+            this.on(event.on, function () {
+              event.function();
+            });
+          }
         }
       }
     }
@@ -213,7 +219,6 @@ var Thing = function (_EventEmitter) {
      * @param {String} componentID The id of the component to change the property of.
      * @param {String} property The property of the component to be update.
      * @param {String} value The value to update the property to.
-     * @param {function} callback an optional callback function
      */
 
   }, {
@@ -317,7 +322,7 @@ describe('Thing test', function () {
   });
 
   it('should register events in the config object', function () {
-    expect(testThing.events.length).to.equal(1);
+    expect(testThing.events.length).to.equal(2);
   });
 
   it('should return the right action object when given an action id.', function () {

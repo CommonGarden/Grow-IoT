@@ -51,6 +51,11 @@ require('babel/register');
           'function': () => {
             return 'this';
           }
+        },
+        {
+          name: 'Change light bulb event',
+          id: 'change_light_bulb',
+          schedule: 'after 10 seconds' // Emits this event in 30s 
         }
       ]
     };

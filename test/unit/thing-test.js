@@ -21,7 +21,7 @@ describe('Thing test', () => {
   });
 
   it('should register events in the config object', () => {
-    expect(testThing.events.length).to.equal(1);
+    expect(testThing.events.length).to.equal(2);
   });
 
   it('should return the right action object when given an action id.', () => {

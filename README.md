@@ -1,14 +1,21 @@
 # Thing.js
 
-A javascript library for working with things! Inspired by [W3C web of things framework](), a thing is an object that has:
+A javascript library for working with things! Inspired by [W3C web of things framework](), a thing is an javascript object that has:
 
 * Properties
 * Actions
 * Events
 
-This library is a constructor for a thing object. For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js).
+A Thing is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html), and contains useful methods for:
 
-<!-- [You can read the code and docs here.]() -->
+* Updating properties
+* Calling actions
+* Setting up event listeners
+* Scheduling actions an events
+
+For example of how this can quickly be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js).
+
+Read the code and [documentation]() for more info. 
 
 ## Install
 ```bash
@@ -20,76 +27,51 @@ npm install Thing.js
 var Thing = require('Thing.js');
 
 var Light = new Thing({
-      'name': 'Light',
-      'description': 'An LED light with a basic on/off api.',
-      'state': 'off',
-      'actions': [
-        {
-          'name': 'On',
-          'description': 'Turns the light on.',
-          'id': 'turn_light_on',
-          'updateState': 'on',
-          'schedule': 'at 9:00am',
-          'event': 'Light turned on',
-          'function': function () {
-            return 'Light on.';
-          }
-        },
-        {
-          'name': 'off',
-          'id': 'turn_light_off',
-          'updateState': 'off',
-          'schedule': 'at 8:30pm',
-          'event': 'Light turned off',
-          'function': function () {
-            return 'Light off.';
-          }
-        },
-        {
-          'name': 'Light data',
-          'id': 'light_data',
-          'type': 'light',
-          'schedule': 'every 1 second',
-          'function': function () {
-            // Normally, this would be publishing data on the readable stream.
-            return 'data';
-          }
-        }
-      ],
-      'events': [
-        {
-          'name': 'light data is data',
-          'id': 'check_light_data',
-          'on': 'light_data', // Hook into an action.
-          'function': () => {
-            return 'this';
-          }
-        }
-      ]
-    });
+  name: 'Light',
+  id: 'light',
+  description: 'An LED light with a basic on/off api.',
+  state: 'off',
+  actions: [
+    {
+      name: 'On',
+      description: 'Turns the light on.',
+      id: 'turn_light_on',
+      schedule: 'at 9:00am',
+      event: 'Light turned on',
+      function: function () { // The implementation of the action
+        Light.updateProperty('light', 'state', 'on'); // Update state
+        console.log('Light on.');
+      }
+    },
+    {
+      name: 'off',
+      id: 'turn_light_off',
+      schedule: 'at 8:30pm',
+      event: 'Light turned off',
+      function: function () {
+        Light.updateProperty('light', 'state', 'off'); // Update state
+        console.log('Light off.');
+      }
+    }
+  ],
+  events: [
+    {
+      name: 'Light on listener',
+      id: 'light_on_listener',
+      on: 'turn_light_on', // Hook into an action.
+      function: function () {
+        console.log('this event listener is called when the light is turned on.');
+      }
+    }
+  ]
+});
 
 Light.callAction('turn_light_on');
+// logs 'Light on.'
+// logs 'this event listener is called when the light is turned on.'
+
+console.log(Light.state);
+// logs 'on'
 
 ```
 
-### Actions
-Actions represent the basic API of the thing. Actions can be scheduled with a schedule property.
-
-### Events
-Events allow you to check conditions or emit events at certain times. For example:
-
-      'events': [
-        {
-          'name': 'light data is data',
-          'id': 'check_light_data',
-          'on': 'light_data', // Hook into an action.
-          'function': () => {
-            return 'this';
-          }
-        },
-        {
-          'name': 'harvest plant',
-          'id': 'harvest_plant',
-          'schedule': 'after 70 days' // Will emit this event after 70 days.
-        }
-      ]

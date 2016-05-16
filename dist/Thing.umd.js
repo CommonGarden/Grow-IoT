@@ -97,10 +97,13 @@
         this.scheduledActions = [];
 
         for (var action in this.actions) {
+          // TODO:
+          // Through error if no id is assigned?
+          // or perhaps generate id?
           var actionId = this.actions[action].id;
-          var action = this.getActionByID(actionId);
+
           if (!_.isUndefined(action)) {
-            this.startAction(actionId);
+            this.startAction(this.actions[action]);
           }
         }
       }
@@ -115,45 +118,56 @@
         this.scheduledEvents = [];
 
         // Check top level thing model for events.
+        if (!_.isUndefined(this.events)) {
+          for (var event in this.events) {
+            console.log(event);
+            event = this.events[event];
 
-        // TODO: don't do this with a for loop. Just check this.events.
-        for (var key in this) {
-          if (key === 'events') {
-            for (var event in this[key]) {
-              event = this[key][event];
+            if (!_.isUndefined(event.schedule)) {
+              this.scheduleEvent(event);
+            }
+
+            if (!_.isUndefined(event.on)) {
               this.on(event.on, function () {
                 event.function();
               });
             }
           }
         }
-
-        for (var event in this.events) {
-          var eventId = this.events[event].id;
-          // this is silly, because it's called both here and in startEvent...
-          var event = this.getEventByID(eventId);
-          if (!_.isUndefined(event)) {
-            this.startEvent(eventId);
-          }
-        }
       }
 
       /**
-       * Get action object based on the action id
-       * @param {String} actionId  The id of the action object you want.
+       * Get component object based on the id
+       * @param {String} ID  The id of the component object you want.
        * @returns {Object}
        */
 
     }, {
-      key: 'getActionByID',
-      value: function getActionByID(actionId) {
-        // Todo, check to make sure actions ex
-
-        for (var i = this.actions.length - 1; i >= 0; i--) {
-          if (this.actions[i].id === actionId) {
-            return this.actions[i];
-          }
+      key: 'getComponentByID',
+      value: function getComponentByID(ID) {
+        // Check top level component
+        if (this.id === ID) {
+          return this;
         }
+
+        // Check action and event components
+        else {
+            return _.findWhere(this.actions, { id: ID }) || _.findWhere(this.events, { id: ID });
+          }
+      }
+
+      /**
+       * Update a property based on a component ID.
+       * @param {String} componentID The id of the component to change the property of.
+       * @param {String} property The property of the component to be update.
+       * @param {String} value The value to update the property to.
+       */
+
+    }, {
+      key: 'updateProperty',
+      value: function updateProperty(componentID, property, value) {
+        var component = this.getComponentByID(componentID);
+        return component[property] = value;
       }
 
       /**
@@ -162,19 +176,28 @@
        * property specified.
        * @param      {String}  actionId The id of the action to call.
        * @param      {Object}  options Optional, options to call with the function.
-      */
+       */
 
     }, {
       key: 'callAction',
       value: function callAction(actionId, options) {
-        var action = this.getActionByID(actionId);
+        try {
+          var action = this.getComponentByID(actionId);
 
-        this.emit(actionId);
+          if (!_.isUndefined(options)) {
+            var output = action.function(options);
+          } else {
+            var output = action.function();
+          }
+          this.emit(actionId);
 
-        if (!_.isUndefined(options)) {
-          return action.function(options);
-        } else {
-          return action.function();
+          // We return any returns of called functions for testing.
+          if (!_.isUndefined(output)) {
+            return output;
+          }
+        } catch (error) {
+          // If there is an error we emit an error.
+          return this.emit('error', error);
         }
       }
 
@@ -189,52 +212,12 @@
         var _this2 = this;
 
         // do we need to make the redundent call to getActionByID?
-        var meta = this.getActionByID(action);
-        if (!_.isUndefined(meta.schedule)) {
-          var schedule = later.parse.text(meta.schedule);
-          var scheduledAction = later.setInterval(function () {
-            _this2.callAction(action);
-          }, schedule);
-          this.scheduledActions.push(scheduledAction);
-          return scheduledAction;
-        }
-      }
-
-      /**
-       * Get event object based on the event id
-       * @param {String} eventId  The id of the event object you want.
-       * @returns {Object}
-       */
-
-    }, {
-      key: 'getEventByID',
-      value: function getEventByID(eventId) {
-        for (var i = this.events.length - 1; i >= 0; i--) {
-          if (this.events[i].id === eventId) {
-            return this.events[i];
-          }
-        }
-      }
-
-      // This was a hack... delete?
-      /**
-       * Calls a registered event function.
-       * @param      {String}  eventId The id of the event to call.
-       * @param      {Object}  options Optional, options to call with the function.
-      */
-
-    }, {
-      key: 'callEvent',
-      value: function callEvent(eventId, options) {
-        var event = this.getEventByID(eventId);
-
-        this.emit(eventId);
-
-        if (!_.isUndefined(options)) {
-          return event.function(options);
-        } else {
-          return event.function();
-        }
+        var schedule = later.parse.text(action.schedule);
+        var scheduledAction = later.setInterval(function () {
+          _this2.callAction(action.id);
+        }, schedule);
+        this.scheduledActions.push(scheduledAction);
+        return scheduledAction;
       }
 
       /**
@@ -243,19 +226,16 @@
        */
 
     }, {
-      key: 'startEvent',
-      value: function startEvent(event) {
+      key: 'scheduleEvent',
+      value: function scheduleEvent(event) {
         var _this3 = this;
 
-        var meta = this.getEventByID(event);
-        if (!_.isUndefined(meta.schedule)) {
-          var schedule = later.parse.text(meta.schedule);
-          var scheduledEvent = later.setInterval(function () {
-            _this3.callEvent(event);
-          }, schedule);
-          this.scheduledEvents.push(scheduledEvent);
-          return scheduledEvent;
-        }
+        var schedule = later.parse.text(event.schedule);
+        var scheduledEvent = later.setInterval(function () {
+          _this3.callEvent(event.id);
+        }, schedule);
+        this.scheduledEvents.push(scheduledEvent);
+        return scheduledEvent;
       }
     }]);
     return Thing;

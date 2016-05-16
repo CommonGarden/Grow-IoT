@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Thing.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/cayman.css">
+    <link rel="stylesheet" href="css/prism.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Thing.js</h1>
+      <h2 class="project-tagline">Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.</h2><a href="https://github.com/eventualbuddha/rollup-starter-project#readme" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/Thing.js" target="_blank" class="btn">View on npm</a>
+    </section>
+    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
+      <div class="row">
+        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
+          <ul id="sidebar" class="nav nav-stacked fixed">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="thing.js.html">thing.js
+                <ul class="nav nav-stacked">
+                  <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+                  </li>
+                  <li><a href="#registerActions"><i class="alert alert-info"></i><span>registerActions</span></a>
+                  </li>
+                  <li><a href="#registerEvents"><i class="alert alert-info"></i><span>registerEvents</span></a>
+                  </li>
+                  <li><a href="#getComponentByID"><i class="alert alert-info"></i><span>getComponentByID</span></a>
+                  </li>
+                  <li><a href="#updateProperty"><i class="alert alert-info"></i><span>updateProperty</span></a>
+                  </li>
+                  <li><a href="#callAction"><i class="alert alert-info"></i><span>callAction</span></a>
+                  </li>
+                  <li><a href="#startAction"><i class="alert alert-info"></i><span>startAction</span></a>
+                  </li>
+                  <li><a href="#scheduleEvent"><i class="alert alert-info"></i><span>scheduleEvent</span></a>
+                  </li>
+                </ul></a></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <section id="constructor">
+            <h1>constructor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>constructor()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>config</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>A new thing object</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Constructs a new thing object.</p></div>
+          <pre><code class="language-javascript">constructor(config) {
+  super();
+
+  if (!config) {
+    throw new Error('Thing.js requires an config object.');
+  } else {
+    _.extend(this, config);
+  }
+
+  // Register actions events
+  this.registerActions();
+  this.registerEvents();
+}</code></pre>
+          <section id="registerActions">
+            <h1>registerActions</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerActions()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Registers actions and starts any scheduled actions.</p></div>
+          <pre><code class="language-javascript">registerActions () {
+  this.scheduledActions = [];
+
+  for (var action in this.actions) {
+    // TODO:
+    // Through error if no id is assigned?
+    // or perhaps generate id?
+    var actionId = this.actions[action].id;
+    
+    if (!_.isUndefined(action)) {
+      this.startAction(this.actions[action]);
+    }
+  }
+}</code></pre>
+          <section id="registerEvents">
+            <h1>registerEvents</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerEvents()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Register a events and setup listeners.</p></div>
+          <pre><code class="language-javascript">registerEvents () {
+  this.scheduledEvents = [];
+
+  // Check top level thing model for events.
+  if (!_.isUndefined(this.events)) {
+    for (var event in this.events) {
+      event = this.events[event];
+      
+      if (!_.isUndefined(event.schedule)) {
+        this.scheduleEvent(event);
+      }
+      
+      this.on(event.on, () =&gt; {
+        event.function();
+      });
+    }
+  }
+}</code></pre>
+          <section id="getComponentByID">
+            <h1>getComponentByID</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getComponentByID()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ID</td>
+                <td>String</td>
+                <td><p>The id of the component object you want.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Get component object based on the id</p></div>
+          <pre><code class="language-javascript">getComponentByID (ID) {
+  // Check top level component
+  if (this.id === ID) {
+    return this;
+  }
+
+  // Check action and event components
+  else {
+    return _.findWhere(this.actions, {id: ID}) || _.findWhere(this.events, {id: ID});
+  }
+}</code></pre>
+          <section id="updateProperty">
+            <h1>updateProperty</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>updateProperty()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>componentID</td>
+                <td>String</td>
+                <td><p>The id of the component to change the property of.</p></td>
+              </tr>
+              <tr>
+                <td>property</td>
+                <td>String</td>
+                <td><p>The property of the component to be update.</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>String</td>
+                <td><p>The value to update the property to.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update a property based on a component ID.</p></div>
+          <pre><code class="language-javascript">updateProperty (componentID, property, value) {
+  var component = this.getComponentByID(componentID);
+  return component[property] = value;
+}</code></pre>
+          <section id="callAction">
+            <h1>callAction</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>callAction()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>actionId</td>
+                <td>String</td>
+                <td><p>The id of the action to call.</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>Optional, options to call with the function.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Calls a registered action, emits event if the the action has an &#39;event&#39;<br />property defined. Updates the state if the action has an &#39;updateState&#39;<br />property specified.</p></div>
+          <pre><code class="language-javascript">callAction (actionId, options) {
+  try {
+    var action = this.getComponentByID(actionId);
+
+    if (!_.isUndefined(options)) {
+      var output = action.function(options);
+    }
+    else {
+      var output = action.function();
+    }
+    this.emit(actionId);
+
+    // We return any returns of called functions for testing.
+    if (!_.isUndefined(output)) {
+      return output;
+    }
+  }
+  catch (error) {
+    // If there is an error we emit an error.
+    return this.emit('error', error);
+  }
+
+}</code></pre>
+          <section id="startAction">
+            <h1>startAction</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>startAction()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>action</td>
+                <td>Object</td>
+                <td><p>An action object.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Starts a reoccurring action if a schedule property is defined.</p></div>
+          <pre><code class="language-javascript">startAction (action) {
+  // do we need to make the redundent call to getActionByID?
+  var schedule = later.parse.text(action.schedule);
+  var scheduledAction = later.setInterval(()=&gt; {this.callAction(action.id);}, schedule);
+  this.scheduledActions.push(scheduledAction);
+  return scheduledAction;
+}</code></pre>
+          <section id="scheduleEvent">
+            <h1>scheduleEvent</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>scheduleEvent()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>event</td>
+                <td>Object</td>
+                <td><p>An event object.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Starts a reoccurring event if a schedule property is defined.</p></div>
+          <pre><code class="language-javascript">scheduleEvent (event) {
+  var schedule = later.parse.text(event.schedule);
+  var scheduledEvent = later.setInterval(()=&gt; {this.callEvent(event.id);}, schedule);
+  this.scheduledEvents.push(scheduledEvent);
+  return scheduledEvent;
+}
+};
+
+export default Thing;</code></pre>
+          <div class="footer site-footer">
+            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
+            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/affix.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/scrollspy.js"></script>
+    <script src="js/prism.js"></script>
+    <script src="js/prism-bash.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('body').scrollspy({
+          target: ".bs-docs-sidebar",
+          offset: 40
+        });
+        $('#sidebar').affix({
+          offset:{
+            bottom:60,
+            top: 60
+          }
+        }) 
+      });
+    </script>
+  </body>
+</html>
