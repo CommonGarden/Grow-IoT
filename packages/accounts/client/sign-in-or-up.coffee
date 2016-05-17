@@ -23,17 +23,15 @@ class LoginComponent extends UIComponent
   onRendered: ->
     super
 
-    $('#sign-in-with-email').validate
+    $('#sign-in-with-username').validate
       rules:
-        emailAddress:
+        username:
           required: true
-          email: true
         password:
           required: true
       messages:
-        emailAddress:
-          required: "Please enter an email address."
-          email: "Please enter a valid email address."
+        username:
+          required: "Please enter a username."
         password:
           required: "Please enter a password."
       submitHandler: ->
@@ -46,7 +44,7 @@ class LoginComponent extends UIComponent
         # Get our user's information before we test as we'll use the same
         # information for both our account creation and sign in.
         user =
-          email: $('[name="emailAddress"]').val()
+          username: $('[name="username"]').val()
           password: $('[name="password"]').val()
 
         # Take the correct path according to what the user clicked and
@@ -54,10 +52,11 @@ class LoginComponent extends UIComponent
         if createOrSignIn == "create"
           Accounts.createUser user, (error)->
             if error
+              console.log(error);
               # If the user is already registered they may have pressed the wrong button.
               if error.reason == "Email already exists."
                 # We try to login instead.
-                Meteor.loginWithPassword user.email, user.password, (error)->
+                Meteor.loginWithPassword user.username, user.password, (error)->
                   if error
                     alert error.reason
                   else
@@ -71,7 +70,7 @@ class LoginComponent extends UIComponent
               FlowRouter.go 'Dashboard'
 
         else
-          Meteor.loginWithPassword user.email, user.password, (error)->
+          Meteor.loginWithPassword user.username, user.password, (error)->
             if error
               alert error.reason
             else

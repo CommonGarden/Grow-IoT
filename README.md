@@ -48,7 +48,7 @@ npm init -y
 npm install --save grow.js
 ```
 
-Now, let's make a file that defines our plant. **Be sure to set the 'owner' property to the email you created an account with.**
+Now, let's make a file that defines our plant. **Be sure to set the 'username' property to the username you created an account with.**
 
 **plant.js**
 
@@ -63,7 +63,7 @@ var grow = new GrowInstance({
     "state": "off", // The current state of the thing.
 
     // SET THIS TO THE EMAIL OF THE ACCOUNT YOU CREATED ON THE GROW-IOT APP.
-    "owner": "jake@commongarden.org",
+    "username": "YOURUSERNAME", // Eventually we'll have api keys and proper UX for device configuration.
     "actions": [ // A list of action objects
         {
             "name": "On", // Display name for the action
