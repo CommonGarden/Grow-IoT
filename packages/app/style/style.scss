@@ -188,3 +188,7 @@ ul {
   margin-right: 5px;
   margin-left: 5px;
 }
+
+.navbar-nav > li > .dropdown-menu {
+  min-width: 300px;
+}
