@@ -20,7 +20,8 @@ Package.onUse(function (api) {
     'kadira:blaze-layout@2.2.0',
     'peerlibrary:computed-field@0.3.0',
     'themeteorchef:jquery-validation',
-    'cg-camera'
+    'cg-camera',
+    'jquery'
   ]);
 
   // Internal dependencies.
@@ -28,8 +29,7 @@ Package.onUse(function (api) {
     'ui-components',
     'core',
     'api',
-    'session',
-    'jquery'
+    'session'
   ]);
 
   // Note: files are loaded in by order in the list, see Meteor docs for more info.
