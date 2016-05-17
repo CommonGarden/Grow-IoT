@@ -79,7 +79,7 @@ Package.onUse(function (api) {
     'components/action.coffee',
     'components/action.html',
 
-    'lib/html5-sortable.jquery.min.js',
+    // 'lib/html5-sortable.jquery.min.js',
 
     'environments/display.coffee',
     'environments/display.html',

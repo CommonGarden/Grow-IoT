@@ -1,5 +1,5 @@
 ### Status: Prototype
-\#Grow-IoT on [freenode](https://webchat.freenode.net/)
+#### Grow-IoT on [freenode](https://webchat.freenode.net/)
 
 Please open issues or PRs with suggestions for improvements. Let's make something useful!
 
@@ -124,7 +124,7 @@ Like magic, you will see a generated UI based on the configuration object you pa
 
 If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `plant.js`.
 
-### Cool! What did I just do? 
+### Cool! What did I just do?
 
 Well, running `plant.js` for the first time:
 
