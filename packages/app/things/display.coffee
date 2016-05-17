@@ -32,8 +32,8 @@ class Thing.DisplayComponent extends UIComponent
         fields:
           title: 1
 
-  # thing: ->
-  #   @thing()
+  thing: ->
+    @thing()
 
   # images: ->
   #   Images.files.find({})
