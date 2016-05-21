@@ -58,8 +58,9 @@ var Thing = function (_EventEmitter) {
   babelHelpers.inherits(Thing, _EventEmitter);
 
   /**
-   * Constructs a new thing object.
-   * @param {Object} config a javascript object containing properties, events, and actions
+   * Constructs a new Thing object. A Thing is an extension of [node's built-in 
+     EventEmitter class](https://nodejs.org/api/events.html).
+   * @param {Object} config a javascript object containing metadata, properties, events, and actions
    * @return     A new thing object
   */
 
@@ -158,10 +159,33 @@ var Thing = function (_EventEmitter) {
      */
 
   }, {
-    key: 'updateProperty',
-    value: function updateProperty(componentID, property, value) {
+    key: 'updateComponentProperty',
+    value: function updateComponentProperty(componentID, property, value) {
       var component = this.getComponentByID(componentID);
       return component[property] = value;
+    }
+
+    /**
+     * Update a property based on a component ID.
+     * @param {String} property The property of the component to be update.
+     * @param {String} value The value to update the property to.
+     */
+
+  }, {
+    key: 'setProperty',
+    value: function setProperty(property, value) {
+      return this.properties[property] = value;
+    }
+
+    /* Get a property by name.
+     * @param {String} property
+     * @returns {String} property value.
+     */
+
+  }, {
+    key: 'getProperty',
+    value: function getProperty(property) {
+      return this.properties[property];
     }
 
     /**
@@ -205,7 +229,6 @@ var Thing = function (_EventEmitter) {
     value: function startAction(action) {
       var _this2 = this;
 
-      // do we need to make the redundent call to getActionByID?
       var schedule = later.parse.text(action.schedule);
       var scheduledAction = later.setInterval(function () {
         _this2.callAction(action.id);

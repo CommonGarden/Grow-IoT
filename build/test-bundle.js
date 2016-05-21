@@ -56,7 +56,7 @@ babelHelpers;
 
 global.expect = require('chai').expect;
 
-require('babel/register');
+// require('babel/register');
 
 (function setup() {
   beforeEach(function () {
@@ -108,10 +108,68 @@ require('babel/register');
         schedule: 'after 10 seconds' // Emits this event in 30s
       }]
     };
+
+    global.thing2 = {
+      name: "Light", // The display name for the thing.
+      id: "Light",
+      desription: "An LED light with a basic on/off api.",
+      username: "jakehart", // The username of the account you want this device to be added to.
+      properties: {
+        state: "off",
+        lightconditions: null
+      },
+      actions: [// A list of action objects
+      {
+        name: "On", // Display name for the action
+        description: "Turns the light on.", // Optional description
+        id: "turn_light_on", // A unique id
+        schedule: "at 9:00am", // Optional scheduling using later.js
+        event: "Light turned on", // Optional event to emit when called.
+        function: function _function() {
+          // The implementation of the action.
+          LED.high();
+          grow.updateProperty('state', 'on');
+        }
+      }, {
+        name: "off",
+        id: "turn_light_off",
+        schedule: "at 8:30pm",
+        event: "Light turned off",
+        function: function _function() {
+          LED.low();
+          grow.updateProperty('state', 'off');
+        }
+      }, {
+        name: "Log light data", // Events get a display name like actions
+        id: "light_data", // Events also get an id that is unique to the device
+        type: "light", // Currently need for visualization component... HACK.
+        template: "sensor",
+        schedule: "every 1 second", // Events should have a schedule option that determines how often to check for conditions.
+        function: function _function() {
+          // function should return the event to emit when it should be emited.
+          grow.sendData({
+            type: "light",
+            value: lightSensor.value
+          });
+        }
+      }],
+      events: [{
+        name: "It's dark.",
+        id: 'dark',
+        on: 'light_data', // Hook into an action.
+        function: function _function() {
+          if (lightSensor.value < 100 && grow.getProperty('lightconditions') != 'dark') {
+            grow.emitEvent('dark');
+            grow.setProperty('lightconditions', 'dark');
+          }
+        }
+      }]
+    };
   });
 
   afterEach(function () {
     delete global.thing1;
+    delete global.thing2;
   });
 })();
 
@@ -123,8 +181,9 @@ var Thing = function (_EventEmitter) {
   babelHelpers.inherits(Thing, _EventEmitter);
 
   /**
-   * Constructs a new thing object.
-   * @param {Object} config a javascript object containing properties, events, and actions
+   * Constructs a new Thing object. A Thing is an extension of [node's built-in 
+     EventEmitter class](https://nodejs.org/api/events.html).
+   * @param {Object} config a javascript object containing metadata, properties, events, and actions
    * @return     A new thing object
   */
 
@@ -223,10 +282,34 @@ var Thing = function (_EventEmitter) {
      */
 
   }, {
-    key: 'updateProperty',
-    value: function updateProperty(componentID, property, value) {
+    key: 'updateComponentProperty',
+    value: function updateComponentProperty(componentID, property, value) {
       var component = this.getComponentByID(componentID);
       return component[property] = value;
+    }
+
+    /**
+     * Update a property based on a component ID.
+     * @param {String} property The property of the component to be update.
+     * @param {String} value The value to update the property to.
+     */
+
+  }, {
+    key: 'setProperty',
+    value: function setProperty(property, value) {
+      return this.properties[property] = value;
+    }
+
+    /* Get a property by name.
+     * @param {String} property
+     * @returns {String} property value.
+     */
+
+  }, {
+    key: 'getProperty',
+    value: function getProperty(property) {
+      console.log(this.properties);
+      return this.properties[property];
     }
 
     /**
@@ -270,7 +353,6 @@ var Thing = function (_EventEmitter) {
     value: function startAction(action) {
       var _this2 = this;
 
-      // do we need to make the redundent call to getActionByID?
       var schedule = later.parse.text(action.schedule);
       var scheduledAction = later.setInterval(function () {
         _this2.callAction(action.id);
@@ -310,48 +392,66 @@ var Thing = function (_EventEmitter) {
 describe('Thing test', function () {
   beforeEach(function () {
     global.testThing = new Thing(thing1);
+    global.testThing2 = new Thing(thing2);
   });
 
-  it('should have been constructed correctly', function () {
-    // console.log(testThing);
+  it('should have cloned metadata', function () {
     expect(testThing.name).to.equal('Light');
     expect(testThing.description).to.equal('An LED light with a basic on/off api.');
   });
 
-  it('should register actions in the config object', function () {
-    expect(testThing.actions.length).to.equal(3);
-  });
-
-  it('should register events in the config object', function () {
-    expect(testThing.events.length).to.equal(2);
-  });
-
-  it('should return the right action object when given an action id.', function () {
-    var action = testThing.getComponentByID('light_data');
-    expect(action.name).to.equal('Light data');
-  });
-
-  it('should return the right event object when given an id.', function () {
-    var component = testThing.getComponentByID('check_light_data');
-    expect(component.name).to.equal('light data is data');
-  });
-
-  it('should be able to call a registered action.', function () {
-    expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
-  });
-
-  it('should update a component property correctly', function () {
-    testThing.updateProperty('turn_light_on', 'schedule', 'at 9:30am');
-    expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
-  });
-
-  it('should emit an event when an action is called', function () {
-    var event = false;
-    testThing.on('turn_light_on', function () {
-      return event = true;
+  describe('ACTIONS', function () {
+    it('should register actions in the config object', function () {
+      expect(testThing.actions.length).to.equal(3);
     });
-    testThing.callAction('turn_light_on');
-    expect(event).to.equal(true);
+
+    it('should return the right action object when given an action id.', function () {
+      var action = testThing.getComponentByID('light_data');
+      expect(action.name).to.equal('Light data');
+    });
+
+    it('should be able to call a registered action.', function () {
+      expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
+    });
+
+    it('should emit an event when an action is called', function () {
+      var event = false;
+      testThing.on('turn_light_on', function () {
+        return event = true;
+      });
+      testThing.callAction('turn_light_on');
+      expect(event).to.equal(true);
+    });
+  });
+
+  describe('EVENTS', function () {
+    it('should register events in the config object', function () {
+      expect(testThing.events.length).to.equal(2);
+    });
+
+    it('should return the right event object when given an id.', function () {
+      var component = testThing.getComponentByID('check_light_data');
+      expect(component.name).to.equal('light data is data');
+    });
+  });
+
+  describe('PROPERTIES', function () {
+    it('should update a component property correctly', function () {
+      testThing.updateComponentProperty('turn_light_on', 'schedule', 'at 9:30am');
+      expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
+    });
+
+    // Note: testThing 2 is experimental
+    it('should return the currect property', function () {
+      // console.log(thing2);
+      expect(testThing2.getProperty('lightconditions')).to.equal(null);
+    });
+
+    it('should set a property', function () {
+      // console.log(thing2);
+      testThing2.setProperty('lightconditions', 'dark');
+      expect(testThing2.getProperty('lightconditions')).to.equal('dark');
+    });
   });
 
   afterEach(function () {
