@@ -26,7 +26,7 @@ Take a look at the [led-and-photoresistor arduino example]() in the `examples/ar
 
 ```javascript
 // Require the grow.js and johnny-five libraries.
-var GrowInstance = require('../../.././grow.js'); // Path to latest build
+var GrowInstance = require('../../dist/Grow.umd.js'); // Path to latest build
 var five = require('johnny-five');
 
 // Create a new board object

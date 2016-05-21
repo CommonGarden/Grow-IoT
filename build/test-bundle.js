@@ -82,11 +82,25 @@ global.expect = require('chai').expect;
   });
 })();
 
+var _this = this;
+
+/**
+ * Writes any changes to the state.json file. The state.json file is used for state. 
+ * In case the device looses internet connnection or power and needs to reset, the grow file contains the instructions such as schedules, where the device is supposed to connect to.
+ */
+
+var fs = require('fs');
+
+var writeChangesToState = function writeChangesToState() {
+  fs.writeFile('./state.json', JSON.stringify(_this, null, 4), function (error) {
+    if (error) return console.log('Error', error);
+  });
+};
+
 var _ = require('underscore');
 var assert = require('assert');
 var util = require('util');
 var Duplex = require('stream').Duplex;
-var fs$1 = require('fs');
 var RSVP = require('rsvp');
 var later = require('later');
 var DDPClient = require('ddp');
@@ -118,6 +132,8 @@ var Grow = function () {
     Duplex.call(this, _.defaults(config, { objectMode: true, readableObjectMode: true, writableObjectMode: true }));
 
     this._messageHandlerInstalled = false;
+
+    this.writeChangesToState = writeChangesToState;
 
     try {
       // We need the methods defined in the config, so we _.extend state.json.
@@ -203,11 +219,8 @@ var Grow = function () {
 
       // Now check to see if we have a stored UUID.
       // If no UUID is specified, store a new UUID.
-      if (_.isUndefined(this.uuid) || _.isUndefined(this.token)) {
-        this.config.uuid = result.uuid;
-        this.config.token = result.token;
-
-        // this.writeChangesToGrowFile();
+      if (!_.isUndefined(this.uuid) && !_.isUndefined(this.token)) {
+        this.writeChangesToState();
       }
 
       // SETUP STREAMS
@@ -246,7 +259,9 @@ var Grow = function () {
       });
     }
 
-    // On _write, call API.sendData()
+    /* 
+     * On _write, call API.sendData()
+     */
 
   }, {
     key: '_write',
@@ -263,16 +278,16 @@ var Grow = function () {
     key: '_read',
     value: function _read(size) {}
 
-    // TODO: rename? listenForActionsOnWritableStream?
+    /*
+     * Sets up listening for actions on the writeable stream. Note: writable from
+       the server's perspective.
+     */
 
   }, {
     key: 'registerActions',
     value: function registerActions() {
       var _this3 = this;
 
-      // When the action is called listen for event. The action should
-      // successfully return an event.
-      // Sets up listening for actions on the writeable stream.
       this.writableStream._write = function (command, encoding, callback) {
         if (command.options) {
           _this3.thing.callAction(command.type, command.options);
@@ -282,11 +297,6 @@ var Grow = function () {
 
         callback(null);
       };
-
-      // // Listen for action events and emit them as events to Grow-IoT.
-      // for (var action in this.thing.actions) {
-      //   console.log(action);
-      // }
     }
 
     /**
@@ -312,7 +322,6 @@ var Grow = function () {
       });
     }
 
-    // TODO: EMIT EVENT ONLY ONCE?
     /**
      * Emit device event to Grow-IoT server.
      * @param      {Object}  event
@@ -348,7 +357,7 @@ var Grow = function () {
       // Update the thing property.
       this.thing.updateProperty(componentID, property, value);
 
-      // this.writeChangesToGrowFile();
+      this.writeChangesToState();
 
       this.ddpclient.call('Device.udpateProperty', [{ uuid: this.uuid, token: this.token }, componentID, property, value], function (error, result) {
         if (!_.isUndefined(callback)) {
