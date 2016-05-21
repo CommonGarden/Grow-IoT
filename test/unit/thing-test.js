@@ -1,10 +1,5 @@
 import Thing from '../../lib/thing';
 
-/*
-  TODO:
-  * update property
-*/
-
 describe('Thing test', () => {
   beforeEach(() => {
     global.testThing = new Thing(thing1);
@@ -57,11 +52,12 @@ describe('Thing test', () => {
       expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
     });
 
-    // Note: testThing 2 is experimental
-    it('should return the currect property', () => {
-      expect(testThing2.getProperty('lightconditions')).to.equal(null);
+    // Note: testThing 2 has experimental support for properties
+    it('should initialize correctly', () => {
+      expect(testThing2.getProperty('lightconditions')).to.equal('unset');
     });
 
+    // Note: testThing 2 has experimental support for properties
     it('should set a property', () => {
       testThing2.setProperty('lightconditions', 'dark');
       expect(testThing2.getProperty('lightconditions')).to.equal('dark');

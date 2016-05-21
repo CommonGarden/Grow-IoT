@@ -110,51 +110,53 @@ global.expect = require('chai').expect;
     };
 
     global.thing2 = {
-      name: "Light", // The display name for the thing.
-      id: "Light",
-      desription: "An LED light with a basic on/off api.",
-      username: "jakehart", // The username of the account you want this device to be added to.
+      name: 'Light', // The display name for the thing.
+      id: 'Light',
+      desription: 'An LED light with a basic on/off api.',
+      username: 'jakehart', // The username of the account you want this device to be added to.
       properties: {
-        state: "off",
-        lightconditions: null
+        state: 'off',
+        lightconditions: function lightconditions() {
+          return 'unset';
+        }
       },
       actions: [// A list of action objects
       {
-        name: "On", // Display name for the action
-        description: "Turns the light on.", // Optional description
-        id: "turn_light_on", // A unique id
-        schedule: "at 9:00am", // Optional scheduling using later.js
-        event: "Light turned on", // Optional event to emit when called.
+        name: 'On', // Display name for the action
+        description: 'Turns the light on.', // Optional description
+        id: 'turn_light_on', // A unique id
+        schedule: 'at 9:00am', // Optional scheduling using later.js
+        event: 'Light turned on', // Optional event to emit when called.
         function: function _function() {
           // The implementation of the action.
           LED.high();
           grow.updateProperty('state', 'on');
         }
       }, {
-        name: "off",
-        id: "turn_light_off",
-        schedule: "at 8:30pm",
-        event: "Light turned off",
+        name: 'off',
+        id: 'turn_light_off',
+        schedule: 'at 8:30pm',
+        event: 'Light turned off',
         function: function _function() {
           LED.low();
           grow.updateProperty('state', 'off');
         }
       }, {
-        name: "Log light data", // Events get a display name like actions
-        id: "light_data", // Events also get an id that is unique to the device
-        type: "light", // Currently need for visualization component... HACK.
-        template: "sensor",
-        schedule: "every 1 second", // Events should have a schedule option that determines how often to check for conditions.
+        name: 'Log light data', // Events get a display name like actions
+        id: 'light_data', // Events also get an id that is unique to the device
+        type: 'light', // Currently need for visualization component... HACK.
+        template: 'sensor',
+        schedule: 'every 1 second', // Events should have a schedule option that determines how often to check for conditions.
         function: function _function() {
           // function should return the event to emit when it should be emited.
           grow.sendData({
-            type: "light",
+            type: 'light',
             value: lightSensor.value
           });
         }
       }],
       events: [{
-        name: "It's dark.",
+        name: 'It\'s dark.',
         id: 'dark',
         on: 'light_data', // Hook into an action.
         function: function _function() {
@@ -200,6 +202,7 @@ var Thing = function (_EventEmitter) {
 
     _this.registerActions();
     _this.registerEvents();
+    _this.registerProperties();
     return _this;
   }
 
@@ -249,6 +252,19 @@ var Thing = function (_EventEmitter) {
             this.on(event.on, function () {
               event.function();
             });
+          }
+        }
+      }
+    }
+  }, {
+    key: 'registerProperties',
+    value: function registerProperties() {
+      if (!_.isUndefined(this.properties)) {
+        for (var property in this.properties) {
+          // If the property is a function we initialize it.
+          if (typeof this.properties[property] === 'function') {
+            // Note this function should return property value.
+            this.properties[property] = this.properties[property]();
           }
         }
       }
@@ -308,7 +324,6 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'getProperty',
     value: function getProperty(property) {
-      console.log(this.properties);
       return this.properties[property];
     }
 
@@ -384,11 +399,6 @@ var Thing = function (_EventEmitter) {
 
 ;
 
-/*
-  TODO:
-  * update property
-*/
-
 describe('Thing test', function () {
   beforeEach(function () {
     global.testThing = new Thing(thing1);
@@ -441,14 +451,13 @@ describe('Thing test', function () {
       expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
     });
 
-    // Note: testThing 2 is experimental
-    it('should return the currect property', function () {
-      // console.log(thing2);
-      expect(testThing2.getProperty('lightconditions')).to.equal(null);
+    // Note: testThing 2 has experimental support for properties
+    it('should initialize correctly', function () {
+      expect(testThing2.getProperty('lightconditions')).to.equal('unset');
     });
 
+    // Note: testThing 2 has experimental support for properties
     it('should set a property', function () {
-      // console.log(thing2);
       testThing2.setProperty('lightconditions', 'dark');
       expect(testThing2.getProperty('lightconditions')).to.equal('dark');
     });

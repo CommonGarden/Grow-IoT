@@ -77,6 +77,7 @@ var Thing = function (_EventEmitter) {
 
     _this.registerActions();
     _this.registerEvents();
+    _this.registerProperties();
     return _this;
   }
 
@@ -126,6 +127,19 @@ var Thing = function (_EventEmitter) {
             this.on(event.on, function () {
               event.function();
             });
+          }
+        }
+      }
+    }
+  }, {
+    key: 'registerProperties',
+    value: function registerProperties() {
+      if (!_.isUndefined(this.properties)) {
+        for (var property in this.properties) {
+          // If the property is a function we initialize it.
+          if (typeof this.properties[property] === 'function') {
+            // Note this function should return property value.
+            this.properties[property] = this.properties[property]();
           }
         }
       }
