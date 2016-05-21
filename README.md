@@ -3,117 +3,16 @@ Please open issues or PRs with suggestions for improvements. Let's make somethin
 
 Grow.js is an npm packagle for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. It is loosely based off of some of the work happening on the W3C web-of-things community group. [Full grow.js documentation can be found here](http://commongarden.github.io/grow.js/).
 
-# Quickstart - no hardware or wiring required
-**If you haven't already, [install and start the Grow-IoT meteor application](https://github.com/CommonGarden/Grow-IoT). Note, you will have to run this in a new terminal window.**
-
-Be sure to visit [http:localhost:3000/](http:localhost:3000/) and create an account.
-
-Make a Grow.JS project for the plant you want to monitor:
-
-```bash
-mkdir my-cool-plant
-cd my-cool-plant
-npm init -y
-npm install --save grow.js
-```
-
-Now, let's make a file that defines our plant. **Be sure to set the 'username' property to the username you created an account with.**
-
-**plant.js**
-
-```javascript
-// Import the grow.js library.
-var GrowInstance = require('grow.js');
-
-// Create a new grow instance. Connects by default to localhost:3000
-var grow = new GrowInstance({
-    "name": "Light", // The display name for the thing.
-    "description": "An LED light with a basic on/off api.",
-    "state": "off", // The current state of the thing.
-
-    // SET THIS TO THE EMAIL OF THE ACCOUNT YOU CREATED ON THE GROW-IOT APP.
-    "username": "YOURUSERNAME", // Eventually we'll have api keys and proper UX for device configuration.
-    "actions": [ // A list of action objects
-        {
-            "name": "On", // Display name for the action
-            "description": "Turns the light on.", // Optional description
-            "id": "turn_light_on", // A unique id
-            "updateState": "on", // Updates state on function call
-            "schedule": "at 9:00am", // Optional scheduling using later.js
-            "event": "Light turned on", // Optional event to emit when called.
-            "function": function () {
-                // The implementation of the action.
-                // Here we simply log "Light on." See links to hardware
-                // examples below to begin using microcontrollers
-                console.log("Light on."); 
-            }
-        },
-        {
-            "name": "off",
-            "id": "turn_light_off",
-            "updateState": "off",
-            "schedule": "at 8:30pm",
-            "event": "Light turned off",
-            "function": function () {
-                console.log("Light off.");
-            }
-        }
-    ],
-    "events": [
-        {
-            "name": "Light data", // Events get a display name like actions
-            "id": "light_data", // An id that is unique to this device
-            "type": "light", // Data type. There might be different kinds of events?
-            "schedule": "every 1 second", // Currently required
-            "function": function () {
-                // function should return the event to emit when it should be emited.
-                return Math.random();
-            }
-        }
-    ]
-}, function start () {
-    // Optional Callback function. Calls turn_light_off function on start.
-    grow.callAction("turn_light_off");
-});
-```
-
-Run the script with:
-
-```bash
-node plant.js
-```
-
-Next, visit [http://localhost:3000](http://localhost:3000) in your browser.
-
-Create a new environment and you should see the device. Click on it to add it to the environment.
-
-Like magic, you will see a generated UI based on the configuration object you passed in.
-
-![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
-
-If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `plant.js`.
-
-### Cool! What did I just do?
-
-Well, running `plant.js` for the first time:
-
-1. Connects to the Grow-IoT host (ddp).
-
-2. Registers the device with host server. The information in config object is used to create a UI and API.
-
-3. Saves state to a file `state.json`, so if the device powers off or resets, it resumes it's last configuration.
-
-4. Sets up readable and writable streams and listens for commands.
-
-[Full grow.js documentation and examples can be found here](http://commongarden.github.io/grow.js/).
-
 # Working with hardware.
 
-See the [examples folder](https://github.com/CommonGarden/grow.js/tree/master/examples) for hardware examples with various boards. 
+If you want to try Grow.js but don't have a microcontroller, follow the [quickstart guide on the Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT). Below is is a simple Led and photoresistor arduino example, see the [examples folder](https://github.com/CommonGarden/grow.js/tree/master/examples) for more hardware examples with various boards. 
 
-Please feel free to create your own and share it on the [forum](http://forum.commongarden.org/).
+Grow.js works with most devices that can run node, and plays very well with the [Johnny-Five robotics library](http://johnny-five.io/), which has plugins for [a large number of devices](http://johnny-five.io/#platform-support). Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators. Please feel free to create your own grow.js device and share it on the [forum](http://forum.commongarden.org/).
 
-Grow.js works with most devices that can run node, and plays very well with the [Johnny-Five robotics library](http://johnny-five.io/), which has plugins for [a large number of devices](http://johnny-five.io/#platform-support). Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators.
+### Wire up photo-resitor and led to arduino
+Wire up your photo resistor and LED light like so:
+
+![Wiring diagram](https://raw.githubusercontent.com/CommonGarden/grow.js/development/img/Arduino-light-detector-circuit.png)
 
 Install johnny-five with:
 
@@ -121,14 +20,9 @@ Install johnny-five with:
 npm install johnny-five
 ```
 
-### Wire up photo-resitor and led to arduino
-Wire up your photo resistor and LED light like so:
-
-![Wiring diagram](https://raw.githubusercontent.com/CommonGarden/grow.js/development/img/Arduino-light-detector-circuit.png)
-
 To use [Johnny-Five](http://johnny-five.io/), you need to make sure that your arduino is flashed with Standard Firmata. Instructions for doing so can be found [here](https://github.com/rwaldron/johnny-five/wiki/Getting-Started#trouble-shooting). Once that's done you're ready for the next step!
 
-Take a look at the [led-and-photoresistor arduino example]() in the `examples/arduino/` folder. **Be sure to set the 'owner' property to the email you created an account with.**
+Take a look at the [led-and-photoresistor arduino example]() in the `examples/arduino/` folder. **Be sure to set the 'username' property to the username you created an account with.**
 
 ```javascript
 // Require the grow.js and johnny-five libraries.
@@ -150,7 +44,7 @@ board.on("ready", function start() {
         "name": "Light", // The display name for the thing.
         "desription": "An LED light with a basic on/off api.",
         "state": "off", // The current state of the thing.
-        "owner": "jake@commongarden.org", // The email of the account you want this device to be added to.
+        "username": "YOURUSERNAME", // The username of the account you want this device to be added to.
         "actions": [ // A list of action objects
             {
                 "name": "On", // Display name for the action

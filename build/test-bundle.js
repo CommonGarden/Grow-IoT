@@ -82,15 +82,11 @@ global.expect = require('chai').expect;
   });
 })();
 
-// import SetupStreams from './streams'
-// import API from './api'
-// import DDP from './connect'
-
 var _ = require('underscore');
 var assert = require('assert');
 var util = require('util');
 var Duplex = require('stream').Duplex;
-var fs = require('fs');
+var fs$1 = require('fs');
 var RSVP = require('rsvp');
 var later = require('later');
 var DDPClient = require('ddp');
@@ -158,7 +154,13 @@ var Grow = function () {
       // console.log(JSON.stringify(this.config));
       // Break this out
       _this.ddpclient.call('Device.register', [config], function (error, result) {
-        if (error) return callback(error);
+        if (error) {
+          if (!_.isUndefined(callback)) {
+            return callback(error);
+          } else {
+            console.log(error);
+          }
+        }
 
         assert(result.uuid, result);
         assert(result.token, result);
@@ -268,6 +270,8 @@ var Grow = function () {
     value: function registerActions() {
       var _this3 = this;
 
+      // When the action is called listen for event. The action should
+      // successfully return an event.
       // Sets up listening for actions on the writeable stream.
       this.writableStream._write = function (command, encoding, callback) {
         if (command.options) {
@@ -279,11 +283,10 @@ var Grow = function () {
         callback(null);
       };
 
-      console.log('ran');
-      // Listen for action events and emit them as events to Grow-IoT.
-      for (var action in this.thing.actions) {
-        console.log(action);
-      }
+      // // Listen for action events and emit them as events to Grow-IoT.
+      // for (var action in this.thing.actions) {
+      //   console.log(action);
+      // }
     }
 
     /**
@@ -309,6 +312,7 @@ var Grow = function () {
       });
     }
 
+    // TODO: EMIT EVENT ONLY ONCE?
     /**
      * Emit device event to Grow-IoT server.
      * @param      {Object}  event
@@ -318,7 +322,9 @@ var Grow = function () {
   }, {
     key: 'emitEvent',
     value: function emitEvent(eventMessage, callback) {
-      var body = eventMessage;
+      var body = {
+        'message': eventMessage
+      };
       body.timestamp = new Date();
 
       this.ddpclient.call('Device.emitEvent', [{ uuid: this.uuid, token: this.token }, body], function (error, result) {
@@ -338,26 +344,13 @@ var Grow = function () {
 
   }, {
     key: 'updateProperty',
-    value: function updateProperty(componentName, propertyKey, value, callback) {
-      var thing = this.config;
+    value: function updateProperty(componentID, property, value, callback) {
+      // Update the thing property.
+      this.thing.updateProperty(componentID, property, value);
 
-      // Find properties in top level thing object
-      for (var key in thing) {
-        // Find properties in components
-        if (key === 'components') {
-          for (var item in thing.components) {
-            if (thing.components[item].name === componentName) {
-              thing.components[item][propertyKey] = value;
-            }
-          }
-        } else if (thing[key] === componentName) {
-          thing[propertyKey] = value;
-        }
-      }
+      // this.writeChangesToGrowFile();
 
-      this.writeChangesToGrowFile();
-
-      this.ddpclient.call('Device.udpateProperty', [{ uuid: this.uuid, token: this.token }, componentName, propertyKey, value], function (error, result) {
+      this.ddpclient.call('Device.udpateProperty', [{ uuid: this.uuid, token: this.token }, componentID, property, value], function (error, result) {
         if (!_.isUndefined(callback)) {
           callback(error, result);
         }
