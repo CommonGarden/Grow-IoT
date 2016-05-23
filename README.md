@@ -1,7 +1,12 @@
-### Status: Prototype
-Please open issues or PRs with suggestions for improvements. Let's make something useful!
+# Grow.js
 
-Grow.js is an npm packagle for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. It is loosely based off of some of the work happening on the W3C web-of-things community group. [Full grow.js documentation can be found here](http://commongarden.github.io/grow.js/).
+Grow.js is an npm packagle for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. [Full grow.js documentation can be found here](http://commongarden.github.io/grow.js/).
+
+### Installation
+
+```bash
+npm install Grow.js
+```
 
 # Working with hardware.
 
@@ -135,15 +140,13 @@ If you are hosting on a cloud instance such as [Meteor Galaxy](https://galaxy.me
 
 Eventually we'll be making libraries for other languages (not everything can or should run a highlevel language like Javascript) like Lua and python.
 
-Code will soon be ported to ES6 (a good excuse to rewrite the code and add tests). 
+Code is written in ES6, and compiled using [rollup](https://github.com/rollup/rollup).
 
-We use [gulp](http://gulpjs.com/) as our task runner. We use it to run tests, build docs, minify the code, lint things, etc.
+`npm run build` builds the library.
 
-`gulp build` concatonates the files in the `src` folder into one grow.js file.
+`npm run test` builds the library, and runs tests in the test folder.
 
-`gulp test` runs tests in the test folder.
-
-The documentation is written in jsdoc, built using [Mr-Doc](https://mr-doc.github.io/), and kept on the gh-pages branch of this repo.
+The documentation is written in jsdoc, built using [Mr-Doc](https://mr-doc.github.io/), and kept on the [gh-pages branch of this repo](https://github.com/CommonGarden/Grow.js/tree/gh-pages).
 
 # Contributing
 
