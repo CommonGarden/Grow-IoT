@@ -74,3 +74,13 @@ console.log(Light.state);
 ```
 
 Please open issues or PRs with thoughts || suggestions || proposals.
+
+# Developing
+
+Code is written in ES6, and compiled using [rollup](https://github.com/rollup/rollup).
+
+`npm run build` builds the library.
+
+`npm run test` builds the library, and runs tests in the test folder.
+
+The documentation is written in jsdoc, built using [Mr-Doc](https://mr-doc.github.io/), and kept on the [gh-pages branch of this repo](https://github.com/CommonGarden/Thing.js/tree/gh-pages).
