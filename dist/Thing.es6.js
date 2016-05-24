@@ -1,3 +1,5 @@
+import EventEmitter from 'events';
+
 var babelHelpers = {};
 
 babelHelpers.classCallCheck = function (instance, Constructor) {
@@ -52,8 +54,6 @@ babelHelpers;
 
 var _ = require('underscore');
 var later = require('later');
-var EventEmitter = require('events');
-
 var Thing = function (_EventEmitter) {
   babelHelpers.inherits(Thing, _EventEmitter);
 
@@ -90,17 +90,16 @@ var Thing = function (_EventEmitter) {
   babelHelpers.createClass(Thing, [{
     key: 'registerActions',
     value: function registerActions() {
+      var _this2 = this;
+
       this.scheduledActions = [];
 
-      for (var action in this.actions) {
-        // TODO:
-        // Through error if no id is assigned?
-        // or perhaps generate id?
-        var actionId = this.actions[action].id;
-
-        if (!_.isUndefined(action)) {
-          this.startAction(this.actions[action]);
-        }
+      if (!_.isUndefined(this.actions)) {
+        _.each(this.actions, function (action, key, list) {
+          if (!_.isUndefined(action.schedule)) {
+            _this2.startAction(_this2.actions[key]);
+          }
+        });
       }
     }
 
@@ -113,23 +112,23 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'registerEvents',
     value: function registerEvents() {
+      var _this3 = this;
+
       this.scheduledEvents = [];
 
-      // Check top level thing model for events.
       if (!_.isUndefined(this.events)) {
-        for (var event in this.events) {
-          event = this.events[event];
+        _.each(this.events, function (event, key, list) {
 
           if (!_.isUndefined(event.schedule)) {
-            this.scheduleEvent(event);
+            _this3.scheduleEvent(event);
           }
 
           if (!_.isUndefined(event.on)) {
-            this.on(event.on, function () {
+            _this3.on(event.on, function () {
               event.function();
             });
           }
-        }
+        });
       }
     }
   }, {
@@ -155,13 +154,13 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'getAction',
     value: function getAction(ID) {
-      var _this2 = this;
+      var _this4 = this;
 
       var action = {};
       _.each(this.actions, function (value, key, list) {
         if (key === ID) {
           return action = value;
-        } else if (_this2.actions[key].id === ID) {
+        } else if (_this4.actions[key].id === ID) {
           return action = value;
         }
       });
@@ -189,13 +188,13 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'getEvent',
     value: function getEvent(ID) {
-      var _this3 = this;
+      var _this5 = this;
 
       var event = {};
       _.each(this.events, function (value, key, list) {
         if (key === ID) {
           return event = value;
-        } else if (_this3.events[key].id === ID) {
+        } else if (_this5.events[key].id === ID) {
           return event = value;
         }
       });
@@ -297,11 +296,11 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'startAction',
     value: function startAction(action) {
-      var _this4 = this;
+      var _this6 = this;
 
       var schedule = later.parse.text(action.schedule);
       var scheduledAction = later.setInterval(function () {
-        _this4.callAction(action.id);
+        _this6.callAction(action.id);
       }, schedule);
       this.scheduledActions.push(scheduledAction);
       return scheduledAction;
@@ -315,11 +314,11 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'scheduleEvent',
     value: function scheduleEvent(event) {
-      var _this5 = this;
+      var _this7 = this;
 
       var schedule = later.parse.text(event.schedule);
       var scheduledEvent = later.setInterval(function () {
-        _this5.callEvent(event.id);
+        _this7.callEvent(event.id);
       }, schedule);
       this.scheduledEvents.push(scheduledEvent);
       return scheduledEvent;

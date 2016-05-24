@@ -3,14 +3,14 @@ const _ = require('underscore');
 
 describe('Thing test', () => {
   beforeEach(() => {
-    global.testThing = new Thing(thing1);
+    // global.testThing = new Thing(thing1);
     global.testThing2 = new Thing(thing2);
   });
 
   it('should have cloned metadata', () => {
-    expect(testThing.name).to.equal('Light');
-    expect(testThing.id).to.equal('Light');
-    expect(testThing.username).to.equal('YourUsernameHere');
+    // expect(testThing.name).to.equal('Light');
+    // expect(testThing.id).to.equal('Light');
+    // expect(testThing.username).to.equal('YourUsernameHere');
     expect(testThing2.name).to.equal('Light');
     expect(testThing2.id).to.equal('Light');
     expect(testThing2.username).to.equal('YourUsernameHere');
@@ -18,41 +18,41 @@ describe('Thing test', () => {
 
   describe('ACTIONS', () => {
     it('should register actions in the config object', () => {
-      expect(_.allKeys(testThing.actions).length).to.equal(3);
+      // expect(_.allKeys(testThing.actions).length).to.equal(3);
       expect(_.allKeys(testThing2.actions).length).to.equal(3);
     });
 
     it('should return the right action object when given an action id.', () => {
-      var action = testThing.getAction('light_data');
+      // var action = testThing.getAction('light_data');
       var action2 = testThing2.getAction('light_data')
       // console.log(action2);
-      expect(action.name).to.equal('Log light data');
+      // expect(action.name).to.equal('Log light data');
       expect(action2.name).to.equal('Log light data');
     });
 
     it('should be able to call a registered action.', () => {
-      expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
+      expect(testThing2.callAction('turn_light_on')).to.equal('Light on.');
     });
 
     it('should emit an event when an action is called', () => {
       var event = false;
-      testThing.on('turn_light_on', () => {
+      testThing2.on('turn_light_on', () => {
         return event = true;
       });
-      testThing.callAction('turn_light_on');
+      testThing2.callAction('turn_light_on');
       expect(event).to.equal(true);
     });
   });
 
   describe('EVENTS', () => {
     it('should register events in the config object', () => {
-      expect(testThing.events.length).to.equal(2);
+      expect(_.allKeys(testThing2.events).length).to.equal(2);
     });
 
     it('should return the right event object when given an id.', () => {
-      var component = testThing.getEvent('dark');
+      // var component = testThing.getEvent('dark');
       var component2 = testThing2.getEvent('dark');
-      expect(component.name).to.equal('It\'s dark.');
+      // expect(component.name).to.equal('It\'s dark.');
       expect(component2.name).to.equal('It\'s dark.');
     });
   });
@@ -78,6 +78,6 @@ describe('Thing test', () => {
   });
 
   afterEach(() => {
-    delete global.testThing;
+    delete global.testThing2;
   });
 });
