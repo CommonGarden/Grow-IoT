@@ -61,66 +61,17 @@ global.expect = require('chai').expect;
 (function setup() {
   beforeEach(function () {
 
-    // Setup test things
     global.thing1 = {
-      'name': 'Light',
-      'description': 'An LED light with a basic on/off api.',
-      'state': 'off',
-      'actions': [{
-        'name': 'On',
-        'description': 'Turns the light on.',
-        'id': 'turn_light_on',
-        'updateState': 'on',
-        'schedule': 'at 9:00am',
-        'event': 'Light turned on',
-        'function': function _function() {
-          return 'Light on.';
-        }
-      }, {
-        'name': 'off',
-        'id': 'turn_light_off',
-        'updateState': 'off',
-        'schedule': 'at 8:30pm',
-        'event': 'Light turned off',
-        'function': function _function() {
-          return 'Light off.';
-        }
-      }, {
-        'name': 'Light data',
-        'id': 'light_data',
-        'type': 'light',
-        'schedule': 'every 1 second',
-        'function': function _function() {
-          // Normally, this would be publishing data on the readable stream.
-          return 'data';
-        }
-      }],
-      'events': [{
-        'name': 'light data is data',
-        'id': 'check_light_data',
-        'on': 'light_data', // Hook into an action.
-        'function': function _function() {
-          return 'this';
-        }
-      }, {
-        name: 'Change light bulb event',
-        id: 'change_light_bulb',
-        schedule: 'after 10 seconds' // Emits this event in 30s
-      }]
-    };
-
-    global.thing2 = {
       name: 'Light', // The display name for the thing.
       id: 'Light',
-      desription: 'An LED light with a basic on/off api.',
-      username: 'jakehart', // The username of the account you want this device to be added to.
+      username: 'YourUsernameHere', // The username of the account you want this device to be added to.
       properties: {
         state: 'off',
         lightconditions: function lightconditions() {
           return 'unset';
         }
       },
-      actions: [// A list of action objects
+      actions: [// A list of action objects with ids
       {
         name: 'On', // Display name for the action
         description: 'Turns the light on.', // Optional description
@@ -129,8 +80,7 @@ global.expect = require('chai').expect;
         event: 'Light turned on', // Optional event to emit when called.
         function: function _function() {
           // The implementation of the action.
-          LED.high();
-          grow.updateProperty('state', 'on');
+          return 'Light on.';
         }
       }, {
         name: 'off',
@@ -138,8 +88,7 @@ global.expect = require('chai').expect;
         schedule: 'at 8:30pm',
         event: 'Light turned off',
         function: function _function() {
-          LED.low();
-          grow.updateProperty('state', 'off');
+          return 'Light off.';
         }
       }, {
         name: 'Log light data', // Events get a display name like actions
@@ -149,10 +98,7 @@ global.expect = require('chai').expect;
         schedule: 'every 1 second', // Events should have a schedule option that determines how often to check for conditions.
         function: function _function() {
           // function should return the event to emit when it should be emited.
-          grow.sendData({
-            type: 'light',
-            value: lightSensor.value
-          });
+          return 10;
         }
       }],
       events: [{
@@ -160,12 +106,73 @@ global.expect = require('chai').expect;
         id: 'dark',
         on: 'light_data', // Hook into an action.
         function: function _function() {
-          if (lightSensor.value < 100 && grow.getProperty('lightconditions') != 'dark') {
-            grow.emitEvent('dark');
-            grow.setProperty('lightconditions', 'dark');
-          }
+          return;
+        }
+      }, {
+        name: 'It\'s light.',
+        id: 'light',
+        on: 'light_data', // Hook into an action.
+        function: function _function() {
+          return;
         }
       }]
+    };
+
+    global.thing2 = {
+      name: 'Light', // The display name for the thing.
+      id: 'Light',
+      username: 'YourUsernameHere', // The username of the account you want this device to be added to.
+      properties: { // These can be updated by the API.
+        state: 'off',
+        lightconditions: function lightconditions() {
+          return 'unset';
+        }
+      },
+      actions: { // a list of action objects with keys
+        turn_light_on: {
+          name: 'On', // Display name for the action
+          description: 'Turns the light on.', // Optional description
+          schedule: 'at 9:00am', // Optional scheduling using later.js
+          event: 'Light turned on', // Optional event to emit when called.
+          function: function _function() {
+            // The implementation of the action.
+            return 'Light on.';
+          }
+        },
+        turn_light_off: {
+          name: 'off',
+          schedule: 'at 8:30pm',
+          event: 'Light turned off',
+          function: function _function() {
+            return 'Light off.';
+          }
+        },
+        light_data: {
+          name: 'Log light data', // Events get a display name like actions
+          type: 'light', // Currently need for visualization component... HACK.
+          template: 'sensor',
+          schedule: 'every 1 second', // Events should have a schedule option that determines how often to check for conditions.
+          function: function _function() {
+            return 10;
+          }
+        }
+      },
+      events: {
+        dark: {
+          name: 'It\'s dark.',
+          on: 'light_data', // Hook into an action.
+          function: function _function() {
+            return;
+          }
+        },
+        light: {
+          name: 'It\'s light.',
+          on: 'light_data',
+          function: function _function() {
+            return;
+          }
+        }
+      }
     };
   });
 
@@ -175,7 +182,7 @@ global.expect = require('chai').expect;
   });
 })();
 
-var _ = require('underscore');
+var _$1 = require('underscore');
 var later = require('later');
 var EventEmitter = require('events');
 
@@ -197,7 +204,7 @@ var Thing = function (_EventEmitter) {
     if (!config) {
       throw new Error('Thing.js requires an config object.');
     } else {
-      _.extend(_this, config);
+      _$1.extend(_this, config);
     }
 
     _this.registerActions();
@@ -223,7 +230,7 @@ var Thing = function (_EventEmitter) {
         // or perhaps generate id?
         var actionId = this.actions[action].id;
 
-        if (!_.isUndefined(action)) {
+        if (!_$1.isUndefined(action)) {
           this.startAction(this.actions[action]);
         }
       }
@@ -231,7 +238,8 @@ var Thing = function (_EventEmitter) {
 
     /**
      * Starts listeners and scheduled events.
-     * Todo: this needs better testing.
+     * Todo: this needs better testing. IT IS ALSO NOT WORKING
+       WITH MORE THAN ONE EVENT...
      */
 
   }, {
@@ -240,15 +248,15 @@ var Thing = function (_EventEmitter) {
       this.scheduledEvents = [];
 
       // Check top level thing model for events.
-      if (!_.isUndefined(this.events)) {
+      if (!_$1.isUndefined(this.events)) {
         for (var event in this.events) {
           event = this.events[event];
 
-          if (!_.isUndefined(event.schedule)) {
+          if (!_$1.isUndefined(event.schedule)) {
             this.scheduleEvent(event);
           }
 
-          if (!_.isUndefined(event.on)) {
+          if (!_$1.isUndefined(event.on)) {
             this.on(event.on, function () {
               event.function();
             });
@@ -259,7 +267,7 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'registerProperties',
     value: function registerProperties() {
-      if (!_.isUndefined(this.properties)) {
+      if (!_$1.isUndefined(this.properties)) {
         for (var property in this.properties) {
           // If the property is a function we initialize it.
           if (typeof this.properties[property] === 'function') {
@@ -271,23 +279,71 @@ var Thing = function (_EventEmitter) {
     }
 
     /**
-     * Get component object (an action or event for example) based on the id
-     * @param {String} ID  The id of the component object you want.
+     * Get action object
+     * @param {String} ID  The key / id of the action object you want.
      * @returns {Object}
      */
 
   }, {
-    key: 'getComponentByID',
-    value: function getComponentByID(ID) {
-      // Check top level component
-      if (this.id === ID) {
-        return this;
-      }
+    key: 'getAction',
+    value: function getAction(ID) {
+      var _this2 = this;
 
-      // Check action and event components
-      else {
-          return _.findWhere(this.actions, { id: ID }) || _.findWhere(this.events, { id: ID });
+      var action = {};
+      _$1.each(this.actions, function (value, key, list) {
+        if (key === ID) {
+          return action = value;
+        } else if (_this2.actions[key].id === ID) {
+          return action = value;
         }
+      });
+
+      return action;
+    }
+
+    /**
+     * Get list of the Thing's actions
+     * @returns {Object}
+     */
+
+  }, {
+    key: 'getActions',
+    value: function getActions() {
+      return this.actions;
+    }
+
+    /**
+     * Get event object
+     * @param {String} ID  The key / id of the event object you want.
+     * @returns {Object}
+     */
+
+  }, {
+    key: 'getEvent',
+    value: function getEvent(ID) {
+      var _this3 = this;
+
+      var event = {};
+      _$1.each(this.events, function (value, key, list) {
+        if (key === ID) {
+          return event = value;
+        } else if (_this3.events[key].id === ID) {
+          return event = value;
+        }
+      });
+
+      return event;
+    }
+
+    /**
+     * Get list of the Thing's events
+     * @returns {Object}
+     */
+
+  }, {
+    key: 'getActions',
+    value: function getActions() {
+      return this.events;
     }
 
     /**
@@ -296,13 +352,10 @@ var Thing = function (_EventEmitter) {
      * @param {String} property The property of the component to be update.
      * @param {String} value The value to update the property to.
      */
-
-  }, {
-    key: 'updateComponentProperty',
-    value: function updateComponentProperty(componentID, property, value) {
-      var component = this.getComponentByID(componentID);
-      return component[property] = value;
-    }
+    // updateComponentProperty (componentID, property, value) {
+    //   var component = this.getEvent(componentID) || this.getAction(componentID) || this.getProperty(componentID);
+    //   return component[property] = value;
+    // }
 
     /**
      * Update a property based on a component ID.
@@ -316,7 +369,7 @@ var Thing = function (_EventEmitter) {
       return this.properties[property] = value;
     }
 
-    /* Get a property by name.
+    /* Get a property by key.
      * @param {String} property
      * @returns {String} property value.
      */
@@ -325,6 +378,16 @@ var Thing = function (_EventEmitter) {
     key: 'getProperty',
     value: function getProperty(property) {
       return this.properties[property];
+    }
+
+    /* Get a Thing's properties
+     * @returns {Object}
+     */
+
+  }, {
+    key: 'getProperties',
+    value: function getProperties() {
+      return this.properties;
     }
 
     /**
@@ -339,9 +402,9 @@ var Thing = function (_EventEmitter) {
     key: 'callAction',
     value: function callAction(actionId, options) {
       try {
-        var action = this.getComponentByID(actionId);
+        var action = this.getAction(actionId);
 
-        if (!_.isUndefined(options)) {
+        if (!_$1.isUndefined(options)) {
           var output = action.function(options);
         } else {
           var output = action.function();
@@ -349,7 +412,7 @@ var Thing = function (_EventEmitter) {
         this.emit(actionId);
 
         // We return any returns of called functions for testing.
-        if (!_.isUndefined(output)) {
+        if (!_$1.isUndefined(output)) {
           return output;
         }
       } catch (error) {
@@ -366,11 +429,11 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'startAction',
     value: function startAction(action) {
-      var _this2 = this;
+      var _this4 = this;
 
       var schedule = later.parse.text(action.schedule);
       var scheduledAction = later.setInterval(function () {
-        _this2.callAction(action.id);
+        _this4.callAction(action.id);
       }, schedule);
       this.scheduledActions.push(scheduledAction);
       return scheduledAction;
@@ -384,11 +447,11 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'scheduleEvent',
     value: function scheduleEvent(event) {
-      var _this3 = this;
+      var _this5 = this;
 
       var schedule = later.parse.text(event.schedule);
       var scheduledEvent = later.setInterval(function () {
-        _this3.callEvent(event.id);
+        _this5.callEvent(event.id);
       }, schedule);
       this.scheduledEvents.push(scheduledEvent);
       return scheduledEvent;
@@ -399,6 +462,8 @@ var Thing = function (_EventEmitter) {
 
 ;
 
+var _ = require('underscore');
+
 describe('Thing test', function () {
   beforeEach(function () {
     global.testThing = new Thing(thing1);
@@ -407,17 +472,25 @@ describe('Thing test', function () {
 
   it('should have cloned metadata', function () {
     expect(testThing.name).to.equal('Light');
-    expect(testThing.description).to.equal('An LED light with a basic on/off api.');
+    expect(testThing.id).to.equal('Light');
+    expect(testThing.username).to.equal('YourUsernameHere');
+    expect(testThing2.name).to.equal('Light');
+    expect(testThing2.id).to.equal('Light');
+    expect(testThing2.username).to.equal('YourUsernameHere');
   });
 
   describe('ACTIONS', function () {
     it('should register actions in the config object', function () {
-      expect(testThing.actions.length).to.equal(3);
+      expect(_.allKeys(testThing.actions).length).to.equal(3);
+      expect(_.allKeys(testThing2.actions).length).to.equal(3);
     });
 
     it('should return the right action object when given an action id.', function () {
-      var action = testThing.getComponentByID('light_data');
-      expect(action.name).to.equal('Light data');
+      var action = testThing.getAction('light_data');
+      var action2 = testThing2.getAction('light_data');
+      // console.log(action2);
+      expect(action.name).to.equal('Log light data');
+      expect(action2.name).to.equal('Log light data');
     });
 
     it('should be able to call a registered action.', function () {
@@ -440,16 +513,19 @@ describe('Thing test', function () {
     });
 
     it('should return the right event object when given an id.', function () {
-      var component = testThing.getComponentByID('check_light_data');
-      expect(component.name).to.equal('light data is data');
+      var component = testThing.getEvent('dark');
+      var component2 = testThing2.getEvent('dark');
+      expect(component.name).to.equal('It\'s dark.');
+      expect(component2.name).to.equal('It\'s dark.');
     });
   });
 
   describe('PROPERTIES', function () {
-    it('should update a component property correctly', function () {
-      testThing.updateComponentProperty('turn_light_on', 'schedule', 'at 9:30am');
-      expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
-    });
+    // Maybe killing this...
+    // it('should update a component property correctly', () => {
+    //   testThing.updateComponentProperty('turn_light_on', 'schedule', 'at 9:30am')
+    //   expect(testThing.getAction('turn_light_on').schedule).to.equal('at 9:30am');
+    // });
 
     // Note: testThing 2 has experimental support for properties
     it('should initialize correctly', function () {
