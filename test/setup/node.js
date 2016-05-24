@@ -5,73 +5,17 @@ global.expect = require('chai').expect;
 (function setup () {
   beforeEach(function() {
 
-    // Setup test things
     global.thing1 = {
-      'name': 'Light',
-      'description': 'An LED light with a basic on/off api.',
-      'state': 'off',
-      'actions': [
-        {
-          'name': 'On',
-          'description': 'Turns the light on.',
-          'id': 'turn_light_on',
-          'updateState': 'on',
-          'schedule': 'at 9:00am',
-          'event': 'Light turned on',
-          'function': function () {
-            return 'Light on.';
-          }
-        },
-        {
-          'name': 'off',
-          'id': 'turn_light_off',
-          'updateState': 'off',
-          'schedule': 'at 8:30pm',
-          'event': 'Light turned off',
-          'function': function () {
-            return 'Light off.';
-          }
-        },
-        {
-          'name': 'Light data',
-          'id': 'light_data',
-          'type': 'light',
-          'schedule': 'every 1 second',
-          'function': function () {
-            // Normally, this would be publishing data on the readable stream.
-            return 'data';
-          }
-        }
-      ],
-      'events': [
-        {
-          'name': 'light data is data',
-          'id': 'check_light_data',
-          'on': 'light_data', // Hook into an action.
-          'function': () => {
-            return 'this';
-          }
-        },
-        {
-          name: 'Change light bulb event',
-          id: 'change_light_bulb',
-          schedule: 'after 10 seconds' // Emits this event in 30s 
-        }
-      ]
-    };
-
-    global.thing2 = {
       name: 'Light', // The display name for the thing.
       id: 'Light',
-      desription: 'An LED light with a basic on/off api.',
-      username: 'jakehart', // The username of the account you want this device to be added to.
+      username: 'YourUsernameHere', // The username of the account you want this device to be added to.
       properties: {
         state: 'off',
         lightconditions: function () {
           return 'unset';
         }
       },
-      actions: [ // A list of action objects
+      actions: [ // A list of action objects with ids
         {
           name: 'On', // Display name for the action
           description: 'Turns the light on.', // Optional description
@@ -80,8 +24,7 @@ global.expect = require('chai').expect;
           event: 'Light turned on', // Optional event to emit when called.
           function: function () {
             // The implementation of the action.
-            LED.high();
-            grow.updateProperty('state', 'on');
+            return 'Light on.';
           }
         },
         {
@@ -90,8 +33,7 @@ global.expect = require('chai').expect;
           schedule: 'at 8:30pm',
           event: 'Light turned off',
           function: function () {
-            LED.low();
-            grow.updateProperty('state', 'off');
+            return 'Light off.';
           }
         },
         {
@@ -102,10 +44,7 @@ global.expect = require('chai').expect;
           schedule: 'every 1 second', // Events should have a schedule option that determines how often to check for conditions.
           function: function () {
             // function should return the event to emit when it should be emited.
-            grow.sendData({
-              type: 'light',
-              value: lightSensor.value
-            });
+            return 10;
           }
         }
       ],
@@ -115,14 +54,76 @@ global.expect = require('chai').expect;
           id: 'dark',
           on: 'light_data', // Hook into an action.
           function: function () {
-            if (lightSensor.value < 100 && grow.getProperty('lightconditions') != 'dark') {
-              grow.emitEvent('dark');
-              grow.setProperty('lightconditions', 'dark');
-            }
+            return;
+          }
+        },
+        {
+          name: 'It\'s light.',
+          id: 'light',
+          on: 'light_data', // Hook into an action.
+          function: function () {
+            return;
           }
         }
       ]
     };
+
+    global.thing2 = {
+      name: 'Light', // The display name for the thing.
+      id: 'Light',
+      username: 'YourUsernameHere', // The username of the account you want this device to be added to.
+      properties: { // These can be updated by the API.
+        state: 'off',
+        lightconditions: function () {
+          return 'unset';
+        }
+      },
+      actions: { // a list of action objects with keys
+        turn_light_on: {
+          name: 'On', // Display name for the action
+          description: 'Turns the light on.', // Optional description
+          schedule: 'at 9:00am', // Optional scheduling using later.js
+          event: 'Light turned on', // Optional event to emit when called.
+          function: function () {
+            // The implementation of the action.
+            return 'Light on.';
+          }
+        },
+        turn_light_off: {
+          name: 'off',
+          schedule: 'at 8:30pm',
+          event: 'Light turned off',
+          function: function () {
+            return 'Light off.';
+          }
+        },
+        light_data: {
+          name: 'Log light data', // Events get a display name like actions
+          type: 'light', // Currently need for visualization component... HACK.
+          template: 'sensor',
+          schedule: 'every 1 second', // Events should have a schedule option that determines how often to check for conditions.
+          function: function () {
+            return 10;
+          }
+        }
+      },
+      events: {
+        dark: {
+          name: 'It\'s dark.',
+          on: 'light_data', // Hook into an action.
+          function: function () {
+            return;
+          }
+        },
+        light: {
+          name: 'It\'s light.',
+          on: 'light_data',
+          function: function () {
+            return;
+          }
+        }
+      }
+    }
   });
 
   afterEach(function() {

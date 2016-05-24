@@ -1,4 +1,5 @@
-import Thing from '../../lib/thing';
+import Thing from '../../lib/Thing';
+const _ = require('underscore');
 
 describe('Thing test', () => {
   beforeEach(() => {
@@ -8,17 +9,25 @@ describe('Thing test', () => {
 
   it('should have cloned metadata', () => {
     expect(testThing.name).to.equal('Light');
-    expect(testThing.description).to.equal('An LED light with a basic on/off api.');
+    expect(testThing.id).to.equal('Light');
+    expect(testThing.username).to.equal('YourUsernameHere');
+    expect(testThing2.name).to.equal('Light');
+    expect(testThing2.id).to.equal('Light');
+    expect(testThing2.username).to.equal('YourUsernameHere');
   });
 
   describe('ACTIONS', () => {
     it('should register actions in the config object', () => {
-      expect(testThing.actions.length).to.equal(3);
+      expect(_.allKeys(testThing.actions).length).to.equal(3);
+      expect(_.allKeys(testThing2.actions).length).to.equal(3);
     });
 
     it('should return the right action object when given an action id.', () => {
-      var action = testThing.getComponentByID('light_data');
-      expect(action.name).to.equal('Light data');
+      var action = testThing.getAction('light_data');
+      var action2 = testThing2.getAction('light_data')
+      // console.log(action2);
+      expect(action.name).to.equal('Log light data');
+      expect(action2.name).to.equal('Log light data');
     });
 
     it('should be able to call a registered action.', () => {
@@ -41,16 +50,19 @@ describe('Thing test', () => {
     });
 
     it('should return the right event object when given an id.', () => {
-      var component = testThing.getComponentByID('check_light_data');
-      expect(component.name).to.equal('light data is data');
+      var component = testThing.getEvent('dark');
+      var component2 = testThing2.getEvent('dark');
+      expect(component.name).to.equal('It\'s dark.');
+      expect(component2.name).to.equal('It\'s dark.');
     });
   });
 
   describe('PROPERTIES', () => {
-    it('should update a component property correctly', () => {
-      testThing.updateComponentProperty('turn_light_on', 'schedule', 'at 9:30am')
-      expect(testThing.getComponentByID('turn_light_on').schedule).to.equal('at 9:30am');
-    });
+    // Maybe killing this...
+    // it('should update a component property correctly', () => {
+    //   testThing.updateComponentProperty('turn_light_on', 'schedule', 'at 9:30am')
+    //   expect(testThing.getAction('turn_light_on').schedule).to.equal('at 9:30am');
+    // });
 
     // Note: testThing 2 has experimental support for properties
     it('should initialize correctly', () => {
