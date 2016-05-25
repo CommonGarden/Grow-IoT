@@ -25,13 +25,18 @@ class Thing.NewComponent extends UIComponent
 			rules:
 				name:
 					required: true
+				description:
+					required: true
 			messages:
 				name:
 					required: "Please give this thing a name."
+				description:
+					required: "Please give this thing a short description."
 
 			submitHandler: ->
 				thing =
 					name: $('#thingName').val()
+					description: $('#description').val()
 
 				Meteor.call 'Thing.new',
 					thing,
