@@ -1,6 +1,17 @@
 # Grow.js
 
-Grow.js is an npm packagle for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. [Full grow.js documentation can be found here](http://commongarden.github.io/grow.js/).
+Grow.js is an npm packagle for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. [Full grow.js documentation can be found here](http://commongarden.github.io/Grow.js/docs/).
+
+Grow.js handles:
+* Connecting to the host over the ddp protocol.
+* Registers the device with host server. The information in config object is used to create a UI and API.
+* Sets up readable / writable streams for pushing data and listening for commands in real time!
+
+All you have to do is pass in a [Thing object](https://github.com/CommonGarden/Thing.js), and presto! You have created a new IoT device!
+
+Example screen shoot using [Grow-IoT](https://github.com/CommonGarden/Grow-IoT).
+
+![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
 ### Installation
 
@@ -17,7 +28,7 @@ Grow.js works with most devices that can run node, and plays very well with the 
 ### Wire up photo-resitor and led to arduino
 Wire up your photo resistor and LED light like so:
 
-![Wiring diagram](https://raw.githubusercontent.com/CommonGarden/grow.js/development/img/Arduino-light-detector-circuit.png)
+![Wiring diagram](https://raw.githubusercontent.com/CommonGarden/Grow.js/master/examples/arduino/led-and-photoresistor/Arduino-night-light-circuit.png)
 
 Install johnny-five with:
 
@@ -27,7 +38,7 @@ npm install johnny-five
 
 To use [Johnny-Five](http://johnny-five.io/), you need to make sure that your arduino is flashed with Standard Firmata. Instructions for doing so can be found [here](https://github.com/rwaldron/johnny-five/wiki/Getting-Started#trouble-shooting). Once that's done you're ready for the next step!
 
-Take a look at the [led-and-photoresistor arduino example]() in the `examples/arduino/` folder. **Be sure to set the 'username' property to the username you created an account with.**
+Take a look at the [led-and-photoresistor arduino example](https://github.com/CommonGarden/Grow.js/tree/master/examples/arduino/led-and-photoresistor) in the `examples/arduino/` folder. **Be sure to set the 'username' property to the username you created an account with.**
 
 ```javascript
 // Require the Grow.js build and johnny-five library.
@@ -126,7 +137,7 @@ node examples/arduino/led-and-photoresistor/example.js
 
 Note: on certain opperating systems you may need to prefix that command with `sudo` to allow the script access to USB.
 
-[Full grow.js documentation and examples can be found here](http://commongarden.github.io/grow.js/).
+[Full grow.js documentation and examples can be found here](http://commongarden.github.io/Grow.js/docs/).
 
 # Connecting devices
 ### Host / Port
