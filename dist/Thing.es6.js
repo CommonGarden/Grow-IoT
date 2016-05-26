@@ -60,11 +60,12 @@ var Thing = function (_EventEmitter) {
   /**
    * Constructs a new Thing object. A Thing is an extension of [node's built-in 
      EventEmitter class](https://nodejs.org/api/events.html).
-   * @param {Object} config a javascript object containing metadata, properties, events, and actions
+   * @constructor
+   * @param {Object} config an object containing properties, events, and/or actions.
    * @return     A new thing object
   */
 
-  function Thing(config) {
+  function Thing(config, callback) {
     babelHelpers.classCallCheck(this, Thing);
 
     var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Thing).call(this));
@@ -78,60 +79,65 @@ var Thing = function (_EventEmitter) {
     _this.registerActions();
     _this.registerEvents();
     _this.registerProperties();
+
+    // Callback is optional. May be used for a start function.
+    if (!_.isUndefined(callback)) {
+      callback();
+    }
     return _this;
   }
 
   /**
-   * Starts any scheduled actions.
-   * Todo: should also throw errors if actions don't have IDs or functions.
+   * Run when the Thing is initialized. Starts any scheduled actions.
    */
 
 
   babelHelpers.createClass(Thing, [{
     key: 'registerActions',
     value: function registerActions() {
+      var _this2 = this;
+
       this.scheduledActions = [];
 
-      for (var action in this.actions) {
-        // TODO:
-        // Through error if no id is assigned?
-        // or perhaps generate id?
-        var actionId = this.actions[action].id;
-
-        if (!_.isUndefined(action)) {
-          this.startAction(this.actions[action]);
-        }
+      if (!_.isUndefined(this.actions)) {
+        _.each(this.actions, function (action, key, list) {
+          if (!_.isUndefined(action.schedule)) {
+            _this2.startAction(key);
+          }
+        });
       }
     }
 
     /**
-     * Starts listeners and scheduled events.
-     * Todo: this needs better testing. IT IS ALSO NOT WORKING
-       WITH MORE THAN ONE EVENT...
+     * Run when the Thing is initialized. Starts listeners and schedules events.
      */
 
   }, {
     key: 'registerEvents',
     value: function registerEvents() {
+      var _this3 = this;
+
       this.scheduledEvents = [];
 
-      // Check top level thing model for events.
       if (!_.isUndefined(this.events)) {
-        for (var event in this.events) {
-          event = this.events[event];
-
+        _.each(this.events, function (event, key, list) {
           if (!_.isUndefined(event.schedule)) {
-            this.scheduleEvent(event);
+            _this3.scheduleEvent(key);
           }
 
           if (!_.isUndefined(event.on)) {
-            this.on(event.on, function () {
+            _this3.on(event.on, function () {
               event.function();
             });
           }
-        }
+        });
       }
     }
+
+    /**
+     * Initializes properties.
+     */
+
   }, {
     key: 'registerProperties',
     value: function registerProperties() {
@@ -148,20 +154,20 @@ var Thing = function (_EventEmitter) {
 
     /**
      * Get action object
-     * @param {String} ID  The key / id of the action object you want.
+     * @param {String} ID  The key of the action object you want.
      * @returns {Object}
      */
 
   }, {
     key: 'getAction',
     value: function getAction(ID) {
-      var _this2 = this;
+      var _this4 = this;
 
       var action = {};
       _.each(this.actions, function (value, key, list) {
         if (key === ID) {
           return action = value;
-        } else if (_this2.actions[key].id === ID) {
+        } else if (_this4.actions[key].id === ID) {
           return action = value;
         }
       });
@@ -189,13 +195,13 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'getEvent',
     value: function getEvent(ID) {
-      var _this3 = this;
+      var _this5 = this;
 
       var event = {};
       _.each(this.events, function (value, key, list) {
         if (key === ID) {
           return event = value;
-        } else if (_this3.events[key].id === ID) {
+        } else if (_this5.events[key].id === ID) {
           return event = value;
         }
       });
@@ -213,17 +219,6 @@ var Thing = function (_EventEmitter) {
     value: function getActions() {
       return this.events;
     }
-
-    /**
-     * Update a property based on a component ID.
-     * @param {String} componentID The id of the component to change the property of.
-     * @param {String} property The property of the component to be update.
-     * @param {String} value The value to update the property to.
-     */
-    // updateComponentProperty (componentID, property, value) {
-    //   var component = this.getEvent(componentID) || this.getAction(componentID) || this.getProperty(componentID);
-    //   return component[property] = value;
-    // }
 
     /**
      * Update a property based on a component ID.
@@ -296,12 +291,13 @@ var Thing = function (_EventEmitter) {
 
   }, {
     key: 'startAction',
-    value: function startAction(action) {
-      var _this4 = this;
+    value: function startAction(actionKey) {
+      var _this6 = this;
 
+      var action = this.getAction(actionKey);
       var schedule = later.parse.text(action.schedule);
       var scheduledAction = later.setInterval(function () {
-        _this4.callAction(action.id);
+        _this6.callAction(actionKey);
       }, schedule);
       this.scheduledActions.push(scheduledAction);
       return scheduledAction;
@@ -314,12 +310,13 @@ var Thing = function (_EventEmitter) {
 
   }, {
     key: 'scheduleEvent',
-    value: function scheduleEvent(event) {
-      var _this5 = this;
+    value: function scheduleEvent(eventKey) {
+      var _this7 = this;
 
+      var event = this.getEvent(eventKey);
       var schedule = later.parse.text(event.schedule);
       var scheduledEvent = later.setInterval(function () {
-        _this5.callEvent(event.id);
+        _this7.callEvent(eventKey);
       }, schedule);
       this.scheduledEvents.push(scheduledEvent);
       return scheduledEvent;

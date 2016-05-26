@@ -222,17 +222,16 @@ var Thing = function (_EventEmitter) {
   babelHelpers.createClass(Thing, [{
     key: 'registerActions',
     value: function registerActions() {
+      var _this2 = this;
+
       this.scheduledActions = [];
 
-      for (var action in this.actions) {
-        // TODO:
-        // Through error if no id is assigned?
-        // or perhaps generate id?
-        var actionId = this.actions[action].id;
-
-        if (!_$1.isUndefined(action)) {
-          this.startAction(this.actions[action]);
-        }
+      if (!_$1.isUndefined(this.actions)) {
+        _$1.each(this.actions, function (action, key, list) {
+          if (!_$1.isUndefined(action.schedule)) {
+            _this2.startAction(key);
+          }
+        });
       }
     }
 
@@ -245,23 +244,22 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'registerEvents',
     value: function registerEvents() {
+      var _this3 = this;
+
       this.scheduledEvents = [];
 
-      // Check top level thing model for events.
       if (!_$1.isUndefined(this.events)) {
-        for (var event in this.events) {
-          event = this.events[event];
-
+        _$1.each(this.events, function (event, key, list) {
           if (!_$1.isUndefined(event.schedule)) {
-            this.scheduleEvent(event);
+            _this3.scheduleEvent(key);
           }
 
           if (!_$1.isUndefined(event.on)) {
-            this.on(event.on, function () {
+            _this3.on(event.on, function () {
               event.function();
             });
           }
-        }
+        });
       }
     }
   }, {
@@ -287,13 +285,13 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'getAction',
     value: function getAction(ID) {
-      var _this2 = this;
+      var _this4 = this;
 
       var action = {};
       _$1.each(this.actions, function (value, key, list) {
         if (key === ID) {
           return action = value;
-        } else if (_this2.actions[key].id === ID) {
+        } else if (_this4.actions[key].id === ID) {
           return action = value;
         }
       });
@@ -321,13 +319,13 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'getEvent',
     value: function getEvent(ID) {
-      var _this3 = this;
+      var _this5 = this;
 
       var event = {};
       _$1.each(this.events, function (value, key, list) {
         if (key === ID) {
           return event = value;
-        } else if (_this3.events[key].id === ID) {
+        } else if (_this5.events[key].id === ID) {
           return event = value;
         }
       });
@@ -345,17 +343,6 @@ var Thing = function (_EventEmitter) {
     value: function getActions() {
       return this.events;
     }
-
-    /**
-     * Update a property based on a component ID.
-     * @param {String} componentID The id of the component to change the property of.
-     * @param {String} property The property of the component to be update.
-     * @param {String} value The value to update the property to.
-     */
-    // updateComponentProperty (componentID, property, value) {
-    //   var component = this.getEvent(componentID) || this.getAction(componentID) || this.getProperty(componentID);
-    //   return component[property] = value;
-    // }
 
     /**
      * Update a property based on a component ID.
@@ -428,12 +415,13 @@ var Thing = function (_EventEmitter) {
 
   }, {
     key: 'startAction',
-    value: function startAction(action) {
-      var _this4 = this;
+    value: function startAction(actionKey) {
+      var _this6 = this;
 
+      var action = this.getAction(actionKey);
       var schedule = later.parse.text(action.schedule);
       var scheduledAction = later.setInterval(function () {
-        _this4.callAction(action.id);
+        _this6.callAction(actionKey);
       }, schedule);
       this.scheduledActions.push(scheduledAction);
       return scheduledAction;
@@ -446,12 +434,13 @@ var Thing = function (_EventEmitter) {
 
   }, {
     key: 'scheduleEvent',
-    value: function scheduleEvent(event) {
-      var _this5 = this;
+    value: function scheduleEvent(eventKey) {
+      var _this7 = this;
 
+      var event = this.getEvent(eventKey);
       var schedule = later.parse.text(event.schedule);
       var scheduledEvent = later.setInterval(function () {
-        _this5.callEvent(event.id);
+        _this7.callEvent(eventKey);
       }, schedule);
       this.scheduledEvents.push(scheduledEvent);
       return scheduledEvent;
@@ -466,14 +455,14 @@ var _ = require('underscore');
 
 describe('Thing test', function () {
   beforeEach(function () {
-    global.testThing = new Thing(thing1);
+    // global.testThing = new Thing(thing1);
     global.testThing2 = new Thing(thing2);
   });
 
   it('should have cloned metadata', function () {
-    expect(testThing.name).to.equal('Light');
-    expect(testThing.id).to.equal('Light');
-    expect(testThing.username).to.equal('YourUsernameHere');
+    // expect(testThing.name).to.equal('Light');
+    // expect(testThing.id).to.equal('Light');
+    // expect(testThing.username).to.equal('YourUsernameHere');
     expect(testThing2.name).to.equal('Light');
     expect(testThing2.id).to.equal('Light');
     expect(testThing2.username).to.equal('YourUsernameHere');
@@ -481,41 +470,41 @@ describe('Thing test', function () {
 
   describe('ACTIONS', function () {
     it('should register actions in the config object', function () {
-      expect(_.allKeys(testThing.actions).length).to.equal(3);
+      // expect(_.allKeys(testThing.actions).length).to.equal(3);
       expect(_.allKeys(testThing2.actions).length).to.equal(3);
     });
 
     it('should return the right action object when given an action id.', function () {
-      var action = testThing.getAction('light_data');
+      // var action = testThing.getAction('light_data');
       var action2 = testThing2.getAction('light_data');
       // console.log(action2);
-      expect(action.name).to.equal('Log light data');
+      // expect(action.name).to.equal('Log light data');
       expect(action2.name).to.equal('Log light data');
     });
 
     it('should be able to call a registered action.', function () {
-      expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
+      expect(testThing2.callAction('turn_light_on')).to.equal('Light on.');
     });
 
     it('should emit an event when an action is called', function () {
       var event = false;
-      testThing.on('turn_light_on', function () {
+      testThing2.on('turn_light_on', function () {
         return event = true;
       });
-      testThing.callAction('turn_light_on');
+      testThing2.callAction('turn_light_on');
       expect(event).to.equal(true);
     });
   });
 
   describe('EVENTS', function () {
     it('should register events in the config object', function () {
-      expect(testThing.events.length).to.equal(2);
+      expect(_.allKeys(testThing2.events).length).to.equal(2);
     });
 
     it('should return the right event object when given an id.', function () {
-      var component = testThing.getEvent('dark');
+      // var component = testThing.getEvent('dark');
       var component2 = testThing2.getEvent('dark');
-      expect(component.name).to.equal('It\'s dark.');
+      // expect(component.name).to.equal('It\'s dark.');
       expect(component2.name).to.equal('It\'s dark.');
     });
   });
@@ -540,7 +529,7 @@ describe('Thing test', function () {
   });
 
   afterEach(function () {
-    delete global.testThing;
+    delete global.testThing2;
   });
 });
 //# sourceMappingURL=test-bundle.js.map
