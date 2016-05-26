@@ -192,11 +192,12 @@ var Thing = function (_EventEmitter) {
   /**
    * Constructs a new Thing object. A Thing is an extension of [node's built-in 
      EventEmitter class](https://nodejs.org/api/events.html).
-   * @param {Object} config a javascript object containing metadata, properties, events, and actions
+   * @constructor
+   * @param {Object} config an object containing properties, events, and/or actions.
    * @return     A new thing object
   */
 
-  function Thing(config) {
+  function Thing(config, callback) {
     babelHelpers.classCallCheck(this, Thing);
 
     var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Thing).call(this));
@@ -210,12 +211,16 @@ var Thing = function (_EventEmitter) {
     _this.registerActions();
     _this.registerEvents();
     _this.registerProperties();
+
+    // Callback is optional. May be used for a start function.
+    if (!_$1.isUndefined(callback)) {
+      callback();
+    }
     return _this;
   }
 
   /**
-   * Starts any scheduled actions.
-   * Todo: should also throw errors if actions don't have IDs or functions.
+   * Run when the Thing is initialized. Starts any scheduled actions.
    */
 
 
@@ -236,9 +241,7 @@ var Thing = function (_EventEmitter) {
     }
 
     /**
-     * Starts listeners and scheduled events.
-     * Todo: this needs better testing. IT IS ALSO NOT WORKING
-       WITH MORE THAN ONE EVENT...
+     * Run when the Thing is initialized. Starts listeners and schedules events.
      */
 
   }, {
@@ -262,6 +265,11 @@ var Thing = function (_EventEmitter) {
         });
       }
     }
+
+    /**
+     * Initializes properties.
+     */
+
   }, {
     key: 'registerProperties',
     value: function registerProperties() {
@@ -278,7 +286,7 @@ var Thing = function (_EventEmitter) {
 
     /**
      * Get action object
-     * @param {String} ID  The key / id of the action object you want.
+     * @param {String} ID  The key of the action object you want.
      * @returns {Object}
      */
 
@@ -339,8 +347,8 @@ var Thing = function (_EventEmitter) {
      */
 
   }, {
-    key: 'getActions',
-    value: function getActions() {
+    key: 'getEvents',
+    value: function getEvents() {
       return this.events;
     }
 
@@ -353,7 +361,8 @@ var Thing = function (_EventEmitter) {
   }, {
     key: 'setProperty',
     value: function setProperty(property, value) {
-      return this.properties[property] = value;
+      this.properties[property] = value;
+      this.emit('property-updated');
     }
 
     /* Get a property by key.
@@ -525,6 +534,16 @@ describe('Thing test', function () {
     it('should set a property', function () {
       testThing2.setProperty('lightconditions', 'dark');
       expect(testThing2.getProperty('lightconditions')).to.equal('dark');
+    });
+
+    it('should emit an event when a property is set', function () {
+      var event = false;
+      testThing2.on('property-updated', function () {
+        return event = true;
+      });
+      testThing2.setProperty('lightconditions', 'light');
+      expect(testThing2.getProperty('lightconditions')).to.equal('light');
+      expect(event).to.equal(true);
     });
   });
 

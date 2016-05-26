@@ -22,6 +22,8 @@
             <li><a href="index.html">Main</a></li>
             <li class="active"><a href="Thing.js.html">Thing.js
                 <ul class="nav nav-stacked">
+                  <li><a href="#Thing"><i class="alert alert-success"></i><span>Thing</span></a>
+                  </li>
                   <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
                   </li>
                   <li><a href="#registerActions"><i class="alert alert-info"></i><span>registerActions</span></a>
@@ -54,11 +56,31 @@
           </ul>
         </div>
         <div class="col-md-9">
+          <section id="Thing">
+            <h1>Thing</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>&nbsp;</span><span>new Thing()</span><span>&nbsp;</span><span>&nbsp;</span><span class="label label-default">extends</span><span>&nbsp;</span><span>EventEmitter</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <div class="description"><p>Class representing a Thing. A Thing is an extension of <a href="https://nodejs.org/api/events.html">node&#39;s built-in EventEmitter class</a>.</p></div>
+          <pre><code class="language-javascript">class Thing extends EventEmitter {</code></pre>
           <section id="constructor">
             <h1>constructor</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>constructor()</span><span>&nbsp;</span>
+              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>Thing.prototype.constructor()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -76,13 +98,18 @@
                 <td><p>an object containing properties, events, and/or actions.</p></td>
               </tr>
               <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>an optional callback</p></td>
+              </tr>
+              <tr>
                 <td>return</td>
                 <td></td>
                 <td><p>A new thing object</p></td>
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Constructs a new Thing object. A Thing is an extension of <a href="https://nodejs.org/api/events.html">node&#39;s built-in<br />     EventEmitter class</a>.</p></div>
+          <div class="description"><p>Constructs a new Thing object.</p></div>
           <pre><code class="language-javascript">constructor(config, callback) {
   super();
 
@@ -105,7 +132,7 @@
             <h1>registerActions</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerActions()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.registerActions()</span><span>&nbsp;</span>
             </p>
           </section>
           <div class="description"><p>Run when the Thing is initialized. Starts any scheduled actions.</p></div>
@@ -124,7 +151,7 @@
             <h1>registerEvents</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerEvents()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.registerEvents()</span><span>&nbsp;</span>
             </p>
           </section>
           <div class="description"><p>Run when the Thing is initialized. Starts listeners and schedules events.</p></div>
@@ -149,7 +176,7 @@
             <h1>registerProperties</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerProperties()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.registerProperties()</span><span>&nbsp;</span>
             </p>
           </section>
           <div class="description"><p>Initializes properties.</p></div>
@@ -168,7 +195,7 @@
             <h1>getAction</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getAction()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getAction()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -204,7 +231,7 @@
             <h1>getActions</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getActions()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getActions()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -226,7 +253,7 @@
             <h1>getEvent</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getEvent()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getEvent()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -262,7 +289,7 @@
             <h1>getEvents</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getEvents()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getEvents()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -284,7 +311,7 @@
             <h1>setProperty</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>setProperty()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.setProperty()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -310,13 +337,14 @@
           </table>
           <div class="description"><p>Update a property based on a component ID.</p></div>
           <pre><code class="language-javascript">setProperty (property, value) {
-  return this.properties[property] = value;
+  this.properties[property] = value;
+  this.emit('property-updated');
 }</code></pre>
           <section id="getProperty">
             <h1>getProperty</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getProperty()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getProperty()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -343,7 +371,7 @@
             <h1>getProperties</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>getProperties()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getProperties()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -365,7 +393,7 @@
             <h1>callAction</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>callAction()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.callAction()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -417,7 +445,7 @@
             <h1>startAction</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>startAction()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.startAction()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -448,7 +476,7 @@
             <h1>scheduleEvent</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>scheduleEvent()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.scheduleEvent()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">

@@ -75,6 +75,16 @@ describe('Thing test', () => {
       expect(testThing2.getProperty('lightconditions')).to.equal('dark');
     });
 
+    it('should emit an event when a property is set', () => {
+      var event = false;
+      testThing2.on('property-updated', () => {
+        return event = true;
+      });
+      testThing2.setProperty('lightconditions', 'light');
+      expect(testThing2.getProperty('lightconditions')).to.equal('light');
+      expect(event).to.equal(true);
+    });
+
   });
 
   afterEach(() => {

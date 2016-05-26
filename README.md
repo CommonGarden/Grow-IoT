@@ -15,6 +15,8 @@ Thing.js exports a single class 'Thing,' which is an extension of the [Node.js E
 * Setting up event listeners
 * Scheduling actions and events
 
+[Full documentation available here](http://commongarden.github.io/Thing.js/docs/Thing.js.html).
+
 For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js) and [Grow-IoT](https://github.com/CommonGarden/Grow-IoT).
 
 ## Install
