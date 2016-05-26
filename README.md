@@ -100,7 +100,7 @@ Please open issues or PRs with thoughts || suggestions || proposals.
 
 # Developing
 
-Code is written in ES6, and compiled using [rollup](https://github.com/rollup/rollup).
+Code is written in ES6, and compiled using [rollup](https://github.com/rollup/rollup). [Full documentation is available here](http://commongarden.github.io/Thing.js/docs/Thing.js.html).
 
 `npm run build` builds the library.
 
