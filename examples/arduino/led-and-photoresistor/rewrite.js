@@ -5,71 +5,79 @@ var five = require('johnny-five');
 // Create a new board object
 var board = new five.Board();
 
-// When board is ready run this start function.
-board.on("ready", function start() {
+// When board emits a 'ready' event run this start function.
+board.on('ready', function start() {
     // Define variables
     // Note: if you wire the device slightly differently you may need to
     // change the pin numbers below.
     var LED = new five.Pin(13),
-        lightSensor = new five.Sensor("A0");
+        lightSensor = new five.Sensor('A0');
 
     // Create a new grow instance.
     var grow = new GrowInstance({
-        name: "Light", // The display name for the thing.
-        id: "Light",
-        desription: "An LED light with a basic on/off api.",
-        username: "jakehart", // The username of the account you want this device to be added to.
-        properties: { // These can be updated by the API.
-            state: "off",
+        name: 'Light', // The display name for the thing.
+        desription: 'An LED light with a basic on/off api.',
+        username: 'jakehart', // The username of the account you want this device to be added to.
+        properties: {
+            state: 'off',
             lightconditions: function () {
+                // Properties can be functions, booleans, strings, ints, objects, lists, etc.
+                // Properties can be updated by the API.
+                // Note: property functions should return a value.
                 return 'unset';
             }
         },
         actions: {
-            "on": {
-                name: "On", // Display name for the action
-                description: "Turns the light on.", // Optional description
-                schedule: "at 9:00am", // Optional scheduling using later.js
-                event: "Light turned on", // Optional event to emit when called.
+            turn_light_on: {
+                name: 'On', // Display name for the action
+                description: 'Turns the light on.', // Optional description
+                schedule: 'at 9:00am', // Optional scheduling using later.js
                 function: function () {
                     // The implementation of the action.
                     LED.high();
+                    console.log('light on');
                     grow.setProperty('state', 'on');
                 }
             },
-            "off": {
-                name: "off",
-                schedule: "at 8:30pm",
-                event: "Light turned off",
+            turn_light_off: {
+                name: 'off',
+                schedule: 'at 8:30pm',
                 function: function () {
                     LED.low();
+                    console.log('light off');
                     grow.setProperty('state', 'off');
                 }
             },
-            "log_light_data": {
-                name: "Log light data", // Events get a display name like actions
-                type: "light", // Currently need for visualization component... HACK.
-                template: "sensor",
-                schedule: "every 1 second", // Events should have a schedule option that determines how often to check for conditions.
+            light_data: {
+                name: 'Log light data', 
+                type: 'light', // Currently need for visualization component... HACK.
+                template: 'sensor',
+                schedule: 'every 1 second',
                 function: function () {
-                    // function should return the event to emit when it should be emited.
                     grow.sendData({
-                      type: "light",
+                      type: 'light',
                       value: lightSensor.value
                     });
                 }
             }
         },
         events: {
-            "dark": {
-                name: "It's dark.",
-                on: 'light_data', // Hook into an action.
+            check_light_data: {
+                name: 'Check light data',
+                on: 'light_data', // Adds Listener for action event.
                 function: function () {
-                    if (lightSensor.value < 100 && grow.thing.getProperty('lightconditions') != 'dark') {
+                    if ((lightSensor.value < 100) && (grow.thing.getProperty('lightconditions') != 'dark')) {
                         // This could be nice with a chaining API...
+                        // It would be good if we could add additional rules with the environment.
+                        // EventListeners
                         grow.emitEvent('dark');
-                        grow.thing.setProperty('lightconditions', 'dark');
+                        grow.setProperty('lightconditions', 'dark');
                         grow.thing.callAction('turn_light_on');
+                    } else if ((lightSensor.value >= 100) && (grow.thing.getProperty('lightconditions') != 'light')) {
+                        // This could be nice with a chaining API...
+                        grow.emitEvent('light');
+                        grow.thing.setProperty('lightconditions', 'light');
+                        grow.thing.callAction('turn_light_off');
                     }
                 }
             }

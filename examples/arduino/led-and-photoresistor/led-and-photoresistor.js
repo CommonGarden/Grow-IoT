@@ -64,6 +64,7 @@ board.on("ready", function start() {
             }
         ],
         events: [
+            // Note: there's a bug in Thing.js that doesn't allow multiple events to listen to the same event.
             {
                 name: "Check light data",
                 id: 'check_light_data',
@@ -71,14 +72,15 @@ board.on("ready", function start() {
                 function: function () {
                     if ((lightSensor.value < 100) && (grow.thing.getProperty('lightconditions') != 'dark')) {
                         // This could be nice with a chaining API...
+                        // It would be good if we could add additional rules with the environment.
                         grow.emitEvent('dark');
                         grow.thing.setProperty('lightconditions', 'dark');
-                        // grow.thing.callAction('turn_light_on');
+                        grow.thing.callAction('turn_light_on');
                     } else if ((lightSensor.value >= 100) && (grow.thing.getProperty('lightconditions') != 'light')) {
                         // This could be nice with a chaining API...
                         grow.emitEvent('light');
                         grow.thing.setProperty('lightconditions', 'light');
-                        // grow.thing.callAction('turn_light_on');
+                        grow.thing.callAction('turn_light_off');
                     }
                 }
             }

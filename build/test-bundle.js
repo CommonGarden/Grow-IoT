@@ -259,7 +259,7 @@ var Grow = function () {
       });
     }
 
-    /* 
+    /*
      * On _write, call API.sendData()
      */
 
@@ -344,22 +344,42 @@ var Grow = function () {
     }
 
     /*
+     * Calls thing.callAction and emits an event to Grow-IoT.
+     * @param {String} actionKey  key of the action you want to call.
+     * @param {Object|List|String|Number|Boolean} options The new value to set the property to.
+     */
+
+  }, {
+    key: 'callAction',
+    value: function callAction(actionKey, options) {
+      var action = this.thing.getAction(actionKey);
+      this.thing.callAction(actionKey, options);
+
+      // Check to see if action has an event message
+      if (!_.isUndefined(action.event)) {
+        this.emitEvent(action.event);
+      } else {
+        this.emitEvent(actionKey);
+      }
+    }
+
+    /*
      * Update device property on Grow-IoT server.
-     * @param {String} componentName  Name of the component you want to update.
-     * @param {String} propertyKey  Name of the of the property you wish to update
+     * @param {String} property  Name of the of the property you wish to update
      * @param {Object|List|String|Number|Boolean} value The new value to set the property to.
      * @param {Function} callback  An optional callback.
      */
 
   }, {
-    key: 'updateProperty',
-    value: function updateProperty(componentID, property, value, callback) {
+    key: 'setProperty',
+    value: function setProperty(property, value, callback) {
       // Update the thing property.
-      this.thing.updateProperty(componentID, property, value);
+      this.thing.setProperty(property, value);
 
+      // Not working in this version of Grow.js yet.
       this.writeChangesToState();
 
-      this.ddpclient.call('Device.udpateProperty', [{ uuid: this.uuid, token: this.token }, componentID, property, value], function (error, result) {
+      this.ddpclient.call('Device.udpateProperty', [{ uuid: this.uuid, token: this.token }, property, value], function (error, result) {
         if (!_.isUndefined(callback)) {
           callback(error, result);
         }

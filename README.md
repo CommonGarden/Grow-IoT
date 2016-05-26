@@ -160,8 +160,5 @@ Get involved with our community in any way you are interested: -->
 <!-- * [Join us on Slack](http://slack.commongarden.org) — Collaboration and real time discussions. -->
 <!-- * [Forum](http://forum.commongarden.org/) — General discussion and support by the Common Garden community. -->
 
-### Acknowledgements
-Special thanks to @Mitar for contributing the starting point for this library. This work was also inspired by work the [W3C interest group on the internet of things](https://github.com/w3c/web-of-things-framework).
-
 ## License
 Grow.js is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".
