@@ -186,14 +186,19 @@ var _$1 = require('underscore');
 var later = require('later');
 var EventEmitter = require('events');
 
+/**
+ * Class representing a Thing. A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
+ * @extends EventEmitter
+ */
+
 var Thing = function (_EventEmitter) {
   babelHelpers.inherits(Thing, _EventEmitter);
 
   /**
-   * Constructs a new Thing object. A Thing is an extension of [node's built-in 
-     EventEmitter class](https://nodejs.org/api/events.html).
+   * Constructs a new Thing object.
    * @constructor
-   * @param {Object} config an object containing properties, events, and/or actions.
+   * @param {Object} config  an object containing properties, events, and/or actions.
+   * @param {Function} callback  an optional callback
    * @return     A new thing object
   */
 

@@ -24,8 +24,6 @@
                 <ul class="nav nav-stacked">
                   <li><a href="#Thing"><i class="alert alert-success"></i><span>Thing</span></a>
                   </li>
-                  <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
-                  </li>
                   <li><a href="#registerActions"><i class="alert alert-info"></i><span>registerActions</span></a>
                   </li>
                   <li><a href="#registerEvents"><i class="alert alert-info"></i><span>registerEvents</span></a>
@@ -72,26 +70,6 @@
               </tr>
             </thead>
             <tbody>
-            </tbody>
-          </table>
-          <div class="description"><p>Class representing a Thing. A Thing is an extension of <a href="https://nodejs.org/api/events.html">node&#39;s built-in EventEmitter class</a>.</p></div>
-          <pre><code class="language-javascript">class Thing extends EventEmitter {</code></pre>
-          <section id="constructor">
-            <h1>constructor</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>Thing.prototype.constructor()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
               <tr>
                 <td>config</td>
                 <td>Object</td>
@@ -109,25 +87,26 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Constructs a new Thing object.</p></div>
-          <pre><code class="language-javascript">constructor(config, callback) {
-  super();
+          <div class="description"><p>Class representing a Thing. A Thing is an extension of <a href="https://nodejs.org/api/events.html">node&#39;s built-in EventEmitter class</a>.</p></div>
+          <pre><code class="language-javascript">class Thing extends EventEmitter {
+  constructor(config, callback) {
+    super();
 
-  if (!config) {
-    throw new Error('Thing.js requires an config object.');
-  } else {
-    _.extend(this, config);
-  }
+    if (!config) {
+      throw new Error('Thing.js requires an config object.');
+    } else {
+      _.extend(this, config);
+    }
 
-  this.registerActions();
-  this.registerEvents();
-  this.registerProperties();
+    this.registerActions();
+    this.registerEvents();
+    this.registerProperties();
 
-  // Callback is optional. May be used for a start function.
-  if (!_.isUndefined(callback)) {
-    callback();
-  }
-}</code></pre>
+    // Callback is optional. May be used for a start function.
+    if (!_.isUndefined(callback)) {
+      callback();
+    }
+  }</code></pre>
           <section id="registerActions">
             <h1>registerActions</h1>
             <h5 class="subheader"></h5>

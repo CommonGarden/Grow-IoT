@@ -60,14 +60,19 @@
   var later = require('later');
   var EventEmitter = require('events');
 
+  /**
+   * Class representing a Thing. A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
+   * @extends EventEmitter
+   */
+
   var Thing = function (_EventEmitter) {
     babelHelpers.inherits(Thing, _EventEmitter);
 
     /**
-     * Constructs a new Thing object. A Thing is an extension of [node's built-in 
-       EventEmitter class](https://nodejs.org/api/events.html).
+     * Constructs a new Thing object.
      * @constructor
-     * @param {Object} config an object containing properties, events, and/or actions.
+     * @param {Object} config  an object containing properties, events, and/or actions.
+     * @param {Function} callback  an optional callback
      * @return     A new thing object
     */
 
@@ -221,8 +226,8 @@
        */
 
     }, {
-      key: 'getActions',
-      value: function getActions() {
+      key: 'getEvents',
+      value: function getEvents() {
         return this.events;
       }
 
@@ -235,7 +240,8 @@
     }, {
       key: 'setProperty',
       value: function setProperty(property, value) {
-        return this.properties[property] = value;
+        this.properties[property] = value;
+        this.emit('property-updated');
       }
 
       /* Get a property by key.
