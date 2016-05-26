@@ -9,7 +9,7 @@ Grow.js handles:
 
 All you have to do is pass in a [Thing object](https://github.com/CommonGarden/Thing.js), and presto! You have created a new IoT device!
 
-Example screen shoot using [Grow-IoT](https://github.com/CommonGarden/Grow-IoT).
+Example screen shoot using [Grow-IoT](https://github.com/CommonGarden/Grow-IoT):
 
 ![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
@@ -21,7 +21,7 @@ npm install Grow.js
 
 # Working with hardware.
 
-If you want to try Grow.js but don't have a microcontroller, follow the [quickstart guide on the Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT). Below is is a simple Led and photoresistor arduino example, see the [examples folder](https://github.com/CommonGarden/grow.js/tree/master/examples) for more hardware examples with various boards. 
+If you want to try Grow.js but don't have a microcontroller, follow the [quickstart guide on the Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT#installing-grow-iot). Below is is a simple Led and photoresistor arduino example, see the [examples folder](https://github.com/CommonGarden/grow.js/tree/master/examples) for more hardware examples with various boards. 
 
 Grow.js works with most devices that can run node, and plays very well with the [Johnny-Five robotics library](http://johnny-five.io/), which has plugins for [a large number of devices](http://johnny-five.io/#platform-support). Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators. Please feel free to create your own grow.js device and share it on the [forum](http://forum.commongarden.org/).
 
