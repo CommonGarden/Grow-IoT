@@ -1,19 +1,21 @@
 # Thing.js
 
-A javascript library for working with things! Loosely inspired by [W3C web of things framework](https://github.com/w3c/web-of-things-framework), a thing is an javascript object that has:
+A javascript library for working with things! Loosely inspired by [W3C web of things framework](https://github.com/w3c/web-of-things-framework), a thing is an object that has:
 
+* Metadata
 * Properties
 * Actions
 * Events
 
-A Thing is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html), and contains useful methods for:
+Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html), and contains useful methods for:
 
 * Updating properties
 * Calling actions
+* Emiting events
 * Setting up event listeners
 * Scheduling actions and events
 
-For example of how this can quickly be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js).
+For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js) and [Grow-IoT](https://github.com/CommonGarden/Grow-IoT).
 
 ## Install
 ```bash
@@ -21,54 +23,73 @@ npm install Thing.js
 ```
 
 ### Example
-```
+```javascript
 var Thing = require('Thing.js');
 
 var Light = new Thing({
   name: 'Light',
-  id: 'light',
-  description: 'An LED light with a basic on/off api.',
-  state: 'off',
-  actions: [
-    {
-      name: 'On',
-      description: 'Turns the light on.',
-      id: 'turn_light_on',
-      schedule: 'at 9:00am',
-      event: 'Light turned on',
-      function: function () { // The implementation of the action
-        Light.updateProperty('light', 'state', 'on'); // Update state
-        console.log('Light on.');
+  desription: 'An LED light with a basic on/off api.',
+  username: 'jakehart',
+  properties: {
+    state: 'off',
+    lightconditions: function () {
+      // Properties can be updated by the API.
+      // Note: property functions should return a value.
+      return null;
+    }
+  },
+  actions: {
+    turn_light_on: {
+      name: 'On', // Display name for the action
+      description: 'Turns the light on.', // Optional description
+      schedule: 'at 9:00am', // Optional scheduling using later.js
+      function: function () {
+        // The implementation of the action.
+        console.log('light on');
+        Light.setProperty('state', 'on');
       }
     },
-    {
+    turn_light_off: {
       name: 'off',
-      id: 'turn_light_off',
       schedule: 'at 8:30pm',
-      event: 'Light turned off',
       function: function () {
-        Light.updateProperty('light', 'state', 'off'); // Update state
-        console.log('Light off.');
+        console.log('light off');
+        Light.setProperty('state', 'off');
+      }
+    },
+    light_data: {
+      name: 'Log light data', 
+      type: 'light',
+      template: 'sensor',
+      schedule: 'every 1 second',
+      function: function () {
+         console.log("Log light data.")
       }
     }
-  ],
-  events: [
-    {
-      name: 'Light on listener',
-      id: 'light_on_listener',
-      on: 'turn_light_on', // Hook into an action.
+  },
+  events: {
+    check_light_data: {
+      name: 'Check light data',
+      on: 'turn_light_on', // Adds Listener for action event.
       function: function () {
         console.log('this event listener is called when the light is turned on.');
       }
     }
-  ]
+  } 
+}, 
+function start () {
+  // Optional callback function.
+  return;
 });
+
+console.log(Light.getProperty(state));
+// logs 'off'
 
 Light.callAction('turn_light_on');
 // logs 'Light on.'
 // logs 'this event listener is called when the light is turned on.'
 
-console.log(Light.state);
+console.log(Light.getProperty(state));
 // logs 'on'
 
 ```

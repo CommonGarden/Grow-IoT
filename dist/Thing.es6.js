@@ -1,5 +1,3 @@
-import EventEmitter from 'events';
-
 var babelHelpers = {};
 
 babelHelpers.classCallCheck = function (instance, Constructor) {
@@ -54,17 +52,20 @@ babelHelpers;
 
 var _ = require('underscore');
 var later = require('later');
+var EventEmitter = require('events');
+
 var Thing = function (_EventEmitter) {
   babelHelpers.inherits(Thing, _EventEmitter);
 
   /**
    * Constructs a new Thing object. A Thing is an extension of [node's built-in 
      EventEmitter class](https://nodejs.org/api/events.html).
-   * @param {Object} config a javascript object containing metadata, properties, events, and actions
+   * @constructor
+   * @param {Object} config an object containing properties, events, and/or actions.
    * @return     A new thing object
   */
 
-  function Thing(config) {
+  function Thing(config, callback) {
     babelHelpers.classCallCheck(this, Thing);
 
     var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Thing).call(this));
@@ -78,12 +79,16 @@ var Thing = function (_EventEmitter) {
     _this.registerActions();
     _this.registerEvents();
     _this.registerProperties();
+
+    // Callback is optional. May be used for a start function.
+    if (!_.isUndefined(callback)) {
+      callback();
+    }
     return _this;
   }
 
   /**
-   * Starts any scheduled actions.
-   * Todo: should also throw errors if actions don't have IDs or functions.
+   * Run when the Thing is initialized. Starts any scheduled actions.
    */
 
 
@@ -97,16 +102,14 @@ var Thing = function (_EventEmitter) {
       if (!_.isUndefined(this.actions)) {
         _.each(this.actions, function (action, key, list) {
           if (!_.isUndefined(action.schedule)) {
-            _this2.startAction(_this2.actions[key]);
+            _this2.startAction(key);
           }
         });
       }
     }
 
     /**
-     * Starts listeners and scheduled events.
-     * Todo: this needs better testing. IT IS ALSO NOT WORKING
-       WITH MORE THAN ONE EVENT...
+     * Run when the Thing is initialized. Starts listeners and schedules events.
      */
 
   }, {
@@ -118,9 +121,8 @@ var Thing = function (_EventEmitter) {
 
       if (!_.isUndefined(this.events)) {
         _.each(this.events, function (event, key, list) {
-
           if (!_.isUndefined(event.schedule)) {
-            _this3.scheduleEvent(event);
+            _this3.scheduleEvent(key);
           }
 
           if (!_.isUndefined(event.on)) {
@@ -131,6 +133,11 @@ var Thing = function (_EventEmitter) {
         });
       }
     }
+
+    /**
+     * Initializes properties.
+     */
+
   }, {
     key: 'registerProperties',
     value: function registerProperties() {
@@ -147,7 +154,7 @@ var Thing = function (_EventEmitter) {
 
     /**
      * Get action object
-     * @param {String} ID  The key / id of the action object you want.
+     * @param {String} ID  The key of the action object you want.
      * @returns {Object}
      */
 
@@ -212,17 +219,6 @@ var Thing = function (_EventEmitter) {
     value: function getActions() {
       return this.events;
     }
-
-    /**
-     * Update a property based on a component ID.
-     * @param {String} componentID The id of the component to change the property of.
-     * @param {String} property The property of the component to be update.
-     * @param {String} value The value to update the property to.
-     */
-    // updateComponentProperty (componentID, property, value) {
-    //   var component = this.getEvent(componentID) || this.getAction(componentID) || this.getProperty(componentID);
-    //   return component[property] = value;
-    // }
 
     /**
      * Update a property based on a component ID.
@@ -295,12 +291,13 @@ var Thing = function (_EventEmitter) {
 
   }, {
     key: 'startAction',
-    value: function startAction(action) {
+    value: function startAction(actionKey) {
       var _this6 = this;
 
+      var action = this.getAction(actionKey);
       var schedule = later.parse.text(action.schedule);
       var scheduledAction = later.setInterval(function () {
-        _this6.callAction(action.id);
+        _this6.callAction(actionKey);
       }, schedule);
       this.scheduledActions.push(scheduledAction);
       return scheduledAction;
@@ -313,12 +310,13 @@ var Thing = function (_EventEmitter) {
 
   }, {
     key: 'scheduleEvent',
-    value: function scheduleEvent(event) {
+    value: function scheduleEvent(eventKey) {
       var _this7 = this;
 
+      var event = this.getEvent(eventKey);
       var schedule = later.parse.text(event.schedule);
       var scheduledEvent = later.setInterval(function () {
-        _this7.callEvent(event.id);
+        _this7.callEvent(eventKey);
       }, schedule);
       this.scheduledEvents.push(scheduledEvent);
       return scheduledEvent;

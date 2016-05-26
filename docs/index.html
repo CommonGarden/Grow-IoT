@@ -22,79 +22,106 @@
             <li class="active"><a href="index.html">Main
                 <ul class="nav nav-stacked">
                 </ul></a></li>
-            <li><a href="thing.js.html">thing.js</a></li>
+            <li><a href="Thing.js.html">Thing.js</a></li>
           </ul>
         </div>
         <div class="col-md-9">
           <section id="Main" class="readme"><h1>Thing.js</h1>
-<p>A javascript library for working with things! Inspired by <a href="">W3C web of things framework</a>, a thing is an javascript object that has:</p>
+<p>A javascript library for working with things! Loosely inspired by <a href="https://github.com/w3c/web-of-things-framework">W3C web of things framework</a>, a thing is an object that has:</p>
 <ul>
+<li>Metadata</li>
 <li>Properties</li>
 <li>Actions</li>
 <li>Events</li>
 </ul>
-<p>A Thing is an extension of the <a href="https://nodejs.org/api/events.html">Node.js EventEmitter Class</a>, and contains useful methods for:</p>
+<p>Thing.js exports a single class 'Thing,' which is an extension of the <a href="https://nodejs.org/api/events.html">Node.js EventEmitter Class</a>, and contains useful methods for:</p>
 <ul>
 <li>Updating properties</li>
 <li>Calling actions</li>
+<li>Emiting events</li>
 <li>Setting up event listeners</li>
 <li>Scheduling actions and events</li>
 </ul>
-<p>For example of how this can quickly be used in an IoT stack, checkout <a href="https://github.com/CommonGarden/Grow.js">Grow.js</a>.</p>
+<p>For example of how this can be used in an IoT stack, checkout <a href="https://github.com/CommonGarden/Grow.js">Grow.js</a> and <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT</a>.</p>
 <h2>Install</h2>
 <pre><code class="language-bash">npm install Thing.js
 </code></pre>
 <h3>Example</h3>
-<pre><code>var Thing = require('Thing.js');
+<pre><code class="language-javascript">var Thing = require('Thing.js');
 
 var Light = new Thing({
   name: 'Light',
-  id: 'light',
-  description: 'An LED light with a basic on/off api.',
-  state: 'off',
-  actions: [
-    {
-      name: 'On',
-      description: 'Turns the light on.',
-      id: 'turn_light_on',
-      schedule: 'at 9:00am',
-      event: 'Light turned on',
-      function: function () { // The implementation of the action
-        Light.updateProperty('light', 'state', 'on'); // Update state
-        console.log('Light on.');
+  desription: 'An LED light with a basic on/off api.',
+  username: 'jakehart',
+  properties: {
+    state: 'off',
+    lightconditions: function () {
+      // Properties can be updated by the API.
+      // Note: property functions should return a value.
+      return null;
+    }
+  },
+  actions: {
+    turn_light_on: {
+      name: 'On', // Display name for the action
+      description: 'Turns the light on.', // Optional description
+      schedule: 'at 9:00am', // Optional scheduling using later.js
+      function: function () {
+        // The implementation of the action.
+        console.log('light on');
+        Light.setProperty('state', 'on');
       }
     },
-    {
+    turn_light_off: {
       name: 'off',
-      id: 'turn_light_off',
       schedule: 'at 8:30pm',
-      event: 'Light turned off',
       function: function () {
-        Light.updateProperty('light', 'state', 'off'); // Update state
-        console.log('Light off.');
+        console.log('light off');
+        Light.setProperty('state', 'off');
+      }
+    },
+    light_data: {
+      name: 'Log light data', 
+      type: 'light',
+      template: 'sensor',
+      schedule: 'every 1 second',
+      function: function () {
+         console.log(&quot;Log light data.&quot;)
       }
     }
-  ],
-  events: [
-    {
-      name: 'Light on listener',
-      id: 'light_on_listener',
-      on: 'turn_light_on', // Hook into an action.
+  },
+  events: {
+    check_light_data: {
+      name: 'Check light data',
+      on: 'turn_light_on', // Adds Listener for action event.
       function: function () {
         console.log('this event listener is called when the light is turned on.');
       }
     }
-  ]
+  } 
+}, 
+function start () {
+  // Optional callback function.
+  return;
 });
+
+console.log(Light.getProperty(state));
+// logs 'off'
 
 Light.callAction('turn_light_on');
 // logs 'Light on.'
 // logs 'this event listener is called when the light is turned on.'
 
-console.log(Light.state);
+console.log(Light.getProperty(state));
 // logs 'on'
 
 </code></pre>
+<p>Please open issues or PRs with thoughts || suggestions || proposals.</p>
+<h1>Developing</h1>
+<p>Code is written in ES6, and compiled using <a href="https://github.com/rollup/rollup">rollup</a>.</p>
+<p><code>npm run build</code> builds the library.</p>
+<p><code>npm run test</code> builds the library, and runs tests in the test folder.</p>
+<p>The documentation is written in jsdoc, built using <a href="https://mr-doc.github.io/">Mr-Doc</a>, and kept on the <a href="https://github.com/CommonGarden/Thing.js/tree/gh-pages">gh-pages branch of this repo</a>.</p>
 </section>
           <div class="footer site-footer">
             <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
