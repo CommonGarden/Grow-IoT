@@ -6,9 +6,10 @@ class Device.ActuatorListComponent extends Device.DisplayComponent
 
   actuators: ->
     device = @device()
-    list = []
-    if device.thing.components?
-      for component in device.thing.components
-        if component.template == "actuator"
-          list.push component
-      list
+    if device.thing.actions
+      actionslist = []
+      _.each device.thing.actions, (value, key, list) =>
+        value.id = key
+        if !value.template
+          actionslist.push value
+    actionslist

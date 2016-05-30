@@ -20,11 +20,10 @@ Meteor.methods
       insertedAt: new Date()
 
 
-  'Device.udpateProperty': (auth, componentName,  propertyKey, value) ->
+  'Device.udpateProperty': (auth,  propertyKey, value) ->
     check auth,
       uuid: Match.NonEmptyString
       token: Match.NonEmptyString
-    check componentName, Match.NonEmptyString
     check propertyKey, Match.NonEmptyString
 
     # TODO: check value... though it could be many things, JSON object, boolean, null, a string, an array.
@@ -37,19 +36,12 @@ Meteor.methods
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
     # Update the propery on the thing object
-    thing = device.thing
-    for key of thing
-      if key == 'components'
-        for item of thing.components
-          if thing.components[item].name == componentName
-            thing.components[item][propertyKey] = value
-      else if thing[key] == componentName
-        thing[propertyKey] = value
+    device.thing.properties[propertyKey] = value
 
     # Set the new thing object
     Device.documents.update device._id,
       $set:
-        'thing': thing
+        'thing.properties': device.thing.properties
 
 
   'Device.emitEvent': (auth, body) ->
@@ -131,24 +123,6 @@ Meteor.methods
         'environment': ""
 
 
-  'Device.claim': (deviceUuid, environmentUuid) ->
-    check deviceUuid, Match.NonEmptyString
-    check environmentUuid, Match.NonEmptyString
-
-    # TODO: make sure this doesn't work for devices with an owner.
-    device = Device.documents.findOne
-      'uuid': deviceUuid
-    environment = Environment.documents.findOne
-      'uuid': environmentUuid
-
-    Device.documents.update device._id,
-      '$set':
-        'owner._id': Meteor.userId()
-        'environment':
-          environment.getReference()
-        # 'order': deviceCount
-
-
   'Device.remove': (uuid) ->
     check uuid, Match.NonEmptyString
 
@@ -158,11 +132,3 @@ Meteor.methods
     throw new Meteor.Error 'unauthorized', "Unauthorized." unless device
 
     Device.documents.remove device._id
-
-
-  'Device.updateListOrder': (items) ->
-    # TODO: checks
-    for item in items
-      Device.documents.update item._id,
-        '$set':
-          'order': item.order

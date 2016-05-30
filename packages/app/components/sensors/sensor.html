@@ -1,12 +1,6 @@
 <template name="Device.SensorComponent">
     <li class="sensor">
       <h4>{{name}}</h4>
-        {{> LineChartComponent property=type}}
-        <div class="actions">
-        {{#each actions}}
-          <button class="btn command" data-call="{{call}}">{{name}}</button>
-          {{schedule}}
-        {{/each}}
-      </div>
+      {{> LineChartComponent property=type}}
     </li>
 </template>
