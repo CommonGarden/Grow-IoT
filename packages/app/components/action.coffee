@@ -22,3 +22,8 @@ class Device.ActionComponent extends Device.DisplayComponent
             if error
               console.error "New deviceerror", error
               alert "New deviceerror: #{error.reason or error}"
+
+      'click .schedule': (e) ->
+        e.preventDefault()
+        # TODO: check with later.js to make sure it's a valid string.
+        

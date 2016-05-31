@@ -7,7 +7,29 @@
 				data-options="{{options}}">
 				{{name}}</button>
 		{{schedule}} 
-		<a href="#" class="small">change</a>
+		<a data-toggle="modal" data-target="#helpmodal" class="small">change</a>
+		
+		<!-- Help button and modal -->
+	    <div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	      <div class="modal-dialog">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	            <h4 class="modal-title">Schedule action</h4>
+	          </div>
+	          <div class="modal-body">
+	          	<form>
+	          		<p>{{description}}</p>
+					<input type="text" 
+						   name="schedule" 
+						   value="{{schedule}}">
+				 	<button class="btn btn-primary schedule">Update</button>
+	          	</form>
+	          </div><!-- /.modal-body -->
+	        </div><!-- /.modal-content -->
+	      </div><!-- /.modal-dialog -->
+	    </div><!-- /.modal-fade -->
+
 		{{else}}
 		<button class="btn command"
 				title="{{description}}"
