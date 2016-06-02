@@ -162,6 +162,8 @@ You can interact with the Grow-IoT api using the [Python DDP library](https://gi
 
 ## Contributing
 
+Bitcoin address: 15TQgBpJ7u3PNRrw7tdkLxZw4ybEdATuvv
+
 Please read:
 * [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
 * [Contributing info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
