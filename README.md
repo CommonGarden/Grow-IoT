@@ -1,6 +1,8 @@
 ### Status: Prototype
 #### Grow-IoT on [freenode](https://webchat.freenode.net/)
 
+[![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Please open issues or PRs with suggestions for improvements. Let's make something useful!
 
 <!-- Should we just use gitter or IRC? -->
