@@ -36,18 +36,18 @@ Package.onUse(function (api) {
   api.addFiles([
     'layout/layout.html',
     'layout/layout.coffee',
-    'layout/loader.coffee',
+    'layout/loader.js',
     'layout/loader.html',
     'layout/header.html',
-    'layout/header.coffee',
-    'layout/footer.coffee',
+    'layout/header.js',
+    'layout/footer.js',
     'layout/footer.html',
-    'layout/not-found.coffee',
+    'layout/not-found.js',
     'layout/not-found.html',
-    'layout/dashboard.coffee',
+    'layout/dashboard.js',
     'layout/dashboard.html',
-    'layout/back-button.coffee',
-    'layout/back-button.html',
+    'layout/back_button.js',
+    'layout/back_button.html',
 
     'style/style.scss',
     'style/navigation.scss',
@@ -68,16 +68,15 @@ Package.onUse(function (api) {
     'visualization/gauge.html',
     'visualization/visualization.coffee',
     'visualization/visualization.html',
-    'components/list.coffee',
-    'components/list.html',
-    'components/sensors_list.coffee',
-    'components/sensors_list.html',
-    'components/sensor.coffee',
-    'components/sensor.html',
-    'components/action.coffee',
-    'components/action.html',
 
-    // 'lib/html5-sortable.jquery.min.js',
+    'components/list.js',
+    'components/list.html',
+    'components/sensors_list.js',
+    'components/sensors_list.html',
+    'components/sensor.js',
+    'components/sensor.html',
+    'components/action.js',
+    'components/action.html',
 
     'environments/display.coffee',
     'environments/display.html',
@@ -92,8 +91,6 @@ Package.onUse(function (api) {
 
     'routes.coffee',
 
-    'lib/jquery-cron.js',
-
     'things/images.coffee',
     'things/images.html',
     'things/new_thing.coffee',
@@ -105,11 +102,11 @@ Package.onUse(function (api) {
     'things/list.coffee',
     'things/list.html',
 
-    'notifications/notification.coffee',
+    'notifications/notification.js',
     'notifications/notification.html',
     'notifications/navui.coffee',
     'notifications/navui.html',
-    'notifications/history.coffee',
+    'notifications/history.js',
     'notifications/history.html'
   ], 'client');
 });

@@ -60,7 +60,7 @@ loggedIn.route '/environment/:uuid/new-thing',
       main: 'Thing.NewComponent'
 
 loggedIn.route '/notifications',
-  name: 'Notifications.History'
+  name: 'NotificationsHistory'
   action: (params, queryParams) ->
     BlazeLayout.render 'MainLayoutComponent',
-      main: 'Notifications.History'
+      main: 'NotificationsHistory'

@@ -47,7 +47,7 @@ First, make a Grow.JS project for the plant you want to monitor:
 mkdir my-cool-plant
 cd my-cool-plant
 npm init -y
-npm install --save grow.js
+npm install --save Grow.js
 ```
 
 Now, let's make a file that defines our plant. **Be sure to set the 'username' property to the username you created an account with.**
@@ -56,7 +56,7 @@ Now, let's make a file that defines our plant. **Be sure to set the 'username' p
 
 ```javascript
 // Import the grow.js library.
-var GrowInstance = require('grow.js');
+var GrowInstance = require('Grow.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
 var grow = new GrowInstance({

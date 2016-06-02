@@ -11,7 +11,6 @@
 					{{#if devices.exists}}
 						<h3><i class="glyphicon glyphicon-dashboard"></i> Devices</h3>
 						{{> Device.ListComponent}}
-					{{/if}}
 
 <!-- 					{{#if things.exists}}
 						<h3><i class="glyphicon glyphicon-tree-deciduous"></i> Things</h3>
@@ -25,13 +24,13 @@
 				        <i class="glyphicon glyphicon-tree-deciduous"></i> New Thing
 				    </button> -->
 
-<!-- 					<nav class="navbar navbar-default navbar-fixed-bottom cg-nav-bar">
+					<nav class="navbar navbar-default navbar-fixed-bottom cg-nav-bar">
 				    <div class="container">
 				      <ul class="nav navbar-nav bottom-menu-action">
 				        <li class="new-device">
 				          <i class="glyphicon glyphicon-dashboard"></i> New IoT Device
 				        </li>
-					    <li class="new-thing">
+<!-- 					    <li class="new-thing">
 				          <i class="glyphicon glyphicon-plus"></i> New Thing
 				        </li> -->
 				        <!-- TODO: should only show if we are capable of making a new rule (ie. there are devices present.) -->
@@ -47,9 +46,11 @@
 				              <li><a href="#" class="remove">Delete Environment</a></li>
 				            </ul>
 			            </li> -->
-<!-- 				      </ul>
+				      </ul>
 				    </div>
-				  </nav> -->
+				  </nav>
+
+				  {{/if}}
 		</div>
 	</div>
 </template>
