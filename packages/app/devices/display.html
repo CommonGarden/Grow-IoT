@@ -10,7 +10,7 @@
 
 							{{#if device.onlineSince}}
 							  <!-- Device Online -->
-							  <em class="state">{{state}}</em>
+							  <em class="state">{{properties.state}}</em>
 							{{else}}
 							  <!-- TODO: disable controls. -->
 							<em class="state">Not Online</em>
@@ -30,11 +30,7 @@
 
 					{{/with}}
 
-					{{#each device.thing.actions}}
-						{{> Device.ActionComponent}}
-					{{/each}}
-
-					{{> Device.ActuatorListComponent}}
+					{{> ActuatorListComponent}}
 
 					<hr/>
 					{{> Device.EventLogComponent}}
@@ -43,7 +39,7 @@
 
 				<div class="col-lg-6 sensor-viz">
 					{{#if device.onlineSince }}
-						{{> Device.SensorListComponent}}
+						{{> SensorListComponent}}
 					{{else}}
 						<h4>Device offline</h4>
 					{{/if}}

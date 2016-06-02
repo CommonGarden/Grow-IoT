@@ -1,24 +1,23 @@
 ### Status: Prototype
-#### Grow-IoT on [freenode](https://webchat.freenode.net/)
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Please open issues or PRs with suggestions for improvements. Let's make something useful!
-
-<!-- Should we just use gitter or IRC? -->
-<!-- [![Slack Status](http://slack.commongarden.org/badge.svg)](http://slack.commongarden.org) -->
-
-[Feature Requests](http://forum.commongarden.org/c/feature-requests)
-
-[General Feedback](http://forum.commongarden.org/c/feedback)
+Please open issues or PRs with suggestions for improvements.
 
 ## An extensible, open source stack for growing things
 
 ![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
-Together with [grow.js](https://github.com/CommonGarden/grow.js), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run *your own* home network in the cloud, or as the basis for your own IoT app.
+Together with [Grow.js](https://github.com/CommonGarden/Grow.js), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run *your own* home network in the cloud, or as the basis for your own IoT app.
 
-After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, creating control systems, splitting up the code base into more useful modules, and contributing useful feedback / code back to [W3C Internet of Things interest group](https://github.com/w3c/web-of-things-framework).
+The Grow-IoT framework allows you to:
+* Securely connect and store data from devices
+* Schedule actions (such as turning the lights on every day at 8:30 am).
+* Easily create and add new IoT devices with [Grow.js](https://github.com/CommonGarden/Grow.js), using whatever board you want.
+* Have complete ownership over your data.
+* Create automated control systems.
+
+After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, creating control systems, tackling things like sensor calibration, and splitting up the code base into more useful modules.
 
 # Installing Grow-IoT
 
@@ -41,79 +40,91 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 # Quickstart
 
-First, make a Grow.JS project for the plant you want to monitor:
+First, make a Grow.js project for a software light you want to control (see the [Grow.js Library](https://github.com/CommonGarden/Grow.js) for hardware examples):
 
 ```bash
-mkdir my-cool-plant
-cd my-cool-plant
+mkdir my-plant-light
+cd my-plant-light
 npm init -y
-npm install --save grow.js
+npm install --save Grow.js
 ```
 
-Now, let's make a file that defines our plant. **Be sure to set the 'username' property to the username you created an account with.**
+Now, let's make a file called light.js that defines a light for a plant we may be growing. 
 
-**plant.js**
+**NOTE: Be sure to set the 'username' property below to the username you created an account with.**
+
+**light.js**
 
 ```javascript
 // Import the grow.js library.
-var GrowInstance = require('grow.js');
+var GrowInstance = require('Grow.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
-var grow = new GrowInstance({
-    "name": "Light", // The display name for the thing.
-    "description": "An LED light with a basic on/off api.",
-    "state": "off", // The current state of the thing.
+// Create a new grow instance.
+    var grow = new GrowInstance({
+        name: 'Light', // The display name for the thing.
+        desription: 'An LED light with a basic on/off api.',
+        
+        // The username of the account you want this device to be added to.
+        username: 'YOURUSERNAMEHERE',
 
-    // SET THIS TO THE EMAIL OF THE ACCOUNT YOU CREATED ON THE GROW-IOT APP.
-    "username": "YOURUSERNAME", // Eventually we'll have api keys and proper UX for device configuration.
-    "actions": [ // A list of action objects
-        {
-            "name": "On", // Display name for the action
-            "description": "Turns the light on.", // Optional description
-            "id": "turn_light_on", // A unique id
-            "updateState": "on", // Updates state on function call
-            "schedule": "at 9:00am", // Optional scheduling using later.js
-            "event": "Light turned on", // Optional event to emit when called.
-            "function": function () {
-                // The implementation of the action.
-                // Here we simply log "Light on." See links to hardware
-                // examples below to begin using microcontrollers
-                console.log("Light on."); 
-            }
+        // Properties can be updated by the API
+        properties: {
+            state: 'off'
         },
-        {
-            "name": "off",
-            "id": "turn_light_off",
-            "updateState": "off",
-            "schedule": "at 8:30pm",
-            "event": "Light turned off",
-            "function": function () {
-                console.log("Light off.");
+
+        // Actions are the API of the thing.
+        actions: {
+            turn_light_on: {
+                name: 'On', // Display name for the action
+                description: 'Turns the light on.', // Optional description
+                schedule: 'at 9:00am', // Optional scheduling using later.js
+                function: function () {
+                    // The implementation of the action.
+                    console.log('Light on');
+
+                    // Emit a 'light on' event
+                    grow.emitEvent('Light on');
+
+                    // Set the state property to 'on'
+                    grow.setProperty('state', 'on');
+                }
+            },
+            turn_light_off: {
+                name: 'off',
+                schedule: 'at 8:30pm', // Run this function at 8:30pm
+                function: function () {
+                    console.log('Light off');
+
+                    // Emit a 'light off' event
+                    grow.emitEvent('Light off');
+
+                    // Set the state property to 'off'
+                    grow.setProperty('state', 'off');
+                }
+            },
+            light_data: {
+                name: 'Log light data',
+                // type and template need for visualization component... HACK. 
+                type: 'light',
+                template: 'sensor',
+                schedule: 'every 1 second',
+                function: function () {
+                    // Send data to the Grow-IoT app.
+                    grow.sendData({
+                      type: 'light',
+                      value: Math.random()
+                    });
+                }
             }
         }
-    ],
-    "events": [
-        {
-            "name": "Light data", // Events get a display name like actions
-            "id": "light_data", // An id that is unique to this device
-            "type": "light", // Data type. There might be different kinds of events?
-            "schedule": "every 1 second", // Currently required
-            "function": function () {
-                // function should return the event to emit when it should be emited.
-                return Math.random();
-            }
-        }
-    ]
-}, function start () {
-    // Optional Callback function. Calls turn_light_off function on start.
-    grow.callAction("turn_light_off");
-});
+    });
 ```
 
 Run the script with:
 
 ```bash
-node plant.js
+node light.js
 ```
 
 Next, visit [http://localhost:3000](http://localhost:3000) in your browser.
@@ -124,11 +135,11 @@ Like magic, you will see a generated UI based on the configuration object you pa
 
 ![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
-If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `plant.js`.
+If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `light.js`.
 
 ### Cool! What did I just do?
 
-Well, running `plant.js` for the first time:
+Well, running `light.js` for the first time:
 
 1. Connects to the Grow-IoT host (ddp).
 
@@ -138,7 +149,7 @@ Well, running `plant.js` for the first time:
 
 4. Sets up readable and writable streams and listens for commands.
 
-[Full grow.js documentation and examples can be found here](http://commongarden.github.io/grow.js/).
+[Full Grow.js documentation and examples can be found here](http://commongarden.github.io/Grow.js/docs/).
 
 ### Setting up an instance on Meteor Galaxy
 

@@ -1,0 +1,23 @@
+{
+  "name": "Grow-IoT",
+  "version": "0.1.5",
+  "description": "A meteor application for the Internet of Living things.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CommonGarden/Grow-IoT"
+  },
+  "keywords": [
+    "IoT",
+    "Internet of Things",
+    "thing"
+  ],
+  "author": "CommonGarden",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CommonGarden/Grow-IoT/issues"
+  },
+  "homepage": "https://github.com/CommonGarden/Grow-IoT",
+  "dependencies": {
+    "meteor-later": "^1.2.0"
+  }
+}
