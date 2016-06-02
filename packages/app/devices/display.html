@@ -30,7 +30,7 @@
 
 					{{/with}}
 
-					{{> Device.ActuatorListComponent}}
+					{{> ActuatorListComponent}}
 
 					<hr/>
 					{{> Device.EventLogComponent}}
@@ -39,7 +39,7 @@
 
 				<div class="col-lg-6 sensor-viz">
 					{{#if device.onlineSince }}
-						{{> Device.SensorListComponent}}
+						{{> SensorListComponent}}
 					{{else}}
 						<h4>Device offline</h4>
 					{{/if}}

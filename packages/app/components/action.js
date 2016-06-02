@@ -1,6 +1,6 @@
 import later from 'meteor-later';
 
-Device.ActionComponent = class ActionComponent extends Device.DisplayComponent {
+class ActionComponent extends Device.DisplayComponent {
   onCreated() {
     super.onCreated();
 
@@ -37,4 +37,4 @@ Device.ActionComponent = class ActionComponent extends Device.DisplayComponent {
   }
 };
 
-Device.ActionComponent.register('Device.ActionComponent');
+ActionComponent.register('ActionComponent');

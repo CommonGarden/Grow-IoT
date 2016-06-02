@@ -59,55 +59,62 @@ Now, let's make a file that defines our plant. **Be sure to set the 'username' p
 var GrowInstance = require('Grow.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
-var grow = new GrowInstance({
-    "name": "Light", // The display name for the thing.
-    "description": "An LED light with a basic on/off api.",
-    "state": "off", // The current state of the thing.
+// Create a new grow instance.
+    var grow = new GrowInstance({
+        name: 'Light', // The display name for the thing.
+        desription: 'An LED light with a basic on/off api.',
+        
+        // The username of the account you want this device to be added to.
+        username: 'YOURUSERNAMEHERE',
 
-    // SET THIS TO THE EMAIL OF THE ACCOUNT YOU CREATED ON THE GROW-IOT APP.
-    "username": "YOURUSERNAME", // Eventually we'll have api keys and proper UX for device configuration.
-    "actions": [ // A list of action objects
-        {
-            "name": "On", // Display name for the action
-            "description": "Turns the light on.", // Optional description
-            "id": "turn_light_on", // A unique id
-            "updateState": "on", // Updates state on function call
-            "schedule": "at 9:00am", // Optional scheduling using later.js
-            "event": "Light turned on", // Optional event to emit when called.
-            "function": function () {
-                // The implementation of the action.
-                // Here we simply log "Light on." See links to hardware
-                // examples below to begin using microcontrollers
-                console.log("Light on."); 
-            }
+        // Properties can be updated by the API
+        properties: {
+            state: 'off'
         },
-        {
-            "name": "off",
-            "id": "turn_light_off",
-            "updateState": "off",
-            "schedule": "at 8:30pm",
-            "event": "Light turned off",
-            "function": function () {
-                console.log("Light off.");
+
+        // Actions are the API of the thing.
+        actions: {
+            turn_light_on: {
+                name: 'On', // Display name for the action
+                description: 'Turns the light on.', // Optional description
+                schedule: 'at 9:00am', // Optional scheduling using later.js
+                function: function () {
+                    // The implementation of the action.
+
+                    // Emit a light on event
+                    grow.emitEvent('Light on');
+
+                    // Set the state property to 'on'
+                    grow.setProperty('state', 'on');
+                }
+            },
+            turn_light_off: {
+                name: 'off',
+                schedule: 'at 8:30pm',
+                function: function () {
+                    // Emit a light on event
+                    grow.emitEvent('Light off');
+
+                    // Set the state property to 'off'
+                    grow.setProperty('state', 'off');
+                }
+            },
+            light_data: {
+                name: 'Log light data',
+                // type and template need for visualization component... HACK. 
+                type: 'light',
+                template: 'sensor',
+                schedule: 'every 1 second',
+                function: function () {
+                    // Send data to the Grow-IoT app.
+                    grow.sendData({
+                      type: 'light',
+                      value: math.random()
+                    });
+                }
             }
         }
-    ],
-    "events": [
-        {
-            "name": "Light data", // Events get a display name like actions
-            "id": "light_data", // An id that is unique to this device
-            "type": "light", // Data type. There might be different kinds of events?
-            "schedule": "every 1 second", // Currently required
-            "function": function () {
-                // function should return the event to emit when it should be emited.
-                return Math.random();
-            }
-        }
-    ]
-}, function start () {
-    // Optional Callback function. Calls turn_light_off function on start.
-    grow.callAction("turn_light_off");
-});
+    });
 ```
 
 Run the script with:
