@@ -20,7 +20,6 @@ Package.onUse(function (api) {
     'kadira:blaze-layout@2.2.0',
     'peerlibrary:computed-field@0.3.0',
     'themeteorchef:jquery-validation',
-    'cg-camera',
     'jquery'
   ]);
 

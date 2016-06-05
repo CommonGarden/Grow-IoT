@@ -1,9 +1,0 @@
-{
-  "name": "bootstrap-slider",
-  "description": "A bootstrap slider control.",
-  "homepage": "http://www.eyecon.ro/bootstrap-slider/",
-  "author": "Christian Stewart <kidovate@gmail.com>",
-  "version": "0.0.5",
-  "git": "https://github.com/kidovate/meteor-bootstrap-slider.git",
-  "packages": {}
-}
