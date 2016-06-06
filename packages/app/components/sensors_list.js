@@ -1,4 +1,4 @@
-class SensorListComponent extends Device.DisplayComponent {
+Device.SensorListComponent = class SensorListComponent extends Device.DisplayComponent {
   onCreated() {
     return super.onCreated();
   }
@@ -18,4 +18,4 @@ class SensorListComponent extends Device.DisplayComponent {
   }
 };
 
-SensorListComponent.register('SensorListComponent');
+Device.SensorListComponent.register('SensorListComponent');

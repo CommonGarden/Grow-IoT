@@ -1,4 +1,4 @@
-<template name="Environment.DisplayComponent">
+<template name="EnvironmentDisplayComponent">
 	  	<div class="row dashboard">
 				<div class="col-lg-12 margin-right">
 					{{#if emptyState}}
@@ -10,7 +10,7 @@
 
 					{{#if devices.exists}}
 						<h3><i class="glyphicon glyphicon-dashboard"></i> Devices</h3>
-						{{> Device.ListComponent}}
+						{{> DeviceListComponent}}
 
 <!-- 					{{#if things.exists}}
 						<h3><i class="glyphicon glyphicon-tree-deciduous"></i> Things</h3>

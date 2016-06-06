@@ -1,4 +1,4 @@
-class ActuatorListComponent extends Device.DisplayComponent {
+Device.ActuatorListComponent = class ActuatorListComponent extends Device.DisplayComponent {
   onCreated() {
     return super.onCreated();
   }
@@ -18,4 +18,4 @@ class ActuatorListComponent extends Device.DisplayComponent {
   }
 }
 
-ActuatorListComponent.register('ActuatorListComponent');
+Device.ActuatorListComponent.register('ActuatorListComponent');

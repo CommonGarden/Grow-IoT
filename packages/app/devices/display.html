@@ -1,4 +1,4 @@
-<template name="Device.DisplayComponent">
+<template name="DeviceDisplayComponent">
 	{{#if notFound }}
 		{{> NotFoundComponent }}
 	{{else}}	
@@ -27,19 +27,20 @@
 
 						<p>{{description}}</p>
 
+						{{> ActuatorListComponent}}
 
 					{{/with}}
 
-					{{> ActuatorListComponent}}
-
 					<hr/>
-					{{> Device.EventLogComponent}}
+					{{> EventLogComponent}}
 
 				</div>
 
 				<div class="col-lg-6 sensor-viz">
 					{{#if device.onlineSince }}
-						{{> SensorListComponent}}
+						{{#with device}}
+							{{> SensorListComponent}}
+						{{/with}}
 					{{else}}
 						<h4>Device offline</h4>
 					{{/if}}

@@ -30,7 +30,6 @@ Package.onUse(function (api) {
 
   // Internal dependencies.
   api.use([
-    'storage',
     'sanitize'
   ]);
 
@@ -40,21 +39,18 @@ Package.onUse(function (api) {
   api.export('Component');
   api.export('Environment');
   api.export('Notifications');
-  api.export('StorageFile');
   api.export('Thing');
   api.export('Message', 'server');
 
   api.addFiles([
     'base.coffee',
     'triggers.coffee',
-    'storage.coffee',
     'documents/user.coffee',
     'documents/environment.coffee',
     'documents/device.coffee',
     'documents/data.coffee',
     'documents/notifications.coffee',
     'documents/thing.coffee',
-    'documents/storagefile.coffee',
     'finalize-documents.coffee'
   ]);
 
