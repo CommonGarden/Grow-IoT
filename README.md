@@ -4,7 +4,7 @@
 
 Please open issues or PRs with suggestions for improvements.
 
-## An extensible, open source stack for smart control systems and [\#IoLT]().
+## An extensible, open source stack for smart control systems.
 
 ![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
