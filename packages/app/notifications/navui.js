@@ -10,6 +10,17 @@ class NotificationsNavUI extends CommonComponent {
       {'click .read': this.read});
   }
 
+  read(event) {
+    event.preventDefault();
+    return Meteor.call('Notifications.read',
+      event.currentTarget.dataset.notification,
+      (error, documentId) => {
+        if (error) {
+          return console.error("New notification error", error);
+        }
+      });
+  }
+
   notifications() {
     return Notifications.documents.find({
       'owner._id': Meteor.userId(),
@@ -24,16 +35,6 @@ class NotificationsNavUI extends CommonComponent {
     })
     .count();
   }
-
-  read(event) {
-    event.preventDefault();
-    return Meteor.call('Notifications.read', event.currentTarget.dataset.notification, (error, documentId) => {
-        if (error) {
-          return console.error("New notification error", error);
-        }
-      }
-    );
-  }
-};
+}
 
 NotificationsNavUI.register('NotificationsNavUI');
