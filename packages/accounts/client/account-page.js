@@ -1,7 +1,7 @@
 class AccountPageComponent extends CommonComponent {
 	onCreated() {
 	  return super.onCreated();
-}
+	}
 
 	events() {
 		return super.events().concat({

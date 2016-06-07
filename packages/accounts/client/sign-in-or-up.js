@@ -63,9 +63,8 @@ class LoginComponent extends CommonComponent {
         if (createOrSignIn === "create") {
           return Accounts.createUser(user, function(error){
             if (error) {
-              console.log(error);
               // If the user is already registered they may have pressed the wrong button.
-              if (error.reason === "Username already exists." || error.reason === "User not found") {
+              if (error.reason === "Username already exists.") {
                 // We try to login instead.
                 return Meteor.loginWithPassword(user.username, user.password, function(error){
                   if (error) {
@@ -86,7 +85,6 @@ class LoginComponent extends CommonComponent {
           });
 
         } else {
-          console.log(user);
           return Meteor.loginWithPassword(user.username, user.password, function(error){
             if (error) {
               return alert(error.reason);

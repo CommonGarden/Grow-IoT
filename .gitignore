@@ -1,4 +1,5 @@
-.*
+.npm*
+npm-debug.log
 .build*
 settings.json
 node_modules
