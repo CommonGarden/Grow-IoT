@@ -53,9 +53,10 @@ Package.onUse(function (api) {
     'layout/back_button.html',
 
     'accounts/accounts_config.js',
-
-    'accounts/client/sign-in-or-up.js',
-    'accounts/client/sign-in-or-up.html',
+    'accounts/account-page.html',
+    'accounts/reset-password.html',
+    'accounts/sign-in-or-up.html',
+    'accounts/sign-in-or-up.js',
 
     'style/style.scss',
     'style/navigation.scss',
