@@ -1,4 +1,3 @@
-// TODO: make into a more generic dashboard components?
 Environment.ListComponent = class ListComponent extends UIComponent {
   onCreated() {
     super.onCreated();
@@ -12,7 +11,6 @@ Environment.ListComponent = class ListComponent extends UIComponent {
     return super.onRendered();
   }
 
-  // TODO: Sort this list based on the order and rename.
   devicesList() {
     return Environment.documents.find();
   }

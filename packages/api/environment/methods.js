@@ -1,11 +1,10 @@
 Meteor.methods({
   ['Environment.new'](name) {
     check(name, Match.NonEmptyString);
-    // check insideOrOutside, Match.NonEmptyString
-
+    
     let document = {
       uuid: Meteor.uuid(),
-      name,
+      name: name,
       // type: insideOrOutside
       owner: { 
         _id: Meteor.userId()
