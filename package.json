@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/CommonGarden/Grow-IoT"
   },
+  "scripts": {
+    "lint": "eslint ."
+  },
   "keywords": [
     "IoT",
     "Internet of Things",
@@ -19,5 +22,9 @@
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
     "meteor-later": "^1.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.11.1",
+    "eslint-plugin-meteor": "^3.6.0"
   }
 }

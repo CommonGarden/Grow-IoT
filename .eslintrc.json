@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    "meteor"
+  ],
+  "extends": ["eslint:recommended", "plugin:meteor/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}
