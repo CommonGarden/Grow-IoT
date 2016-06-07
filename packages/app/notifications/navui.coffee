@@ -1,5 +1,5 @@
-class Notifications.NavUI extends UIComponent
-  @register 'Notifications.NavUI'
+class NotificationsNavUI extends UIComponent
+  @register 'NotificationsNavUI'
 
   onCreated: ->
     super

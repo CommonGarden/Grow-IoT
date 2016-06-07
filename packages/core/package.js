@@ -11,7 +11,7 @@ Package.onUse(function (api) {
     'coffeescript',
     'accounts-password',
     'ddp-client',
-    'underscore-extra',
+    'underscore',
     'ecmascript'
   ]);
 
@@ -28,33 +28,23 @@ Package.onUse(function (api) {
     'peerlibrary:user-extra@0.1.0'
   ]);
 
-  // Internal dependencies.
-  api.use([
-    'storage',
-    'sanitize'
-  ]);
-
   api.export('User');
   api.export('Device');
   api.export('Data');
   api.export('Component');
   api.export('Environment');
   api.export('Notifications');
-  api.export('StorageFile');
   api.export('Thing');
   api.export('Message', 'server');
 
   api.addFiles([
     'base.coffee',
-    'triggers.coffee',
-    'storage.coffee',
     'documents/user.coffee',
     'documents/environment.coffee',
     'documents/device.coffee',
     'documents/data.coffee',
     'documents/notifications.coffee',
     'documents/thing.coffee',
-    'documents/storagefile.coffee',
     'finalize-documents.coffee'
   ]);
 

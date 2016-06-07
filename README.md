@@ -4,7 +4,7 @@
 
 Please open issues or PRs with suggestions for improvements.
 
-## An extensible, open source stack for growing things
+## An extensible, open source stack for smart control systems and [\#IoLT]().
 
 ![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
@@ -161,6 +161,8 @@ See [instructions in Grow.js for securely connecting devices to the instance](ht
 You can interact with the Grow-IoT api using the [Python DDP library](https://github.com/hharnisc/python-ddp).
 
 ## Contributing
+
+Bitcoin address: 15TQgBpJ7u3PNRrw7tdkLxZw4ybEdATuvv
 
 Please read:
 * [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)

@@ -1,3 +1,6 @@
+# Do we want to use this?
+# TODO: convert to ES6
+
 class BaseLayoutComponent extends UIComponent
   onCreated: ->
     super

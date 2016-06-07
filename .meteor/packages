@@ -18,7 +18,6 @@ twbs:bootstrap          # Bootstrap CSS framework
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
 grow-app
-cg-camera
 accounts-password
 d3js:d3
 # audit-argument-checks
@@ -35,7 +34,6 @@ cfs:standard-packages
 cfs:gridfs
 raix:ui-dropped-event
 cfs:filesystem
-meteor-bootstrap-slider
 vsivsi:job-collection
 percolate:synced-cron
 force-ssl

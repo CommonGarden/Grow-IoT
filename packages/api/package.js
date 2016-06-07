@@ -29,26 +29,22 @@ Package.onUse(function (api) {
 
   // Internal dependencies.
   api.use([
-    'core',
-    'storage'
+    'core'  
   ]);
 
   api.addFiles([
-    'device/methods.coffee',
-    'environment/methods.coffee',
-    'notifications/methods.coffee',
-    'thing/methods.coffee',
-    'images/methods.coffee',
-    'storagefile/methods.coffee'
+    'device/methods.js',
+    'environment/methods.js',
+    'notifications/methods.js',
+    'thing/methods.js'
   ]);
 
   api.addFiles([
     'device/publish.coffee',
-    'device/server-methods.coffee',
-    'data/publish.coffee',
-    'environment/publish.coffee',
-    'notifications/publish.coffee',
-    'thing/publish.coffee',
-    'images/publish.coffee'
+    'device/server-methods.js',
+    'data/publish.js',
+    'environment/publish.js',
+    'notifications/publish.js',
+    'thing/publish.js'
   ], 'server');
 });
