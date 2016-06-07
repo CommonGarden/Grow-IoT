@@ -1,3 +1,5 @@
+// For reference: https://github.com/meteor-useraccounts/core/blob/master/Guide.md
+
 AccountsTemplates.configure({
     // Behavior
     confirmPassword: true,
@@ -10,7 +12,7 @@ AccountsTemplates.configure({
 
     // Appearance
     showAddRemoveServices: false,
-    showForgotPasswordLink: false,
+    showForgotPasswordLink: true,
     showLabels: true,
     showPlaceholders: true,
     showResendVerificationEmailLink: false,
@@ -24,15 +26,17 @@ AccountsTemplates.configure({
     showValidating: true,
 
     // Privacy Policy and Terms of Use
-    // privacyUrl: 'privacy',
-    // termsUrl: 'terms-of-use',
+    privacyUrl: 'privacy',
+    termsUrl: 'terms-of-use',
 
     // Redirects
-    // homeRoutePath: '/home',
-    // redirectTimeout: 4000,
+    homeRoutePath: '/',
+    redirectTimeout: 4000,
 
     // Hooks
-    // onLogoutHook: myLogoutFunc,
+    onLogoutHook: () => {
+      return FlowRouter.go('/login');
+    },
     // onSubmitHook: mySubmitFunc,
     // preSignUpHook: myPreSubmitFunc,
     // postSignUpHook: myPostSubmitFunc,
@@ -51,6 +55,16 @@ AccountsTemplates.configure({
       },
     },
 });
+
+// Redirect after login to original destination
+// Accounts.onLogin(function() {
+//   let redirect = Session.get('redirectAfterLogin');
+//   if (redirect != null) {
+//     if (redirect !== '/login') {
+//       return FlowRouter.go(redirect);
+//     }
+//   }
+// });
 
 if (Meteor.isClient) {
   T9n.map('en', {
