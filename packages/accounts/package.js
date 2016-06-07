@@ -34,20 +34,13 @@ Package.onUse(function (api) {
 
   // Client files
   api.addFiles([
-    'client/account-page.coffee',
+    'client/account-page.js',
     'client/account-page.html',
-    'client/routes.coffee',
-    'client/sign-in-or-up.coffee',
+    'client/routes.js',
+    'client/sign-in-or-up.js',
     'client/sign-in-or-up.html',
-    'client/reset-password.coffee',
+    'client/reset-password.js',
     'client/reset-password.html'
   ], 'client');
-
-  // Server files
-  api.addFiles([
-    'server/account-creation.coffee',
-    'server/reset-password.coffee',
-    'server/startup.coffee'
-  ], 'server');
 });
 
