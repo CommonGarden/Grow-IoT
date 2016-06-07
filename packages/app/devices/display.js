@@ -1,4 +1,4 @@
-Device.DisplayComponent = class DisplayComponent extends UIComponent {
+Device.DisplayComponent = class DisplayComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
 

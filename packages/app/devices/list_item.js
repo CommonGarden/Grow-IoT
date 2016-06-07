@@ -1,4 +1,4 @@
-class DeviceListItemComponent extends UIComponent {
+class DeviceListItemComponent extends CommonComponent {
   // onCreated() {
   //   super.onCreated();
 

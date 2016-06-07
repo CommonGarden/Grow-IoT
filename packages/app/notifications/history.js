@@ -1,4 +1,4 @@
-class NotificationsHistory extends UIComponent {
+class NotificationsHistory extends CommonComponent {
   onCreated() {
     super.onCreated();
 

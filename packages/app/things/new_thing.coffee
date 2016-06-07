@@ -1,4 +1,4 @@
-class Thing.NewComponent extends UIComponent
+class Thing.NewComponent extends CommonComponent
 	@register 'Thing.NewComponent'
 
 	onCreated: ->

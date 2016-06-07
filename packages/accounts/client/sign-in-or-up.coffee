@@ -1,4 +1,4 @@
-class LoginComponent extends UIComponent
+class LoginComponent extends CommonComponent
   @register 'LoginComponent'
 
   onCreated: ->

@@ -41,3 +41,4 @@ perak:mqtt-collection
 standard-minifier-css
 standard-minifier-js
 jquery
+peerlibrary:blaze-common-component

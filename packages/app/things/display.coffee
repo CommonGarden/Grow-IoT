@@ -1,4 +1,4 @@
-class Thing.DisplayComponent extends UIComponent
+class Thing.DisplayComponent extends CommonComponent
   @register 'Thing.DisplayComponent'
 
   onCreated: ->

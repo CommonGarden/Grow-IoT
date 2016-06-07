@@ -1,4 +1,4 @@
-Environment.NewDeviceComponent = class NewDeviceComponent extends UIComponent {
+Environment.NewDeviceComponent = class NewDeviceComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
 

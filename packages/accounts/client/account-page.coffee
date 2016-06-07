@@ -1,4 +1,4 @@
-class AccountPageComponent extends UIComponent
+class AccountPageComponent extends CommonComponent
 	@register 'AccountPageComponent'
 
 	onCreated: ->

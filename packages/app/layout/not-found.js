@@ -1,4 +1,4 @@
-class NotFoundComponent extends UIComponent {}
+class NotFoundComponent extends CommonComponent {}
 
 NotFoundComponent.register('NotFoundComponent');
 
