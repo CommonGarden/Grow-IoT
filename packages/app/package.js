@@ -22,6 +22,9 @@ Package.onUse(function (api) {
     'kadira:blaze-layout@2.2.0',
     'peerlibrary:computed-field@0.3.0',
     'themeteorchef:jquery-validation',
+    'useraccounts:bootstrap',
+    'useraccounts:core',
+    'softwarerero:accounts-t9n',
     'jquery'
   ]);
 
@@ -48,6 +51,11 @@ Package.onUse(function (api) {
     'layout/dashboard.html',
     'layout/back_button.js',
     'layout/back_button.html',
+
+    'accounts/accounts_config.js',
+
+    'accounts/client/sign-in-or-up.js',
+    'accounts/client/sign-in-or-up.html',
 
     'style/style.scss',
     'style/navigation.scss',

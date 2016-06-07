@@ -1,3 +1,24 @@
+// https://atmospherejs.com/useraccounts/flow-routing
+AccountsTemplates.configureRoute('signIn', {
+  layoutType: 'blaze',
+  name: 'signin',
+  path: '/login',
+  template: 'LoginComponent',
+  layoutTemplate: 'MainLayoutComponent',
+  contentRegion: 'main'
+});
+
+
+// Redirect after login to original destination
+Accounts.onLogin(function() {
+  let redirect = Session.get('redirectAfterLogin');
+  if (redirect != null) {
+    if (redirect !== '/login') {
+      return FlowRouter.go(redirect);
+    }
+  }
+});
+
 // Routes in this group are for logged in users. Unauthenticated users
 // will be redirected to login / signup.
 
@@ -13,6 +34,14 @@ let loggedIn = FlowRouter.group({
    }
  }
  ]
+});
+
+loggedIn.route('/account', {
+  name: 'AccountPageComponent',
+  action(params, queryParams) {
+    return BlazeLayout.render('MainLayoutComponent',
+      {main: 'AccountPageComponent'});
+  }
 });
 
 loggedIn.route('/device/:uuid', {

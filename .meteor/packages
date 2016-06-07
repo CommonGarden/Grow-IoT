@@ -24,7 +24,6 @@ d3js:d3
 browser-policy
 email
 meteorhacks:ssr
-accounts
 themeteorchef:jquery-validation
 themeteorchef:bert
 alanning:roles
@@ -42,3 +41,7 @@ standard-minifier-css
 standard-minifier-js
 jquery
 peerlibrary:blaze-common-component
+useraccounts:core
+useraccounts:flow-routing
+softwarerero:accounts-t9n
+useraccounts:bootstrap
