@@ -1,4 +1,4 @@
-class Thing.ListItemComponent extends UIComponent
+class Thing.ListItemComponent extends CommonComponent
 	@register 'Thing.ListItemComponent'
 
 	onCreated: ->

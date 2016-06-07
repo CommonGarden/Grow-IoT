@@ -1,3 +1,3 @@
-class LoaderComponent extends UIComponent {}
+class LoaderComponent extends CommonComponent {}
 
 LoaderComponent.register('LoaderComponent');

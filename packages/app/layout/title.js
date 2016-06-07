@@ -1,4 +1,4 @@
-class Title extends UIComponent {
+class Title extends CommonComponent {
   onCreated() {
     return super.onCreated();
   }

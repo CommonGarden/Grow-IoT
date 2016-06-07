@@ -17,6 +17,8 @@ Package.onUse(function (api) {
   // 3rd party dependencies.
   api.use([
     'kadira:flow-router@2.7.0',
+    'peerlibrary:blaze-common-component',
+    'peerlibrary:blaze-components@0.15.0',
     'kadira:blaze-layout@2.2.0',
     'peerlibrary:computed-field@0.3.0',
     'themeteorchef:jquery-validation',
@@ -25,7 +27,6 @@ Package.onUse(function (api) {
 
   // Internal dependencies.
   api.use([
-    'ui-components',
     'core',
     'api',
     'session'

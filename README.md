@@ -19,6 +19,8 @@ The Grow-IoT framework allows you to:
 
 After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, creating control systems, tackling things like sensor calibration, and splitting up the code base into more useful modules.
 
+Currently, you have to create your own hardware,
+
 # Installing Grow-IoT
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:

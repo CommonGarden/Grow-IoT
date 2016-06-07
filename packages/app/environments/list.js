@@ -1,4 +1,4 @@
-Environment.ListComponent = class ListComponent extends UIComponent {
+Environment.ListComponent = class ListComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
 

@@ -1,4 +1,4 @@
-Environment.NewComponent = class NewComponent extends UIComponent {
+Environment.NewComponent = class NewComponent extends CommonComponent {
   onCreated() {
     return super.onCreated();
   }

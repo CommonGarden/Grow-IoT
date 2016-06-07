@@ -86,6 +86,7 @@ mobile-experience@1.0.4
 mobile-status-bar@1.0.12
 modules@0.6.1
 modules-runtime@0.6.3
+momentjs:moment@2.11.2
 mongo@1.1.7
 mongo-id@1.0.4
 mongo-livedata@1.0.12
@@ -97,6 +98,7 @@ observe-sequence@1.0.11
 ordered-dict@1.0.7
 peerlibrary:assert@0.2.5
 peerlibrary:base-component@0.16.0
+peerlibrary:blaze-common-component@0.2.0
 peerlibrary:blaze-components@0.18.0
 peerlibrary:blocking@0.5.2
 peerlibrary:check-extension@0.2.1
@@ -143,7 +145,6 @@ themeteorchef:jquery-validation@1.14.0
 tracker@1.0.13
 twbs:bootstrap@3.3.6
 ui@1.0.11
-ui-components@0.1.0
 underscore@1.0.8
 url@1.0.9
 vsivsi:job-collection@1.4.0

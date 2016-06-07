@@ -1,4 +1,4 @@
-class BackButton extends UIComponent {
+class BackButton extends CommonComponent {
   onCreated() {
     return super.onCreated();
   }

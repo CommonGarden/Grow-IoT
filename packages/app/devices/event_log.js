@@ -1,4 +1,4 @@
-class EventLogComponent extends UIComponent {
+class EventLogComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
 

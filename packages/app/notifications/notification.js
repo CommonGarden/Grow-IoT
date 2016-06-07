@@ -1,3 +1,3 @@
-class Notification extends UIComponent {}
+class Notification extends CommonComponent {}
 
 Notification.register('Notification');

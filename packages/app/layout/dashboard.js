@@ -1,4 +1,4 @@
-class Dashboard extends UIComponent {
+class Dashboard extends CommonComponent {
 	onCreated() {
 		super.onCreated();
 

@@ -1,4 +1,4 @@
-class Device.VisualizationComponent extends UIComponent
+class Device.VisualizationComponent extends CommonComponent
   @register 'Device.VisualizationComponent'
 
   onCreated: ->

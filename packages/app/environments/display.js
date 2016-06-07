@@ -1,4 +1,4 @@
-class EnvironmentDisplayComponent extends UIComponent {
+class EnvironmentDisplayComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
 

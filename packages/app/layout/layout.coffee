@@ -1,7 +1,7 @@
 # Do we want to use this?
 # TODO: convert to ES6
 
-class BaseLayoutComponent extends UIComponent
+class BaseLayoutComponent extends CommonComponent
   onCreated: ->
     super
 
@@ -26,7 +26,7 @@ class BaseLayoutComponent extends UIComponent
 
     return null unless componentName
 
-    component = UIComponent.getComponent componentName
+    component = CommonComponent.getComponent componentName
 
     throw new Error "Unknown component '#{componentName}'." unless component
 

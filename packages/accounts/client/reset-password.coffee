@@ -1,4 +1,4 @@
-class ResetPasswordComponent extends UIComponent
+class ResetPasswordComponent extends CommonComponent
 	@register 'ResetPasswordComponent'
 
 	onCreated: ->

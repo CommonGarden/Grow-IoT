@@ -1,3 +1,3 @@
-class FooterComponent extends UIComponent {}
+class FooterComponent extends CommonComponent {}
 
 FooterComponent.register('FooterComponent');

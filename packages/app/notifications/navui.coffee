@@ -1,4 +1,4 @@
-class NotificationsNavUI extends UIComponent
+class NotificationsNavUI extends CommonComponent
   @register 'NotificationsNavUI'
 
   onCreated: ->

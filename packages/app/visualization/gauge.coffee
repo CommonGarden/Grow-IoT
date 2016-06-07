@@ -1,4 +1,4 @@
-class Device.GaugeComponent extends UIComponent
+class Device.GaugeComponent extends CommonComponent
   @register 'Device.GaugeComponent'
 
   onCreated: ->

@@ -1,4 +1,4 @@
-class LineChartComponent extends UIComponent
+class LineChartComponent extends CommonComponent
   @register 'LineChartComponent'
 
   onCreated: ->

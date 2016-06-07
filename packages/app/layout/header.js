@@ -1,4 +1,4 @@
-class HeaderComponent extends UIComponent {
+class HeaderComponent extends CommonComponent {
   onCreated() {
     return super.onCreated();
 }
