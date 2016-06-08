@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
-    "chart.js": "^2.1.4",
     "meteor-later": "^1.2.0"
   },
   "devDependencies": {

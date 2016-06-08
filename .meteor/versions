@@ -37,6 +37,7 @@ cfs:storage-adapter@0.2.3
 cfs:tempstore@0.1.5
 cfs:upload-http@0.0.20
 cfs:worker@0.1.4
+chart:chart@1.0.1-beta.4
 check@1.2.1
 coffeescript@1.0.17
 core@0.1.0
@@ -78,6 +79,7 @@ mdg:validation-error@0.5.1
 meteor@1.1.14
 meteor-base@1.0.4
 meteorhacks:ssr@2.2.0
+mfpierre:chartist-js@1.6.2
 minifier-css@1.1.11
 minifier-js@1.1.11
 minimongo@1.0.16
