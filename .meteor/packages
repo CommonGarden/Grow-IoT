@@ -45,3 +45,5 @@ useraccounts:core
 useraccounts:flow-routing
 softwarerero:accounts-t9n
 useraccounts:bootstrap
+chart:chart
+mfpierre:chartist-js

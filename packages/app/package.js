@@ -81,9 +81,11 @@ Package.onUse(function (api) {
     'devices/components/action.js',
     'devices/components/action.html',
 
-    'visualization/linechart.coffee',
+    'visualization/gauge.js',
+    'visualization/gauge.html',
+    'visualization/linechart.js',
     'visualization/linechart.html',
-    'visualization/visualization.coffee',
+    'visualization/visualization.js',
     'visualization/visualization.html',
 
     'environments/display.js',
