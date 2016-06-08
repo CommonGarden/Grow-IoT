@@ -1,5 +1,4 @@
 // For reference: https://github.com/meteor-useraccounts/core/blob/master/Guide.md
-
 AccountsTemplates.configure({
     // Behavior
     confirmPassword: true,
@@ -30,8 +29,8 @@ AccountsTemplates.configure({
     termsUrl: 'terms-of-use',
 
     // Redirects
-    homeRoutePath: '/',
-    redirectTimeout: 4000,
+    // homeRoutePath: '/',
+    // redirectTimeout: 4000,
 
     // Hooks
     onLogoutHook: () => {
@@ -55,16 +54,6 @@ AccountsTemplates.configure({
       },
     },
 });
-
-// Redirect after login to original destination
-// Accounts.onLogin(function() {
-//   let redirect = Session.get('redirectAfterLogin');
-//   if (redirect != null) {
-//     if (redirect !== '/login') {
-//       return FlowRouter.go(redirect);
-//     }
-//   }
-// });
 
 if (Meteor.isClient) {
   T9n.map('en', {

@@ -54,7 +54,7 @@ Package.onUse(function (api) {
 
     'accounts/accounts_config.js',
     'accounts/account-page.html',
-    'accounts/reset-password.html',
+    'accounts/account-page.js',
     'accounts/sign-in-or-up.html',
     'accounts/sign-in-or-up.js',
 

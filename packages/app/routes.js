@@ -26,6 +26,15 @@ AccountsTemplates.configureRoute('forgotPwd', {
   contentRegion: 'main'
 });
 
+AccountsTemplates.configureRoute('changePwd', {
+  layoutType: 'blaze',
+  name: 'changePwd',
+  path: '/account',
+  template: 'AccountPageComponent',
+  layoutTemplate: 'MainLayoutComponent',
+  contentRegion: 'main'
+});
+
 // Routes in this group are for logged in users. Unauthenticated users
 // will be redirected to login / signup.
 
@@ -83,7 +92,7 @@ loggedIn.route('/devices/', {
   }
 });
 
-loggedIn.route('/', {
+loggedIn.route('/environments/', {
   name: 'Dashboard',
   action(params, queryParams) {
     return BlazeLayout.render('MainLayoutComponent',

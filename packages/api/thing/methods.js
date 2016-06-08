@@ -9,7 +9,7 @@ Meteor.methods({
 
     let document = {
       uuid: Meteor.uuid(),
-      thing,
+      thing: thing,
       environment:
         environment.getReference(),
       owner: {

@@ -2,9 +2,18 @@
   <div class="row">
     <div class="col-lg-12">
       <ul class="sortable">
-        {{#each devicesList}}
-	        {{> DeviceListItemComponent}}
-	      {{/each}}
+    	{{#if unassignedDevicesList.exists}}
+      	  {{> Environment.NewDeviceComponent}}
+        {{/if}}
+
+      	{{#if devicesList.exists}}
+	        {{#each devicesList}}
+		        {{> DeviceListItemComponent}}
+		    {{/each}}
+		{{else}}
+			<h4>No devices</h4>
+			<a class="btn btn-primary" href="/new-environment"><i class="glyphicon glyphicon-plus"></i> New Device</a>
+		{{/if}}
       </ul>
     </div>
   </div>
