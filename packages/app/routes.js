@@ -75,6 +75,14 @@ loggedIn.route('/environment/:uuid', {
   }
 });
 
+loggedIn.route('/devices/', {
+  name: 'AllDevicesComponent',
+  action(params, queryParams) {
+    return BlazeLayout.render('MainLayoutComponent',
+      {main: 'AllDevicesComponent'});
+  }
+});
+
 loggedIn.route('/', {
   name: 'Dashboard',
   action(params, queryParams) {
