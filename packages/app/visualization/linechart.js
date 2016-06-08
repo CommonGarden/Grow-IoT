@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 class LineChartComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
@@ -118,7 +120,6 @@ class LineChartComponent extends CommonComponent {
 
     let Chart = new Chartist.Line('.ct-chart', data, options);
 
-
     return this.autorun(computation => {
       let { property } = Template.currentData();
 
@@ -137,7 +138,7 @@ class LineChartComponent extends CommonComponent {
           data.labels.shift();
           data.series[0].shift();
         }
-        data.labels.push(currentValue.insertedAt);
+        data.labels.push(moment(currentValue.insertedAt).format('LT'));
         data.series[0].push(currentValue.data.value);
       });
 
