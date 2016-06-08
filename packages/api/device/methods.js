@@ -105,7 +105,8 @@ Meteor.methods({
     try {
       if (deviceInfo.username) {
         if (Meteor.isServer) {
-          let user = Accounts.findUserByUsername(deviceInfo.username);
+          // TODO: MAKE API KEYS. USE THOSE INSTEAD OF EMAIL.
+          let user = Accounts.findUserByEmail(deviceInfo.username);
           document.owner = 
             {_id: user._id};
         }
