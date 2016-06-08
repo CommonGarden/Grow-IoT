@@ -2,10 +2,20 @@
   <div class="row">
     <div class="col-lg-12">
       <ul class="sortable">
+      <!-- TODO: show unassigned devices too... -->
+<!--  {{#if unassignedDevicesList}}
+      	<h4>Unassigned devices</h4>
+      	{{#each unassignedDevicesList}}
+	        {{> DeviceListItemComponent}}
+	    {{/each}}
+      {{/if}} -->
+
         {{#each devicesList}}
 	        {{> DeviceListItemComponent}}
-	      {{/each}}
+	    {{/each}}
       </ul>
+
+      <!-- TODO: setup new devices button? -->
     </div>
   </div>
 </template>

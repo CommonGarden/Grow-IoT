@@ -13,6 +13,10 @@ class AllDevicesComponent extends CommonComponent {
     return super.onRendered();
   }
 
+  unassignedDevicesList() {
+    return Device.documents.find({});
+  }
+
   // TODO: Sort this list based on the order
   devicesList() {
     return Device.documents.find({});
