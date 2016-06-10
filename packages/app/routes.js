@@ -92,11 +92,19 @@ loggedIn.route('/devices/', {
   }
 });
 
-loggedIn.route('/environments/', {
+loggedIn.route('/', {
   name: 'Dashboard',
   action(params, queryParams) {
     return BlazeLayout.render('MainLayoutComponent',
       {main: 'Dashboard'});
+  }
+});
+
+loggedIn.route('/environments/', {
+  name: 'Environment.ListComponent',
+  action(params, queryParams) {
+    return BlazeLayout.render('MainLayoutComponent',
+      {main: 'Environment.ListComponent'});
   }
 });
 
