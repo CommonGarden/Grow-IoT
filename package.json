@@ -1,6 +1,6 @@
 {
   "name": "Thing.js",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
   "main": "dist/Thing.umd.js",
   "jsnext:main": "dist/Thing.es6.js",
@@ -44,7 +44,7 @@
     "source-map-support": "^0.4.0"
   },
   "dependencies": {
-    "later": "^1.2.0",
+    "meteor-later": "^1.2.0",
     "underscore": "^1.8.3"
   }
 }

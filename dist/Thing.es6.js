@@ -51,24 +51,19 @@ babelHelpers.possibleConstructorReturn = function (self, call) {
 babelHelpers;
 
 var _ = require('underscore');
-var later = require('later');
+var later = require('meteor-later');
 var EventEmitter = require('events');
 
 /**
  * Class representing a Thing. A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
  * @extends EventEmitter
+ * @param {Object} config  an object containing properties, events, and/or actions.
+ * @param {Function} callback  an optional callback
+ * @return     A new thing object
  */
 
 var Thing = function (_EventEmitter) {
   babelHelpers.inherits(Thing, _EventEmitter);
-
-  /**
-   * Constructs a new Thing object.
-   * @constructor
-   * @param {Object} config  an object containing properties, events, and/or actions.
-   * @param {Function} callback  an optional callback
-   * @return     A new thing object
-  */
 
   function Thing(config, callback) {
     babelHelpers.classCallCheck(this, Thing);

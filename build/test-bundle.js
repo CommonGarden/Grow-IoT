@@ -183,24 +183,19 @@ global.expect = require('chai').expect;
 })();
 
 var _$1 = require('underscore');
-var later = require('later');
+var later = require('meteor-later');
 var EventEmitter = require('events');
 
 /**
  * Class representing a Thing. A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
  * @extends EventEmitter
+ * @param {Object} config  an object containing properties, events, and/or actions.
+ * @param {Function} callback  an optional callback
+ * @return     A new thing object
  */
 
 var Thing = function (_EventEmitter) {
   babelHelpers.inherits(Thing, _EventEmitter);
-
-  /**
-   * Constructs a new Thing object.
-   * @constructor
-   * @param {Object} config  an object containing properties, events, and/or actions.
-   * @param {Function} callback  an optional callback
-   * @return     A new thing object
-  */
 
   function Thing(config, callback) {
     babelHelpers.classCallCheck(this, Thing);
@@ -437,7 +432,7 @@ var Thing = function (_EventEmitter) {
       var scheduledAction = later.setInterval(function () {
         _this6.callAction(actionKey);
       }, schedule);
-      this.scheduledActions.push(scheduledAction);
+      this.scheduledActions.push([actionKey, scheduledAction]);
       return scheduledAction;
     }
 
@@ -456,7 +451,7 @@ var Thing = function (_EventEmitter) {
       var scheduledEvent = later.setInterval(function () {
         _this7.callEvent(eventKey);
       }, schedule);
-      this.scheduledEvents.push(scheduledEvent);
+      this.scheduledEvents.push([eventKey, scheduledEvent]);
       return scheduledEvent;
     }
   }]);
