@@ -229,7 +229,7 @@ var Thing = function (_EventEmitter) {
     value: function registerActions() {
       var _this2 = this;
 
-      this.scheduledActions = [];
+      this.scheduledActions = new Map();
 
       if (!_$1.isUndefined(this.actions)) {
         _$1.each(this.actions, function (action, key, list) {
@@ -249,7 +249,7 @@ var Thing = function (_EventEmitter) {
     value: function registerEvents() {
       var _this3 = this;
 
-      this.scheduledEvents = [];
+      this.scheduledEvents = new Map();
 
       if (!_$1.isUndefined(this.events)) {
         _$1.each(this.events, function (event, key, list) {
@@ -432,7 +432,7 @@ var Thing = function (_EventEmitter) {
       var scheduledAction = later.setInterval(function () {
         _this6.callAction(actionKey);
       }, schedule);
-      this.scheduledActions.push([actionKey, scheduledAction]);
+      this.scheduledActions.set([actionKey, scheduledAction]);
       return scheduledAction;
     }
 
@@ -451,7 +451,7 @@ var Thing = function (_EventEmitter) {
       var scheduledEvent = later.setInterval(function () {
         _this7.callEvent(eventKey);
       }, schedule);
-      this.scheduledEvents.push([eventKey, scheduledEvent]);
+      this.scheduledEvents.set([eventKey, scheduledEvent]);
       return scheduledEvent;
     }
   }]);

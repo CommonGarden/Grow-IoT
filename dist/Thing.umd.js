@@ -306,7 +306,7 @@
         var scheduledAction = later.setInterval(function () {
           _this6.callAction(actionKey);
         }, schedule);
-        this.scheduledActions.push(scheduledAction);
+        this.scheduledActions.push([actionKey, scheduledAction]);
         return scheduledAction;
       }
 
@@ -325,7 +325,7 @@
         var scheduledEvent = later.setInterval(function () {
           _this7.callEvent(eventKey);
         }, schedule);
-        this.scheduledEvents.push(scheduledEvent);
+        this.scheduledEvents.push([eventKey, scheduledEvent]);
         return scheduledEvent;
       }
     }]);
