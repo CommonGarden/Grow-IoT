@@ -24,16 +24,13 @@ Meteor.methods({
   },
 
 
-  ['Device.udpateProperty'](auth, componentName,  propertyKey, value) {
+  ['Device.udpateProperty'](auth,  property, value) {
     check(auth, {
       uuid: Match.NonEmptyString,
       token: Match.NonEmptyString
     });
-    check(componentName, Match.NonEmptyString);
-    check(propertyKey, Match.NonEmptyString);
-
-    // TODO: check value... though it could be many things, JSON object, boolean, null, a string, an array.
-    // It shouldn't be a function or contain any functions.
+    check(property, Match.NonEmptyString);
+    check(value, Match.NonEmptyString);
 
     let device = Device.documents.findOne(auth, {
       fields: {
@@ -45,17 +42,7 @@ Meteor.methods({
 
     // Update the propery on the thing object
     let { thing } = device;
-    for (let key in thing) {
-      if (key === 'components') {
-        for (let item in thing.components) {
-          if (thing.components[item].name === componentName) {
-            thing.components[item][propertyKey] = value;
-          }
-        }
-      } else if (thing[key] === componentName) {
-        thing[propertyKey] = value;
-      }
-    }
+    thing.properties[property] = value;
 
     // Set the new thing object
     return Device.documents.update(device._id, {
