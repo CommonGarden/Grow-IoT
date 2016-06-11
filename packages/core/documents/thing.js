@@ -10,7 +10,7 @@ import BaseDocument from '../base';
  *   _id
  * onlineSince
 */
-class Thing extends BaseDocument {
+Thing = class Thing extends BaseDocument {
   constructor() {
     super();
   }

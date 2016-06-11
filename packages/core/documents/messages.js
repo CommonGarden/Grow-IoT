@@ -8,7 +8,7 @@ let MESSAGES_TTL = 60; // seconds
  *    _id
  *  body
 */
-class Message extends BaseDocument {
+Message = class Message extends BaseDocument {
   // Needed?
   constructor() {
     super();

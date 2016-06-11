@@ -12,7 +12,9 @@ Meteor.methods({
       created: new Date()
     };
 
-    if (!Environment.documents.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+    console.log(Environment);
+
+    // if (!Environment.documents.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
     return document;
   },

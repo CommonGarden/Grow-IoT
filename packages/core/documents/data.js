@@ -1,6 +1,6 @@
 import BaseDocument from '../base';
 
-class Data extends BaseDocument {
+Data = class Data extends BaseDocument {
   // insertedAt
   // device: device associated with data
   //   _id

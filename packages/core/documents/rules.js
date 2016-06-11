@@ -11,7 +11,7 @@ import BaseDocument from '../base';
  *   _id
  * onlineSince
 */
-class Rules extends BaseDocument {
+Rules = class Rules extends BaseDocument {
   constructor() {
     super();
   }

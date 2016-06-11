@@ -1,4 +1,4 @@
-class BaseDocument extends Document {
+BaseDocument = class BaseDocument extends Document {
   constructor() {
     super();
   }

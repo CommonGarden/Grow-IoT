@@ -9,7 +9,7 @@ import BaseDocument from '../base';
 // environment: the place a thing belongs too.
 //   _id
 // onlineSince
-class Device extends BaseDocument {
+Device = class Device extends BaseDocument {
   constructor() {
     super();
   }

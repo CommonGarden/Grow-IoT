@@ -12,7 +12,7 @@ import BaseDocument from '../base';
 //   _id
 // rules: list of (reverse of the Rule.environment)
 //   _id
-class Environment extends BaseDocument {
+Environment = class Environment extends BaseDocument {
   constructor() {
     super();
   }
@@ -47,4 +47,4 @@ class Environment extends BaseDocument {
   }
 }
 
-export default Environment;
+// export default Environment;

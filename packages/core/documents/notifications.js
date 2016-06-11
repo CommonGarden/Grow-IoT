@@ -6,7 +6,7 @@ import BaseDocument from '../base';
  *   _id
  * body
 */
-class Notifications extends BaseDocument {
+Notifications = class Notifications extends BaseDocument {
   constructor() {
     super();
   }
