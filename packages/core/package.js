@@ -8,7 +8,6 @@ Package.onUse(function (api) {
 
   // Core dependencies.
   api.use([
-    'coffeescript',
     'accounts-password',
     'ddp-client',
     'underscore',
@@ -28,6 +27,22 @@ Package.onUse(function (api) {
     'peerlibrary:user-extra@0.1.0'
   ]);
 
+
+  api.addFiles([
+    'base.js',
+    'documents/user.js',
+    'documents/environment.js',
+    'documents/device.js',
+    'documents/data.js',
+    'documents/notifications.js',
+    'documents/thing.js',
+    'finalize-documents.js'
+  ]);
+
+  api.addFiles([
+    'documents/messages.js'
+  ], 'server');
+
   api.export('User');
   api.export('Device');
   api.export('Data');
@@ -36,19 +51,4 @@ Package.onUse(function (api) {
   api.export('Notifications');
   api.export('Thing');
   api.export('Message', 'server');
-
-  api.addFiles([
-    'base.coffee',
-    'documents/user.coffee',
-    'documents/environment.coffee',
-    'documents/device.coffee',
-    'documents/data.coffee',
-    'documents/notifications.coffee',
-    'documents/thing.coffee',
-    'finalize-documents.coffee'
-  ]);
-
-  api.addFiles([
-    'documents/messages.coffee'
-  ], 'server');
 });
