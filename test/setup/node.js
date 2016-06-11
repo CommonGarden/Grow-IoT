@@ -6,44 +6,44 @@ global.expect = require('chai').expect;
     // Setup test things
     // In the future we can test multiple different kinds of things!
     global.thing1 = {
-      'name': 'Light',
-      'description': 'An LED light with a basic on/off api.',
-      'state': 'off',
-      'actions': [
-        {
-          'name': 'On',
-          'description': 'Turns the light on.',
-          'id': 'turn_light_on',
-          'updateState': 'on',
-          'schedule': 'at 9:00am',
-          'event': 'Light turned on',
-          'function': function () {
-            return 'Light on.';
+      name: 'Light', // The display name for the thing.
+      desription: 'An LED light with a basic on/off api.',
+      // The username of the account you want this device to be added to.
+      username: 'jake2@gmail.com',
+      // Properties can be updated by the API
+      properties: {
+        state: 'off'
+      },
+      // Actions are the API of the thing.
+      actions: {
+        turn_light_on: {
+          name: 'On', // Display name for the action
+          description: 'Turns the light on.', // Optional description
+          schedule: 'at 9:00am', // Optional scheduling using later.js
+          function: function () {
+            // The implementation of the action.
+            return 'Light on';
           }
         },
-        {
-          'name': 'off',
-          'id': 'turn_light_off',
-          'updateState': 'off',
-          'schedule': 'at 8:30pm',
-          'event': 'Light turned off',
-          'function': function () {
-            return 'Light off.';
+        turn_light_off: {
+          name: 'off',
+          schedule: 'at 8:30pm', // Run this function at 8:30pm
+          function: function () {
+            return 'Light off';
+          }
+        },
+        light_data: {
+          name: 'Log light data',
+          // type and template need for visualization component... HACK. 
+          type: 'light',
+          template: 'sensor',
+          schedule: 'every 1 second',
+          function: function () {
+            return 'light data';
           }
         }
-      ],
-      'events': [
-        {
-          'name': 'Light data',
-          'id': 'light_data',
-          'type': 'light',
-          'schedule': 'every 1 second',
-          'function': function () {
-            return 'data';
-          }
-        }
-      ]
-    };
+      }
+    }
   });
 
   afterEach(function() {

@@ -17,13 +17,14 @@ board.on('ready', function start() {
     var grow = new GrowInstance({
         name: 'Light', // The display name for the thing.
         desription: 'An LED light with a basic on/off api.',
-        username: 'jakehart', // The username of the account you want this device to be added to.
+        username: 'jake2@gmail.com', // The username of the account you want this device to be added to.
         properties: {
             state: 'off',
             lightconditions: function () {
                 // Properties can be functions, booleans, strings, ints, objects, lists, etc.
                 // Properties can be updated by the API.
                 // Note: property functions should return a value.
+
                 return 'unset';
             }
         },
@@ -54,6 +55,7 @@ board.on('ready', function start() {
                 template: 'sensor',
                 schedule: 'every 1 second',
                 function: function () {
+                    console.log(lightSensor.value);
                     grow.sendData({
                       type: 'light',
                       value: lightSensor.value
@@ -72,15 +74,19 @@ board.on('ready', function start() {
                         // EventListeners
                         grow.emitEvent('dark');
                         grow.setProperty('lightconditions', 'dark');
-                        grow.thing.callAction('turn_light_on');
+                        grow.callAction('turn_light_on');
                     } else if ((lightSensor.value >= 100) && (grow.thing.getProperty('lightconditions') != 'light')) {
                         // This could be nice with a chaining API...
                         grow.emitEvent('light');
-                        grow.thing.setProperty('lightconditions', 'light');
-                        grow.thing.callAction('turn_light_off');
+                        grow.setProperty('lightconditions', 'light');
+                        grow.callAction('turn_light_off');
                     }
                 }
             }
         }
     });
+
+    setTimeout(()=> {
+        grow.updateActionProperty('light_data', 'schedule', 'every 5 seconds');
+    }, 5000);
 });

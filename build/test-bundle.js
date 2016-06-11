@@ -42,38 +42,43 @@ global.expect = require('chai').expect;
     // Setup test things
     // In the future we can test multiple different kinds of things!
     global.thing1 = {
-      'name': 'Light',
-      'description': 'An LED light with a basic on/off api.',
-      'state': 'off',
-      'actions': [{
-        'name': 'On',
-        'description': 'Turns the light on.',
-        'id': 'turn_light_on',
-        'updateState': 'on',
-        'schedule': 'at 9:00am',
-        'event': 'Light turned on',
-        'function': function _function() {
-          return 'Light on.';
+      name: 'Light', // The display name for the thing.
+      desription: 'An LED light with a basic on/off api.',
+      // The username of the account you want this device to be added to.
+      username: 'jake2@gmail.com',
+      // Properties can be updated by the API
+      properties: {
+        state: 'off'
+      },
+      // Actions are the API of the thing.
+      actions: {
+        turn_light_on: {
+          name: 'On', // Display name for the action
+          description: 'Turns the light on.', // Optional description
+          schedule: 'at 9:00am', // Optional scheduling using later.js
+          function: function _function() {
+            // The implementation of the action.
+            return 'Light on';
+          }
+        },
+        turn_light_off: {
+          name: 'off',
+          schedule: 'at 8:30pm', // Run this function at 8:30pm
+          function: function _function() {
+            return 'Light off';
+          }
+        },
+        light_data: {
+          name: 'Log light data',
+          // type and template need for visualization component... HACK.
+          type: 'light',
+          template: 'sensor',
+          schedule: 'every 1 second',
+          function: function _function() {
+            return 'light data';
+          }
         }
-      }, {
-        'name': 'off',
-        'id': 'turn_light_off',
-        'updateState': 'off',
-        'schedule': 'at 8:30pm',
-        'event': 'Light turned off',
-        'function': function _function() {
-          return 'Light off.';
-        }
-      }],
-      'events': [{
-        'name': 'Light data',
-        'id': 'light_data',
-        'type': 'light',
-        'schedule': 'every 1 second',
-        'function': function _function() {
-          return 'data';
-        }
-      }]
+      }
     };
   });
 
@@ -102,7 +107,7 @@ var assert = require('assert');
 var util = require('util');
 var Duplex = require('stream').Duplex;
 var RSVP = require('rsvp');
-var later = require('later');
+var later = require('meteor-later');
 var DDPClient = require('ddp');
 var EJSON = require('ddp-ejson');
 var Readable = require('stream').Readable;
@@ -161,7 +166,7 @@ var Grow = function () {
       }
 
       if (_this.uuid || _this.token) {
-        return _this._afterConnect(callback, {
+        return _this.afterConnect(callback, {
           uuid: _this.uuid,
           token: _this.token
         });
@@ -184,7 +189,7 @@ var Grow = function () {
         _this.uuid = result.uuid;
         _this.token = result.token;
 
-        _this._afterConnect(callback, result);
+        _this.afterConnect(callback, result);
       });
     });
   }
@@ -195,8 +200,8 @@ var Grow = function () {
 
 
   babelHelpers.createClass(Grow, [{
-    key: '_afterConnect',
-    value: function _afterConnect(callback, result) {
+    key: 'afterConnect',
+    value: function afterConnect(callback, result) {
       var _this2 = this;
 
       this.ddpclient.subscribe('Device.messages', [{ uuid: this.uuid, token: this.token }], function (error) {
@@ -362,6 +367,21 @@ var Grow = function () {
         this.emitEvent(actionKey);
       }
     }
+  }, {
+    key: 'updateActionProperty',
+    value: function updateActionProperty(actionKey, property, value) {
+      var action = this.thing.getAction(actionKey);
+      action[property] = value;
+
+      // If the property being updated is the schedule property, restart the scheduled action.
+      if (property === 'schedule') {
+        this.thing.scheduledActions[actionKey].clear();
+        console.log(this.thing.scheduledActions);
+        this.thing.startAction(actionKey);
+      }
+
+      // console.log(this.thing.scheduledActions);
+    }
 
     /*
      * Update device property on Grow-IoT server.
@@ -401,8 +421,14 @@ util.inherits(Grow, Duplex);
 describe('A feature test', function () {
   it('should have setup actions correctly', function () {
     var GrowInstance = new Grow(thing1);
-    expect(GrowInstance.thing.callAction('turn_light_on')).to.equal('Light on.');
-    expect(GrowInstance.thing.callAction('turn_light_off')).to.equal('Light off.');
+    expect(GrowInstance.thing.callAction('turn_light_on')).to.equal('Light on');
+    expect(GrowInstance.thing.callAction('turn_light_off')).to.equal('Light off');
+  });
+
+  it('should have setup actions correctly', function () {
+    var GrowInstance = new Grow(thing1);
+    GrowInstance.updateActionProperty('turn_light_on', 'schedule', 'at 10:00am');
+    console.log(GrowInstance);
   });
 
   // TODO
