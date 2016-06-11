@@ -1,4 +1,4 @@
-import BaseDocument from '../base';
+import share from '../base';
 
 /* registeredAt
  * uuid: UUID of the device
@@ -10,7 +10,7 @@ import BaseDocument from '../base';
  *   _id
  * onlineSince
 */
-Thing = class Thing extends BaseDocument {
+Thing = class Thing extends share.BaseDocument {
   constructor() {
     super();
   }

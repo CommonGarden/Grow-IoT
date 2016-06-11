@@ -1,4 +1,4 @@
-import BaseDocument from '../base';
+import share from '../base';
 
 /*
  * registeredAt
@@ -11,7 +11,7 @@ import BaseDocument from '../base';
  *   _id
  * onlineSince
 */
-Rules = class Rules extends BaseDocument {
+Rules = class Rules extends share.BaseDocument {
   constructor() {
     super();
   }

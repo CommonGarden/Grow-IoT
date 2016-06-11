@@ -1,6 +1,6 @@
-import BaseDocument from '../base';
+import share from '../base';
 
-Data = class Data extends BaseDocument {
+Data = class Data extends share.BaseDocument {
   // insertedAt
   // device: device associated with data
   //   _id

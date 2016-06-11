@@ -1,4 +1,4 @@
-import BaseDocument from '../base';
+import share from '../base';
 
 // registeredAt
 // uuid: UUID of the device
@@ -12,7 +12,7 @@ import BaseDocument from '../base';
 //   _id
 // rules: list of (reverse of the Rule.environment)
 //   _id
-Environment = class Environment extends BaseDocument {
+Environment = class Environment extends share.BaseDocument {
   constructor() {
     super();
   }

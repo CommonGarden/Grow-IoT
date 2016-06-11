@@ -1,4 +1,6 @@
-BaseDocument = class BaseDocument extends Document {
+const share = {}
+
+share.BaseDocument = class BaseDocument extends Document {
   constructor() {
     super();
   }
@@ -8,4 +10,4 @@ BaseDocument = class BaseDocument extends Document {
   }
 }
 
-export default BaseDocument;
+export default share;

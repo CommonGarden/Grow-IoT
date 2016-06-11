@@ -1,4 +1,4 @@
-import BaseDocument from '../base';
+import share from '../base';
 
 /*
  * insertedAt
@@ -6,7 +6,7 @@ import BaseDocument from '../base';
  *   _id
  * body
 */
-Notifications = class Notifications extends BaseDocument {
+Notifications = class Notifications extends share.BaseDocument {
   constructor() {
     super();
   }

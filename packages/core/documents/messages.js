@@ -1,4 +1,4 @@
-import BaseDocument from '../base';
+import share from '../base';
 
 let MESSAGES_TTL = 60; // seconds
 
@@ -8,7 +8,7 @@ let MESSAGES_TTL = 60; // seconds
  *    _id
  *  body
 */
-Message = class Message extends BaseDocument {
+Message = class Message extends share.BaseDocument {
   // Needed?
   constructor() {
     super();

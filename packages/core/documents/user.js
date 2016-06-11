@@ -1,6 +1,6 @@
-import BaseDocument from '../base';
+import share from '../base';
 
-User = class User extends BaseDocument {
+User = class User extends share.BaseDocument {
   constructor() {
     super();
   }
@@ -13,22 +13,22 @@ User = class User extends BaseDocument {
   }
 }
 
-Meteor.user = function(userId, fields) {
-  if (!fields && _.isObject(userId)) {
-    fields = userId;
-    userId = null;
-  }
+// Meteor.user = function(userId, fields) {
+//   if (!fields && _.isObject(userId)) {
+//     fields = userId;
+//     userId = null;
+//   }
 
-  // Meteor.userId is reactive
-  if (typeof userId === 'undefined' || userId === null) { userId = Meteor.userId(); }
-  if (typeof fields === 'undefined' || fields === null) { fields = {}; }
+//   // Meteor.userId is reactive
+//   if (typeof userId === 'undefined' || userId === null) { userId = Meteor.userId(); }
+//   if (typeof fields === 'undefined' || fields === null) { fields = {}; }
 
-  if (!userId) { return null; }
+//   if (!userId) { return null; }
 
-  return User.documents.findOne(
-    {_id: userId}
-  ,
-    {fields});
-};
+//   return User.documents.findOne(
+//     {_id: userId}
+//   ,
+//     {fields});
+// };
 
 export default User;
