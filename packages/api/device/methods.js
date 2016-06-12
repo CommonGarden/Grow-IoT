@@ -1,6 +1,40 @@
 let TOKEN_LENGTH = 32;
 
 Meteor.methods({
+  ['Device.register'](deviceInfo) {
+    // TODO: better checks.
+    check(deviceInfo, Object);
+
+    let document = {
+      uuid: Meteor.uuid(),
+      token: Random.id(TOKEN_LENGTH),
+      registeredAt: new Date(),
+      thing: deviceInfo
+    };
+
+    // HACK: should owner be required? Ultimately it would be nice to
+    // be able to configure / claim devices from the app.
+    try {
+      if (deviceInfo.username) {
+        if (Meteor.isServer) {
+          // TODO: MAKE API KEYS. USE THOSE INSTEAD OF EMAIL.
+          let user = Accounts.findUserByEmail(deviceInfo.username);
+          document.owner = {_id: user._id};
+        }
+      } else {
+        throw new Meteor.Error('internal-error', 'The device has no username. Choose the username of the account you want the device added to.');
+      }
+    } catch (error) {
+      // TODO: better error message
+      throw new Meteor.Error('internal-error', 'The device has no username. Choose the username of the account you want the device added to.');
+    }
+
+    if (!Device.documents.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+
+    return document;
+  },
+
+
   ['Device.sendData'](auth, body) {
     check(auth, {
       uuid: Match.NonEmptyString,
@@ -74,42 +108,6 @@ Meteor.methods({
       insertedAt: new Date()
     });
   },
-
-
-  ['Device.register'](deviceInfo) {
-    // TODO: better checks.
-    check(deviceInfo, Object);
-
-    let document = {
-      uuid: Meteor.uuid(),
-      token: Random.id(TOKEN_LENGTH),
-      registeredAt: new Date(),
-      thing: deviceInfo
-    };
-
-    // HACK: should owner be required? Ultimately it would be nice to
-    // be able to configure / claim devices from the app.
-    try {
-      if (deviceInfo.username) {
-        if (Meteor.isServer) {
-          // TODO: MAKE API KEYS. USE THOSE INSTEAD OF EMAIL.
-          let user = Accounts.findUserByEmail(deviceInfo.username);
-          document.owner = 
-            {_id: user._id};
-        }
-      } else {
-        throw new Meteor.Error('internal-error', 'The device has no username. Choose the username of the account you want the device added to.');
-      }
-    } catch (error) {
-      // TODO: better error message
-      throw new Meteor.Error('internal-error', 'The device has no username. Choose the username of the account you want the device added to.');
-    }
-
-    if (!Device.documents.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
-
-    return document;
-  },
-
 
   ['Device.assignEnvironment'](deviceUuid, environmentUuid) {
     check(deviceUuid, Match.NonEmptyString);
