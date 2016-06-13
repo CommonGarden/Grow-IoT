@@ -6,4 +6,4 @@ Device.SensorComponent = class SensorComponent extends Device.DisplayComponent {
   }
 }
 
-Device.SensorComponent.register('SensorComponent');
+Device.SensorComponent.register('Device.SensorComponent');

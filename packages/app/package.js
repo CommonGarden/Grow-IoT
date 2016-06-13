@@ -80,6 +80,8 @@ Package.onUse(function (api) {
     'devices/components/sensor.html',
     'devices/components/action.js',
     'devices/components/action.html',
+    'devices/components/scheduler.html',
+    'devices/components/scheduler.js',
 
     'visualization/gauge.js',
     'visualization/gauge.html',

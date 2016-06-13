@@ -25,29 +25,6 @@ Device.ActionComponent = class ActionComponent extends Device.DisplayComponent {
             }
           }
         );
-      },
-
-      ['click .schedule'](e) {
-        e.preventDefault();
-        // Todo: get value from the
-        console.log($);
-
-        let actionID = e.currentTarget.dataset.id;
-        let options = {
-          actionKey: actionID,
-          newValue: null
-        };
-        return Meteor.call('Device.sendCommand',
-          this.currentDeviceUuid(),
-          'updateActionSchedule',
-          options,
-          (error, documentId) => {
-            if (error) {
-              console.error("New deviceerror", error);
-              return alert(`New deviceerror: ${error.reason || error}`);
-            }
-          }
-        );
       }
     });
   }
