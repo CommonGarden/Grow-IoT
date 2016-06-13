@@ -15,13 +15,15 @@ class DeviceListComponent extends CommonComponent {
 
   // TODO: Sort this list based on the order
   devicesList() {
-    return Device.documents.find(
-      {'environment.uuid': this.currentEnvironmentUuid()});
+    return Device.documents.find({
+      'environment.uuid': this.currentEnvironmentUuid()
+    });
   }
 
   events() {
-    return super.events().concat(
-      {'click .device': this.viewDevice});
+    return super.events().concat({
+      'click .device': this.viewDevice
+    });
   }
 
   viewDevice(event) {

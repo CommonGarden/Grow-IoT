@@ -24,7 +24,10 @@ class AllDevicesComponent extends CommonComponent {
 
   events() {
     return super.events().concat(
-      {'click .device': this.viewDevice});
+      {
+        'click .device': this.viewDevice
+      }
+    );
   }
 
   viewDevice(event) {
