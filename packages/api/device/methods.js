@@ -58,7 +58,9 @@ Meteor.methods({
   },
 
 
-  ['Device.udpateProperty'](auth,  property, value) {
+  // Modify to update a property from the client side?
+  // Example, updating the schedule of an action schedule...
+  ['Device.udpateProperty'](auth, property, value) {
     check(auth, {
       uuid: Match.NonEmptyString,
       token: Match.NonEmptyString
@@ -77,6 +79,66 @@ Meteor.methods({
     // Update the propery on the thing object
     let { thing } = device;
     thing.properties[property] = value;
+
+    // Set the new thing object
+    return Device.documents.update(device._id, {
+      $set: {
+        'thing': thing
+      }
+    });
+  },
+
+
+  ['Device.updateActionProperty'](auth, actionKey, property, value) {
+    check(auth, {
+      uuid: Match.NonEmptyString,
+      token: Match.NonEmptyString
+    });
+    check(property, Match.NonEmptyString);
+    check(value, Match.NonEmptyString);
+
+    let device = Device.documents.findOne(auth, {
+      fields: {
+        _id: 1,
+        thing: 1
+      }
+    });
+
+    if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+    // Update the propery on the thing object
+    let { thing } = device;
+    thing.actions[actionKey][property] = value;
+
+    // Set the new thing object
+    return Device.documents.update(device._id, {
+      $set: {
+        'thing': thing
+      }
+    });
+  },
+
+
+  ['Device.updateEventProperty'](auth, eventKey, property, value) {
+    check(auth, {
+      uuid: Match.NonEmptyString,
+      token: Match.NonEmptyString
+    });
+    check(property, Match.NonEmptyString);
+    check(value, Match.NonEmptyString);
+
+    let device = Device.documents.findOne(auth, {
+      fields: {
+        _id: 1,
+        thing: 1
+      }
+    });
+
+    if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+    // Update the propery on the thing object
+    let { thing } = device;
+    thing.events[eventKey][property] = value;
 
     // Set the new thing object
     return Device.documents.update(device._id, {
@@ -108,6 +170,7 @@ Meteor.methods({
       insertedAt: new Date()
     });
   },
+
 
   ['Device.assignEnvironment'](deviceUuid, environmentUuid) {
     check(deviceUuid, Match.NonEmptyString);
