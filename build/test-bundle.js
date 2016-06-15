@@ -294,7 +294,9 @@ var Grow = function () {
       var _this3 = this;
 
       this.writableStream._write = function (command, encoding, callback) {
-        if (command.options) {
+        if (command === 'updateActionSchedule') {
+          _this3.updateActionProperty(command.options.actionKey, 'schedule', command.options.newValue);
+        } else if (command.options) {
           _this3.thing.callAction(command.type, command.options);
         } else {
           _this3.thing.callAction(command.type);
@@ -376,11 +378,20 @@ var Grow = function () {
       // If the property being updated is the schedule property, restart the scheduled action.
       if (property === 'schedule') {
         this.thing.scheduledActions[actionKey].clear();
-        console.log(this.thing.scheduledActions);
         this.thing.startAction(actionKey);
       }
+    }
+  }, {
+    key: 'updateEventProperty',
+    value: function updateEventProperty(eventKey, property, value) {
+      var event = this.thing.getEvent(eventKey);
+      event[property] = value;
 
-      // console.log(this.thing.scheduledActions);
+      // If the property being updated is the schedule property, restart the scheduled action.
+      if (property === 'schedule') {
+        this.thing.scheduledEvents[eventKey].clear();
+        this.thing.startEvent(eventKey);
+      }
     }
 
     /*
