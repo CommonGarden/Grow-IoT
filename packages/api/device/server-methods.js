@@ -2,6 +2,7 @@ Meteor.methods({
   ['Device.sendCommand'](deviceUuid, type, options) {
     // TODO: Do better checks.
     check(deviceUuid, Match.NonEmptyString);
+    check(type, Match.NonEmptyString);
 
     let device = Device.documents.findOne(
       {uuid: deviceUuid}

@@ -8,7 +8,10 @@ Device.DisplayComponent = class DisplayComponent extends CommonComponent {
 
     this.device = new ComputedField(() => {
       return Device.documents.findOne(
-        {uuid: this.currentDeviceUuid()});
+        {
+          uuid: this.currentDeviceUuid()
+        }
+      );
     });
 
     this.autorun(computation => {
@@ -26,7 +29,9 @@ Device.DisplayComponent = class DisplayComponent extends CommonComponent {
       if (!this.subscriptionsReady()) { return; }
 
       let device = Device.documents.findOne(
-        {uuid: this.currentDeviceUuid()}
+        {
+          uuid: this.currentDeviceUuid()
+        }
       , {
         fields: {
           thing: 1
@@ -54,7 +59,10 @@ Device.DisplayComponent = class DisplayComponent extends CommonComponent {
   
   datapoints() {
     return Data.documents.find(
-      {'device._id': this.device()._id});
+      {
+        'device._id': this.device()._id
+      }
+    );
   }
 
   events() {
@@ -80,7 +88,8 @@ Device.DisplayComponent = class DisplayComponent extends CommonComponent {
             Bert.alert('Device deleted.', 'success', 'growl-top-right');
             return FlowRouter.go('Dashboard');
           }
-        });
+        }
+      );
     }
   }
 };

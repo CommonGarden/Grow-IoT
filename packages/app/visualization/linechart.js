@@ -138,7 +138,12 @@ class LineChartComponent extends CommonComponent {
           data.labels.shift();
           data.series[0].shift();
         }
-        data.labels.push(moment(currentValue.insertedAt).format('LT'));
+        // Shows timestamp in seconds, logs the full time at the start of a new minute.
+        let timestamp = moment(currentValue.insertedAt).format('ss');
+        if (timestamp === '00') {
+          timestamp = moment(currentValue.insertedAt).format('LT');
+        }
+        data.labels.push(timestamp);
         data.series[0].push(currentValue.data.value);
       });
 

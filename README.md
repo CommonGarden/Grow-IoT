@@ -33,6 +33,7 @@ Then clone the repo, enter the new directory, and start meteor.
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
+npm install
 meteor
 ```
 
@@ -169,12 +170,6 @@ Bitcoin address: 15TQgBpJ7u3PNRrw7tdkLxZw4ybEdATuvv
 Please read:
 * [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
 * [Contributing info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
-
-### Reach out
-Get involved with our community in any way you are interested:
-
-<!-- * [Join us on Slack](http://slack.commongarden.org) — Collaboration and real time discussions. -->
-* [Forum](http://forum.commongarden.org/) — General discussion and support by the Common Garden community.
 
 ### License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 

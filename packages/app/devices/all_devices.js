@@ -24,7 +24,11 @@ class AllDevicesComponent extends CommonComponent {
 
   events() {
     return super.events().concat(
-      {'click .device': this.viewDevice});
+      {
+        'click .device': this.viewDevice,
+        'click .new-device': this.newDeviceHelper
+      }
+    );
   }
 
   viewDevice(event) {
@@ -32,6 +36,10 @@ class AllDevicesComponent extends CommonComponent {
     let params = { uuid: event.currentTarget.dataset.uuid };
     let path = FlowRouter.path('Device.display', params);
     return FlowRouter.go(path);
+  }
+
+  newDeviceHelper(event) {
+    Bert.alert('Pick an evironment to add a new device too.', 'success', 'growl-top-right');
   }
 };
 

@@ -9,13 +9,17 @@ Environment.NewDeviceComponent = class NewDeviceComponent extends CommonComponen
     return this.subscribe('Device.unassignedList');
   }
 
+  // Todo: don't list offline devices...
+  // Not as simple as the attempt below...
+  // Online since is not always false.
   unassignedDevicesList() {
-    return Device.documents.find({});
+    return Device.documents.find({ onlineSince: {$not: false} } );
   }
 
   events() {
-    return super.events().concat(
-      {'click .unclaimed': this.claimDevice});
+    return super.events().concat({
+      'click .unclaimed': this.claimDevice
+    });
   }
 
   claimDevice(event) {

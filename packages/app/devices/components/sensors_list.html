@@ -1,13 +1,14 @@
 <template name="SensorListComponent">
   <ul>
     {{#each sensors}}
-      <!-- TODO: figure out why the sensor component isn't working. -->
-      <!-- {{> Device.SensorComponent type=type}} -->
       <li class="sensor">
-        <h4>{{name}}</h4>
-        {{#each actions}}
-          <p>{{name}} {{schedule}} <a href="#" class="small">change</a></p>
-        {{/each}}
+        <h4>{{name}}
+        {{#if device.onlineSince}}
+        <span class="pull-right small">{{> Device.Scheduler}}</span>
+        {{else}}
+        <em class="pull-right small">Offline</em>
+        {{/if}}
+        </h4>
         <p>{{description}}</p>
         {{> LineChartComponent property=type}}
         <!-- {{> gauge property=type}} -->

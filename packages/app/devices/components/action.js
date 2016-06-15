@@ -25,13 +25,6 @@ Device.ActionComponent = class ActionComponent extends Device.DisplayComponent {
             }
           }
         );
-      },
-
-      ['click .schedule'](e) {
-        e.preventDefault();
-        // get value from form...
-        // parse value, if successful call update-property.
-
       }
     });
   }
