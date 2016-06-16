@@ -294,7 +294,7 @@ var Grow = function () {
       var _this3 = this;
 
       this.writableStream._write = function (command, encoding, callback) {
-        if (command === 'updateActionSchedule') {
+        if (command.type === 'updateActionSchedule') {
           _this3.updateActionProperty(command.options.actionKey, 'schedule', command.options.newValue);
         } else if (command.options) {
           _this3.thing.callAction(command.type, command.options);
@@ -380,6 +380,12 @@ var Grow = function () {
         this.thing.scheduledActions[actionKey].clear();
         this.thing.startAction(actionKey);
       }
+
+      this.ddpclient.call('Device.updateActionProperty', [{ uuid: this.uuid, token: this.token }, actionKey, property, value], function (error, result) {
+        if (error) {
+          console.log(error);
+        }
+      });
     }
   }, {
     key: 'updateEventProperty',
@@ -392,6 +398,12 @@ var Grow = function () {
         this.thing.scheduledEvents[eventKey].clear();
         this.thing.startEvent(eventKey);
       }
+
+      this.ddpclient.call('Device.updateEventProperty', [{ uuid: this.uuid, token: this.token }, eventKey, property, value], function (error, result) {
+        if (error) {
+          console.log(error);
+        }
+      });
     }
 
     /*
