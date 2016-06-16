@@ -87,21 +87,6 @@ global.expect = require('chai').expect;
   });
 })();
 
-var _this = this;
-
-/**
- * Writes any changes to the state.json file. The state.json file is used for state. 
- * In case the device looses internet connnection or power and needs to reset, the grow file contains the instructions such as schedules, where the device is supposed to connect to.
- */
-
-var fs = require('fs');
-
-var writeChangesToState = function writeChangesToState() {
-  fs.writeFile('./state.json', JSON.stringify(_this, null, 4), function (error) {
-    if (error) return console.log('Error', error);
-  });
-};
-
 var _ = require('underscore');
 var assert = require('assert');
 var util = require('util');
@@ -112,6 +97,8 @@ var DDPClient = require('ddp');
 var EJSON = require('ddp-ejson');
 var Readable = require('stream').Readable;
 var Writable = require('stream').Writable;
+var fs = require('fs');
+var stringify = require('json-stringify-safe');
 
 // Use local time.
 later.date.localTime();
@@ -132,22 +119,21 @@ var Grow = function () {
 
     babelHelpers.classCallCheck(this, Grow);
 
-    this.thing = new Thing(config);
-
-    Duplex.call(this, _.defaults(config, { objectMode: true, readableObjectMode: true, writableObjectMode: true }));
-
-    this._messageHandlerInstalled = false;
-
-    this.writeChangesToState = writeChangesToState;
-
     try {
       // We need the methods defined in the config, so we _.extend state.json.
-      var state = require('./state.json');
+      var state = require('.././state.json');
+      console.log('Loading from state.json');
       _.extend(this, state);
     } catch (err) {
       this.uuid = this.thing.uuid || null;
       this.token = this.thing.token || null;
     }
+
+    this.thing = new Thing(config);
+
+    Duplex.call(this, _.defaults(config, { objectMode: true, readableObjectMode: true, writableObjectMode: true }));
+
+    this._messageHandlerInstalled = false;
 
     this.ddpclient = new DDPClient(_.defaults(config, {
       host: 'localhost',
@@ -426,6 +412,13 @@ var Grow = function () {
         if (!_.isUndefined(callback)) {
           callback(error, result);
         }
+      });
+    }
+  }, {
+    key: 'writeChangesToState',
+    value: function writeChangesToState() {
+      fs.writeFile('./state.json', stringify(this, null, 4), function (error) {
+        if (error) return console.log('Error', error);
       });
     }
   }]);
