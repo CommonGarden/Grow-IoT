@@ -119,14 +119,24 @@ var Grow = function () {
 
     babelHelpers.classCallCheck(this, Grow);
 
+
+    // TODO: this needs to be rewritten...
     try {
-      // We need the methods defined in the config, so we _.extend state.json.
-      var state = require('.././state.json');
+      // HACK: there must be a better way to require state.json
+      // This is for when Grow.js is in the node_modules folder.
+      var state = require('../../.././state.json');
       console.log('Loading from state.json');
       _.extend(this, state);
     } catch (err) {
-      this.uuid = this.thing.uuid || null;
-      this.token = this.thing.token || null;
+      try {
+        // When developing...
+        var state = require('.././state.json');
+        console.log('Loading from state.json');
+        _.extend(this, state);
+      } catch (err) {
+        this.uuid = null;
+        this.token = null;
+      }
     }
 
     this.thing = new Thing(config);
@@ -191,7 +201,7 @@ var Grow = function () {
       var _this2 = this;
 
       this.ddpclient.subscribe('Device.messages', [{ uuid: this.uuid, token: this.token }], function (error) {
-        if (error) return callback(error);
+        if (error) return console.log(error);
 
         if (!_this2._messageHandlerInstalled) {
           _this2._messageHandlerInstalled = true;
