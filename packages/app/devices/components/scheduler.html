@@ -1,0 +1,26 @@
+<template name="Device.Scheduler">
+	{{schedule}} 
+	<a data-toggle="modal" data-target="#helpmodal-{{id}}" class="small">change</a>
+	
+	<!-- Help button and modal -->
+  <div class="modal fade" id="helpmodal-{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Schedule action</h4>
+        </div>
+        <div class="modal-body">
+        	<form>
+        		<p>{{description}}</p>
+        			<input type="text"
+        				   name="schedule-{{id}}"
+        				   value="{{schedule}}">
+        		 	<button class="btn btn-primary schedule" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update</button>
+              <button class="btn btn-default" data-dismiss="modal" aria-label="Cancel">Cancel</button>
+        	</form>
+        </div><!-- /.modal-body -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal-fade -->
+</template>
