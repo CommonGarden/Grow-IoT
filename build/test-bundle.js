@@ -1,39 +1,12 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var Thing = _interopDefault(require('Thing.js'));
 
 require("source-map-support").install();
-
-var babelHelpers = {};
-
-babelHelpers.classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-babelHelpers.createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-babelHelpers;
-
 global.expect = require('chai').expect;
 
 (function setup() {
@@ -87,6 +60,30 @@ global.expect = require('chai').expect;
   });
 })();
 
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
 var _ = require('underscore');
 var assert = require('assert');
 var util = require('util');
@@ -117,8 +114,7 @@ var Grow = function () {
   function Grow(config, callback) {
     var _this = this;
 
-    babelHelpers.classCallCheck(this, Grow);
-
+    classCallCheck(this, Grow);
 
     // TODO: this needs to be rewritten...
     try {
@@ -195,7 +191,7 @@ var Grow = function () {
   */
 
 
-  babelHelpers.createClass(Grow, [{
+  createClass(Grow, [{
     key: 'afterConnect',
     value: function afterConnect(callback, result) {
       var _this2 = this;
