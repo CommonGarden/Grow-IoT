@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Grow.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/cayman.css">
+    <link rel="stylesheet" href="css/prism.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Grow.js</h1>
+      <h2 class="project-tagline">Easily create new IoT devices and connect them to a Grow-IoT instance.</h2><a href="https://github.com/CommonGarden/Thing.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/Grow.js" target="_blank" class="btn">View on npm</a>
+    </section>
+    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
+      <div class="row">
+        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
+          <ul id="sidebar" class="nav nav-stacked fixed">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="Grow.js.html">Grow.js
+                <ul class="nav nav-stacked">
+                  <li><a href="#Grow"><i class="alert alert-success"></i><span>Grow</span></a>
+                  </li>
+                  <li><a href="#writeChangesToState"><i class="alert alert-success"></i><span>writeChangesToState</span></a>
+                  </li>
+                  <li><a href="#sendData"><i class="alert alert-success"></i><span>sendData</span></a>
+                  </li>
+                  <li><a href="#emitEvent"><i class="alert alert-success"></i><span>emitEvent</span></a>
+                  </li>
+                  <li><a href="#callAction"><i class="alert alert-success"></i><span>callAction</span></a>
+                  </li>
+                  <li><a href="#updateActionProperty"><i class="alert alert-success"></i><span>updateActionProperty</span></a>
+                  </li>
+                  <li><a href="#updateEventProperty"><i class="alert alert-success"></i><span>updateEventProperty</span></a>
+                  </li>
+                  <li><a href="#setProperty"><i class="alert alert-success"></i><span>setProperty</span></a>
+                  </li>
+                </ul></a></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <section id="Grow">
+            <h1>Grow</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>&nbsp;</span><span>new Grow()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>config</td>
+                <td>Object</td>
+                <td><p>The thing configuration object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>An optional callback.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>A new grow instance.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Class representing a new grow instance: connects to the Grow-IoT server specified in the config (default localhost:3000), registers the device with the Server (if it&#39;s the first time connecting it saves a new uuid and token), and sets up readable and writable streams.</p></div>
+          <pre><code class="language-javascript">class Grow {
+  constructor(config, callback) {
+    // Use local time.
+    later.date.localTime();
+
+    // TODO: this needs to be rewritten...
+    try {
+      // HACK: there must be a better way to require state.json
+      // This is for when Grow.js is in the node_modules folder.
+      var state = require('../../.././state.json');
+      console.log('Loading from state.json');
+      _.extend(this, state);
+    } catch (err) {
+      try {
+        // When developing...
+        var state = require('.././state.json');
+        console.log('Loading from state.json');
+        _.extend(this, state);
+      }
+      catch (err) {
+        this.uuid = null;
+        this.token = null;
+      }
+    }
+
+    this.thing = new Thing(config);
+
+    Duplex.call(this, _.defaults(config, {objectMode: true, readableObjectMode: true, writableObjectMode: true}));
+
+    this._messageHandlerInstalled = false;
+
+    this.ddpclient = new DDPClient(_.defaults(config, {
+      host: 'localhost',
+      port: 3000,
+      ssl: false,
+      maintainCollections: false
+    }));
+
+    this.afterConnect = (callback, result) =&gt; {
+      this.ddpclient.subscribe(
+        'Device.messages',
+        [{uuid: this.uuid, token: this.token}],
+        (error) =&gt; {
+          if (error) return console.log(error);
+
+          if (!this._messageHandlerInstalled) {
+            this._messageHandlerInstalled = true;
+
+            this.ddpclient.on('message', (data)=&gt; {
+              data = EJSON.parse(data);
+
+              if (data.msg !== 'added' || data.collection !== 'Device.messages') {
+                return;
+              }
+
+              this.push(data.fields.body);
+            });
+          }
+        }
+      );
+
+      // Now check to see if we have a stored UUID.
+      // If no UUID is specified, store a new UUID.
+      if (!_.isUndefined(this.uuid) &amp;&amp; !_.isUndefined(this.token)) {
+        this.writeChangesToState();
+      }
+
+      // SETUP STREAMS
+      // Readable Stream: this is 'readable' from the server perspective.
+      // The device publishes it's data to the readable stream.
+      this.readableStream = new Readable({objectMode: true});
+
+      // We are pushing data when sensor measures it so we do not do anything
+      // when we get a request for more data. We just ignore it for now.
+      this.readableStream._read = function () {};
+
+      
+      // We are pushing data to a stream as commands are arriving and are leaving
+      // to the stream to buffer them. So we simply ignore requests for more data.
+      this._read = (size) =&gt; {}
+
+      this.readableStream.on('error', function (error) {
+        console.log('Error', error.message);
+      });
+
+      // Writable stream: this is writable from the server perspective. A device listens on
+      // the writable stream to recieve new commands.
+      this.writableStream = new Writable({objectMode: true});
+
+      // Sets up listening for actions on the writeable stream. Note: writable from
+      // the server's perspective.
+      this.writableStream._write = (command, encoding, callback) =&gt; {
+        if (command.type === 'updateActionSchedule') {
+          this.updateActionProperty(command.options.actionKey, 'schedule', command.options.newValue);
+        } else if (command.options) {
+          this.thing.callAction(command.type, command.options);
+        } else {
+          this.thing.callAction(command.type);
+        }
+
+        callback(null);
+      };
+
+      // On _write, call API.sendData()
+      this._write = (chunk, encoding, callback) =&gt; {
+        this.sendData(chunk, callback);
+      }
+
+      // Pipe things.
+      this.pipe(this.writableStream);
+      this.readableStream.pipe(this);
+    };
+
+    this.ddpclient.connect((error, wasReconnect) =&gt; {
+      if (error) return callback(error);
+
+      if (wasReconnect) {
+        console.log('Reestablishment of a Grow server connection.');
+      } else {
+        console.log('Grow server connection established.');
+      }
+
+      if (this.uuid || this.token) {
+        return this.afterConnect(callback, {
+          uuid: this.uuid,
+          token: this.token
+        });
+      }
+
+      this.ddpclient.call(
+        'Device.register',
+        [config],
+        (error, result) =&gt; {
+          if (error) {
+            if (!_.isUndefined(callback)) {
+              return callback(error);
+            } else { console.log(error); }
+          }
+
+          assert(result.uuid, result);
+          assert(result.token, result);
+
+          this.uuid = result.uuid;
+          this.token = result.token;
+
+          this.afterConnect(callback, result);
+        }
+      );
+    });</code></pre>
+          <section id="writeChangesToState">
+            <h1>writeChangesToState</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.writeChangesToState</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Writes current state to state.json.</p></div>
+          <pre><code class="language-javascript">this.writeChangesToState = ()=&gt; {
+  fs.writeFile('./state.json', stringify(this, null, 4), function (error) {
+    if (error) return console.log('Error', error);
+  });
+};</code></pre>
+          <section id="sendData">
+            <h1>sendData</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.sendData</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>Object</td>
+                <td><p>Data to log on the server</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Optional callback</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Send data to Grow-IoT server.</p></div>
+          <pre><code class="language-javascript">this.sendData = (data, callback) =&gt; {
+  if (!this.ddpclient || !this.uuid || !this.token) {
+    callback('Invalid connection state.');
+    return;
+  }
+
+  this.ddpclient.call(
+    'Device.sendData',
+    [{uuid: this.uuid, token: this.token}, data],
+    function (error, result) {
+      if (error) console.log(error);
+
+      if (!_.isUndefined(callback)) {
+        callback(null, result);
+      }
+    }
+  );
+}</code></pre>
+          <section id="emitEvent">
+            <h1>emitEvent</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.emitEvent</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>event</td>
+                <td>Object</td>
+                <td><p>The event to emit</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Optional callback</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Emit device event to Grow-IoT server.</p></div>
+          <pre><code class="language-javascript">this.emitEvent = (eventMessage, callback) =&gt; {
+  var body = {
+    'message': eventMessage
+  };
+  body.timestamp = new Date();
+
+  this.ddpclient.call(
+    'Device.emitEvent',
+    [{uuid: this.uuid, token: this.token}, body],
+    function (error, result) {
+      if (!_.isUndefined(callback)) {
+        callback(error, result);
+      }
+    }
+  );
+}</code></pre>
+          <section id="callAction">
+            <h1>callAction</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.callAction</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>actionKey</td>
+                <td>String</td>
+                <td><p>key of the action you want to call.</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object, List, String, Number, Boolean</td>
+                <td><p>The new value to set the property to.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Calls thing.callAction and emits an event to Grow-IoT.</p></div>
+          <pre><code class="language-javascript">this.callAction = (actionKey, options) =&gt; {
+  let action = this.thing.getAction(actionKey);
+  this.thing.callAction(actionKey, options);
+
+  // Check to see if action has an event message
+  if (!_.isUndefined(action.event)) {
+    this.emitEvent(action.event);
+  } else {
+    this.emitEvent(actionKey);
+  }
+}</code></pre>
+          <section id="updateActionProperty">
+            <h1>updateActionProperty</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.updateActionProperty</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>actionKey</td>
+                <td>String</td>
+                <td><p>key of the action you want to update.</p></td>
+              </tr>
+              <tr>
+                <td>property</td>
+                <td>String</td>
+                <td><p>the property you want to set.</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Object, List, String, Number, Boolean</td>
+                <td><p>the new property value.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update an action property such as schedule or action options.</p></div>
+          <pre><code class="language-javascript">this.updateActionProperty = (actionKey, property, value) =&gt; {
+  let action = this.thing.getAction(actionKey);
+  action[property] = value;
+
+  // If the property being updated is the schedule property, restart the scheduled action.
+  if (property === 'schedule') {
+    this.thing.scheduledActions[actionKey].clear();
+    this.thing.startAction(actionKey);
+  }
+
+  this.ddpclient.call(
+    'Device.updateActionProperty',
+    [{uuid: this.uuid, token: this.token}, actionKey, property, value],
+    function (error, result) {
+      if (error) {
+        console.log(error);
+      }
+    }
+  );
+}</code></pre>
+          <section id="updateEventProperty">
+            <h1>updateEventProperty</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.updateEventProperty</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>eventKey</td>
+                <td>String</td>
+                <td><p>key of the event you want to update.</p></td>
+              </tr>
+              <tr>
+                <td>property</td>
+                <td>String</td>
+                <td><p>the property you want to set.</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Object, List, String, Number, Boolean</td>
+                <td><p>the new property value.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update an event property such as schedule or options.</p></div>
+          <pre><code class="language-javascript">this.updateEventProperty = (eventKey, property, value) =&gt; {
+  let event = this.thing.getEvent(eventKey);
+  event[property] = value;
+
+  // If the property being updated is the schedule property, restart the scheduled action.
+  if (property === 'schedule') {
+    this.thing.scheduledEvents[eventKey].clear();
+    this.thing.startEvent(eventKey);
+  }
+
+  this.ddpclient.call(
+    'Device.updateEventProperty',
+    [{uuid: this.uuid, token: this.token}, eventKey, property, value],
+    function (error, result) {
+      if (error) {
+        console.log(error);
+      }
+    }
+  );
+}</code></pre>
+          <section id="setProperty">
+            <h1>setProperty</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.setProperty</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>property</td>
+                <td>String</td>
+                <td><p>Name of the of the property you wish to update</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Object, List, String, Number, Boolean</td>
+                <td><p>The new value to set the property to.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>An optional callback.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update device property on Grow-IoT server.</p></div>
+          <pre><code class="language-javascript">this.setProperty = (property, value, callback) =&gt; {
+  // Update the thing property.
+  this.thing.setProperty(property, value);
+
+  // Not working in this version of Grow.js yet.
+  this.writeChangesToState();
+
+  this.ddpclient.call(
+    'Device.udpateProperty',
+    [{uuid: this.uuid, token: this.token}, property, value],
+    function (error, result) {
+      if (!_.isUndefined(callback)) {
+        callback(error, result);
+      }
+    }
+  );
+}
+  }
+};
+
+util.inherits(Grow, Duplex);
+
+export default Grow;</code></pre>
+          <div class="footer site-footer">
+            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
+            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/affix.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/scrollspy.js"></script>
+    <script src="js/prism.js"></script>
+    <script src="js/prism-bash.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('body').scrollspy({
+          target: ".bs-docs-sidebar",
+          offset: 40
+        });
+        $('#sidebar').affix({
+          offset:{
+            bottom:60,
+            top: 60
+          }
+        }) 
+      });
+    </script>
+  </body>
+</html>
