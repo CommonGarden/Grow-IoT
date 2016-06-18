@@ -1,4 +1,4 @@
-import Grow from '../lib/index';
+import Grow from '../dist/Grow.umd';
 
 /*
   Basic tests:
@@ -67,15 +67,11 @@ describe('A feature test', () => {
   });
 
   it('should have setup actions correctly', () => {
-    let GrowInstance = new Grow(thing1);
+    let GrowInstance = new Grow(thing1, ()=> {
+      console.log('callback works, this needs a test...')
+    });
     GrowInstance.updateActionProperty('turn_light_on', 'schedule', 'at 10:00am');
-    console.log(GrowInstance);
+    // console.log(GrowInstance);
   });
-
-  // TODO
-  // it('should have setup events correctly', () => {
-  //   var GrowInstance = new Grow(thing1);
-  //   // expect(thing.constructor).to.have.been.calledOnce;
-  // });
 
 });

@@ -1,5 +1,5 @@
 // Import the grow.js library.
-var GrowInstance = require('./dist/Grow.umd.js');
+var GrowInstance = require('../.././dist/Grow.umd.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
 // Create a new grow instance.
