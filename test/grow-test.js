@@ -66,12 +66,18 @@ describe('A feature test', () => {
     expect(GrowInstance.thing.callAction('turn_light_off')).to.equal('Light off');
   });
 
-  it('should have setup actions correctly', () => {
+  // it('should have setup actions correctly', () => {
+  //   let GrowInstance = new Grow(thing1);
+  //   GrowInstance.updateActionProperty('turn_light_on', 'schedule', 'at 10:00am');
+  //   console.log(GrowInstance);
+  // });
+
+  it('should call the optional callback if defined.', () => {
+    let callbackWorks = false;
     let GrowInstance = new Grow(thing1, ()=> {
-      console.log('callback works, this needs a test...')
+      callbackWorks = true;
     });
-    GrowInstance.updateActionProperty('turn_light_on', 'schedule', 'at 10:00am');
-    // console.log(GrowInstance);
+    expect(callbackWorks).to.equal(true);
   });
 
 });

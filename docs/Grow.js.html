@@ -61,7 +61,7 @@
               <tr>
                 <td>config</td>
                 <td>Object</td>
-                <td></td>
+                <td><p>The thing configuration object.</p></td>
               </tr>
               <tr>
                 <td>callback</td>
@@ -101,7 +101,130 @@
       }
     }
 
-    this.thing = new Thing(config);</code></pre>
+    this.thing = new Thing(config);
+
+    Duplex.call(this, _.defaults(config, {objectMode: true, readableObjectMode: true, writableObjectMode: true}));
+
+    this._messageHandlerInstalled = false;
+
+    this.ddpclient = new DDPClient(_.defaults(config, {
+      host: 'localhost',
+      port: 3000,
+      ssl: false,
+      maintainCollections: false
+    }));
+
+    this.afterConnect = (callback, result) =&gt; {
+      this.ddpclient.subscribe(
+        'Device.messages',
+        [{uuid: this.uuid, token: this.token}],
+        (error) =&gt; {
+          if (error) return console.log(error);
+
+          if (!this._messageHandlerInstalled) {
+            this._messageHandlerInstalled = true;
+
+            this.ddpclient.on('message', (data)=&gt; {
+              data = EJSON.parse(data);
+
+              if (data.msg !== 'added' || data.collection !== 'Device.messages') {
+                return;
+              }
+
+              this.push(data.fields.body);
+            });
+          }
+        }
+      );
+
+      // Now check to see if we have a stored UUID.
+      // If no UUID is specified, store a new UUID.
+      if (!_.isUndefined(this.uuid) &amp;&amp; !_.isUndefined(this.token)) {
+        this.writeChangesToState();
+      }
+
+      // SETUP STREAMS
+      // Readable Stream: this is 'readable' from the server perspective.
+      // The device publishes it's data to the readable stream.
+      this.readableStream = new Readable({objectMode: true});
+
+      // We are pushing data when sensor measures it so we do not do anything
+      // when we get a request for more data. We just ignore it for now.
+      this.readableStream._read = function () {};
+
+      
+      // We are pushing data to a stream as commands are arriving and are leaving
+      // to the stream to buffer them. So we simply ignore requests for more data.
+      this._read = (size) =&gt; {}
+
+      this.readableStream.on('error', function (error) {
+        console.log('Error', error.message);
+      });
+
+      // Writable stream: this is writable from the server perspective. A device listens on
+      // the writable stream to recieve new commands.
+      this.writableStream = new Writable({objectMode: true});
+
+      // Sets up listening for actions on the writeable stream. Note: writable from
+      // the server's perspective.
+      this.writableStream._write = (command, encoding, callback) =&gt; {
+        if (command.type === 'updateActionSchedule') {
+          this.updateActionProperty(command.options.actionKey, 'schedule', command.options.newValue);
+        } else if (command.options) {
+          this.thing.callAction(command.type, command.options);
+        } else {
+          this.thing.callAction(command.type);
+        }
+
+        callback(null);
+      };
+
+      // On _write, call API.sendData()
+      this._write = (chunk, encoding, callback) =&gt; {
+        this.sendData(chunk, callback);
+      }
+
+      // Pipe things.
+      this.pipe(this.writableStream);
+      this.readableStream.pipe(this);
+    };
+
+    this.ddpclient.connect((error, wasReconnect) =&gt; {
+      if (error) return callback(error);
+
+      if (wasReconnect) {
+        console.log('Reestablishment of a Grow server connection.');
+      } else {
+        console.log('Grow server connection established.');
+      }
+
+      if (this.uuid || this.token) {
+        return this.afterConnect(callback, {
+          uuid: this.uuid,
+          token: this.token
+        });
+      }
+
+      this.ddpclient.call(
+        'Device.register',
+        [config],
+        (error, result) =&gt; {
+          if (error) {
+            if (!_.isUndefined(callback)) {
+              return callback(error);
+            } else { console.log(error); }
+          }
+
+          assert(result.uuid, result);
+          assert(result.token, result);
+
+          this.uuid = result.uuid;
+          this.token = result.token;
+
+          this.afterConnect(callback, result);
+        }
+      );
+    });</code></pre>
           <section id="writeChangesToState">
             <h1>writeChangesToState</h1>
             <h5 class="subheader"></h5>
@@ -114,130 +237,7 @@
   fs.writeFile('./state.json', stringify(this, null, 4), function (error) {
     if (error) return console.log('Error', error);
   });
-};
-
-Duplex.call(this, _.defaults(config, {objectMode: true, readableObjectMode: true, writableObjectMode: true}));
-
-this._messageHandlerInstalled = false;
-
-this.ddpclient = new DDPClient(_.defaults(config, {
-  host: 'localhost',
-  port: 3000,
-  ssl: false,
-  maintainCollections: false
-}));
-
-this.afterConnect = (callback, result) =&gt; {
-  this.ddpclient.subscribe(
-    'Device.messages',
-    [{uuid: this.uuid, token: this.token}],
-    (error) =&gt; {
-      if (error) return console.log(error);
-
-      if (!this._messageHandlerInstalled) {
-        this._messageHandlerInstalled = true;
-
-        this.ddpclient.on('message', (data)=&gt; {
-          data = EJSON.parse(data);
-
-          if (data.msg !== 'added' || data.collection !== 'Device.messages') {
-            return;
-          }
-
-          this.push(data.fields.body);
-        });
-      }
-    }
-  );
-
-  // Now check to see if we have a stored UUID.
-  // If no UUID is specified, store a new UUID.
-  if (!_.isUndefined(this.uuid) &amp;&amp; !_.isUndefined(this.token)) {
-    this.writeChangesToState();
-  }
-
-  // SETUP STREAMS
-  // Readable Stream: this is 'readable' from the server perspective.
-  // The device publishes it's data to the readable stream.
-  this.readableStream = new Readable({objectMode: true});
-
-  // We are pushing data when sensor measures it so we do not do anything
-  // when we get a request for more data. We just ignore it for now.
-  this.readableStream._read = function () {};
-
-  
-  // We are pushing data to a stream as commands are arriving and are leaving
-  // to the stream to buffer them. So we simply ignore requests for more data.
-  this._read = (size) =&gt; {}
-
-  this.readableStream.on('error', function (error) {
-    console.log('Error', error.message);
-  });
-
-  // Writable stream: this is writable from the server perspective. A device listens on
-  // the writable stream to recieve new commands.
-  this.writableStream = new Writable({objectMode: true});
-
-  // Sets up listening for actions on the writeable stream. Note: writable from
-  // the server's perspective.
-  this.writableStream._write = (command, encoding, callback) =&gt; {
-    if (command.type === 'updateActionSchedule') {
-      this.updateActionProperty(command.options.actionKey, 'schedule', command.options.newValue);
-    } else if (command.options) {
-      this.thing.callAction(command.type, command.options);
-    } else {
-      this.thing.callAction(command.type);
-    }
-
-    callback(null);
-  };
-
-  // On _write, call API.sendData()
-  this._write = (chunk, encoding, callback) =&gt; {
-    this.sendData(chunk, callback);
-  }
-
-  // Pipe things.
-  this.pipe(this.writableStream);
-  this.readableStream.pipe(this);
-};
-
-this.ddpclient.connect((error, wasReconnect) =&gt; {
-  if (error) return callback(error);
-
-  if (wasReconnect) {
-    console.log('Reestablishment of a Grow server connection.');
-  } else {
-    console.log('Grow server connection established.');
-  }
-
-  if (this.uuid || this.token) {
-    return this.afterConnect(callback, {
-      uuid: this.uuid,
-      token: this.token
-    });
-  }
-
-  this.ddpclient.call(
-    'Device.register',
-    [config],
-    (error, result) =&gt; {
-      if (error) {
-        if (!_.isUndefined(callback)) {
-          return callback(error);
-        } else { console.log(error); }
-      }
-
-      assert(result.uuid, result);
-      assert(result.token, result);
-
-      this.uuid = result.uuid;
-      this.token = result.token;
-
-      this.afterConnect(callback, result);
-    }
-  );
-});</code></pre>
+};</code></pre>
           <section id="sendData">
             <h1>sendData</h1>
             <h5 class="subheader"></h5>
@@ -257,12 +257,12 @@ this.ddpclient.connect((error, wasReconnect) =&gt; {
               <tr>
                 <td>data</td>
                 <td>Object</td>
-                <td></td>
+                <td><p>Data to log on the server</p></td>
               </tr>
               <tr>
                 <td>callback</td>
                 <td>Function</td>
-                <td></td>
+                <td><p>Optional callback</p></td>
               </tr>
             </tbody>
           </table>
@@ -304,12 +304,12 @@ this.ddpclient.connect((error, wasReconnect) =&gt; {
               <tr>
                 <td>event</td>
                 <td>Object</td>
-                <td></td>
+                <td><p>The event to emit</p></td>
               </tr>
               <tr>
                 <td>callback</td>
                 <td>Function</td>
-                <td></td>
+                <td><p>Optional callback</p></td>
               </tr>
             </tbody>
           </table>
