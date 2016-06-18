@@ -1,15 +1,16 @@
 {
   "name": "Thing.js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
   "main": "dist/Thing.umd.js",
   "jsnext:main": "dist/Thing.es6.js",
   "scripts": {
     "prebuild": "eslint lib test",
-    "build": "rollup -c babel/rollup.config.umd.js && rollup -c babel/rollup.config.es6.js",
-    "pretest": "rollup -c babel/rollup.config.test.js",
-    "test": "mocha build/test-bundle.js",
-    "prepublish": "npm run build && npm test"
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "pretest": "npm run build",
+    "test": "mocha",
+    "prepublish": "npm test"
   },
   "repository": {
     "type": "git",
@@ -31,16 +32,17 @@
   ],
   "homepage": "https://github.com/CommonGarden/Thing.js",
   "devDependencies": {
-    "babel-eslint": "^6.0.0",
+    "babel-eslint": "^6.0.4",
+    "babel-preset-es2015": "^6.9.0",
     "babel-preset-es2015-rollup": "^1.1.1",
+    "babel-register": "^6.9.0",
+    "babelrc-rollup": "^1.1.0",
+    "eslint": "^2.11.1",
+    "mocha": "^2.5.3",
+    "rollup": "^0.31.2",
+    "rollup-plugin-babel": "^2.5.1",
     "chai": "^3.5.0",
-    "eslint": "^2.5.3",
-    "mocha": "^2.4.5",
     "mr-doc-theme-cayman": "^1.4.1",
-    "rollup": "^0.26.2",
-    "rollup-plugin-babel": "^2.4.0",
-    "rollup-plugin-multi-entry": "^1.2.0",
-    "rollup-plugin-node-resolve": "^1.5.0",
     "source-map-support": "^0.4.0"
   },
   "dependencies": {

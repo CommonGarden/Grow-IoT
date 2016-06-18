@@ -1,12 +1,10 @@
-var babelHelpers = {};
-
-babelHelpers.classCallCheck = function (instance, Constructor) {
+var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
 };
 
-babelHelpers.createClass = function () {
+var createClass = function () {
   function defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
       var descriptor = props[i];
@@ -24,7 +22,7 @@ babelHelpers.createClass = function () {
   };
 }();
 
-babelHelpers.inherits = function (subClass, superClass) {
+var inherits = function (subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
   }
@@ -40,7 +38,7 @@ babelHelpers.inherits = function (subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 };
 
-babelHelpers.possibleConstructorReturn = function (self, call) {
+var possibleConstructorReturn = function (self, call) {
   if (!self) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
   }
@@ -48,14 +46,12 @@ babelHelpers.possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-babelHelpers;
-
 var _ = require('underscore');
 var later = require('meteor-later');
 var EventEmitter = require('events');
 
 /**
- * Class representing a Thing. A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
+ * A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
  * @extends EventEmitter
  * @param {Object} config  an object containing properties, events, and/or actions.
  * @param {Function} callback  an optional callback
@@ -63,12 +59,12 @@ var EventEmitter = require('events');
  */
 
 var Thing = function (_EventEmitter) {
-  babelHelpers.inherits(Thing, _EventEmitter);
+  inherits(Thing, _EventEmitter);
 
   function Thing(config, callback) {
-    babelHelpers.classCallCheck(this, Thing);
+    classCallCheck(this, Thing);
 
-    var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Thing).call(this));
+    var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Thing).call(this));
 
     if (!config) {
       throw new Error('Thing.js requires an config object.');
@@ -92,7 +88,7 @@ var Thing = function (_EventEmitter) {
    */
 
 
-  babelHelpers.createClass(Thing, [{
+  createClass(Thing, [{
     key: 'registerActions',
     value: function registerActions() {
       var _this2 = this;

@@ -87,7 +87,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Class representing a Thing. A Thing is an extension of <a href="https://nodejs.org/api/events.html">node&#39;s built-in EventEmitter class</a>.</p></div>
+          <div class="description"><p>A Thing is an extension of <a href="https://nodejs.org/api/events.html">node&#39;s built-in EventEmitter class</a>.</p></div>
           <pre><code class="language-javascript">class Thing extends EventEmitter {
   constructor(config, callback) {
     super();
@@ -116,7 +116,7 @@
           </section>
           <div class="description"><p>Run when the Thing is initialized. Starts any scheduled actions.</p></div>
           <pre><code class="language-javascript">registerActions () {
-  this.scheduledActions = [];
+  this.scheduledActions = {};
 
   if (!_.isUndefined(this.actions)) {
     _.each(this.actions, (action, key, list) =&gt; {
@@ -135,7 +135,7 @@
           </section>
           <div class="description"><p>Run when the Thing is initialized. Starts listeners and schedules events.</p></div>
           <pre><code class="language-javascript">registerEvents () {
-  this.scheduledEvents = [];
+  this.scheduledEvents = {};
 
   if (!_.isUndefined(this.events)) {
     _.each(this.events, (event, key, list) =&gt; {
@@ -195,7 +195,7 @@
           </table>
           <div class="description"><p>Get action object</p></div>
           <pre><code class="language-javascript">getAction (ID) {
-  var action = {};
+  let action = {};
   _.each(this.actions, (value, key, list) =&gt; {
     if (key === ID) {
       return action = value;
@@ -253,7 +253,7 @@
           </table>
           <div class="description"><p>Get event object</p></div>
           <pre><code class="language-javascript">getEvent (ID) {
-  var event = {}
+  let event = {}
   _.each(this.events, (value, key, list) =&gt; {
     if (key === ID) {
       return event = value;
@@ -399,7 +399,7 @@
           <div class="description"><p>Calls a registered action, emits event if the the action has an &#39;event&#39;<br />property defined. Updates the state if the action has an &#39;updateState&#39;<br />property specified.</p></div>
           <pre><code class="language-javascript">callAction (actionId, options) {
   try {
-    var action = this.getAction(actionId);
+    let action = this.getAction(actionId);
 
     if (!_.isUndefined(options)) {
       var output = action.function(options);
@@ -445,11 +445,10 @@
           </table>
           <div class="description"><p>Starts a reoccurring action if a schedule property is defined.</p></div>
           <pre><code class="language-javascript">startAction (actionKey) {
-  var action = this.getAction(actionKey);
-  var schedule = later.parse.text(action.schedule);
-  var scheduledAction = later.setInterval(()=&gt; {this.callAction(actionKey);}, schedule);
-  this.scheduledActions.push(scheduledAction);
-  return scheduledAction;
+  let action = this.getAction(actionKey);
+  let schedule = later.parse.text(action.schedule);
+  let scheduledAction = later.setInterval(()=&gt; {this.callAction(actionKey);}, schedule);
+  return this.scheduledActions[actionKey] = scheduledAction;
 }</code></pre>
           <section id="scheduleEvent">
             <h1>scheduleEvent</h1>
@@ -476,11 +475,10 @@
           </table>
           <div class="description"><p>Starts a reoccurring event if a schedule property is defined.</p></div>
           <pre><code class="language-javascript">scheduleEvent (eventKey) {
-  var event = this.getEvent(eventKey)
-  var schedule = later.parse.text(event.schedule);
-  var scheduledEvent = later.setInterval(()=&gt; {this.callEvent(eventKey);}, schedule);
-  this.scheduledEvents.push(scheduledEvent);
-  return scheduledEvent;
+  let event = this.getEvent(eventKey)
+  let schedule = later.parse.text(event.schedule);
+  let scheduledEvent = later.setInterval(()=&gt; {this.callEvent(eventKey);}, schedule);
+  return this.scheduledEvents[eventKey] = scheduledEvent;
 }
 };
 
