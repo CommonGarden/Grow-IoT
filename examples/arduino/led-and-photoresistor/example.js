@@ -55,7 +55,7 @@ board.on('ready', function start() {
                 template: 'sensor',
                 schedule: 'every 1 second',
                 function: function () {
-                    console.log(lightSensor.value);
+                    // console.log(lightSensor.value);
                     grow.sendData({
                       type: 'light',
                       value: lightSensor.value
