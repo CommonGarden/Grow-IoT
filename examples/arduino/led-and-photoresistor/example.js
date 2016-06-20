@@ -11,22 +11,20 @@ board.on('ready', function start() {
     // Note: if you wire the device slightly differently you may need to
     // change the pin numbers below.
     var LED = new five.Pin(13),
+        lightSensorPower = new five.Pin(0);
         lightSensor = new five.Sensor('A0');
+
+    // Hack because my board is broken.
+    lightSensorPower.high();
 
     // Create a new grow instance.
     var grow = new GrowInstance({
-        name: 'Light', // The display name for the thing.
+        name: 'LED and photoresistor', // The display name for the thing.
         desription: 'An LED light with a basic on/off api.',
         username: 'jake2@gmail.com', // The username of the account you want this device to be added to.
         properties: {
             state: 'off',
-            lightconditions: function () {
-                // Properties can be functions, booleans, strings, ints, objects, lists, etc.
-                // Properties can be updated by the API.
-                // Note: property functions should return a value.
-
-                return 'unset';
-            }
+            lightconditions: null
         },
         actions: {
             turn_light_on: {
@@ -67,15 +65,17 @@ board.on('ready', function start() {
             check_light_data: {
                 name: 'Check light data',
                 on: 'light_data', // Adds Listener for action event.
+                threshold: 100,
                 function: function () {
-                    if ((lightSensor.value < 100) && (grow.thing.getProperty('lightconditions') != 'dark')) {
+                    var threshold = grow.getProperty('threshold', 'check_light_data');
+                    if ((lightSensor.value < threshold) && (grow.getProperty('lightconditions') != 'dark')) {
                         // This could be nice with a chaining API...
                         // It would be good if we could add additional rules with the environment.
                         // EventListeners
                         grow.emitEvent('dark');
                         grow.setProperty('lightconditions', 'dark');
                         grow.callAction('turn_light_on');
-                    } else if ((lightSensor.value >= 100) && (grow.thing.getProperty('lightconditions') != 'light')) {
+                    } else if ((lightSensor.value >= threshold) && (grow.getProperty('lightconditions') != 'light')) {
                         // This could be nice with a chaining API...
                         grow.emitEvent('light');
                         grow.setProperty('lightconditions', 'light');
@@ -85,8 +85,4 @@ board.on('ready', function start() {
             }
         }
     });
-
-    setTimeout(()=> {
-        grow.updateActionProperty('light_data', 'schedule', 'every 5 seconds');
-    }, 5000);
 });

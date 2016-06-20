@@ -11,17 +11,40 @@ board.on('ready', function start() {
     // This must be called prior to any I2C reads or writes.
     this.i2cConfig();
 
+
+    // Declare variables
     var DO_reading;
+    var pH_reading;
+
+    var LED = new five.Pin(13);
 
     // Create a new grow instance.
     var grow = new GrowInstance({
         name: 'Disolved Oxygen sensor', // The display name for the thing.
         desription: 'Atlas Scientific Disolved Oxygen sensor',
         username: 'jake2@gmail.com', // The username of the account you want this device to be added to.
-        // properties: {
-        //     state: 'off'
-        // },
+        properties: {},
         actions: {
+            turn_pump_on: {
+                name: 'Airpump On', // Display name for the action
+                description: 'Turns the pump on.', // Optional description
+                schedule: 'at 9:00am', // Optional scheduling using later.js
+                function: function () {
+                    // The implementation of the action.
+                    LED.high();
+                    console.log('light on');
+                    grow.setProperty('state', 'on');
+                }
+            },
+            turn_pump_off: {
+                name: 'Airpump off',
+                schedule: 'at 8:30pm',
+                function: function () {
+                    LED.low();
+                    console.log('light off');
+                    grow.setProperty('state', 'off');
+                }
+            },
             log_do_data: {
                 name: 'Disolved Oxygen Sensor', 
                 template: 'sensor',
@@ -31,8 +54,10 @@ board.on('ready', function start() {
                     // Request a reading
                     board.i2cWrite(0x61, [0x52, 0x00]);
                     // Read response.
-                    board.i2cRead(0x61, 0x00, 14, function (bytes) {
+                    board.i2cRead(0x61, 14, function (bytes) {
+                        // console.log(bytes);
                         var bytelist = [];
+                        // if the reading is successful
                         if (bytes[0] === 1) {
                             for (i = 0; i < bytes.length; i++) {
                                 if (bytes[i] !== 1 && bytes[i] !== 0) {
@@ -49,6 +74,36 @@ board.on('ready', function start() {
                       value: DO_reading
                     });
                 }
+            },
+            log_ph_data: {
+                name: 'pH sensor', 
+                template: 'sensor',
+                type: 'pH', // Currently needed for visualization component... HACK.
+                schedule: 'every 1 second',
+                function: function () {
+                    // Request a reading
+                    board.i2cWrite(0x63, [0x52, 0x00]);
+                    // Read response.
+                    board.i2cRead(0x63, 7, function (bytes) {
+                        var bytelist = [];
+                        if (bytes[0] === 1) {
+                            for (i = 0; i < bytes.length; i++) {
+                                if (bytes[i] !== 1 && bytes[i] !== 0) {
+                                    bytelist.push(ascii.symbolForDecimal(bytes[i]));
+                                }
+                            }
+                            pH_reading = bytelist.join('');
+                            // console.log(pH_reading);
+                        }
+                    });
+
+                    console.log(pH_reading);
+                    // // Send value to Grow-IoT
+                    grow.sendData({
+                      type: 'pH',
+                      value: pH_reading
+                    });
+                }
             }
         },
         events: {
@@ -56,6 +111,7 @@ board.on('ready', function start() {
                 name: 'Check D.O. data',
                 on: 'log_do_data', // Adds Listener for action event.
                 function: function () {
+                    // TODO emit an event if the oxygen is too low
                     return;
                 }
             }
