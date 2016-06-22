@@ -3,7 +3,6 @@ accounts-password@1.1.8
 alanning:roles@1.2.15
 aldeed:simple-schema@1.5.3
 allow-deny@1.0.4
-api@0.1.0
 autoupdate@1.2.9
 babel-compiler@6.6.4
 babel-runtime@0.1.8
@@ -40,7 +39,6 @@ cfs:worker@0.1.4
 chart:chart@1.0.1-beta.4
 check@1.2.1
 coffeescript@1.0.17
-core@0.1.0
 d3js:d3@3.5.8
 ddp@1.2.5
 ddp-client@1.2.7
@@ -61,7 +59,9 @@ fortawesome:fontawesome@4.5.0
 fourseven:scss@3.4.3
 geojson-utils@1.0.8
 gfk:notifications@1.1.4
-grow-app@0.1.0
+grow:api@0.2.0
+grow:app@0.2.0
+grow:core@0.2.0
 hot-code-push@1.0.4
 html-tools@1.0.9
 htmljs@1.0.9

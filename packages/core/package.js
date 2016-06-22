@@ -1,6 +1,8 @@
 Package.describe({
-  name: 'core',
-  version: '0.1.0'
+  name: 'grow:core',
+  summary: 'Grow-IoT core.',
+  documentation: 'README.md',
+  version: '0.2.0'
 });
 
 Package.onUse(function (api) {

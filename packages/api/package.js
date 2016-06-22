@@ -1,6 +1,8 @@
 Package.describe({
-  name: 'api',
-  version: '0.1.0'
+  name: 'grow:api',
+  summary: 'The Grow-IoT api.',
+  documentation: 'README.md',
+  version: '0.2.0'
 });
 
 Package.onUse(function (api) {
@@ -29,7 +31,7 @@ Package.onUse(function (api) {
 
   // Internal dependencies.
   api.use([
-    'core'  
+    'grow:core@0.2.0'
   ]);
 
   api.addFiles([
