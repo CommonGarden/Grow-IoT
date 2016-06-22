@@ -1,10 +1,19 @@
-### Status: Pre-Alpha
+# Grow-IoT
+## Automation + IoT software for growing things!
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Please open issues or PRs with suggestions for improvements.
+Connect custom and 3rd party IoT devices and use them to automate growing environments. 
 
-## An extensible, open source stack for smart control systems.
+Control variables like:
+* Moisture
+* Light
+* pH
+* Nutrient dosing
+* Dissolved Oxygen
+* CO2
+
+Please open issues or PRs with suggestions for improvements.
 
 ![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
@@ -15,11 +24,9 @@ The Grow-IoT framework allows you to:
 * Schedule actions (such as turning the lights on every day at 8:30 am).
 * Easily create and add new IoT devices with [Grow.js](https://github.com/CommonGarden/Grow.js), using whatever board you want.
 * Have complete ownership over your data.
-* Create automated control systems.
+* Calibrate sensors *(coming soon!)*
 
-After the initial alpha launch, we hope to begin working on problems such as improving the usability and security for configuring devices, creating control systems, tackling things like sensor calibration, and splitting up the code base into more useful modules.
-
-Currently, you have to create your own hardware,
+Current status is pre-alpha. We are working examples and providing support for the widely used MQTT protocol.
 
 # Installing Grow-IoT
 
@@ -153,6 +160,13 @@ Well, running `light.js` for the first time:
 4. Sets up readable and writable streams and listens for commands.
 
 [Full Grow.js documentation and examples can be found here](http://commongarden.github.io/Grow.js/docs/).
+
+# Code organization
+The code is organized in the `packages` folder. Grow-IoT is a meteor application currently comprised of 3 packages:
+
+* api: a server for interacting with devices
+* app: the frontend application
+* core: document models
 
 ### Setting up an instance on Meteor Galaxy
 
