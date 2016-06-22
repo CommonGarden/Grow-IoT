@@ -60,13 +60,16 @@ Meteor.methods({
 
   // Modify to update a property from the client side?
   // Example, updating the schedule of an action schedule...
-  ['Device.udpateProperty'](auth, property, value) {
+  ['Device.setProperty'](auth, property, value, key) {
     check(auth, {
       uuid: Match.NonEmptyString,
       token: Match.NonEmptyString
     });
     check(property, Match.NonEmptyString);
     check(value, Match.NonEmptyString);
+    // if (!_.isNull(key) ) {
+    // check(key, Match.NonEmptyString);
+    // }
 
     let device = Device.documents.findOne(auth, {
       fields: {
@@ -78,67 +81,22 @@ Meteor.methods({
 
     // Update the propery on the thing object
     let { thing } = device;
-    thing.properties[property] = value;
 
-    // Set the new thing object
-    return Device.documents.update(device._id, {
-      $set: {
-        'thing': thing
-      }
-    });
-  },
+    // Hack:
+    // thing.actions[key][property] = value;
+    // // console.log(thing.actions[key]);
+    // console.log(thing.events[key]);
+    // console.log(thing.properties[key]);
 
-
-  ['Device.updateActionProperty'](auth, actionKey, property, value) {
-    check(auth, {
-      uuid: Match.NonEmptyString,
-      token: Match.NonEmptyString
-    });
-    check(property, Match.NonEmptyString);
-    check(value, Match.NonEmptyString);
-
-    let device = Device.documents.findOne(auth, {
-      fields: {
-        _id: 1,
-        thing: 1
-      }
-    });
-
-    if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
-
-    // Update the propery on the thing object
-    let { thing } = device;
-    thing.actions[actionKey][property] = value;
-
-    // Set the new thing object
-    return Device.documents.update(device._id, {
-      $set: {
-        'thing': thing
-      }
-    });
-  },
-
-
-  ['Device.updateEventProperty'](auth, eventKey, property, value) {
-    check(auth, {
-      uuid: Match.NonEmptyString,
-      token: Match.NonEmptyString
-    });
-    check(property, Match.NonEmptyString);
-    check(value, Match.NonEmptyString);
-
-    let device = Device.documents.findOne(auth, {
-      fields: {
-        _id: 1,
-        thing: 1
-      }
-    });
-
-    if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
-
-    // Update the propery on the thing object
-    let { thing } = device;
-    thing.events[eventKey][property] = value;
+    // Not working...
+    if (_.isNull(key)) {
+      thing.properties[property] = value;
+    }
+    else if (!_.isUndefined(thing.actions[key])) {
+      thing.actions[key][property] = value;
+    } else if (!_.isUndefined(thing.events[key])) {
+      thing.events[key][property] = value;
+    }
 
     // Set the new thing object
     return Device.documents.update(device._id, {
