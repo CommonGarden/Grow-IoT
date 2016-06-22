@@ -118,7 +118,7 @@ class LineChartComponent extends CommonComponent {
       }
     };
 
-    let Chart = new Chartist.Line('.ct-chart', data, options);
+    let Chart = new Chartist.Line('#' + this.property(), data, options);
 
     return this.autorun(computation => {
       let { property } = Template.currentData();
