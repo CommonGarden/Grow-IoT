@@ -1,6 +1,8 @@
 Package.describe({
-  name: 'grow-app',
-  version: '0.1.0'
+  name: 'grow:app',
+  summary: 'Grow-IoT user interface and frontend app.',
+  documentation: 'README.md',
+  version: '0.2.0'
 });
 
 Package.onUse(function (api) {
@@ -10,28 +12,28 @@ Package.onUse(function (api) {
   api.use([
     'coffeescript',
     'underscore',
-    'fourseven:scss',
+    'fourseven:scss@3.4.3',
     'ecmascript'
   ]);
 
   // 3rd party dependencies.
   api.use([
     'kadira:flow-router@2.7.0',
-    'peerlibrary:blaze-common-component',
+    'peerlibrary:blaze-common-component@0.2.0',
     'peerlibrary:blaze-components@0.15.0',
     'kadira:blaze-layout@2.2.0',
     'peerlibrary:computed-field@0.3.0',
-    'themeteorchef:jquery-validation',
-    'useraccounts:bootstrap',
-    'useraccounts:core',
-    'softwarerero:accounts-t9n',
+    'themeteorchef:jquery-validation@1.14.0',
+    'useraccounts:bootstrap@1.14.2',
+    'useraccounts:core@1.14.2',
+    'softwarerero:accounts-t9n@1.3.4',
     'jquery'
   ]);
 
   // Internal dependencies.
   api.use([
-    'core',
-    'api',
+    'grow:core@0.2.0',
+    'grow:api@0.2.0',
     'session'
   ]);
 

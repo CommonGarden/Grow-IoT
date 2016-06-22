@@ -17,7 +17,7 @@ gfk:notifications       # Add reactive notifications to your meteor application.
 twbs:bootstrap          # Bootstrap CSS framework
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
-grow-app
+grow:app
 accounts-password
 d3js:d3
 # audit-argument-checks
