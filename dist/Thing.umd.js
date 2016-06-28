@@ -78,9 +78,47 @@
         _.extend(_this, config);
       }
 
-      _this.registerActions();
-      _this.registerEvents();
-      _this.registerProperties();
+      _this.scheduledActions = {};
+
+      if (!_.isUndefined(_this.actions)) {
+        _.each(_this.actions, function (action, key, list) {
+          if (!_.isUndefined(action.schedule)) {
+            _this.scheduleAction(key);
+          }
+        });
+      }
+
+      _this.scheduledEvents = {};
+
+      if (!_.isUndefined(_this.events)) {
+        _.each(_this.events, function (event, key, list) {
+          if (!_.isUndefined(event.schedule)) {
+            _this.scheduleEvent(key);
+          }
+
+          if (!_.isUndefined(event.on)) {
+            _this.on(event.on, function () {
+              if (!_.isUndefined(event.rule)) {
+                if (event.rule.condition() === true) {
+                  event.rule.consequence();
+                }
+              } else {
+                event.function();
+              }
+            });
+          }
+        });
+      }
+
+      if (!_.isUndefined(_this.properties)) {
+        for (var property in _this.properties) {
+          // If the property is a function we initialize it.
+          if (typeof _this.properties[property] === 'function') {
+            // Note this function should return property value.
+            _this.properties[property] = _this.properties[property]();
+          }
+        }
+      }
 
       // Callback is optional. May be used for a start function.
       if (!_.isUndefined(callback)) {
@@ -90,91 +128,31 @@
     }
 
     /**
-     * Run when the Thing is initialized. Starts any scheduled actions.
+     * Get action object
+     * @param {String} ID  The key of the action object you want.
+     * @returns {Object}
      */
 
 
     createClass(Thing, [{
-      key: 'registerActions',
-      value: function registerActions() {
-        var _this2 = this;
-
-        this.scheduledActions = {};
-
-        if (!_.isUndefined(this.actions)) {
-          _.each(this.actions, function (action, key, list) {
-            if (!_.isUndefined(action.schedule)) {
-              _this2.startAction(key);
-            }
-          });
-        }
-      }
-
-      /**
-       * Run when the Thing is initialized. Starts listeners and schedules events.
-       */
-
-    }, {
-      key: 'registerEvents',
-      value: function registerEvents() {
-        var _this3 = this;
-
-        this.scheduledEvents = {};
-
-        if (!_.isUndefined(this.events)) {
-          _.each(this.events, function (event, key, list) {
-            if (!_.isUndefined(event.schedule)) {
-              _this3.scheduleEvent(key);
-            }
-
-            if (!_.isUndefined(event.on)) {
-              _this3.on(event.on, function () {
-                event.function();
-              });
-            }
-          });
-        }
-      }
-
-      /**
-       * Initializes properties.
-       */
-
-    }, {
-      key: 'registerProperties',
-      value: function registerProperties() {
-        if (!_.isUndefined(this.properties)) {
-          for (var property in this.properties) {
-            // If the property is a function we initialize it.
-            if (typeof this.properties[property] === 'function') {
-              // Note this function should return property value.
-              this.properties[property] = this.properties[property]();
-            }
-          }
-        }
-      }
-
-      /**
-       * Get action object
-       * @param {String} ID  The key of the action object you want.
-       * @returns {Object}
-       */
-
-    }, {
       key: 'getAction',
       value: function getAction(ID) {
-        var _this4 = this;
+        var _this2 = this;
 
         var action = {};
         _.each(this.actions, function (value, key, list) {
           if (key === ID) {
             return action = value;
-          } else if (_this4.actions[key].id === ID) {
+          } else if (_this2.actions[key].id === ID) {
             return action = value;
           }
         });
 
-        return action;
+        if (_.isEmpty(action)) {
+          return false;
+        } else {
+          return action;
+        }
       }
 
       /**
@@ -197,18 +175,22 @@
     }, {
       key: 'getEvent',
       value: function getEvent(ID) {
-        var _this5 = this;
+        var _this3 = this;
 
         var event = {};
         _.each(this.events, function (value, key, list) {
           if (key === ID) {
             return event = value;
-          } else if (_this5.events[key].id === ID) {
+          } else if (_this3.events[key].id === ID) {
             return event = value;
           }
         });
 
-        return event;
+        if (_.isEmpty(event)) {
+          return false;
+        } else {
+          return event;
+        }
       }
 
       /**
@@ -227,12 +209,25 @@
        * @param {String} property The property of the component to be update.
        * @param {String} value The value to update the property to.
        */
+      // Modify to make more generally useful...
 
     }, {
       key: 'setProperty',
-      value: function setProperty(property, value) {
-        this.properties[property] = value;
-        this.emit('property-updated');
+      value: function setProperty(property, value, key) {
+        if (_.isUndefined(key)) {
+          this.properties[property] = value;
+          this.emit('property-updated');
+        } else {
+          // what if they both have the same key?
+          var action = this.getAction(key);
+          var event = this.getEvent(key);
+          if (action) {
+            action[property] = value;
+          } else if (event) {
+            event[property] = value;
+          }
+          this.emit('property-updated');
+        }
       }
 
       /* Get a property by key.
@@ -242,8 +237,19 @@
 
     }, {
       key: 'getProperty',
-      value: function getProperty(property) {
-        return this.properties[property];
+      value: function getProperty(property, key) {
+        if (_.isUndefined(key)) {
+          return this.properties[property];
+        } else {
+          var action = this.getAction(key);
+          var event = this.getEvent(key);
+          if (action) {
+            return action[property];
+          }
+          if (event) {
+            return event[property];
+          }
+        }
       }
 
       /* Get a Thing's properties
@@ -293,14 +299,14 @@
        */
 
     }, {
-      key: 'startAction',
-      value: function startAction(actionKey) {
-        var _this6 = this;
+      key: 'scheduleAction',
+      value: function scheduleAction(actionKey) {
+        var _this4 = this;
 
         var action = this.getAction(actionKey);
         var schedule = later.parse.text(action.schedule);
         var scheduledAction = later.setInterval(function () {
-          _this6.callAction(actionKey);
+          _this4.callAction(actionKey);
         }, schedule);
         return this.scheduledActions[actionKey] = scheduledAction;
       }
@@ -313,12 +319,12 @@
     }, {
       key: 'scheduleEvent',
       value: function scheduleEvent(eventKey) {
-        var _this7 = this;
+        var _this5 = this;
 
         var event = this.getEvent(eventKey);
         var schedule = later.parse.text(event.schedule);
         var scheduledEvent = later.setInterval(function () {
-          _this7.callEvent(eventKey);
+          _this5.callEvent(eventKey);
         }, schedule);
         return this.scheduledEvents[eventKey] = scheduledEvent;
       }

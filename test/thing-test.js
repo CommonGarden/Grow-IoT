@@ -95,6 +95,15 @@ describe('Thing test', () => {
       expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
     });
 
+    it('should get an action property', () => {
+      expect(testThing.getProperty('name', 'turn_light_on')).to.equal('On');
+    });
+
+    it('should set an action property', () => {
+      testThing.setProperty('name', 'Robert', 'turn_light_on');
+      expect(testThing.getProperty('name', 'turn_light_on')).to.equal('Robert');
+    });
+
     it('should emit an event when an action is called', () => {
       var event = false;
       testThing.on('turn_light_on', () => {
@@ -108,6 +117,15 @@ describe('Thing test', () => {
   describe('EVENTS', () => {
     it('should register events in the config object', () => {
       expect(_.allKeys(testThing.events).length).to.equal(2);
+    });
+
+    it('should get an event property', () => {
+      expect(testThing.getProperty('name', 'dark')).to.equal('It\'s dark.');
+    });
+
+    it('should set an event property', () => {
+      testThing.setProperty('name', 'Robert', 'dark');
+      expect(testThing.getProperty('name', 'dark')).to.equal('Robert');
     });
 
     it('should return the right event object when given an id.', () => {
