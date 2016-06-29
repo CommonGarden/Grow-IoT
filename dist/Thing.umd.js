@@ -156,17 +156,6 @@
       }
 
       /**
-       * Get list of the Thing's actions
-       * @returns {Object}
-       */
-
-    }, {
-      key: 'getActions',
-      value: function getActions() {
-        return this.actions;
-      }
-
-      /**
        * Get event object
        * @param {String} ID  The key / id of the event object you want.
        * @returns {Object}
@@ -191,17 +180,6 @@
         } else {
           return event;
         }
-      }
-
-      /**
-       * Get list of the Thing's events
-       * @returns {Object}
-       */
-
-    }, {
-      key: 'getEvents',
-      value: function getEvents() {
-        return this.events;
       }
 
       /**
@@ -250,16 +228,6 @@
             return event[property];
           }
         }
-      }
-
-      /* Get a Thing's properties
-       * @returns {Object}
-       */
-
-    }, {
-      key: 'getProperties',
-      value: function getProperties() {
-        return this.properties;
       }
 
       /**
