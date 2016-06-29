@@ -24,31 +24,15 @@
                 <ul class="nav nav-stacked">
                   <li><a href="#Thing"><i class="alert alert-success"></i><span>Thing</span></a>
                   </li>
-                  <li><a href="#registerActions"><i class="alert alert-info"></i><span>registerActions</span></a>
-                  </li>
-                  <li><a href="#registerEvents"><i class="alert alert-info"></i><span>registerEvents</span></a>
-                  </li>
-                  <li><a href="#registerProperties"><i class="alert alert-info"></i><span>registerProperties</span></a>
-                  </li>
                   <li><a href="#getAction"><i class="alert alert-info"></i><span>getAction</span></a>
-                  </li>
-                  <li><a href="#getActions"><i class="alert alert-info"></i><span>getActions</span></a>
                   </li>
                   <li><a href="#getEvent"><i class="alert alert-info"></i><span>getEvent</span></a>
                   </li>
-                  <li><a href="#getEvents"><i class="alert alert-info"></i><span>getEvents</span></a>
+                  <li><a href="#get"><i class="alert alert-info"></i><span>get</span></a>
                   </li>
-                  <li><a href="#setProperty"><i class="alert alert-info"></i><span>setProperty</span></a>
+                  <li><a href="#call"><i class="alert alert-info"></i><span>call</span></a>
                   </li>
-                  <li><a href="#getProperty"><i class="alert alert-info"></i><span>getProperty</span></a>
-                  </li>
-                  <li><a href="#getProperties"><i class="alert alert-info"></i><span>getProperties</span></a>
-                  </li>
-                  <li><a href="#callAction"><i class="alert alert-info"></i><span>callAction</span></a>
-                  </li>
-                  <li><a href="#startAction"><i class="alert alert-info"></i><span>startAction</span></a>
-                  </li>
-                  <li><a href="#scheduleEvent"><i class="alert alert-info"></i><span>scheduleEvent</span></a>
+                  <li><a href="#schedule"><i class="alert alert-info"></i><span>schedule</span></a>
                   </li>
                 </ul></a></li>
           </ul>
@@ -98,78 +82,51 @@
       _.extend(this, config);
     }
 
-    this.registerActions();
-    this.registerEvents();
-    this.registerProperties();
+    this.scheduled = {};
+
+    if (!_.isUndefined(this.actions)) {
+      _.each(this.actions, (action, key, list) =&gt; {
+        if (!_.isUndefined(action.schedule)) {
+          this.schedule(key);
+        }
+      });
+    }
+
+    if (!_.isUndefined(this.events)) {
+      _.each(this.events, (event, key, list) =&gt; {
+        if (!_.isUndefined(event.schedule)) {
+          this.schedule(key);
+        }
+
+        if (!_.isUndefined(event.on)) {
+          this.on(event.on, () =&gt; {
+            if (!_.isUndefined(event.rule)) {
+              if (event.rule.condition() === true) {
+                event.rule.consequence();
+              }
+            } else {
+              event.function();
+            }
+          });
+        }
+      });
+    }
+
+    if (!_.isUndefined(this.properties)) {
+      for (var property in this.properties) {
+        // If the property is a function we initialize it.
+        if (typeof this.properties[property] === 'function') {
+          // Note this function should return property value.
+          this.properties[property] = this.properties[property]()
+        }
+      }
+    }
 
     // Callback is optional. May be used for a start function.
     if (!_.isUndefined(callback)) {
       callback();
     }
   }</code></pre>
-          <section id="registerActions">
-            <h1>registerActions</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.registerActions()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <div class="description"><p>Run when the Thing is initialized. Starts any scheduled actions.</p></div>
-          <pre><code class="language-javascript">registerActions () {
-  this.scheduledActions = {};
-
-  if (!_.isUndefined(this.actions)) {
-    _.each(this.actions, (action, key, list) =&gt; {
-      if (!_.isUndefined(action.schedule)) {
-        this.startAction(key);
-      }
-    });
-  }
-}</code></pre>
-          <section id="registerEvents">
-            <h1>registerEvents</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.registerEvents()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <div class="description"><p>Run when the Thing is initialized. Starts listeners and schedules events.</p></div>
-          <pre><code class="language-javascript">registerEvents () {
-  this.scheduledEvents = {};
-
-  if (!_.isUndefined(this.events)) {
-    _.each(this.events, (event, key, list) =&gt; {
-      if (!_.isUndefined(event.schedule)) {
-        this.scheduleEvent(key);
-      }
-
-      if (!_.isUndefined(event.on)) {
-        this.on(event.on, () =&gt; {
-          event.function();
-        });
-      }
-    });
-  }
-}</code></pre>
-          <section id="registerProperties">
-            <h1>registerProperties</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.registerProperties()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <div class="description"><p>Initializes properties.</p></div>
-          <pre><code class="language-javascript">registerProperties () {
-  if (!_.isUndefined(this.properties)) {
-    for (var property in this.properties) {
-      // If the property is a function we initialize it.
-      if (typeof this.properties[property] === 'function') {
-        // Note this function should return property value.
-        this.properties[property] = this.properties[property]()
-      }
-    }
-  }
-}</code></pre>
           <section id="getAction">
             <h1>getAction</h1>
             <h5 class="subheader"></h5>
@@ -204,29 +161,11 @@
     }
   });
 
-  return action;
-}</code></pre>
-          <section id="getActions">
-            <h1>getActions</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getActions()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-          <div class="description"><p>Get list of the Thing&#39;s actions</p></div>
-          <pre><code class="language-javascript">getActions () {
-  return this.actions;
+  if (_.isEmpty(action)) {
+    return false;
+  } else {
+    return action;
+  }
 }</code></pre>
           <section id="getEvent">
             <h1>getEvent</h1>
@@ -262,37 +201,12 @@
     }
   });
 
-  return event;
+  if (_.isEmpty(event)) {
+    return false;
+  } else {
+    return event;
+  }
 }</code></pre>
-          <section id="getEvents">
-            <h1>getEvents</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getEvents()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-          <div class="description"><p>Get list of the Thing&#39;s events</p></div>
-          <pre><code class="language-javascript">getEvents () {
-  return this.events;
-}</code></pre>
-          <section id="setProperty">
-            <h1>setProperty</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.setProperty()</span><span>&nbsp;</span>
-            </p>
-          </section>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -315,15 +229,29 @@
             </tbody>
           </table>
           <div class="description"><p>Update a property based on a component ID.</p></div>
-          <pre><code class="language-javascript">setProperty (property, value) {
-  this.properties[property] = value;
-  this.emit('property-updated');
-}</code></pre>
-          <section id="getProperty">
-            <h1>getProperty</h1>
+          <pre><code class="language-javascript">// Modify to make more generally useful...
+  set (property, value, key) {
+ if (_.isUndefined(key)) {
+   this.properties[property] = value;
+   this.emit('property-updated');
+ }
+ else {
+   // what if they both have the same key?
+   let action = this.getAction(key);
+   let event = this.getEvent(key);
+   if (action) {
+     action[property] = value;
+   } else if (event) {
+     event[property] = value;
+   }
+   this.emit('property-updated');    
+ }
+  }</code></pre>
+          <section id="get">
+            <h1>get</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getProperty()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>get()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -343,36 +271,25 @@
             </tbody>
           </table>
           <div class="description"><p>Get a property by key.</p></div>
-          <pre><code class="language-javascript">getProperty (property) {
-  return this.properties[property];
+          <pre><code class="language-javascript">get (property, key) {
+  if (_.isUndefined(key)) {
+    return this.properties[property];
+  } else {
+    let action = this.getAction(key);
+    let event = this.getEvent(key);
+    if (action) {
+      return action[property];
+    }
+    if (event) {
+      return event[property];
+    }
+  }
 }</code></pre>
-          <section id="getProperties">
-            <h1>getProperties</h1>
+          <section id="call">
+            <h1>call</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getProperties()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-          <div class="description"><p>Get a Thing&#39;s properties</p></div>
-          <pre><code class="language-javascript">getProperties () {
-  return this.properties;
-}</code></pre>
-          <section id="callAction">
-            <h1>callAction</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.callAction()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>call()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -397,7 +314,7 @@
             </tbody>
           </table>
           <div class="description"><p>Calls a registered action, emits event if the the action has an &#39;event&#39;<br />property defined. Updates the state if the action has an &#39;updateState&#39;<br />property specified.</p></div>
-          <pre><code class="language-javascript">callAction (actionId, options) {
+          <pre><code class="language-javascript">call (actionId, options) {
   try {
     let action = this.getAction(actionId);
 
@@ -420,11 +337,11 @@
   }
 
 }</code></pre>
-          <section id="startAction">
-            <h1>startAction</h1>
+          <section id="schedule">
+            <h1>schedule</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.startAction()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>schedule()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -443,42 +360,20 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Starts a reoccurring action if a schedule property is defined.</p></div>
-          <pre><code class="language-javascript">startAction (actionKey) {
-  let action = this.getAction(actionKey);
-  let schedule = later.parse.text(action.schedule);
-  let scheduledAction = later.setInterval(()=&gt; {this.callAction(actionKey);}, schedule);
-  return this.scheduledActions[actionKey] = scheduledAction;
-}</code></pre>
-          <section id="scheduleEvent">
-            <h1>scheduleEvent</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.scheduleEvent()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>event</td>
-                <td>Object</td>
-                <td><p>An event object.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Starts a reoccurring event if a schedule property is defined.</p></div>
-          <pre><code class="language-javascript">scheduleEvent (eventKey) {
-  let event = this.getEvent(eventKey)
-  let schedule = later.parse.text(event.schedule);
-  let scheduledEvent = later.setInterval(()=&gt; {this.callEvent(eventKey);}, schedule);
-  return this.scheduledEvents[eventKey] = scheduledEvent;
+          <div class="description"><p>Starts a reoccurring action or event if a schedule property is defined.</p></div>
+          <pre><code class="language-javascript">schedule (key) {
+  // what if they both have the same key?
+  let action = this.getAction(key);
+  let event = this.getEvent(key);
+  if (action) {
+    let schedule = later.parse.text(action.schedule);
+    let scheduledAction = later.setInterval(()=&gt; {this.call(key);}, schedule);
+    return this.scheduled[key] = scheduledAction;
+  } else if (event) {
+    let schedule = later.parse.text(event.schedule);
+    let scheduledEvent = later.setInterval(()=&gt; {this.call(key);}, schedule);
+    return this.scheduled[key] = scheduledEvent;
+  }
 }
 };
 
