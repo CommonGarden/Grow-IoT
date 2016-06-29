@@ -64,33 +64,29 @@ board.on('ready', function start() {
         desription: 'An LED light with a basic on/off api.',
         username: 'jakehart', // The username of the account you want this device to be added to.
         properties: {
-            state: 'off',
-            lightconditions: function () {
-                // Properties can be functions, booleans, strings, ints, objects, lists, etc.
-                // Properties can be updated by the API.
-                // Note: property functions should return a value.
-                return 'unset';
-            }
+            state: 'off'
         },
         actions: {
             turn_light_on: {
                 name: 'On', // Display name for the action
                 description: 'Turns the light on.', // Optional description
                 schedule: 'at 9:00am', // Optional scheduling using later.js
+                event: "Light on", // Message to emit as event when called.
                 function: function () {
                     // The implementation of the action.
                     LED.high();
                     console.log('light on');
-                    grow.setProperty('state', 'on');
+                    grow.set('state', 'on');
                 }
             },
             turn_light_off: {
                 name: 'off',
                 schedule: 'at 8:30pm',
+                event: 'Light off',
                 function: function () {
                     LED.low();
                     console.log('light off');
-                    grow.setProperty('state', 'off');
+                    grow.set('state', 'off');
                 }
             },
             light_data: {
@@ -99,7 +95,7 @@ board.on('ready', function start() {
                 template: 'sensor',
                 schedule: 'every 1 second',
                 function: function () {
-                    grow.sendData({
+                    grow.log({
                       type: 'light',
                       value: lightSensor.value
                     });
@@ -111,18 +107,18 @@ board.on('ready', function start() {
                 name: 'Check light data',
                 on: 'light_data', // Adds Listener for action event.
                 function: function () {
-                    if ((lightSensor.value < 100) && (grow.thing.getProperty('lightconditions') != 'dark')) {
+                    if ((lightSensor.value < 100) && (grow.get('lightconditions') != 'dark')) {
                         // This could be nice with a chaining API...
                         // It would be good if we could add additional rules with the environment.
                         // EventListeners
                         grow.emitEvent('dark');
-                        grow.setProperty('lightconditions', 'dark');
-                        grow.thing.callAction('turn_light_on');
-                    } else if ((lightSensor.value >= 100) && (grow.thing.getProperty('lightconditions') != 'light')) {
+                        grow.set('lightconditions', 'dark');
+                        grow.call('turn_light_on');
+                    } else if ((lightSensor.value >= 100) && (grow.thing.get('lightconditions') != 'light')) {
                         // This could be nice with a chaining API...
                         grow.emitEvent('light');
-                        grow.thing.setProperty('lightconditions', 'light');
-                        grow.thing.callAction('turn_light_off');
+                        grow.set('lightconditions', 'light');
+                        grow.call('turn_light_off');
                     }
                 }
             }

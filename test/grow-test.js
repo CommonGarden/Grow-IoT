@@ -12,41 +12,58 @@ global.expect = require('chai').expect;
 
     // Setup test things
     // In the future we can test multiple different kinds of things!
-    global.thing1 = {
+    global.thing = {
       name: 'Light', // The display name for the thing.
-      desription: 'An LED light with a basic on/off api.',
-      // The username of the account you want this device to be added to.
-      username: 'jake2@gmail.com',
-      // Properties can be updated by the API
-      properties: {
-        state: 'off'
+      id: 'Light',
+      username: 'YourUsernameHere', // The username of the account you want this device to be added to.
+      properties: { // These can be updated by the API.
+        state: 'off',
+        lightconditions: function () {
+          return 'unset';
+        }
       },
-      // Actions are the API of the thing.
-      actions: {
+      actions: { // a list of action objects with keys
         turn_light_on: {
           name: 'On', // Display name for the action
           description: 'Turns the light on.', // Optional description
           schedule: 'at 9:00am', // Optional scheduling using later.js
+          event: 'Light turned on', // Optional event to emit when called.
           function: function () {
             // The implementation of the action.
-            return 'Light on';
+            return 'Light on.';
           }
         },
         turn_light_off: {
           name: 'off',
-          schedule: 'at 8:30pm', // Run this function at 8:30pm
+          schedule: 'at 8:30pm',
+          event: 'Light turned off',
           function: function () {
-            return 'Light off';
+            return 'Light off.';
           }
         },
         light_data: {
-          name: 'Log light data',
-          // type and template need for visualization component... HACK. 
-          type: 'light',
+          name: 'Log light data', // Events get a display name like actions
+          type: 'light', // Currently need for visualization component... HACK.
           template: 'sensor',
-          schedule: 'every 1 second',
+          schedule: 'every 1 second', // Events should have a schedule option that determines how often to check for conditions.
           function: function () {
-            return 'light data';
+            return 10;
+          }
+        }
+      },
+      events: {
+        dark: {
+          name: 'It\'s dark.',
+          on: 'light_data', // Hook into an action.
+          function: function () {
+            return;
+          }
+        },
+        light: {
+          name: 'It\'s light.',
+          on: 'light_data',
+          function: function () {
+            return;
           }
         }
       }
@@ -54,30 +71,87 @@ global.expect = require('chai').expect;
   });
 
   afterEach(function() {
-    delete global.thing1;
+    delete global.thing;
   });
 })();
 
 
-describe('A feature test', () => {
-  it('should have setup actions correctly', () => {
-    let GrowInstance = new Grow(thing1);
-    expect(GrowInstance.thing.callAction('turn_light_on')).to.equal('Light on');
-    expect(GrowInstance.thing.callAction('turn_light_off')).to.equal('Light off');
+describe('Grow test', () => {
+  beforeEach(() => {
+    global.testThing = new Grow(thing);
   });
 
-  it('should update action properties correctly', () => {
-    let GrowInstance = new Grow(thing1);
-    GrowInstance.updateActionProperty('turn_light_on', 'schedule', 'at 10:00am');
-    expect(GrowInstance.thing.getAction('turn_light_on').schedule).to.equal('at 10:00am');
-  });
+  // TODO: write better tests... it's a little hard at the moment cause
+  // Grow.js needs to connect to a host server to run correctly.
 
-  it('should call the optional callback', () => {
-    let callbackWorks = false;
-    let GrowInstance = new Grow(thing1, ()=> {
-      callbackWorks = true;
-    });
-    expect(callbackWorks).to.equal(true);
-  });
+  // it('should have cloned metadata', () => {
+  //   expect(testThing.name).to.equal('Light');
+  //   expect(testThing.id).to.equal('Light');
+  //   expect(testThing.username).to.equal('YourUsernameHere');
+  // });
 
+  // describe('ACTIONS', () => {
+  //   it('should be able to call a registered action.', () => {
+  //     expect(testThing.call('turn_light_on')).to.equal('Light on.');
+  //   });
+
+  //   it('should get an action property', () => {
+  //     expect(testThing.get('name', 'turn_light_on')).to.equal('On');
+  //   });
+
+  //   it('should set an action property', () => {
+  //     testThing.set('name', 'Robert', 'turn_light_on');
+  //     expect(testThing.get('name', 'turn_light_on')).to.equal('Robert');
+  //   });
+
+  //   it('should emit an event when an action is called', () => {
+  //     var event = false;
+  //     testThing.on('turn_light_on', () => {
+  //       return event = true;
+  //     });
+  //     testThing.call('turn_light_on');
+  //     expect(event).to.equal(true);
+  //   });
+  // });
+
+  // describe('EVENTS', () => {
+  //   it('should register events in the config object', () => {
+  //     expect(_.allKeys(testThing.events).length).to.equal(2);
+  //   });
+
+  //   it('should get an event property', () => {
+  //     expect(testThing.get('name', 'dark')).to.equal('It\'s dark.');
+  //   });
+
+  //   it('should set an event property', () => {
+  //     testThing.set('name', 'Robert', 'dark');
+  //     expect(testThing.get('name', 'dark')).to.equal('Robert');
+  //   });
+  // });
+
+  // describe('PROPERTIES', () => {
+  //   it('should initialize correctly', () => {
+  //     expect(testThing.get('lightconditions')).to.equal('unset');
+  //   });
+
+  //   it('should set a property', () => {
+  //     testThing.set('lightconditions', 'dark');
+  //     expect(testThing.get('lightconditions')).to.equal('dark');
+  //   });
+
+  //   it('should emit an event when a property is set', () => {
+  //     var event = false;
+  //     testThing.on('property-updated', () => {
+  //       return event = true;
+  //     });
+  //     testThing.set('lightconditions', 'light');
+  //     expect(testThing.get('lightconditions')).to.equal('light');
+  //     expect(event).to.equal(true);
+  //   });
+
+  // });
+
+  afterEach(() => {
+    delete global.testThing;
+  });
 });

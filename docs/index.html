@@ -27,6 +27,7 @@
         </div>
         <div class="col-md-9">
           <section id="Main" class="readme"><h1>Grow.js</h1>
+<p><a href="https://gitter.im/CommonGarden/Grow.js?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/CommonGarden/Grow.js.svg" alt="Join the chat at https://gitter.im/CommonGarden/Grow.js"></a></p>
 <p>Grow.js is an npm packagle for creating and connecting devices to a <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT</a> instance. <a href="http://commongarden.github.io/Grow.js/docs/">Full grow.js documentation can be found here</a>.</p>
 <p>Grow.js handles:</p>
 <ul>
@@ -72,33 +73,29 @@ board.on('ready', function start() {
         desription: 'An LED light with a basic on/off api.',
         username: 'jakehart', // The username of the account you want this device to be added to.
         properties: {
-            state: 'off',
-            lightconditions: function () {
-                // Properties can be functions, booleans, strings, ints, objects, lists, etc.
-                // Properties can be updated by the API.
-                // Note: property functions should return a value.
-                return 'unset';
-            }
+            state: 'off'
         },
         actions: {
             turn_light_on: {
                 name: 'On', // Display name for the action
                 description: 'Turns the light on.', // Optional description
                 schedule: 'at 9:00am', // Optional scheduling using later.js
+                event: &quot;Light on&quot;, // Message to emit as event when called.
                 function: function () {
                     // The implementation of the action.
                     LED.high();
                     console.log('light on');
-                    grow.setProperty('state', 'on');
+                    grow.set('state', 'on');
                 }
             },
             turn_light_off: {
                 name: 'off',
                 schedule: 'at 8:30pm',
+                event: 'Light off',
                 function: function () {
                     LED.low();
                     console.log('light off');
-                    grow.setProperty('state', 'off');
+                    grow.set('state', 'off');
                 }
             },
             light_data: {
@@ -107,7 +104,7 @@ board.on('ready', function start() {
                 template: 'sensor',
                 schedule: 'every 1 second',
                 function: function () {
-                    grow.sendData({
+                    grow.log({
                       type: 'light',
                       value: lightSensor.value
                     });
@@ -119,18 +116,18 @@ board.on('ready', function start() {
                 name: 'Check light data',
                 on: 'light_data', // Adds Listener for action event.
                 function: function () {
-                    if ((lightSensor.value &lt; 100) &amp;&amp; (grow.thing.getProperty('lightconditions') != 'dark')) {
+                    if ((lightSensor.value &lt; 100) &amp;&amp; (grow.get('lightconditions') != 'dark')) {
                         // This could be nice with a chaining API...
                         // It would be good if we could add additional rules with the environment.
                         // EventListeners
                         grow.emitEvent('dark');
-                        grow.setProperty('lightconditions', 'dark');
-                        grow.thing.callAction('turn_light_on');
-                    } else if ((lightSensor.value &gt;= 100) &amp;&amp; (grow.thing.getProperty('lightconditions') != 'light')) {
+                        grow.set('lightconditions', 'dark');
+                        grow.call('turn_light_on');
+                    } else if ((lightSensor.value &gt;= 100) &amp;&amp; (grow.thing.get('lightconditions') != 'light')) {
                         // This could be nice with a chaining API...
                         grow.emitEvent('light');
-                        grow.thing.setProperty('lightconditions', 'light');
-                        grow.thing.callAction('turn_light_off');
+                        grow.set('lightconditions', 'light');
+                        grow.call('turn_light_off');
                     }
                 }
             }
