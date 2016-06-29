@@ -206,8 +206,8 @@ var Thing = function (_EventEmitter) {
     // Modify to make more generally useful...
 
   }, {
-    key: 'setProperty',
-    value: function setProperty(property, value, key) {
+    key: 'set',
+    value: function set(property, value, key) {
       if (_.isUndefined(key)) {
         this.properties[property] = value;
         this.emit('property-updated');
@@ -230,8 +230,8 @@ var Thing = function (_EventEmitter) {
      */
 
   }, {
-    key: 'getProperty',
-    value: function getProperty(property, key) {
+    key: 'get',
+    value: function get(property, key) {
       if (_.isUndefined(key)) {
         return this.properties[property];
       } else {
@@ -265,8 +265,8 @@ var Thing = function (_EventEmitter) {
      */
 
   }, {
-    key: 'callAction',
-    value: function callAction(actionId, options) {
+    key: 'call',
+    value: function call(actionId, options) {
       try {
         var action = this.getAction(actionId);
 
