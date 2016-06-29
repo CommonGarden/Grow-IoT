@@ -72,22 +72,20 @@ var Thing = function (_EventEmitter) {
       _.extend(_this, config);
     }
 
-    _this.scheduledActions = {};
+    _this.scheduled = {};
 
     if (!_.isUndefined(_this.actions)) {
       _.each(_this.actions, function (action, key, list) {
         if (!_.isUndefined(action.schedule)) {
-          _this.scheduleAction(key);
+          _this.schedule(key);
         }
       });
     }
 
-    _this.scheduledEvents = {};
-
     if (!_.isUndefined(_this.events)) {
       _.each(_this.events, function (event, key, list) {
         if (!_.isUndefined(event.schedule)) {
-          _this.scheduleEvent(key);
+          _this.schedule(key);
         }
 
         if (!_.isUndefined(event.on)) {
@@ -256,39 +254,31 @@ var Thing = function (_EventEmitter) {
     }
 
     /**
-     * Starts a reoccurring action if a schedule property is defined.
+     * Starts a reoccurring action or event if a schedule property is defined.
      * @param {Object} action An action object.
      */
 
   }, {
-    key: 'scheduleAction',
-    value: function scheduleAction(actionKey) {
+    key: 'schedule',
+    value: function schedule(key) {
       var _this4 = this;
 
-      var action = this.getAction(actionKey);
-      var schedule = later.parse.text(action.schedule);
-      var scheduledAction = later.setInterval(function () {
-        _this4.callAction(actionKey);
-      }, schedule);
-      return this.scheduledActions[actionKey] = scheduledAction;
-    }
-
-    /**
-     * Starts a reoccurring event if a schedule property is defined.
-     * @param {Object} event An event object.
-     */
-
-  }, {
-    key: 'scheduleEvent',
-    value: function scheduleEvent(eventKey) {
-      var _this5 = this;
-
-      var event = this.getEvent(eventKey);
-      var schedule = later.parse.text(event.schedule);
-      var scheduledEvent = later.setInterval(function () {
-        _this5.callEvent(eventKey);
-      }, schedule);
-      return this.scheduledEvents[eventKey] = scheduledEvent;
+      // what if they both have the same key?
+      var action = this.getAction(key);
+      var event = this.getEvent(key);
+      if (action) {
+        var schedule = later.parse.text(action.schedule);
+        var scheduledAction = later.setInterval(function () {
+          _this4.call(key);
+        }, schedule);
+        return this.scheduled[key] = scheduledAction;
+      } else if (event) {
+        var _schedule = later.parse.text(event.schedule);
+        var scheduledEvent = later.setInterval(function () {
+          _this4.call(key);
+        }, _schedule);
+        return this.scheduled[key] = scheduledEvent;
+      }
     }
   }]);
   return Thing;
