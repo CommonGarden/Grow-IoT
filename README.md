@@ -97,7 +97,7 @@ var GrowInstance = require('Grow.js');
                     grow.emitEvent('Light on');
 
                     // Set the state property to 'on'
-                    grow.setProperty('state', 'on');
+                    grow.set('state', 'on');
                 }
             },
             turn_light_off: {
@@ -110,7 +110,7 @@ var GrowInstance = require('Grow.js');
                     grow.emitEvent('Light off');
 
                     // Set the state property to 'off'
-                    grow.setProperty('state', 'off');
+                    grow.set('state', 'off');
                 }
             },
             light_data: {
@@ -121,7 +121,7 @@ var GrowInstance = require('Grow.js');
                 schedule: 'every 1 second',
                 function: function () {
                     // Send data to the Grow-IoT app.
-                    grow.sendData({
+                    grow.log({
                       type: 'light',
                       value: Math.random()
                     });

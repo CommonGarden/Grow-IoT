@@ -27,7 +27,7 @@ Device.Scheduler = class Scheduler extends Device.ActionComponent {
         };
         return Meteor.call('Device.sendCommand',
           this.currentDeviceUuid(),
-          'updateActionSchedule',
+          'setProperty',
           options,
           (error, documentId) => {
             if (error) {

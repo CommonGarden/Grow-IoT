@@ -1,54 +1,53 @@
 <template name="DeviceDisplayComponent">
-	{{#if notFound }}
-		{{> NotFoundComponent }}
-	{{else}}	
-		{{#if Template.subscriptionsReady}}
-			<div class="row dashboard">
-				<div class="col-lg-6">
-					{{#with device.thing}}
-						<h2>{{name}}
+	<div class="row dashboard">
+		<div class="col-lg-12">
+			{{#with device.thing}}
+			<h2>{{name}}
+				{{#if $not device.onlineSince}}
+				  <em class="state">Not Online</em>
+				{{else}}
+				  <em class="state">{{properties.state}}</em>
+				{{/if}}
 
-							{{#if device.onlineSince}}
-							  <!-- Device Online -->
-							  <em class="state">{{properties.state}}</em>
-							{{else}}
-							  <!-- TODO: disable controls. -->
-							<em class="state">Not Online</em>
-							{{/if}}
+				<span class="dropdown pull-right advanced-options">
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
+		            <ul class="dropdown-menu">
+		            <!-- Todo: device settings modal -->
+				 <!-- <li>
+		              	<a href="#" class="settings">settings</a>
+		              </li> -->
+		              <li>
+		              	<a href="#" class="remove">Delete</a>
+		              </li>
+		            </ul>
+	          	</span>
+	         </h2>
+	        {{/with}}
+	        <hr/>
+		</div>
+		<div class="col-lg-6">
+	        {{#with device.thing}}
+				<p>{{description}}</p>
 
+				{{> ActuatorListComponent}}
 
-							<span class="dropdown pull-right advanced-options">
-				            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
-				            <ul class="dropdown-menu">
-				              <li><a href="#" class="remove">Delete</a></li>
-				            </ul>
-				          </span>
-			          	</h2>
+				{{> Device.EventComponent}}
+			{{/with}}
 
-						<p>{{description}}</p>
+			<hr/>
 
-						{{> ActuatorListComponent}}
-
-					{{/with}}
-
-					<hr/>
-					{{> EventLogComponent}}
-
-				</div>
-
-				<div class="col-lg-6 sensor-viz">
-					<!-- {{#if device.onlineSince }} -->
-						{{#with device}}
-							{{> SensorListComponent}}
-						{{/with}}
-<!-- 					{{else}}
-						<h4>Device offline</h4>
-					{{/if}} -->
-				</div>
-
+			<!-- TODO: show / collapse components -->
+			<div>
+			{{> EventLogComponent}}
 			</div>
-		{{else}}
-			{{> LoaderComponent}}
-		{{/if}}
-	{{/if}}
+
+		</div>
+
+		<div class="col-lg-6 sensor-viz">
+			{{#with device}}
+				{{> SensorListComponent}}
+			{{/with}}
+		</div>
+
+	</div>
 </template>
