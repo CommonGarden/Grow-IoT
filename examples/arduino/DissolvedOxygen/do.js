@@ -11,19 +11,20 @@ board.on('ready', function start() {
     // This must be called prior to any I2C reads or writes.
     this.i2cConfig();
 
-
     // Declare variables
     var DO_reading;
     var pH_reading;
 
-    var LED = new five.Pin(13);
+    var airpump = new five.Pin(13);
 
     // Create a new grow instance.
     var grow = new GrowInstance({
         name: 'Disolved Oxygen sensor', // The display name for the thing.
-        desription: 'Atlas Scientific Disolved Oxygen sensor',
+        desription: 'Atlas Scientific Disolved Oxygen sensor + Airpump',
         username: 'jake2@gmail.com', // The username of the account you want this device to be added to.
-        properties: {},
+        properties: {
+            state: null,
+        },
         actions: {
             turn_pump_on: {
                 name: 'Airpump On', // Display name for the action
@@ -31,18 +32,16 @@ board.on('ready', function start() {
                 schedule: 'at 9:00am', // Optional scheduling using later.js
                 function: function () {
                     // The implementation of the action.
-                    LED.high();
-                    console.log('light on');
-                    grow.setProperty('state', 'on');
+                    airpump.high();
+                    grow.set('state', 'on');
                 }
             },
             turn_pump_off: {
                 name: 'Airpump off',
                 schedule: 'at 8:30pm',
                 function: function () {
-                    LED.low();
-                    console.log('light off');
-                    grow.setProperty('state', 'off');
+                    airpump.low();
+                    grow.set('state', 'off');
                 }
             },
             log_do_data: {
@@ -69,7 +68,7 @@ board.on('ready', function start() {
                     });
 
                     // // Send value to Grow-IoT
-                    grow.sendData({
+                    grow.log({
                       type: 'D.O.',
                       value: DO_reading
                     });
@@ -93,26 +92,14 @@ board.on('ready', function start() {
                                 }
                             }
                             pH_reading = bytelist.join('');
-                            // console.log(pH_reading);
                         }
                     });
 
-                    console.log(pH_reading);
                     // // Send value to Grow-IoT
-                    grow.sendData({
+                    grow.log({
                       type: 'pH',
                       value: pH_reading
                     });
-                }
-            }
-        },
-        events: {
-            check_do_data: {
-                name: 'Check D.O. data',
-                on: 'log_do_data', // Adds Listener for action event.
-                function: function () {
-                    // TODO emit an event if the oxygen is too low
-                    return;
                 }
             }
         }

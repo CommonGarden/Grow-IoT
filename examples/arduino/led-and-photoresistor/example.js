@@ -35,7 +35,7 @@ board.on('ready', function start() {
                     // The implementation of the action.
                     LED.high();
                     console.log('light on');
-                    grow.setProperty('state', 'on');
+                    grow.set('state', 'on');
                 }
             },
             turn_light_off: {
@@ -44,7 +44,7 @@ board.on('ready', function start() {
                 function: function () {
                     LED.low();
                     console.log('light off');
-                    grow.setProperty('state', 'off');
+                    grow.set('state', 'off');
                 }
             },
             light_data: {
@@ -54,7 +54,7 @@ board.on('ready', function start() {
                 schedule: 'every 1 second',
                 function: function () {
                     // console.log(lightSensor.value);
-                    grow.sendData({
+                    grow.log({
                       type: 'light',
                       value: lightSensor.value
                     });
@@ -67,19 +67,19 @@ board.on('ready', function start() {
                 on: 'light_data', // Adds Listener for action event.
                 threshold: 100,
                 function: function () {
-                    var threshold = grow.getProperty('threshold', 'check_light_data');
-                    if ((lightSensor.value < threshold) && (grow.getProperty('lightconditions') != 'dark')) {
+                    var threshold = grow.get('threshold', 'check_light_data');
+                    if ((lightSensor.value < threshold) && (grow.get('lightconditions') != 'dark')) {
                         // This could be nice with a chaining API...
                         // It would be good if we could add additional rules with the environment.
                         // EventListeners
                         grow.emitEvent('dark');
-                        grow.setProperty('lightconditions', 'dark');
-                        grow.callAction('turn_light_on');
-                    } else if ((lightSensor.value >= threshold) && (grow.getProperty('lightconditions') != 'light')) {
+                        grow.set('lightconditions', 'dark');
+                        grow.call('turn_light_on');
+                    } else if ((lightSensor.value >= threshold) && (grow.get('lightconditions') != 'light')) {
                         // This could be nice with a chaining API...
                         grow.emitEvent('light');
-                        grow.setProperty('lightconditions', 'light');
-                        grow.callAction('turn_light_off');
+                        grow.set('lightconditions', 'light');
+                        grow.call('turn_light_off');
                     }
                 }
             }

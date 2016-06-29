@@ -62,8 +62,8 @@ global.expect = require('chai').expect;
 describe('A feature test', () => {
   it('should have setup actions correctly', () => {
     let GrowInstance = new Grow(thing1);
-    expect(GrowInstance.thing.callAction('turn_light_on')).to.equal('Light on');
-    expect(GrowInstance.thing.callAction('turn_light_off')).to.equal('Light off');
+    expect(GrowInstance.thing.call('turn_light_on')).to.equal('Light on');
+    expect(GrowInstance.thing.call('turn_light_off')).to.equal('Light off');
   });
 
   // it('should update action properties correctly', () => {

@@ -65,13 +65,11 @@ board.on('ready', function start() {
                                 }
                             }
                             pH_reading = bytelist.join('');
-                            // console.log(pH_reading);
                         }
                     });
 
-                    console.log(pH_reading);
                     // // Send value to Grow-IoT
-                    grow.sendData({
+                    grow.log({
                       type: 'pH',
                       value: pH_reading
                     });
@@ -88,17 +86,16 @@ board.on('ready', function start() {
                     max: 6.5
                 },
                 function: function () {
-                    // var opts = grow.thing.getProperty('options', 'check_ph');
-                    // console.log(opts);
-                    // if (currentpHValue < opts.min && state !== 'low') {
-                    //     grow.emitEvent('pH low');
-                    //     grow.setProperty('state', 'check_ph', 'low')
-                    // } else if (currentpHValue > opts.max && state !== 'low') {
-                    //     grow.emitEvent('pH high');
-                    //     grow.setProperty('state', 'check_ph', 'low')
-                    // } else if (currentpHValue > opts.min && currentpHValue < opts.max) {
-                    //     grow.setProperty('state', 'check_ph', null)
-                    // }
+                    var opts = grow.thing.get('options', 'check_ph');
+                    if (currentpHValue < opts.min && state !== 'low') {
+                        grow.emitEvent('pH low');
+                        grow.set('state', 'check_ph', 'low')
+                    } else if (currentpHValue > opts.max && state !== 'low') {
+                        grow.emitEvent('pH high');
+                        grow.set('state', 'check_ph', 'low')
+                    } else if (currentpHValue > opts.min && currentpHValue < opts.max) {
+                        grow.set('state', 'check_ph', null)
+                    }
                 }
             }
         }
