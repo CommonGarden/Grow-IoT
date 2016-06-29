@@ -92,16 +92,16 @@ describe('Thing test', () => {
     });
 
     it('should be able to call a registered action.', () => {
-      expect(testThing.callAction('turn_light_on')).to.equal('Light on.');
+      expect(testThing.call('turn_light_on')).to.equal('Light on.');
     });
 
     it('should get an action property', () => {
-      expect(testThing.getProperty('name', 'turn_light_on')).to.equal('On');
+      expect(testThing.get('name', 'turn_light_on')).to.equal('On');
     });
 
     it('should set an action property', () => {
-      testThing.setProperty('name', 'Robert', 'turn_light_on');
-      expect(testThing.getProperty('name', 'turn_light_on')).to.equal('Robert');
+      testThing.set('name', 'Robert', 'turn_light_on');
+      expect(testThing.get('name', 'turn_light_on')).to.equal('Robert');
     });
 
     it('should emit an event when an action is called', () => {
@@ -109,7 +109,7 @@ describe('Thing test', () => {
       testThing.on('turn_light_on', () => {
         return event = true;
       });
-      testThing.callAction('turn_light_on');
+      testThing.call('turn_light_on');
       expect(event).to.equal(true);
     });
   });
@@ -120,12 +120,12 @@ describe('Thing test', () => {
     });
 
     it('should get an event property', () => {
-      expect(testThing.getProperty('name', 'dark')).to.equal('It\'s dark.');
+      expect(testThing.get('name', 'dark')).to.equal('It\'s dark.');
     });
 
     it('should set an event property', () => {
-      testThing.setProperty('name', 'Robert', 'dark');
-      expect(testThing.getProperty('name', 'dark')).to.equal('Robert');
+      testThing.set('name', 'Robert', 'dark');
+      expect(testThing.get('name', 'dark')).to.equal('Robert');
     });
 
     it('should return the right event object when given an id.', () => {
@@ -136,12 +136,12 @@ describe('Thing test', () => {
 
   describe('PROPERTIES', () => {
     it('should initialize correctly', () => {
-      expect(testThing.getProperty('lightconditions')).to.equal('unset');
+      expect(testThing.get('lightconditions')).to.equal('unset');
     });
 
     it('should set a property', () => {
-      testThing.setProperty('lightconditions', 'dark');
-      expect(testThing.getProperty('lightconditions')).to.equal('dark');
+      testThing.set('lightconditions', 'dark');
+      expect(testThing.get('lightconditions')).to.equal('dark');
     });
 
     it('should emit an event when a property is set', () => {
@@ -149,8 +149,8 @@ describe('Thing test', () => {
       testThing.on('property-updated', () => {
         return event = true;
       });
-      testThing.setProperty('lightconditions', 'light');
-      expect(testThing.getProperty('lightconditions')).to.equal('light');
+      testThing.set('lightconditions', 'light');
+      expect(testThing.get('lightconditions')).to.equal('light');
       expect(event).to.equal(true);
     });
 

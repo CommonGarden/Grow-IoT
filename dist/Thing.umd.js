@@ -59,7 +59,7 @@
   /**
    * A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
    * @extends EventEmitter
-   * @param {Object} config  an object containing properties, events, and/or actions.
+   * @param {Object} config  an object containing metadata, properties, events, and/or actions.
    * @param {Function} callback  an optional callback
    * @return     A new thing object
    */
@@ -78,22 +78,20 @@
         _.extend(_this, config);
       }
 
-      _this.scheduledActions = {};
+      _this.scheduled = {};
 
       if (!_.isUndefined(_this.actions)) {
         _.each(_this.actions, function (action, key, list) {
           if (!_.isUndefined(action.schedule)) {
-            _this.scheduleAction(key);
+            _this.schedule(key);
           }
         });
       }
 
-      _this.scheduledEvents = {};
-
       if (!_.isUndefined(_this.events)) {
         _.each(_this.events, function (event, key, list) {
           if (!_.isUndefined(event.schedule)) {
-            _this.scheduleEvent(key);
+            _this.schedule(key);
           }
 
           if (!_.isUndefined(event.on)) {
@@ -128,7 +126,7 @@
     }
 
     /**
-     * Get action object
+     * Get an action object by key
      * @param {String} ID  The key of the action object you want.
      * @returns {Object}
      */
@@ -156,18 +154,7 @@
       }
 
       /**
-       * Get list of the Thing's actions
-       * @returns {Object}
-       */
-
-    }, {
-      key: 'getActions',
-      value: function getActions() {
-        return this.actions;
-      }
-
-      /**
-       * Get event object
+       * Get event object by key
        * @param {String} ID  The key / id of the event object you want.
        * @returns {Object}
        */
@@ -194,26 +181,15 @@
       }
 
       /**
-       * Get list of the Thing's events
-       * @returns {Object}
-       */
-
-    }, {
-      key: 'getEvents',
-      value: function getEvents() {
-        return this.events;
-      }
-
-      /**
        * Update a property based on a component ID.
        * @param {String} property The property of the component to be update.
        * @param {String} value The value to update the property to.
+       * @param {String} key  Optional. Use to update the property of an event or action.
        */
-      // Modify to make more generally useful...
 
     }, {
-      key: 'setProperty',
-      value: function setProperty(property, value, key) {
+      key: 'set',
+      value: function set(property, value, key) {
         if (_.isUndefined(key)) {
           this.properties[property] = value;
           this.emit('property-updated');
@@ -232,12 +208,12 @@
 
       /* Get a property by key.
        * @param {String} property
-       * @returns {String} property value.
+       * @returns {String} key  Optional. Use to get an event or action property.
        */
 
     }, {
-      key: 'getProperty',
-      value: function getProperty(property, key) {
+      key: 'get',
+      value: function get(property, key) {
         if (_.isUndefined(key)) {
           return this.properties[property];
         } else {
@@ -252,16 +228,6 @@
         }
       }
 
-      /* Get a Thing's properties
-       * @returns {Object}
-       */
-
-    }, {
-      key: 'getProperties',
-      value: function getProperties() {
-        return this.properties;
-      }
-
       /**
        * Calls a registered action, emits event if the the action has an 'event'
        * property defined. Updates the state if the action has an 'updateState'
@@ -271,8 +237,8 @@
        */
 
     }, {
-      key: 'callAction',
-      value: function callAction(actionId, options) {
+      key: 'call',
+      value: function call(actionId, options) {
         try {
           var action = this.getAction(actionId);
 
@@ -294,39 +260,31 @@
       }
 
       /**
-       * Starts a reoccurring action if a schedule property is defined.
-       * @param {Object} action An action object.
+       * Starts a reoccurring action or event if a schedule property is defined.
+       * @param {Object} key  An action or event object.
        */
 
     }, {
-      key: 'scheduleAction',
-      value: function scheduleAction(actionKey) {
+      key: 'schedule',
+      value: function schedule(key) {
         var _this4 = this;
 
-        var action = this.getAction(actionKey);
-        var schedule = later.parse.text(action.schedule);
-        var scheduledAction = later.setInterval(function () {
-          _this4.callAction(actionKey);
-        }, schedule);
-        return this.scheduledActions[actionKey] = scheduledAction;
-      }
-
-      /**
-       * Starts a reoccurring event if a schedule property is defined.
-       * @param {Object} event An event object.
-       */
-
-    }, {
-      key: 'scheduleEvent',
-      value: function scheduleEvent(eventKey) {
-        var _this5 = this;
-
-        var event = this.getEvent(eventKey);
-        var schedule = later.parse.text(event.schedule);
-        var scheduledEvent = later.setInterval(function () {
-          _this5.callEvent(eventKey);
-        }, schedule);
-        return this.scheduledEvents[eventKey] = scheduledEvent;
+        // what if they both have the same key?
+        var action = this.getAction(key);
+        var event = this.getEvent(key);
+        if (action) {
+          var schedule = later.parse.text(action.schedule);
+          var scheduledAction = later.setInterval(function () {
+            _this4.call(key);
+          }, schedule);
+          return this.scheduled[key] = scheduledAction;
+        } else if (event) {
+          var _schedule = later.parse.text(event.schedule);
+          var scheduledEvent = later.setInterval(function () {
+            _this4.call(key);
+          }, _schedule);
+          return this.scheduled[key] = scheduledEvent;
+        }
       }
     }]);
     return Thing;

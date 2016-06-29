@@ -56,7 +56,7 @@ var Light = new Thing({
       schedule: 'at 8:30pm',
       function: function () {
         console.log('light off');
-        Light.setProperty('state', 'off');
+        Light.set('state', 'off');
       }
     },
     light_data: {
@@ -84,14 +84,14 @@ function start () {
   return;
 });
 
-console.log(Light.getProperty(state));
+console.log(Light.get(state));
 // logs 'off'
 
 Light.callAction('turn_light_on');
 // logs 'Light on.'
 // logs 'this event listener is called when the light is turned on.'
 
-console.log(Light.getProperty(state));
+console.log(Light.get(state));
 // logs 'on'
 
 ```
