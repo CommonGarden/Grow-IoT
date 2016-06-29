@@ -19,7 +19,7 @@ board.on('ready', function start() {
 
     // Create a new grow instance.
     var grow = new GrowInstance({
-        name: 'Disolved Oxygen sensor', // The display name for the thing.
+        name: 'Breath', // The display name for the thing.
         desription: 'Atlas Scientific Disolved Oxygen sensor + Airpump',
         username: 'jake2@gmail.com', // The username of the account you want this device to be added to.
         properties: {

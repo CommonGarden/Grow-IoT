@@ -4,6 +4,8 @@
 ##### Status: Prototype
 
 This kit uses the Atlas Scientific range of pH and Conductivity
-sensors. See the Grow-IoT wiki for other supported hardware.
+sensors. 
+
+See the Grow-IoT wiki for other supported hardware.
 
 

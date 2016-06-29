@@ -26,17 +26,15 @@
                   </li>
                   <li><a href="#writeChangesToState"><i class="alert alert-success"></i><span>writeChangesToState</span></a>
                   </li>
-                  <li><a href="#sendData"><i class="alert alert-success"></i><span>sendData</span></a>
+                  <li><a href="#log"><i class="alert alert-success"></i><span>log</span></a>
                   </li>
                   <li><a href="#emitEvent"><i class="alert alert-success"></i><span>emitEvent</span></a>
                   </li>
-                  <li><a href="#callAction"><i class="alert alert-success"></i><span>callAction</span></a>
+                  <li><a href="#call"><i class="alert alert-success"></i><span>call</span></a>
                   </li>
-                  <li><a href="#updateActionProperty"><i class="alert alert-success"></i><span>updateActionProperty</span></a>
+                  <li><a href="#set"><i class="alert alert-success"></i><span>set</span></a>
                   </li>
-                  <li><a href="#updateEventProperty"><i class="alert alert-success"></i><span>updateEventProperty</span></a>
-                  </li>
-                  <li><a href="#setProperty"><i class="alert alert-success"></i><span>setProperty</span></a>
+                  <li><a href="#get"><i class="alert alert-success"></i><span>get</span></a>
                   </li>
                 </ul></a></li>
           </ul>
@@ -168,12 +166,14 @@
       // Sets up listening for actions on the writeable stream. Note: writable from
       // the server's perspective.
       this.writableStream._write = (command, encoding, callback) =&gt; {
-        if (command.type === 'updateActionSchedule') {
-          this.updateActionProperty(command.options.actionKey, 'schedule', command.options.newValue);
-        } else if (command.options) {
-          this.thing.callAction(command.type, command.options);
+        let opts = command.options;
+        let type = command.type;
+        if (type === 'setProperty') {
+          this.set(opts.property, opts.value, opts.key);
+        } else if (opts) {
+          this.thing.call(type, opts);
         } else {
-          this.thing.callAction(command.type);
+          this.thing.call(type);
         }
 
         callback(null);
@@ -238,11 +238,11 @@
     if (error) return console.log('Error', error);
   });
 };</code></pre>
-          <section id="sendData">
-            <h1>sendData</h1>
+          <section id="log">
+            <h1>log</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.sendData</span><span>&nbsp;</span>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.log</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -267,7 +267,7 @@
             </tbody>
           </table>
           <div class="description"><p>Send data to Grow-IoT server.</p></div>
-          <pre><code class="language-javascript">this.sendData = (data, callback) =&gt; {
+          <pre><code class="language-javascript">this.log = (data, callback) =&gt; {
   if (!this.ddpclient || !this.uuid || !this.token) {
     callback('Invalid connection state.');
     return;
@@ -330,11 +330,11 @@
     }
   );
 }</code></pre>
-          <section id="callAction">
-            <h1>callAction</h1>
+          <section id="call">
+            <h1>call</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.callAction</span><span>&nbsp;</span>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.call</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -347,7 +347,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>actionKey</td>
+                <td>key</td>
                 <td>String</td>
                 <td><p>key of the action you want to call.</p></td>
               </tr>
@@ -358,131 +358,23 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls thing.callAction and emits an event to Grow-IoT.</p></div>
-          <pre><code class="language-javascript">this.callAction = (actionKey, options) =&gt; {
-  let action = this.thing.getAction(actionKey);
-  this.thing.callAction(actionKey, options);
+          <div class="description"><p>Calls thing.call and emits an event to Grow-IoT.</p></div>
+          <pre><code class="language-javascript">this.call = (key, options) =&gt; {
+  let action = this.thing.getAction(key);
+  this.thing.call(key, options);
 
   // Check to see if action has an event message
   if (!_.isUndefined(action.event)) {
     this.emitEvent(action.event);
   } else {
-    this.emitEvent(actionKey);
+    this.emitEvent(key);
   }
 }</code></pre>
-          <section id="updateActionProperty">
-            <h1>updateActionProperty</h1>
+          <section id="set">
+            <h1>set</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.updateActionProperty</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>actionKey</td>
-                <td>String</td>
-                <td><p>key of the action you want to update.</p></td>
-              </tr>
-              <tr>
-                <td>property</td>
-                <td>String</td>
-                <td><p>the property you want to set.</p></td>
-              </tr>
-              <tr>
-                <td>value</td>
-                <td>Object, List, String, Number, Boolean</td>
-                <td><p>the new property value.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Update an action property such as schedule or action options.</p></div>
-          <pre><code class="language-javascript">this.updateActionProperty = (actionKey, property, value) =&gt; {
-  let action = this.thing.getAction(actionKey);
-  action[property] = value;
-
-  // If the property being updated is the schedule property, restart the scheduled action.
-  if (property === 'schedule') {
-    this.thing.scheduledActions[actionKey].clear();
-    this.thing.startAction(actionKey);
-  }
-
-  this.ddpclient.call(
-    'Device.updateActionProperty',
-    [{uuid: this.uuid, token: this.token}, actionKey, property, value],
-    function (error, result) {
-      if (error) {
-        console.log(error);
-      }
-    }
-  );
-}</code></pre>
-          <section id="updateEventProperty">
-            <h1>updateEventProperty</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.updateEventProperty</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>eventKey</td>
-                <td>String</td>
-                <td><p>key of the event you want to update.</p></td>
-              </tr>
-              <tr>
-                <td>property</td>
-                <td>String</td>
-                <td><p>the property you want to set.</p></td>
-              </tr>
-              <tr>
-                <td>value</td>
-                <td>Object, List, String, Number, Boolean</td>
-                <td><p>the new property value.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Update an event property such as schedule or options.</p></div>
-          <pre><code class="language-javascript">this.updateEventProperty = (eventKey, property, value) =&gt; {
-  let event = this.thing.getEvent(eventKey);
-  event[property] = value;
-
-  // If the property being updated is the schedule property, restart the scheduled action.
-  if (property === 'schedule') {
-    this.thing.scheduledEvents[eventKey].clear();
-    this.thing.startEvent(eventKey);
-  }
-
-  this.ddpclient.call(
-    'Device.updateEventProperty',
-    [{uuid: this.uuid, token: this.token}, eventKey, property, value],
-    function (error, result) {
-      if (error) {
-        console.log(error);
-      }
-    }
-  );
-}</code></pre>
-          <section id="setProperty">
-            <h1>setProperty</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.setProperty</span><span>&nbsp;</span>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.set</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -505,6 +397,11 @@
                 <td><p>The new value to set the property to.</p></td>
               </tr>
               <tr>
+                <td>key</td>
+                <td>String</td>
+                <td><p>Optional. Use if you want to set an event or action property.</p></td>
+              </tr>
+              <tr>
                 <td>callback</td>
                 <td>Function</td>
                 <td><p>An optional callback.</p></td>
@@ -512,22 +409,65 @@
             </tbody>
           </table>
           <div class="description"><p>Update device property on Grow-IoT server.</p></div>
-          <pre><code class="language-javascript">this.setProperty = (property, value, callback) =&gt; {
+          <pre><code class="language-javascript">this.set = (property, value, key, callback) =&gt; {
   // Update the thing property.
-  this.thing.setProperty(property, value);
+  this.thing.set(property, value, key);
 
   // Not working in this version of Grow.js yet.
   this.writeChangesToState();
 
+  // If the property being updated is the schedule property, restart the scheduled action.
+  if (property === 'schedule') {
+    this.thing.scheduled[key].clear();
+    this.thing.schedule(key);
+  }
+
   this.ddpclient.call(
-    'Device.udpateProperty',
-    [{uuid: this.uuid, token: this.token}, property, value],
+    'Device.setProperty',
+    [{uuid: this.uuid, token: this.token}, property, value, key],
     function (error, result) {
       if (!_.isUndefined(callback)) {
         callback(error, result);
       }
     }
   );
+}</code></pre>
+          <section id="get">
+            <h1>get</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.get</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>property</td>
+                <td>String</td>
+                <td><p>Name of the of the property you wish to update</p></td>
+              </tr>
+              <tr>
+                <td>key</td>
+                <td>String</td>
+                <td><p>Optional. Use if you want to get an event or action property.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update device property on Grow-IoT server.</p></div>
+          <pre><code class="language-javascript">this.get = (property, key) =&gt; {
+  // Update the thing property.
+  return this.thing.get(property, key);
+}
+
+if (!_.isUndefined(callback)) {
+  callback();
 }
   }
 };
