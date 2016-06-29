@@ -28,6 +28,8 @@
                   </li>
                   <li><a href="#getEvent"><i class="alert alert-info"></i><span>getEvent</span></a>
                   </li>
+                  <li><a href="#set"><i class="alert alert-info"></i><span>set</span></a>
+                  </li>
                   <li><a href="#get"><i class="alert alert-info"></i><span>get</span></a>
                   </li>
                   <li><a href="#call"><i class="alert alert-info"></i><span>call</span></a>
@@ -57,7 +59,7 @@
               <tr>
                 <td>config</td>
                 <td>Object</td>
-                <td><p>an object containing properties, events, and/or actions.</p></td>
+                <td><p>an object containing metadata, properties, events, and/or actions.</p></td>
               </tr>
               <tr>
                 <td>callback</td>
@@ -150,7 +152,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Get action object</p></div>
+          <div class="description"><p>Get an action object by key</p></div>
           <pre><code class="language-javascript">getAction (ID) {
   let action = {};
   _.each(this.actions, (value, key, list) =&gt; {
@@ -190,7 +192,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Get event object</p></div>
+          <div class="description"><p>Get event object by key</p></div>
           <pre><code class="language-javascript">getEvent (ID) {
   let event = {}
   _.each(this.events, (value, key, list) =&gt; {
@@ -207,6 +209,13 @@
     return event;
   }
 }</code></pre>
+          <section id="set">
+            <h1>set</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.set()</span><span>&nbsp;</span>
+            </p>
+          </section>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -226,32 +235,36 @@
                 <td>String</td>
                 <td><p>The value to update the property to.</p></td>
               </tr>
+              <tr>
+                <td>key</td>
+                <td>String</td>
+                <td><p>Optional. Use to update the property of an event or action.</p></td>
+              </tr>
             </tbody>
           </table>
           <div class="description"><p>Update a property based on a component ID.</p></div>
-          <pre><code class="language-javascript">// Modify to make more generally useful...
-  set (property, value, key) {
- if (_.isUndefined(key)) {
-   this.properties[property] = value;
-   this.emit('property-updated');
- }
- else {
-   // what if they both have the same key?
-   let action = this.getAction(key);
-   let event = this.getEvent(key);
-   if (action) {
-     action[property] = value;
-   } else if (event) {
-     event[property] = value;
-   }
-   this.emit('property-updated');    
- }
-  }</code></pre>
+          <pre><code class="language-javascript">set (property, value, key) {
+  if (_.isUndefined(key)) {
+    this.properties[property] = value;
+    this.emit('property-updated');
+  }
+  else {
+    // what if they both have the same key?
+    let action = this.getAction(key);
+    let event = this.getEvent(key);
+    if (action) {
+      action[property] = value;
+    } else if (event) {
+      event[property] = value;
+    }
+    this.emit('property-updated');    
+  }
+}</code></pre>
           <section id="get">
             <h1>get</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>get()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.get()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -289,7 +302,7 @@
             <h1>call</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>call()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.call()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -341,7 +354,7 @@
             <h1>schedule</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>schedule()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.schedule()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -354,9 +367,9 @@
             </thead>
             <tbody>
               <tr>
-                <td>action</td>
+                <td>key</td>
                 <td>Object</td>
-                <td><p>An action object.</p></td>
+                <td><p>An action or event object.</p></td>
               </tr>
             </tbody>
           </table>

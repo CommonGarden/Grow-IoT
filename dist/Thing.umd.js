@@ -59,7 +59,7 @@
   /**
    * A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
    * @extends EventEmitter
-   * @param {Object} config  an object containing properties, events, and/or actions.
+   * @param {Object} config  an object containing metadata, properties, events, and/or actions.
    * @param {Function} callback  an optional callback
    * @return     A new thing object
    */
@@ -126,7 +126,7 @@
     }
 
     /**
-     * Get action object
+     * Get an action object by key
      * @param {String} ID  The key of the action object you want.
      * @returns {Object}
      */
@@ -154,7 +154,7 @@
       }
 
       /**
-       * Get event object
+       * Get event object by key
        * @param {String} ID  The key / id of the event object you want.
        * @returns {Object}
        */
@@ -184,8 +184,8 @@
        * Update a property based on a component ID.
        * @param {String} property The property of the component to be update.
        * @param {String} value The value to update the property to.
+       * @param {String} key  Optional. Use to update the property of an event or action.
        */
-      // Modify to make more generally useful...
 
     }, {
       key: 'set',
@@ -208,7 +208,7 @@
 
       /* Get a property by key.
        * @param {String} property
-       * @returns {String} property value.
+       * @returns {String} key  Optional. Use to get an event or action property.
        */
 
     }, {
@@ -261,7 +261,7 @@
 
       /**
        * Starts a reoccurring action or event if a schedule property is defined.
-       * @param {Object} action An action object.
+       * @param {Object} key  An action or event object.
        */
 
     }, {
