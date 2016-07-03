@@ -44,7 +44,6 @@ var grow = new GrowInstance({
         },
         light_data: {
             name: 'Log light data',
-            // type and template need for visualization component... HACK. 
             type: 'light',
             template: 'sensor',
             schedule: 'every 1 second',
@@ -60,7 +59,6 @@ var grow = new GrowInstance({
         },
         temp_data: {
             name: 'Log temperature data',
-            // type and template need for visualization component... HACK. 
             type: 'temperature',
             template: 'sensor',
             schedule: 'every 1 second',
@@ -80,7 +78,7 @@ var grow = new GrowInstance({
             name: 'Check light level',
             on: 'light_data',
             min: 0.25,
-            max: 1,
+            max: 0.76,
             disable: false,
             function: function () {
                 var min = grow.get('min', 'check_light'),
