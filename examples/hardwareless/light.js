@@ -16,7 +16,8 @@ var grow = new GrowInstance({
 
     // Properties can be updated by the API
     properties: {
-        state: 'off'
+        state: 'off',
+        lightConditions: null
     },
 
     // Actions are the API of the thing.
@@ -27,31 +28,22 @@ var grow = new GrowInstance({
             schedule: 'at 9:00am', // Optional scheduling using later.js
             // Is this rule pattern useful?
             function: function () {
+                // Emit a 'light off' event, set state to on.
+                grow.emitEvent('Light on').set('state', 'on');
                 console.log('Light on');
-
-                // Emit a 'light off' event
-                grow.emitEvent('Light on');
-
-                // Set the state property to 'off'
-                grow.setProperty('state', 'on');
             }
         },
         turn_light_off: {
             name: 'off',
             schedule: 'at 8:30pm', // Run this function at 8:30pm
             function: function () {
+                // Emit a 'light off' event, set the state property to 'off'
+                grow.emitEvent('Light off').set('state', 'off');
                 console.log('Light off');
-
-                // Emit a 'light off' event
-                grow.emitEvent('Light off');
-
-                // Set the state property to 'off'
-                grow.setProperty('state', 'off');
             }
         },
         light_data: {
             name: 'Log light data',
-            // type and template need for visualization component... HACK. 
             type: 'light',
             template: 'sensor',
             schedule: 'every 1 second',
@@ -59,7 +51,7 @@ var grow = new GrowInstance({
                 currentLightValue = Math.random();
 
                 // Send data to the Grow-IoT app.
-                grow.sendData({
+                grow.log({
                   type: 'light',
                   value: currentLightValue
                 });
@@ -67,7 +59,6 @@ var grow = new GrowInstance({
         },
         temp_data: {
             name: 'Log temperature data',
-            // type and template need for visualization component... HACK. 
             type: 'temperature',
             template: 'sensor',
             schedule: 'every 1 second',
@@ -75,7 +66,7 @@ var grow = new GrowInstance({
                 currentTempValue = Math.random();
 
                 // Send data to the Grow-IoT app.
-                grow.sendData({
+                grow.log({
                   type: 'temperature',
                   value: currentTempValue
                 });
@@ -83,21 +74,25 @@ var grow = new GrowInstance({
         }
     },
     events: {
-        min_light: {
+        check_light: {
             name: 'Check light level',
             on: 'light_data',
-            options: {
-                min_value: 0.25,
-                max_value: 1,
-                state: null
-            },
+            min: 0.25,
+            max: 0.76,
             disable: false,
             function: function () {
-                var options = grow.getProperty('options', 'min_light');
-                if (currentLightValue < options.min_light && options.state !== 'dark') {
-                    grow.emitEvent('Light level low');
-                } else if (currentLightValue > options.max) {
-                    grow.emitEvent('Full Sunlight');
+                var min = grow.get('min', 'check_light'),
+                    max = grow.get('max', 'check_light'),
+                    lightConditions = grow.get('lightConditions');
+
+                if (currentLightValue < min && lightConditions !== 'dark') {
+                    grow.emitEvent('Light level low')
+                        .set('lightConditions', 'dark')
+                        .call('turn_light_on');
+                } else if (currentLightValue > max && lightConditions !== 'light') {
+                    grow.emitEvent('Full Sunlight')
+                        .set('lightConditions', 'light')
+                        .call('turn_light_off');
                 }
             }
         }
