@@ -1,5 +1,7 @@
 # Breath: a disolved oxygen sensor and air pump control system.
 
+# Status: prototype
+
 This example uses the Atlas Scientific dissolved oxygen sensor. See their website for more info.
 
 * [Product page](https://www.atlas-scientific.com/product_pages/kits/do_kit.html)

@@ -13,7 +13,6 @@ board.on('ready', function start() {
 
     // Declare variables
     var DO_reading;
-    var pH_reading;
 
     var airpump = new five.Pin(13);
 
@@ -22,9 +21,11 @@ board.on('ready', function start() {
         name: 'Breath', // The display name for the thing.
         desription: 'Atlas Scientific Disolved Oxygen sensor + Airpump',
         username: 'jake2@gmail.com', // The username of the account you want this device to be added to.
+        
         properties: {
             state: null,
         },
+        
         actions: {
             turn_pump_on: {
                 name: 'Airpump On', // Display name for the action
@@ -33,7 +34,7 @@ board.on('ready', function start() {
                 function: function () {
                     // The implementation of the action.
                     airpump.high();
-                    grow.set('state', 'on');
+                    grow.set('state', 'airpump on');
                 }
             },
             turn_pump_off: {
@@ -41,7 +42,7 @@ board.on('ready', function start() {
                 schedule: 'at 8:30pm',
                 function: function () {
                     airpump.low();
-                    grow.set('state', 'off');
+                    grow.set('state', 'airpump off');
                 }
             },
             log_do_data: {
@@ -73,33 +74,31 @@ board.on('ready', function start() {
                       value: DO_reading
                     });
                 }
-            },
-            log_ph_data: {
-                name: 'pH sensor', 
-                template: 'sensor',
-                type: 'pH', // Currently needed for visualization component... HACK.
-                schedule: 'every 1 second',
+            }
+        },
+        events: {
+            check_DO: {
+                name: 'Check disolved oxygen',
+                on: 'do_data',
+                state: null,
+                min: 5.5,
+                max: 8,
                 function: function () {
-                    // Request a reading
-                    board.i2cWrite(0x63, [0x52, 0x00]);
-                    // Read response.
-                    board.i2cRead(0x63, 7, function (bytes) {
-                        var bytelist = [];
-                        if (bytes[0] === 1) {
-                            for (i = 0; i < bytes.length; i++) {
-                                if (bytes[i] !== 1 && bytes[i] !== 0) {
-                                    bytelist.push(ascii.symbolForDecimal(bytes[i]));
-                                }
-                            }
-                            pH_reading = bytelist.join('');
-                        }
-                    });
-
-                    // // Send value to Grow-IoT
-                    grow.log({
-                      type: 'pH',
-                      value: pH_reading
-                    });
+                    var min = grow.get('min', 'check_DO');
+                    var max = grow.get('max', 'check_DO');
+                    var state = grow.get('state', 'check_DO');
+                    if (DO_reading < min && state !== 'low') {
+                        grow.emitEvent('Disolved oxygen low')
+                            .set('state', 'low', 'check_DO');
+                            .call('turn_pump_on');
+                    } else if (DO_reading > max && state !== 'high') {
+                        grow.emitEvent('Disolved oxygen high')
+                            .set('state', 'high', 'check_DO');
+                            .call('turn_pump_off');
+                    } else if (DO_reading > min && DO_reading < max && state !== null) {
+                        grow.emitEvent('Disolved oxygen good')
+                            .set('state', null, 'check_DO');
+                    }
                 }
             }
         }
