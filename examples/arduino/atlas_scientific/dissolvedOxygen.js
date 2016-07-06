@@ -1,7 +1,24 @@
+/*
+# Breath: a disolved oxygen sensor and air pump control system.
+
+# Status: prototype
+
+This example uses the Atlas Scientific dissolved oxygen sensor. See their website for more info.
+
+* [Product page](https://www.atlas-scientific.com/product_pages/kits/do_kit.html)
+* [Documentation](http://atlas-scientific.com/_files/_datasheets/_circuit/DO_EZO_Datasheet.pdf)
+
+As for the air pump, we are currently using an aquarium air pump which we control through a relay. If you don't want to cut any wires, you can use: http://www.powerswitchtail.com/Pages/default.aspx
+
+Other suggestions are welcome.
+*/
+
 // Require the Grow.js build and johnny-five library.
 var GrowInstance = require('../../../dist/Grow.umd.js');
 var five = require('johnny-five');
 var ascii = require('ascii-codes');
+var Hysteresis = require('hysteresis');
+
 
 // Create a new board object
 var board = new five.Board();
@@ -44,11 +61,16 @@ board.on('ready', function start() {
                     airpump.low();
                     grow.set('state', 'airpump off');
                 }
-            },
-            log_do_data: {
-                name: 'Disolved Oxygen Sensor', 
+            }
+        },
+        events: {
+        	do_data: {
+                name: 'Dissolved Oxygen', 
                 template: 'sensor',
-                type: 'D.O.', // Currently needed for visualization component... HACK.
+                state: null,
+                min: 6,
+                max: 9,
+                type: 'dissolved_oxygen', // Currently needed for visualization component... HACK.
                 schedule: 'every 1 second',
                 function: function () {
                     // Request a reading
@@ -68,6 +90,7 @@ board.on('ready', function start() {
                         }
                     });
 
+<<<<<<< ed401aca5157bd6d99206dc925643a65725b3944:examples/arduino/DissolvedOxygen/breath.js
                     // // Send value to Grow-IoT
                     grow.log({
                       type: 'D.O.',
@@ -99,6 +122,29 @@ board.on('ready', function start() {
                         grow.emitEvent('Disolved oxygen good')
                             .set('state', null, 'check_DO');
                     }
+=======
+                    var min = grow.get('min', 'do_data');
+                    var max = grow.get('max', 'do_data');
+                    var state = grow.get('state', 'do_data');
+                    if (DO_reading < min && state !== 'low') {
+                        grow.emitEvent('Disolved oxygen low')
+                            .set('state', 'low', 'do_data')
+                            .call('turn_pump_on');
+                    } else if (DO_reading > max && state !== 'high') {
+                        grow.emitEvent('Disolved oxygen high')
+                            .set('state', 'high', 'do_data')
+                            .call('turn_pump_off');
+                    } else if (DO_reading > min && DO_reading < max && state !== null) {
+                        grow.emitEvent('Disolved oxygen good')
+                            .set('state', null, 'do_data');
+                    }
+
+                    // Send value to Grow-IoT
+                    grow.log({
+                      type: 'dissolved_oxygen',
+                      value: DO_reading
+                    });
+>>>>>>> Add scheduling, more examples.:examples/atlas_scientific/dissolvedOxygen.js
                 }
             }
         }

@@ -2,3 +2,4 @@ node_modules
 build
 dist
 state.json
+.DS_Store
