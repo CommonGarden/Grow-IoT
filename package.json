@@ -21,9 +21,10 @@
   },
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
+    "Thing.js": "^0.2.3",
     "meteor-later": "^1.2.0",
     "moment": "^2.13.0",
-    "Thing.js": "^0.2.3"
+    "mosca": "^2.0.2"
   },
   "devDependencies": {
     "eslint": "^2.11.1",

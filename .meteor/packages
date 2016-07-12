@@ -13,7 +13,6 @@ tracker                 # Meteor's client-side reactive programming library
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-gfk:notifications       # Add reactive notifications to your meteor application.
 twbs:bootstrap          # Bootstrap CSS framework
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
@@ -27,16 +26,8 @@ meteorhacks:ssr
 themeteorchef:jquery-validation
 themeteorchef:bert
 alanning:roles
-mrt:moment
-wylio:mandrill
-cfs:standard-packages
-cfs:gridfs
-raix:ui-dropped-event
-cfs:filesystem
 vsivsi:job-collection
-percolate:synced-cron
 force-ssl
-perak:mqtt-collection
 standard-minifier-css
 standard-minifier-js
 jquery
@@ -45,5 +36,4 @@ useraccounts:core
 useraccounts:flow-routing
 softwarerero:accounts-t9n
 useraccounts:bootstrap
-chart:chart
 mfpierre:chartist-js

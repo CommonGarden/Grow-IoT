@@ -26,6 +26,8 @@ class LineChartComponent extends CommonComponent {
       series: [[]]
     };
 
+    // Todo: get options for data type.
+
     let options = {
       // Options for X-Axis
       axisX: {
@@ -145,6 +147,9 @@ class LineChartComponent extends CommonComponent {
         }
         data.labels.push(timestamp);
         data.series[0].push(currentValue.data.value);
+
+        // options.low = currentValue.data.value - 1;
+        // options.high = currentValue.data.value + 1;
       });
 
       // Create a new line chart object where as first parameter we pass in a selector

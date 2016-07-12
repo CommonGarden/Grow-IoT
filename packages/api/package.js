@@ -47,6 +47,7 @@ Package.onUse(function (api) {
     'data/publish.js',
     'environment/publish.js',
     'notifications/publish.js',
-    'thing/publish.js'
+    'thing/publish.js',
+    'mqtt/MQTT-broker.js'
   ], 'server');
 });
