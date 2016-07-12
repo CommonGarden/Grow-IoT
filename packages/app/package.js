@@ -63,6 +63,7 @@ Package.onUse(function (api) {
     'style/style.scss',
     'style/navigation.scss',
     'style/responsive.scss',
+    // 'style/custom.scss',
 
     'devices/all_devices.js',
     'devices/all_devices.html',

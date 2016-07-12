@@ -22,13 +22,12 @@
 		            </ul>
 	          	</span>
 	         </h2>
+	         <p>{{description}}</p>
 	        {{/with}}
 	        <hr/>
 		</div>
 		<div class="col-lg-6">
 	        {{#with device.thing}}
-				<p>{{description}}</p>
-
 				{{> ActuatorListComponent}}
 
 				{{> Device.EventComponent}}
