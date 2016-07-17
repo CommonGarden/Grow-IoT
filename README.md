@@ -73,7 +73,7 @@ var GrowInstance = require('Grow.js');
 // Create a new grow instance.
     var grow = new GrowInstance({
         name: 'Light', // The display name for the thing.
-        desription: 'An LED light with a basic on/off api.',
+        description: 'An LED light with a basic on/off api.',
         
         // The username of the account you want this device to be added to.
         username: 'YOURUSERNAMEHERE',
