@@ -48,6 +48,16 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 **Next step:** Create an account. You will use the email address you create your account with when you connect to your Grow-IoT instance.
 
+# Hardware setup
+
+Grow-IoT works with many devices. For help getting started with any of these popular devices, see their wiki pages:
+
++ [Raspberry Pi](https://github.com/CommonGarden/Grow-IoT/wiki/Raspberry-Pi)
+<!-- + [Tessel 2]()
++ [Chip]()
++ [Particle]() -->
+
+
 # Quickstart
 
 First, make a Grow.js project for a software light you want to control (see the [Grow.js Library](https://github.com/CommonGarden/Grow.js) for hardware examples):

@@ -1,10 +1,12 @@
 <template name="Dashboard">
+  <!-- Let's do a proper dashboard. -->
   {{#if Template.subscriptionsReady}}
+  	<!-- {{> AllDevicesComponent}} -->
 		{{#if environments.exists}}
 			{{> Environment.ListComponent}}
 		{{else}}
 			{{> Environment.NewComponent}}
-		{{/if}}	  
+		{{/if}} 
   {{else}}
     {{> LoaderComponent}}
   {{/if}}
