@@ -159,7 +159,11 @@ Well, running `light.js` for the first time:
 
 4. Sets up readable and writable streams and listens for commands.
 
-[Full Grow.js documentation and examples can be found here](http://commongarden.github.io/Grow.js/docs/).
+[Full Grow.js documentation and examples can be found here](http://commongarden.github.io/Grow.js/docs/). Also checkout our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) for a growing collection of examples for various boards and sensors, including:
+
+* [Raspberry Pi](https://github.com/CommonGarden/Grow-IoT/wiki/Raspberry-Pi)
+* [Tessel 2](https://github.com/CommonGarden/Grow-IoT/wiki/Tessel-2)
+* [Atlas Scientific Sensors](https://github.com/CommonGarden/Grow-IoT/wiki) (includes pH, Dissolved Oxygen, and conductivity)
 
 # Code organization
 The code is organized in the `packages` folder. Grow-IoT is a meteor application currently comprised of 3 packages:
