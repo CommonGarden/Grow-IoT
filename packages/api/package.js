@@ -26,8 +26,7 @@ Package.onUse(function (api) {
     'peerlibrary:check-extension@0.2.0',
     'peerlibrary:assert@0.2.5',
     'fermuch:cheerio@0.19.0',
-    'peerlibrary:meteor-file@0.2.1',
-    'mkarliner:mosca@0.0.6'
+    'peerlibrary:meteor-file@0.2.1'
   ]);
 
   // Internal dependencies.
@@ -48,7 +47,6 @@ Package.onUse(function (api) {
     'data/publish.js',
     'environment/publish.js',
     'notifications/publish.js',
-    'thing/publish.js',
-    'mqtt/MQTT-broker.js'
+    'thing/publish.js'
   ], 'server');
 });
