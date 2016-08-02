@@ -229,25 +229,34 @@
       }
 
       /**
-       * Calls a registered action, emits event if the the action has an 'event'
-       * property defined. Updates the state if the action has an 'updateState'
-       * property specified.
-       * @param      {String}  actionId The id of the action to call.
+       * Calls a registered action or event function, emits event if the the action has an 'event'
+       * property defined. 
+       * @param      {String}  key The id of the action / event to call.
        * @param      {Object}  options Optional, options to call with the function.
        */
 
     }, {
       key: 'call',
-      value: function call(actionId, options) {
+      value: function call(key, options) {
         try {
-          var action = this.getAction(actionId);
+          var action = this.getAction(key);
+          var event = this.getEvent(key);
 
-          if (!_.isUndefined(options)) {
-            var output = action.function(options);
-          } else {
-            var output = action.function();
+          if (action) {
+            if (!_.isUndefined(options)) {
+              var output = action.function(options);
+            } else {
+              var output = action.function();
+            }
+            this.emit(key);
+          } else if (event) {
+            if (!_.isUndefined(options)) {
+              var output = event.function(options);
+            } else {
+              var output = event.function();
+            }
+            this.emit(key);
           }
-          this.emit(actionId);
 
           // We return any returns of called functions for testing.
           if (!_.isUndefined(output)) {
