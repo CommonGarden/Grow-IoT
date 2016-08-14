@@ -9,9 +9,7 @@ Device.EventComponent = class EventComponent extends Device.DisplayComponent {
       var eventlist = [];
       _.each(device.thing.events, (value, key, list) => {
         value.id = key;
-        if (!value.template) {
-          eventlist.push(value);
-        }
+        eventlist.push(value);
       });
     }
     return eventlist;

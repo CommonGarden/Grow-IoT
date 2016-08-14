@@ -66,7 +66,7 @@ mobile-experience@1.0.4
 mobile-status-bar@1.0.12
 modules@0.7.5
 modules-runtime@0.7.5
-momentjs:moment@2.11.2
+momentjs:moment@2.14.4
 mongo@1.1.10
 mongo-id@1.0.5
 mongo-livedata@1.0.12
@@ -115,7 +115,7 @@ spacebars-compiler@1.0.12
 srp@1.0.9
 standard-minifier-css@1.1.8
 standard-minifier-js@1.1.8
-templating@1.1.14
+templating@1.2.13
 templating-tools@1.0.4
 themeteorchef:bert@2.1.1
 themeteorchef:jquery-validation@1.14.0

@@ -14,6 +14,14 @@ Device.SensorListComponent = class SensorListComponent extends Device.DisplayCom
         }
       });
     }
+    if (device.thing.events != null) {
+      _.each(device.thing.events, (value, key, list) => {
+        value.id = key;
+        if (value.template === "sensor") {
+          return sensorlist.push(value);
+        }
+      });
+    }
     return sensorlist;
   }
 };
