@@ -9,8 +9,14 @@
   {{#if max}}
     Max: {{max}}
   {{/if}}
+  {{#if target}}
+    Target: {{target}}
+  {{/if}}
   {{#if threshold}}
     Threshold: {{threshold}}
+  {{/if}}
+  {{#if readings}}
+    Readings: {{readings}}
   {{/if}}
 
   <a data-toggle="modal" data-target="#helpmodal-{{id}}" class="small"><i class="glyphicon glyphicon-wrench"></i></a>
@@ -62,6 +68,18 @@
             </div>
           {{/if}}
 
+          {{#if target}}
+            <div class="input-group">
+              <input type="test" 
+                     class="form-control" 
+                     id="target-{{id}}" 
+                     value="{{target}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="target" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update target</button>
+              </span>
+            </div>
+          {{/if}}
+
           {{#if threshold}}
             <div class="input-group">
               <!-- <label for="threshold-{{id}}">Threshold value</label> -->
@@ -71,6 +89,18 @@
                      value="{{threshold}}">
               <span class="input-group-btn">
                 <button class="btn btn-default update-opts" type="button" data-type="threshold" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update threshold</button>
+              </span>
+            </div>
+          {{/if}}
+
+          {{#if readings}}
+            <div class="input-group">
+              <input type="test" 
+                     class="form-control" 
+                     id="readings-{{id}}" 
+                     value="{{readings}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="readings" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update readings</button>
               </span>
             </div>
           {{/if}}
