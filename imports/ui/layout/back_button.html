@@ -1,0 +1,15 @@
+<template name="BackButton">
+	<div class="navbar-header">
+    <span class="navbar-brand">
+    {{#if dashboard}}
+      <img class="logo" src="/logo.png">
+    {{else}}
+      {{ #if currentUser }}
+        <i class="glyphicon glyphicon-chevron-left back-button" title="Back"></i>
+      {{else}}
+        <img class="logo" src="/logo.png">
+      {{/if}}
+    {{/if}}
+    </span>
+  </div>
+</template>

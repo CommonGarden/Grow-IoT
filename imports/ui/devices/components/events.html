@@ -1,0 +1,11 @@
+<template name="Device.EventComponent">
+    {{#if eventsList}}
+	    <hr/>
+	    <h4>Device events</h4>
+	    <ul>
+	    {{#each eventsList}}
+	    	<li>{{name}} - {{> OptionsComponent}}</li>
+	    {{/each}}
+	    </ul>
+    {{/if}}
+</template>

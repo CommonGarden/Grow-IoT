@@ -1,0 +1,194 @@
+@import url(https//fonts.googleapis.com/css?family=Roboto400,300);
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  background-color: rgba(78, 128, 83, 0.18);
+  padding-top: 100px;
+  font-family: 'Roboto', sans-serif;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.state {
+  font-size: 0.5em !important;
+  margin-left: 1em;
+}
+
+.small {
+  font-size: 0.8em !important;
+}
+
+.dashboard {
+  padding: 40px;
+}
+
+.sensor-viz {
+  padding: 10px;
+}
+
+.margin-right {
+  margin-right: 3em;
+}
+
+.logo {
+  height: 75px;
+  width: auto;
+  float: left;
+  margin-top: -.5em;
+}
+
+
+// Other
+.collection-item {
+  display: block;
+  background-color: white;
+  padding: 10px;
+  margin: 5px;
+  border: solid 1px #cecece;
+}
+
+.small-input {
+  width: 60px;
+  height: 40px;
+  padding: 6px 12px;
+  // font-size: 0.8em;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  // box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  // transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+// Maybe make our own class rather than over-riding bootstrap?
+.jumbotron {
+  background: none;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.badge {
+  vertical-align: top;
+}
+
+.wee-margin-top {
+  margin-top: 1em;
+}
+
+.sortable {
+  li {
+    list-style: none;
+  }
+}
+
+.list-item {
+  background-color: white;
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+  padding: 20px;
+  height: 80%;
+  width: 400px;
+}
+
+.offline {
+  opacity: 0.5;
+}
+
+.loader {
+  display: none;
+}
+
+.loading-wrapper {
+  display: none;
+}
+
+.advanced-options {
+  .glyphicon {
+    color: gray;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
+  .caret {
+    color: gray;
+    vertical-align: middle;
+  }
+}
+
+.back-button {
+  cursor: pointer;
+}
+
+// Visualizations
+// TODO: break out into separate file.
+.linechart{
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+}
+
+.cron-button {
+    height: 16px;
+    padding-left: 20px;
+    margin-left: 5px;
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    cursor: pointer;
+}
+
+.cron-changed {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #fdd;
+}
+.cron-controls {
+    margin-left: 10px;
+    color: #c77;
+    font-size: 0.9em;
+}
+
+.unclaimed {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  min-width: 300px;
+}

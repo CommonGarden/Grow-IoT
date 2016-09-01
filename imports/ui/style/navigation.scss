@@ -1,0 +1,93 @@
+// Navbar
+.nav-menu-icon {
+  color: white;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3.8em;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  text-decoration: none !important;
+
+  &:before {
+    position: relative;
+    bottom: 5px;
+  }
+
+  &.caret {
+    position: relative;
+    bottom: 18px;
+    left: 3px;
+  }
+
+  &.glyphicon-home {
+    font-size: 1.1em;
+    position: relative;
+    bottom: 1em;
+  }
+}
+
+.navbar {
+  background-color: rgba(60, 118, 61, 0.67);
+
+  .navbar-brand {
+    color: white !important;
+    font-size: 32px;
+    margin-top: 20px;
+    font-weight: 300;
+  }
+
+  .navbar-toggle {
+    margin-top: 25px;
+  }
+  
+  .navbar-text {
+    color: #272822;
+    padding-left: 20px;
+  }
+
+  .navbar-nav {
+    &.bottom-menu-action {
+      margin-top: 1em;
+      width: 100%;
+
+      li {
+        color: white;
+        font-size: 2em;
+        text-decoration: none;
+        margin-top: 12px;
+        margin-right: 1em;
+        display: inline;
+
+        a {
+          color: white;
+          padding: 0;
+        }
+
+        &.dropdown {
+          margin-top: 12px;
+
+          .dropdown-menu {
+            font-size: .3em;
+            li {
+              color: black !important;
+
+              a {
+                color: black !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.cg-nav-bar {
+  min-height: 110px;
+}
+
+.dropdown-menu > li > a {
+  font-size: 1.5em;
+  padding: 5px 50px;
+}

@@ -1,0 +1,133 @@
+<template name="OptionsComponent">
+  {{schedule}}
+  {{#if duration}}
+    for {{duration}} miliseconds
+  {{/if}}
+  {{#if min}}
+    Min: {{min}}
+  {{/if}}
+  {{#if max}}
+    Max: {{max}}
+  {{/if}}
+  {{#if target}}
+    Target: {{target}}
+  {{/if}}
+  {{#if threshold}}
+    Threshold: {{threshold}}
+  {{/if}}
+  {{#if readings}}
+    Readings: {{readings}}
+  {{/if}}
+
+  <a data-toggle="modal" data-target="#helpmodal-{{id}}" class="small"><i class="glyphicon glyphicon-wrench"></i></a>
+
+  <div class="modal fade" id="helpmodal-{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{{name}} options</h4>
+        </div>
+        <div class="modal-body">
+          {{#if duration}}
+            <div class="input-group">
+              <!-- <label for="duration-{{id}}">Duration in miliseconds</label> -->
+              <input type="test" 
+                     class="form-control" 
+                     id="duration-{{id}}" 
+                     value="{{duration}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="duration" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update duration</button>
+              </span>
+            </div>
+          {{/if}}
+
+          {{#if min}}
+            <div class="input-group">
+              <!-- <label for="min-{{id}}">Min value</label> -->
+              <input type="test" 
+                     class="form-control" 
+                     id="min-{{id}}" 
+                     value="{{min}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="min" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update min</button>
+              </span>
+            </div>
+          {{/if}}
+
+          {{#if max}}
+            <div class="input-group">
+              <!-- <label for="max-{{id}}">Max value</label> -->
+              <input type="test" 
+                     class="form-control" 
+                     id="max-{{id}}" 
+                     value="{{max}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="max" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update max</button>
+              </span>
+            </div>
+          {{/if}}
+
+          {{#if target}}
+            <div class="input-group">
+              <input type="test" 
+                     class="form-control" 
+                     id="target-{{id}}" 
+                     value="{{target}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="target" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update target</button>
+              </span>
+            </div>
+          {{/if}}
+
+          {{#if threshold}}
+            <div class="input-group">
+              <!-- <label for="threshold-{{id}}">Threshold value</label> -->
+              <input type="test" 
+                     class="form-control" 
+                     id="threshold-{{id}}" 
+                     value="{{threshold}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="threshold" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update threshold</button>
+              </span>
+            </div>
+          {{/if}}
+
+          {{#if readings}}
+            <div class="input-group">
+              <input type="test" 
+                     class="form-control" 
+                     id="readings-{{id}}" 
+                     value="{{readings}}">
+              <span class="input-group-btn">
+                <button class="btn btn-default update-opts" type="button" data-type="readings" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update readings</button>
+              </span>
+            </div>
+          {{/if}}
+
+          {{#if schedule}}
+            <div class="input-group">
+        			<!-- <label for="schedule-{{id}}">Schedule</label> -->
+        			<input type="text"
+                     class="form-control"
+        				     name="schedule-{{id}}"
+        				     value="{{schedule}}">
+              <span class="input-group-btn">
+        		 	  <button class="btn btn-primary schedule" data-id="{{id}}" data-toggle="modal" data-target="#helpmodal-{{id}}">Update Schedule</button>
+              </span>
+            </div>
+          {{/if}}
+
+          <hr/>
+
+          <p>
+            <button class="btn btn-default" 
+                    data-dismiss="modal" 
+                    aria-label="Cancel">Cancel</button>
+          </p>
+
+        </div><!-- /.modal-body -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal-fade -->
+</template>

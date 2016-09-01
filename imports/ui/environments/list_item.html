@@ -1,0 +1,29 @@
+<template name="Environment.ListItemComponent">
+  <li class="list-item device" data-uuid="{{uuid}}" data-id="{{_id}}">
+      {{#with environment}}
+        <h2>{{name}}
+          <span class="pull-right">
+            {{#if deviceCount}}
+              <span title="{{deviceCount}} devices connected">
+                <i class="glyphicon glyphicon-dashboard"></i> <span class="badge">{{deviceCount}} devices</span>
+              </span>
+            {{else}}
+              <!-- Should soon be a button to add a device to this environment, or maybe at least one device should be required -->
+              <span title="No devices connected">
+                <i class="glyphicon glyphicon-dashboard"></i> <span class="badge">0 devices</span>
+              </span>
+            {{/if}}
+<!--             {{#if thingCount}}
+              <span title="{{thingCount}} things in environment">
+                <i class="glyphicon glyphicon-tree-deciduous"></i><span class="badge">{{thingCount}} things</span>
+              </span>
+            {{else}}
+              <span title="No things in environment">
+                <i class="glyphicon glyphicon-tree-deciduous"></i><span class="badge">0 things</span>
+              </span>
+            {{/if}} -->
+          </span>
+        </h2>
+      {{/with}}
+  </li>
+</template>

@@ -16,7 +16,7 @@ ecmascript@0.5.7              # Enable ECMAScript2015+ syntax in app code
 twbs:bootstrap          # Bootstrap CSS framework
 aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
-grow:app
+# grow:app
 accounts-password@1.2.12
 d3js:d3
 # audit-argument-checks

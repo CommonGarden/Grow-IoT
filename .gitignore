@@ -3,3 +3,4 @@ npm-debug.log
 .build*
 settings.json
 node_modules
+.DS_Store
