@@ -1,12 +1,13 @@
-import { PublishEndpoint } from 'meteor/peerlibrary:reactive-publish';
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 
-new PublishEndpoint('Environment.list', function() {
+Meteor.publish('Environment.list', function() {
   return Environment.documents.find(
     {'owner._id': this.userId}
   );
 });
 
-new PublishEndpoint('Environment.one', function(uuid) {
+Meteor.publish('Environment.one', function(uuid) {
   check(uuid, Match.NonEmptyString);
 
   return Environment.documents.find(

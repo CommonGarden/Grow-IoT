@@ -58,6 +58,23 @@ Meteor.methods({
   },
 
 
+  ['Device.getTime'](auth) {
+    check(auth, {
+      uuid: Match.NonEmptyString,
+      token: Match.NonEmptyString
+    });
+
+    let device = Device.documents.findOne(auth, {
+      fields: {
+        _id: 1
+      }
+    });
+    if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+    
+    return new Date();
+  },
+
+
   // Modify to update a property from the client side?
   // Example, updating the schedule of an action schedule...
   ['Device.setProperty'](auth, property, value, key) {
@@ -129,7 +146,7 @@ Meteor.methods({
     });
   },
 
-
+  // This should go into environment methods...
   ['Device.assignEnvironment'](deviceUuid, environmentUuid) {
     check(deviceUuid, Match.NonEmptyString);
     check(environmentUuid, Match.NonEmptyString);

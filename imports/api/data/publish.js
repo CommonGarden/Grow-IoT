@@ -1,5 +1,7 @@
-// Should rename to device data points?
-new PublishEndpoint('Data.points', function(deviceUuid) {
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+
+Meteor.publish('Data.points', function(deviceUuid) {
   // TODO: Do better checks.
   check(deviceUuid, Match.NonEmptyString);
 
@@ -26,7 +28,7 @@ new PublishEndpoint('Data.points', function(deviceUuid) {
   });
 });
 
-new PublishEndpoint('Data.pointsByType', function(deviceUuid, type) {
+Meteor.publish('Data.pointsByType', function(deviceUuid, type) {
   // TODO: Do better checks.
   check(deviceUuid, Match.NonEmptyString);
   check(type, Match.NonEmptyString);
@@ -58,7 +60,7 @@ new PublishEndpoint('Data.pointsByType', function(deviceUuid, type) {
 });
 
 
-new PublishEndpoint('Data.events', function(deviceUuid) {
+Meteor.publish('Data.events', function(deviceUuid) {
   check(deviceUuid, Match.NonEmptyString);
 
   let device = Device.documents.findOne({

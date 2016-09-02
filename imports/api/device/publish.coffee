@@ -1,3 +1,4 @@
+# TODO: convert to Javascript
 new PublishEndpoint 'Device.messages', (auth) ->
   check auth,
     # TODO: Do better checks.

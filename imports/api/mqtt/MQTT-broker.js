@@ -1,7 +1,7 @@
 // // TODO: include mosca from NPM.
-// import {mosca} from 'mosca';
+import {mosca} from 'mosca';
  
-var mongopubsub = {
+const mongopubsub = {
   //using ascoltatore 
   type: 'mongo',
   url: 'mongodb://localhost:3001/meteor',
@@ -9,20 +9,21 @@ var mongopubsub = {
   mongo: {}
 };
 
-var settings = {
+const settings = {
   port: 1883,
   backend: mongopubsub
 };
  
-var server = new mosca.Server(settings);
+const server = new mosca.Server(settings);
  
-server.on('clientConnected', function(client) {
-    console.log('client connected', client.id);
+server.on('clientConnected', (client) => {
+  console.log('client connected', client.id);
 });
  
 // fired when a message is received 
-server.on('published', function(packet, client) {
+server.on('published', (packet, client) => {
   console.log('Published', packet.payload);
+  console.log(client);
 });
  
 server.on('ready', setup);

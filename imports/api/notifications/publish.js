@@ -1,6 +1,7 @@
-import { PublishEndpoint } from 'meteor/peerlibrary:reactive-publish';
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 
-new PublishEndpoint('Notifications.list', function() {
+Meteor.publish('Notifications.list', function() {
   return Notifications.documents.find(
     {'owner._id': this.userId}
   );
