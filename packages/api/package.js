@@ -9,7 +9,8 @@ Package.onUse(function (api) {
   api.versionsFrom('1.2.0.2');
 
   Npm.depends({
-    'mime-types': '2.1.6'
+    'mime-types': '2.1.6',
+    'mosca': '2.0.2'
   });
 
   // Core dependencies.
@@ -47,6 +48,7 @@ Package.onUse(function (api) {
     'data/publish.js',
     'environment/publish.js',
     'notifications/publish.js',
-    'thing/publish.js'
+    'thing/publish.js',
+    'mqtt/MQTT-broker.js'
   ], 'server');
 });

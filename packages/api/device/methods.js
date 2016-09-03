@@ -12,8 +12,7 @@ Meteor.methods({
       thing: deviceInfo
     };
 
-    // HACK: should owner be required? Ultimately it would be nice to
-    // be able to configure / claim devices from the app.
+    // TODO: use a UUID
     try {
       if (deviceInfo.username) {
         if (Meteor.isServer) {
@@ -201,5 +200,21 @@ Meteor.methods({
     if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
     return Device.documents.remove(device._id);
+  },
+
+  ['Device.getTime'](auth) {
+    check(auth, {
+      uuid: Match.NonEmptyString,
+      token: Match.NonEmptyString
+    });
+
+    let device = Device.documents.findOne(auth, {
+      fields: {
+        _id: 1
+      }
+    });
+    if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+    return new Date();
   }
 });
