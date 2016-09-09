@@ -68,6 +68,14 @@ loggedIn.route('/device/:uuid', {
   }
 });
 
+loggedIn.route('/device/:uuid/eventlog', {
+  name: 'EventLogComponent',
+  action(params, queryParams) {
+    return BlazeLayout.render('MainLayoutComponent',
+      {main: 'EventLogComponent'});
+  }
+});
+
 loggedIn.route('/thing/:uuid', {
   name: 'Thing.DisplayComponent',
   action(params, queryParams) {

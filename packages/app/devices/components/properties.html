@@ -1,3 +1,12 @@
 <template name="Device.PropertiesComponent">
-	<p>Hello world</p>
+	<h4>Properties</h4>
+	{{#with device.thing.properties}}
+		{{#if state}}
+		  <p>State: <em>{{state}}</em></p>
+		{{/if}}
+<!-- 		{{#if true}}
+		  <p>Message: <em>Hello world</em></p>
+		{{/if}} -->
+	{{/with}}
+	<hr/>
 </template>

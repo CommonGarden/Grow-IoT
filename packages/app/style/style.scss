@@ -4,6 +4,13 @@
   font-size: 1em !important;
 }
 
+.events {
+  padding-top: 1em;
+  .options {
+    padding-left: 1em;
+  }
+}
+
 *, *:before, *:after {
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;

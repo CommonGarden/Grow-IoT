@@ -85,6 +85,8 @@ Package.onUse(function (api) {
     'devices/components/options.html',
     'devices/components/events.js',
     'devices/components/events.html',
+    'devices/components/properties.js',
+    'devices/components/properties.html',
 
     'visualization/gauge.js',
     'visualization/gauge.html',
@@ -103,6 +105,8 @@ Package.onUse(function (api) {
     'environments/new_environment.html',
     'environments/new_device.js',
     'environments/new_device.html',
+
+
 
     'routes.js',
 
