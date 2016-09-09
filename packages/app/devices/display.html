@@ -1,7 +1,7 @@
 <template name="DeviceDisplayComponent">
 	<div class="row dashboard">
 		<div class="col-lg-12">
-			{{#with device.thing}}
+		  {{#with device.thing}}
 			<h2>{{name}}
 				{{#if $not device.onlineSince}}
 				  <em class="state">Not Online</em>
@@ -18,10 +18,10 @@
 		              </li>
 		            </ul>
 	          	</span>
-	         </h2>
-	         <p>{{description}}</p>
-	        {{/with}}
-	        <hr/>
+	        </h2>
+	        <p>{{description}}</p>
+	      {{/with}}
+	      <hr/>
 		</div>
 		<div class="col-lg-6">
 	        {{#with device.thing}}

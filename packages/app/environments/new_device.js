@@ -22,6 +22,8 @@ Environment.NewDeviceComponent = class NewDeviceComponent extends CommonComponen
     });
   }
 
+  // TODO: this is a bit redundant. 
+  // The user will have already selected new device in the environment they want to put it in.
   claimDevice(event) {
     event.preventDefault();
     
