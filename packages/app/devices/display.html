@@ -12,10 +12,9 @@
 				<span class="dropdown pull-right advanced-options">
 		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i><span class="caret"></span></a>
 		            <ul class="dropdown-menu">
-		            <!-- Todo: device settings modal -->
-				 <!-- <li>
-		              	<a href="#" class="settings">settings</a>
-		              </li> -->
+				 	  <li>
+		              	<a href="#" class="settings">Event log</a>
+		              </li>
 		              <li>
 		              	<a href="#" class="remove">Delete</a>
 		              </li>
@@ -32,14 +31,6 @@
 
 				{{> Device.EventComponent}}
 			{{/with}}
-
-			<hr/>
-
-			<!-- TODO: show / collapse components -->
-			<div>
-			{{> EventLogComponent}}
-			</div>
-
 		</div>
 
 		<div class="col-lg-6 sensor-viz">
