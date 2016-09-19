@@ -99,4 +99,4 @@ var grow = new GrowInstance({
     }
 });
 
-// grow.connect();
+grow.connect();
