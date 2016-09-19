@@ -12,7 +12,7 @@ var grow = new GrowInstance({
     desription: 'An LED light with a basic on/off api.',
 
     // The username of the account you want this device to be added to.
-    username: 'jake2@gmail.com',
+    username: 'jake.hartnell@gmail.com',
 
     // Properties can be updated by the API
     properties: {
@@ -65,7 +65,7 @@ var grow = new GrowInstance({
             function: function () {
                 currentTempValue = Math.random();
 
-                // Send data to the Grow-IoT app.
+                // // Send data to the Grow-IoT app.
                 grow.log({
                   type: 'temperature',
                   value: currentTempValue
@@ -99,3 +99,4 @@ var grow = new GrowInstance({
     }
 });
 
+// grow.connect();
