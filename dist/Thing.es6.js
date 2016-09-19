@@ -47,7 +47,6 @@ var possibleConstructorReturn = function (self, call) {
 };
 
 var _ = require('underscore');
-var later = require('meteor-later');
 var EventEmitter = require('events');
 
 /**
@@ -72,22 +71,8 @@ var Thing = function (_EventEmitter) {
       _.extend(_this, config);
     }
 
-    _this.scheduled = {};
-
-    if (!_.isUndefined(_this.actions)) {
-      _.each(_this.actions, function (action, key, list) {
-        if (!_.isUndefined(action.schedule)) {
-          _this.schedule(key);
-        }
-      });
-    }
-
     if (!_.isUndefined(_this.events)) {
       _.each(_this.events, function (event, key, list) {
-        if (!_.isUndefined(event.schedule)) {
-          _this.schedule(key);
-        }
-
         if (!_.isUndefined(event.on)) {
           _this.on(event.on, function () {
             if (!_.isUndefined(event.rule)) {
@@ -257,36 +242,7 @@ var Thing = function (_EventEmitter) {
           return output;
         }
       } catch (error) {
-        // If there is an error we emit an error.
-        return this.emit('error', error);
-      }
-    }
-
-    /**
-     * Starts a reoccurring action or event if a schedule property is defined.
-     * @param {Object} key  An action or event object.
-     */
-
-  }, {
-    key: 'schedule',
-    value: function schedule(key) {
-      var _this4 = this;
-
-      // what if they both have the same key?
-      var action = this.getAction(key);
-      var event = this.getEvent(key);
-      if (action) {
-        var schedule = later.parse.text(action.schedule);
-        var scheduledAction = later.setInterval(function () {
-          _this4.call(key);
-        }, schedule);
-        return this.scheduled[key] = scheduledAction;
-      } else if (event) {
-        var _schedule = later.parse.text(event.schedule);
-        var scheduledEvent = later.setInterval(function () {
-          _this4.call(key);
-        }, _schedule);
-        return this.scheduled[key] = scheduledEvent;
+        console.log(error);
       }
     }
   }]);
