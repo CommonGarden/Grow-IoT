@@ -315,9 +315,9 @@
             </thead>
             <tbody>
               <tr>
-                <td>actionId</td>
+                <td>key</td>
                 <td>String</td>
-                <td><p>The id of the action to call.</p></td>
+                <td><p>The id of the action / event to call.</p></td>
               </tr>
               <tr>
                 <td>options</td>
@@ -326,18 +326,31 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls a registered action, emits event if the the action has an &#39;event&#39;<br />property defined. Updates the state if the action has an &#39;updateState&#39;<br />property specified.</p></div>
-          <pre><code class="language-javascript">call (actionId, options) {
+          <div class="description"><p>Calls a registered action or event function, emits event if the the action has an &#39;event&#39;<br />property defined. </p></div>
+          <pre><code class="language-javascript">call (key, options) {
   try {
-    let action = this.getAction(actionId);
+    let action = this.getAction(key);
+    let event = this.getEvent(key);
 
-    if (!_.isUndefined(options)) {
-      var output = action.function(options);
+    if (action) {
+      if (!_.isUndefined(options)) {
+        var output = action.function(options);
+      }
+      else {
+        var output = action.function();
+      }
+      this.emit(key);
     }
-    else {
-      var output = action.function();
+
+    else if (event) {
+      if (!_.isUndefined(options)) {
+        var output = event.function(options);
+      }
+      else {
+        var output = event.function();
+      }
+      this.emit(key);
     }
-    this.emit(actionId);
 
     // We return any returns of called functions for testing.
     if (!_.isUndefined(output)) {

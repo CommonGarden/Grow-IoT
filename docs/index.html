@@ -34,13 +34,12 @@
 <li>Actions</li>
 <li>Events</li>
 </ul>
-<p>Thing.js exports a single class 'Thing,' which is an extension of the <a href="https://nodejs.org/api/events.html">Node.js EventEmitter Class</a>, and contains useful methods for:</p>
+<p>Thing.js exports a single class 'Thing,' which is an extension of the <a href="https://nodejs.org/api/events.html">Node.js EventEmitter Class</a>, and basic methods for:</p>
 <ul>
 <li>Updating properties</li>
 <li>Calling actions</li>
 <li>Emiting events</li>
 <li>Setting up event listeners</li>
-<li>Scheduling actions and events</li>
 </ul>
 <p><a href="http://commongarden.github.io/Thing.js/docs/Thing.js.html">Full documentation available here</a>.</p>
 <p>For example of how this can be used in an IoT stack, checkout <a href="https://github.com/CommonGarden/Grow.js">Grow.js</a> and <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT</a>.</p>
@@ -59,6 +58,8 @@ var Light = new Thing({
     lightconditions: function () {
       // Properties can be updated by the API.
       // Note: property functions should return a value.
+      // When using actual hardware you might use this function to get the
+      // state of a pin.
       return null;
     }
   },
@@ -106,10 +107,10 @@ function start () {
   return;
 });
 
-console.log(Light.get('state'));
+console.log(Light.get(state));
 // logs 'off'
 
-Light.callAction('turn_light_on');
+Light.call('turn_light_on');
 // logs 'Light on.'
 // logs 'this event listener is called when the light is turned on.'
 
