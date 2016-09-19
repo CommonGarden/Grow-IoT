@@ -7,13 +7,12 @@ Thing.js is meant to be an extremely light weight IoT-framework. Loosely inspire
 * Actions
 * Events
 
-Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html), and contains useful methods for:
+Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html), and basic methods for:
 
 * Updating properties
 * Calling actions
 * Emiting events
 * Setting up event listeners
-* Scheduling actions and events
 
 [Full documentation available here](http://commongarden.github.io/Thing.js/docs/Thing.js.html).
 
@@ -37,6 +36,8 @@ var Light = new Thing({
     lightconditions: function () {
       // Properties can be updated by the API.
       // Note: property functions should return a value.
+      // When using actual hardware you might use this function to get the
+      // state of a pin.
       return null;
     }
   },
@@ -48,7 +49,7 @@ var Light = new Thing({
       function: function () {
         // The implementation of the action.
         console.log('light on');
-        Light.setProperty('state', 'on');
+        Light.set('state', 'on');
       }
     },
     turn_light_off: {
@@ -87,7 +88,7 @@ function start () {
 console.log(Light.get(state));
 // logs 'off'
 
-Light.callAction('turn_light_on');
+Light.call('turn_light_on');
 // logs 'Light on.'
 // logs 'this event listener is called when the light is turned on.'
 
