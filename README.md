@@ -45,7 +45,6 @@ var Light = new Thing({
     turn_light_on: {
       name: 'On', // Display name for the action
       description: 'Turns the light on.', // Optional description
-      schedule: 'at 9:00am', // Optional scheduling using later.js
       function: function () {
         // The implementation of the action.
         console.log('light on');
@@ -54,7 +53,6 @@ var Light = new Thing({
     },
     turn_light_off: {
       name: 'off',
-      schedule: 'at 8:30pm',
       function: function () {
         console.log('light off');
         Light.set('state', 'off');
@@ -64,7 +62,6 @@ var Light = new Thing({
       name: 'Log light data', 
       type: 'light',
       template: 'sensor',
-      schedule: 'every 1 second',
       function: function () {
          console.log("Log light data.")
       }
