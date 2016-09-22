@@ -90,39 +90,6 @@ board.on('ready', function start() {
                         }
                     });
 
-<<<<<<< ed401aca5157bd6d99206dc925643a65725b3944:examples/arduino/DissolvedOxygen/breath.js
-                    // // Send value to Grow-IoT
-                    grow.log({
-                      type: 'D.O.',
-                      value: DO_reading
-                    });
-                }
-            }
-        },
-        events: {
-            check_DO: {
-                name: 'Check disolved oxygen',
-                on: 'do_data',
-                state: null,
-                min: 5.5,
-                max: 8,
-                function: function () {
-                    var min = grow.get('min', 'check_DO');
-                    var max = grow.get('max', 'check_DO');
-                    var state = grow.get('state', 'check_DO');
-                    if (DO_reading < min && state !== 'low') {
-                        grow.emitEvent('Disolved oxygen low')
-                            .set('state', 'low', 'check_DO');
-                            .call('turn_pump_on');
-                    } else if (DO_reading > max && state !== 'high') {
-                        grow.emitEvent('Disolved oxygen high')
-                            .set('state', 'high', 'check_DO');
-                            .call('turn_pump_off');
-                    } else if (DO_reading > min && DO_reading < max && state !== null) {
-                        grow.emitEvent('Disolved oxygen good')
-                            .set('state', null, 'check_DO');
-                    }
-=======
                     var min = grow.get('min', 'do_data');
                     var max = grow.get('max', 'do_data');
                     var state = grow.get('state', 'do_data');
@@ -144,7 +111,6 @@ board.on('ready', function start() {
                       type: 'dissolved_oxygen',
                       value: DO_reading
                     });
->>>>>>> Add scheduling, more examples.:examples/atlas_scientific/dissolvedOxygen.js
                 }
             }
         }

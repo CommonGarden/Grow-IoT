@@ -1,13 +1,20 @@
+/*
+Atlas Scientific Conductivity Sensor
+
+* [Product page](https://www.atlas-scientific.com/product_pages/kits/ec_k1_0_kit.html)
+* [Documentation](https://www.atlas-scientific.com/_files/_datasheets/_circuit/EC_EZO_Datasheet.pdf)
+
+Note: for this to work, the Atlas Scientific chip needs to be I2C mode. 
+Instructions for this can be found in the [documentation](https://www.atlas-scientific.com/_files/_datasheets/_circuit/EC_EZO_Datasheet.pdf).
+*/
+
 var GrowInstance = require('Grow.js');
-var raspio = require('raspi-io');
 var five = require('johnny-five');
 var ascii = require('ascii-codes');
 var Hysteresis = require('hysteresis');
 
 // Create a new board object
-var board = new five.Board({
-  io: new raspio()
-});
+var board = new five.Board();
 
 // When board emits a 'ready' event run this start function.
 board.on('ready', function start() {

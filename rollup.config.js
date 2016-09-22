@@ -5,7 +5,7 @@ let pkg = require('./package.json');
 let external = Object.keys(pkg.dependencies);
 
 export default {
-  entry: 'lib/Grow.js',
+  entry: 'lib/index.js',
   plugins: [babel(babelrc())],
   external: external,
   targets: [
