@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
-import 'documents/events';
-import 'documents/things';
+import './collections/events';
+import './collections/things';
 
 if (Meteor.isServer) {
-	import 'documents/messages';
+	import './collections/messages';
 }

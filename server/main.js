@@ -1,3 +1,5 @@
+import '../imports/core/index.js';
+
 import '../imports/api/events/publish.js';
 
 import '../imports/api/thing/publish.js';
