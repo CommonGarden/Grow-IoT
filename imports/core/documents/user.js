@@ -1,3 +1,5 @@
+import { Mongo } from 'meteor/mongo';
+
 // class User extends share.BaseDocument
 //   @Meta
 //     name: 'User'

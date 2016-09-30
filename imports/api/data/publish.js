@@ -2,10 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 Meteor.publish('Data.points', function(deviceUuid) {
-  // TODO: Do better checks.
   check(deviceUuid, Match.NonEmptyString);
 
-  let device = Device.documents.findOne({
+  let device = Device.findOne({
     'uuid': deviceUuid,
     'owner._id': this.userId
   }
@@ -18,7 +17,7 @@ Meteor.publish('Data.points', function(deviceUuid) {
   if (!device) { throw new Meteor.Error('not-found', `Device '${deviceUuid}' cannot be found.`); }
 
   // TODO: refine query to remove events.
-  return Data.documents.find(
+  return Data.find(
     {'device._id': device._id}
   , {
     'sort': {
@@ -33,7 +32,7 @@ Meteor.publish('Data.pointsByType', function(deviceUuid, type) {
   check(deviceUuid, Match.NonEmptyString);
   check(type, Match.NonEmptyString);
 
-  let device = Device.documents.findOne(
+  let device = Device.findOne(
     {'uuid': deviceUuid}
   , {
     fields: {
@@ -44,7 +43,7 @@ Meteor.publish('Data.pointsByType', function(deviceUuid, type) {
   if (!device) { throw new Meteor.Error('not-found', `Device '${deviceUuid}' cannot be found.`); }
 
   // TODO: refine query to remove events.
-  return Data.documents.find({
+  return Data.find({
     'device._id': device._id,
     'data.type': type,
     'event': {
@@ -63,7 +62,7 @@ Meteor.publish('Data.pointsByType', function(deviceUuid, type) {
 Meteor.publish('Data.events', function(deviceUuid) {
   check(deviceUuid, Match.NonEmptyString);
 
-  let device = Device.documents.findOne({
+  let device = Device.findOne({
     'uuid': deviceUuid,
     'owner._id': this.userId
   }
@@ -76,7 +75,7 @@ Meteor.publish('Data.events', function(deviceUuid) {
   if (!device) { throw new Meteor.Error('not-found', `Device '${deviceUuid}' cannot be found.`); }
 
   // Return data documents with an event field.
-  return Data.documents.find({
+  return Data.find({
     'device._id': device._id,
     'event': {
       $exists: true

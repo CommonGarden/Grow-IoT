@@ -1,3 +1,5 @@
+import { Mongo } from 'meteor/mongo';
+
 // class Environment extends share.BaseDocument
 //   # registeredAt
 //   # uuid: UUID of the device

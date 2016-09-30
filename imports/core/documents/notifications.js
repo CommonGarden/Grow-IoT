@@ -1,3 +1,5 @@
+import { Mongo } from 'meteor/mongo';
+
 // # TODO: Notifications are different from events, because not every event will lead to notifications.
 // class Notifications extends share.BaseDocument
 //   # insertedAt

@@ -1,16 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
-let TOKEN_LENGTH = 32;
-
 Meteor.methods({
-  ['Device.register'](deviceInfo) {
-    // TODO: better checks.
+  register: function (deviceInfo) {
     check(deviceInfo, Object);
 
     let document = {
       uuid: Meteor.uuid(),
-      token: Random.id(TOKEN_LENGTH),
+      token: Random.id(32),
       registeredAt: new Date(),
       thing: deviceInfo
     };
@@ -18,11 +15,11 @@ Meteor.methods({
     // HACK: should owner be required? Ultimately it would be nice to
     // be able to configure / claim devices from the app.
     try {
-      if (deviceInfo.username) {
+      if (deviceInfo.devicUuid) {
         if (Meteor.isServer) {
           // TODO: MAKE API KEYS. USE THOSE INSTEAD OF EMAIL.
-          let user = Accounts.findUserByEmail(deviceInfo.username);
-          document.owner = {_id: user._id};
+          // let user = Accounts.findUserByEmail(deviceInfo.username);
+          // document.owner = {_id: user._id};
         }
       } else {
         throw new Meteor.Error('internal-error', 'The device has no username. Choose the username of the account you want the device added to.');
@@ -38,7 +35,7 @@ Meteor.methods({
   },
 
 
-  ['Device.sendData'](auth, body) {
+  sendData: function (auth, body) {
     check(auth, {
       uuid: Match.NonEmptyString,
       token: Match.NonEmptyString
@@ -63,7 +60,7 @@ Meteor.methods({
 
   // Modify to update a property from the client side?
   // Example, updating the schedule of an action schedule...
-  ['Device.setProperty'](auth, property, value, key) {
+  setProperty: function (auth, property, value, key) {
     check(auth, {
       uuid: Match.NonEmptyString,
       token: Match.NonEmptyString
@@ -110,7 +107,7 @@ Meteor.methods({
   },
 
 
-  ['Device.emitEvent'](auth, body) {
+  emitEvent: function (auth, body) {
     check(auth, {
       uuid: Match.NonEmptyString,
       token: Match.NonEmptyString
@@ -132,49 +129,49 @@ Meteor.methods({
     });
   },
 
+  // TODO: rename 
+  // ['Device.assignEnvironment'](deviceUuid, environmentUuid) {
+  //   check(deviceUuid, Match.NonEmptyString);
+  //   check(environmentUuid, Match.NonEmptyString);
 
-  ['Device.assignEnvironment'](deviceUuid, environmentUuid) {
-    check(deviceUuid, Match.NonEmptyString);
-    check(environmentUuid, Match.NonEmptyString);
+  //   let device = Device.documents.findOne({
+  //     'uuid': deviceUuid,
+  //     'owner._id': Meteor.userId()
+  //   });
+  //   let environment = Environment.documents.findOne(
+  //     {'uuid': environmentUuid});
 
-    let device = Device.documents.findOne({
-      'uuid': deviceUuid,
-      'owner._id': Meteor.userId()
-    });
-    let environment = Environment.documents.findOne(
-      {'uuid': environmentUuid});
+  //   if (!environment) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    if (!environment) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
-
-    return Device.documents.update(device._id, {
-      '$set': {
-        'environment':
-          environment.getReference()
-      }
-    });
-  },
-
-
-  ['Device.unassignEnvironment'](deviceUuid, environmentUuid) {
-    check(deviceUuid, Match.NonEmptyString);
-    check(environmentUuid, Match.NonEmptyString);
-
-    let device = Device.documents.findOne({
-      'uuid': deviceUuid,
-      'owner._id': Meteor.userId()
-    });
-    let environment = Environment.documents.findOne(
-      {'uuid': environmentUuid});
-
-    return Device.documents.update(device._id, {
-      '$unset': {
-        'environment': ""
-      }
-    });
-  },
+  //   return Device.documents.update(device._id, {
+  //     '$set': {
+  //       'environment':
+  //         environment.getReference()
+  //     }
+  //   });
+  // },
 
 
-  ['Device.claim'](deviceUuid, environmentUuid) {
+  // ['Device.unassignEnvironment'](deviceUuid, environmentUuid) {
+  //   check(deviceUuid, Match.NonEmptyString);
+  //   check(environmentUuid, Match.NonEmptyString);
+
+  //   let device = Device.documents.findOne({
+  //     'uuid': deviceUuid,
+  //     'owner._id': Meteor.userId()
+  //   });
+  //   let environment = Environment.documents.findOne(
+  //     {'uuid': environmentUuid});
+
+  //   return Device.documents.update(device._id, {
+  //     '$unset': {
+  //       'environment': ""
+  //     }
+  //   });
+  // },
+
+
+  claim: function (deviceUuid, environmentUuid) {
     check(deviceUuid, Match.NonEmptyString);
     check(environmentUuid, Match.NonEmptyString);
 
@@ -194,7 +191,7 @@ Meteor.methods({
   },
 
 
-  ['Device.remove'](uuid) {
+  remove: function (uuid) {
     check(uuid, Match.NonEmptyString);
 
     let device = Device.documents.findOne({

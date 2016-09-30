@@ -2,8 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  ['Device.sendCommand'](deviceUuid, type, options) {
-    // TODO: Do better checks.
+  sendCommand: function (deviceUuid, type, options) {
     check(deviceUuid, Match.NonEmptyString);
     check(type, Match.NonEmptyString);
 

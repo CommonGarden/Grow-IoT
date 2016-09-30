@@ -1,3 +1,6 @@
+import { Mongo } from 'meteor/mongo';
+
+
 // class Thing extends share.BaseDocument
 //   # registeredAt
 //   # uuid: UUID of the device
