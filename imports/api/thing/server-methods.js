@@ -2,10 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 
-
 Meteor.methods({
   sendCommand: function (deviceUuid, type, options) {
-    // TODO: use regex to determin if it's a valid format?
     check(deviceUuid, String);
     check(type, String);
 

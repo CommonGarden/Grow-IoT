@@ -1,125 +1,71 @@
-Package.describe({
-  name: 'grow:app',
-  summary: 'Grow-IoT user interface and frontend app.',
-  documentation: 'README.md',
-  version: '0.2.0'
-});
+import './layout/layout.html';
+import './layout/layout.js';
+import './layout/loader.js';
+import './layout/loader.html';
+import './layout/header.html';
+import './layout/header.js';
+import './layout/footer.js';
+import './layout/footer.html';
+import './layout/not-found.js';
+import './layout/not-found.html';
+import './layout/dashboard.js';
+import './layout/dashboard.html';
+import './layout/back_button.js';
+import './layout/back_button.html';
 
-Package.onUse(function (api) {
-  api.versionsFrom('1.2.0.2');
+import './accounts/accounts_config.js';
+import './accounts/account-page.html';
+import './accounts/account-page.js';
+import './accounts/sign-in-or-up.html';
+import './accounts/sign-in-or-up.js';
 
-  // Core dependencies.
-  api.use([
-    'coffeescript',
-    'underscore',
-    'fourseven:scss@3.4.3',
-    'ecmascript'
-  ]);
+import './style/style.scss';
+import './style/navigation.scss';
+import './style/responsive.scss';
+// import './style/custom.scss';
 
-  // 3rd party dependencies.
-  api.use([
-    'kadira:flow-router@2.7.0',
-    'peerlibrary:blaze-common-component@0.2.0',
-    'peerlibrary:blaze-components@0.15.0',
-    'kadira:blaze-layout@2.2.0',
-    'peerlibrary:computed-field@0.3.0',
-    'themeteorchef:jquery-validation@1.14.0',
-    'useraccounts:bootstrap@1.14.2',
-    'useraccounts:core@1.14.2',
-    'softwarerero:accounts-t9n@1.3.4',
-    'jquery'
-  ]);
+import './things/all_things.js';
+import './things/all_things.html';
+import './things/display.js';
+import './things/display.html';
+import './things/list.js';
+import './things/list.html';
+import './things/list_item.js';
+import './things/list_item.html';
+import './things/event_log.js';
+import './things/event_log.html';
+import './things/components/list.js';
+import './things/components/list.html';
+import './things/components/sensors_list.js';
+import './things/components/sensors_list.html';
+import './things/components/action.js';
+import './things/components/action.html';
+import './things/components/options.js';
+import './things/components/options.html';
+import './things/components/events.js';
+import './things/components/events.html';
 
-  // Internal dependencies.
-  api.use([
-    'grow:core@0.2.0',
-    'grow:api@0.2.0',
-    'session'
-  ]);
+import './visualization/gauge.js';
+import './visualization/gauge.html';
+import './visualization/linechart.js';
+import './visualization/linechart.html';
+import './visualization/visualization.js';
+import './visualization/visualization.html';
 
-  // Note: files are loaded in by order in the list, see Meteor docs for more info.
-  api.addFiles([
-    'layout/layout.html',
-    'layout/layout.coffee',
-    'layout/loader.js',
-    'layout/loader.html',
-    'layout/header.html',
-    'layout/header.js',
-    'layout/footer.js',
-    'layout/footer.html',
-    'layout/not-found.js',
-    'layout/not-found.html',
-    'layout/dashboard.js',
-    'layout/dashboard.html',
-    'layout/back_button.js',
-    'layout/back_button.html',
+// import './environments/display.js';
+// import './environments/display.html';
+// import './environments/list.js';
+// import './environments/list.html';
+// import './environments/list_item.js';
+// import './environments/list_item.html';
+// import './environments/new_environment.js';
+// import './environments/new_environment.html';
+// import './environments/new_device.js';
+// import './environments/new_device.html';
 
-    'accounts/accounts_config.js',
-    'accounts/account-page.html',
-    'accounts/account-page.js',
-    'accounts/sign-in-or-up.html',
-    'accounts/sign-in-or-up.js',
-
-    'style/style.scss',
-    'style/navigation.scss',
-    'style/responsive.scss',
-    // 'style/custom.scss',
-
-    'devices/all_devices.js',
-    'devices/all_devices.html',
-    'devices/display.js',
-    'devices/display.html',
-    'devices/list.js',
-    'devices/list.html',
-    'devices/list_item.js',
-    'devices/list_item.html',
-    'devices/event_log.js',
-    'devices/event_log.html',
-    'devices/components/list.js',
-    'devices/components/list.html',
-    'devices/components/sensors_list.js',
-    'devices/components/sensors_list.html',
-    'devices/components/action.js',
-    'devices/components/action.html',
-    'devices/components/options.js',
-    'devices/components/options.html',
-    'devices/components/events.js',
-    'devices/components/events.html',
-
-    'visualization/gauge.js',
-    'visualization/gauge.html',
-    'visualization/linechart.js',
-    'visualization/linechart.html',
-    'visualization/visualization.js',
-    'visualization/visualization.html',
-
-    'environments/display.js',
-    'environments/display.html',
-    'environments/list.js',
-    'environments/list.html',
-    'environments/list_item.js',
-    'environments/list_item.html',
-    'environments/new_environment.js',
-    'environments/new_environment.html',
-    'environments/new_device.js',
-    'environments/new_device.html',
-
-    'routes.js',
-
-    // 'things/new_thing.js',
-    // 'things/new_thing.html',
-    // 'things/display.js',
-    // 'things/display.html',
-    // 'things/list_item.js',
-    // 'things/list_item.html',
-    // 'things/list.js',
-    // 'things/list.html',
-
-    'notifications/notification.js',
-    'notifications/notification.html',
-    'notifications/navui.js',
-    'notifications/navui.html',
-    'notifications/history.js',
-    'notifications/history.html'
-  ], 'client');
-});
+import './notifications/notification.js';
+import './notifications/notification.html';
+import './notifications/navui.js';
+import './notifications/navui.html';
+import './notifications/history.js';
+import './notifications/history.html'

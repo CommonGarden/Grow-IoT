@@ -9,9 +9,9 @@
       	  {{> Environment.NewDeviceComponent}}
         {{/if}} -->
 
-      	{{#if devicesList.exists}}
-	        {{#each devicesList}}
-		        {{> DeviceListItemComponent}}
+      	{{#if list.exists}}
+	        {{#each list}}
+		        {{> ListItemComponent}}
 		    {{/each}}
 		{{else}}
 			<h4>No devices</h4>
