@@ -1,15 +1,33 @@
-Thing.ListItemComponent = class ListItemComponent extends CommonComponent {
-	onCreated() {
-		super.onCreated();
+class DeviceListItemComponent extends CommonComponent {
+  // onCreated() {
+  //   super.onCreated();
 
-		return this.subscribe('Thing.one', Template.currentData().uuid);
-	}
+  //   let device = Template.currentData();
 
-	thing() {
-		let thing = Thing.documents.findOne(
-			{uuid: Template.currentData().uuid});
-		return thing.thing;
-	}
+  //   return this.autorun(computation => {
+  //     let deviceUuid = device.uuid;
+  //     if (!deviceUuid) { return; }
+
+  //     this.subscribe('Device.one', deviceUuid);
+
+  //     this.subscribe('Data.points', deviceUuid);
+
+  //     return this.dataPoint = new ComputedField(() => {
+  //       let dataPoint = Data.documents.findOne(
+  //         {'device._id': device._id}
+  //       , {
+  //         'sort': {
+  //           'insertedAt': -1
+  //         }
+  //       });
+  //       return dataPoint.data;
+  //     });
+  //   });
+  // }
+
+  // currentValue() {
+  //   return this.dataPoint();
+  // }
 };
 
-Thing.ListItemComponent.register('Thing.ListItemComponent');
+DeviceListItemComponent.register('DeviceListItemComponent');

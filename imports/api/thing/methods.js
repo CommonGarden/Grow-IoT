@@ -6,14 +6,12 @@ Meteor.methods({
     check(deviceInfo, Object);
 
     let document = {
-      uuid: Meteor.uuid(),
+      // uuid: Meteor.uuid(),
       token: Random.id(32),
       registeredAt: new Date(),
       thing: deviceInfo
     };
 
-    // HACK: should owner be required? Ultimately it would be nice to
-    // be able to configure / claim devices from the app.
     try {
       if (deviceInfo.devicUuid) {
         if (Meteor.isServer) {
@@ -80,13 +78,7 @@ Meteor.methods({
     // Update the propery on the thing object
     let { thing } = device;
 
-    // Hack:
-    // thing.actions[key][property] = value;
-    // // console.log(thing.actions[key]);
-    // console.log(thing.events[key]);
-    // console.log(thing.properties[key]);
-
-    // Not working...
+    // TODO: use thing.js
     if (_.isNull(key)) {
       thing.properties[property] = value;
     }
@@ -126,68 +118,6 @@ Meteor.methods({
       insertedAt: new Date()
     });
   },
-
-  // TODO: rename 
-  // ['Device.assignEnvironment'](deviceUuid, environmentUuid) {
-  //   check(deviceUuid, Match.NonEmptyString);
-  //   check(environmentUuid, Match.NonEmptyString);
-
-  //   let device = Device.documents.findOne({
-  //     'uuid': deviceUuid,
-  //     'owner._id': Meteor.userId()
-  //   });
-  //   let environment = Environment.documents.findOne(
-  //     {'uuid': environmentUuid});
-
-  //   if (!environment) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
-
-  //   return Device.documents.update(device._id, {
-  //     '$set': {
-  //       'environment':
-  //         environment.getReference()
-  //     }
-  //   });
-  // },
-
-
-  // ['Device.unassignEnvironment'](deviceUuid, environmentUuid) {
-  //   check(deviceUuid, Match.NonEmptyString);
-  //   check(environmentUuid, Match.NonEmptyString);
-
-  //   let device = Device.documents.findOne({
-  //     'uuid': deviceUuid,
-  //     'owner._id': Meteor.userId()
-  //   });
-  //   let environment = Environment.documents.findOne(
-  //     {'uuid': environmentUuid});
-
-  //   return Device.documents.update(device._id, {
-  //     '$unset': {
-  //       'environment': ""
-  //     }
-  //   });
-  // },
-
-  // TODO: // REMOVE
-  claim: function (deviceUuid, environmentUuid) {
-    check(deviceUuid, Match.NonEmptyString);
-    check(environmentUuid, Match.NonEmptyString);
-
-    // TODO: make sure this doesn't work for devices with an owner.
-    let device = Device.documents.findOne(
-      {'uuid': deviceUuid});
-    let environment = Environment.documents.findOne(
-      {'uuid': environmentUuid});
-
-    return Device.documents.update(device._id, {
-      '$set': {
-        'owner._id': Meteor.userId(),
-        'environment':
-          environment.getReference()
-      }
-    });
-  },
-
 
   remove: function (uuid) {
     check(uuid, Match.NonEmptyString);

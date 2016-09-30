@@ -1,91 +1,97 @@
-Thing.DisplayComponent = class DisplayComponent extends CommonComponent {
+class DisplayComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
 
-    this.currentThingUuid = new ComputedField(() => {
+    this.currentDeviceUuid = new ComputedField(() => {
       return FlowRouter.getParam('uuid');
     });
 
-    this.thing = new ComputedField(() => {
-      return Thing.documents.findOne(
-        {uuid: this.currentThingUuid()});
+    this.device = new ComputedField(() => {
+      return Device.documents.findOne(
+        {
+          uuid: this.currentDeviceUuid()
+        }
+      );
     });
 
     this.autorun(computation => {
-      let thingUuid = this.currentThingUuid();
-      if (!thingUuid) { return; }
+      let deviceUuid = this.currentDeviceUuid();
+      if (!deviceUuid) { return; }
 
-      return this.subscribe('Thing.one', thingUuid);
+      this.subscribe('Device.one', deviceUuid);
+
+      this.subscribe('Data.points', deviceUuid);
+
+      return this.subscribe('Data.events', deviceUuid);
     });
 
     return this.autorun(computation => {
-      let thing;
       if (!this.subscriptionsReady()) { return; }
 
-      return thing = Thing.documents.findOne(
-        {uuid: this.currentThingUuid()}
+      let device = Device.documents.findOne(
+        {
+          uuid: this.currentDeviceUuid()
+        }
       , {
         fields: {
-          title: 1
+          thing: 1
         }
       });
+
+      // Set page title to device name.
+      document.title = device.thing.name;
+
+      return device;
     });
+  }
+
+  device() {
+    return this.device();
   }
 
   thing() {
-    return this.thing();
+    return this.device().thing;
   }
 
-  // images: ->
-  //   Images.files.find({})
+  components() {
+    return (this.device().thing.components != null);
+  }
+  
+  datapoints() {
+    return Data.documents.find(
+      {
+        'device._id': this.device()._id
+      }
+    );
+  }
 
   events() {
     return super.events().concat({
-      'click .remove': this.remove,
-      'click .take-pic': this.takePic
+      'click .remove': this.remove
     });
   }
-
-  takePic(event) {
-    return MeteorCamera.getPicture([], function(err, data) {
-      let newFile = new FS.File(data);
-
-      // HACK: should do this with referencefields.
-      // newFile.thing = Thing.documents.findOne
-      //   uuid: FlowRouter.getParam 'uuid'
-
-      return Meteor.call('StorageFile.newFile', newFile, function(err, fileObj) {
-        if (err) {
-          console.log(err);
-          return Bert.alert('Image save failed.', 'error', 'growl-top-right');
-        } else {
-          return Bert.alert('Image saved', 'success', 'growl-top-right');
-        }
-      });
-    });
-  }
-
 
   notFound() {
-    return this.subscriptionsReady() && !this.thing();
+    return this.subscriptionsReady() && !this.device();
   }
 
   remove() {
-    let thing = this.thing();
-    if (window.confirm("Are you sure you want to delete this thing?")) {
-      return Meteor.call('Thing.remove',
-        this.currentThingUuid(),
+    let device = this.device();
+    if (window.confirm("Are you sure you want to delete this device?")) {
+      return Meteor.call('Device.remove',
+        this.currentDeviceUuid(),
         (error, documentId) => {
           if (error) {
-            console.error("New thingerror", error);
-            return alert(`New thingerror: ${error.reason || error}`);
+            console.error("New deviceerror", error);
+            return alert(`New deviceerror: ${error.reason || error}`);
           } else {
-            Bert.alert('Thing deleted.', 'success', 'growl-top-right');
+            Bert.alert('Device deleted.', 'success', 'growl-top-right');
             return FlowRouter.go('Dashboard');
           }
-        });
+        }
+      );
     }
   }
 };
 
-Thing.DisplayComponent.register('Thing.DisplayComponent');
+DisplayComponent.register('DisplayComponent');

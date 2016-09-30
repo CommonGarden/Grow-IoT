@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
+
+
 Meteor.methods({
   sendCommand: function (deviceUuid, type, options) {
-    check(deviceUuid, Match.NonEmptyString);
-    check(type, Match.NonEmptyString);
+    // TODO: use regex to determin if it's a valid format?
+    check(deviceUuid, String);
+    check(type, String);
 
     let device = Device.documents.findOne(
       {uuid: deviceUuid}

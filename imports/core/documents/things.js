@@ -6,8 +6,8 @@ import { Mongo } from 'meteor/mongo';
 // them and ownership can't be changed. Only a document's owner
 // is allowed to delete it, and the 'locked' attribute can be
 // set on a document to prevent its accidental deletion.
-Messages = new Mongo.Collection("Messages");
-Messages.allow({
+Things = new Mongo.Collection("Things");
+Things.allow({
   insert: function (userId, doc) {
     // the user must be logged in, and the document must be owned by the user
     return (userId && doc.owner === userId);
@@ -22,7 +22,7 @@ Messages.allow({
   },
   fetch: ['owner']
 });
-Messages.deny({
+Things.deny({
   update: function (userId, doc, fields, modifier) {
     // can't change owners
     return _.contains(fields, 'owner');
@@ -34,29 +34,3 @@ Messages.deny({
   fetch: ['locked'] // no need to fetch 'owner'
 });
 
-
-// MESSAGES_TTL = 60 # seconds
-
-// class Message extends share.BaseDocument
-//   # createdAt: timestamp when created
-//   # device: device associated with data
-//   #   _id
-//   # body
-
-//   @Meta
-//     name: 'Message'
-//     fields: =>
-//       device: @ReferenceField Device
-
-//   @send: (device, message) ->
-//     !!@documents.insert
-//       createdAt: new Date()
-//       device:
-//         _id: device._id
-//       body: message
-
-// # Auto-expire messages after MESSAGES_TTL seconds.
-// Message.Meta.collection._ensureIndex
-//   createdAt: 1
-// ,
-//   expireAfterSeconds: MESSAGES_TTL

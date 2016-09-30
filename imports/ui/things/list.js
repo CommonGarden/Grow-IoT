@@ -1,4 +1,4 @@
-Thing.ListComponent = class ListComponent extends CommonComponent {
+class ListComponent extends CommonComponent {
   onCreated() {
     super.onCreated();
 
@@ -6,7 +6,7 @@ Thing.ListComponent = class ListComponent extends CommonComponent {
       return FlowRouter.getParam('uuid');
     });
 
-    return this.subscribe('Thing.list', this.currentEnvironmentUuid());
+    return this.subscribe('Device.listByEnvironment', this.currentEnvironmentUuid());
   }
 
   onRendered() {
@@ -14,21 +14,24 @@ Thing.ListComponent = class ListComponent extends CommonComponent {
   }
 
   // TODO: Sort this list based on the order
-  thingsList() {
-    return Thing.documents.find();
+  devicesList() {
+    return Device.documents.find({
+      'environment.uuid': this.currentEnvironmentUuid()
+    });
   }
 
   events() {
-    return super.events().concat(
-      {'click .thing': this.viewThing});
+    return super.events().concat({
+      'click .device': this.viewDevice
+    });
   }
 
-  viewThing(event) {
+  viewDevice(event) {
     // Build path from the data-uuid attribute
     let params = { uuid: event.currentTarget.dataset.uuid };
-    let path = FlowRouter.path('Thing.DisplayComponent', params);
+    let path = FlowRouter.path('Device.display', params);
     return FlowRouter.go(path);
   }
 };
 
-Thing.ListComponent.register('Thing.ListComponent');
+ListComponent.register('ListComponent');

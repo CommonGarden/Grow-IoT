@@ -60,31 +60,15 @@ loggedIn.route('/account', {
   }
 });
 
-loggedIn.route('/device/:uuid', {
-  name: 'Device.display',
-  action(params, queryParams) {
-    return BlazeLayout.render('MainLayoutComponent',
-      {main: 'DeviceDisplayComponent'});
-  }
-});
-
 loggedIn.route('/thing/:uuid', {
-  name: 'Thing.DisplayComponent',
+  name: 'DisplayComponent',
   action(params, queryParams) {
     return BlazeLayout.render('MainLayoutComponent',
-      {main: 'Thing.DisplayComponent'});
+      {main: 'DisplayComponent'});
   }
 });
 
-loggedIn.route('/environment/:uuid', {
-  name: 'Environment.DisplayComponent',
-  action(params, queryParams) {
-    return BlazeLayout.render('MainLayoutComponent',
-      {main: 'EnvironmentDisplayComponent'});
-  }
-});
-
-loggedIn.route('/devices/', {
+loggedIn.route('/things/', {
   name: 'AllDevicesComponent',
   action(params, queryParams) {
     return BlazeLayout.render('MainLayoutComponent',
@@ -97,46 +81,6 @@ loggedIn.route('/', {
   action(params, queryParams) {
     return BlazeLayout.render('MainLayoutComponent',
       {main: 'Dashboard'});
-  }
-});
-
-loggedIn.route('/environments/', {
-  name: 'Environment.ListComponent',
-  action(params, queryParams) {
-    return BlazeLayout.render('MainLayoutComponent',
-      {main: 'Environment.ListComponent'});
-  }
-});
-
-loggedIn.route('/environment/:uuid/new-device', {
-  name: 'Environment.NewDeviceComponent',
-  action(params, queryParams) {
-    return BlazeLayout.render('MainLayoutComponent',
-      {main: 'Environment.NewDeviceComponent'});
-  }
-});
-
-loggedIn.route('/new-environment', {
-  name: 'Environment.NewComponent',
-  action(params, queryParams) {
-    return BlazeLayout.render('MainLayoutComponent',
-      {main: 'Environment.NewComponent'});
-  }
-});
-
-loggedIn.route('/new-grow-file', {
-  name: 'GrowFileCreatorComponent',
-  action(params, queryParams) {
-    return BlazeLayout.render('MainLayoutComponent',
-      {main: 'GrowFileCreatorComponent'});
-  }
-});
-
-loggedIn.route('/environment/:uuid/new-thing', {
-  name: 'Thing.NewComponent',
-  action(params, queryParams) {
-    return BlazeLayout.render('MainLayoutComponent',
-      {main: 'Thing.NewComponent'});
   }
 });
 
