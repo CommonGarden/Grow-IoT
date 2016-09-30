@@ -1,3 +1,2 @@
 # Grow-Core
 
-See peerdb.
