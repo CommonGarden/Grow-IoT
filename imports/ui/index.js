@@ -1,3 +1,4 @@
+import './build.html';
 import './components/index.html';
 import './components/test-element.html';
 

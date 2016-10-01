@@ -13,7 +13,7 @@ document.addEventListener("WebComponentsReady", function() {
 FlowRouter.route("/", {
   name:'landing',
   action:function(params,queryParams){
-    mwcLayout.render('demo-landing',{"main":"demo-route1"});
+    mwcLayout.render('demo-layout',{"main":"test-element"});
     console.log('reached /');
   }
 });

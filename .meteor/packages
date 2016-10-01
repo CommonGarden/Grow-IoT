@@ -34,4 +34,5 @@ practicalmeteor:mocha
 shell-server
 kadira:blaze-layout
 mwc:layout
+mwc:mixin
 mwc:synthesis
