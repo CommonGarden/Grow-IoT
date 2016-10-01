@@ -55,15 +55,16 @@ Grow-IoT works with many devices. For help getting started with any of these pop
 + [Chip]()
 + [Particle]() -->
 
+### Distributed Data Protocol
+
+You can interact with the Grow-IoT api using the Distributed Data Protocol. There are DDP Clients available in many different programming languages, see http://meteorpedia.com/read/DDP_Clients for a list.
+
+# 'Cloud' setup
 ### Setting up an instance on Meteor Galaxy
 
 You can easily host **your own** Grow-IoT instance on [Meteor Galaxy](https://galaxy.meteor.com/). See the Meteor Galaxy website for instructions on hosting a new meteor application.
 
 See [instructions in Grow.js for securely connecting devices to the instance](https://github.com/CommonGarden/grow.js).
-
-### Distributed Data Protocol
-
-You can interact with the Grow-IoT api using the Distributed Data Protocol. There are DDP Clients available in many different programming languages, see http://meteorpedia.com/read/DDP_Clients for a list.
 
 ## Contributing
 
