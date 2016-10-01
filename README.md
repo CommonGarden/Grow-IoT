@@ -1,8 +1,7 @@
-### If you are looking for the old prototype, checkout the prototype branch.
+### If you are looking for the old prototype, checkout the master branch.
 
 # Grow-IoT
-## Automation + IoT software for growing things!
-
+## Status: work in progress
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
