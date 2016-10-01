@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "paper-button": "PolymerElements/paper-button#^1.0.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0",
+    "polymer": "Polymer/polymer#^1.0.0",
+    "mwc-layout": "^1.1.14"
+  },
+  "name": "synthesis-demo",
+  "version": "0.0.1"
+}

@@ -1,6 +1,7 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+// import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
+import { mwcLayout } from 'meteor/mwc:layout';
 
 FlowRouter.wait();
 
