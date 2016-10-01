@@ -2,21 +2,21 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  register: function (deviceInfo) {
-    check(deviceInfo, Object);
+  register: function (config) {
+    check(config, Object);
 
     let document = {
       // uuid: Meteor.uuid(),
       token: Random.id(32),
       registeredAt: new Date(),
-      thing: deviceInfo
+      thing: config
     };
 
     try {
-      if (deviceInfo.devicUuid) {
+      if (config.uuid) {
         if (Meteor.isServer) {
           // TODO: MAKE API KEYS. USE THOSE INSTEAD OF EMAIL.
-          // let user = Accounts.findUserByEmail(deviceInfo.username);
+          // let user = Accounts.findUserByEmail(config.username);
           // document.owner = {_id: user._id};
         }
       } else {
@@ -27,7 +27,9 @@ Meteor.methods({
       throw new Meteor.Error('internal-error', 'The device has no username. Choose the username of the account you want the device added to.');
     }
 
-    if (!Device.documents.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+    if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+
+    // todo: update thing info if it has been changed?
 
     return document;
   },
@@ -39,14 +41,14 @@ Meteor.methods({
       token: Match.NonEmptyString
     });
 
-    let device = Device.documents.findOne(auth, {
+    let device = Things.documents.findOne(auth, {
       fields: {
         _id: 1
       }
     });
     if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
     
-    return !!Data.documents.insert({
+    return !!Events.insert({
       device: {
         _id: device._id
       },
@@ -67,7 +69,7 @@ Meteor.methods({
     check(value, Match.NonEmptyString);
     check(key, Match.NonEmptyString);
 
-    let device = Device.documents.findOne(auth, {
+    let device = Things.documents.findOne(auth, {
       fields: {
         _id: 1,
         thing: 1
@@ -89,7 +91,7 @@ Meteor.methods({
     }
 
     // Set the new thing object
-    return Device.documents.update(device._id, {
+    return Things.documents.update(device._id, {
       $set: {
         'thing': thing
       }
@@ -103,7 +105,7 @@ Meteor.methods({
       token: Match.NonEmptyString
     });
 
-    let device = Device.documents.findOne(auth, {
+    let device = Things.documents.findOne(auth, {
       fields: {
         _id: 1
       }
@@ -122,12 +124,12 @@ Meteor.methods({
   remove: function (uuid) {
     check(uuid, Match.NonEmptyString);
 
-    let device = Device.documents.findOne({
+    let device = Things.documents.findOne({
       'uuid': uuid,
       'owner._id': Meteor.userId()
     });
     if (!device) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    return Device.documents.remove(device._id);
+    return Things.documents.remove(device._id);
   }
 });

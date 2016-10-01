@@ -1,8 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 
-import './collections/events';
-import './collections/things';
+import { Events } from './collections/events';
+import { Things } from './collections/things';
 
 if (Meteor.isServer) {
-	import './collections/messages';
+	import { Messages } from './collections/messages';
 }
+
+// Documents are not getting created...

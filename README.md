@@ -1,5 +1,8 @@
+### If you are looking for the old prototype, checkout the prototype branch.
+
 # Grow-IoT
 ## Automation + IoT software for growing things!
+
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -25,8 +28,7 @@ The Grow-IoT framework allows you to:
 * Easily create and add new IoT devices with [Grow.js](https://github.com/CommonGarden/Grow.js), using whatever board you want.
 * Have complete ownership over your data.
 * Calibrate sensors *(coming soon!)*
-
-Current status is pre-alpha. We are working examples and providing support for the widely used MQTT protocol.
+* Create custom devices with web components
 
 # Installing Grow-IoT
 
@@ -40,7 +42,7 @@ Then clone the repo, enter the new directory, and start meteor.
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-npm install
+meteor npm install
 meteor
 ```
 
