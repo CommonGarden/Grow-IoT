@@ -10,20 +10,24 @@ document.addEventListener("WebComponentsReady", function() {
   });
 });
 
-FlowRouter.route("/", {
+FlowRouter.route("/:view?", {
   name:'landing',
+  triggersEnter:[function(c,r){
+    if(!c.params.view)
+      r("/home");
+  }],
   action:function(params,queryParams){
-    mwcLayout.render('demo-layout',{"main":"test-element"});
-    console.log('reached /');
+    mwcLayout.render("demo-landing",{"main":"test-layout"});
   }
 });
-FlowRouter.route("/edit", {
-  name:'edit',
-  action:function(params,queryParams){
-    mwcLayout.render('demo-edit',{"main":"demo-route2","header":"demo-header"});
-    console.log('reached /edit');
-  }
-});
+
+// FlowRouter.route("/edit", {
+//   name:'edit',
+//   action:function(params,queryParams){
+//     mwcLayout.render('demo-edit',{"main":"demo-route2","header":"demo-header"});
+//     console.log('reached /edit');
+//   }
+// });
 
 // // See https://atmospherejs.com/useraccounts/flow-routing
 // AccountsTemplates.configureRoute('signIn', {

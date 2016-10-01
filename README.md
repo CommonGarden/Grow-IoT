@@ -19,12 +19,9 @@ Together with [Grow.js](https://github.com/CommonGarden/Grow.js), Grow-IoT is a 
 
 The Grow-IoT framework allows you to:
 * Securely connect and store data from devices
+* Create custom devices / things with web components *(in progress)*
 * Schedule actions (such as turning the lights on every day at 8:30 am).
-* Easily create and add new IoT devices with [Grow.js](https://github.com/CommonGarden/Grow.js), using whatever board you want.
 * Have complete ownership over your data.
-* Calibrate sensors *(coming soon hopefully!)*
-* Create custom devices with web components *(in progress)*
-
 
 # Installing Grow-IoT
 

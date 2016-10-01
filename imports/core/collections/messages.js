@@ -34,8 +34,6 @@ Messages.deny({
   fetch: ['locked'] // no need to fetch 'owner'
 });
 
-export default Messages;
-
 // MESSAGES_TTL = 60 # seconds
 
 // class Message extends share.BaseDocument

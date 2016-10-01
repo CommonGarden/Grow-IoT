@@ -6,5 +6,3 @@ import { Things } from './collections/things';
 if (Meteor.isServer) {
 	import { Messages } from './collections/messages';
 }
-
-// Documents are not getting created...

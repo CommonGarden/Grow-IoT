@@ -1,6 +1,7 @@
 import './build.html';
-import './components/index.html';
 import './components/test-element.html';
+// import './layouts/test-layout.html';
+import './layouts/test-layout.js';
 
 // import './layout/layout.html';
 // import './layout/layout.js';

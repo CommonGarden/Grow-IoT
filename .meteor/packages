@@ -36,3 +36,4 @@ kadira:blaze-layout
 mwc:layout
 mwc:mixin
 mwc:synthesis
+mwc:router

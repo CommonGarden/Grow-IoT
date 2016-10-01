@@ -34,5 +34,3 @@ Things.deny({
   fetch: ['locked'] // no need to fetch 'owner'
 });
 
-export default Things;
-
