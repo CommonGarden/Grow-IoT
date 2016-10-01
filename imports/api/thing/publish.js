@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+
 Meteor.publish('Thing.messages', function(auth) {
   var Thing, handle, options, query;
   
