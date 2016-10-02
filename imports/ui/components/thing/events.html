@@ -1,0 +1,14 @@
+<dom-module id="thing-events">
+	<template name="Device.EventComponent">
+		<script src='events.js'></script>
+	    {{#if eventsList}}
+		    <hr/>
+		    <h4>Device events</h4>
+		    <ul>
+		    {{#each eventsList}}
+		    	<li>{{name}} - {{> OptionsComponent}}</li>
+		    {{/each}}
+		    </ul>
+	    {{/if}}
+	</template>
+</dom-module>

@@ -1,6 +1,4 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
-// import { BlazeLayout } from 'meteor/kadira:blaze-layout';
-import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { mwcLayout } from 'meteor/mwc:layout';
 
 FlowRouter.wait();
@@ -17,54 +15,18 @@ FlowRouter.route("/:view?", {
       r("/home");
   }],
   action:function(params,queryParams){
-    mwcLayout.render("demo-landing",{"main":"test-layout"});
+    mwcLayout.render("demo-landing",{"main":"main-layout"});
   }
 });
 
-// FlowRouter.route("/edit", {
-//   name:'edit',
-//   action:function(params,queryParams){
-//     mwcLayout.render('demo-edit',{"main":"demo-route2","header":"demo-header"});
-//     console.log('reached /edit');
-//   }
-// });
+FlowRouter.route("/edit", {
+  name:'edit',
+  action:function(params,queryParams){
+    mwcLayout.render('demo-edit',{"main":"demo-route2","header":"demo-header"});
+    console.log('reached /edit');
+  }
+});
 
-// // See https://atmospherejs.com/useraccounts/flow-routing
-// AccountsTemplates.configureRoute('signIn', {
-//   layoutType: 'blaze',
-//   name: 'signin',
-//   path: '/login',
-//   template: 'LoginComponent',
-//   layoutTemplate: 'MainLayoutComponent',
-//   contentRegion: 'main'
-// });
-
-// AccountsTemplates.configureRoute('signUp', {
-//   layoutType: 'blaze',
-//   name: 'signup',
-//   path: '/register',
-//   template: 'LoginComponent',
-//   layoutTemplate: 'MainLayoutComponent',
-//   contentRegion: 'main'
-// });
-
-// AccountsTemplates.configureRoute('forgotPwd', {
-//   layoutType: 'blaze',
-//   name: 'forgotpwd',
-//   path: '/reset-password',
-//   template: 'LoginComponent',
-//   layoutTemplate: 'MainLayoutComponent',
-//   contentRegion: 'main'
-// });
-
-// AccountsTemplates.configureRoute('changePwd', {
-//   layoutType: 'blaze',
-//   name: 'changePwd',
-//   path: '/account',
-//   template: 'AccountPageComponent',
-//   layoutTemplate: 'MainLayoutComponent',
-//   contentRegion: 'main'
-// });
 
 // // Routes in this group are for logged in users. Unauthenticated users
 // // will be redirected to login / signup.

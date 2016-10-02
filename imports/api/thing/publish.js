@@ -9,7 +9,7 @@ Meteor.publish('Thing.messages', function(auth) {
     token: Match.NonEmptyString
   });
 
-  Thing = Thing.documents.findOne(auth, {
+  Thing = Thing.findOne(auth, {
     fields: {
       _id: 1,
       owner: 1
@@ -18,7 +18,7 @@ Meteor.publish('Thing.messages', function(auth) {
   if (!Thing) {
     throw new Meteor.Error('unauthorized', "Unauthorized.");
   }
-  Thing.documents.update(Thing._id, {
+  Thing.update(Thing._id, {
     $set: {
       onlineSince: new Date()
     }
@@ -37,12 +37,12 @@ Meteor.publish('Thing.messages', function(auth) {
       createdAt: 1
     }
   };
-  handle = Message.documents.find(query, options).observeChanges({
+  handle = Message.find(query, options).observeChanges({
     added: (function(_this) {
       return function(id, fields) {
         _this.added('Thing.messages', id, fields);
         _this.removed('Thing.messages', id);
-        return Message.documents.remove(id);
+        return Message.remove(id);
       };
     })(this)
   });
@@ -54,7 +54,7 @@ Meteor.publish('Thing.messages', function(auth) {
       }
       handle = null;
       return Meteor.setTimeout(function() {
-        Thing.documents.update({
+        Thing.update({
           _id: Thing._id,
           onlineSince: {
             $lt: new Date(new Date().valueOf() - 5000)
@@ -83,14 +83,14 @@ Meteor.publish('Thing.messages', function(auth) {
 });
 
 Meteor.publish('Thing.list', function(ThingUuid) {
-  return Thing.documents.find({
+  return Thing.find({
     'owner._id': this.userId,
   });
 });
 
 Meteor.publish('Thing.one', function(ThingUuid) {
   check(ThingUuid, Match.NonEmptyString);
-  return Thing.documents.find({
+  return Thing.find({
     uuid: ThingUuid
   });
 });

@@ -1,0 +1,42 @@
+<link rel="import" href="../components/test-element.html">
+<dom-module id="main-layout">
+  <style>
+.main{
+  @apply(--layout-horizontal);
+  @apply(--layout-center-center);
+}
+  </style>
+  <template>
+    <paper-header-panel class="fit layout">
+      <paper-toolbar>
+        <div class="flex"><h1>Grow-IoT
+          </h1></div>
+
+          <div class="">
+            status : {{status}}
+          </div>
+      </paper-toolbar>
+      <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
+        <paper-card heading="Welcome to Grow-IoT!" id="region1" name="home">
+          <div class="card-content">
+            <div> To get started, we'll create a new device.</div>
+          </div>
+          <div class="card-actions">
+            <paper-button on-click="new">New device</paper-button>
+          </div>
+        </paper-card>
+        <paper-card heading="Add device" name="new" id="region2">
+          <div class="card-content">
+            <div><paper-spinner active></paper-spinner> Waiting for devices to connect.</div>
+          </div>
+          <div class="card-actions">
+            <paper-button on-click="home">
+              Go back
+            </paper-button>
+          </div>
+        </paper-card>
+      </iron-pages>
+
+    </paper-header-panel>
+  </template>
+</dom-module>

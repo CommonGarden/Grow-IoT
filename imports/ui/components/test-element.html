@@ -1,16 +1,21 @@
 <dom-module id="test-element">
   <template>
+    <script src='test-element.js'></script>
+    <link rel="stylesheet" type="text/css" href="test-element.css">
+    <style>
+      #nnDiv{
+        color:blue;
+      }
+    </style>
+    <div class="vertical layout">
+      <div>
         name : {{name}}
+      </div>
+      <div id="nnDiv" hidden="{{nndHidden}}">
+        nickname:{{nickname}}
+      </div>
+
+    </div>
+    <paper-button raised on-click="showNickName">{{show}} nickname</paper-button>
   </template>
 </dom-module>
-<script>
-Polymer({
-  is:"test-element",
-  properties:{
-    name:{
-      type:String,
-      value:"Yes"
-    }
-  }
-})
-</script>
