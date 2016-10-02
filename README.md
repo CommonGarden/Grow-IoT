@@ -1,6 +1,6 @@
-### If you are looking for the old prototype, checkout the master branch.
+### If you are looking for the old prototype, checkout the [master branch](https://github.com/CommonGarden/Grow-IoT/tree/master).
 
-# Grow-IoT
+# Grow-IoT Alpha
 ## Status: work in progress
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -36,7 +36,8 @@ Then clone the repo, enter the new directory, and start meteor.
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
 meteor npm install
-meteor
+bower install
+./run.sh
 ```
 
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have a meteor application running.
@@ -45,12 +46,7 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 # Hardware setup
 
-Grow-IoT works with many devices. For help getting started with any of these popular devices, see their wiki pages:
-
-+ [Raspberry Pi](https://github.com/CommonGarden/Grow-IoT/wiki/Raspberry-Pi)
-<!-- + [Tessel 2]()
-+ [Chip]()
-+ [Particle]() -->
+Grow-IoT works with many devices. Updated instructions for connecting comming soon.
 
 ### Distributed Data Protocol
 
