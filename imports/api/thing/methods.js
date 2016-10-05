@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { Random } from 'meteor/random';
 
 Meteor.methods({
   'Thing.register': function (auth, config) {
@@ -33,16 +34,16 @@ Meteor.methods({
   */
   'Thing.new': function () {
     // Must be a logged in user.
-    if(Meteor.userId()) {
+    // if (Meteor.userId()) {
       let document = {
         'uuid': Meteor.uuid(),
         'token': Random.id(32),
-        'owner._id': Meteor.userId()
+        'owner': Meteor.userId()
       };
       if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
       return document;
-    }
+    // }
   },
 
   /*

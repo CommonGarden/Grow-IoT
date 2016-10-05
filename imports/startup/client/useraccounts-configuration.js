@@ -1,10 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 
-Accounts.ui.config({
-  passwordSignupFields: 'USERNAME_ONLY',
-});
-
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md
 AccountsTemplates.configure({
     // Behavior
@@ -72,39 +68,39 @@ if (Meteor.isClient) {
   });
 }
 
-// // See https://atmospherejs.com/useraccounts/flow-routing
-AccountsTemplates.configureRoute('signIn', {
-  layoutType: 'blaze',
-  name: 'signin',
-  path: '/login',
-  template: 'LoginComponent',
-  layoutTemplate: 'MainLayoutComponent',
-  contentRegion: 'main'
-});
+// // // See https://atmospherejs.com/useraccounts/flow-routing
+// AccountsTemplates.configureRoute('signIn', {
+//   layoutType: 'blaze',
+//   name: 'signin',
+//   path: '/login',
+//   template: 'LoginComponent',
+//   layoutTemplate: 'MainLayoutComponent',
+//   contentRegion: 'main'
+// });
 
-AccountsTemplates.configureRoute('signUp', {
-  layoutType: 'blaze',
-  name: 'signup',
-  path: '/register',
-  template: 'LoginComponent',
-  layoutTemplate: 'MainLayoutComponent',
-  contentRegion: 'main'
-});
+// AccountsTemplates.configureRoute('signUp', {
+//   layoutType: 'blaze',
+//   name: 'signup',
+//   path: '/register',
+//   template: 'LoginComponent',
+//   layoutTemplate: 'MainLayoutComponent',
+//   contentRegion: 'main'
+// });
 
-AccountsTemplates.configureRoute('forgotPwd', {
-  layoutType: 'blaze',
-  name: 'forgotpwd',
-  path: '/reset-password',
-  template: 'LoginComponent',
-  layoutTemplate: 'MainLayoutComponent',
-  contentRegion: 'main'
-});
+// AccountsTemplates.configureRoute('forgotPwd', {
+//   layoutType: 'blaze',
+//   name: 'forgotpwd',
+//   path: '/reset-password',
+//   template: 'LoginComponent',
+//   layoutTemplate: 'MainLayoutComponent',
+//   contentRegion: 'main'
+// });
 
-AccountsTemplates.configureRoute('changePwd', {
-  layoutType: 'blaze',
-  name: 'changePwd',
-  path: '/account',
-  template: 'AccountPageComponent',
-  layoutTemplate: 'MainLayoutComponent',
-  contentRegion: 'main'
-});
+// AccountsTemplates.configureRoute('changePwd', {
+//   layoutType: 'blaze',
+//   name: 'changePwd',
+//   path: '/account',
+//   template: 'AccountPageComponent',
+//   layoutTemplate: 'MainLayoutComponent',
+//   contentRegion: 'main'
+// });

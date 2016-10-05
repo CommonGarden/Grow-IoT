@@ -1,20 +1,35 @@
 <link rel="import" href="../components/test-element.html">
 <dom-module id="main-layout">
   <style>
-.main{
-  @apply(--layout-horizontal);
-  @apply(--layout-center-center);
-}
+    :host {
+        --app-grid-columns: 3;
+        --app-grid-item-height: 100px;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      .item {
+        background-color: white;
+      }
+      
+      .main{
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+      }
   </style>
   <template>
+    <paper-toast id="toast" text="Hello world!"></paper-toast>
     <paper-header-panel class="fit layout">
       <paper-toolbar>
-        <div class="flex"><h1>Grow-IoT
-          </h1></div>
-
-          <div class="">
-            status : {{status}}
-          </div>
+        <div class="flex">
+          <h1>Grow-IoT</h1>
+        </div>
+        <div class="">
+          status : {{status}}
+        </div>
       </paper-toolbar>
       <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
         <paper-card heading="Welcome to Grow-IoT!" id="region1" name="home">
@@ -23,6 +38,7 @@
           </div>
           <div class="card-actions">
             <paper-button on-click="new">New device</paper-button>
+            <!-- <paper-button on-click="openToast">Open Toast</paper-button> -->
           </div>
         </paper-card>
         <paper-card heading="Add device" name="new" id="region2">
@@ -36,7 +52,6 @@
           </div>
         </paper-card>
       </iron-pages>
-
     </paper-header-panel>
   </template>
 </dom-module>

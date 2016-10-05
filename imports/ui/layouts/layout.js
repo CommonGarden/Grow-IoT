@@ -11,6 +11,13 @@ Polymer({
     if(!Meteor.isCordova){
       this.notCordova = true;
     }
+
+    let things = [];
+
+    // subscribe to things list
+    this.subscribe('Things.list')
+    // Things is an array of thing objects which might be composed of things.
+    this.set("things", things);
   },
   properties:{
     mwcRoute:{
@@ -21,17 +28,28 @@ Polymer({
     status:{
       type:String
     },
-    notCordova:Boolean
-
+    notCordova:Boolean,
+    things: Array
   },
   new:function(){
     this.set("mwcRoute.params.view", "new");
-    // TODO:
-    // Select device (eventually we'll add other things like plants and rooms)
-    // Get UUID
+    Meteor.call('Thing.new',
+      (error, document) => {
+        if (error) {
+          console.error("New deviceerror", error);
+          return alert(`New deviceerror: ${error.reason || error}`);
+        }
+
+        this.things.push(document);
+        console.log(this.things);
+      }
+    );
   },
   home:function(){
     this.set("mwcRoute.params.view", "home"); 
+  },
+  openToast: function() {
+    this.$.toast.open();
   }
 });
 

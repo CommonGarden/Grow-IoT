@@ -1,24 +1,5 @@
 <dom-module id="thing-actions">
 	<template name="Device.ActionComponent">
 		<script src='actions.js'></script>
-		<p>
-			{{#if device.onlineSince}}
-			<button class="btn command"
-					title="{{description}}" 
-					data-call="{{id}}"
-					data-options="{{options}}">
-					{{name}}</button>
-			{{> OptionsComponent}}
-
-			{{else}}
-			<button class="btn command"
-					title="{{description}}"
-					data-call="{{id}}"
-					data-options="{{options}}"
-					disabled>
-					{{name}}</button>
-			<em>Offline</em>
-			{{/if}}
-		</p>
 	</template>
 </dom-module>
