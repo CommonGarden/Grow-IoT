@@ -12,13 +12,13 @@ Polymer({
       this.notCordova = true;
     }
 
-    let things = [];
-
     // subscribe to things list
-    this.subscribe('Things.list')
-    // Things is an array of thing objects which might be composed of things.
-    this.set("things", things);
+    // this.subscribe('Things.list');
+    // debugger;
+    // console.log(Things.find({}));
+    // this.set('things', Things.find({}).fetch());
   },
+
   properties:{
     mwcRoute:{
       type:Object,
@@ -26,10 +26,12 @@ Polymer({
       params:{"view":"home"}
     },
     status:{
-      type:String
+      type: String
     },
     notCordova:Boolean,
-    things: Array
+    things: {
+      type: Array
+    }
   },
   new:function(){
     this.set("mwcRoute.params.view", "new");
@@ -40,16 +42,13 @@ Polymer({
           return alert(`New deviceerror: ${error.reason || error}`);
         }
 
-        this.things.push(document);
-        console.log(this.things);
+        // this.set('things', [document]);
+        // console.log(this.things);
       }
     );
   },
   home:function(){
     this.set("mwcRoute.params.view", "home"); 
-  },
-  openToast: function() {
-    this.$.toast.open();
   }
 });
 

@@ -11,14 +11,14 @@
       }
     </style>
     <div class="fit vertical layout">
-
       <iron-pages class="flex main" id="main_page" selected="{{selected}}" main attr-for-selected="name">
         <paper-card heading="Sign In" name="sign-in">
           <div class="card-content">
             <form action="#" on-iron-form-submit="signIn" is="iron-form" id="signIn" class="signIn">
-              <paper-input type="email" name="email" label="Email">
-              </paper-input>
-              <paper-input type="password" name="password" label="Password">
+              <gold-email-input auto-validate label="Mail Id" required value="{{email}}"></gold-email-input>
+
+              <paper-input auto-validate error-message="minLength is 8" id="password" label="Password" minlength="8" required type="password" value="{{password}}">
+                <iron-icon icon="visibility-off" on-tap="_visibility" suffix></iron-icon>
               </paper-input>
             </form>
           </div>
@@ -28,15 +28,16 @@
         </paper-card>
         <paper-card heading="Sign up" name="sign-up">
           <div class="card-content">
-            <form action="#" is="iron-form" id="signUp" on-iron-form-submit="signUp" class="signUp">
-              <paper-input type="email" name="email" label="Email">
-              </paper-input>
-              <paper-input type="password" name="password" label="Password">
-              </paper-input>
+            <form action="#" is="iron-form" id="signUp" class="signUp">
+              <gold-email-input auto-validate label="Mail Id" required value="{{email}}"></gold-email-input>
+
+              <paper-input auto-validate error-message="minLength is 8" id="password" label="Password" minlength="8" required type="password" value="{{password}}">
+              <iron-icon icon="visibility-off" on-tap="_visibility" suffix></iron-icon>
+            </paper-input>
             </form>
           </div>
           <div class="card-actions">
-            <paper-button type="submit" on-click="_signUp">Sign Up</paper-button>
+            <paper-button type="submit" on-click="signUp">Sign Up</paper-button>
           </div>
         </paper-card>
 

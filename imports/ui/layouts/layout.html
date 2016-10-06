@@ -1,4 +1,4 @@
-<link rel="import" href="../components/test-element.html">
+<link rel="import" href="../components/thing/thing-display.html">
 <dom-module id="main-layout">
   <style>
     :host {
@@ -21,7 +21,7 @@
       }
   </style>
   <template>
-    <paper-toast id="toast" text="Hello world!"></paper-toast>
+    <paper-toast id="toast"></paper-toast>
     <paper-header-panel class="fit layout">
       <paper-toolbar>
         <div class="flex">
@@ -38,12 +38,19 @@
           </div>
           <div class="card-actions">
             <paper-button on-click="new">New device</paper-button>
-            <!-- <paper-button on-click="openToast">Open Toast</paper-button> -->
           </div>
         </paper-card>
         <paper-card heading="Add device" name="new" id="region2">
           <div class="card-content">
-            <div><paper-spinner active></paper-spinner> Waiting for devices to connect.</div>
+            <div>
+              <iron-list id="list" items="[[things]]" as="thing" selection-enabled multi-selection>
+                <template >
+                  <thing-display uuid="{{thing.uuid}}" token="{{thing.token}}"></thing-display>
+                </template>
+              </iron-list>
+              <paper-spinner active></paper-spinner> 
+              Waiting for devices to connect.
+            </div>
           </div>
           <div class="card-actions">
             <paper-button on-click="home">

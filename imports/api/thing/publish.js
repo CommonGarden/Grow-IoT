@@ -1,30 +1,30 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
-Meteor.publish('Thing.messages', function(auth) {
-  var Thing, handle, options, query;
+Meteor.publish('Things.messages', function(auth) {
+  var thing, handle, options, query;
   
   check(auth, {
     uuid: Match.NonEmptyString,
     token: Match.NonEmptyString
   });
 
-  Thing = Thing.findOne(auth, {
+  thing = Things.findOne(auth, {
     fields: {
       _id: 1,
       owner: 1
     }
   });
-  if (!Thing) {
+  if (!thing) {
     throw new Meteor.Error('unauthorized', "Unauthorized.");
   }
-  Thing.update(Thing._id, {
+  Things.update(thing._id, {
     $set: {
       onlineSince: new Date()
     }
   });
   query = {
-    'Thing._id': Thing._id,
+    'Things._id': thing._id,
     createdAt: {
       $gte: new Date()
     }
@@ -37,12 +37,12 @@ Meteor.publish('Thing.messages', function(auth) {
       createdAt: 1
     }
   };
-  handle = Message.find(query, options).observeChanges({
+  handle = Messages.find(query, options).observeChanges({
     added: (function(_this) {
       return function(id, fields) {
-        _this.added('Thing.messages', id, fields);
-        _this.removed('Thing.messages', id);
-        return Message.remove(id);
+        _this.added('Things.messages', id, fields);
+        _this.removed('Things.messages', id);
+        return Messages.remove(id);
       };
     })(this)
   });
@@ -54,8 +54,8 @@ Meteor.publish('Thing.messages', function(auth) {
       }
       handle = null;
       return Meteor.setTimeout(function() {
-        Thing.update({
-          _id: Thing._id,
+        Things.update({
+          _id: thing._id,
           onlineSince: {
             $lt: new Date(new Date().valueOf() - 5000)
           }
@@ -64,15 +64,15 @@ Meteor.publish('Thing.messages', function(auth) {
             onlineSince: false
           }
         });
-        Meteor.call('Thing.emitEvent', auth, {
+        Meteor.call('Things.emit', auth, {
           name: "offline",
           message: "Thing offline"
         }, function(error, documentId) {
           if (error) {
-            return console.error("New Thing.emitEvent Error", error);
+            return console.error("New Thing.emit Error", error);
           }
         });
-        return Meteor.call('Notifications.new', "Thing offline.", Thing.owner._id, function(error, documentId) {
+        return Meteor.call('Notifications.new', "Thing offline.", thing.owner._id, function(error, documentId) {
           if (error) {
             return console.error("New Notification Error", error);
           }
@@ -82,15 +82,15 @@ Meteor.publish('Thing.messages', function(auth) {
   })(this));
 });
 
-Meteor.publish('Thing.list', function(ThingUuid) {
-  return Thing.find({
-    'owner': this.userId,
+Meteor.publish('Things.list', function(ThingUuid) {
+  return Things.find({
+    'owner': this.userId
   });
 });
 
-Meteor.publish('Thing.one', function(ThingUuid) {
+Meteor.publish('Things.one', function(ThingUuid) {
   check(ThingUuid, Match.NonEmptyString);
-  return Thing.find({
+  return Things.find({
     uuid: ThingUuid
   });
 });

@@ -3,9 +3,15 @@ Polymer({
   properties:{
     name:{
       type:String,
-      value:"Arun Kumar"
-    }
+      value:"Actions"
+    },
+    actions: Object
   },
+  tracker: function () {
+    this.subscribe('Thing.actions', this.uuid);
+    // Todo: get relevant fields.
+    this.set('actions', Things.find({uuid: uuid}));
+  }
   sendCommand: function(e){
     let type = e.currentTarget.dataset.call;
     // OPTIONS NOT WORKING.

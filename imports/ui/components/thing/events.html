@@ -1,5 +1,10 @@
 <dom-module id="thing-events">
 	<template name="Device.EventComponent">
 		<script src='events.js'></script>
+		<iron-list id="list" items="[[events]]" as="event" selection-enabled multi-selection>
+		    <template>
+		    	<h1>{{event.name}}</h1>
+            </template>
+        </iron-list>
 	</template>
 </dom-module>

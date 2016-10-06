@@ -1,29 +1,14 @@
 Polymer({
-  is:"thing-actions",
+  is:"thing-events",
   properties:{
-    name:{
-      type:String,
-      value:"Arun Kumar"
-    },
-    nickname:{
-      type:String,
-      value:"tkay"
-    },
-    show:{
-      type:String,
-      value:"show"
-    },
-    nndHidden:{
-      type:Boolean,
-      value:true
-    }
+    events: Object
   },
-  showNickName:function(){
-    this.nndHidden = !this.nndHidden;
-    this.show = this.nndHidden ? "show" : "hide";
+  tracker:function(){
+    this.subscribe('Thing.events');
+    // TODO: list events in a thing object.
+    this.set('events', Things.find({uuid: this.uuid}));
   }
-
-})
+)
 
 // Device.EventComponent = class EventComponent extends Device.DisplayComponent {
 //   onCreated() {

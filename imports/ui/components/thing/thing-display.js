@@ -1,10 +1,26 @@
+import { Meteor } from 'meteor/meteor';
+import { mwcMixin } from 'meteor/mwc:mixin';
+
 Polymer({
   is:"thing-display",
+  behaviors:[mwcMixin],
   properties:{
     name:{
       type:String,
-      value:"Thing"
-    }
+      value:"Dr. Dose" // Temporary...
+    },
+    uuid: String,
+    token: String
+  },
+  tracker:function(){
+    // subscribe to things list
+    // let uuid = this.get('uuid');
+    // console.log(uuid);
+    // this.subscribe('Thing.one', uuid);
+    // debugger;
+    // console.log(Things.findOne({
+    //   'uuid': uuid
+    // }));
   }
 })
 

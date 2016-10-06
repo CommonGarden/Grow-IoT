@@ -6,7 +6,7 @@ Meteor.methods({
     check(thingUuid, String);
     check(type, String);
 
-    let thing = Thing.findOne(
+    let thing = Things.findOne(
       {uuid: thingUuid}
     , {
       fields: {
@@ -16,7 +16,7 @@ Meteor.methods({
 
     if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
 
-    return Message.send(thing, {
+    return Messages.send(thing, {
       type,
       options
     });

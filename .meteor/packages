@@ -23,5 +23,4 @@ mwc:router
 kadira:flow-router
 accounts-base
 useraccounts:core
-useraccounts:polymer
 accounts-password

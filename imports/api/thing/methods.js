@@ -37,8 +37,8 @@ Meteor.methods({
     // if (Meteor.userId()) {
       let document = {
         'uuid': Meteor.uuid(),
-        'token': Random.id(32),
-        'owner': Meteor.userId()
+        'token': Random.id(32)//,
+        // 'owner': Meteor.userId()
       };
       if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
@@ -140,7 +140,7 @@ Meteor.methods({
   'Thing.delete': function (uuid) {
     check(uuid, Match.NonEmptyString);
 
-    let thing = Things.documents.findOne({
+    let thing = Things.findOne({
       'uuid': uuid,
       'owner._id': Meteor.userId()
     });

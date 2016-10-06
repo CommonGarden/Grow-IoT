@@ -35,6 +35,10 @@ You need to install [Meteor](https://www.meteor.com/) if you haven't already. To
 curl https://install.meteor.com/ | sh
 ```
 
+Webcomponents are a new web standard, but the polyfills (code that makes them work in older browsers) are pretty good by this point. You still need to install [vulcanize](https://github.com/Polymer/vulcanize) globally; it builds html for older browsers.
+
+`npm install -g vulcanize`
+
 Then clone the repo, enter the new directory, and start meteor.
 
 ```bash
@@ -46,8 +50,6 @@ bower install
 ```
 
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have a meteor application running.
-
-**Next step:** Create an account. You will use the email address you create your account with when you connect to your Grow-IoT instance.
 
 # Hardware setup
 

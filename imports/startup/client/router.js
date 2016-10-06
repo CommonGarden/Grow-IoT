@@ -1,17 +1,31 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { mwcLayout } from 'meteor/mwc:layout';
 
+
 FlowRouter.wait();
 
 document.addEventListener("WebComponentsReady", function() {
-
-  FlowRouter.initialize({
-  });
+  FlowRouter.initialize({});
 });
+
+
+// For hacking on the interesting stuff.
+// FlowRouter.route("/:view?", {
+//   name:'landing',
+//   triggersEnter:[function(c,r){
+//     if(!c.params.view)
+//       r("/home");
+//   }],
+//   action:function(params,queryParams){
+//     mwcLayout.render("demo-landing",{"main":"main-layout"});
+//   }
+// });
+
 FlowRouter.route("/",{
   name:"landing",
   action:function(p,q) {
-
+    // console.log('go');
+    mwcLayout.render("demo-landing", {"main":"main-layout"});
   },
   triggersEnter:[function(p,q){
     if (Meteor.user()) {
@@ -43,6 +57,7 @@ var autherized = FlowRouter.group({
 });
 
 autherized.route("/:view?", {
+  name: "after-login",
   triggersEnter:[function(c,r){
     if(!c.params.view){
       var path = FlowRouter.path("after-login",{view:'home'});
@@ -50,9 +65,8 @@ autherized.route("/:view?", {
     }
   }],
   action: function(p, q){
-    mwcLayout.render("after-login",{"main":"test-layout"});
-  },
-  name: "after-login"
+    mwcLayout.render("after-login",{"main":"main-layout"});
+  }
 });
 
 FlowRouter.route("/accounts/:view?", {
@@ -88,12 +102,14 @@ FlowRouter.route("/accounts/:view?", {
 //   }
 // });
 
-// autherized.route('/', {
-//   name: 'Dashboard',
-//   action(params, queryParams) {
-//     mwcLayout.render("accounts", {
-//       main: "accounts-element"
-//     });
+// autherized.route("/:view?", {
+//   name:'landing',
+//   triggersEnter:[function(c,r){
+//     if(!c.params.view)
+//       r("/home");
+//   }],
+//   action:function(params,queryParams){
+//     mwcLayout.render("demo-landing",{"main":"main-layout"});
 //   }
 // });
 
@@ -105,3 +121,4 @@ FlowRouter.route("/accounts/:view?", {
 //     });
 //   }
 // });
+
