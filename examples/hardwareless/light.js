@@ -1,4 +1,4 @@
-// Import the grow.js library.
+// Import the latest build of the Grow.js library
 var GrowInstance = require('../.././dist/Grow.umd.js');
 
 // Declare need variable for example
@@ -6,13 +6,9 @@ var currentLightValue;
 var currentTempValue;
 
 // Create a new grow instance. Connects by default to localhost:3000
-// Create a new grow instance.
 var grow = new GrowInstance({
     name: 'Light', // The display name for the thing.
     desription: 'An LED light with a basic on/off api.',
-
-    // The username of the account you want this device to be added to.
-    username: 'jake.hartnell@gmail.com',
 
     // Properties can be updated by the API
     properties: {
@@ -56,7 +52,9 @@ var grow = new GrowInstance({
                   value: currentLightValue
                 });
             }
-        },
+        }
+    },
+    events: {
         temp_data: {
             name: 'Log temperature data',
             type: 'temperature',
@@ -70,30 +68,6 @@ var grow = new GrowInstance({
                   type: 'temperature',
                   value: currentTempValue
                 });
-            }
-        }
-    },
-    events: {
-        check_light: {
-            name: 'Check light level',
-            on: 'light_data',
-            min: 0.25,
-            max: 0.76,
-            disable: false,
-            function: function () {
-                var min = grow.get('min', 'check_light'),
-                    max = grow.get('max', 'check_light'),
-                    lightConditions = grow.get('lightConditions');
-
-                if (currentLightValue < min && lightConditions !== 'dark') {
-                    grow.emitEvent('Light level low')
-                        .set('lightConditions', 'dark')
-                        .call('turn_light_on');
-                } else if (currentLightValue > max && lightConditions !== 'light') {
-                    grow.emitEvent('Full Sunlight')
-                        .set('lightConditions', 'light')
-                        .call('turn_light_off');
-                }
             }
         }
     }
