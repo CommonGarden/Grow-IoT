@@ -22,5 +22,4 @@ mwc:synthesis
 mwc:router
 kadira:flow-router
 accounts-base
-useraccounts:core
 accounts-password

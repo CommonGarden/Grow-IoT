@@ -9,12 +9,12 @@ Polymer({
   },
   tracker: function () {
     this.subscribe('Thing.actions', this.uuid);
-    // Todo: get relevant fields.
+    
+    // Todo: get only relevant fields.
     this.set('actions', Things.find({uuid: uuid}));
-  }
+  },
   sendCommand: function(e){
     let type = e.currentTarget.dataset.call;
-    // OPTIONS NOT WORKING.
     let options = (e.currentTarget.dataset.options != null);
     return Meteor.call('Device.sendCommand',
       this.currentDeviceUuid(),

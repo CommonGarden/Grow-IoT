@@ -1,3 +1,6 @@
+import './actions.html';
+import './events.html';
+import './data-viz.html';
 import { Meteor } from 'meteor/meteor';
 import { mwcMixin } from 'meteor/mwc:mixin';
 
@@ -12,6 +15,9 @@ Polymer({
     uuid: String,
     token: String
   },
+  // getMeteorData:function(){
+  //   this.uuid = FlowRouter.getParam('uuid');
+  // },
   tracker:function(){
     // subscribe to things list
     // let uuid = this.get('uuid');
@@ -24,7 +30,7 @@ Polymer({
   }
 })
 
-
+// // OLD CODE: for reference...
 // class DisplayComponent extends CommonComponent {
 //   onCreated() {
 //     super.onCreated();

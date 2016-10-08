@@ -8,23 +8,9 @@ document.addEventListener("WebComponentsReady", function() {
   FlowRouter.initialize({});
 });
 
-
-// For hacking on the interesting stuff.
-// FlowRouter.route("/:view?", {
-//   name:'landing',
-//   triggersEnter:[function(c,r){
-//     if(!c.params.view)
-//       r("/home");
-//   }],
-//   action:function(params,queryParams){
-//     mwcLayout.render("demo-landing",{"main":"main-layout"});
-//   }
-// });
-
 FlowRouter.route("/",{
   name:"landing",
   action:function(p,q) {
-    // console.log('go');
     mwcLayout.render("demo-landing", {"main":"main-layout"});
   },
   triggersEnter:[function(p,q){
@@ -34,7 +20,6 @@ FlowRouter.route("/",{
     else if(Meteor.loggingIn()){
       Tracker.autorun(function(c){
         if(Meteor.user()){
-
           FlowRouter.go('after-login');
         }
       }); 
@@ -42,8 +27,23 @@ FlowRouter.route("/",{
     else {
       FlowRouter.go('accounts');
     }
-
   }]
+});
+
+FlowRouter.route("/accounts/:view?", {
+  name:"accounts",
+  triggersEnter:[function(c,r){
+  	console.log(c);
+    if(!c.params.view){
+      var path = FlowRouter.path("accounts",{view:'sign-in'});
+      r(path);
+    }
+  }],
+  action: function(p, q) {
+    mwcLayout.render("accounts", {
+      main: "accounts-element"
+    });
+  }
 });
 
 var autherized = FlowRouter.group({
@@ -69,56 +69,11 @@ autherized.route("/:view?", {
   }
 });
 
-FlowRouter.route("/accounts/:view?", {
-  name:"accounts",
-  triggersEnter:[function(c,r){
-    if(!c.params.view){
-      var path = FlowRouter.path("accounts",{view:'sign-in'});
-      r(path);
-    }
-  }],
-  action: function(p, q) {
+autherized.route('/thing/:uuid', {
+  name: 'DisplayComponent',
+  action(params, queryParams) {
     mwcLayout.render("accounts", {
-      main: "accounts-element"
+      main: "thing-display"
     });
   }
 });
-
-// autherized.route('/thing/:uuid', {
-//   name: 'DisplayComponent',
-//   action(params, queryParams) {
-//     mwcLayout.render("accounts", {
-//       main: "accounts-element"
-//     });
-//   }
-// });
-
-// autherized.route('/things/', {
-//   name: 'AllDevicesComponent',
-//   action(params, queryParams) {
-//     mwcLayout.render("accounts", {
-//       main: "accounts-element"
-//     });
-//   }
-// });
-
-// autherized.route("/:view?", {
-//   name:'landing',
-//   triggersEnter:[function(c,r){
-//     if(!c.params.view)
-//       r("/home");
-//   }],
-//   action:function(params,queryParams){
-//     mwcLayout.render("demo-landing",{"main":"main-layout"});
-//   }
-// });
-
-// autherized.route('/notifications', {
-//   name: 'NotificationsHistory',
-//   action(params, queryParams) {
-//     mwcLayout.render("accounts", {
-//       main: "accounts-element"
-//     });
-//   }
-// });
-
