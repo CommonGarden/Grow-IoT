@@ -1,7 +1,6 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { mwcLayout } from 'meteor/mwc:layout';
 
-
 FlowRouter.wait();
 
 document.addEventListener("WebComponentsReady", function() {

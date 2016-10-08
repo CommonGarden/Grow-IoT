@@ -14,7 +14,7 @@
       <iron-pages class="flex main" id="main_page" selected="{{selected}}" main attr-for-selected="name">
         <paper-card heading="Sign In" name="sign-in">
           <div class="card-content">
-            <form action="#" on-iron-form-submit="signIn" is="iron-form" id="signIn" class="signIn">
+            <form action="#" is="iron-form" id="signIn" class="signIn">
               <gold-email-input auto-validate label="Mail Id" required value="{{email}}"></gold-email-input>
 
               <paper-input auto-validate error-message="minLength is 8" id="password" label="Password" minlength="8" required type="password" value="{{password}}">
@@ -23,7 +23,7 @@
             </form>
           </div>
           <div class="card-actions">
-            <paper-button type="submit" on-click="_signIn">Sign In</paper-button>
+            <paper-button type="submit" on-click="signIn">Sign In</paper-button>
           </div>
         </paper-card>
         <paper-card heading="Sign up" name="sign-up">

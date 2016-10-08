@@ -23,11 +23,8 @@ Polymer({
 
   signIn: function(e){
     e.preventDefault();
-    console.log(e);
-    var email = e.detail.email;
-    var password = e.detail.password;
     var self = this;
-    Meteor.loginWithPassword(email, password, function(e){
+    Meteor.loginWithPassword(this.email, this.password, function(e){
       if(e){
         self.toast(e.reason);
       }
@@ -38,15 +35,8 @@ Polymer({
     });
   },
 
-  // _signIn:function(){
-  //   this.$.signIn.submit();
-  // },
-
   signUp:function(e){
     e.preventDefault();
-    console.log(this.email);
-    // let email = this.email;
-    // let password = this.password;
     var self = this;
     Accounts.createUser({
       email: this.email,
@@ -62,10 +52,6 @@ Polymer({
       }
     });
   },
-
-  // _signUp:function(){
-  //   this.$.signUp.submit();
-  // },
 
   _visibility: function() {
     switch (this.$.password.type) {
