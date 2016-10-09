@@ -5,16 +5,6 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-### Under active development
-Join the conversation! There are many ways to contribute.
-
-Since this project lies at the intersection of hardware, software, design, living things, etc... we've setup special Gitter (Slack sucks) channel rooms:
-
-* [Grow-IoT Developers chat](https://gitter.im/CommonGarden/Grow-IoT): *Let's build something useful and push the boundaries of our knowledge.*
-* [UX / UI designers chat](https://gitter.im/CommonGarden/UX):  *Making things usable for people who don't know shit about Javascript is what we **need** to do.*
-* [Hardware makers](https://gitter.im/CommonGarden/Makers): *How can we make your job easier?*
-* [Growers chat](https://gitter.im/CommonGarden/Growers): *How can we make your job easier?*
-
 The webcomponent powered hypothetical WoT (web of things) framework of the future allows you to:
 * Securely connect and store data from sensors and actuators
 * Create custom devices / things with webcomponents
@@ -24,9 +14,24 @@ The webcomponent powered hypothetical WoT (web of things) framework of the futur
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well you've come to the right place.
 
 ## Contributing
-In a sentence, be kind to one another. All are welcome.
+In a sentence, be kind to one another. All are welcome, please see the following:
 
 * [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
+* [Contributing Info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
+
+Since this project lies at the intersection of hardware, software, design, living things, etc... we've setup special Gitter (Slack sucks) channel rooms:
+
+* [Grow-IoT Developers chat](https://gitter.im/CommonGarden/Grow-IoT): *Let's build something useful and push the boundaries of our knowledge.*
+* [UX / UI designers chat](https://gitter.im/CommonGarden/UX):  *Making things usable for people who don't know shit about Javascript is what we **need** to do.*
+* [Hardware makers](https://gitter.im/CommonGarden/Makers): *How can we make your job easier?*
+* [Growers chat](https://gitter.im/CommonGarden/Growers): *How can we make your job easier?*
+
+#### Code Style
+For now, we are sticking closely to what's documented in the Meteor guide. Take a look at the following for more info and helpful examples:
+
+* [Code style](https://guide.meteor.com/code-style.html)
+* [Application structure](https://guide.meteor.com/structure.html)
+* [Testing](https://guide.meteor.com/testing.html)
 
 # Installing Grow-IoT
 
