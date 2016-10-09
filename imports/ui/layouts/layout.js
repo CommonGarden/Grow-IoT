@@ -42,8 +42,8 @@ Polymer({
           return alert(`New deviceerror: ${error.reason || error}`);
         }
 
-        // this.set('things', [document]);
-        // console.log(this.things);
+        this.set('things', [document]);
+        console.log(this.things);
       }
     );
   },

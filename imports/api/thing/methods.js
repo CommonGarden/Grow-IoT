@@ -34,44 +34,17 @@ Meteor.methods({
   */
   'Thing.new': function () {
     // Must be a logged in user.
-    // if (Meteor.userId()) {
+    if (Meteor.userId()) {
       let document = {
         'uuid': Meteor.uuid(),
-        'token': Random.id(32)//,
-        // 'owner': Meteor.userId()
+        'token': Random.id(32),
+        'owner': Meteor.userId()
       };
       if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
       return document;
-    // }
+    }
   },
-
-  /*
-   * Send data
-   * @param auth Authentication object including UUID and token.
-   * @param data The data to be stored.
-  */
-  // 'Thing.sendData': function (auth, data) {
-  //   check(auth, {
-  //     uuid: Match.NonEmptyString,
-  //     token: Match.NonEmptyString
-  //   });
-
-  //   let thing = Things.findOne(auth, {
-  //     fields: {
-  //       _id: 1
-  //     }
-  //   });
-  //   if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
-    
-  //   return !!Events.insert({
-  //     thing: {
-  //       _id: thing._id
-  //     },
-  //     data: data,
-  //     insertedAt: new Date()
-  //   });
-  // },
 
   /*
    * Set property
