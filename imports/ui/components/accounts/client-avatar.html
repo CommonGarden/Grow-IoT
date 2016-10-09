@@ -1,0 +1,114 @@
+<dom-module id="client-avatar">
+  <template>
+    <style>
+.avatar-container {
+  position: relative;
+  border: 2px solid white;
+  border-radius: 50%;
+  height: 40px;
+  padding: 2px;
+  width: 40px;
+  margin: 10px auto;
+}
+.avatar-container .image {
+  background-size: contain !important;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+.not-verified{
+  color:var(--paper-amber-500);
+  height: 30px;
+  width: 30px;
+  padding: 5px;
+  --paper-icon-button-ink-color:black;
+}
+.contact-info {
+  margin: 0 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #CCC;
+  text-align: center;
+}
+
+.contact-info .name {
+  font-weight: bold;
+}
+
+.contact-info .email {
+  color: #999;
+}
+.contact-info .city {
+  color: #999;
+}
+           paper-menu-button{
+             --paper-menu-button-dropdown:{
+               min-width:150px;
+             }
+           }
+           .dropdown-content paper-item:not([disabled]){
+             cursor:pointer
+           }
+
+    </style>
+    <paper-menu-button vertical-offset="64" horizontal-align="right">
+      <div class="avatar-container dropdown-trigger layout vertical center center-justified">
+        <div class="image" style$="background:url('[[__returnDP(user.profile.picture)]]')">
+        </div>
+        <!--<div class="colored-icon">[[__returnName(user.profile.firstName)]]-->
+        <!--</div>-->
+      </div>
+      <paper-menu class="dropdown-content" attr-for-selected="name">
+        <!--<paper-item>[[__returnName(user.profile.firstName)]]</paper-item>-->
+        <paper-item id="signOut" on-click="__signOut">Sign Out</paper-item>
+      </paper-menu>
+    </paper-menu-button>
+
+  </template>
+  <script>
+class clientAvatar {
+  beforeRegister(){
+
+    this.is = "client-avatar";
+    this.properties = {
+      user:Object
+    }
+  }
+  get behaviors(){
+    return [mwcMixin]
+  }
+  tracker(){
+
+    this.set("user",Meteor.user()); 
+  }
+  __returnDP(url) {
+    return url || "/icons/guest.png";
+  }
+  __returnName(name) {
+    return name || "Guest User";
+  }
+  __returnMail(mails) {
+    if (mails) {
+      return mails.length ? mails[0].address : "";
+    } else {
+
+      return "";
+    }
+  }
+  __isVerified(mails) {
+    if (mails) {
+
+      return mails[0].verified ? "verified" : "";
+    } else {
+      return "";
+    }
+  }
+  __signOut(){
+    Meteor.logout(()=>{
+      FlowRouter.go('/');
+    });
+  }
+}
+Polymer(clientAvatar);
+  </script>
+</dom-module>
+
