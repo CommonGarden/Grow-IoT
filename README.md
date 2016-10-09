@@ -40,11 +40,11 @@ You need to install [Meteor](https://www.meteor.com/) if you haven't already. To
 curl https://install.meteor.com/ | sh
 ```
 
-Webcomponents are a new web standard, but the polyfills (code that makes them work in older browsers) are pretty good by this point. You still need to install [vulcanize](https://github.com/Polymer/vulcanize) globally; it builds html for older browsers.
+Webcomponents are a new web standard, but the polyfills (code that makes them work in older browsers) are pretty good by this point. However, you still need to install [vulcanize](https://github.com/Polymer/vulcanize) globally; it builds html for older browsers.
 
 `npm install -g vulcanize`
 
-Then clone the repo, enter the new directory, and start meteor.
+Then clone the repo, enter the new directory, npm install, bower install, and run the `run.sh` script (which vulcanizes the public/imports.html file to build.html before starting meteor).
 
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
@@ -54,15 +54,17 @@ bower install
 ./run.sh
 ```
 
-And that's it! Visit http://localhost:3000 with your browser of choice; you should now have a meteor application running.
+And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
 # Hardware setup
 
-Grow-IoT works with many devices. Updated instructions for connecting comming soon.
+Grow-IoT works with many devices. Updated instructions for connecting comming soon...
 
 ### Distributed Data Protocol
 
-You can interact with the Grow-IoT api using the Distributed Data Protocol. There are DDP Clients available in many different programming languages, see http://meteorpedia.com/read/DDP_Clients for a list.
+You can interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
+
+We use the Node.js client with [Grow.js](https://github.com/CommonGarden/Grow.js): https://github.com/oortcloud/node-ddp-client
 
 # 'Cloud' setup
 ### Setting up an instance on Meteor Galaxy
