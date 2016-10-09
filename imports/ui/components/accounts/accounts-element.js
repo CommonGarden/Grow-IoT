@@ -14,10 +14,10 @@ Polymer({
       observer:"changeRoute"
     },
     toastElem:{
-    type:Object,
-    value:function(){
-    return document.querySelector("#global_toast");
-    }
+      type:Object,
+      value:function(){
+        return document.querySelector("#global_toast");
+      }
     }
   },
 
@@ -29,12 +29,16 @@ Polymer({
   signIn: function(e){
     e.preventDefault();
     var self = this;
+    if(!Meteor.status().connected){
+      self.toast({text:"Logging Out...",duration:-1});//infinite toast
+    }
+
     Meteor.loginWithPassword(this.email, this.password, function(e){
       if(e){
-        self.toast(e.reason);
+        self.toast({text:e.reason,duration:3000});
       }
       else{
-        //self.toast("successful");
+        self.toast({text:"successful",duration:3000});
         FlowRouter.go('/');
       }
     });
@@ -58,17 +62,19 @@ Polymer({
     });
   },
 
-  _visibility: function() {
-    switch (this.$.password.type) {
+  _visibility: function(e) {
+    const icon = e.target;
+    const input = Polymer.dom(icon).parentNode;
+    switch (input.type) {
       case 'password':
-        this.$.password.querySelector('iron-icon[icon^=visibility]').icon = 'visibility';
-        this.$.password.type = 'text';
-        break;
+        icon.icon = 'visibility';
+      input.type = 'text';
+      break;
 
       case 'text':
-        this.$.password.querySelector('iron-icon[icon^=visibility]').icon = 'visibility-off';
-        this.$.password.type = 'password';
-        break;
+        icon.icon = 'visibility-off';
+      input.type = 'password';
+      break;
     }
   },
 
