@@ -1,23 +1,23 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
-
 Meteor.methods({
-  sendCommand: function (deviceUuid, type, options) {
-    check(deviceUuid, String);
+  'Thing.sendCommand': function (thingUuid, type, options) {
+    check(thingUuid, String);
     check(type, String);
 
-    let device = Device.documents.findOne(
-      {uuid: deviceUuid}
+    // must be owner of the device.
+    let thing = Things.findOne(
+      {uuid: thingUuid}
     , {
       fields: {
         _id: 1
       }
     });
 
-    if (!device) { throw new Meteor.Error('not-found', `Device '${deviceUuid}' cannot be found.`); }
+    if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
 
-    return Message.send(device, {
+    return Messages.send(thing, {
       type,
       options
     });

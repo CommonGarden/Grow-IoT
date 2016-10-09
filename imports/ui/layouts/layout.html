@@ -1,0 +1,64 @@
+<link rel="import" href="../components/thing/thing-display.html">
+<dom-module id="main-layout">
+  <style>
+    :host {
+        --app-grid-columns: 3;
+        --app-grid-item-height: 100px;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      .item {
+        background-color: white;
+      }
+      
+      .main{
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+      }
+  </style>
+  <template>
+    <paper-toast id="toast"></paper-toast>
+    <paper-header-panel class="fit layout">
+      <paper-toolbar>
+        <div class="flex">
+          <h1>Grow-IoT</h1>
+        </div>
+        <div class="">
+          status : {{status}}
+        </div>
+      </paper-toolbar>
+      <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
+        <paper-card heading="Welcome to Grow-IoT!" id="region1" name="home">
+          <div class="card-content">
+            <div> To get started, we'll create a new device.</div>
+          </div>
+          <div class="card-actions">
+            <paper-button on-click="new">New device</paper-button>
+          </div>
+        </paper-card>
+        <paper-card heading="Add device" name="new" id="region2">
+          <div class="card-content">
+            <div>
+              <iron-list id="list" items="[[things]]" as="thing" selection-enabled multi-selection>
+                <template >
+                  <thing-display uuid="{{thing.uuid}}" token="{{thing.token}}"></thing-display>
+                </template>
+              </iron-list>
+              <paper-spinner active></paper-spinner> 
+              Waiting for devices to connect.
+            </div>
+          </div>
+          <div class="card-actions">
+            <paper-button on-click="home">
+              Go back
+            </paper-button>
+          </div>
+        </paper-card>
+      </iron-pages>
+    </paper-header-panel>
+  </template>
+</dom-module>

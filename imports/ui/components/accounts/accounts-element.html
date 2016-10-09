@@ -1,0 +1,53 @@
+<dom-module id="accounts-element">
+  <template>
+    <style>
+      .main {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+      }
+      paper-tabs {
+        background:var(--primary-color);
+        color:white;
+      }
+    </style>
+    <div class="fit vertical layout">
+      <iron-pages class="flex main" id="main_page" selected="{{selected}}" main attr-for-selected="name">
+        <paper-card heading="Sign In" name="sign-in">
+          <div class="card-content">
+            <form action="#" is="iron-form" id="signIn" class="signIn">
+              <gold-email-input auto-validate label="Mail Id" required value="{{email}}"></gold-email-input>
+
+              <paper-input auto-validate error-message="minLength is 8" id="password" label="Password" minlength="8" required type="password" value="{{password}}">
+                <iron-icon icon="visibility-off" on-tap="_visibility" suffix></iron-icon>
+              </paper-input>
+            </form>
+          </div>
+          <div class="card-actions">
+            <paper-button type="submit" on-click="signIn">Sign In</paper-button>
+          </div>
+        </paper-card>
+        <paper-card heading="Sign up" name="sign-up">
+          <div class="card-content">
+            <form action="#" is="iron-form" id="signUp" class="signUp">
+              <gold-email-input auto-validate label="Mail Id" required value="{{email}}"></gold-email-input>
+
+              <paper-input auto-validate error-message="minLength is 8" id="password" label="Password" minlength="8" required type="password" value="{{password}}">
+              <iron-icon icon="visibility-off" on-tap="_visibility" suffix></iron-icon>
+            </paper-input>
+            </form>
+          </div>
+          <div class="card-actions">
+            <paper-button type="submit" on-click="signUp">Sign Up</paper-button>
+          </div>
+        </paper-card>
+
+      </iron-pages>
+      <paper-tabs  attr-for-selected="name" selected="{{selected}}">
+        <paper-tab id="toSignIn" name="sign-in">Sign In</paper-tab>
+        <paper-tab id="toSignUp" name="sign-up">Sign Up</paper-tab>
+      </paper-tabs>
+    </div>
+    <paper-toast id="polymer_toast"></paper-toast>
+  </template>
+</dom-module>
+<script src="accounts-element.js"></script>

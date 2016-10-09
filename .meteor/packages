@@ -13,26 +13,13 @@ tracker@1.1.0                 # Meteor's client-side reactive programming librar
 es5-shim@4.6.14                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.5.8              # Enable ECMAScript2015+ syntax in app code
 
-twbs:bootstrap          # Bootstrap CSS framework
-aldeed:simple-schema    # A simple, reactive schema validation package for Meteor
 
-accounts-password@1.3.0
-browser-policy@1.0.9
-email@1.1.17
-themeteorchef:jquery-validation
-themeteorchef:bert
-force-ssl@1.0.12
-standard-minifier-css@1.2.0
-standard-minifier-js@1.2.0
-jquery@1.11.9
-useraccounts:core
-useraccounts:flow-routing
-softwarerero:accounts-t9n
-useraccounts:bootstrap
-mfpierre:chartist-js
 practicalmeteor:mocha
 shell-server
-kadira:blaze-layout
 mwc:layout
 mwc:mixin
 mwc:synthesis
+mwc:router
+kadira:flow-router
+accounts-base
+accounts-password
