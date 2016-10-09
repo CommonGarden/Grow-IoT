@@ -12,13 +12,18 @@ Polymer({
       type:String,
       value:"sign-in",
       observer:"changeRoute"
+    },
+    toastElem:{
+    type:Object,
+    value:function(){
+    return document.querySelector("#global_toast");
+    }
     }
   },
 
   toast: function(text){
-    var toast = this.$.polymer_toast;
-    toast.text = text;
-    toast.toggle();
+    var toast = this.toastElem;
+    toast.toast(text);
   },
 
   signIn: function(e){
@@ -29,7 +34,7 @@ Polymer({
         self.toast(e.reason);
       }
       else{
-        self.toast("successful");
+        //self.toast("successful");
         FlowRouter.go('/');
       }
     });
