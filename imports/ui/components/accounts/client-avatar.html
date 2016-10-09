@@ -40,14 +40,14 @@
 .contact-info .city {
   color: #999;
 }
-           paper-menu-button{
-             --paper-menu-button-dropdown:{
-               min-width:150px;
-             }
-           }
-           .dropdown-content paper-item:not([disabled]){
-             cursor:pointer
-           }
+paper-menu-button{
+  --paper-menu-button-dropdown:{
+    min-width:150px;
+  }
+}
+.dropdown-content paper-item:not([disabled]){
+  cursor:pointer
+}
 
     </style>
     <paper-menu-button vertical-offset="64" horizontal-align="right">
@@ -76,6 +76,14 @@ class clientAvatar {
   get behaviors(){
     return [mwcMixin]
   }
+  get toastElem(){
+    return document.querySelector("#global_toast");
+  }
+  toast(text){
+    if(this.toastElem){
+      this.toastElem.toast(text);
+    }
+  }
   tracker(){
 
     this.set("user",Meteor.user()); 
@@ -103,8 +111,13 @@ class clientAvatar {
     }
   }
   __signOut(){
-    Meteor.logout(()=>{
+    const self = this;
+    if(!Meteor.status().connected){
+      self.toast({text:"Logging Out...",duration:-1});//infinite toast
+    }
+    Meteor.logout((e,r)=>{
       FlowRouter.go('/');
+      self.toast({text:"successfull",duration:3000});
     });
   }
 }
