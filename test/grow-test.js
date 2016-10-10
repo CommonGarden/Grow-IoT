@@ -14,23 +14,23 @@ global.expect = require('chai').expect;
     // Setup test things
     // In the future we can test multiple different kinds of things!
     global.thing = {
-      name: 'Light', // The display name for the thing.
+      uuid: '3ed775b6-177c-48e4-a977-84d21e2c6189',
+      token: 'Gizt4yHPAiRHZwRbcomyeZhpagPFyQgQ',
+      name: 'Light',
       id: 'Light',
-      username: 'YourUsernameHere', // The username of the account you want this device to be added to.
-      properties: { // These can be updated by the API.
+      properties: {
         state: 'off',
         lightconditions: function () {
           return 'unset';
         }
       },
-      actions: { // a list of action objects with keys
+      actions: {
         turn_light_on: {
-          name: 'On', // Display name for the action
-          description: 'Turns the light on.', // Optional description
-          schedule: 'at 9:00am', // Optional scheduling using later.js
-          event: 'Light turned on', // Optional event to emit when called.
+          name: 'On',
+          description: 'Turns the light on.',
+          schedule: 'at 9:00am',
+          event: 'Light turned on',
           function: function () {
-            // The implementation of the action.
             return 'Light on.';
           }
         },
@@ -43,10 +43,10 @@ global.expect = require('chai').expect;
           }
         },
         light_data: {
-          name: 'Log light data', // Events get a display name like actions
-          type: 'light', // Currently need for visualization component... HACK.
+          name: 'Log light data',
+          type: 'light',
           template: 'sensor',
-          schedule: 'every 1 second', // Events should have a schedule option that determines how often to check for conditions.
+          schedule: 'every 1 second',
           function: function () {
             return 10;
           }
@@ -55,7 +55,7 @@ global.expect = require('chai').expect;
       events: {
         dark: {
           name: 'It\'s dark.',
-          on: 'light_data', // Hook into an action.
+          on: 'light_data',
           function: function () {
             return;
           }
@@ -82,11 +82,7 @@ describe('Grow test', () => {
     global.testThing = new Grow(thing);
   });
 
-  // TODO: write better tests... it's a little hard at the moment cause
-  // Grow.js needs to connect to a host server to run correctly.
-
   it('should have cloned metadata', () => {
-    // console.log(testThing);
     expect(testThing.thing.name).to.equal('Light');
     expect(testThing.thing.id).to.equal('Light');
     expect(testThing.thing.username).to.equal('YourUsernameHere');
@@ -101,7 +97,6 @@ describe('Grow test', () => {
 
   describe('ACTIONS', () => {
     it('should be able to call a registered action.', () => {
-      console.log(testThing.call('turn_light_on'));
       expect(testThing.call('turn_light_on')).to.equal('Light on.');
     });
 
