@@ -85,7 +85,6 @@ describe('Grow test', () => {
   it('should have cloned metadata', () => {
     expect(testThing.thing.name).to.equal('Light');
     expect(testThing.thing.id).to.equal('Light');
-    expect(testThing.thing.username).to.equal('YourUsernameHere');
   });
 
   // describe('STATE', () => {
