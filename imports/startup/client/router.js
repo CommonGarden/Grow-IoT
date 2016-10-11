@@ -64,7 +64,7 @@ autherized.route("/:view?", {
     }
   }],
   action: function(p, q){
-    mwcLayout.render("after-login",{"main":"main-layout"});
+    mwcLayout.render("after-login",{"main":"grow-dashboard"});
   }
 });
 
