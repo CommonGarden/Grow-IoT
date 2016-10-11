@@ -13,10 +13,9 @@ Polymer({
     }
 
     // subscribe to things list
-    // this.subscribe('Things.list');
-    // debugger;
-    // console.log(Things.find({}));
-    // this.set('things', Things.find({}).fetch());
+    this.subscribe('Things.list');
+    let things = Things.find({}).fetch();
+    this.set('things', things);
   },
 
   properties:{
@@ -33,6 +32,7 @@ Polymer({
       type: Array
     }
   },
+
   new:function(){
     this.set("mwcRoute.params.view", "new");
     Meteor.call('Thing.new',
@@ -42,11 +42,14 @@ Polymer({
           return alert(`New deviceerror: ${error.reason || error}`);
         }
 
-        this.set('things', [document]);
-        console.log(this.things);
+        let things = this.get('things');
+        things.push(document);
+
+        this.set('things', things);
       }
     );
   },
+
   home:function(){
     this.set("mwcRoute.params.view", "home"); 
   }

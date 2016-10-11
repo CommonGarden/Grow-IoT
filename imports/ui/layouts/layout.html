@@ -21,14 +21,20 @@
       }
   </style>
   <template>
-    <paper-header-panel class="fit layout">
-      <paper-toolbar>
-        <div class="flex">
-          <h1>Grow-IoT</h1>
-        </div>
-        <client-avatar></client-avatar>
-              </paper-toolbar>
-      <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
+    <app-toolbar>
+      <div main-title>Grow-IoT</div>
+      <client-avatar></client-avatar>
+    </app-toolbar>
+
+    <app-drawer>
+      <paper-menu selected="0">
+        <paper-item>Item One</paper-item>
+        <paper-item>Item Two</paper-item>
+        <paper-item>Item Three</paper-item>
+      </paper-menu>
+    </app-drawer>
+
+    <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
         <paper-card heading="Welcome to Grow-IoT!" id="region1" name="home">
           <div class="card-content">
             <div> To get started, we'll create a new device.</div>
@@ -56,6 +62,5 @@
           </div>
         </paper-card>
       </iron-pages>
-    </paper-header-panel>
   </template>
 </dom-module>

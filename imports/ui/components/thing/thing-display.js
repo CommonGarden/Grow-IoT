@@ -8,20 +8,15 @@ Polymer({
   is:"thing-display",
   behaviors:[mwcMixin],
   properties:{
-    name:{
-      type:String,
-      value:"Dr. Dose" // Temporary...
-    },
-    uuid: String,
-    token: String
+    uuid: String
   },
   // getMeteorData:function(){
   //   this.uuid = FlowRouter.getParam('uuid');
   // },
   tracker:function(){
     // subscribe to things list
-    let uuid = this.get('uuid');
-    this.subscribe('Thing.one', uuid);
-    debugger;
+    // let uuid = this.get('uuid');
+    // this.subscribe('Thing.one', uuid);
+    // debugger;
   }
 })
