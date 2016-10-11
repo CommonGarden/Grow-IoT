@@ -22,6 +22,14 @@ class growDashboard {
   get behaviors(){
     return [mwcMixin];
   }
+  get toastElem(){
+    return document.querySelector("#global_toast");
+  }
+  toast(text){
+    if(this.toastElem){
+      this.toastElem.toast(text);
+    }
+  }
   closeMenu(){
     return this.smScreen ? this.$.drawerPanel.closeDrawer() : this.showSidebar = false;
   }
@@ -35,6 +43,16 @@ class growDashboard {
   }
   toggleMenu(){
     this.$.drawerPanel.togglePanel();
+  }
+  __signOut(){
+    const self = this;
+    if(!Meteor.status().connected){
+      self.toast({text:"Logging Out...",duration:-1});//infinite toast
+    }
+    Meteor.logout((e,r)=>{
+      FlowRouter.go('/');
+      self.toast({text:"successfull",duration:3000});
+    });
   }
 
 }
