@@ -29,7 +29,6 @@ FlowRouter.route("/",{
 FlowRouter.route("/accounts/:view?", {
   name:"accounts",
   triggersEnter:[function(c,r){
-  	console.log(c);
     if(!c.params.view){
       var path = FlowRouter.path("accounts",{view:'sign-in'});
       r(path);
@@ -52,18 +51,6 @@ var authorized = FlowRouter.group({
   }]
 });
 
-// authorized.route("/landing/:view?", {
-//   name: "after-login",
-//   triggersEnter:[function(c,r){
-//     if(!c.params.view){
-//       var path = FlowRouter.path("after-login",{view:'home'});
-//       r(path);
-//     }
-//   }],
-//   action: function(p, q){
-//     mwcLayout.render("after-login",{"main":"main-layout"});
-//   }
-// });
 authorized.route("/dashboard/:view?", {
   name: "dashboard",
   triggersEnter:[function(c,r){
@@ -76,6 +63,7 @@ authorized.route("/dashboard/:view?", {
     mwcLayout.render("dashboard",{"main":"grow-dashboard"});
   }
 });
+
 // authorized.route('/thing/:uuid', {
 //   name: 'DisplayComponent',
 //   action(params, queryParams) {

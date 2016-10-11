@@ -16,8 +16,9 @@
       <app-header effects="waterfall" condenses fixed>
         <content select="[toolbar]"></content>
       </app-header>
-      <iron-pages content selected="{{selected_1_1}}">
-        <div class="vertical layout" main>
+
+      <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
+        <div class="vertical layout" main name="home">
           <div class="center center-justified layout wrap horizontal">
             
             <template is="dom-repeat" items="{{things}}" as="thing">
@@ -27,6 +28,14 @@
             </template>
           </div>
         </div>
+        <paper-card heading="Add device" name="new">
+          <div class="card-content">
+            <div> To get started, we'll create a new device.</div>
+          </div>
+          <div class="card-actions">
+            <paper-button on-click="new">New device</paper-button>
+          </div>
+        </paper-card>
       </iron-pages>
     </app-header-layout>
 

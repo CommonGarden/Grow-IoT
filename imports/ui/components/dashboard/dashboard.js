@@ -1,4 +1,5 @@
 class growDashboard {
+
   beforeRegister(){
     this.is="grow-dashboard";
     this.properties={
@@ -13,23 +14,28 @@ class growDashboard {
       narrow:Boolean,
     };
   }
+
   attached(){
     this.async(()=>{
 
       this.selected = 0;
     },100);
   }
+
   get behaviors(){
     return [mwcMixin];
   }
+
   get toastElem(){
     return document.querySelector("#global_toast");
   }
+
   toast(text){
     if(this.toastElem){
       this.toastElem.toast(text);
     }
   }
+
   closeMenu(){
     return this.smScreen ? this.$.drawerPanel.closeDrawer() : this.showSidebar = false;
   }
@@ -41,9 +47,11 @@ class growDashboard {
   openMenu(){
     return this.smScreen ? this.$.drawerPanel.openDrawer() : this.showSidebar = true;
   }
+
   toggleMenu(){
     this.$.drawerPanel.togglePanel();
   }
+
   __signOut(){
     const self = this;
     if(!Meteor.status().connected){
@@ -54,6 +62,6 @@ class growDashboard {
       self.toast({text:"successfull",duration:3000});
     });
   }
-
 }
+
 Polymer(growDashboard);
