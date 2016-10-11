@@ -1,1 +1,103 @@
-<!-- TODO: someone want to take a stab at some Dashboard UI -->
+<dom-module id="grow-dashboard">
+  <template>
+    <style>
+.divider{
+  height: 1px;
+  background-color: #000;
+  margin: 4px 0;
+  opacity: var(--dark-divider-opacity);
+}
+.sidebar{
+  display:block;
+  overflow:auto;
+  -ms-user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none
+  height:100%;
+}
+.sidebar app-toolbar{
+  color:black;
+  font-weight: 400;
+  opacity: var(--dark-primary-opacity);
+  border-bottom: 1px solid #e0e0e0
+
+}
+.sidebar paper-menu {
+  background:white;
+  padding-bottom: 0
+}
+.sidebar paper-icon-item {
+  --paper-icon-item: {
+    cursor: pointer
+  };
+--paper-item-icon: {
+  color: #000;
+  opacity: var(--dark-secondary-opacity)
+};
+    --paper-item-selected: {
+      color: var(--default-primary-color);
+      background-color: #e8e8e8;
+      opacity: 1
+    };
+}
+.sidebar paper-icon-item.iron-selected {
+  --paper-item-icon: {
+    color: var(--default-primary-color);
+    opacity: 1
+  };
+}
+.sidebar paper-icon-item.iron-selected .item-text {
+  opacity: 1
+}
+.sidebar paper-icon-item.iron-selected .iron-icon {
+  color: var(--default-primary-color);
+}
+
+.divider {
+  height: 1px;
+  background-color: #000;
+  margin: 4px 0;
+  opacity: var(--dark-divider-opacity)
+}
+
+    </style>
+    <iron-media-query query="(max-width: 870px)" query-matches="{{smScreen}}"></iron-media-query>
+    <paper-drawer-panel  narrow="{{narrow}}" force-narrow="[[computeForceNarrow(smScreen, showSidebar)]]" responsive-width="0" disable-swipe="[[isSelectedMap]]" disable-edge-swipe="[[isSelectedMap]]" id="drawerPanel">
+
+      <div class="layout vertical sidebar" drawer>
+        <app-toolbar>
+          <div title class="flex">
+            Grow-IoT
+          </div>
+          <paper-icon-button hidden$="[[narrow]]" on-tap="closeMenu" icon="chevron-left"></paper-icon-button>
+        </app-toolbar>
+        <paper-menu selected="{{selected}}">
+          <template is="dom-repeat" items="[1,2,3,4,5]">
+            <paper-icon-item>
+              <iron-icon icon="list" item-icon></iron-icon>
+              <span class="flex">List Item {{item}}</span>
+            </paper-icon-item>
+          </template>
+        </paper-menu>
+        <div class="divider"></div>
+        <paper-button>Logout</paper-button>
+      </div>
+      <iron-pages main selected="{{selected}}">
+        <grow-main-view>
+          <app-toolbar toolbar>
+            <paper-icon-button icon="menu" hidden$="[[!narrow]]" on-tap="openMenu"></paper-icon-button>
+            <div main-title>Grow-IoT</div>
+            <paper-icon-button icon="search"></paper-icon-button>
+          </app-toolbar>
+
+        </grow-main-view>
+        <template is="dom-repeat" items="[2,3,4,5]">
+          <div>
+            main view [[item]]
+          </div>
+        </template>
+      </iron-pages>
+    </paper-drawer-panel>
+  </template>
+  <script src="dashboard.js"></script>
+</dom-module>

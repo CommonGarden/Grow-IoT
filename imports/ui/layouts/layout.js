@@ -1,4 +1,3 @@
-import './layout.html';
 import { mwcRouter } from 'meteor/mwc:router';
 import { mwcMixin } from 'meteor/mwc:mixin';
 

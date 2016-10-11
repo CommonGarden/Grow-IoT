@@ -1,0 +1,86 @@
+<dom-module id="grow-main-view">
+  <template>
+    <style>
+app-header{
+  background:var(--default-primary-color);
+}
+
+paper-card{
+  width:400px;
+  margin:20px;
+}
+paper-tabs {
+  background-color: var(--default-primary-color);
+  color: white;
+}
+app-toolbar{
+  color:black;
+  margin:20px;
+}
+    </style>
+    <app-header-layout has-scrolling-region id="headerPanel">
+
+      <app-header effects="waterfall" condenses fixed>
+        <content select="[toolbar]"></content>
+        <div sticky>
+          <paper-tabs scrollable selected="{{selected_1_1}}">
+            <paper-tab>
+              Home
+            </paper-tab>
+            <paper-tab>
+              Tab2
+            </paper-tab>
+          </paper-tabs>
+        </div>
+      </app-header>
+      <iron-pages content selected="{{selected_1_1}}">
+        <div class="vertical layout" main>
+          <app-toolbar>
+            Page 1
+          </app-toolbar>
+
+          <div class="center center-justified layout wrap horizontal">
+            <template is="dom-repeat" items="[1,2,3,4,5,6]">
+              <paper-card image="https://elements.polymer-project.org/bower_components/paper-card/demo/donuts.png" alt="Donuts">
+                <div class="card-content">
+                  <div class="cafe-header">Cafe Basilico
+                    <div class="cafe-location cafe-light">
+                      <iron-icon icon="communication:location-on"></iron-icon>
+                      <span>250ft</span>
+                    </div>
+                  </div>
+                  <div class="cafe-rating">
+                    <iron-icon class="star" icon="star"></iron-icon>
+                    <iron-icon class="star" icon="star"></iron-icon>
+                    <iron-icon class="star" icon="star"></iron-icon>
+                    <iron-icon class="star" icon="star"></iron-icon>
+                    <iron-icon class="star" icon="star"></iron-icon>
+                  </div>
+                  <p>$・Italian, Cafe</p>
+                  <p class="cafe-light">Small plates, salads &amp; sandwiches in an intimate setting with 12 indoor seats plus patio seating.</p>
+                </div>
+                <div class="card-actions">
+                  <p>Tonight's availability</p>
+                  <div class="horizontal justified">
+                    <paper-icon-button icon="icons:event"></paper-icon-button>
+                    <paper-button>5:30PM</paper-button>
+                    <paper-button>7:30PM</paper-button>
+                    <paper-button>9:00PM</paper-button>
+                  </div>
+                  <paper-button class="cafe-reserve">Reserve</paper-button>
+                </div>
+              </paper-card>
+            </template>
+          </div>
+        </div>
+        <div>
+          <app-toolbar>
+            Page 2
+          </app-toolbar>
+        </div>
+      </iron-pages>
+    </app-header-layout>
+
+  </template>
+  <script src="main-view.js"></script>
+</dom-module>
