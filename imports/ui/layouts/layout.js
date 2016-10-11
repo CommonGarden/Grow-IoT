@@ -37,18 +37,18 @@ Polymer({
   new:function(){
     this.set("mwcRoute.params.view", "new");
     Meteor.call('Thing.new',
-                (error, document) => {
-                  if (error) {
-                    console.error("New deviceerror", error);
-                    return alert(`New deviceerror: ${error.reason || error}`);
-                  }
+      (error, document) => {
+        if (error) {
+          console.error("New deviceerror", error);
+          return alert(`New deviceerror: ${error.reason || error}`);
+        }
 
-                  let things = this.get('things');
-                  things.push(document);
+        let things = this.get('things');
+        things.push(document);
 
-                  this.set('things', things);
-                }
-               );
+        this.set('things', things);
+      }
+     );
   },
 
   home:function(){

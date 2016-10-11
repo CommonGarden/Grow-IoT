@@ -7,12 +7,14 @@ Polymer({
     },
     actions: Object
   },
+
   tracker: function () {
     this.subscribe('Thing.actions', this.uuid);
-    
+
     // Todo: get only relevant fields.
-    this.set('actions', Things.find({uuid: uuid}));
+    this.set('actions', actions);
   },
+
   sendCommand: function(e){
     let type = e.currentTarget.dataset.call;
     let options = (e.currentTarget.dataset.options != null);

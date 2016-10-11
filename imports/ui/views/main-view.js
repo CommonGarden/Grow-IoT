@@ -10,8 +10,10 @@ class growMainView {
       selected_1_1:{
         type:Number,
         value:0
+      },
+      things: {
+        type: Array
       }
-
     };
   }
   get behaviors(){
@@ -22,5 +24,11 @@ class growMainView {
   resetLayout(){
     this.$.headerPanel.resetLayout();
   }
+  tracker() {
+    // subscribe to things list
+    this.subscribe('Things.list');
+    let things = Things.find({}).fetch();
+    this.set('things', things);
+  } 
 }
 Polymer(growMainView);

@@ -4,7 +4,7 @@ class growDashboard {
     this.properties={
       showSidebar:{
         type:Boolean,
-        value:true
+        value:false
       },
       selected:{
         type:Number

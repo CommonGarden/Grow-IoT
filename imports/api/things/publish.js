@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { Match } from 'meteor/check';
 
 Meteor.publish('Things.messages', function(auth) {
   var thing, handle, options, query;
@@ -84,13 +85,15 @@ Meteor.publish('Things.messages', function(auth) {
 
 Meteor.publish('Things.list', function(ThingUuid) {
   return Things.find({
-    'owner': this.userId
+    owner: this.userId
   });
 });
 
 Meteor.publish('Things.one', function(ThingUuid) {
-  check(ThingUuid, Match.NonEmptyString);
+  check(ThingUuid, String);
   return Things.find({
-    uuid: ThingUuid
+    uuid: ThingUuid,
+    owner: this.userId
   });
 });
+

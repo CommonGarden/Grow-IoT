@@ -1,8 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { Match } from 'meteor/check';
 import { Random } from 'meteor/random';
 
+/*
+ * Thing methods
+*/
 Meteor.methods({
+  /*
+   * Registers a thing.
+  */
   'Thing.register': function (auth, config) {
     check(auth, {
       uuid: Match.NonEmptyString,

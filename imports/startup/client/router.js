@@ -9,17 +9,14 @@ document.addEventListener("WebComponentsReady", function() {
 
 FlowRouter.route("/",{
   name:"landing",
-  action:function(p,q) {
-    mwcLayout.render("demo-landing", {"main":"main-layout"});
-  },
   triggersEnter:[function(p,q){
     if (Meteor.user()) {
-      FlowRouter.go('after-login');
+      FlowRouter.go('dashboard');
     }
     else if(Meteor.loggingIn()){
       Tracker.autorun(function(c){
         if(Meteor.user()){
-          FlowRouter.go('after-login');
+          FlowRouter.go('dashboard');
         }
       }); 
     }
@@ -55,18 +52,18 @@ var authorized = FlowRouter.group({
   }]
 });
 
-authorized.route("/landing/:view?", {
-  name: "after-login",
-  triggersEnter:[function(c,r){
-    if(!c.params.view){
-      var path = FlowRouter.path("after-login",{view:'home'});
-      r(path);
-    }
-  }],
-  action: function(p, q){
-    mwcLayout.render("after-login",{"main":"main-layout"});
-  }
-});
+// authorized.route("/landing/:view?", {
+//   name: "after-login",
+//   triggersEnter:[function(c,r){
+//     if(!c.params.view){
+//       var path = FlowRouter.path("after-login",{view:'home'});
+//       r(path);
+//     }
+//   }],
+//   action: function(p, q){
+//     mwcLayout.render("after-login",{"main":"main-layout"});
+//   }
+// });
 authorized.route("/dashboard/:view?", {
   name: "dashboard",
   triggersEnter:[function(c,r){
@@ -79,11 +76,11 @@ authorized.route("/dashboard/:view?", {
     mwcLayout.render("dashboard",{"main":"grow-dashboard"});
   }
 });
-authorized.route('/thing/:uuid', {
-  name: 'DisplayComponent',
-  action(params, queryParams) {
-    mwcLayout.render("accounts", {
-      main: "thing-display"
-    });
-  }
-});
+// authorized.route('/thing/:uuid', {
+//   name: 'DisplayComponent',
+//   action(params, queryParams) {
+//     mwcLayout.render("accounts", {
+//       main: "thing-display"
+//     });
+//   }
+// });

@@ -5,8 +5,9 @@ Polymer({
   },
   tracker:function(){
     this.subscribe('Thing.events');
+
     // TODO: list events in a thing object.
-    let events = Things.find({
+    let events = Events.find({
       uuid: this.uuid
     },
     {
@@ -16,12 +17,5 @@ Polymer({
       }
     });
     this.set('events', events);
-    // if (events) {
-    //   var eventlist = [];
-    //   _.each(thing.events, (value, key, list) => {
-    //     value.id = key;
-    //     eventlist.push(value);
-    //   });
-    // }
   }
 });

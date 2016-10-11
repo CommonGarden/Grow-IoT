@@ -1,5 +1,4 @@
 class globalToast {
-
   beforeRegister(){
     this.is = "global-toast";
 
@@ -13,7 +12,6 @@ class globalToast {
     };
   }
   get behaviors(){
-
     return [mwcMixin];
   }
   toast(arg) {

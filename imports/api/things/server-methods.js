@@ -1,10 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { Match } from 'meteor/check';
 
 Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
-    check(thingUuid, String);
-    check(type, String);
+    check(thingUuid, Match.NonEmptyString);
+    check(type, Match.NonEmptyString);
 
     // must be owner of the device.
     let thing = Things.findOne(

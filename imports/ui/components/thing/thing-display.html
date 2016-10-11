@@ -1,8 +1,23 @@
+<link rel="import" href="actions.html">
+<link rel="import" href="events.html">
 <dom-module id="thing-display">
 	<template>
-		<p>UUID: <code>{{uuid}}</code></p>
-		<p>TOKEN: <code>{{token}}</code></p>
-		<thing-action>
+		<style type="text/css">
+			paper-card{
+			  width:400px;
+			  margin:20px;
+			}
+		</style>
+		<paper-card image="{{thing.image}}" alt="{{thing.name}}">
+			<div class="card-content">
+				<p>UUID: <code>{{uuid}}</code></p>
+				<p>TOKEN: <code>{{token}}</code></p>
+			</div>
+			<div class="card-actions">
+				<thing-events></thing-events>
+				<thing-actions></thing-actions>
+			</div>
+		</paper-card>
 	</template>
 	<script src='thing-display.js'></script>
 </dom-module>

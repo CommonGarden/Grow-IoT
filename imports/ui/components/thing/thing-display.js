@@ -1,22 +1,33 @@
-import './actions.html';
-import './events.html';
-import './data-viz.html';
-import { Meteor } from 'meteor/meteor';
-import { mwcMixin } from 'meteor/mwc:mixin';
-
-Polymer({
-  is:"thing-display",
-  behaviors:[mwcMixin],
-  properties:{
-    uuid: String
-  },
-  // getMeteorData:function(){
-  //   this.uuid = FlowRouter.getParam('uuid');
-  // },
-  tracker:function(){
-    // subscribe to things list
-    // let uuid = this.get('uuid');
-    // this.subscribe('Thing.one', uuid);
-    // debugger;
+class thingDisplay {
+  // attached(){
+  //   //this.async(()=>{
+  //     //this.resetLayout();
+  //   //},100);
+  // }
+  beforeRegister(){
+    this.is = "thing-display";
+    this.properties = {
+      uuid: String,
+      thing: {
+        type: Object
+      }
+    };
   }
-})
+  get behaviors(){
+    return [
+      mwcMixin,
+    ];
+  }
+  // resetLayout(){
+  //   this.$.headerPanel.resetLayout();
+  // }
+  tracker() {
+    // subscribe to things list
+    let uuid = this.get('uuid');
+    this.subscribe('Things.one', uuid);
+    let thing = Things.find({}).fetch();
+    this.set('thing', thing);
+  } 
+}
+Polymer(thingDisplay);
+

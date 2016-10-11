@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
-// Rethink this bit...
-Meteor.publish('thing.data.points', function(thingUuid) {
+// Feel free to make suggestions for the eventbus api.
+
+Meteor.publish('Events.byThing', function(thingUuid) {
   check(thingUuid, Match.NonEmptyString);
 
   let thing = Thing.findOne({
@@ -17,8 +18,7 @@ Meteor.publish('thing.data.points', function(thingUuid) {
 
   if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
 
-  // TODO: refine query to remove events.
-  return Data.find(
+  return Events.find(
     {'thing._id': thing._id}
   , {
     'sort': {
@@ -29,7 +29,7 @@ Meteor.publish('thing.data.points', function(thingUuid) {
 });
 
 
-Meteor.publish('thing.data.pointsByType', function(thingUuid, type) {
+Meteor.publish('Events.byThingAndType', function(thingUuid, type) {
   check(thingUuid, Match.NonEmptyString);
   check(type, Match.NonEmptyString);
 
@@ -43,8 +43,7 @@ Meteor.publish('thing.data.pointsByType', function(thingUuid, type) {
 
   if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
 
-  // TODO: refine query to remove events.
-  return Data.find({
+  return Events.find({
     'thing._id': thing._id,
     'data.type': type,
     'event': {
@@ -56,35 +55,5 @@ Meteor.publish('thing.data.pointsByType', function(thingUuid, type) {
       'insertedAt': -1
     },
     'limit': 100
-  });
-});
-
-
-Meteor.publish('Data.events', function(thingUuid) {
-  check(thingUuid, Match.NonEmptyString);
-
-  let thing = Thing.findOne({
-    'uuid': thingUuid,
-    'owner._id': this.userId
-  }
-  , {
-    fields: {
-      _id: 1
-    }
-  });
-
-  if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
-
-  // Return data documents with an event field.
-  return Data.find({
-    'thing._id': thing._id,
-    'event': {
-      $exists: true
-    }
-  }
-  , {
-    'sort': {
-      'insertedAt': -1
-    }
   });
 });
