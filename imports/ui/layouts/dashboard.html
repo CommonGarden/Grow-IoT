@@ -80,7 +80,15 @@
           </template>
         </paper-menu>
         <div class="divider"></div>
-        <paper-button>Logout</paper-button>
+        <paper-icon-item id="signOut" on-click="__signOut">
+          <iron-icon  icon="exit-to-app">
+          </iron-icon>
+          <span class="flex">
+          Sign Out
+          </span>
+        </paper-icon-item>
+        <div class="divider"></div>
+        <div class=""></div>
       </div>
       <iron-pages main selected="{{selected}}">
         <grow-main-view>

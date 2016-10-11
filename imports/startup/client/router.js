@@ -45,9 +45,9 @@ FlowRouter.route("/accounts/:view?", {
   }
 });
 
-var autherized = FlowRouter.group({
-  name: "autherized",
-  prefix: "/autherized",
+var authorized = FlowRouter.group({
+  name: "authorized",
+  prefix: "/authorized",
   triggersEnter: [function(context, redirect){
     if (!(Meteor.user() || Meteor.loggingIn())) {
       redirect('/accounts');
@@ -55,7 +55,7 @@ var autherized = FlowRouter.group({
   }]
 });
 
-autherized.route("/:view?", {
+authorized.route("/landing/:view?", {
   name: "after-login",
   triggersEnter:[function(c,r){
     if(!c.params.view){
@@ -64,11 +64,22 @@ autherized.route("/:view?", {
     }
   }],
   action: function(p, q){
-    mwcLayout.render("after-login",{"main":"grow-dashboard"});
+    mwcLayout.render("after-login",{"main":"main-layout"});
   }
 });
-
-autherized.route('/thing/:uuid', {
+authorized.route("/dashboard/:view?", {
+  name: "dashboard",
+  triggersEnter:[function(c,r){
+    if(!c.params.view){
+      var path = FlowRouter.path("dashboard",{view:'home'});
+      r(path);
+    }
+  }],
+  action: function(p, q){
+    mwcLayout.render("dashboard",{"main":"grow-dashboard"});
+  }
+});
+authorized.route('/thing/:uuid', {
   name: 'DisplayComponent',
   action(params, queryParams) {
     mwcLayout.render("accounts", {

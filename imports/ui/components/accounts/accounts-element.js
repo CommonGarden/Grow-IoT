@@ -81,4 +81,4 @@ Polymer({
   changeRoute:function(newValue,oldValue){
     FlowRouter.setParams({'view':newValue}); 
   }
-})
+});
