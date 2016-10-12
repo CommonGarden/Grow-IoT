@@ -26,6 +26,7 @@ FlowRouter.route("/",{
   }]
 });
 
+// TODO: ADD more accounts funtionality and roles.
 FlowRouter.route("/accounts/:view?", {
   name:"accounts",
   triggersEnter:[function(c,r){
@@ -64,11 +65,11 @@ authorized.route("/dashboard/:view?", {
   }
 });
 
-// authorized.route('/thing/:uuid', {
-//   name: 'DisplayComponent',
-//   action(params, queryParams) {
-//     mwcLayout.render("accounts", {
-//       main: "thing-display"
-//     });
-//   }
-// });
+authorized.route('/thing/:uuid', {
+  name: 'DisplayComponent',
+  action(params, queryParams) {
+    mwcLayout.render("accounts", {
+      main: "thing-display"
+    });
+  }
+});

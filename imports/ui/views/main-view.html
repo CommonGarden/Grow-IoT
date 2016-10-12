@@ -1,12 +1,12 @@
 <dom-module id="grow-main-view">
   <template>
     <style>
-      app-header{
+      app-header {
         background:var(--default-primary-color);
         color: white;
       }
 
-      [content] app-toolbar{
+      [content] app-toolbar {
         color:black;
         margin:20px;
       }
@@ -22,9 +22,7 @@
           <div class="center center-justified layout wrap horizontal">
             
             <template is="dom-repeat" items="{{things}}" as="thing">
-              <thing-display uuid="{{thing.uuid}}" 
-                             token="{{thing.token}}">
-              </thing-display>           
+              <thing-display uuid="{{thing.uuid}}"></thing-display>           
             </template>
           </div>
         </div>

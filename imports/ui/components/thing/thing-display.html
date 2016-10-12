@@ -11,11 +11,12 @@
 		<paper-card image="{{thing.image}}" alt="{{thing.name}}">
 			<div class="card-content">
 				<p>UUID: <code>{{uuid}}</code></p>
-				<p>TOKEN: <code>{{token}}</code></p>
+				<p>TOKEN: <code>{{thing.token}}</code></p>
 			</div>
 			<div class="card-actions">
 				<thing-events></thing-events>
 				<thing-actions></thing-actions>
+				<paper-button class="cafe-reserve" on-click="deleteThing">delete</paper-button>
 			</div>
 		</paper-card>
 	</template>

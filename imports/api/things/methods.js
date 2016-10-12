@@ -12,13 +12,15 @@ Meteor.methods({
   */
   'Thing.register': function (auth, config) {
     check(auth, {
-      uuid: Match.NonEmptyString,
-      token: Match.NonEmptyString
+      uuid: String,
+      token: String
     });
     check(config, Object);
 
+    console.log(config);
+
     // Check to see we have that thing and fetch the document.
-    let thing = Things.documents.findOne(auth, {
+    let thing = Things.findOne(auth, {
       fields: {
         _id: 1
       }
@@ -58,12 +60,12 @@ Meteor.methods({
   */
   'Thing.setProperty': function (auth, property, value, key) {
     check(auth, {
-      uuid: Match.NonEmptyString,
-      token: Match.NonEmptyString
+      uuid: String,
+      token: String
     });
-    check(property, Match.NonEmptyString);
-    check(value, Match.NonEmptyString);
-    check(key, Match.NonEmptyString);
+    check(property, String);
+    check(value, String);
+    check(key, String);
 
     let thing = Things.findOne(auth, {
       fields: {
@@ -94,8 +96,8 @@ Meteor.methods({
   */
   'Thing.emit': function (auth, body) {
     check(auth, {
-      uuid: Match.NonEmptyString,
-      token: Match.NonEmptyString
+      uuid: String,
+      token: String
     });
 
     let thing = Things.findOne(auth, {
@@ -118,11 +120,11 @@ Meteor.methods({
    * Delete thing.
   */
   'Thing.delete': function (uuid) {
-    check(uuid, Match.NonEmptyString);
+    check(uuid, String);
 
     let thing = Things.findOne({
       'uuid': uuid,
-      'owner._id': Meteor.userId()
+      'owner': Meteor.userId()
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 

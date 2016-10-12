@@ -10,6 +10,7 @@
         <grow-main-view>
           <app-toolbar toolbar>
             <div main-title>Grow-IoT</div>
+            <paper-icon-button icon="add" on-tap="new"></paper-icon-button>
             <paper-icon-button icon="menu" hidden$="[[!narrow]]" on-tap="openMenu"></paper-icon-button>
           </app-toolbar>
         </grow-main-view>
@@ -23,12 +24,20 @@
           <paper-icon-button hidden$="[[narrow]]" on-tap="closeMenu" icon="chevron-right"></paper-icon-button>
         </app-toolbar>
         <paper-menu selected="{{selected}}">
-          <template is="dom-repeat" items="[1,2,3,4,5]">
+          <!-- <template is="dom-repeat" items="[1,2,3,4,5]"> -->
             <paper-icon-item>
               <iron-icon icon="list" item-icon></iron-icon>
-              <span class="flex">List Item {{item}}</span>
+              <span class="flex">Feedback</span>
             </paper-icon-item>
-          </template>
+            <paper-icon-item>
+              <iron-icon icon="list" item-icon></iron-icon>
+              <span class="flex">Fullscreen</span>
+            </paper-icon-item>
+            <paper-icon-item>
+              <iron-icon icon="list" item-icon></iron-icon>
+              <span class="flex">Report an issue</span>
+            </paper-icon-item>
+          <!-- </template> -->
         </paper-menu>
 
         <div class="divider"></div>

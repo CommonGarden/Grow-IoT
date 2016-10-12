@@ -51,11 +51,10 @@ Polymer({
       email: this.email,
       password: this.password
     },function(e){
-      if(e){
+      if(e) {
         self.toast(e.reason);
       }
-      else{
-
+      else {
         self.toast("successful");
         FlowRouter.go('/');
       }

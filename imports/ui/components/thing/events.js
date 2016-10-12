@@ -16,6 +16,7 @@ Polymer({
         events: 1
       }
     });
+    console.log(events);
     this.set('events', events);
   }
 });

@@ -5,11 +5,22 @@ Polymer({
       type:String,
       value:"Actions"
     },
-    actions: Object
+    uuid: String,
+    actions: Array
   },
 
   tracker: function () {
     this.subscribe('Thing.actions', this.uuid);
+
+    let actions = Things.findOne({
+      uuid: this.uuid
+    },
+    {
+      fields: {
+        _id: 1,
+        actions: 1
+      }
+    });
 
     // Todo: get only relevant fields.
     this.set('actions', actions);

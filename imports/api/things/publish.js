@@ -2,12 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 
-Meteor.publish('Things.messages', function(auth) {
+Meteor.publish('Thing.messages', function(auth) {
   var thing, handle, options, query;
   
   check(auth, {
-    uuid: Match.NonEmptyString,
-    token: Match.NonEmptyString
+    uuid: String,
+    token: String
   });
 
   thing = Things.findOne(auth, {
@@ -65,7 +65,7 @@ Meteor.publish('Things.messages', function(auth) {
             onlineSince: false
           }
         });
-        Meteor.call('Things.emit', auth, {
+        Meteor.call('Thing.emit', auth, {
           name: "offline",
           message: "Thing offline"
         }, function(error, documentId) {

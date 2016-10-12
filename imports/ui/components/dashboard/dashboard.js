@@ -1,6 +1,6 @@
 class growDashboard {
 
-  beforeRegister(){
+  beforeRegister() {
     this.is="grow-dashboard";
     this.properties={
       showSidebar:{
@@ -12,47 +12,65 @@ class growDashboard {
       },
       smScreen:Boolean,
       narrow:Boolean,
+      mwcRoute:{
+        type:Object,
+        name:"dashboard",
+        params:{"view":"home"}
+      }
     };
   }
 
   attached(){
-    this.async(()=>{
+    this.async(()=> {
 
       this.selected = 0;
     },100);
   }
 
-  get behaviors(){
-    return [mwcMixin];
+  get behaviors() {
+    return [
+      mwcMixin, mwcRouter
+    ];
   }
 
-  get toastElem(){
+  get toastElem() {
     return document.querySelector("#global_toast");
   }
 
-  toast(text){
+  toast(text) {
     if(this.toastElem){
       this.toastElem.toast(text);
     }
   }
 
-  closeMenu(){
+  closeMenu() {
     return this.smScreen ? this.$.drawerPanel.closeDrawer() : this.showSidebar = false;
   }
 
-  computeForceNarrow(e,n){
+  computeForceNarrow(e,n) {
     return e||!n;
   }
 
-  openMenu(){
+  openMenu() {
     return this.smScreen ? this.$.drawerPanel.openDrawer() : this.showSidebar = true;
   }
 
-  toggleMenu(){
+  new() {
+    Meteor.call('Thing.new',
+      (error, document) => {
+        if (error) {
+          console.error("New deviceerror", error);
+          return alert(`New deviceerror: ${error.reason || error}`);
+        }
+      }
+    );
+  }
+
+  toggleMenu() {
     this.$.drawerPanel.togglePanel();
   }
 
-  __signOut(){
+  __signOut() {
     const self = this;
     if(!Meteor.status().connected){
       self.toast({text:"Logging Out...",duration:-1});//infinite toast

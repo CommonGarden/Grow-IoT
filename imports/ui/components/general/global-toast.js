@@ -11,15 +11,18 @@ class globalToast {
       },
     };
   }
+
   get behaviors(){
     return [mwcMixin];
   }
+
   toast(arg) {
     this.$.paper_toast.hide();
     this.async(()=> {
       this.$.paper_toast.show(arg);
     }, 400);
   }
+
   tracker() {
     if (Meteor.status().connected) {
       if (this.$.paper_toast.text != "server connected") {
@@ -32,4 +35,5 @@ class globalToast {
     }
   }
 };
+
 Polymer(globalToast);
