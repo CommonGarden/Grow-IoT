@@ -7,6 +7,8 @@ var currentTempValue;
 
 // Create a new grow instance. Connects by default to localhost:3000
 var grow = new GrowInstance({
+    uuid: '35443146-d465-4bab-8aca-69c67e182920',
+    token: 'E5XkxEPoYytGLJTw3S29NQvGFWidtm37',
     name: 'Light', // The display name for the thing.
     desription: 'An LED light with a basic on/off api.',
 

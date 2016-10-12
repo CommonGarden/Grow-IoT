@@ -87,13 +87,6 @@ describe('Grow test', () => {
     expect(testThing.thing.id).to.equal('Light');
   });
 
-  // describe('STATE', () => {
-  //   // TODO
-  //   it('should load correctly from state', () => {
-  //     expect(false).to.equal(true);
-  //   });
-  // });
-
   describe('ACTIONS', () => {
     it('should be able to call a registered action.', () => {
       expect(testThing.call('turn_light_on')).to.equal('Light on.');
