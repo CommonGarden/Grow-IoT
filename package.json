@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
-    "Grow.js": "^0.2.93",
+    "Grow.js": "^0.2.94",
     "Thing.js": "^0.2.7",
     "bcrypt": "^0.8.7",
     "bufferutil": "^1.2.1",

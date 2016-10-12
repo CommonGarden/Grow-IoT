@@ -17,8 +17,6 @@ Meteor.methods({
     });
     check(config, Object);
 
-    console.log(config);
-
     // Check to see we have that thing and fetch the document.
     let thing = Things.findOne(auth, {
       fields: {
@@ -122,6 +120,7 @@ Meteor.methods({
   'Thing.delete': function (uuid) {
     check(uuid, String);
 
+    // Users can only delete things they own.
     let thing = Things.findOne({
       'uuid': uuid,
       'owner': Meteor.userId()
