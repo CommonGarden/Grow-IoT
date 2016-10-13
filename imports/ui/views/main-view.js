@@ -34,29 +34,8 @@ class growMainView {
     }
     this.subscribe('Things.list');
     let things = Things.find({}).fetch();
-    // if (things.length === 0) {
-    //   // TODO: empty state
-    //   this.set("mwcRoute.params.view", "new");
-    // }
     this.set('things', things);
   }
-
-  // new() {
-  //   Meteor.call('Thing.new',
-  //     (error, document) => {
-  //       if (error) {
-  //         console.error("New deviceerror", error);
-  //         return alert(`New deviceerror: ${error.reason || error}`);
-  //       }
-
-  //       let things = this.get('things');
-  //       things.push(document);
-
-  //       this.set('things', things);
-  //     }
-  //   );
-  //   FlowRouter.go('/authorized/dashboard/home');
-  // }
 }
 
 Polymer(growMainView);

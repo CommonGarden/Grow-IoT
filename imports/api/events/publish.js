@@ -4,7 +4,7 @@ import { check } from 'meteor/check';
 // Feel free to make suggestions for the eventbus api.
 
 Meteor.publish('Events.byThing', function(thingUuid) {
-  check(thingUuid, Match.NonEmptyString);
+  check(thingUuid, String);
 
   let thing = Thing.findOne({
     'uuid': thingUuid,
@@ -30,8 +30,8 @@ Meteor.publish('Events.byThing', function(thingUuid) {
 
 
 Meteor.publish('Events.byThingAndType', function(thingUuid, type) {
-  check(thingUuid, Match.NonEmptyString);
-  check(type, Match.NonEmptyString);
+  check(thingUuid, String);
+  check(type, String);
 
   let thing = Thing.findOne(
     {'uuid': thingUuid}

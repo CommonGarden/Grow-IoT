@@ -9,15 +9,27 @@
 			}
 		</style>
 		<paper-card image="{{thing.image}}" alt="{{thing.name}}">
-			<div class="card-content">
-				<p>UUID: <code>{{uuid}}</code></p>
-				<p>TOKEN: <code>{{thing.token}}</code></p>
-			</div>
-			<div class="card-actions">
-				<thing-events></thing-events>
-				<thing-actions></thing-actions>
-				<paper-button class="cafe-reserve" on-click="deleteThing">delete</paper-button>
-			</div>
+			<template is="dom-if" if="{{!thing.registeredAt}}">
+				<div class="card-content">
+					<paper-spinner active></paper-spinner>
+					<p>Waiting for device with the following credentials to connect:</p>
+					<p>UUID: <code>{{uuid}}</code></p>
+					<p>TOKEN: <code>{{thing.token}}</code></p>
+				</div>
+				<div class="card-actions">
+					<paper-button on-click="deleteThing">Cancel</paper-button>
+				</div>
+			</template>
+			<template is="dom-if" if="{{thing.registeredAt}}">
+				<div class="card-content">
+					<p>Registered {{thing.thing.name}}</p>
+				</div>
+				<div class="card-actions">
+					<thing-events></thing-events>
+					<thing-actions></thing-actions>
+					<paper-button on-click="deleteThing">delete</paper-button>
+				</div>
+			</template>
 		</paper-card>
 	</template>
 	<script src='thing-display.js'></script>

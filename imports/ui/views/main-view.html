@@ -20,7 +20,6 @@ app-header {
       <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
         <div class="vertical layout" main name="home">
           <div class="center center-justified layout wrap horizontal">
-
             <sortable-js>            
               <template is="dom-repeat" items="{{things}}" as="thing">
                 <thing-display uuid="{{thing.uuid}}"></thing-display>           
@@ -28,14 +27,6 @@ app-header {
             </sortable-js>
           </div>
         </div>
-        <paper-card heading="Add device" name="new">
-          <div class="card-content">
-            <div> To get started, we'll create a new device.</div>
-          </div>
-          <div class="card-actions">
-            <paper-button on-click="new">New device</paper-button>
-          </div>
-        </paper-card>
       </iron-pages>
     </app-header-layout>
 
