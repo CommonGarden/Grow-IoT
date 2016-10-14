@@ -1,10 +1,10 @@
 <dom-module id="grow-main-view">
   <template>
     <style>
-      app-header {
-        background:var(--default-primary-color);
-        color: white;
-      }
+app-header {
+  background:var(--default-primary-color);
+  color: white;
+}
 
       [content] app-toolbar {
         color:black;
@@ -20,10 +20,12 @@
       <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
         <div class="vertical layout" main name="home">
           <div class="center center-justified layout wrap horizontal">
-            
-            <template is="dom-repeat" items="{{things}}" as="thing">
-              <thing-display uuid="{{thing.uuid}}"></thing-display>           
-            </template>
+
+            <sortable-js>            
+              <template is="dom-repeat" items="{{things}}" as="thing">
+                <thing-display uuid="{{thing.uuid}}"></thing-display>           
+              </template>
+            </sortable-js>
           </div>
         </div>
         <paper-card heading="Add device" name="new">

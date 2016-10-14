@@ -9,7 +9,8 @@
     "neon-animation": "PolymerElements/neon-animation#^1.2.4",
     "gold-email-input": "PolymerElements/gold-email-input#^1.0.7",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
-    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5"
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5",
+    "polymer-sortablejs": "aruntk/polymer-sortablejs#^0.1.4"
   },
   "name": "synthesis-demo",
   "version": "0.0.1"
