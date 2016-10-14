@@ -9,6 +9,11 @@
 			}
 		</style>
 		<paper-card image="{{thing.image}}" alt="{{thing.name}}">
+			<template is="dom-if" if="{{thing.thing.webcomponent}}">
+				<p>Has a webcomponent.</p>
+				<!-- Hack -->
+				<test-thing uuid="{{uuid}}"></test-thing>
+			</template>
 			<template is="dom-if" if="{{!thing.registeredAt}}">
 				<div class="card-content">
 					<paper-spinner active></paper-spinner>
@@ -25,8 +30,9 @@
 					<p>Registered {{thing.thing.name}}</p>
 				</div>
 				<div class="card-actions">
-					<thing-events></thing-events>
-					<thing-actions></thing-actions>
+					<thing-events events="{{thing.thing.events}}"></thing-events>
+					<thing-actions actions="{{thing.thing.actions}}"></thing-actions>
+					<!-- TODO: ask for confirmation if a thing has been registered. -->
 					<paper-button on-click="deleteThing">delete</paper-button>
 				</div>
 			</template>

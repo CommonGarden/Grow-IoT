@@ -1,17 +1,12 @@
 <dom-module id="thing-events">
 	<template name="Device.EventComponent">
-<!-- 		<iron-list id="list" items="[[events]]" as="event" selection-enabled multi-selection> -->
-		    <!-- <template> -->
-				<p>Events</p>
-	              <div class="horizontal justified">
-	                <paper-icon-button icon="icons:event"></paper-icon-button>
-	                <paper-button>5:30PM</paper-button>
-	                <paper-button>7:30PM</paper-button>
-	                <paper-button>9:00PM</paper-button>
-	              </div>
-		    	<!-- <h1>{{event.name}}</h1> -->
-            <!-- </template> -->
-        <!-- </iron-list> -->
+		<div class="horizontal justified">
+<!-- 			<iron-list id="list" items="[[events]]" as="event" selection-enabled multi-selection>
+			    <template>	              
+		            <paper-button>{{event.name}}</paper-button>
+	            </template>
+	        </iron-list> -->
+	    </div>
 	</template>
 	<script src='events.js'></script>
 </dom-module>

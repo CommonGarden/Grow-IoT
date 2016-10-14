@@ -10,20 +10,20 @@ Polymer({
   },
 
   tracker: function () {
-    this.subscribe('Thing.actions', this.uuid);
+    // this.subscribe('Thing.actions', this.uuid);
 
-    let actions = Things.findOne({
-      uuid: this.uuid
-    },
-    {
-      fields: {
-        _id: 1,
-        actions: 1
-      }
-    });
+    // let actions = Things.findOne({
+    //   uuid: this.uuid
+    // },
+    // {
+    //   fields: {
+    //     _id: 1,
+    //     actions: 1
+    //   }
+    // });
 
-    // Todo: get only relevant fields.
-    this.set('actions', actions);
+    // // Todo: get only relevant fields.
+    // this.set('actions', actions);
   },
 
   sendCommand: function(e){

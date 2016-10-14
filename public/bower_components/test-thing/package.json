@@ -1,0 +1,25 @@
+{
+  "name": "test-thing",
+  "version": "1.0.0",
+  "description": "An example of how to build a thing for Grow-IoT",
+  "main": "test-thing.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CommonGarden/test-thing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CommonGarden/test-thing/issues"
+  },
+  "homepage": "https://github.com/CommonGarden/test-thing#readme",
+  "dependencies": {
+    "Grow.js": "^0.2.94"
+  }
+}

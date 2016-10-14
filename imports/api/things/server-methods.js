@@ -4,8 +4,8 @@ import { Match } from 'meteor/check';
 
 Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
-    check(thingUuid, Match.NonEmptyString);
-    check(type, Match.NonEmptyString);
+    check(thingUuid, String);
+    check(type, String);
 
     // must be owner of the device.
     let thing = Things.findOne(
@@ -18,9 +18,20 @@ Meteor.methods({
 
     if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
 
-    return Messages.send(thing, {
-      type,
-      options
-    });
+    let document = {
+      createdAt: new Date(),
+      thing: {
+        _id: thing._id
+      },
+      body: {
+        type: type,
+        options: options
+      }
+    }
+
+    // Clean up.
+    Messages.insert(document);
+
+    // if (!Messages.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
   }
 });

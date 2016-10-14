@@ -25,6 +25,7 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
     
+    // TODO: reorganize... we shouldn't have to write things like thing.thing.name
     // Update the document
     if (!Things.update(thing._id, {
       $set: {
@@ -33,7 +34,7 @@ Meteor.methods({
       }
     })) { throw new Meteor.Error('internal-error', "Internal error."); }
 
-    return document;
+    // return document;
   },
 
   /*
@@ -90,9 +91,9 @@ Meteor.methods({
   },
 
   /*
-   * Emit
+   * Emit an event.
   */
-  'Thing.emit': function (auth, body) {
+  'Thing.event': function (auth, body) {
     check(auth, {
       uuid: String,
       token: String
