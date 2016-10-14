@@ -1,5 +1,9 @@
 # Grow.js
 
+*Status:* currently works with Alpha and not with the old prototype.
+
+Tagged releases coming soon!
+
 [![Join the chat at https://gitter.im/CommonGarden/Grow.js](https://badges.gitter.im/CommonGarden/Grow.js.svg)](https://gitter.im/CommonGarden/Grow.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Grow.js is an npm packagle for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. [Full grow.js documentation can be found here](http://commongarden.github.io/Grow.js/docs/).
@@ -10,10 +14,6 @@ Grow.js handles:
 * Sets up readable / writable streams for pushing data and listening for commands in real time!
 
 All you have to do is pass in a [Thing object](https://github.com/CommonGarden/Thing.js), and presto! You have created a new IoT device!
-
-Example screen shoot using [Grow-IoT](https://github.com/CommonGarden/Grow-IoT):
-
-![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
 
 ### Installation
 
