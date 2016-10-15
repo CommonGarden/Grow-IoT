@@ -11,7 +11,7 @@
 		<paper-card image="{{thing.image}}" alt="{{thing.name}}">
 			<template is="dom-if" if="{{thing.thing.webcomponent}}">
 				<p>Has a webcomponent.</p>
-				<!-- Hack -->
+				<!-- Hack: todo, somehow include the component...-->
 				<test-thing uuid="{{uuid}}"></test-thing>
 			</template>
 			<template is="dom-if" if="{{!thing.registeredAt}}">

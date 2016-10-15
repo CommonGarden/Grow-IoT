@@ -16,20 +16,24 @@ Meteor.publish('Thing.messages', function(auth) {
       owner: 1
     }
   });
+
   if (!thing) {
     throw new Meteor.Error('unauthorized', "Unauthorized.");
   }
+
   Things.update(thing._id, {
     $set: {
       onlineSince: new Date()
     }
   });
+
   query = {
-    'Things._id': thing._id,
+    'thing._id': thing._id,
     createdAt: {
       $gte: new Date()
     }
   };
+
   options = {
     fields: {
       body: 1
@@ -38,6 +42,7 @@ Meteor.publish('Thing.messages', function(auth) {
       createdAt: 1
     }
   };
+
   handle = Messages.find(query, options).observeChanges({
     added: (function(_this) {
       return function(id, fields) {
@@ -47,7 +52,9 @@ Meteor.publish('Thing.messages', function(auth) {
       };
     })(this)
   });
+
   this.ready();
+
   return this.onStop((function(_this) {
     return function() {
       if (handle != null) {
@@ -65,17 +72,12 @@ Meteor.publish('Thing.messages', function(auth) {
             onlineSince: false
           }
         });
-        Meteor.call('Thing.emit', auth, {
+        Meteor.call('Thing.event', auth, {
           name: "offline",
           message: "Thing offline"
         }, function(error, documentId) {
           if (error) {
-            return console.error("New Thing.emit Error", error);
-          }
-        });
-        return Meteor.call('Notifications.new', "Thing offline.", thing.owner._id, function(error, documentId) {
-          if (error) {
-            return console.error("New Notification Error", error);
+            return console.error("New Thing.event Error", error);
           }
         });
       }, 5000);
