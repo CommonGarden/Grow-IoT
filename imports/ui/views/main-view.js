@@ -1,5 +1,5 @@
 class growMainView {
-  beforeRegister(){
+  beforeRegister() {
     this.is = "grow-main-view";
     this.properties = {
       things: {
@@ -24,18 +24,18 @@ class growMainView {
     ];
   }
 
-  get behaviors(){
+  get behaviors() {
     return [
       mwcMixin, mwcRouter
     ];
   }
 
-  resetLayout(){
+  resetLayout() {
     this.$.headerPanel.resetLayout();
   }
 
   tracker() {
-    this.set("status",Meteor.status().status);
+    this.set("status", Meteor.status().status);
     if(!Meteor.isCordova){
       this.notCordova = true;
     }
