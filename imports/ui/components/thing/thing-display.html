@@ -9,12 +9,15 @@ paper-card{
 }
     </style>
     <paper-card image="{{thing.image}}" alt="{{thing.name}}">
+	  <div class="card-content" hidden$="{{!thing.thing.webcomponent}}">
+	    <!-- Hack: todo, somehow include the component...-->
+	    <div hidden$="{{thing.onlineSince}}">
+      	  Not online.
+        </div>
 
-      <div hidden$="{{!thing.thing.webcomponent}}">
-        <p>Has a webcomponent.</p>
-        <!-- Hack: todo, somehow include the component...-->
-        <test-thing uuid="{{thing.uuid}}"></test-thing>
-      </div>
+	    <test-thing uuid="{{thing.uuid}}"></test-thing>
+	  </div>
+
       <div class="card-content" hidden$="{{thing.registeredAt}}">
         <!--disabled for better performance-->
         <!--<paper-spinner active></paper-spinner>--> 
@@ -22,20 +25,21 @@ paper-card{
         <p>UUID: <code>{{thing.uuid}}</code></p>
         <p>TOKEN: <code>{{thing.token}}</code></p>
       </div>
+
       <div class="card-actions">
-        <paper-button on-click="deleteThing">Cancel</paper-button>
+        <paper-button on-click="deleteThing">Delete</paper-button>
       </div>
-      <div hidden$="{{!thing.registeredAt}}">
+<!--       <div hidden$="{{!thing.registeredAt}}">
         <div class="card-content">
           <p>Registered {{thing.thing.name}}</p>
         </div>
         <div class="card-actions">
           <thing-events events="{{thing.thing.events}}"></thing-events>
-          <thing-actions actions="{{thing.thing.actions}}"></thing-actions>
+          <thing-actions actions="{{thing.thing.actions}}"></thing-actions> -->
           <!-- TODO: ask for confirmation if a thing has been registered. -->
-          <paper-button on-click="deleteThing">delete</paper-button>
+<!--           <paper-button on-click="deleteThing">delete</paper-button>
         </div>
-      </div>
+      </div> -->
     </paper-card>
   </template>
   <script src='thing-display.js'></script>
