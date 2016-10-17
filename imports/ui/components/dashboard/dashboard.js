@@ -75,6 +75,7 @@ class growDashboard {
     if(!Meteor.status().connected){
       self.toast({text:"Logging Out...",duration:-1});//infinite toast
     }
+
     Meteor.logout((e,r)=>{
       FlowRouter.go('/');
       self.toast({text:"successfull",duration:3000});
