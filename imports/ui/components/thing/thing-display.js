@@ -5,7 +5,8 @@ class thingDisplay {
       uuid: String,
       thing: {
         type: Object
-      }
+      },
+      loader:Number
     };
   }
   get behaviors() {
@@ -19,8 +20,14 @@ class thingDisplay {
       "setThing(uuid)"
     ];
   }
-  tracker(){
+  attached(){
+    const span = this.$.loading;
+    this.loader = setInterval(function() {
+      if ((span.innerHTML += '.').length == 4) 
+        span.innerHTML = '';
+    }, 500);
 
+    //clearInterval( this.loader ); // at some point, clear the setInterval
   }
   subThing(uuid) {
 
