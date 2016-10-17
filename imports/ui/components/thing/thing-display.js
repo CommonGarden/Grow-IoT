@@ -8,23 +8,35 @@ class thingDisplay {
       }
     };
   }
-
   get behaviors() {
     return [
       mwcMixin,
     ];
   }
-
-  tracker() {
-    let uuid = this.get('uuid');
-    this.subscribe('Things.one', uuid);
-    let thing = Things.findOne({uuid: uuid});
-    this.set('thing', thing);
+  get trackers (){
+    return [
+      "subThing(uuid)",
+      "setThing(uuid)"
+    ];
   }
+  tracker(){
 
+  }
+  subThing(uuid) {
+
+    if(uuid){
+      this.subscribe('Things.one', uuid);
+    }
+  }
+  setThing(uuid){
+    if(uuid){
+      let thing = Things.findOne({uuid: uuid});
+      this.set('thing', thing);
+    }
+  }
   deleteThing () {
     Meteor.call('Thing.delete',
-      this.uuid,
+      this.thing.uuid,
       (error, document) => {
         if (error) {
           console.error("Delete thing error", error);

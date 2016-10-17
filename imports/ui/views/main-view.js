@@ -13,8 +13,15 @@ class growMainView {
         type:Object,
         name:"dashboard",
         params:{"view":"home"}
-      }
+      },
+      limit:Number
     };
+  }
+  get trackers (){
+    return [
+      "subThings(limit)",
+      "setThings(limit)"
+    ];
   }
 
   get behaviors(){
@@ -32,7 +39,12 @@ class growMainView {
     if(!Meteor.isCordova){
       this.notCordova = true;
     }
+  }
+  subThings(){
     this.subscribe('Things.list');
+
+  }
+  setThings(){
     let things = Things.find({}).fetch();
     this.set('things', things);
   }

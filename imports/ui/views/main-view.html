@@ -22,7 +22,7 @@ app-header {
           <div class="center center-justified layout wrap horizontal">
             <sortable-js>            
               <template is="dom-repeat" items="{{things}}" as="thing">
-                <thing-display uuid="{{thing.uuid}}"></thing-display>           
+                <thing-display thing="{{thing}}"></thing-display>           
               </template>
             </sortable-js>
           </div>
