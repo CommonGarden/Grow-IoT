@@ -12,13 +12,13 @@
 			<template is="dom-if" if="{{thing.thing.webcomponent}}">
 				<p>Has a webcomponent.</p>
 				<!-- Hack: todo, somehow include the component...-->
-				<test-thing uuid="{{uuid}}"></test-thing>
+				<test-thing uuid="{{thing.uuid}}"></test-thing>
 			</template>
 			<template is="dom-if" if="{{!thing.registeredAt}}">
 				<div class="card-content">
 					<paper-spinner active></paper-spinner>
 					<p>Waiting for device with the following credentials to connect:</p>
-					<p>UUID: <code>{{uuid}}</code></p>
+					<p>UUID: <code>{{thing.uuid}}</code></p>
 					<p>TOKEN: <code>{{thing.token}}</code></p>
 				</div>
 				<div class="card-actions">
