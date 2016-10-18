@@ -1,0 +1,46 @@
+<!--
+`test-thing`
+An example of how to build a thing for Grow-IoT
+
+@demo demo/index.html 
+-->
+<dom-module id="test-thing">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+    <paper-button on-click="testbutton">Test</paper-button>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'test-thing',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'world',
+        },
+        uuid: String
+      },
+
+      testbutton: function(e){
+        return Meteor.call('Thing.sendCommand',
+          this.uuid,
+          'testbutton',
+          (error, documentId) => {
+            if (error) {
+              console.error("Error", error);
+              return alert(`Error: ${error.reason || error}`);
+            }
+          }
+        );
+      }
+
+    });
+  </script>
+</dom-module>

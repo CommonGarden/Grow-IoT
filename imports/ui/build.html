@@ -40,7 +40,6 @@ e.__upgraded__&&!e.__attached&&(e.__attached=!0,e.attachedCallback&&e.attachedCa
 
 
 
-
 </head><body><div hidden="" by-vulcanize=""><script>(function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -32096,46 +32095,4 @@ this.currentTarget=a,this.defaultPrevented=!1,this.eventPhase=Event.AT_TARGET,th
     fallbackOnBodyChanged    : function(value) { this.sortable && this.sortable.option("fallbackOnBody", value); }
   });
 </script>
-
-
-<dom-module id="test-thing" assetpath="bower_components/test-thing/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]</h2>
-    <paper-button on-click="testbutton">Test</paper-button>
-  </template>
-
-  <script>
-    Polymer({
-
-      is: 'test-thing',
-
-      properties: {
-        prop1: {
-          type: String,
-          value: 'world',
-        },
-        uuid: String
-      },
-
-      testbutton: function(e){
-        return Meteor.call('Thing.sendCommand',
-          this.uuid,
-          'testbutton',
-          (error, documentId) => {
-            if (error) {
-              console.error("New deviceerror", error);
-              return alert(`New deviceerror: ${error.reason || error}`);
-            }
-          }
-        );
-      }
-
-    });
-  </script>
-</dom-module>
 </div></body></html>

@@ -30,7 +30,6 @@ class thingDisplay {
     //clearInterval( this.loader ); // at some point, clear the setInterval
   }
   subThing(uuid) {
-
     if(uuid){
       this.subscribe('Things.one', uuid);
     }
