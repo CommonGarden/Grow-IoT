@@ -48,6 +48,9 @@ class growMainView {
     let things = Things.find({}).fetch();
     this.set('things', things);
   }
+  _ifEmpty(array){
+    return !!array && !!array.length;
+  }
 }
 
 Polymer(growMainView);

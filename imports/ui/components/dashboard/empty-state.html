@@ -1,0 +1,26 @@
+<dom-module id="empty-state">
+  <template>
+    <div class="layout horizontal">
+      <div class="flex">
+      </div>
+      <canvas 
+           id="arrow" 
+           class="flex"
+           width$="{{canvasWidth}}" 
+           height$="{{canvasHeight}}"
+           style$="margin-left:{{canvasWidth}}">
+      </canvas>
+    </div>
+    <div class="layout vertical flex">
+    <div class="layout horizontal center center-justified">
+      <!--DO NOT ADD STYLE TO #CONTENT-->
+      <div id="content">
+        <h3>Add a new device to start</h3>
+      </div>
+    </div>
+    <div class="flex"></div>
+    </div>
+
+  </template>
+</dom-module>
+<script src="empty-state.js"></script>

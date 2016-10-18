@@ -17,8 +17,8 @@ app-header {
         <content select="[toolbar]"></content>
       </app-header>
 
-      <iron-pages class="flex main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
-        <div class="vertical layout" main name="home">
+      <iron-pages class="fit layout vertical main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
+        <div class="vertical layout flex" main name="home">
           <div class="center center-justified layout wrap horizontal">
             <sortable-js>            
               <template is="dom-repeat" items="{{things}}" as="thing">
@@ -26,6 +26,7 @@ app-header {
               </template>
             </sortable-js>
           </div>
+            <empty-state hidden$="{{_ifEmpty(things)}}" class="layout flex vertical"></empty-state>
         </div>
       </iron-pages>
     </app-header-layout>
