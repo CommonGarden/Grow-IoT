@@ -1,5 +1,3 @@
-<link rel="import" href="actions.html">
-<link rel="import" href="events.html">
 <dom-module id="thing-display">
   <template>
     <style type="text/css">
@@ -14,7 +12,7 @@ paper-card {
       	  Not online.
         </div>
 
-	    <!-- Hack: todo, somehow include the component specified in thing.thing.webcomponent. Needs CORs?-->
+	    <!-- Hack: todo, somehow include the component specified in thing.thing.webcomponent. -->
 	    <test-thing uuid="{{thing.uuid}}"></test-thing>
 	  </div>
 
