@@ -68,6 +68,9 @@ dialog.sizingTarget = e.target;
       }
     );
   }
+  _ifEmpty(array){
+    return !!array && !!array.length;
+  }
 }
 
 Polymer(growMainView);
