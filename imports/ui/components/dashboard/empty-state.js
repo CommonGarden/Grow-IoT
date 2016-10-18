@@ -67,14 +67,16 @@ class emptyState {
     const target = document.querySelector("#addNew");
     const targetDm = target.getBoundingClientRect();
     const toolbarWidth = Polymer.dom(target).parentNode.offsetWidth;
-    if(toolbarWidth > 600){
+    if(toolbarWidth > 768){
+      this.startY = 200 ;
       this.startX = this.$.content.offsetWidth / 2;
-      this.sx =  300;
+      this.sx =  350;
       // takes the position of addNew button with
       this.ex = targetDm.left - toolbarWidth / 2 + targetDm.width / 2 - 50;
       this.ey = targetDm.top + 10;
     }
     else{
+      this.startY = this.$.content.offsetHeight / 2 ;
       this.startX = 0;
       this.sx =  80;
       // takes the position of addNew button with
