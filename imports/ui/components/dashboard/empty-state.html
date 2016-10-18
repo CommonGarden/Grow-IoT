@@ -5,18 +5,23 @@
   opacity:0.7;
 }
 #content{
-  border-radius: 50%;
-  border: 1px dashed #555;
   /* border-top: 0px; */
   /* border-bottom: 0px; */
 
   opacity:0.7;
-  padding: 70px 20px;
   margin-top:-100px;
 }
+#circle {
+  position:absolute;
+  height:270px;
+  width:270px;
+}
 #content iron-icon {
- --iron-icon-height: 64px;
-    --iron-icon-width: 64px;
+  --iron-icon-height: 64px;
+  --iron-icon-width: 64px;
+}
+#content .text-content{
+  padding: 70px 20px;
 }
     </style>
     <div class="layout horizontal">
@@ -33,9 +38,12 @@
     <div class="layout vertical flex">
       <div class="layout horizontal center center-justified">
         <!--DO NOT ADD STYLE TO #CONTENT-->
-        <div id="content" class="layout vertical center center-justified">
+        <div id="content" class="layout vertical">
+          <canvas id="circle"></canvas>
+          <div class="layout flex vertical center center-justified text-content">
           <iron-icon icon="hardware:phonelink-off"></iron-icon>
           <h3>Add a new device to start</h3>
+          </div>
         </div>
       </div>
       <div class="flex"></div>

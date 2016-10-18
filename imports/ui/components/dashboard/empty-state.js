@@ -50,13 +50,14 @@ class emptyState {
   }
   attached(){
     this.async(()=>{
-
+      this.drawCircle();
       this.drawArrow();
-    },1000);
+    },100);
   }
+
   clearCanvas(context, canvas) {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    var w = canvas.width;
+    const w = canvas.width;
     canvas.width = 1;
     canvas.width = w;
   }
@@ -123,5 +124,43 @@ class emptyState {
 
 
   }
+  drawCircle(){
+
+    const canvas = this.$.circle,
+      ctx = canvas.getContext('2d');
+
+    canvas.width = canvas.height= 270;
+
+    const pointArray= this.calcPointsCirc(135,135,135, 1);
+    ctx.strokeStyle = "rgb(155,155,155)";
+    ctx.beginPath();
+
+    for(p = 0; p < pointArray.length; p++){
+      ctx.moveTo(pointArray[p].x, pointArray[p].y);
+      ctx.lineTo(pointArray[p].ex, pointArray[p].ey);
+
+      ctx.stroke();
+    }
+
+    ctx.closePath();
+  }
+  calcPointsCirc( cx,cy, rad, dashLength){
+    let n = rad/dashLength,
+      alpha = Math.PI * 2 / n,
+      pointObj = {},
+      points = [],
+      i = -1;
+
+    while( i < n )
+    {
+      const theta = alpha * i,
+        theta2 = alpha * (i+1);
+
+      points.push({x : (Math.cos(theta) * rad) + cx, y : (Math.sin(theta) * rad) + cy, ex : (Math.cos(theta2) * rad) + cx, ey : (Math.sin(theta2) * rad) + cy});
+      i+=2;
+    }              
+    return points;            
+  } 
+
 }
 Polymer(emptyState);
