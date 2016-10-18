@@ -7,14 +7,14 @@
 #content{
   /* border-top: 0px; */
   /* border-bottom: 0px; */
-
+  position:relative;
   opacity:0.7;
   margin-top:-100px;
 }
 #circle {
-  position:absolute;
-  height:270px;
-  width:270px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 #content iron-icon {
   --iron-icon-height: 64px;
@@ -41,8 +41,8 @@
         <div id="content" class="layout vertical">
           <canvas id="circle"></canvas>
           <div class="layout flex vertical center center-justified text-content">
-          <iron-icon icon="hardware:phonelink-off"></iron-icon>
-          <h3>Add a new device to start</h3>
+            <iron-icon icon="hardware:phonelink-off"></iron-icon>
+            <h3>Add a new device to start</h3>
           </div>
         </div>
       </div>
