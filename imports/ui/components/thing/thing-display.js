@@ -40,17 +40,12 @@ class thingDisplay {
       this.set('thing', thing);
     }
   }
-  deleteThing () {
-    Meteor.call('Thing.delete',
-      this.thing.uuid,
-      (error, document) => {
-        if (error) {
-          console.error("Delete thing error", error);
-          return alert(`Error: ${error.reason || error}`);
-        }
-      }
-    );
+  deleteThing (e) {
+    this.fire("delete-thing",{
+      thing: this.thing
+    });
   }
+
 }
 
 Polymer(thingDisplay);

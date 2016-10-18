@@ -22,14 +22,23 @@ app-header {
           <div class="center center-justified layout wrap horizontal">
             <sortable-js>            
               <template is="dom-repeat" items="{{things}}" as="thing">
-                <thing-display thing="{{thing}}"></thing-display>           
+                <thing-display on-delete-thing="_deleteThisThing" thing="{{thing}}"></thing-display>           
               </template>
             </sortable-js>
           </div>
         </div>
       </iron-pages>
     </app-header-layout>
-
+    <paper-dialog modal id="dialog" horizontal-align="left" vertical-align="bottom">
+      <h2>Confirm the action.</h2>
+      <!--<div>-->
+        <!--<thing-display thing="{{selectedThing}}"></thing-display>           -->
+      <!--</div>-->
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-tap="_confirmDelete">Proceed</paper-button>
+      </div>
+    </paper-dialog>
   </template>
   <script src="main-view.js"></script>
 </dom-module>

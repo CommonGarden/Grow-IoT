@@ -48,6 +48,26 @@ class growMainView {
     let things = Things.find({}).fetch();
     this.set('things', things);
   }
+  _deleteThisThing(e){
+    const thing = e.detail.thing;
+    this.set("selectedThing",thing);
+    const dialog = this.$.dialog;
+dialog.sizingTarget = e.target;
+    dialog.positionTarget = e.target;
+    dialog.open();
+  }
+  _confirmDelete(e){
+    const thing = this.selectedThing;
+    Meteor.call('Thing.delete',
+      thing.uuid,
+      (error, document) => {
+        if (error) {
+          console.error("Delete thing error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
+  }
 }
 
 Polymer(growMainView);
