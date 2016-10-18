@@ -5,6 +5,9 @@ app-header {
   background:var(--default-primary-color);
   color: white;
 }
+#dialog{
+overflow:hidden;
+}
 
       [content] app-toolbar {
         color:black;
@@ -29,7 +32,14 @@ app-header {
         </div>
       </iron-pages>
     </app-header-layout>
-    <paper-dialog modal id="dialog" horizontal-align="left" vertical-align="bottom">
+    <paper-dialog
+      with-backdrop="true"
+      id="dialog"
+      horizontal-align="left"
+      vertical-align="top"
+      dynamic-align="true"
+      entry-animation="size-grow-animation"
+      exit-animation="size-shrink-animation">
       <h2>Confirm the action.</h2>
       <!--<div>-->
         <!--<thing-display thing="{{selectedThing}}"></thing-display>           -->
