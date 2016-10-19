@@ -33,7 +33,7 @@ Meteor.publish('Events.byThingAndType', function(thingUuid, type) {
   check(thingUuid, String);
   check(type, String);
 
-  let thing = Thing.findOne(
+  let thing = Things.findOne(
     {'uuid': thingUuid}
   , {
     fields: {
@@ -45,10 +45,7 @@ Meteor.publish('Events.byThingAndType', function(thingUuid, type) {
 
   return Events.find({
     'thing._id': thing._id,
-    'data.type': type,
-    'event': {
-      $exists: false
-    }
+    'event.data.type': type,
   }
   , {
     'sort': {

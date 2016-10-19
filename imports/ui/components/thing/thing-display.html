@@ -10,10 +10,11 @@ paper-card {
 	  <div class="card-content" hidden$="{{!thing.thing.webcomponent}}">
 	    <div hidden$="{{thing.onlineSince}}">
       	  Not online.
-        </div>
+      </div>
 
 	    <!-- Hack: todo, somehow include the component specified in thing.thing.webcomponent. -->
-	    <test-thing uuid="{{thing.uuid}}"></test-thing>
+	    <!-- <test-thing uuid="{{thing.uuid}}"></test-thing> -->
+      <dr-dose uuid="{{thing.uuid}}"></dr-dose>
 	  </div>
 
       <div class="card-content" hidden$="{{thing.registeredAt}}">
