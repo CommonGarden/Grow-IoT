@@ -8,7 +8,7 @@ Meteor.publish('Events.byThing', function(thingUuid) {
 
   let thing = Thing.findOne({
     'uuid': thingUuid,
-    'owner._id': this.userId
+    'owner': this.userId
   }
   , {
     fields: {
@@ -34,7 +34,10 @@ Meteor.publish('Events.byThingAndType', function(thingUuid, type) {
   check(type, String);
 
   let thing = Things.findOne(
-    {'uuid': thingUuid}
+    {
+      'uuid': thingUuid,
+      'owner': this.userId
+    }
   , {
     fields: {
       _id: 1
