@@ -1,1 +1,0 @@
-import './thing-display.html';

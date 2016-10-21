@@ -1,0 +1,98 @@
+<!--
+`smart-pot`
+A self watering pot with sensors!
+-->
+<dom-module id="dr-dose">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>[[name]]</h2>
+    <!-- TODO: make seperate components for each sensor... -->
+    <p>Temperature: 75 F</p>
+    <p>Humidity: 50%RH</p>
+    <p>Lumens: full sun</p>
+
+    <br/>
+
+    <paper-input label="Lights on at..." value="8:00am"></paper-input>
+    <paper-input label="Lights off at..." value="9:00pm"></paper-input>
+
+    <br/>
+
+    <div>
+      <paper-input label="Watering duration (in miliseconds)" value="{{duration}}"></paper-input>
+      <br/>
+      <paper-button on-click="sendCommand" data-method="water" raised>Water plant</paper-button>
+    </div>
+  </template>
+
+  <script>
+
+  class drDose {
+    beforeRegister(){
+      this.is = "dr-dose";
+      this.properties = {
+        name: {
+          type: String,
+          value: 'Dr. Dose'
+        },
+        duration: {
+          type: Number,
+          value: 2000
+        },
+        uuid: String
+      }
+    }
+
+    get behaviors(){
+      return [mwcMixin]
+    }
+
+    // get trackers (){
+    //   return [
+    //     "phData(uuid)",
+    //     "ecData(uuid)"
+    //   ];
+    // }
+
+    // phData (uuid) {
+    //   if(uuid){
+    //     this.subscribe('Events.byThingAndType', uuid, 'pH');
+    //     let event = Events.findOne({});
+    //     if (!_.isUndefined(event)) {
+    //       this.set('ph', event.event.data.value);
+    //     }
+    //   }
+    // }
+
+    // ecData (uuid) {
+    //   if(uuid){
+    //     this.subscribe('Events.byThingAndType', uuid, 'ec');
+    //     let event = Events.findOne({});
+    //     if (!_.isUndefined(event)) {
+    //       this.set('ec', event.event.data.value);
+    //     }
+    //   }
+    // }
+
+    sendCommand (e) {
+      Meteor.call('Thing.sendCommand',
+        this.uuid,
+        e.target.dataset.method,
+        this.duration,
+        (error, documentId) => {
+          if (error) {
+            console.error("Error", error);
+            return alert(`Error: ${error.reason || error}`);
+          }
+        }
+      );
+    }
+  }
+
+  Polymer(drDose);
+  </script>
+</dom-module>
