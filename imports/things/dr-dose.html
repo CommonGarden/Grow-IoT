@@ -1,4 +1,4 @@
-<!--
+<!-- <!--
 `Dr-Dose-Raspberry-Pi`
 A ph balancer and nutrient doser.
 
@@ -81,32 +81,32 @@ A ph balancer and nutrient doser.
       return [mwcMixin]
     }
 
-    get trackers (){
-      return [
-        "phData(uuid)",
-        "ecData(uuid)"
-      ];
-    }
+    // get trackers (){
+    //   return [
+    //     "phData(uuid)",
+    //     "ecData(uuid)"
+    //   ];
+    // }
 
-    phData (uuid) {
-      if(uuid){
-        this.subscribe('Events.byThingAndType', uuid, 'pH');
-        let event = Events.findOne({});
-        if (!_.isUndefined(event)) {
-          this.set('ph', event.event.data.value);
-        }
-      }
-    }
+    // phData (uuid) {
+    //   if(uuid){
+    //     this.subscribe('Events.byThingAndType', uuid, 'pH');
+    //     let event = Events.findOne({});
+    //     if (!_.isUndefined(event)) {
+    //       this.set('ph', event.event.data.value);
+    //     }
+    //   }
+    // }
 
-    ecData (uuid) {
-      if(uuid){
-        this.subscribe('Events.byThingAndType', uuid, 'ec');
-        let event = Events.findOne({});
-        if (!_.isUndefined(event)) {
-          this.set('ec', event.event.data.value);
-        }
-      }
-    }
+    // ecData (uuid) {
+    //   if(uuid){
+    //     this.subscribe('Events.byThingAndType', uuid, 'ec');
+    //     let event = Events.findOne({});
+    //     if (!_.isUndefined(event)) {
+    //       this.set('ec', event.event.data.value);
+    //     }
+    //   }
+    // }
 
     sendCommand (e) {
       Meteor.call('Thing.sendCommand',
@@ -126,3 +126,4 @@ A ph balancer and nutrient doser.
   Polymer(drDose);
   </script>
 </dom-module>
+ -->

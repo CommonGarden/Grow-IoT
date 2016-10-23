@@ -1,13 +1,14 @@
 <dom-module id="grow-main-view">
   <template>
     <style>
-app-header {
-  background:var(--default-primary-color);
-  color: white;
-}
-#dialog{
-overflow:hidden;
-}
+      app-header {
+        background:var(--default-primary-color);
+        color: white;
+      }
+      
+      #dialog{
+        overflow:hidden;
+      }
 
       [content] app-toolbar {
         color:black;
@@ -38,13 +39,8 @@ overflow:hidden;
       id="dialog"
       horizontal-align="left"
       vertical-align="top"
-      dynamic-align="true"
-      entry-animation="size-grow-animation"
-      exit-animation="size-shrink-animation">
+      dynamic-align="true">
       <h2>Confirm the action.</h2>
-      <!--<div>-->
-        <!--<thing-display thing="{{selectedThing}}"></thing-display>           -->
-      <!--</div>-->
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button dialog-confirm autofocus on-tap="_confirmDelete">Proceed</paper-button>

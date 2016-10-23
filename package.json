@@ -21,13 +21,10 @@
   },
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
-    "Grow.js": "^0.2.94",
-    "Thing.js": "^0.2.7",
     "bcrypt": "^0.8.7",
     "bufferutil": "^1.2.1",
     "chai": "^3.5.0",
     "meteor-node-stubs": "^0.2.3",
-    "mosca": "^2.0.2",
     "utf-8-validate": "^1.2.1"
   },
   "devDependencies": {

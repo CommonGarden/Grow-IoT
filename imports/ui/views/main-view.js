@@ -52,7 +52,7 @@ class growMainView {
     const thing = e.detail.thing;
     this.set("selectedThing",thing);
     const dialog = this.$.dialog;
-dialog.sizingTarget = e.target;
+    dialog.sizingTarget = e.target;
     dialog.positionTarget = e.target;
     dialog.open();
   }
