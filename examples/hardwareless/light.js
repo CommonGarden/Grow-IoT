@@ -3,75 +3,42 @@ var GrowInstance = require('../.././dist/Grow.umd.js');
 
 // Declare need variable for example
 var currentLightValue;
-var currentTempValue;
 
 // Create a new grow instance. Connects by default to localhost:3000
 var grow = new GrowInstance({
     uuid: '5b7ba90f-ce42-44e4-9ecb-fcb256b89352',
     token: 'mGQknLsQM4fyeJWYNCPebEqQH3SCxgcP',
-    name: 'Light', // The display name for the thing.
-    desription: 'An LED light with a basic on/off api.',
 
     // Properties can be updated by the API
     properties: {
+        name: 'Light and photoresistor', // The display name for the thing.
+        desription: 'An LED light with a basic on/off api.',
         state: 'off',
-        lightConditions: null
+        lightConditions: null,
+        light_data_interval: 3000
     },
 
     // Actions are the API of the thing.
-    actions: {
-        turn_light_on: {
-            name: 'On', // Display name for the action
-            description: 'Turns the light on.', // Optional description
-            schedule: 'at 9:00am', // Optional scheduling using later.js
-            // Is this rule pattern useful?
-            function: function () {
-                // Emit a 'light off' event, set state to on.
-                grow.emitEvent('Light on').set('state', 'on');
-                console.log('Light on');
-            }
-        },
-        turn_light_off: {
-            name: 'off',
-            schedule: 'at 8:30pm', // Run this function at 8:30pm
-            function: function () {
-                // Emit a 'light off' event, set the state property to 'off'
-                grow.emitEvent('Light off').set('state', 'off');
-                console.log('Light off');
-            }
-        },
-        light_data: {
-            name: 'Log light data',
-            type: 'light',
-            template: 'sensor',
-            schedule: 'every 1 second',
-            function: function () {
-                currentLightValue = Math.random();
-
-                // Send data to the Grow-IoT app.
-                grow.log({
-                  type: 'light',
-                  value: currentLightValue
-                });
-            }
-        }
+    turn_light_on: function () {
+        grow.set('state', 'on');
+        console.log('Light on');
     },
-    events: {
-        temp_data: {
-            name: 'Log temperature data',
-            type: 'temperature',
-            template: 'sensor',
-            schedule: 'every 1 second',
-            function: function () {
-                currentTempValue = Math.random();
 
-                // // Send data to the Grow-IoT app.
-                grow.log({
-                  type: 'temperature',
-                  value: currentTempValue
-                });
-            }
-        }
+    turn_light_off: function () {
+        // Emit a 'light off' event, set the state property to 'off'
+        grow.set('state', 'off');
+        console.log('Light off');
+    },
+
+    light_data: function () {
+        currentLightValue = Math.random();
+
+        // Send data to the Grow-IoT app.
+        // TODO: if a method returns a value, emit that value.
+        return {
+          type: 'light',
+          value: currentLightValue
+        };
     }
 });
 

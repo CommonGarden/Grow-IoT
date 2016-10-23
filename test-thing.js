@@ -6,9 +6,9 @@ var GrowInstance = require('./dist/Grow.umd.js');
 
 // Create a new grow instance.
 var grow = new GrowInstance({
-    uuid: 'c592bb25-fb6a-4b34-9691-bb48ee839b9e',
-    token: 'Ybdsdjsv6HHscvi4qgirsrLD7JHiL8vT',
-    webcomponent: 'test-thing', // Hack
+    uuid: 'b0055c44-241f-4edd-89cc-8616beded7a1',
+    token: 'EvbcKyytoR5AATju6hGAHT9Ferg6p4SB',
+    webcomponent: 'test-thing',
 
     // Properties can be updated by the API
     properties: {
@@ -18,13 +18,12 @@ var grow = new GrowInstance({
         }
     },
 
-    // Actions are the API of the thing, these are called from the webcomponent
-    actions: {
-        testbutton: {
-            function: function () {
-                console.log('Test successful.');
-            }
-        }
+    start: function () {
+        console.log('test-thing started');
+    },
+
+    testbutton: function () {
+        console.log('Test successful.');
     }
 });
 

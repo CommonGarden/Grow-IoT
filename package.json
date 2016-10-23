@@ -32,9 +32,10 @@
   ],
   "homepage": "https://github.com/CommonGarden/Thing.js",
   "dependencies": {
-    "Thing.js": "^0.2.7",
+    "Thing.js": "^0.2.8",
     "ddp": ">=0.11.0",
     "ddp-ejson": ">=0.8.1-3",
+    "duplexify": "^3.4.6",
     "json-stringify-safe": "^5.0.1",
     "meteor-later": "^1.2.0",
     "mqtt": "^1.13.0",
@@ -42,15 +43,12 @@
     "underscore": ">=1.8.3"
   },
   "devDependencies": {
-    "ambient-attx4": "^0.2.8",
-    "ascii-codes": "^1.0.0",
     "babel-eslint": "^6.0.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-es2015-rollup": "^1.1.1",
     "babel-register": "^6.9.0",
     "babelrc-rollup": "^1.1.0",
     "chai": "^3.5.0",
-    "climate-si7020": "^0.1.1",
     "eslint": "^2.11.1",
     "johnny-five": "^0.9.49",
     "mocha": "^2.5.3",
