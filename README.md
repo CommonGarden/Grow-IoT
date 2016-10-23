@@ -1,11 +1,5 @@
 # Thing.js
 
-Thing.js is meant to be an *extremely light weight* IoT-framework.
-
-* Metadata
-* Properties
-* Methods
-
 Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html) and basic methods for:
 
 * Updating properties
