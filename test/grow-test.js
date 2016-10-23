@@ -1,11 +1,6 @@
 import Grow from '../dist/Grow.umd';
 import _ from 'underscore';
 
-/*
-  Basic tests:
-  * Events
-*/
-
 global.expect = require('chai').expect;
 
 (function setup () {
