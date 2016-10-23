@@ -5,6 +5,14 @@ paper-card {
   width: 400px;
   margin: 20px;
 }
+
+.selectable {
+ -moz-user-select: text;
+ -khtml-user-select: text;
+ -webkit-user-select: text;
+ -ms-user-select: text;
+ user-select: text;
+}
     </style>
     <paper-card image="{{thing.image}}" alt="{{thing.name}}">
 	  <div class="card-content" hidden$="{{!thing.thing.webcomponent}}">
@@ -13,15 +21,15 @@ paper-card {
       </div>
 
 	    <!-- Hack: todo, somehow include the component specified in thing.thing.webcomponent. -->
-	    <!-- <test-thing uuid="{{thing.uuid}}"></test-thing> -->
+	    <test-thing uuid="{{thing.uuid}}"></test-thing>
       
-      <dr-dose uuid="{{thing.uuid}}"></dr-dose>
+      <!-- <dr-dose uuid="{{thing.uuid}}"></dr-dose> -->
 	  </div>
 
       <div class="card-content" hidden$="{{thing.registeredAt}}">
         <p>Waiting for device with the following credentials to connect <span id="loading"></span></p>
-        <p>UUID: <code>{{thing.uuid}}</code></p>
-        <p>TOKEN: <code>{{thing.token}}</code></p>
+        <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
+        <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
       </div>
 
       <div class="card-actions">

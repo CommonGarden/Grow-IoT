@@ -57,14 +57,13 @@ Meteor.methods({
   /*
    * Set property
   */
-  'Thing.setProperty': function (auth, property, value, key) {
+  'Thing.setProperty': function (auth, key, value) {
     check(auth, {
       uuid: String,
       token: String
     });
-    check(property, String);
-    check(value, String);
     check(key, String);
+    check(value, String);
 
     let thing = Things.findOne(auth, {
       fields: {
@@ -74,14 +73,7 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    if (_.isNull(key)) {
-      thing.properties[property] = value;
-    }
-    else if (!_.isUndefined(thing.actions[key])) {
-      thing.actions[key][property] = value;
-    } else if (!_.isUndefined(thing.events[key])) {
-      thing.events[key][property] = value;
-    }
+    thing.properties[key] = value;
 
     return Things.update(thing._id, {
       $set: {
