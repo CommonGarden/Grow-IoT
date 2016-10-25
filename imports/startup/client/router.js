@@ -26,7 +26,7 @@ FlowRouter.route("/",{
   }]
 });
 
-// TODO: ADD more accounts funtionality and roles.
+// Bug: can't type in a route such as sign-up, always redirects to sign-in 
 FlowRouter.route("/accounts/:view?", {
   name:"accounts",
   triggersEnter:[function(c,r){

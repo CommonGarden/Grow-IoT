@@ -1,26 +1,26 @@
 class thingDisplay {
-  beforeRegister() {
+  beforeRegister () {
     this.is = "thing-display";
     this.properties = {
       uuid: String,
       thing: {
         type: Object
       },
-      loader:Number
+      loader:Number,
     };
   }
-  get behaviors() {
+  get behaviors () {
     return [
       mwcMixin,
     ];
   }
-  get trackers (){
+  get trackers () {
     return [
       "subThing(uuid)",
       "setThing(uuid)"
     ];
   }
-  attached(){
+  attached () {
     const span = this.$.loading;
     this.loader = setInterval(function() {
       if ((span.innerHTML += '.').length == 4) 
@@ -29,13 +29,14 @@ class thingDisplay {
 
     //clearInterval( this.loader ); // at some point, clear the setInterval
   }
-  subThing(uuid) {
-    if(uuid){
+
+  subThing (uuid) {
+    if (uuid) {
       this.subscribe('Things.one', uuid);
     }
   }
-  setThing(uuid){
-    if(uuid){
+  setThing (uuid) {
+    if (uuid) {
       let thing = Things.findOne({uuid: uuid});
       this.set('thing', thing);
     }

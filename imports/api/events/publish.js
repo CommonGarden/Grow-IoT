@@ -48,7 +48,7 @@ Meteor.publish('Events.byThingAndType', function(thingUuid, type) {
 
   return Events.find({
     'thing._id': thing._id,
-    'event.data.type': type,
+    'event.message.type': type,
   }
   , {
     'sort': {

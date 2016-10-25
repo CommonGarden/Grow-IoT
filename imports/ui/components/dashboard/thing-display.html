@@ -7,15 +7,20 @@ paper-card {
 }
     </style>
     <paper-card image="{{thing.image}}" alt="{{thing.name}}">
-	  <div class="card-content">
-      <!-- ??? hidden$="{{!thing.thing.webcomponent}}" -->
+	  <div class="card-content" hidden$="{{!thing.thing.webcomponent}}">
 	    <div hidden$="{{thing.onlineSince}}">
       	  Not online.
       </div>
 
-	    <!-- Hack: todo, somehow include the component specified in thing.thing.webcomponent. -->
-	    <!-- <test-thing uuid="{{thing.uuid}}"></test-thing> -->
-      <dr-dose uuid="{{thing.uuid}}"></dr-dose>
+      <!-- HACK: todo, somehow include the component specified in thing.thing.webcomponent. The following is not very efficient: -->
+      <div hidden$="{{!thing.thing.drDose}}">
+        <dr-dose uuid="{{thing.uuid}}"></dr-dose>        
+      </div>
+
+      <div hidden$="{{!thing.thing.smartPot}}">
+        <smart-pot uuid="{{thing.uuid}}"></smart-pot>
+      </div>
+
 	  </div>
 
       <div class="card-content" hidden$="{{thing.registeredAt}}">

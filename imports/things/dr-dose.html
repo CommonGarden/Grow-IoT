@@ -1,4 +1,4 @@
-<!-- <!--
+<!--
 `Dr-Dose-Raspberry-Pi`
 A ph balancer and nutrient doser.
 
@@ -14,7 +14,7 @@ A ph balancer and nutrient doser.
     <h2>[[name]]</h2>
     <!-- TODO: make seperate components for each sensor... -->
     <p>Current ph: {{ph}}</p>
-    <p>Current ec: 424</p>
+    <p>Current ec: {{ec}}</p>
 
     <br/>
 
@@ -29,7 +29,7 @@ A ph balancer and nutrient doser.
         <paper-input label="Dose duration (in miliseconds)" value="{{duration}}"></paper-input>
         <br/>
         <!-- Todo: enable pumps upon toggling. -->
-        <paper-toggle-button noink>Pumps disabled</paper-toggle-button>
+        <!-- <paper-toggle-button noink>Pumps disabled</paper-toggle-button> -->
         <br/>
         <paper-button on-click="sendCommand" data-method="acid" raised >Acid</paper-button>
         <paper-button on-click="sendCommand" data-method="base" raised >Base</paper-button>
@@ -37,7 +37,7 @@ A ph balancer and nutrient doser.
       </div>
       <div>
         <br/>
-        <paper-toggle-button noink>AI disabled</paper-toggle-button>
+        <!-- <paper-toggle-button noink>AI disabled</paper-toggle-button> -->
         <!-- Needs validator -->
         <paper-input label="Target pH" value="{{target_ph}}"></paper-input>
         <paper-input label="Target conductivity" value="{{target_ec}}"></paper-input>
@@ -81,32 +81,36 @@ A ph balancer and nutrient doser.
       return [mwcMixin]
     }
 
-    // get trackers (){
-    //   return [
-    //     "phData(uuid)",
-    //     "ecData(uuid)"
-    //   ];
-    // }
+    get trackers (){
+      return [
+        "phData(uuid)",
+        "ecData(uuid)"
+      ];
+    }
 
-    // phData (uuid) {
-    //   if(uuid){
-    //     this.subscribe('Events.byThingAndType', uuid, 'pH');
-    //     let event = Events.findOne({});
-    //     if (!_.isUndefined(event)) {
-    //       this.set('ph', event.event.data.value);
-    //     }
-    //   }
-    // }
+    phData (uuid) {
+      if(uuid){
+        this.subscribe('Events.byThingAndType', uuid, 'ph');
+        let event = Events.findOne({'event.message.type': 'ph'});
+        if (!_.isUndefined(event)) {
+          if (event.event.message.type === 'ph') {
+            this.set('ph', event.event.message.value);
+          }
+        }
+      }
+    }
 
-    // ecData (uuid) {
-    //   if(uuid){
-    //     this.subscribe('Events.byThingAndType', uuid, 'ec');
-    //     let event = Events.findOne({});
-    //     if (!_.isUndefined(event)) {
-    //       this.set('ec', event.event.data.value);
-    //     }
-    //   }
-    // }
+    ecData (uuid) {
+      if(uuid){
+        this.subscribe('Events.byThingAndType', uuid, 'ec');
+        let event = Events.findOne({'event.message.type': 'ec'});
+        if (!_.isUndefined(event)) {
+          if (event.event.message.type === 'ec') {
+            this.set('ec', event.event.message.value);
+          }
+        }
+      }
+    }
 
     sendCommand (e) {
       Meteor.call('Thing.sendCommand',
@@ -126,4 +130,4 @@ A ph balancer and nutrient doser.
   Polymer(drDose);
   </script>
 </dom-module>
- -->
+ 

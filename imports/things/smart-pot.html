@@ -2,7 +2,7 @@
 `smart-pot`
 A self watering pot with sensors!
 -->
-<dom-module id="dr-dose">
+<dom-module id="smart-pot">
   <template>
     <style>
       :host {
@@ -33,11 +33,11 @@ A self watering pot with sensors!
 
   class drDose {
     beforeRegister(){
-      this.is = "dr-dose";
+      this.is = "smart-pot";
       this.properties = {
         name: {
           type: String,
-          value: 'Dr. Dose'
+          value: 'The smart pot'
         },
         duration: {
           type: Number,
