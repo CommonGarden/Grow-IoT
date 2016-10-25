@@ -17,8 +17,8 @@ board.on('ready', function start() {
 
     // Create a new grow instance.
     var smartpot = new GrowBot({
-        uuid: 'a35c8a73-21b7-4efd-a479-6309c2aeb8be',
-        token: 'TqcTcvJGMXwecHfRknbTDEK2XNiSvHmh',
+        uuid: 'e78a6214-d874-4850-b58d-a76ef1769a21',
+        token: 'x8XJtGzjT4noyY6gN4cvBmrFkr6fb9kX',
         webcomponent: 'smart-pot',
         smartPot: true, // Hack.
         name: 'Smartpot and light controller!', // The display name for the thing.
