@@ -73,7 +73,7 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    thing.properties[key] = value;
+    thing.thing.properties[key] = value;
 
     return Things.update(thing._id, {
       $set: {

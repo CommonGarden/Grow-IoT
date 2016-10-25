@@ -11,28 +11,32 @@ A self watering pot with sensors!
     </style>
     <h2>[[name]]</h2>
     <!-- TODO: make seperate components for each sensor... -->
-    <p>Temperature: 75 F</p>
-    <p>Humidity: 50%RH</p>
-    <p>Lumens: full sun</p>
+    <!-- <p hidden$="{{!temperature}}">Temperature: {{temperature}} F</p> -->
+    <!-- <p>Humidity: {{humidity}} %RH</p> -->
+    
+    <!-- TODO: get state working... -->
+    <!-- <p>Light: {{thing.thing.properties.state}}</p> -->
+    <paper-button on-click="sendCommand" data-method="turn_light_on" raised>Light on</paper-button>
+    <paper-button on-click="sendCommand" data-method="turn_light_off" raised>Light off</paper-button>
 
     <br/>
 
-    <paper-input label="Lights on at..." value="8:00am"></paper-input>
-    <paper-input label="Lights off at..." value="9:00pm"></paper-input>
+    <paper-input label="Lights on at..." value="{{lights_on}}"></paper-input>
+    <paper-input label="Lights off at..." value="{{lights_off}}"></paper-input>
 
     <br/>
 
     <div>
       <paper-input label="Watering duration (in miliseconds)" value="{{duration}}"></paper-input>
       <br/>
-      <paper-button on-click="sendCommand" data-method="water" raised>Water plant</paper-button>
+      <paper-button on-click="sendCommand" data-method="water_plant" data-options="{{duration}}" raised>Water plant</paper-button>
     </div>
   </template>
 
   <script>
 
-  class drDose {
-    beforeRegister(){
+  class smartPot {
+    beforeRegister () {
       this.is = "smart-pot";
       this.properties = {
         name: {
@@ -43,6 +47,15 @@ A self watering pot with sensors!
           type: Number,
           value: 2000
         },
+        lights_on: {
+          type: String,
+          value: '8:00am'
+        },
+        lights_off: {
+          type: String,
+          value: '8:00pm'
+        },
+        thing: Object,
         uuid: String
       }
     }
@@ -51,16 +64,30 @@ A self watering pot with sensors!
       return [mwcMixin]
     }
 
+    toggle_light(e) {
+      console.log(e);
+      if (e.target.dataset.state === 'on') {
+        return;
+      }
+
+    }
+
+    get trackers () {
+      return [
+        "subThing(uuid)",
+        "setThing(uuid)"
+      ];
+    }
+
     // get trackers (){
     //   return [
-    //     "phData(uuid)",
-    //     "ecData(uuid)"
+    //     "tempData(uuid)"
     //   ];
     // }
 
-    // phData (uuid) {
+    // tempData (uuid) {
     //   if(uuid){
-    //     this.subscribe('Events.byThingAndType', uuid, 'pH');
+    //     this.subscribe('Events.byThingAndType', uuid, 'temperature');
     //     let event = Events.findOne({});
     //     if (!_.isUndefined(event)) {
     //       this.set('ph', event.event.data.value);
@@ -68,21 +95,23 @@ A self watering pot with sensors!
     //   }
     // }
 
-    // ecData (uuid) {
-    //   if(uuid){
-    //     this.subscribe('Events.byThingAndType', uuid, 'ec');
-    //     let event = Events.findOne({});
-    //     if (!_.isUndefined(event)) {
-    //       this.set('ec', event.event.data.value);
-    //     }
-    //   }
-    // }
+    subThing (uuid) {
+      if (uuid) {
+        this.subscribe('Things.one', uuid);
+      }
+    }
+    setThing (uuid) {
+      if (uuid) {
+        let thing = Things.findOne({uuid: uuid});
+        this.set('thing', thing);
+      }
+    }
 
     sendCommand (e) {
       Meteor.call('Thing.sendCommand',
         this.uuid,
         e.target.dataset.method,
-        this.duration,
+        e.target.dataset.options,
         (error, documentId) => {
           if (error) {
             console.error("Error", error);
@@ -93,6 +122,6 @@ A self watering pot with sensors!
     }
   }
 
-  Polymer(drDose);
+  Polymer(smartPot);
   </script>
 </dom-module>
