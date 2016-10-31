@@ -59,8 +59,8 @@ describe('Grow test', () => {
   });
 
   it('should have cloned metadata', () => {
-    expect(testThing.config.uuid).to.equal(null);
-    expect(testThing.config.token).to.equal(null);
+    expect(testThing.thing.uuid).to.equal(null);
+    expect(testThing.thing.token).to.equal(null);
   });
 
   describe('Methods', () => {
