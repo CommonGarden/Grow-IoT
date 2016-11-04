@@ -7,32 +7,42 @@ paper-card {
 }
     </style>
     <paper-card image="{{thing.image}}" alt="{{thing.name}}">
-	  <div class="card-content" hidden$="{{!thing.thing.webcomponent}}">
-	    <div hidden$="{{thing.onlineSince}}">
-      	  Not online.
+      <!-- Unregistered thing state -->
+      <!-- At this point the user connects a device or creates a virtual thing... -->
+      <div hidden$="{{thing.registeredAt}}">
+        <div class="card-content">
+          <p>Waiting for device with the following credentials to connect <span id="loading"></span></p>
+
+          <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
+          <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
+        </div>
+        <div class="card-actions">
+          <paper-button on-click="createTestThing">Create virtual thing</paper-button>
+          <paper-button on-click="deleteThing">Cancel</paper-button>
+        </div>
       </div>
 
-      <!-- HACK: todo, somehow include the component specified in thing.thing.webcomponent. The following is not very efficient: -->
-      <div hidden$="{{!thing.thing.drDose}}">
-        <dr-dose uuid="{{thing.uuid}}"></dr-dose>        
+      <!-- After a thing registers and connects -->
+      <div hidden$="{{!thing.registeredAt}}">
+        <div class="card-content">
+          <div hidden$="{{thing.onlineSince}}">
+              Not online.
+          </div>
+
+          <!-- HACK: todo, somehow include the component specified in thing.thing.webcomponent. The following is not very efficient: -->
+          <div hidden$="{{!thing.thing.drDose}}">
+            <dr-dose uuid="{{thing.uuid}}"></dr-dose>        
+          </div>
+
+          <div hidden$="{{!thing.thing.smartPot}}">
+            <smart-pot uuid="{{thing.uuid}}"></smart-pot>
+          </div>
+        </div>
+        <div class="card-actions" hidden$="{{!thing.registeredAt}}">
+          <paper-button on-click="deleteThing">Delete</paper-button>
+        </div>
       </div>
 
-      <div hidden$="{{!thing.thing.smartPot}}">
-        <smart-pot uuid="{{thing.uuid}}"></smart-pot>
-      </div>
-
-	  </div>
-
-      <div class="card-content" hidden$="{{thing.registeredAt}}">
-        <p>Waiting for device with the following credentials to connect <span id="loading"></span></p>
-        <!-- TODO: make these selectable so we can copy and paste. -->
-        <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
-        <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
-      </div>
-
-      <div class="card-actions">
-        <paper-button on-click="deleteThing">Delete</paper-button>
-      </div>
     </paper-card>
   </template>
   <script src='thing-display.js'></script>

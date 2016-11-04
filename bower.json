@@ -11,7 +11,8 @@
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5",
     "polymer-sortablejs": "aruntk/polymer-sortablejs#^0.1.4",
-    "chartist": "^0.10.1"
+    "chartist": "^0.10.1",
+    "chart-elements": "^3.1.2"
   },
   "name": "synthesis-demo",
   "version": "0.0.1"
