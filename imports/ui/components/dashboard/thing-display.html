@@ -29,7 +29,7 @@ paper-card {
               Not online.
           </div>
 
-          <!-- HACK: todo, somehow include the component specified in thing.thing.webcomponent. The following is not very efficient: -->
+          <!-- HACK: todo, somehow include the component. -->
           <div hidden$="{{!thing.thing.drDose}}">
             <dr-dose uuid="{{thing.uuid}}"></dr-dose>        
           </div>

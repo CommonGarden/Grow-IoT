@@ -9,17 +9,20 @@ class thingDisplay {
       loader:Number,
     };
   }
+
   get behaviors () {
     return [
       mwcMixin,
     ];
   }
+
   get trackers () {
     return [
       "subThing(uuid)",
       "setThing(uuid)"
     ];
   }
+
   attached () {
     const span = this.$.loading;
     this.loader = setInterval(function() {
@@ -35,18 +38,38 @@ class thingDisplay {
       this.subscribe('Things.one', uuid);
     }
   }
+
   setThing (uuid) {
     if (uuid) {
       let thing = Things.findOne({uuid: uuid});
       this.set('thing', thing);
     }
   }
+
   deleteThing (e) {
     this.fire("delete-thing",{
       thing: this.thing
     });
   }
 
+
+  createTestThing () {
+    Meteor.call('Thing.register',
+      {
+        uuid: this.thing.uuid,
+        token: this.thing.token
+      },
+      {
+        smartPot: true
+      },
+      (error, document) => {
+        if (error) {
+          console.error("New deviceerror", error);
+          return alert(`New deviceerror: ${error.reason || error}`);
+        }
+      }
+    );
+  }
 }
 
 Polymer(thingDisplay);
