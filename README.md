@@ -2,14 +2,14 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The webcomponent powered hypothetical WoT (web of things) framework of the future allows you to:
-* Create custom devices / things with webcomponents
+Grow-IoT allows you to:
+* Create custom devices / things with webcomponents #usetheplatform
 * Securely connect and store data from sensors and actuators
 * *Beta*: Create interelationships and workflows between things
 
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place. ; )
 
-# Installing Grow-IoT
+## Installing Grow-IoT
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
 ```bash
@@ -38,7 +38,7 @@ Create a test thing (click the '+' button and then the one that says 'Create tes
 
 Start by playing with the `test-thing.html` in the `imports/things/` folder.
 
-### Making custom components
+## Making custom components
 
 Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component:
 
@@ -88,13 +88,17 @@ For more information on creating custom elements see the [polymer project](https
 
 With regard to meteor integration see: https://github.com/meteorwebcomponents
 
-### Distributed Data Protocol
+## Distributed Data Protocol
 
 You can interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
-We use the Node.js client with [Grow.js](https://github.com/CommonGarden/Grow.js): https://github.com/oortcloud/node-ddp-client
+### Hardware examples
+* https://github.com/CommonGarden/dr-dose
+* https://github.com/CommonGarden/smart-pot
 
-# 'Cloud' setup
+See [Grow.js](https://github.com/CommonGarden/Grow.js) for more examples.
+
+## 'Cloud' setup
 ### Setting up an instance on Meteor Galaxy
 
 You can easily host **your own** Grow-IoT instance on [Meteor Galaxy](https://galaxy.meteor.com/). See the Meteor Galaxy website for instructions on hosting a new meteor application.
