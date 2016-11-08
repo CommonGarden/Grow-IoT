@@ -5,8 +5,7 @@
 The webcomponent powered hypothetical WoT (web of things) framework of the future allows you to:
 * Create custom devices / things with webcomponents
 * Securely connect and store data from sensors and actuators
-* Visualize and analyze data
-* Create interelationships and workflows between sensors
+* *Beta*: Create interelationships and workflows between things
 
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place. ; )
 
