@@ -33,9 +33,59 @@ bower install
 
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
-# Hardware setup
+### Making custom components
 
-Grow-IoT works with many devices. Updated instructions for connecting comming soon...
+Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component:
+
+```html
+<!--
+`test-thing`
+An example of how to build a thing for Grow-IoT
+
+@demo demo/index.html 
+-->
+<dom-module id="test-thing">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>[[message]]</h2>
+    <paper-button on-click="fireEvent">Fire event</paper-button>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'test-thing',
+
+      properties: {
+        message: {
+          type: String,
+          value: 'Hello world',
+        },
+        uuid: String
+      },
+
+      fireEvent (e) {
+        this.fire("test-event",{
+          test: true
+        });
+      }
+    });
+  </script>
+</dom-module>
+
+```
+
+For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/) for extensive documentation.
+
+With regard to meteor integration see:
+
+https://github.com/meteorwebcomponents
+
+Start by playing with the `test-thing.html` in the `imports/things/` folder.
 
 ### Distributed Data Protocol
 
