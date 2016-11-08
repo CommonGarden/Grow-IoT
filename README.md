@@ -32,6 +32,12 @@ bower install
 
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
+Create a test thing (click the '+' button and then the one that says 'Create test thing'). You should see something like this:
+
+![test-thing in Grow-IoT](https://cloud.githubusercontent.com/assets/521978/20084015/98061fc8-a514-11e6-8778-3de85abd98d5.png)
+
+Start by playing with the `test-thing.html` in the `imports/things/` folder.
+
 ### Making custom components
 
 Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component:
@@ -80,11 +86,7 @@ An example of how to build a thing for Grow-IoT
 
 For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/) for extensive documentation.
 
-With regard to meteor integration see:
-
-https://github.com/meteorwebcomponents
-
-Start by playing with the `test-thing.html` in the `imports/things/` folder.
+With regard to meteor integration see: https://github.com/meteorwebcomponents
 
 ### Distributed Data Protocol
 
