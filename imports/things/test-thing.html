@@ -1,3 +1,9 @@
+<link rel="import" href="./sensors/ph.html">
+<link rel="import" href="./sensors/ec.html">
+<link rel="import" href="./sensors/temperature.html">
+<link rel="import" href="./sensors/humidity.html">
+<link rel="import" href="./sensors/dissolved-oxygen.html">
+
 <!--
 `test-thing`
 An example of how to build a thing for Grow-IoT
@@ -11,8 +17,24 @@ An example of how to build a thing for Grow-IoT
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
-    <paper-button on-click="testbutton">Test</paper-button>
+    <h2>Welcome to Grow-IoT!</h2>
+    <p>We use webcomponents to make easy to build custom interoperable things. #usetheplatform</p>
+
+    <p>Any sensors or actuators you would like to add to this list? <a href="https://github.com/CommonGarden/Grow-IoT/issues">Open an issue or submit a PR!</a></p>
+
+    <hr/>
+
+    <h3>Sensor components</h3>
+
+    <ph-data data="phData"></ph-data>
+    <ec-data data="ecData"></ec-data>
+    <do-data></do-data>
+    <temp-data unit="celcius" data="tempData"></temp-data>
+    <humidity-data data="humidityData"></humidity-data>
+
+    <hr/>
+
+    <paper-button on-click="fireEvent">Fire event</paper-button>
   </template>
 
   <script>
@@ -28,19 +50,11 @@ An example of how to build a thing for Grow-IoT
         uuid: String
       },
 
-      testbutton: function(e){
-        return Meteor.call('Thing.sendCommand',
-          this.uuid,
-          'testbutton',
-          (error, documentId) => {
-            if (error) {
-              console.error("Error", error);
-              return alert(`Error: ${error.reason || error}`);
-            }
-          }
-        );
+      fireEvent (e) {
+        this.fire("test-event",{
+          test: true
+        });
       }
-
     });
   </script>
 </dom-module>

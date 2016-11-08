@@ -60,7 +60,7 @@ class thingDisplay {
         token: this.thing.token
       },
       {
-        smartPot: true
+        testThing: true
       },
       (error, document) => {
         if (error) {

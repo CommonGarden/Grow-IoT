@@ -17,7 +17,7 @@ paper-card {
           <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
         </div>
         <div class="card-actions">
-          <paper-button on-click="createTestThing">Create virtual thing</paper-button>
+          <paper-button on-click="createTestThing">Create test thing</paper-button>
           <paper-button on-click="deleteThing">Cancel</paper-button>
         </div>
       </div>
@@ -36,6 +36,10 @@ paper-card {
 
           <div hidden$="{{!thing.thing.smartPot}}">
             <smart-pot uuid="{{thing.uuid}}"></smart-pot>
+          </div>
+
+          <div hidden$="{{!thing.thing.testThing}}">
+            <test-thing uuid="{{thing.uuid}}"></test-thing>
           </div>
         </div>
         <div class="card-actions" hidden$="{{!thing.registeredAt}}">

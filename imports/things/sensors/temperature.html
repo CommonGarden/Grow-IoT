@@ -1,0 +1,24 @@
+<dom-module id="temp-data">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h4>Temperature</h4>
+  </template>
+  <script>
+    Polymer({
+
+      is: 'temp-data',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'world',
+        },
+        uuid: String
+      }
+    });
+  </script>
+</dom-module>

@@ -43,11 +43,13 @@ class emptyState {
       "iron-resize":"drawArrow"
     };
   }
+
   get behaviors(){
     return [
       Polymer.IronResizableBehavior
     ];
   }
+
   attached(){
     this.async(()=>{
       this.drawCircle();
@@ -61,6 +63,7 @@ class emptyState {
     canvas.width = 1;
     canvas.width = w;
   }
+
   drawArrow(){
     const can = this.$.arrow;
     const ctx = can.getContext('2d');
