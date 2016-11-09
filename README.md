@@ -69,14 +69,14 @@ An example of how to build a thing for Grow-IoT
         message: {
           type: String,
           value: 'Hello world',
-        },
-        uuid: String
+        }
       },
 
       fireEvent (e) {
         this.fire("test-event",{
           test: true
         });
+        console.log('Fired event!');
       }
     });
   </script>

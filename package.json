@@ -24,6 +24,7 @@
     "bcrypt": "^0.8.7",
     "bufferutil": "^1.2.1",
     "chai": "^3.5.0",
+    "epoch-charting": "^0.8.4",
     "meteor-node-stubs": "^0.2.3",
     "utf-8-validate": "^1.2.1"
   },
