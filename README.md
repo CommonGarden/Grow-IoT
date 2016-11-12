@@ -2,12 +2,14 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+![Example image](https://cloud.githubusercontent.com/assets/521978/20240422/a50694ee-a8cc-11e6-97f5-81b636149b85.png)
+
 Grow-IoT allows you to:
 * Create custom devices / things with webcomponents #usetheplatform
 * Securely connect and store data from sensors and actuators
 * *Beta*: Create interelationships and workflows between things
 
-If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place. ; )
+If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place. Let's make it easier for scientists of all ages to start collecting data from sensors.
 
 ## Installing Grow-IoT
 
