@@ -2,6 +2,8 @@
 import './imports.html';
 import Sortable from "./bower_components/Sortable/Sortable.js";
 window.Sortable = Sortable;
+import d3 from "./bower_components/d3/d3.min.js";
+window.d3 = d3;
 import './views';
 import './components/style';
 import './components/accounts';

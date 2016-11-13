@@ -12,7 +12,9 @@
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5",
     "polymer-sortablejs": "aruntk/polymer-sortablejs#^0.1.4",
     "dr-dose": "CommonGarden/dr-dose#^0.0.2",
-    "smart-pot": "CommonGarden/smart-pot#^0.0.1"
+    "smart-pot": "CommonGarden/smart-pot#^0.0.1",
+    "garden-temperature": "jermspeaks/temperature-gauge#^0.0.1",
+    "d3": "^4.3.0"
   },
   "name": "synthesis-demo",
   "version": "0.0.1"

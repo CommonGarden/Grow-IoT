@@ -59,9 +59,7 @@ You can interact with the Grow-IoT api using the Distributed Data Protocol. *The
 * https://github.com/CommonGarden/smart-pot
 
 ## Contributing
-Be kind to one another. All are welcome.
-
-See the following for more info:
+Be kind to one another. All are welcome. See the following for more info:
 
 * [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
 * [Contributing Info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
