@@ -78,7 +78,7 @@ class growDashboard {
 
     Meteor.logout((e,r)=>{
       FlowRouter.go('/');
-      self.toast({text:"successfull",duration:3000});
+      self.toast({text:"successful",duration:3000});
     });
   }
 }
