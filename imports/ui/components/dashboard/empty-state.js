@@ -165,5 +165,17 @@ class emptyState {
     return points;            
   } 
 
+  // let's see if this will work
+  new() {
+    Meteor.call('Thing.new',
+      (error, document) => {
+        if (error) {
+          console.error("New deviceerror", error);
+          return alert(`New deviceerror: ${error.reason || error}`);
+        }
+      }
+    );
+  }
+
 }
 Polymer(emptyState);
