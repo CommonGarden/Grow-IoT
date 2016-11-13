@@ -46,7 +46,7 @@ To add a component:
 
 Now it's ready to use in Grow-IoT! For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
 
-## Connecting devices
+## Connecting devices (or software things)
 
 You can interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
