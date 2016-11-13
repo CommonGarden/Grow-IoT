@@ -1,3 +1,6 @@
+import { AppState } from '../state';
+import { setToast, setError } from '../actions';
+
 class growMainView {
   beforeRegister() {
     this.is = "grow-main-view";
@@ -16,6 +19,8 @@ class growMainView {
       },
       limit:Number
     };
+    this.actions = { setError, setToast };
+
   }
   get trackers (){
     return [
@@ -26,7 +31,7 @@ class growMainView {
 
   get behaviors() {
     return [
-      mwcMixin, mwcRouter
+      mwcMixin, mwcRouter, AppState
     ];
   }
 
@@ -58,12 +63,16 @@ class growMainView {
   }
   _confirmDelete(e){
     const thing = this.selectedThing;
+    const self = this;
     Meteor.call('Thing.delete',
       thing.uuid,
       (error, document) => {
         if (error) {
-          console.error("Delete thing error", error);
-          return alert(`Error: ${error.reason || error}`);
+          self.dispatch('setError', error, {
+            thing,
+          });
+        } else {
+          self.dispatch('setToast', `Successfully deleted.`);
         }
       }
     );

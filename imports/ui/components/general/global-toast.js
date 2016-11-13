@@ -1,3 +1,6 @@
+import { AppState } from '../../state';
+import { setToast } from '../../actions';
+
 class globalToast {
   beforeRegister(){
     this.is = "global-toast";
@@ -9,31 +12,61 @@ class globalToast {
           return (Meteor.isCordova ? "fit-bottom" : "");
         },
       },
+      text: {
+        type: String,
+        statePath: 'toast.text',
+      },
+      undo: {
+        type: Object,
+        value: {},
+      },
+
     };
+    this.actions = { setToast };
+    this.observers = [
+      '_toast(text)',
+    ];
+
   }
 
   get behaviors(){
-    return [mwcMixin];
+    return [
+      mwcMixin,
+      AppState,
+    ];
   }
 
-  toast(arg) {
+  _undo() {
+    this.undo = {};
+
     this.$.paper_toast.hide();
-    this.async(()=> {
-      this.$.paper_toast.show(arg);
+  }
+  _toast(text) {
+    if (text) {
+      this.$.paper_toast.hide();
+      this.async(() => {
+        this.$.paper_toast.show();
+      }, 400);
+    }
+  }
+  toast(text) {
+    this.$.paper_toast.hide();
+    this.async(() => {
+      // this.$.paper_toast.text = text;
+      this.dispatch('setToast', text);
+      this.$.paper_toast.show();
     }, 400);
   }
 
   tracker() {
     if (Meteor.status().connected) {
-      if (this.$.paper_toast.text != "server connected") {
-        this.toast("server connected");
+      if (this.$.paper_toast.text !== 'server connected') {
+        this.toast('server connected');
       }
-    } else {
-      if (this.$.paper_toast.text != "lost server connection") {
-        this.toast("lost server connection");
-      }
+    } else if (this.$.paper_toast.text !== 'lost server connection') {
+      this.toast('lost server connection');
     }
   }
-};
+}
 
 Polymer(globalToast);

@@ -1,8 +1,8 @@
 <dom-module id="global-toast">
   <style>
-    paper-toast {
-      z-index: 1000;
-    }
+paper-toast {
+  z-index: 1000;
+}
 
     paper-toast > div {
       color: var(--paper-yellow-500);
@@ -12,8 +12,9 @@
 
   <template>
     <paper-toast class$="center [[cordova_class]] horizontal justified layout"
-                 duration="4000"
-                 id="paper_toast"></paper-toast>
+            text="{{text}}"
+            duration="4000"
+            id="paper_toast"></paper-toast>
   </template>
 
   <script src="global-toast.js"></script> 
