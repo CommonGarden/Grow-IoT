@@ -1,0 +1,14 @@
+babel-compiler@6.8.4
+babel-runtime@0.1.9_1
+base64@1.0.9
+ecmascript@0.4.7
+ecmascript-runtime@0.2.12
+ejson@1.0.12
+meteor@1.1.16
+modules@0.6.5
+modules-runtime@0.6.5
+mwc:mixin@1.0.33
+promise@0.7.3
+random@1.0.10
+tracker@1.0.15
+underscore@1.0.9

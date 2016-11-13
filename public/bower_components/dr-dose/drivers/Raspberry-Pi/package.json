@@ -1,0 +1,21 @@
+{
+  "name": "Dr.Dose-Raspberry-Pi",
+  "version": "0.1.5",
+  "description": "Dr. Dose keeps your pH balanced and your nutrients at ideal levels.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Common Garden",
+  "license": "MIT",
+  "dependencies": {
+    "Grow.js": "^0.2.98",
+    "ascii-codes": "^1.0.0",
+    "hysteresis": "0.0.2",
+    "johnny-five": "^0.10.0",
+    "later": "^1.2.0",
+    "node-pid-controller": "^1.0.0",
+    "raspi-io": "^6.1.0"
+  }
+}
