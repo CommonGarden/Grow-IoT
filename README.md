@@ -36,15 +36,15 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 Create a test thing (click the '+' button and then the one that says 'Create test thing'). Start by playing with the `test-thing.html` in the `imports/things/` folder.
 
-
 ## Adding components
 
 Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
 
-To add a component, install it with bower, then add it to the `imports/ui/imports.html` file. Now it's ready to use in Grow-IoT!
+To add a component:
+1. Install it with [bower](https://bower.io/).
+2. Then add it to the `imports/ui/imports.html` file. 
 
-For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/) for extensive documentation.
-
+Now it's ready to use in Grow-IoT! For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
 
 ## Connecting devices
 
@@ -56,13 +56,6 @@ You can interact with the Grow-IoT api using the Distributed Data Protocol. *The
 * https://github.com/CommonGarden/dr-dose
 * https://github.com/CommonGarden/smart-pot
 
-## 'Cloud' setup
-### Setting up an instance on Meteor Galaxy
-
-You can easily host **your own** Grow-IoT instance on [Meteor Galaxy](https://galaxy.meteor.com/). See the Meteor Galaxy website for instructions on hosting a new meteor application.
-
-See [instructions in Grow.js for securely connecting devices to the instance](https://github.com/CommonGarden/grow.js).
-
 ## Contributing
 Be kind to one another. All are welcome.
 
@@ -71,7 +64,7 @@ See the following for more info:
 * [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
 * [Contributing Info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
 
-#### Code Style
+### Code Style
 For now, we are sticking closely to what's documented in the Meteor guide. Take a look at the following for more info and helpful examples:
 
 * [Code style](https://guide.meteor.com/code-style.html)
