@@ -41,7 +41,9 @@ Create a test thing (click the '+' button and then the one that says 'Create tes
 Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
 
 To add a component:
+
 1. Install it with [bower](https://bower.io/).
+
 2. Then add it to the `imports/ui/imports.html` file. 
 
 Now it's ready to use in Grow-IoT! For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
