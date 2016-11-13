@@ -1,0 +1,25 @@
+{
+  "name": "smart-pot",
+  "description": "A self watering pot with lights and sensors too!",
+  "main": "smart-pot.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/CommonGarden/smart-pot",
+  "version": "0.0.1",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.1",
+    "commit": "dbb7c4c4057605539dcddad646937cea278a4280"
+  },
+  "_source": "git://github.com/CommonGarden/smart-pot.git",
+  "_target": "^0.0.1",
+  "_originalSource": "CommonGarden/smart-pot"
+}
