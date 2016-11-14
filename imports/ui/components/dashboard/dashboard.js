@@ -1,3 +1,6 @@
+import { AppState } from '../../state';
+import { setToast, setError } from '../../actions';
+
 class growDashboard {
 
   beforeRegister() {
@@ -18,6 +21,7 @@ class growDashboard {
         params:{"view":"home"}
       }
     };
+    this.actions = { setToast, setError };
   }
 
   attached(){
@@ -29,18 +33,8 @@ class growDashboard {
 
   get behaviors() {
     return [
-      mwcMixin, mwcRouter
+      mwcMixin, mwcRouter, AppState
     ];
-  }
-
-  get toastElem() {
-    return document.querySelector("#global_toast");
-  }
-
-  toast(text) {
-    if(this.toastElem){
-      this.toastElem.toast(text);
-    }
   }
 
   closeMenu() {
@@ -56,11 +50,16 @@ class growDashboard {
   }
 
   new() {
+    const self = this;
     Meteor.call('Thing.new',
       (error, document) => {
         if (error) {
-          console.error("New deviceerror", error);
-          return alert(`New deviceerror: ${error.reason || error}`);
+          self.dispatch('setError', error, {
+            file: 'dashboard',
+            method: 'new',
+          });
+        } else {
+          self.dispatch('setToast', 'Successful.');
         }
       }
     );
