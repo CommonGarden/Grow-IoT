@@ -2,14 +2,14 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-![Example image](https://cloud.githubusercontent.com/assets/521978/20240422/a50694ee-a8cc-11e6-97f5-81b636149b85.png)
-
 Grow-IoT allows you to:
 * Create custom devices / things with webcomponents #usetheplatform
 * Securely connect and store data from sensors and actuators
 * *Beta*: Create interelationships and workflows between things
 
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place. Let's make it easier for scientists of all ages to start collecting data from sensors.
+
+![Example image](https://cloud.githubusercontent.com/assets/521978/20240422/a50694ee-a8cc-11e6-97f5-81b636149b85.png)
 
 ## Installing Grow-IoT
 
@@ -53,6 +53,51 @@ Now it's ready to use in Grow-IoT! For more information on creating custom eleme
 You can interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
 [Grow.js](https://github.com/CommonGarden/Grow.js) is a helper library that makes it fairly easy to connect a thing to Grow-IoT.
+
+```javascript
+var GrowInstance = require('Grow.js');
+
+var grow = new GrowInstance({
+    uuid: 'PASTE_UUID_HERE',
+    token: 'PASTE_TOKEN_HERE',
+
+    // Properties can be updated by the API
+    properties: {
+        name: 'Software light',
+        state: 'off',
+        lightConditions: null,
+        light_data_interval: 3000
+    },
+
+    start: function () {
+        setInterval(light_data, 3000);
+    }
+
+    // Actions are the API of the thing.
+    turn_light_on: function () {
+        grow.set('state', 'on');
+    },
+
+    turn_light_off: function () {
+        // Emit a 'light off' event, set the state property to 'off'
+        grow.set('state', 'off');
+    },
+
+    light_data: function () {
+        // Send data to the Grow-IoT app.
+        // TODO: if a method returns a value, emit that value.
+        grow.emit({
+          type: 'light',
+          value: Math.random()
+        });
+    }
+});
+
+// Defaults to http://localhost:3000
+grow.connect();
+```
+
+See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info.
 
 ### Examples
 * https://github.com/CommonGarden/dr-dose

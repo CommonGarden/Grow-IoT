@@ -14,24 +14,21 @@ Garden IoT for Temp
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
     <svg id="gardentemperature"></svg>
   </template>
-  <script src="../d3/d3.min.js"></script>
-  <!-- Bower doesn't bundle these for some reason -->
-  <!-- <script src="https://d3js.org/d3-color.v0.5.min.js"></script> -->
-  <!-- <script src="https://d3js.org/d3-interpolate.v0.9.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script> -->
-
   <script>
     Polymer({
 
       is: 'garden-temperature',
 
       properties: {
-        prop1: {
+        data: {
+          type: Number,
+          value: 0 
+        },
+        unit: {
           type: String,
-          value: 'garden-temperature'
+          value: 'C'
         }
       },
 
@@ -60,7 +57,7 @@ Garden IoT for Temp
         var self = this;
         var gauge = self.makeGaugeData();
         var temp = self.getData();
-        var ticks = self.makeTicks();
+        // var ticks = self.makeTicks();
 
         self.pie = d3.pie()
           .startAngle( -(3 * Math.PI) / 4 )
@@ -119,7 +116,8 @@ Garden IoT for Temp
       //   return Array.apply(null, { length: 10 }).map(Number.call, Number).map(num => (num + 1) * 10);
       // },
       getData: function() {
-        return[d3.randomUniform(32, 98)()];
+        console.log(this.data);
+        return this.data;
       },
       ready: function () {
         this.createElements();

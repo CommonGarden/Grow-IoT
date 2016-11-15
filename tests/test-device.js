@@ -6,8 +6,8 @@ var currentLightValue;
 
 // Create a new grow instance. Connects by default to localhost:3000
 var grow = new GrowInstance({
-    uuid: 'test',
-    token: 'test',
+    uuid: '',
+    token: '',
 
     // Properties can be updated by the API
     properties: {
