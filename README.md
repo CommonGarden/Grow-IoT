@@ -48,16 +48,16 @@ To add a component:
 
 Now it's ready to use in Grow-IoT! For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
 
-## Connecting devices (or software things)
+## Connecting devices (or virtual things)
 
 You can interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
-[Grow.js](https://github.com/CommonGarden/Grow.js) is a helper library that makes it fairly easy to connect a thing to Grow-IoT.
+[Grow.js](https://github.com/CommonGarden/Grow.js) is a helper library that makes it fairly easy to connect a thing to Grow-IoT. You can use it for both hardware or virtual things.
 
 ```javascript
-var GrowInstance = require('Grow.js');
+var Thing = require('Grow.js');
 
-var grow = new GrowInstance({
+var light = new Thing({
     uuid: 'PASTE_UUID_HERE',
     token: 'PASTE_TOKEN_HERE',
 
@@ -70,7 +70,7 @@ var grow = new GrowInstance({
     },
 
     start: function () {
-        setInterval(light_data, 3000);
+        setInterval(grow.call('light_data'), 3000);
     }
 
     // Actions are the API of the thing.
@@ -85,10 +85,9 @@ var grow = new GrowInstance({
 
     light_data: function () {
         // Send data to the Grow-IoT app.
-        // TODO: if a method returns a value, emit that value.
         grow.emit({
           type: 'light',
-          value: Math.random()
+          value: 'sunny'
         });
     }
 });
@@ -99,9 +98,18 @@ grow.connect();
 
 See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info.
 
-### Examples
+### Hardware Examples
+Will be documenting soon.
 * https://github.com/CommonGarden/dr-dose
 * https://github.com/CommonGarden/smart-pot
+
+### Software examples
+Grow-IoT supports all kinds of Things! Even models of ones you can't connect to the Internet, like a tree.
+
+Here are some suggestions of web components you could make. I'll get around to making some eventually...
+* Plants! Let's make a library of plants!
+* Models of growing environments
+
 
 ## Contributing
 Be kind to one another. All are welcome. See the following for more info:
