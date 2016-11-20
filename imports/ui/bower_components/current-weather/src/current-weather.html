@@ -1,0 +1,232 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="current-weather">
+  <link rel="import" type="css" href="../bower_components/weather-icons/css/weather-icons.css">
+
+  <template>
+    <style>
+      :host {
+        width: 320px;
+        margin: 0 10px 10px 0;
+        color: white;
+        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-weight: 300;
+        display: inline-block;
+      }
+
+      .weather {
+        text-align: center;
+        padding: 1.5em 0 1em 0;
+      }
+
+      .weather > div {
+        margin-bottom: 1em;
+      }
+
+      .temp-level-0 {
+        background-color: #001f3f;
+      }
+
+      .temp-level-1 {
+        background-color: #0074d9;
+      }
+
+      .temp-level-2 {
+        background-color: #00ABA9;
+      }
+
+      .temp-level-3 {
+        background-color: #3D9970;
+      }
+
+      .temp-level-4 {
+        background-color: #ff851b;
+      }
+
+      .temp-level-5 {
+        background-color: #ff4136;
+      }
+
+      .temp-level-6 {
+        background-color: #85144b;
+      }
+
+      .weather .info {
+        font-size: 1.5rem;
+      }
+
+      .condition-icon > i {
+        font-size: 8rem;
+        line-height: 12rem;
+      }
+
+      .current {
+        font-size: 4rem;
+      }
+
+      .min, .max {
+        display: inline-block;
+      }
+
+      .max {
+        margin-left: .5em;
+      }
+    </style>
+    <iron-ajax id="ajax" auto
+               url="http://api.openweathermap.org/data/2.5/weather"
+               params="[[_weatherApiParams(lat, lon, units, language, appId)]]"
+               handleAs="json"
+               on-response="_weatherApiResponse">
+    </iron-ajax>
+    <template is="dom-if" if=[[data]]>
+      <div class$="[[_weatherClass(data.tempLevel)]]">
+        <template is="dom-if" if="[[name]]">
+          <div class="info">[[data.name]]</div>
+        </template>
+        <div class="weather-condition">
+          <div class="condition-icon">
+            <i class="wi {{data.icon}}"></i>
+          </div>
+          <template is="dom-if" if="[[conditiontext]]">
+            <div class="conditiontext">[[data.conditiontext]]</div>
+          </template>
+        </div>
+        <div class="temperatures">
+          <div class="current"><span>[[data.currentTemp]]</span>°</div>
+          <template is="dom-if" if="[[minmax]]">
+            <div class="minmax">
+              <div class="min">
+                <i class="wi wi-down"></i> <span>[[data.minTemp]]</span>°
+              </div>
+              <div class="max">
+                <i class="wi wi-up"></i> <span>[[data.maxTemp]]</span>°
+              </div>
+            </div>
+          </template>
+        </div>
+        <template is="dom-id" if="[[wind]]">
+          <div class="wind">
+            <div class="speed">
+              <i class="wi wi-strong-wind"></i>
+              <span>[[data.windSpeed]]</span>
+              <span>[[speedUnit]]</span>
+            </div>
+            <div class="direction">
+              <i class="wi wi-wind-north-east"></i> <span>[[data.windDirection]]</span>
+            </div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[suntimes]]">
+          <div class="sun">
+            <div class="sunrise">
+              <i class="wi wi-sunrise"></i> <span>[[data.sunrise]]</span>
+            </div>
+            <div class="sunset">
+              <i class="wi wi-sunset"></i> <span>[[data.sunset]]</span>
+            </div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[chump]]">
+          <div class="chump">
+            <div class="cloudiness">
+              <i class="wi wi-cloudy"></i> <span>[[data.cloudiness]]</span>%
+            </div>
+            <div class="humidity">
+              <i class="wi wi-sprinkles"></i> <span>[[data.humidity]]</span>%
+            </div>
+            <div class="pressure">
+              <i class="wi wi-thermometer-internal"></i> <span>[[data.pressure]]</span> hPa
+            </div>
+          </div>
+        </template>
+      </div>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'current-weather',
+      properties: {
+        lat: {},
+        lon: {},
+        appId: {},
+        name: {type: Boolean, value: false},
+        conditiontext: {type: Boolean, value: false},
+        imperial: {type: Boolean, value: false},
+        wind: {type: Boolean, value: false},
+        suntimes: {type: Boolean, value: false},
+        minmax: {type: Boolean, value: false},
+        chump: {type: Boolean, value: false},
+        language: {type: String, value: 'en'},
+        units: {type: String, value: 'metric'},
+        temperatureUnit: {type: String, value: 'C'},
+        speedUnit: {type: String, value: 'km/h'}
+      },
+      iconMapping: {
+        "01d": "wi-day-sunny",
+        "01n": "wi-night-clear",
+        "02d": "wi-day-cloudy",
+        "02n": "wi-night-cloudy",
+        "03d": "wi-cloudy",
+        "03n": "wi-cloudy",
+        "04d": "wi-cloudy",
+        "04n": "wi-cloudy",
+        "09d": "wi-showers",
+        "09n": "wi-showers",
+        "10d": "wi-day-rain",
+        "10n": "wi-night-rain",
+        "11d": "wi-thunderstorm",
+        "11n": "wi-thunderstorm",
+        "13d": "wi-snow",
+        "13n": "wi-snow",
+        "50d": "wi-fog",
+        "50n": "wi-fog"
+      },
+      windDirections: ["N", "NE", "E", "SE", "S", "SW", "W", "NW"],
+      data: null,
+      _weatherClass: function(tempLevel) {
+        return 'weather temp-level-' + tempLevel;
+      },
+      _weatherApiParams: function(lat, lon, units, language, appId) {
+        return {lat: lat, lon: lon, units: units, lang: language, appId: appId};
+      },
+      _weatherApiResponse: function(e) {
+        var res = e.detail.response;
+        var sunrise = new Date(res.sys.sunrise * 1000);
+        var sunset = new Date(res.sys.sunset * 1000);
+
+        function dateHelper(i) {
+          return i < 10 ? "0" + i : i;
+        }
+
+        function getTempLevel(temp, isImperial) {
+          if (isImperial) {
+            temp = (temp - 32) * (5 / 9)
+          }
+          var level = Math.round((temp + 8) / 8);
+          level = level < 0 ? 0 : level;
+          level = level > 6 ? 6 : level;
+          return level
+        }
+
+        this.data = {
+          icon: this.iconMapping[res.weather[0].icon],
+          conditiontext: res.weather[0].description,
+          name: res.name,
+          sunrise: dateHelper(sunrise.getHours()) + ":" + dateHelper(sunrise.getMinutes()),
+          sunset: dateHelper(sunset.getHours()) + ":" + dateHelper(sunset.getMinutes()),
+          currentTemp: Math.round(res.main.temp),
+          minTemp: Math.round(res.main.temp_min),
+          maxTemp: Math.round(res.main.temp_max),
+          windSpeed: res.wind.speed,
+          windDirection: this.windDirections[Math.round(res.wind.deg / 45) % 8],
+          cloudiness: res.clouds.all,
+          humidity: res.main.humidity,
+          pressure: res.main.pressure,
+          tempLevel: getTempLevel(res.main.temp, this.imperial)
+        };
+        this.fire('current-weather-load', {weather: this.data});
+      }
+    });
+  </script>
+</dom-module>

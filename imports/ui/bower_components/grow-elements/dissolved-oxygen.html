@@ -1,0 +1,71 @@
+<dom-module id="do-data">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- <h4>Dissolved Oxygen: {{data}}</h4> -->
+    <div class="ct-chart ct-perfect-fourth"></div>
+  </template>
+  <script>
+    // class DissolvedOxygen {
+    //     beforeRegister() {
+    //       this.is="do-data";
+    //       this.properties= {
+    //         series: {
+    //           type: Array,
+    //           value: [
+    //             [65,59,90,81,56,55,40],
+    //             [30,65,59,40,90,56,55],
+    //           ],
+    //           observer: 'render'
+    //         },
+    //         labels: {
+    //           type: Array,
+    //           value: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    //           observer: 'render'
+    //         },
+    //         options: {
+    //           type: Object,
+    //           value: {
+    //             fullWidth: true
+    //           },
+    //           observer: 'render'
+    //         },
+    //         responsiveOptions: {
+    //           type: Object,
+    //           observer: 'render',
+    //           value: {}
+    //         }
+    //       };
+    //     }
+
+    //   attached () {
+    //     if (!this.series || !this.labels || !this.options) {
+    //       return;
+    //     }
+    //     var element = this.$.chart,
+    //       domEl = Polymer.dom(element);
+    //     var data = {
+    //       series: this.series,
+    //       labels: this.labels
+    //     };
+    //     var opts = Object(this.options);
+    //     opts.classNames = {
+    //       chart:  'do-data' + ' ct-pie-chart',
+    //       series: 'do-data' + ' ct-series',
+    //       slice:  'do-data' + ' ct-slice',
+    //       donut:  'do-data' + ' ct-donut',
+    //       label:  'do-data' + ' ct-label'
+    //     };
+    //     if (this.chart) {
+    //       this.chart.detach();
+    //     }
+    //     this.chart = new Chartist.Bar(element, data, opts, this.responsiveOptions);
+    //   }
+    // }
+
+    // Polymer(DissolvedOxygen);
+  </script>
+</dom-module>

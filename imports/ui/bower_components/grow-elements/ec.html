@@ -1,0 +1,20 @@
+<dom-module id="ec-data">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h4>Conductivity: {{data}}</h4>
+  </template>
+  <script>
+    Polymer({
+
+      is: 'ec-data',
+
+      properties: {
+        data: Number
+      }
+    });
+  </script>
+</dom-module>

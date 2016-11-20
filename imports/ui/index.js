@@ -12,4 +12,3 @@ import d3 from "./bower_components/d3/d3.min.js";
 
 window.Sortable = Sortable;
 window.d3 = d3;
-

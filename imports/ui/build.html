@@ -41,6 +41,7 @@ e.__upgraded__&&!e.__attached&&(e.__attached=!0,e.attachedCallback&&e.attachedCa
 
 
 
+
 </head><body><div hidden="" by-vulcanize=""><script>(function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -32617,129 +32618,6 @@ mwcMixin = {
   }
 
   Polymer(smartPot);
-  </script>
-</dom-module>
-
-
-<dom-module id="garden-temperature" assetpath="bower_components/garden-temperature/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <svg id="gardentemperature"></svg>
-  </template>
-  <script>
-    Polymer({
-
-      is: 'garden-temperature',
-
-      properties: {
-        data: {
-          type: Number,
-          value: 0 
-        },
-        unit: {
-          type: String,
-          value: 'C'
-        }
-      },
-
-      createElements: function() {
-        var width = 350;
-        var height = 350;
-
-        this.svg = d3.select(this.$.gardentemperature)
-          .attr( "width", width )
-          .attr( "height", height );
-
-        this.arc = d3.arc()
-          .innerRadius(60)
-          .outerRadius(120)
-          .cornerRadius(1)
-          .padAngle(0);
-
-        this.textArc = d3.arc()
-          .outerRadius(120);
-
-        this.color = ["#2776d7", "#7dace7", "#e9f1fb", "#fff", "#fbeae9", "#e7827d", "#d73027"];
-
-        this.tempScale = d3.scaleLinear().domain([0, 100]).range([-45, 225]);
-      },
-      drawChart: function () {
-        var self = this;
-        var gauge = self.makeGaugeData();
-        var temp = self.getData();
-        // var ticks = self.makeTicks();
-
-        self.pie = d3.pie()
-          .startAngle( -(3 * Math.PI) / 4 )
-          .endAngle( (3 * Math.PI) / 4 )
-          .value(d => d);
-
-        self.groupArcs = self.svg.append('g');
-
-        self.arcs = self.groupArcs.selectAll( '.arc' )
-          .data(self.pie(gauge)) // pass arc data
-          .enter()
-          .append('path')
-          .attr("transform", "translate(200,200)")
-          .attr("d", self.arc)
-          .attr("stroke", "#000")
-          .attr("stroke-width", "1px")
-          .style("fill", (d, i) => {
-            if (i < 1) {
-              return this.color[1];
-            } else if (i > 8) {
-              return this.color[5];
-            } else {
-              return this.color[3];
-            }
-          });
-
-        // self.ticks = self.groupArcs.selectAll( '.tick' )
-        //   .data(self.pie(gauge)) // pass arc data
-        //   .enter()
-        //   .append('textPath')
-        //   .attr("dx", 5)
-        //   .attr("dy", -5)
-        //   .text((d, i) => (i + 1) * 10);
-
-        self.needle = self.svg.selectAll(".needle")
-          .data(temp)
-          .enter()
-          .append('line')
-          .attr("x1", 0)
-          .attr("x2", -115)
-          .attr("y1", 0)
-          .attr("y2", 0)
-          .style("stroke", "black")
-          .attr( "transform", d => ` translate(200,200) rotate(${this.tempScale(d)})`);
-
-        self.tempText = self.svg.append('text')
-          .attr('class', 'temp-text')
-          .style('font-size', '32px')
-          .attr("transform", d => "translate(175, 200)")
-          .text(() => parseFloat(temp, 10).toFixed(0).toString() + '°F');
-      },
-      makeGaugeData: function(N = 10) {
-        return Array.apply(null, { length: N }).map(Number.call, Number).map(() => 1);
-      },
-      // makeTicks: function() {
-      //   return Array.apply(null, { length: 10 }).map(Number.call, Number).map(num => (num + 1) * 10);
-      // },
-      getData: function() {
-        console.log(this.data);
-        return this.data;
-      },
-      ready: function () {
-        this.createElements();
-        this.drawChart();
-        // this.getData();
-      },
-
-    });
   </script>
 </dom-module>
 </div></body></html>

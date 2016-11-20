@@ -1,0 +1,23 @@
+{
+  "name": "current-weather",
+  "version": "0.4.0",
+  "description": "A polymer element for showing the current weather",
+  "license": "MIT",
+  "main": "dist/current-weather.html",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "web-component",
+    "weather",
+    "open-weather-maps"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
+    "weather-icons": "~1.3.2"
+  }
+}

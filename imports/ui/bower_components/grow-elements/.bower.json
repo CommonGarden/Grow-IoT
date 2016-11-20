@@ -1,0 +1,28 @@
+{
+  "name": "grow-elements",
+  "description": "A set of web components for useful for growing things.",
+  "main": "grow-elements.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "current-weather": "^0.4.0",
+    "d3": "^4.3.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/CommonGarden/grow-elements",
+  "version": "0.0.3",
+  "_release": "0.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.3",
+    "commit": "98c9718e221c6af2c7ca45eda681fec9797ea7f9"
+  },
+  "_source": "https://github.com/CommonGarden/grow-elements.git",
+  "_target": "^0.0.3",
+  "_originalSource": "CommonGarden/grow-elements",
+  "_direct": true
+}
