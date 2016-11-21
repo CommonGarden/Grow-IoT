@@ -32,8 +32,8 @@ board.on('ready', function start() {
 
     // Create a new theDr instance and connect to https://theDr.commongarden.org
     var theDr = new GrowInstance({
-        uuid: '04b19f61-adcf-4763-b2e1-a8bf93447970',
-        token: 'hQ5Svts8DJkqrcBT4W6aCxFxy9hWy5dT',
+        uuid: '9b1e4fe7-f006-4548-9750-72e0c366e27e',
+        token: 'yu3PZGW2kozj7M9Hrjnm9XZnGpW9yXiy',
         webcomponent: 'dr-dose',
         drDose: true, // hack
         name: 'Dr. Dose', // The display name for the thing.
@@ -52,11 +52,11 @@ board.on('ready', function start() {
             // Todo: clear interval
             setInterval(function() {
                 theDr.call('ph_data');
-            }, 5000);
+            }, 2000);
 
             setInterval(function() {
                 theDr.call('ec_data');
-            }, 5000);
+            }, 2000);
         },
 
         acid: function (duration) {
@@ -105,10 +105,12 @@ board.on('ready', function start() {
 
             eC_reading = parseEC(eC_reading);
 
-            theDr.emit({
-                type: 'ec',
-                value: eC_reading
-            });
+            console.log(eC_reading);
+
+            // theDr.emit({
+            //     type: 'ec',
+            //     value: eC_reading
+            // });
         },
 
         ph_data: function () {
@@ -128,77 +130,78 @@ board.on('ready', function start() {
                 }
             });
 
-            theDr.emit({
-                type: 'ph',
-                value: pH_reading
-            });         
+            console.log(pH_reading);
+            // theDr.emit({
+            //     type: 'ph',
+            //     value: pH_reading
+            // });         
         }
     });
 
     // Default is localhost: 3000
-    theDr.connect({
-        host: "grow.commongarden.org",
-        tlsOpts: {
-          tls: {
-            servername: "galaxy.meteor.com"
-          }
-        },
-        port: 443,
-        ssl: true
-    });
-
-    // // HTTP server for terraswarm demo.
-    // var server = http.createServer(function(request, response) {
-    //     var urlParts = url.parse(request.url, true);
-    //     var acidRegex = /acid/;
-    //     var baseRegex = /base/;
-    //     var nutrientRegex = /nutrient/;
-    //     var pH_regex = /ph/;
-    //     var ec_regex = /ec/;
-
-    //     if (urlParts.pathname.match(acidRegex)) {
-    //         theDr.call('acid', Number(urlParts.query.duration));
-    //         response.writeHead(200, {"Content-Type": "application/json"});
-    //         response.end(JSON.stringify({ok: true}));
-    //     }
-
-    //     else if (urlParts.pathname.match(baseRegex)) {
-    //         theDr.call('base', Number(urlParts.query.duration));
-    //         response.writeHead(200, {"Content-Type": "application/json"});
-    //         response.end(JSON.stringify({ok: true}));
-    //     }
-
-    //     else if (urlParts.pathname.match(nutrientRegex)) {
-    //         theDr.call('nutrient', Number(urlParts.query.duration));
-    //         response.writeHead(200, {"Content-Type": "application/json"});
-    //         response.end(JSON.stringify({ok: true}));
-    //     }
-
-    //     else if (urlParts.pathname.match(pH_regex)) {
-    //         theDr.call('ph_data');
-    //         response.writeHead(200, {"Content-Type": "application/json"});
-    //         response.end(JSON.stringify({
-    //             type: 'ph',
-    //             value: pH_reading
-    //         }));
-    //     }
-
-    //     else if (urlParts.pathname.match(ec_regex)) {
-    //         theDr.call('ec_data');
-    //         response.writeHead(200, {"Content-Type": "application/json"});
-    //         response.end(JSON.stringify({
-    //             type: 'ec',
-    //             value: eC_reading
-    //         }));
-    //     }
-
-    //     else {
-    //         response.writeHead(404, {"Content-Type": "text/plain"});
-    //         response.end();
-    //     }
+    // theDr.connect({
+    //     host: "grow.commongarden.org",
+    //     tlsOpts: {
+    //       tls: {
+    //         servername: "galaxy.meteor.com"
+    //       }
+    //     },
+    //     port: 443,
+    //     ssl: true
     // });
 
-    // server.listen(8080);
+    // HTTP server for terraswarm demo.
+    var server = http.createServer(function(request, response) {
+        var urlParts = url.parse(request.url, true);
+        var acidRegex = /acid/;
+        var baseRegex = /base/;
+        var nutrientRegex = /nutrient/;
+        var pH_regex = /ph/;
+        var ec_regex = /ec/;
+
+        if (urlParts.pathname.match(acidRegex)) {
+            theDr.call('acid', Number(urlParts.query.duration));
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.end(JSON.stringify({ok: true}));
+        }
+
+        else if (urlParts.pathname.match(baseRegex)) {
+            theDr.call('base', Number(urlParts.query.duration));
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.end(JSON.stringify({ok: true}));
+        }
+
+        else if (urlParts.pathname.match(nutrientRegex)) {
+            theDr.call('nutrient', Number(urlParts.query.duration));
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.end(JSON.stringify({ok: true}));
+        }
+
+        else if (urlParts.pathname.match(pH_regex)) {
+            theDr.call('ph_data');
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.end(JSON.stringify({
+                type: 'ph',
+                value: pH_reading
+            }));
+        }
+
+        else if (urlParts.pathname.match(ec_regex)) {
+            theDr.call('ec_data');
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.end(JSON.stringify({
+                type: 'ec',
+                value: eC_reading
+            }));
+        }
+
+        else {
+            response.writeHead(404, {"Content-Type": "text/plain"});
+            response.end();
+        }
+    });
+
+    server.listen(8080);
 });
 
 

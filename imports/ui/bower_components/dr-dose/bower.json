@@ -4,7 +4,8 @@
   "main": "dr-dose.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "mwc-mixin": "^1.0.31"
+    "mwc-mixin": "^1.0.31",
+    "grow-elements": "CommonGarden/grow-elements#^0.0.3"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

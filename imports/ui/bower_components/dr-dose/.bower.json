@@ -4,7 +4,8 @@
   "main": "dr-dose.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "mwc-mixin": "^1.0.31"
+    "mwc-mixin": "^1.0.31",
+    "grow-elements": "CommonGarden/grow-elements#^0.0.3"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
@@ -13,14 +14,15 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/CommonGarden/dr-dose",
-  "version": "0.0.2",
-  "_release": "0.0.2",
+  "version": "0.0.5",
+  "_release": "0.0.5",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.2",
-    "commit": "80dc59bffdd77f94d1a5d25c0481a7326a5a5825"
+    "tag": "0.0.5",
+    "commit": "6d7a96d49e402167128d4f89f96516129dc57dcc"
   },
-  "_source": "git://github.com/CommonGarden/dr-dose.git",
-  "_target": "^0.0.2",
-  "_originalSource": "CommonGarden/dr-dose"
+  "_source": "https://github.com/CommonGarden/dr-dose.git",
+  "_target": "^0.0.5",
+  "_originalSource": "CommonGarden/dr-dose",
+  "_direct": true
 }

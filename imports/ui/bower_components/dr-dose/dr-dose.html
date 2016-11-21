@@ -1,7 +1,3 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../mwc-mixin/mwc-mixin.html">
-
 <!--
 `Dr-Dose-Raspberry-Pi`
 A ph balancer and nutrient doser.
@@ -16,9 +12,10 @@ A ph balancer and nutrient doser.
       }
     </style>
     <h2>[[name]]</h2>
-    <!-- TODO: make seperate components for each sensor... -->
-    <p>Current ph: {{ph}}</p>
-    <p>Current ec: {{ec}}</p>
+    <p>Current ph:</p>
+    <ph-gauge ph="{{ph}}"></ph-gauge>
+
+    <p>Current ec: <strong>{{ec}}</strong></p>
 
     <br/>
 
