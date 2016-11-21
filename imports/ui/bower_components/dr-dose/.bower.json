@@ -14,15 +14,15 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/CommonGarden/dr-dose",
-  "version": "0.0.5",
-  "_release": "0.0.5",
+  "version": "0.0.6",
+  "_release": "0.0.6",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.5",
-    "commit": "6d7a96d49e402167128d4f89f96516129dc57dcc"
+    "tag": "0.0.6",
+    "commit": "763d665910f2e9d798388237fe6421472f0d3581"
   },
   "_source": "https://github.com/CommonGarden/dr-dose.git",
-  "_target": "^0.0.5",
+  "_target": "^0.0.6",
   "_originalSource": "CommonGarden/dr-dose",
   "_direct": true
 }
