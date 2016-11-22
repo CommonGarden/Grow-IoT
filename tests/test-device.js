@@ -20,7 +20,7 @@ var grow = new GrowInstance({
 
     start: function () {
         setInterval(light_data, 3000);
-    }
+    },
 
     // Actions are the API of the thing.
     turn_light_on: function () {

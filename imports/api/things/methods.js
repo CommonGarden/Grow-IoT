@@ -90,6 +90,7 @@ Meteor.methods({
       uuid: String,
       token: String
     });
+    check(body, Object);
 
     let thing = Things.findOne(auth, {
       fields: {
