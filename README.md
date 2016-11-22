@@ -8,7 +8,7 @@ Grow-IoT allows you to:
 * Own your data ([host your own instance!](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup))
 * *Beta*: Create interelationships and workflows between things
 
-If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place. Let's make it easier for scientists of all ages to start collecting data from sensors.
+If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place.
 
 ![Example image](https://cloud.githubusercontent.com/assets/521978/20240422/a50694ee-a8cc-11e6-97f5-81b636149b85.png)
 
