@@ -46,7 +46,12 @@ To add a component:
 
 2. Then add it to the `imports/ui/imports.html` file. 
 
-Now it's ready to use in Grow-IoT! For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
+Now it's ready to use in Grow-IoT! For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/). **We've started building a collection in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).** 
+
+Currently, we have a start of some gauges for ph, temperature, and humidty:
+
+![Current grow-elements ui](https://cloud.githubusercontent.com/assets/521978/20504229/3de347d6-affb-11e6-8002-f7c46a3e981a.png)
+
 
 ## Connecting devices (or virtual things)
 
