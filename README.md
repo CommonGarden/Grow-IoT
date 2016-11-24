@@ -12,6 +12,7 @@ If you think the Internet of Things should be based on open standards and intero
 
 ![Example image](https://cloud.githubusercontent.com/assets/521978/20240422/a50694ee-a8cc-11e6-97f5-81b636149b85.png)
 
+
 ## Installing Grow-IoT
 
 You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:

@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 // Feel free to make suggestions for the eventbus api.
-
 Meteor.publish('Events.byThing', function(thingUuid) {
   check(thingUuid, String);
 
@@ -27,7 +26,6 @@ Meteor.publish('Events.byThing', function(thingUuid) {
     'limit': 100
   });
 });
-
 
 Meteor.publish('Events.byThingAndType', function(thingUuid, type) {
   check(thingUuid, String);

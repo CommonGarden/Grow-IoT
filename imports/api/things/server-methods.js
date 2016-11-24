@@ -8,7 +8,7 @@ Meteor.methods({
     check(type, String);
     check(options, Object);
 
-    // must be owner of the device.
+    // Must be owner of the device.
     let thing = Things.findOne(
       {uuid: thingUuid}
     , {
