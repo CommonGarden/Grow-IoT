@@ -19,7 +19,7 @@
     "tag": "0.0.1",
     "commit": "dbb7c4c4057605539dcddad646937cea278a4280"
   },
-  "_source": "git://github.com/CommonGarden/smart-pot.git",
+  "_source": "https://github.com/CommonGarden/smart-pot.git",
   "_target": "^0.0.1",
   "_originalSource": "CommonGarden/smart-pot"
 }
