@@ -10,11 +10,18 @@ else
   echo "${red}Bower installation failed.!${reset}" 1>&2
   exit 1
 fi
-read -p "Remove demo,test folders from bower_components dir. (y/n)?" CONT
+read -p "Remove demo,test folders & files from bower dir. (y/n)?" CONT
 if [ "$CONT" = "y" ]; then
-  find imports/ui/bower_components/* -depth -name "demo" -exec rm -rf "{}" \;
-  find imports/ui/bower_components/* -depth -name "test" -exec rm -rf "{}" \;
-  find imports/ui/bower_components/* -depth -name "bower_components" -exec rm -rf "{}" \;
+  folders=( "demo" "test" "bower_components" )
+  for i in "${folders[@]}"
+  do
+    find ./imports/ui/bower_components/* -depth -name $i -exec rm -rf "{}" \;
+  done
+  files=( "demo" "test" )
+  for i in "${files[@]}"
+  do
+    find ./imports/ui/bower_components/* -depth -name "${i}.*" -type f|xargs rm -f
+  done
   echo "Cleanup Successful.!";
 else
   echo "Cleanup Cancelled";

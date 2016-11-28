@@ -16,6 +16,7 @@
     "grow-elements": "CommonGarden/grow-elements#^0.0.3",
     "iron-icons": "PolymerElements/iron-icons#^1.2.0"
   },
+  "ignore":["demo/*","test/*"],
   "name": "Grow-IoT",
   "version": "0.0.5"
 }
