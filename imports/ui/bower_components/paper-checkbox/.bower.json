@@ -43,7 +43,7 @@
     "tag": "v1.4.1",
     "commit": "1b543dc276264998a22c25e154fb3c9e9565fda3"
   },
-  "_source": "git://github.com/PolymerElements/paper-checkbox.git",
+  "_source": "https://github.com/PolymerElements/paper-checkbox.git",
   "_target": "^1.0.0",
   "_originalSource": "PolymerElements/paper-checkbox"
 }

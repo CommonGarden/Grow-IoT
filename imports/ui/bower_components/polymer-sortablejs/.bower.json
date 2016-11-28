@@ -35,8 +35,7 @@
     "tag": "0.1.4",
     "commit": "96547606afde1fc5eafc44c4343f71a83b24460f"
   },
-  "_source": "git://github.com/aruntk/polymer-sortablejs.git",
+  "_source": "https://github.com/aruntk/polymer-sortablejs.git",
   "_target": "^0.1.4",
-  "_originalSource": "aruntk/polymer-sortablejs",
-  "_direct": true
+  "_originalSource": "aruntk/polymer-sortablejs"
 }

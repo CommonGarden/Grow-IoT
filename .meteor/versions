@@ -55,7 +55,7 @@ modules-runtime@0.7.7
 mongo@1.1.14
 mongo-id@1.0.6
 mwc:layout@1.1.21
-mwc:mixin@1.0.33
+mwc:mixin@1.0.34
 mwc:router@1.0.10
 mwc:synthesis@1.0.42
 mwc:synthesis-compiler@1.0.40

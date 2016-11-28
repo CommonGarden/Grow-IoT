@@ -13,7 +13,8 @@
     "polymer-sortablejs": "aruntk/polymer-sortablejs#^0.1.4",
     "dr-dose": "CommonGarden/dr-dose#^0.0.6",
     "smart-pot": "CommonGarden/smart-pot#^0.0.1",
-    "grow-elements": "CommonGarden/grow-elements#^0.0.3"
+    "grow-elements": "CommonGarden/grow-elements#^0.0.3",
+    "iron-icons": "PolymerElements/iron-icons#^1.2.0"
   },
   "name": "Grow-IoT",
   "version": "0.0.5"
