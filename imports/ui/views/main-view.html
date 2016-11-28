@@ -24,11 +24,11 @@
       <iron-pages class="layout vertical main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
         <div class="vertical layout flex" main name="home">
           <div class="center center-justified layout wrap horizontal">
-            <!-- <sortable-js>             -->
+            <sortable-js>            
               <template is="dom-repeat" items="{{things}}" as="thing">
                 <thing-display on-delete-thing="_deleteThisThing" thing="{{thing}}"></thing-display>           
               </template>
-            <!-- </sortable-js> -->
+            </sortable-js>
           </div>
             <empty-state hidden$="{{_ifEmpty(things)}}" class="layout flex vertical"></empty-state>
         </div>
