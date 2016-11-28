@@ -15,23 +15,15 @@ If you think the Internet of Things should be based on open standards and intero
 
 ## Installing Grow-IoT
 
-You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
-```bash
-curl https://install.meteor.com/ | sh
-```
+You need to install [Meteor](https://www.meteor.com/) first (if you haven't already).
 
-Webcomponents are a new web standard, but the polyfills (code that makes them work in older browsers) are pretty good by this point. However, you still need to install [vulcanize](https://github.com/Polymer/vulcanize) globally; it builds html for older browsers.
-
-`npm install -g vulcanize`
-
-Then clone the repo, enter the new directory, npm install, bower install, and run the `run.sh` script (which vulcanizes the public/imports.html file to build.html before starting meteor).
+Then clone the repo, enter the new directory, and run the `build.sh` script (which installs needed [npm](https://www.npmjs.com/) and [bower](https://bower.io/) packages).
 
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-meteor npm install
-bower install
-./run.sh
+./build.sh
+meteor
 ```
 
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
@@ -46,9 +38,17 @@ To add a component:
 
 1. Install it with [bower](https://bower.io/).
 
-2. Then add it to the `imports/ui/imports.html` file. 
+2. Then add it to the `imports/ui/imports.html` file.
 
-Now it's ready to use in Grow-IoT! For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/). **We've started building a collection in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).** 
+3. Run the `./build.sh` script.
+
+
+Now it's ready to use in Grow-IoT! 
+
+For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/). 
+
+### grow-elements
+**We've started building a collection of useful custom elments in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).** 
 
 Currently, we have a start of some gauges for ph, temperature, and humidty:
 

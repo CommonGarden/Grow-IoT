@@ -85,8 +85,7 @@ Meteor.publish('Thing.messages', function(auth) {
   })(this));
 });
 
-Meteor.publish('Things.list', function(ThingUuid) {
-  check(ThingUuid, String);
+Meteor.publish('Things.list', function() {
   return Things.find({
     owner: this.userId
   });
