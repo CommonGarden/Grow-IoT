@@ -48,7 +48,8 @@ class thingDisplay {
 
   deleteThing (e) {
     this.fire("delete-thing",{
-      thing: this.thing
+      thing: this.thing,
+      target: e.target
     });
   }
 

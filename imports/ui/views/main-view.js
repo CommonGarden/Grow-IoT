@@ -57,8 +57,9 @@ class growMainView {
     const thing = e.detail.thing;
     this.set("selectedThing",thing);
     const dialog = this.$.dialog;
-    dialog.sizingTarget = e.target;
-    dialog.positionTarget = e.target;
+    const t = e.detail.target;
+    dialog.sizingTarget = t;
+    dialog.positionTarget = t;
     dialog.open();
   }
   _confirmDelete(e){
