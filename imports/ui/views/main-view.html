@@ -1,11 +1,11 @@
 <dom-module id="grow-main-view">
   <template>
     <style>
-      app-header {
-        background:var(--default-primary-color);
-        color: white;
-      }
-      
+app-header {
+  background:var(--default-primary-color);
+  color: white;
+}
+
       #dialog{
         overflow:hidden;
       }
@@ -23,23 +23,24 @@
 
       <iron-pages class="layout vertical main" id="mainView" selected="{{mwcRoute.params.view}}" attr-for-selected="name">
         <div class="vertical layout flex" main name="home">
-          <div class="center center-justified layout wrap horizontal">
-            <sortable-js>            
+          <div class="center center-justified layout horizontal">
+            <sortable-js handle=".handle"
+              class="layout horizontal wrap">
               <template is="dom-repeat" items="{{things}}" as="thing">
-                <thing-display on-delete-thing="_deleteThisThing" thing="{{thing}}"></thing-display>           
+                <thing-display on-delete-thing="_deleteThisThing" thing="{{thing}}"></thing-display>
               </template>
             </sortable-js>
           </div>
-            <empty-state hidden$="{{_ifEmpty(things)}}" class="layout flex vertical"></empty-state>
+          <empty-state hidden$="{{_ifEmpty(things)}}" class="layout flex vertical"></empty-state>
         </div>
       </iron-pages>
     </app-header-layout>
     <paper-dialog
-      with-backdrop="true"
-      id="dialog"
-      horizontal-align="left"
-      vertical-align="top"
-      dynamic-align="true">
+                                                      with-backdrop="true"
+                                                      id="dialog"
+                                                      horizontal-align="left"
+                                                      vertical-align="top"
+                                                      dynamic-align="true">
       <h2>Confirm the action.</h2>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>

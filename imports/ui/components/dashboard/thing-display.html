@@ -2,8 +2,11 @@
   <template>
     <style type="text/css">
 paper-card {
-  width: 400px;
+  width: 380px;
   margin: 20px;
+}
+.handle {
+  cursor: all-scroll;
 }
     </style>
     <paper-card image="{{thing.image}}" alt="{{thing.name}}">
@@ -16,9 +19,11 @@ paper-card {
           <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
           <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
         </div>
-        <div class="card-actions">
+        <div class="card-actions layout horizontal">
           <paper-button on-click="createTestThing">Create test thing</paper-button>
           <paper-button on-click="deleteThing">Cancel</paper-button>
+          <div class="flex"></div>
+          <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
         </div>
       </div>
 
@@ -26,7 +31,7 @@ paper-card {
       <div hidden$="{{!thing.registeredAt}}">
         <div class="card-content">
           <div hidden$="{{thing.onlineSince}}">
-              Not online.
+            Not online.
           </div>
 
           <!-- HACK: todo, somehow include the component. -->
@@ -42,8 +47,10 @@ paper-card {
             <test-thing uuid="{{thing.uuid}}"></test-thing>
           </div>
         </div>
-        <div class="card-actions" hidden$="{{!thing.registeredAt}}">
+        <div class="card-actions layout horizontal" hidden$="{{!thing.registeredAt}}">
           <paper-button on-click="deleteThing">Delete</paper-button>
+          <div class="flex"></div>
+          <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
         </div>
       </div>
 
