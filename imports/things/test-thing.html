@@ -11,39 +11,84 @@ An example of how to build a thing for Grow-IoT
         display: block;
       }
     </style>
-    <h2>Welcome to Grow-IoT!</h2>
-    <p>We use webcomponents to make easy to build custom interoperable things. #usetheplatform</p>
-
-    <p>Any sensors or actuators you would like to add to this list? <a href="https://github.com/CommonGarden/Grow-IoT/issues">Open an issue or submit a PR!</a></p>
-
-    <hr/>
-
-
-    <grow-elements></grow-elements>
-
-    <hr/>
-
-    <paper-button on-click="fireEvent">Fire event</paper-button>
+    <h2>Test Device</h2>
+    <p>State: {{state}}</p>
+    <paper-button on-click="sendCommand"
+                  data-method="turn_light_on"
+                  raised >On</paper-button>
+    <paper-button on-click="sendCommand"
+                  data-method="turn_light_off" 
+                  raised >Off</paper-button>
+    <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
   </template>
 
   <script>
-    Polymer({
-
-      is: 'test-thing',
-
-      properties: {
-        prop1: {
-          type: String,
-          value: 'world',
-        },
-        uuid: String
-      },
-
-      fireEvent (e) {
-        this.fire("test-event",{
-          test: true
-        });
+    class testThing {
+      beforeRegister(){
+        this.is = "test-thing";
+        this.properties = {
+          state: String,
+          uuid: String,
+          temperature: Number
+        }
       }
-    });
+
+      get behaviors(){
+        return [mwcMixin]
+      }
+
+      get trackers (){
+        return [
+          "subThing(uuid)",
+          "setState(uuid)",
+          "tempData(uuid)"
+        ];
+      }
+
+      tempData (uuid) {
+        if(uuid){
+          this.subscribe('Events.byThingAndType', uuid, 'temperature');
+          let events = Events.find().fetch();
+          if (!_.isUndefined(events)) {
+            let event = events.pop()
+            if (!_.isUndefined(event)) {
+              if (event.event.message.type === 'temperature') {
+                this.set('temperature', event.event.message.value);
+              }
+            }
+          }
+        }
+      }
+
+      subThing (uuid) {
+        if (uuid) {
+          this.subscribe('Things.one', uuid);
+        }
+      }
+
+      setState (uuid) {
+        if (uuid) {
+          let thing = Things.findOne({uuid: uuid});
+          if (!_.isUndefined(thing)) {
+            this.set('state', thing.thing.properties.state);
+          }
+        }
+      }
+
+      sendCommand (e) {
+        Meteor.call('Thing.sendCommand',
+          this.uuid,
+          e.target.dataset.method,
+          (error, documentId) => {
+            if (error) {
+              console.error("Error", error);
+              return alert(`Error: ${error.reason || error}`);
+            }
+          }
+        );
+      }
+    }
+
+    Polymer(testThing);
   </script>
 </dom-module>

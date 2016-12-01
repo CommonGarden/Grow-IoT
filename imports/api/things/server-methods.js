@@ -6,7 +6,7 @@ Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
     check(thingUuid, String);
     check(type, String);
-    check(options, Object);
+    // check(options, Object || null);
 
     // Must be owner of the device.
     let thing = Things.findOne(
@@ -32,7 +32,5 @@ Meteor.methods({
 
     // Clean up.
     Messages.insert(document);
-
-    // if (!Messages.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
   }
 });

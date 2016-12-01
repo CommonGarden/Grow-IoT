@@ -47,13 +47,13 @@ paper-card {
             <test-thing uuid="{{thing.uuid}}"></test-thing>
           </div>
         </div>
-        <div class="card-actions layout horizontal" hidden$="{{!thing.registeredAt}}">
-          <paper-button on-click="deleteThing">Delete</paper-button>
-          <div class="flex"></div>
-          <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
+        <div class="card-actions layout horizontal"
+             hidden$="{{!thing.registeredAt}}">
+        <paper-button on-click="deleteThing">Delete</paper-button>
+        <div class="flex"></div>
+        <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
         </div>
       </div>
-
     </paper-card>
   </template>
   <script src='thing-display.js'></script>

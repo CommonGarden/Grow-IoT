@@ -3,8 +3,9 @@ var GrowInstance = require('Grow.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
 var grow = new GrowInstance({
-    uuid: '',
-    token: '',
+    uuid: 'ae3093d5-f6bb-47dd-911b-427e85b7d991',
+    token: 'BmGKqZTh4MRzXMwPNeoqjNLLvFT6yQyG',
+    testThing: true, // HACK
 
     // Properties can be updated by the API
     properties: {
@@ -12,7 +13,9 @@ var grow = new GrowInstance({
     },
 
     start: function () {
-        setInterval(temp_data, 3000);
+        setInterval(()=> {
+            grow.call('temp_data');
+        }, 3000);
     },
 
     turn_light_on: function () {
@@ -27,7 +30,7 @@ var grow = new GrowInstance({
         let temp = Math.random() * 100;
 
         // Send data to the Grow-IoT app.
-        grow.temp_data({
+        grow.emit({
           type: 'temperature',
           value: temp
         });

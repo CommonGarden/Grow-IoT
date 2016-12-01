@@ -77,7 +77,7 @@ Meteor.methods({
 
     return Things.update(thing._id, {
       $set: {
-        'thing': thing
+        'thing.properties': thing.thing.properties
       }
     });
   },
