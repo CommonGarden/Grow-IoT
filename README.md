@@ -106,9 +106,7 @@ You can run  this script with the following command, but be sure to replace the 
 node tests/test-device.js
 ```
 
-See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info and examples. It plays well with the Johnny-Five robotics library, so many devices can be connected.
-
-Feel free to add examples to the Wiki.
+See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info and examples. It plays well with the [Johnny-Five](http://johnny-five.io/) robotics library, so [many devices](http://johnny-five.io/#platform-support) can be connected.
 
 ## Adding components
 
@@ -122,9 +120,15 @@ To add a component:
 
 3. Run the `./build.sh` script.
 
+Finally, restart meteor:
+
+```bash
+meteor
+```
+
 Now it's ready to use in Grow-IoT!
 
-Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements catalogue](https://elements.polymer-project.org/) for components to import and use in your projects.
+Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements catalogue](https://elements.polymer-project.org/) for components to import and use in your things.
 
 For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/). 
 
