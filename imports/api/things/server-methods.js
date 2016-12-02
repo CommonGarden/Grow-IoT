@@ -6,7 +6,8 @@ Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
     check(thingUuid, String);
     check(type, String);
-    // check(options, Object || null);
+    // Todo: Options are optional...
+    // check(options, Object);
 
     // Must be owner of the device.
     let thing = Things.findOne(
@@ -30,7 +31,6 @@ Meteor.methods({
       }
     }
 
-    // Clean up.
     Messages.insert(document);
   }
 });

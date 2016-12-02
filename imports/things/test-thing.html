@@ -12,12 +12,15 @@ An example of how to build a thing for Grow-IoT
       }
     </style>
     <h2>Test Device</h2>
-    <p>State: {{state}}</p>
+    <p>This is a basic example of a virtual thing.</p>
+    <p>Heater: {{state}}</p>
     <paper-button on-click="sendCommand"
-                  data-method="turn_light_on"
+                  data-key="state"
+                  data-value="on"
                   raised >On</paper-button>
     <paper-button on-click="sendCommand"
-                  data-method="turn_light_off" 
+                  data-key="state"
+                  data-value="off"
                   raised >Off</paper-button>
     <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
   </template>
@@ -29,6 +32,7 @@ An example of how to build a thing for Grow-IoT
         this.properties = {
           state: String,
           uuid: String,
+          token: String,
           temperature: Number
         }
       }
@@ -40,7 +44,7 @@ An example of how to build a thing for Grow-IoT
       get trackers (){
         return [
           "subThing(uuid)",
-          "setState(uuid)",
+          "thing(uuid)",
           "tempData(uuid)"
         ];
       }
@@ -66,19 +70,34 @@ An example of how to build a thing for Grow-IoT
         }
       }
 
-      setState (uuid) {
+      thing (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
-          if (!_.isUndefined(thing)) {
+          this.set('token', thing.token);
+          if (!_.isUndefined(thing.thing.properties.state)) {
             this.set('state', thing.thing.properties.state);
           }
         }
       }
 
       sendCommand (e) {
-        Meteor.call('Thing.sendCommand',
-          this.uuid,
-          e.target.dataset.method,
+        // This should move the needle on the temperature gauge.
+        // It doesn't.
+        if (e.target.dataset.value === 'on') {
+          this.set('temperature', 14);
+        } else if (e.target.dataset.value === 'off') {
+          this.set('temperature', 13);
+        }
+
+        let auth = {
+          'uuid': this.uuid,
+          'token': this.token
+        };
+
+        Meteor.call('Thing.setProperty',
+          auth,
+          e.target.dataset.key,
+          e.target.dataset.value,
           (error, documentId) => {
             if (error) {
               console.error("Error", error);

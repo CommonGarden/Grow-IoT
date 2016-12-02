@@ -9,10 +9,8 @@ paper-card {
   cursor: all-scroll;
 }
     </style>
-    <paper-card image="{{thing.image}}" alt="{{thing.name}}">
-      <!-- Unregistered thing state -->
-      <!-- At this point the user connects a device or creates a virtual thing... -->
-      <div hidden$="{{thing.registeredAt}}">
+      <!-- TODO: break this out into an element -->
+      <paper-card image="{{thing.image}}" alt="{{thing.name}}" hidden$="{{thing.registeredAt}}">
         <div class="card-content">
           <p>Waiting for device with the following credentials to connect <span id="loading"></span></p>
 
@@ -25,37 +23,34 @@ paper-card {
           <div class="flex"></div>
           <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
         </div>
-      </div>
+      </paper-card>
 
-      <!-- After a thing registers and connects -->
-      <div hidden$="{{!thing.registeredAt}}">
+      <!-- THIS SHOULD BE ITS OWN DOM MODULE -->
+      <paper-card image="{{thing.image}}" alt="{{thing.name}}" hidden$="{{!thing.registeredAt}}">
+        <!-- After a thing registers and connects render its webcomponent -->
+        <!-- THIS PART NEEDS WORK -->
+        <!-- In the future I would like there to be a <thing-display> (or similar) element which renders the web compontent -->
         <div class="card-content">
-          <div hidden$="{{thing.onlineSince}}">
-            Not online.
-          </div>
-
-          <!-- HACK: todo, somehow include the component. -->
-          <div hidden$="{{!thing.thing.drDose}}">
-            <dr-dose uuid="{{thing.uuid}}"></dr-dose>        
-          </div>
-
-          <div hidden$="{{!thing.thing.smartPot}}">
-            <smart-pot uuid="{{thing.uuid}}"></smart-pot>
-          </div>
-
           <div hidden$="{{!thing.thing.testThing}}">
             <test-thing uuid="{{thing.uuid}}"></test-thing>
           </div>
         </div>
+
+        <div class="card-content">
+          <div hidden$="{{!thing.thing.testDevice}}">
+            <test-device uuid="{{thing.uuid}}"></test-device>
+          </div>
+        </div>
+
+
         <div class="card-actions layout horizontal"
              hidden$="{{!thing.registeredAt}}">
-        <paper-button on-click="deleteThing">Delete</paper-button>
-        <div class="flex"></div>
-        <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
+          <paper-button on-click="deleteThing">Delete</paper-button>
+          <div class="flex"></div>
+          <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
         </div>
-      </div>
-    </paper-card>
-  </template>
+      </paper-card>
+    </template>
   <script src='thing-display.js'></script>
 </dom-module>
 

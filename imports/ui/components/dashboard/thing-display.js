@@ -61,7 +61,10 @@ class thingDisplay {
         token: this.thing.token
       },
       {
-        testThing: true
+        testThing: true,
+        properties: {
+          state: "on"
+        }
       },
       (error, document) => {
         if (error) {
