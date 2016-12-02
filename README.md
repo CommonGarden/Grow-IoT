@@ -30,22 +30,6 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 
 Create a test thing (click the '+' button and then the one that says 'Create test thing'). Start by playing with the `test-thing.html` in the `imports/things/` folder.
 
-## Adding components
-
-Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
-
-To add a component:
-
-1. Install it with [bower](https://bower.io/).
-
-2. Then add it to the `imports/ui/imports.html` file.
-
-3. Run the `./build.sh` script.
-
-
-Now it's ready to use in Grow-IoT! 
-
-For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/). 
 
 ### grow-elements
 **We've started building a collection of useful custom elments in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).** 
@@ -61,49 +45,88 @@ You can interact with the Grow-IoT api using the Distributed Data Protocol. *The
 
 [Grow.js](https://github.com/CommonGarden/Grow.js) is a helper library that makes it fairly easy to connect a thing to Grow-IoT. You can use it for both hardware or virtual things.
 
+#### Connecting your first 'device'
+
+Create a new device and take note of the device `uuid` and token.
+
+In the `tests` folder checkout `test-device.js`.
+
+Replace the `uuid` and `token` properties of the config object with the credentials you generate.
+
 ```javascript
+// Import the latest build of the Grow.js library
 var Thing = require('Grow.js');
 
-var light = new Thing({
-    uuid: 'PASTE_UUID_HERE',
-    token: 'PASTE_TOKEN_HERE',
+// Create a new grow instance. Connects by default to localhost:3000
+var testDevice = new Thing({
+    // PUT YOUR UUID AND TOKEN HERE:
+    uuid: 'ae3093d5-f6bb-47dd-911b-427e85b7d991',
+    token: 'BmGKqZTh4MRzXMwPNeoqjNLLvFT6yQyG',
+    
+    // HACK, unfortunately needed for now...
+    testDevice: true,
 
     // Properties can be updated by the API
     properties: {
-        name: 'Software light',
-        state: 'off',
-        lightConditions: null,
-        light_data_interval: 3000
+        state: 'off'
     },
 
     start: function () {
-        setInterval(grow.call('light_data'), 3000);
-    }
-
-    // Actions are the API of the thing.
-    turn_light_on: function () {
-        grow.set('state', 'on');
+        setInterval(()=> {
+            testDevice.call('temp_data');
+        }, 3000);
     },
 
-    turn_light_off: function () {
-        // Emit a 'light off' event, set the state property to 'off'
-        grow.set('state', 'off');
+    turn_on: function () {
+        testDevice.set('state', 'on');
     },
 
-    light_data: function () {
+    turn_off: function () {
+        testDevice.set('state', 'off');
+    },
+
+    temp_data: function () {
+        let temp = Math.random() * 100;
+
         // Send data to the Grow-IoT app.
-        grow.emit({
-          type: 'light',
-          value: 'sunny'
+        testDevice.emit({
+          type: 'temperature',
+          value: temp
         });
     }
 });
 
-// Defaults to http://localhost:3000
-grow.connect();
+testDevice.connect();
+
 ```
 
-See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info.
+You can run  this script with the following command, but be sure to replace the uuid and token, have Grow-IoT running locally, or it won't connect.
+
+```bash
+node tests/test-device.js
+```
+
+See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info and examples. It plays well with the Johnny-Five robotics library, so many devices can be connected.
+
+Feel free to add examples to the Wiki.
+
+## Adding components
+
+Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
+
+To add a component:
+
+1. Install it with [bower](https://bower.io/).
+
+2. Then add it to the `imports/ui/imports.html` file.
+
+3. Run the `./build.sh` script.
+
+Now it's ready to use in Grow-IoT!
+
+Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements catalogue](https://elements.polymer-project.org/) for components to import and use in your projects.
+
+For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/). 
 
 ### Hardware Examples
 Will be documenting soon.
@@ -116,7 +139,6 @@ Grow-IoT supports all kinds of Things! Even models of ones you can't connect to 
 Here are some suggestions of web components you could make. I'll get around to making some eventually...
 * Plants! Let's make a library of plants!
 * Models of growing environments
-
 
 ## Contributing
 Be kind to one another. All are welcome. See the following for more info:
