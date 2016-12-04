@@ -18,7 +18,7 @@ class temperatureElement {
     return [mwcMixin];
   }
   draw(temperature) {
-    this.temperatureGauge = this.temperatureGauge || echarts.init(this.$.container);
+    this.temperatureGauge = this.temperatureGauge || echarts.init(this.$.container, 'macarons');
     const intTmp = Math.floor(temperature);
     const data = { value: intTmp, name: 'temperature' };
       opt = {
@@ -35,9 +35,58 @@ class temperatureElement {
         },
         series : [
           {
-            name:'temperature',
+            name:'Temperature',
             type:'gauge',
-            detail: {formatter:'{value}°'},
+            splitNumber: 10,
+            axisLine: {
+                lineStyle: {
+                    color: [
+                      [0.4, 'rgba(255,0,0,0.4)'],
+                      [0.6, 'rgba(0,200,0,0.4)'],
+                      [1, 'rgba(255,0,0,0.4)'],
+                      ], 
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  shadowBlur: 20,
+                  shadowOffsetX: 2,
+                  shadowOffsetY: 6
+                }
+            },
+            axisTick: {
+                splitNumber: 10,
+                length :12,
+                lineStyle: {
+                    color: 'auto'
+                }
+            },
+            axisLabel: {
+                textStyle: {
+                    color: 'auto'
+                }
+            },
+            splitLine: {
+                show: true,
+                length :30,
+                lineStyle: {
+                    color: 'auto'
+                }
+            },
+            pointer : {
+                width : 5
+            },
+            title : {
+                show : true,
+                offsetCenter: [0, '-40%'],
+                textStyle: {
+                    fontWeight: 'bolder'
+                }
+            },
+            detail : {
+                formatter:'{value}°',
+                textStyle: {
+                    color: 'auto',
+                    fontWeight: 'bolder'
+                }
+            },
             data: [data]
           }
         ]
