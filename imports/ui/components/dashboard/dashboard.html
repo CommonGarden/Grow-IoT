@@ -1,19 +1,31 @@
 <dom-module id="grow-dashboard">
   <template>
     <link rel="stylesheet" type="text/css" href="dashboard.css">
-    
+
+ <app-route route="{{route}}"
+               pattern="/:dbView"
+               tail="{{routeTail}}"
+               data="{{routeData}}"
+               active="{{active}}">
+    </app-route>
+   
     <iron-media-query query="(max-width: 870px)" query-matches="{{smScreen}}"></iron-media-query>
     
     <paper-drawer-panel  narrow="{{narrow}}" force-narrow="[[computeForceNarrow(smScreen, showSidebar)]]" responsive-width="0" disable-swipe="[[isSelectedMap]]" disable-edge-swipe="[[isSelectedMap]]" id="drawerPanel" right-drawer>
 
-      <iron-pages main selected="{{selected}}">
-        <grow-main-view>
+      <iron-pages attr-for-selected="name"
+                  fallback-selection="404"
+                  selected="[[routeData.dbView]]"
+                  main>
+        <grow-main-view name="main" route="{{routeTail}}">
           <app-toolbar toolbar>
             <div main-title>Grow-IoT</div>
             <paper-icon-button icon="add" on-tap="new" id="addNew"></paper-icon-button>
             <paper-icon-button icon="menu" hidden$="[[!narrow]]" on-tap="openMenu"></paper-icon-button>
           </app-toolbar>
         </grow-main-view>
+        <not-found name="404">
+        </not-found>
       </iron-pages>
       
       <div class="layout vertical sidebar" drawer>

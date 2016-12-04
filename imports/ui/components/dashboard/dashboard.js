@@ -1,5 +1,5 @@
 import { AppState } from '../../state';
-import { setToast, setError } from '../../actions';
+import { setToast, setError, setRoute } from '../../actions';
 
 class growDashboard {
 
@@ -33,7 +33,7 @@ class growDashboard {
 
   get behaviors() {
     return [
-      mwcMixin, mwcRouter, AppState
+      mwcMixin, AppState
     ];
   }
 
@@ -72,12 +72,12 @@ class growDashboard {
   __signOut() {
     const self = this;
     if(!Meteor.status().connected){
-      self.toast({text:"Logging Out...",duration:-1});//infinite toast
+      self.dispatch(setToast.bind(this, ['Loggin Out...', -1]));//infinite toast
     }
 
-    Meteor.logout((e,r)=>{
-      FlowRouter.go('/');
-      self.toast({text:"successful",duration:3000});
+    Meteor.logout((e, r) => {
+      self.dispatch(setToast.bind(self, 'successful', 2000));
+      self.dispatch(setRoute.bind(self, { path: '/' }));
     });
   }
 }

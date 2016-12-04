@@ -39,7 +39,6 @@ htmljs@1.0.11
 http@1.2.10
 id-map@1.0.9
 jquery@1.11.10
-kadira:flow-router@2.12.1
 launch-screen@1.0.12
 livedata@1.0.18
 localstorage@1.0.12
@@ -54,9 +53,7 @@ modules@0.7.7
 modules-runtime@0.7.7
 mongo@1.1.14
 mongo-id@1.0.6
-mwc:layout@1.1.21
 mwc:mixin@1.0.34
-mwc:router@1.0.10
 mwc:synthesis@1.0.42
 mwc:synthesis-compiler@1.0.40
 npm-bcrypt@0.9.2
