@@ -17,8 +17,7 @@ An example of how to build an interface for an IoT device.
     <paper-button on-click="sendCommand"
                   data-method="turn_off" 
                   raised >Off</paper-button>
-    <p>Bug: temperature should be changing every 3 seconds, but the gauge is not responding.</p>
-    <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
+    <temperature-element temperature="{{temperature}}"></temperature-element>
   </template>
 
   <script>

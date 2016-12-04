@@ -26,6 +26,7 @@
     "bcrypt": "^0.8.7",
     "bufferutil": "^1.2.1",
     "chai": "^3.5.0",
+    "echarts": "^3.3.2",
     "epoch-charting": "^0.8.4",
     "meteor-node-stubs": "^0.2.3",
     "polymer-redux": "^0.3.0",
