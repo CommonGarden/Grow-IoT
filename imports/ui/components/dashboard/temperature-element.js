@@ -8,7 +8,15 @@ class temperatureElement {
     this.properties = {
       temperature: {
         type: Number,
-        value: '12',
+        value: 12,
+      },
+      chartHeight: {
+        type: Number,
+        value: 400,
+      },
+      chartWidth: {
+        type: Number,
+        value: 380,
       },
     };
     this.is = 'temperature-element';
@@ -41,8 +49,10 @@ class temperatureElement {
             axisLine: {
                 lineStyle: {
                     color: [
-                      [0.4, 'rgba(255,0,0,0.4)'],
+                      [0.2, 'rgba(255,0,0,0.4)'],
+                      [0.4, 'rgba(255,150,0,0.5)'],
                       [0.6, 'rgba(0,200,0,0.4)'],
+                      [0.8, 'rgba(255,150,0,0.5)'],
                       [1, 'rgba(255,0,0,0.4)'],
                       ], 
                   shadowColor: 'rgba(0, 0, 0, 0.5)',
@@ -77,7 +87,8 @@ class temperatureElement {
                 show : true,
                 offsetCenter: [0, '-40%'],
                 textStyle: {
-                    fontWeight: 'bolder'
+                  fontWeight: 'bolder',
+                  color: '#999',
                 }
             },
             detail : {
