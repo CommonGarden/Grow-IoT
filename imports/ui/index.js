@@ -8,6 +8,7 @@ import './components/style';
 import './components/accounts';
 import './components/general';
 import './components/dashboard';
+import './components/grow-elements/grow-elements.html';
 import Sortable from "./bower_components/Sortable/Sortable.js";
 import d3 from "./bower_components/d3/d3.min.js";
 

@@ -1,6 +1,6 @@
 import echarts from 'echarts';
 
-class temperatureElement {
+class temperatureGauge {
   ready() {
     this.temperatureGauge = echarts.init(this.$.container);
   }
@@ -19,7 +19,7 @@ class temperatureElement {
         value: 380,
       },
     };
-    this.is = 'temperature-element';
+    this.is = 'temperature-gauge';
     this.observers = ['draw(temperature)'];
   }
   get behaviors() {
@@ -108,4 +108,4 @@ class temperatureElement {
     this.temperatureGauge.setOption(opt);
   }
 };
-Polymer(temperatureElement);
+Polymer(temperatureGauge);
