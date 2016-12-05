@@ -40,10 +40,9 @@ class humidityGauge {
           saveAsImage : {show: true}
         }
       },
-
       series : [
         {
-          name: 'Temperature',
+          name: 'Humidity',
           type: 'gauge',
           splitNumber: 10,
           min: 0,

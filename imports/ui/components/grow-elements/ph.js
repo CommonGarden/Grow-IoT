@@ -43,7 +43,7 @@ class phGauge {
 
       series : [
         {
-          name: 'Temperature',
+          name: 'PH',
           type: 'gauge',
           splitNumber: 14,
           min: 0,
