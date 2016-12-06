@@ -31,7 +31,7 @@ class growMainView {
 
   get behaviors() {
     return [
-      mwcMixin, mwcRouter, AppState
+      mwcMixin, AppState
     ];
   }
 

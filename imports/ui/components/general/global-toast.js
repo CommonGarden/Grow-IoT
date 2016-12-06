@@ -16,6 +16,10 @@ class globalToast {
         type: String,
         statePath: 'toast.text',
       },
+      duration: {
+        type: Number,
+        statePath: 'toast.duration', 
+      },
       undo: {
         type: Object,
         value: {},
@@ -24,7 +28,7 @@ class globalToast {
     };
     this.actions = { setToast };
     this.observers = [
-      '_toast(text)',
+      '_toast(text, duration)',
     ];
 
   }
@@ -41,7 +45,7 @@ class globalToast {
 
     this.$.paper_toast.hide();
   }
-  _toast(text) {
+  _toast(text, duration = 4000) {
     if (text) {
       this.$.paper_toast.hide();
       this.async(() => {

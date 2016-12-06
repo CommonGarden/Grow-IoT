@@ -1,0 +1,31 @@
+<dom-module id="root-layout">
+  <template>
+
+    <!--================== <Router> ================-->
+
+    <app-location route="{{route}}"></app-location>
+
+    <app-route route="{{route}}"
+               pattern="/:view"
+               tail="{{routeTail}}"
+               data="{{routeData}}"
+               active="{{active}}">
+    </app-route>
+
+    <iron-pages selected="[[routeData.view]]"
+                attr-for-selected="name"
+                fallback-selection="404"> 
+      <landing-page route="{{routeTail}}" name="">
+      </landing-page>
+      <grow-dashboard route="{{routeTail}}" name="dashboard">
+      </grow-dashboard>
+      <accounts-element route="{{routeTail}}" name="account">
+      </accounts-element>
+      <not-found name="404">
+      </not-found>
+    </iron-pages>
+  </template>
+
+  <script src="root-layout.js"></script>
+
+</dom-module>

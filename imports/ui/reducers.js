@@ -1,10 +1,12 @@
 import { Random } from 'meteor/random';
-import { SET_USER, SET_TOAST, SET_ERROR } from './action-types';
+import { EJSON } from 'meteor/ejson';
+import { SET_USER, SET_TOAST, SET_ERROR, SET_ROUTE } from './action-types';
 
 const initialState = {
   user: {},
   toast: {
     text: '',
+    duration: 4000,
   },
   errors: {},
 };
@@ -18,6 +20,7 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         toast: {
           text: action.text,
+          duration: action.duration,
         },
       });
     case SET_ERROR: {
@@ -35,6 +38,17 @@ export const reducer = (state = initialState, action) => {
         },
         errors,
       });
+    }
+    case SET_ROUTE: {
+      if(EJSON.equals(action.route, state.route)){
+        return state;
+      }
+      const route = Object.assign({}, state.route, action.route);
+      return Object.assign({}, state, { route });
+    }
+    case 'SET_ROUTE_PATH': {
+      const route = Object.assign(state.route, { path: action.path });
+      return state;
     }
     default:
       return state;
