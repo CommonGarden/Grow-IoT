@@ -1,16 +1,13 @@
-// Import the latest build of the Grow.js library
 var Thing = require('Grow.js');
 
-// Create a new grow instance. Connects by default to localhost:3000
 var testDevice = new Thing({
-  // PUT YOUR UUID AND TOKEN HERE:
-  uuid: '6e42b6d8-1c3b-4a69-9527-4b8d20f8486c',
-  token: 'nLoyuaKpuMG4nCZTYfuRHQtoMFKPbb2j',
+  // PUT YOUR UUID AND TOKEN HERE: |||||||||||||||
+  uuid: 'Paste_UUID_here',
+  token: 'Paste_TOKEN_here',
 
-  // HACK, unfortunately needed for now...
-  testDevice: true,
+  testDevice: true, // HACK, unfortunately needed for now...
+  component: 'test-device', // The future...
 
-  // Properties can be updated by the API
   properties: {
     state: 'off'
   },
@@ -22,18 +19,20 @@ var testDevice = new Thing({
   },
 
   turn_on: function () {
+    console.log('on');
     testDevice.set('state', 'on');
   },
 
   turn_off: function () {
-    console.log('test');
+    console.log('off');
     testDevice.set('state', 'off');
   },
 
   temp_data: function () {
     let temp = Math.random() * 100;
 
-    // Send data to the Grow-IoT app.
+    console.log(temp);
+
     testDevice.emit({
       type: 'temperature',
       value: temp

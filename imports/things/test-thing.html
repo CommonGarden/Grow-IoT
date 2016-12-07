@@ -11,7 +11,7 @@ An example of how to build a thing for Grow-IoT
         display: block;
       }
     </style>
-    <h2>Test Device</h2>
+    <h2>Test thing</h2>
     <p>This is a basic example of a virtual thing.</p>
     <p>Heater: {{state}}</p>
     <paper-button on-click="sendCommand"
@@ -73,10 +73,9 @@ An example of how to build a thing for Grow-IoT
       thing (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
+          console.log(thing);
           this.set('token', thing.token);
-          if (!_.isUndefined(thing.thing.properties.state)) {
-            this.set('state', thing.thing.properties.state);
-          }
+          this.set('state', thing.thing.properties.state);
         }
       }
 
@@ -93,6 +92,9 @@ An example of how to build a thing for Grow-IoT
           'uuid': this.uuid,
           'token': this.token
         };
+
+
+        console.log(auth);
 
         Meteor.call('Thing.setProperty',
           auth,

@@ -17,7 +17,6 @@ An example of how to build an interface for an IoT device.
     <paper-button on-click="sendCommand"
                   data-method="turn_off" 
                   raised >Off</paper-button>
-    <p>Bug: temperature should be changing every 3 seconds, but the gauge is not responding.</p>
     <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
   </template>
 
@@ -68,10 +67,7 @@ An example of how to build an interface for an IoT device.
       setState (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
-          console.log(thing);
-          if (!_.isUndefined(thing.thing.properties.state)) {
-            this.set('state', thing.thing.properties.state);
-          }
+          this.set('state', thing.thing.properties.state);
         }
       }
 
