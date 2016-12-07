@@ -73,16 +73,17 @@ An example of how to build a thing for Grow-IoT
       thing (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
-          this.set('token', thing.token);
-          if (!_.isUndefined(thing.thing)) {
-            this.set('state', thing.thing.properties.state);
+          if (!_.isUndefined(thing)) {
+            this.set('token', thing.token);
+            if (!_.isUndefined(thing.properties)) {
+              this.set('state', thing.properties.state);
+            }
           }
         }
       }
 
       sendCommand (e) {
-        // This should move the needle on the temperature gauge.
-        // It doesn't.
+        // Hack, moves the needle...
         if (e.target.dataset.value === 'on') {
           this.set('temperature', 14);
         } else if (e.target.dataset.value === 'off') {
@@ -93,9 +94,6 @@ An example of how to build a thing for Grow-IoT
           'uuid': this.uuid,
           'token': this.token
         };
-
-
-        console.log(auth);
 
         Meteor.call('Thing.setProperty',
           auth,

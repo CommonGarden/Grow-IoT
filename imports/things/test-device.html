@@ -63,9 +63,11 @@ An example of how to build an interface for an IoT device.
           self.humidity = Math.round(Math.random() * 1000)/10;
         },3000);
       }
+
       detached() {
         clearInterval(this.timer);
       }
+
       tempData (uuid) {
         if(uuid){
           this.subscribe('Events.byThingAndType', uuid, 'temperature');
@@ -90,8 +92,10 @@ An example of how to build an interface for an IoT device.
       setState (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
-          if (!_.isUndefined(thing.thing)) {
-            this.set('state', thing.thing.properties.state);
+          if (!_.isUndefined(thing)) {
+            if (!_.isUndefined(thing.properties)) {
+              this.set('state', thing.properties.state);
+            }
           }
         }
       }
