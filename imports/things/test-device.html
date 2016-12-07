@@ -90,7 +90,9 @@ An example of how to build an interface for an IoT device.
       setState (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
-          this.set('state', thing.thing.properties.state);
+          if (!_.isUndefined(thing.thing)) {
+            this.set('state', thing.thing.properties.state);
+          }
         }
       }
 

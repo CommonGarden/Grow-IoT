@@ -73,9 +73,10 @@ An example of how to build a thing for Grow-IoT
       thing (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
-          console.log(thing);
           this.set('token', thing.token);
-          this.set('state', thing.thing.properties.state);
+          if (!_.isUndefined(thing.thing)) {
+            this.set('state', thing.thing.properties.state);
+          }
         }
       }
 
