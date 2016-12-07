@@ -17,7 +17,63 @@ npm install Grow.js
 
 ### Usage
 
-TODO: hardwareless example...
+Create a new device and take note of the device `uuid` and token.
+
+In the `tests` folder checkout `test-device.js`.
+
+Replace the `uuid` and `token` properties of the config object with the credentials you generate.
+
+```javascript
+// Import the latest build of the Grow.js library
+var Thing = require('Grow.js');
+
+// Create a new grow instance. Connects by default to localhost:3000
+var testDevice = new Thing({
+    // PUT YOUR UUID AND TOKEN HERE:
+    uuid: 'ae3093d5-f6bb-47dd-911b-427e85b7d991',
+    token: 'BmGKqZTh4MRzXMwPNeoqjNLLvFT6yQyG',
+    
+    // HACK, unfortunately needed for now...
+    testDevice: true,
+
+    // Properties can be updated by the API
+    properties: {
+        state: 'off'
+    },
+
+    // Start method is run when the Thing is constructed.
+    start: function () {
+        setInterval(()=> {
+            testDevice.call('temp_data');
+        }, 3000);
+
+        // Turn on
+        testDevice.call('turn_on');
+    },
+
+    turn_on: function () {
+        testDevice.set('state', 'on');
+    },
+
+    turn_off: function () {
+        testDevice.set('state', 'off');
+    },
+
+    temp_data: function () {
+        let temp = Math.random() * 100;
+
+        // Send data to the Grow-IoT app.
+        testDevice.emit({
+          type: 'temperature',
+          value: temp
+        });
+    }
+});
+
+testDevice.connect();
+
+```
+
 
 # Working with hardware.
 
@@ -36,6 +92,7 @@ Take a look at the [led-and-photoresistor arduino example](https://github.com/Co
 
 Create a new thing in the Grow-IoT ui and copy and paste the UUID and Token into the example below.
 
+<!-- THIS SHOULD BE AN EXAMPLE IN GROW-IOT as well... it should have a web component aspect. -->
 
 ```javascript
 // Require the Grow.js build and johnny-five library.
@@ -50,8 +107,7 @@ board.on('ready', function start() {
     // Define variables
     // Note: if you wire the device slightly differently you may need to
     // change the pin numbers below.
-    var LED = new five.Pin(13),
-        lightSensor = new five.Sensor('A0');
+    var LED = new five.Pin(13);
 
     // Create a new grow instance.
     var grow = new GrowInstance({
@@ -61,6 +117,7 @@ board.on('ready', function start() {
         properties: {
             state: 'off'
         },
+
         turn_light_on: function () {
             LED.high();
             grow.set('state', 'on');
@@ -71,7 +128,7 @@ board.on('ready', function start() {
             LED.low();
             grow.set('state', 'off');
             console.log('light off');
-        },
+        }
     });
 
     // Connects to localhost:3000 by default
