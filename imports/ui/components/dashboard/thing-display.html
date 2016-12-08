@@ -29,15 +29,14 @@ paper-card {
       <paper-card image="{{thing.image}}" alt="{{thing.name}}" hidden$="{{!thing.registeredAt}}">
         <!-- After a thing registers and connects render its webcomponent -->
         <!-- THIS PART NEEDS WORK -->
-        <!-- In the future I would like there to be a <thing-display> (or similar) element which renders the web compontent -->
         <div class="card-content">
-          <div hidden$="{{!thing.thing.testThing}}">
+          <div hidden$="{{!thing.testThing}}">
             <test-thing uuid="{{thing.uuid}}"></test-thing>
           </div>
         </div>
 
         <div class="card-content">
-          <div hidden$="{{!thing.thing.testDevice}}">
+          <div hidden$="{{!thing.testDevice}}">
             <test-device uuid="{{thing.uuid}}"></test-device>
           </div>
         </div>

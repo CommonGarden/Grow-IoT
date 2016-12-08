@@ -10,9 +10,6 @@ Grow-IoT allows you to:
 
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place.
 
-![Example image](https://cloud.githubusercontent.com/assets/521978/20240422/a50694ee-a8cc-11e6-97f5-81b636149b85.png)
-
-
 ## Installing Grow-IoT
 
 You need to install [Meteor](https://www.meteor.com/) first (if you haven't already).
@@ -28,30 +25,10 @@ meteor
 
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
-Create a test thing (click the '+' button and then the one that says 'Create test thing'). Start by playing with the `test-thing.html` in the `imports/things/` folder.
-
-
-### grow-elements
-**We've started building a collection of useful custom elments in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).** 
-
-Currently, we have a start of some gauges for ph, temperature, and humidty:
-
-![Current grow-elements ui](https://cloud.githubusercontent.com/assets/521978/20504229/3de347d6-affb-11e6-8002-f7c46a3e981a.png)
-
-
 ## Connecting devices (or virtual things)
+Create a new device (click the '+' button) and take note of the device `uuid` and `token`.
 
-You can interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
-
-[Grow.js](https://github.com/CommonGarden/Grow.js) is a helper library that makes it fairly easy to connect a thing to Grow-IoT. You can use it for both hardware or virtual things.
-
-#### Connecting your first 'device'
-
-Create a new device and take note of the device `uuid` and token.
-
-In the `tests` folder checkout `test-device.js`.
-
-Replace the `uuid` and `token` properties of the config object with the credentials you generate.
+In the `tests` folder checkout `test-device.js`. **Replace the `uuid` and `token` properties of the config object with the credentials you generate.**
 
 ```javascript
 // Import the latest build of the Grow.js library
@@ -96,17 +73,22 @@ var testDevice = new Thing({
     }
 });
 
+// Connects by default to localhost:300
 testDevice.connect();
 
 ```
 
-You can run  this script with the following command, but be sure to replace the uuid and token, have Grow-IoT running locally, or it won't connect.
+After you add the `uuid` and `token` to the thing and have Grow-IoT running locally run (in a seperate terminal):
 
 ```bash
 node tests/test-device.js
 ```
 
-See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info and examples. It plays well with the [Johnny-Five](http://johnny-five.io/) robotics library, so [many devices](http://johnny-five.io/#platform-support) can be connected.
+[Grow.js](https://github.com/CommonGarden/Grow.js) is a helper library that makes it fairly easy to connect a thing to Grow-IoT. You can use it for both hardware or virtual things. It plays well with the [Johnny-Five](http://johnny-five.io/) robotics library, so [many devices](http://johnny-five.io/#platform-support) can be connected.
+
+You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
+
+[REST endpoints coming soon!](https://github.com/CommonGarden/Grow-IoT/issues/208)
 
 ## Adding components
 
@@ -130,19 +112,17 @@ Now it's ready to use in Grow-IoT!
 
 Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements catalogue](https://elements.polymer-project.org/) for components to import and use in your things.
 
-For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/). 
+For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
 
 ### Hardware Examples
-Will be documenting soon.
+Work in progress...
 * https://github.com/CommonGarden/dr-dose
 * https://github.com/CommonGarden/smart-pot
 
 ### Software examples
 Grow-IoT supports all kinds of Things! Even models of ones you can't connect to the Internet, like a tree.
 
-Here are some suggestions of web components you could make. I'll get around to making some eventually...
-* Plants! Let's make a library of plants!
-* Models of growing environments
+**We've started building a collection of useful custom elments in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).**
 
 ## Contributing
 Be kind to one another. All are welcome. See the following for more info:

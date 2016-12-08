@@ -27,11 +27,11 @@ Meteor.methods({
     
     // TODO: reorganize... we shouldn't have to write things like thing.thing.name
     // Update the document
+
+    config = _.extend(config, { registeredAt: new Date() });
+
     if (!Things.update(thing._id, {
-      $set: {
-        thing: config,
-        registeredAt: new Date()
-      }
+      $set: config
     })) { throw new Meteor.Error('internal-error', "Internal error."); }
 
     // return document;
@@ -68,16 +68,16 @@ Meteor.methods({
     let thing = Things.findOne(auth, {
       fields: {
         _id: 1,
-        thing: 1
+        properties: 1
       }
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    thing.thing.properties[key] = value;
+    thing.properties[key] = value;
 
     return Things.update(thing._id, {
       $set: {
-        'thing.properties': thing.thing.properties
+        'properties': thing.properties
       }
     });
   },

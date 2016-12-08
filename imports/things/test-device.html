@@ -17,8 +17,9 @@ An example of how to build an interface for an IoT device.
     <paper-button on-click="sendCommand"
                   data-method="turn_off" 
                   raised >Off</paper-button>
-    <p>Bug: temperature should be changing every 3 seconds, but the gauge is not responding.</p>
     <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
+    <ph-gauge ph="{{ph}}"></ph-gauge>
+    <humidity-gauge humidity="{{humidity}}"></humidity-gauge>
   </template>
 
   <script>
@@ -28,7 +29,19 @@ An example of how to build an interface for an IoT device.
         this.properties = {
           state: String,
           uuid: String,
-          temperature: Number
+          temperature: Number,
+          ph: {
+            type: Number,
+            value: 6.7,
+          },
+          humidity: {
+            type: Number,
+            value: 50,
+          },
+          light: Number,
+          conductivity: Number,
+          dOxygen: Number,
+          co2: Number,
         }
       }
 
@@ -42,6 +55,17 @@ An example of how to build an interface for an IoT device.
           "setState(uuid)",
           "tempData(uuid)"
         ];
+      }
+      attached() {
+        const self = this;
+        this.timer = setInterval(() => {
+          self.ph = Math.round(Math.random() * 1400)/100;
+          self.humidity = Math.round(Math.random() * 1000)/10;
+        },3000);
+      }
+
+      detached() {
+        clearInterval(this.timer);
       }
 
       tempData (uuid) {
@@ -68,9 +92,10 @@ An example of how to build an interface for an IoT device.
       setState (uuid) {
         if (uuid) {
           let thing = Things.findOne({uuid: uuid});
-          console.log(thing);
-          if (!_.isUndefined(thing.thing.properties.state)) {
-            this.set('state', thing.thing.properties.state);
+          if (!_.isUndefined(thing)) {
+            if (!_.isUndefined(thing.properties)) {
+              this.set('state', thing.properties.state);
+            }
           }
         }
       }

@@ -61,7 +61,8 @@ class thingDisplay {
         token: this.thing.token
       },
       {
-        testThing: true,
+        testThing: true, // Hack
+        component: 'test-thing', // The future...
         properties: {
           state: "on"
         }
