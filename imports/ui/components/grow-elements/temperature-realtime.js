@@ -3,8 +3,8 @@ import echarts from 'echarts';
 class temperatureRealtime {
   beforeRegister() {
     this.properties = {
-      temperature: {
-        type: Number,
+      events: {
+        type: Array,
       },
       chartHeight: {
         type: Number,
@@ -16,23 +16,11 @@ class temperatureRealtime {
       },
     };
     this.is = 'temperature-realtime';
-    this.observers = ['draw(temperature)'];
+    this.observers = ['draw(events.splices)'];
   }
   attached() {
     this.temperatureRealtime = echarts.init(this.$.container);
-    function randomData(i) {
-      const now = new Date();
-      const date = new Date(+now - (49 - i)* 3000);
-      const rnd = i + Math.random() * 30 - 15;
-      return {
-        name: date.toString(),
-        value: [
-          date.toString(),
-          Math.round(rnd)
-        ]
-      }
-    }
-    this.data = _.times(49, randomData);
+    this.data = [];
     const option = {
       title: {
         text: 'Temperature'
@@ -75,27 +63,26 @@ class temperatureRealtime {
 
   }
 
-  draw(temperature) {
-    if(this.temperatureRealtime && this.data) {
-
-      const now = new Date();
-      const value = temperature;
-      const point = {
-        name: now.toString(),
-        value: [
-          now.toString(),
-          Math.round(value)
-        ]
-      }
-      if(this.data.length >= 50){
-        this.data.shift();
-      }
-      this.data.push(point);
+  draw() {
+    const events = this.events;
+    if(this.temperatureRealtime && this.data && events) {
+      this.data = _.map(events, (event) => {
+        const now = event.event.timestamp;
+        const value = event.event.message.value;
+        const point = {
+          name: now.toString(),
+          value: [
+            now.toString(),
+            Math.round(value)
+          ]
+        }
+        return point;
+      });
       this.temperatureRealtime.setOption({
         series: [{
-            data: this.data
+          data: this.data
         }]
-    });
+      });
     }
   }
 }
