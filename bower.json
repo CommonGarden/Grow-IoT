@@ -21,6 +21,6 @@
     "demo/*",
     "test/*"
   ],
-  "name": "Grow-IoT",
+  "name": "grow-iot",
   "version": "0.0.5"
 }
