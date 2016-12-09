@@ -1,9 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
 if (Meteor.isServer) {
-	import './things/server-methods.js';
-	import './events/publish.js';
-	import './things/publish.js';
+	import './server-methods.js';
+	import './publish.js';
 }
 
-import './things/methods.js';
+import './methods.js';
