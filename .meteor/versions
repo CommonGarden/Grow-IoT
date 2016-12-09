@@ -45,7 +45,6 @@ localstorage@1.0.12
 logging@1.1.16
 meteor@1.6.0
 meteor-base@1.0.4
-meteorhacks:picker@1.0.3
 minifier-js@1.2.15
 minimongo@1.0.19
 mobile-experience@1.0.4
