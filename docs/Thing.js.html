@@ -78,6 +78,7 @@
       _.extend(this, config);
     }
 
+    // What would be other useful default methods?
     if (!_.isUndefined(this.start)) {
       this.start();
     }
@@ -175,7 +176,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls a registered action or event function, emits event if the the action has an &#39;event&#39;<br />property defined. </p></div>
+          <div class="description"><p>Calls a method, emits event<br />property defined. </p></div>
           <pre><code class="language-javascript">call (key, options) {
   try {
     if (!_.isUndefined(options)) {
@@ -184,7 +185,7 @@
     else {
       var output = this[key]();
     }
-    this.emit(key);
+    this.emit(key, options);
 
     // We return any returns of called functions.
     if (!_.isUndefined(output)) {
