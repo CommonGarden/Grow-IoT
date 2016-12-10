@@ -1,4 +1,5 @@
 import echarts from 'echarts';
+import { DemandLatestHumidity } from './demand-behaviors';
 
 class humidityGauge {
   ready() {
@@ -23,7 +24,10 @@ class humidityGauge {
     this.observers = ['draw(humidity)'];
   }
   get behaviors() {
-    return [mwcMixin];
+    return [
+      mwcMixin,
+      DemandLatestHumidity,
+  ];
   }
   draw(humidity) {
     this.humidityGauge = this.humidityGauge || echarts.init(this.$.container, 'macarons');

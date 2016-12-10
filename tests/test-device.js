@@ -1,9 +1,12 @@
 var Thing = require('Grow.js');
-
+var args = process.argv.slice(2);
+var uuid = args[0];
+var token = args[1];
+var type = args[2];
 var testDevice = new Thing({
   // PUT YOUR UUID AND TOKEN HERE: |||||||||||||||
-  uuid: 'Paste_UUID_here',
-  token: 'Paste_TOKEN_here',
+  uuid: uuid,
+  token: token,
 
   testDevice: true, // HACK, unfortunately needed for now...
   component: 'test-device', // The future...
@@ -34,7 +37,7 @@ var testDevice = new Thing({
     console.log(temp);
 
     testDevice.emit({
-      type: 'temperature',
+      type: type,
       value: temp
     });
   }

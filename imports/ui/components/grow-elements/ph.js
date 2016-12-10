@@ -1,4 +1,5 @@
 import echarts from 'echarts';
+import { DemandLatestPH } from './demand-behaviors';
 
 class phGauge {
   ready() {
@@ -23,7 +24,10 @@ class phGauge {
     this.observers = ['draw(ph)'];
   }
   get behaviors() {
-    return [mwcMixin];
+    return [
+      mwcMixin,
+      DemandLatestPH,
+  ];
   }
   draw(ph) {
     this.phGauge = this.phGauge || echarts.init(this.$.container, 'macarons');
