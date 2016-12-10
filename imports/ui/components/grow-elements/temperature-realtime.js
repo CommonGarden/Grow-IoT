@@ -1,4 +1,5 @@
 import echarts from 'echarts';
+import { DemandLatestTemperatureEvents } from './demand-behaviors';
 
 class temperatureRealtime {
   beforeRegister() {
@@ -17,6 +18,11 @@ class temperatureRealtime {
     };
     this.is = 'temperature-realtime';
     this.observers = ['draw(events.splices)'];
+  }
+  get behaviors() {
+    return [
+      DemandLatestTemperatureEvents
+    ]
   }
   attached() {
     this.temperatureRealtime = echarts.init(this.$.container);

@@ -1,4 +1,5 @@
 import echarts from 'echarts';
+import { DemandLatestTemparature } from './demand-behaviors';
 
 class temperatureGauge {
   ready() {
@@ -23,7 +24,10 @@ class temperatureGauge {
     this.observers = ['draw(temperature)'];
   }
   get behaviors() {
-    return [mwcMixin];
+    return [
+      mwcMixin,
+      DemandLatestTemparature,
+    ];
   }
   draw(temperature) {
     this.temperatureGauge = this.temperatureGauge || echarts.init(this.$.container, 'macarons');

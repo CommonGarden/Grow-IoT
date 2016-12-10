@@ -1,124 +1,205 @@
 <!--
-`test-device`
-An example of how to build an interface for an IoT device.
+  `test-device`
+  An example of how to build an interface for an IoT device.
 -->
 <dom-module id="test-device">
   <template>
     <style>
-      :host {
-        display: block;
-      }
+:host {
+  display: block;
+}
     </style>
     <h2>Test Device</h2>
     <p>State: {{state}}</p>
     <paper-button on-click="sendCommand"
                   data-method="turn_on"
                   raised >On</paper-button>
-    <paper-button on-click="sendCommand"
-                  data-method="turn_off" 
-                  raised >Off</paper-button>
-    <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
-    <ph-gauge ph="{{ph}}"></ph-gauge>
-    <humidity-gauge humidity="{{humidity}}"></humidity-gauge>
-    <temperature-timeline></temperature-timeline>
-    <temperature-realtime events="{{events}}"></temperature-realtime>
+      <paper-button on-click="sendCommand"
+                    data-method="turn_off" 
+                    raised >Off</paper-button>
+        <div id="container">
+        </div>
+        <!-- <temperature-gauge temperature="{{temperature}}"></temperature-gauge> -->
+        <!-- <ph-gauge ph="{{ph}}"></ph-gauge> -->
+        <!-- <humidity-gauge humidity="{{humidity}}"></humidity-gauge> -->
+        <!-- <temperature-timeline></temperature-timeline> -->
+        <!-- <temperature-realtime events="{{events}}"></temperature-realtime> -->
   </template>
 
   <script>
-    class testDevice {
-      beforeRegister(){
-        this.is = "test-device";
-        this.properties = {
-          state: String,
-          uuid: String,
-          temperature: Number,
-          events: Array,
-          ph: {
-            type: Number,
-            value: 6.7,
-          },
-          humidity: {
-            type: Number,
-            value: 50,
-          },
-          light: Number,
-          conductivity: Number,
-          dOxygen: Number,
-          co2: Number,
-        }
-      }
+class testDevice {
+  beforeRegister(){
+    this.is = "test-device";
+    this.properties = {
+      state: String,
+      uuid: String,
+      temperature: Number,
+      events: Array,
+      event: Object,
+      ph: {
+        type: Number,
+        value: 6.7,
+      },
+      humidity: {
+        type: Number,
+        value: 50,
+      },
+      light: Number,
+      conductivity: Number,
+      dOxygen: Number,
+      co2: Number,
+    };
+    this.observers = [
+      '_eventTypeChange(event.event.message.type)',
+      '_eventValueChange(event.event.message.value)',
+    ];
+  }
 
-      get behaviors(){
-        return [mwcMixin]
-      }
+  get behaviors(){
+    return [mwcMixin]
+  }
 
-      get trackers (){
-        return [
-          "subThing(uuid)",
-          "setState(uuid)",
-          "tempData(uuid)"
-        ];
-      }
-      attached() {
-        const self = this;
-        this.timer = setInterval(() => {
-          self.ph = Math.round(Math.random() * 1400)/100;
-          self.humidity = Math.round(Math.random() * 1000)/10;
-        },3000);
-      }
+  get trackers (){
+    return [
+      "subThing(uuid)",
+      "setState(uuid)",
+      "tempData(uuid)"
+    ];
+  }
+  attached() {
+    const self = this;
+    this.timer = setInterval(() => {
+      self.ph = Math.round(Math.random() * 1400)/100;
+      self.humidity = Math.round(Math.random() * 1000)/10;
+    },3000);
+  }
 
-      detached() {
-        clearInterval(this.timer);
-      }
+  detached() {
+    clearInterval(this.timer);
+  }
 
-      tempData (uuid) {
-        if(uuid){
-          this.subscribe('Events.byThingAndType', uuid, 'temperature');
-          let events = Events.find().fetch();
-          this.set('events', events);
-          if (!_.isUndefined(events)) {
-            let event = events.pop()
-            if (!_.isUndefined(event)) {
-              if (event.event.message.type === 'temperature') {
-                this.set('temperature', event.event.message.value);
-              }
-            }
+  tempData (uuid) {
+    if(uuid){
+      this.subscribe('Events.byThingAndType', uuid, 'temperature');
+      let events = Events.find().fetch();
+      this.set('events', events);
+      if (!_.isUndefined(events)) {
+        let event = events.pop();
+        this.set('event', event);
+        if (!_.isUndefined(event)) {
+          if (event.event.message.type === 'temperature') {
+            this.set('temperature', event.event.message.value);
           }
         }
-      }
-
-      subThing (uuid) {
-        if (uuid) {
-          this.subscribe('Things.one', uuid);
-        }
-      }
-
-      setState (uuid) {
-        if (uuid) {
-          let thing = Things.findOne({uuid: uuid});
-          if (!_.isUndefined(thing)) {
-            if (!_.isUndefined(thing.properties)) {
-              this.set('state', thing.properties.state);
-            }
-          }
-        }
-      }
-
-      sendCommand (e) {
-        Meteor.call('Thing.sendCommand',
-          this.uuid,
-          e.target.dataset.method,
-          null,
-          (error, documentId) => {
-            if (error) {
-              console.error("Error", error);
-              return alert(`Error: ${error.reason || error}`);
-            }
-          }
-        );
       }
     }
+  }
 
-    Polymer(testDevice);
+  subThing (uuid) {
+    if (uuid) {
+      this.subscribe('Things.one', uuid);
+    }
+  }
+
+  setState (uuid) {
+    if (uuid) {
+      let thing = Things.findOne({uuid: uuid});
+      if (!_.isUndefined(thing)) {
+        if (!_.isUndefined(thing.properties)) {
+          this.set('state', thing.properties.state);
+        }
+      }
+    }
+  }
+
+  sendCommand (e) {
+    Meteor.call('Thing.sendCommand',
+      this.uuid,
+      e.target.dataset.method,
+      null,
+      (error, documentId) => {
+        if (error) {
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
+  }
+  _eventTypeChange(type) {
+    const container = this.$.container;
+    if(container.getAttribute('data-type') !== type) {
+      container.innerHTML = '';
+      container.setAttribute('data-type', type);
+      let children = [];
+      switch(type) {
+        case 'temperature':
+          children = [
+            'temperature-gauge',
+            'temperature-timeline',
+            'temperature-realtime',
+          ];
+          break;
+        case 'ph':
+          children = [
+            'ph-gauge',
+          ];
+          break;
+        case 'humidity':
+          children = [
+            'humidity-gauge',
+          ];
+          break;
+      }
+      const docFrag = document.createDocumentFragment();
+      for(let i = 0; i < children.length; i++) {
+        const child = document.createElement(children[i]);
+        child.setAttribute('legit-child', 'true'); // LOL
+        const self = this;
+        function onDemandChange(e) {
+          const change = e.detail;
+          const arr = change.path.split(/\./);
+          if (arr.length > 1) {
+            return self._serveChildDemand(e.target, arr[1]);
+          }
+          self._serveChildDemands(e.target);
+        };
+        child.addEventListener('demands-change', onDemandChange)
+        docFrag.appendChild(child);
+      }
+
+      Polymer.dom(container).appendChild(docFrag);
+    }
+  }
+  _eventValueChange(v) {
+    const event = this.event;
+    const container = this.$.container;
+    const children = Polymer.dom(container).querySelectorAll('[legit-child]');
+
+    for(let i = 0; i < children.length; i++) {
+      const child = children[i];
+      this._serveChildDemands(child);
+    }
+  }
+  _serveChildDemands(child) {
+    const demands = child.demands || {};
+    for(key of Object.keys(demands)){
+      const demand = demands[key];
+      const path = demand.path;
+      if(path === undefined) {
+        return console.warn(`path not defined for ${key}`, child);
+      }
+      child.set(key, this.get(path));
+    }
+  }
+  _serveChildDemand(child, key) {
+    const demand = child.demands[key];
+    const path = demand.path;
+    if(path === undefined) {
+      return console.warn(`path not defined for ${key}`, child);
+    }
+    child.set(key, this.get(path));
+  }
+}
+Polymer(testDevice);
   </script>
 </dom-module>
