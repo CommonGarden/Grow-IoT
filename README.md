@@ -1,100 +1,52 @@
 # Thing.js
 
-Thing.js is meant to be an extremely light weight IoT-framework. Loosely inspired by [W3C web of things framework](https://github.com/w3c/web-of-things-framework), a thing is an object that has:
-
-* Metadata
-* Properties
-* Actions
-* Events
-
-Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html), and basic methods for:
+Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html) and basic methods for:
 
 * Updating properties
-* Calling actions
-* Emiting events
-* Setting up event listeners
+* Calling methods
+* Emiting events for either of the above.
 
 [Full documentation available here](http://commongarden.github.io/Thing.js/docs/Thing.js.html).
 
-For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js) and [Grow-IoT](https://github.com/CommonGarden/Grow-IoT).
+For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js) which is used to connect devices (or purely software things) to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance.
 
 ## Install
 ```bash
 npm install Thing.js
 ```
 
-### Example
+### Usage
 ```javascript
-var Thing = require('Thing.js');
+const Thing = require('Thing.js');
 
-var Light = new Thing({
+const Light = new Thing({
   name: 'Light',
   desription: 'An LED light with a basic on/off api.',
   username: 'jakehart',
+  // These are setable and getable by the api.
   properties: {
-    state: 'off',
-    lightconditions: function () {
-      // Properties can be updated by the API.
-      // Note: property functions should return a value.
-      // When using actual hardware you might use this function to get the
-      // state of a pin.
-      return null;
-    }
+    state: null,
   },
-  actions: {
-    turn_light_on: {
-      name: 'On', // Display name for the action
-      description: 'Turns the light on.', // Optional description
-      function: function () {
-        // The implementation of the action.
-        console.log('light on');
-        Light.set('state', 'on');
-      }
-    },
-    turn_light_off: {
-      name: 'off',
-      function: function () {
-        console.log('light off');
-        Light.set('state', 'off');
-      }
-    },
-    light_data: {
-      name: 'Log light data', 
-      type: 'light',
-      template: 'sensor',
-      function: function () {
-         console.log("Log light data.")
-      }
-    }
+  start: function () {
+    console.log('Thing initialized, this code runs first');
   },
-  events: {
-    check_light_data: {
-      name: 'Check light data',
-      on: 'turn_light_on', // Adds Listener for action event.
-      function: function () {
-        console.log('this event listener is called when the light is turned on.');
-      }
-    }
-  } 
-}, 
-function start () {
-  // Optional callback function.
-  return;
+  turn_light_on: function () {
+    console.log('light on');
+    Light.set('state', 'on');
+  },
+  turn_light_off: function () {
+    console.log('light off');
+    Light.set('state', 'off');
+  }
 });
 
-console.log(Light.get(state));
-// logs 'off'
+Light.on('turn_light_on', function() {
+  console.log('Light turned on.')
+});
 
 Light.call('turn_light_on');
-// logs 'Light on.'
-// logs 'this event listener is called when the light is turned on.'
-
-console.log(Light.get(state));
-// logs 'on'
 
 ```
-
-Please open issues or PRs with thoughts || suggestions || proposals.
 
 # Developing
 

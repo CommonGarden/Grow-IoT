@@ -24,10 +24,6 @@
                 <ul class="nav nav-stacked">
                   <li><a href="#Thing"><i class="alert alert-success"></i><span>Thing</span></a>
                   </li>
-                  <li><a href="#getAction"><i class="alert alert-info"></i><span>getAction</span></a>
-                  </li>
-                  <li><a href="#getEvent"><i class="alert alert-info"></i><span>getEvent</span></a>
-                  </li>
                   <li><a href="#set"><i class="alert alert-info"></i><span>set</span></a>
                   </li>
                   <li><a href="#get"><i class="alert alert-info"></i><span>get</span></a>
@@ -82,117 +78,11 @@
       _.extend(this, config);
     }
 
-    if (!_.isUndefined(this.events)) {
-      _.each(this.events, (event, key, list) =&gt; {
-        if (!_.isUndefined(event.on)) {
-          this.on(event.on, () =&gt; {
-            if (!_.isUndefined(event.rule)) {
-              if (event.rule.condition() === true) {
-                event.rule.consequence();
-              }
-            } else {
-              event.function();
-            }
-          });
-        }
-      });
-    }
-
-    if (!_.isUndefined(this.properties)) {
-      for (var property in this.properties) {
-        // If the property is a function we initialize it.
-        if (typeof this.properties[property] === 'function') {
-          // Note this function should return property value.
-          this.properties[property] = this.properties[property]()
-        }
-      }
-    }
-
-    // Callback is optional. May be used for a start function.
-    if (!_.isUndefined(callback)) {
-      callback();
+    // What would be other useful default methods?
+    if (!_.isUndefined(this.start)) {
+      this.start();
     }
   }</code></pre>
-          <section id="getAction">
-            <h1>getAction</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getAction()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ID</td>
-                <td>String</td>
-                <td><p>The key of the action object you want.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Get an action object by key</p></div>
-          <pre><code class="language-javascript">getAction (ID) {
-  let action = {};
-  _.each(this.actions, (value, key, list) =&gt; {
-    if (key === ID) {
-      return action = value;
-    } else if (this.actions[key].id === ID) {
-      return action = value; 
-    }
-  });
-
-  if (_.isEmpty(action)) {
-    return false;
-  } else {
-    return action;
-  }
-}</code></pre>
-          <section id="getEvent">
-            <h1>getEvent</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getEvent()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ID</td>
-                <td>String</td>
-                <td><p>The key / id of the event object you want.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Get event object by key</p></div>
-          <pre><code class="language-javascript">getEvent (ID) {
-  let event = {}
-  _.each(this.events, (value, key, list) =&gt; {
-    if (key === ID) {
-      return event = value;
-    } else if (this.events[key].id === ID) {
-      return event = value; 
-    }
-  });
-
-  if (_.isEmpty(event)) {
-    return false;
-  } else {
-    return event;
-  }
-}</code></pre>
           <section id="set">
             <h1>set</h1>
             <h5 class="subheader"></h5>
@@ -227,22 +117,9 @@
             </tbody>
           </table>
           <div class="description"><p>Update a property based on a component ID.</p></div>
-          <pre><code class="language-javascript">set (property, value, key) {
-  if (_.isUndefined(key)) {
-    this.properties[property] = value;
-    this.emit('property-updated');
-  }
-  else {
-    // what if they both have the same key?
-    let action = this.getAction(key);
-    let event = this.getEvent(key);
-    if (action) {
-      action[property] = value;
-    } else if (event) {
-      event[property] = value;
-    }
-    this.emit('property-updated');    
-  }
+          <pre><code class="language-javascript">set (key, value) {
+  this.properties[key] = value;
+  this.emit('property-updated', key);
 }</code></pre>
           <section id="get">
             <h1>get</h1>
@@ -268,19 +145,8 @@
             </tbody>
           </table>
           <div class="description"><p>Get a property by key.</p></div>
-          <pre><code class="language-javascript">get (property, key) {
-  if (_.isUndefined(key)) {
-    return this.properties[property];
-  } else {
-    let action = this.getAction(key);
-    let event = this.getEvent(key);
-    if (action) {
-      return action[property];
-    }
-    if (event) {
-      return event[property];
-    }
-  }
+          <pre><code class="language-javascript">get (key) {
+  return this.properties[key];
 }</code></pre>
           <section id="call">
             <h1>call</h1>
@@ -310,33 +176,18 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls a registered action or event function, emits event if the the action has an &#39;event&#39;<br />property defined. </p></div>
+          <div class="description"><p>Calls a method, emits event<br />property defined. </p></div>
           <pre><code class="language-javascript">call (key, options) {
   try {
-    let action = this.getAction(key);
-    let event = this.getEvent(key);
-
-    if (action) {
-      if (!_.isUndefined(options)) {
-        var output = action.function(options);
-      }
-      else {
-        var output = action.function();
-      }
-      this.emit(key);
+    if (!_.isUndefined(options)) {
+      var output = this[key](options);
     }
-
-    else if (event) {
-      if (!_.isUndefined(options)) {
-        var output = event.function(options);
-      }
-      else {
-        var output = event.function();
-      }
-      this.emit(key);
+    else {
+      var output = this[key]();
     }
+    this.emit(key, options);
 
-    // We return any returns of called functions for testing.
+    // We return any returns of called functions.
     if (!_.isUndefined(output)) {
       return output;
     }
