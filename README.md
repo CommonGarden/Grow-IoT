@@ -96,17 +96,9 @@ Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's ea
 
 To add a component:
 
-1. Install it with [bower](https://bower.io/).
+1. Install it as `./bower.sh install --save example-component`.
 
 2. Then add it to the `imports/ui/imports.html` file.
-
-3. Run the `./build.sh` script.
-
-Finally, restart meteor:
-
-```bash
-meteor
-```
 
 Now it's ready to use in Grow-IoT!
 
