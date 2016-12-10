@@ -64,6 +64,7 @@ class thingDisplay {
       },
       {
         component: 'test-thing',
+        onlineSince: true,
         properties: {
           state: "on"
         }
