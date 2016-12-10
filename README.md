@@ -94,8 +94,6 @@ node tests/test-device.js
 
 You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
-[REST endpoints coming soon!](https://github.com/CommonGarden/Grow-IoT/issues/208)
-
 ## Adding components
 
 Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
