@@ -14,7 +14,7 @@ npm install Grow.js
 
 Create a new device and take note of the device `uuid` and token.
 
-In the `tests` folder checkout `test-device.js`.
+In the `examples` folder checkout `test-device.js`.
 
 Replace the `uuid` and `token` properties of the config object with the credentials you generate.
 
