@@ -2,12 +2,7 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow.js](https://badges.gitter.im/CommonGarden/Grow.js.svg)](https://gitter.im/CommonGarden/Grow.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Grow.js is an npm packagle for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. [Full grow.js documentation can be found here](http://commongarden.github.io/Grow.js/docs/).
-
-Grow.js handles:
-* Connecting to the host over the ddp protocol.
-* Registers the device with host server. The information in config object is used to create the device API.
-* Sets up readable / writable streams for pushing data and listening for commands in real time!
+Grow.js is an npm package for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance.
 
 ### Installation
 
@@ -70,6 +65,7 @@ var testDevice = new Thing({
     }
 });
 
+// Connects to localhost:3000 by default.
 testDevice.connect();
 
 ```
@@ -196,7 +192,7 @@ Code is written in ES6, and compiled using [rollup](https://github.com/rollup/ro
 
 `npm run test` builds the library, and runs tests in the test folder.
 
-The documentation is written in jsdoc, built using [Mr-Doc](https://mr-doc.github.io/), and kept on the [gh-pages branch of this repo](https://github.com/CommonGarden/Grow.js/tree/gh-pages).
+The documentation is written in jsdoc, built using [Mr-Doc](https://mr-doc.github.io/), and on the [gh-pages branch of this repo](https://github.com/CommonGarden/Grow.js/tree/gh-pages).
 
 # Contributing
 

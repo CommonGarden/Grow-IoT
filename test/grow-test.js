@@ -59,18 +59,19 @@ describe('Grow test', () => {
   });
 
   it('should have cloned metadata', () => {
-    expect(testThing.thing.uuid).to.equal(null);
-    expect(testThing.thing.token).to.equal(null);
+    expect(testThing.uuid).to.equal(null);
+    expect(testThing.token).to.equal(null);
   });
 
   describe('Methods', () => {
     it('should be able to call a thing method.', () => {
+      console.log(testThing);
       expect(testThing.call('acid')).to.equal('acid');
     });
 
     it('should emit an event when a method is called', () => {
       var event = false;
-      testThing.thing.on('acid', () => {
+      testThing.on('acid', () => {
         return event = true;
       });
       testThing.call('acid');
@@ -90,7 +91,7 @@ describe('Grow test', () => {
 
     it('should emit an event when a property is set', () => {
       var event = false;
-      testThing.thing.on('property-updated', () => {
+      testThing.on('property-updated', () => {
         return event = true;
       });
       testThing.set('duration', 5000);
