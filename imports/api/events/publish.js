@@ -5,7 +5,7 @@ import { check } from 'meteor/check';
 Meteor.publish('Events.byThing', function(thingUuid) {
   check(thingUuid, String);
 
-  let thing = Thing.findOne({
+  let thing = Things.findOne({
     'uuid': thingUuid,
     'owner': this.userId
   }

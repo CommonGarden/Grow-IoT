@@ -19,11 +19,6 @@
                     raised >Off</paper-button>
         <div id="container">
         </div>
-        <!-- <temperature-gauge temperature="{{temperature}}"></temperature-gauge> -->
-        <!-- <ph-gauge ph="{{ph}}"></ph-gauge> -->
-        <!-- <humidity-gauge humidity="{{humidity}}"></humidity-gauge> -->
-        <!-- <temperature-timeline></temperature-timeline> -->
-        <!-- <temperature-realtime events="{{events}}"></temperature-realtime> -->
   </template>
 
   <script>
@@ -33,21 +28,8 @@ class testDevice {
     this.properties = {
       state: String,
       uuid: String,
-      temperature: Number,
       events: Array,
       event: Object,
-      ph: {
-        type: Number,
-        value: 6.7,
-      },
-      humidity: {
-        type: Number,
-        value: 50,
-      },
-      light: Number,
-      conductivity: Number,
-      dOxygen: Number,
-      co2: Number,
     };
     this.observers = [
       '_eventTypeChange(event.event.message.type)',
@@ -63,38 +45,24 @@ class testDevice {
     return [
       "subThing(uuid)",
       "setState(uuid)",
-      "tempData(uuid)"
+      "subEvents(uuid)",
+      "getEvents(uuid)",
     ];
   }
-  attached() {
-    const self = this;
-    this.timer = setInterval(() => {
-      self.ph = Math.round(Math.random() * 1400)/100;
-      self.humidity = Math.round(Math.random() * 1000)/10;
-    },3000);
-  }
-
-  detached() {
-    clearInterval(this.timer);
-  }
-
-  tempData (uuid) {
+  subEvents (uuid) {
     if(uuid){
-      this.subscribe('Events.byThingAndType', uuid, 'temperature');
-      let events = Events.find().fetch();
-      this.set('events', events);
-      if (!_.isUndefined(events)) {
-        let event = events.pop();
-        this.set('event', event);
-        if (!_.isUndefined(event)) {
-          if (event.event.message.type === 'temperature') {
-            this.set('temperature', event.event.message.value);
-          }
-        }
-      }
+      this.subscribe('Events.byThing', uuid);
     }
   }
+  getEvents(uuid) {
+    let events = Events.find().fetch();
+    this.set('events', events);
+    if (!_.isUndefined(events)) {
+      let event = events.pop();
+      this.set('event', event);
+    }
 
+  }
   subThing (uuid) {
     if (uuid) {
       this.subscribe('Things.one', uuid);
