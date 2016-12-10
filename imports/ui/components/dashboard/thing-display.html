@@ -10,7 +10,7 @@ paper-card {
 }
     </style>
       <!-- TODO: break this out into an element -->
-      <paper-card image="{{thing.image}}" alt="{{thing.name}}" hidden$="{{thing.registeredAt}}">
+      <paper-card hidden$="{{thing.registeredAt}}">
         <div class="card-content">
           <p>Waiting for device with the following credentials to connect <span id="loading"></span></p>
 
@@ -27,18 +27,18 @@ paper-card {
 
       <!-- THIS SHOULD BE ITS OWN DOM MODULE -->
       <paper-card image="{{thing.image}}" alt="{{thing.name}}" hidden$="{{!thing.registeredAt}}">
-        <!-- After a thing registers and connects render its webcomponent -->
-        <!-- THIS PART NEEDS WORK -->
-        <div class="card-content">
-          <div hidden$="{{!thing.testThing}}">
-            <test-thing uuid="{{thing.uuid}}"></test-thing>
-          </div>
+        <div class="card-content" hidden$="{{thing.onlineSince}}">
+          Not online
         </div>
 
-        <div class="card-content">
-          <div hidden$="{{!thing.testDevice}}">
-            <test-device uuid="{{thing.uuid}}"></test-device>
-          </div>
+        <!-- After a thing registers and connects render its webcomponent -->
+        <!-- THIS PART NEEDS WORK -->
+        <div class="card-content" hidden$="{{!thing.testThing}}">
+          <test-thing uuid="{{thing.uuid}}"></test-thing>
+        </div>
+
+        <div class="card-content" hidden$="{{!thing.testDevice}}">
+          <test-device uuid="{{thing.uuid}}"></test-device>
         </div>
 
 

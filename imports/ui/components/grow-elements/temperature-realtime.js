@@ -67,8 +67,8 @@ class temperatureRealtime {
     const events = this.events;
     if(this.temperatureRealtime && this.data && events) {
       this.data = _.map(events, (event) => {
-        const now = event.event.timestamp;
-        const value = event.event.message.value;
+        const now = event.insertedAt;
+        const value = event.event.value;
         const point = {
           name: now.toString(),
           value: [

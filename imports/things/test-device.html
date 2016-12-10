@@ -77,7 +77,7 @@ An example of how to build an interface for an IoT device.
           let events = Events.find().fetch();
           this.set('events', events);
           if (!_.isUndefined(events)) {
-            let event = events.pop();
+            let event = events.pop()
             if (!_.isUndefined(event)) {
               if (event.event.type === 'temperature') {
                 this.set('temperature', event.event.value);
