@@ -27,33 +27,77 @@
         </div>
         <div class="col-md-9">
           <section id="Main" class="readme"><h1>Grow.js</h1>
-<p><em>Status:</em> currently works with Alpha and not with the old prototype.</p>
-<p>Tagged releases coming soon!</p>
 <p><a href="https://gitter.im/CommonGarden/Grow.js?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/CommonGarden/Grow.js.svg" alt="Join the chat at https://gitter.im/CommonGarden/Grow.js"></a></p>
-<p>Grow.js is an npm packagle for creating and connecting devices to a <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT</a> instance. <a href="http://commongarden.github.io/Grow.js/docs/">Full grow.js documentation can be found here</a>.</p>
-<p>Grow.js handles:</p>
-<ul>
-<li>Connecting to the host over the ddp protocol.</li>
-<li>Registers the device with host server. The information in config object is used to create a UI and API.</li>
-<li>Sets up readable / writable streams for pushing data and listening for commands in real time!</li>
-</ul>
-<p>All you have to do is pass in a <a href="https://github.com/CommonGarden/Thing.js">Thing object</a>, and presto! You have created a new IoT device!</p>
+<p>Grow.js is an npm package for creating and connecting devices to a <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT</a> instance.</p>
 <h3>Installation</h3>
 <pre><code class="language-bash">npm install Grow.js
 </code></pre>
+<h3>Usage</h3>
+<p>Create a new device and take note of the device <code>uuid</code> and token.</p>
+<p>In the <code>tests</code> folder checkout <code>test-device.js</code>.</p>
+<p>Replace the <code>uuid</code> and <code>token</code> properties of the config object with the credentials you generate.</p>
+<pre><code class="language-javascript">// Import the latest build of the Grow.js library
+var Thing = require('Grow.js');
+
+// Create a new grow instance. Connects by default to localhost:3000
+var testDevice = new Thing({
+    // PUT YOUR UUID AND TOKEN HERE:
+    uuid: 'PASTE_UUID_HERE',
+    token: 'PASTE_TOKEN_HERE',
+    
+    // HACK, unfortunately needed for now...
+    testDevice: true,
+
+    // Properties can be updated by the API
+    properties: {
+        state: 'off'
+    },
+
+    // Start method is run when the Thing is constructed.
+    start: function () {
+        setInterval(()=&gt; {
+            testDevice.call('temp_data');
+        }, 3000);
+
+        // Turn on
+        testDevice.call('turn_on');
+    },
+
+    turn_on: function () {
+        testDevice.set('state', 'on');
+    },
+
+    turn_off: function () {
+        testDevice.set('state', 'off');
+    },
+
+    temp_data: function () {
+        let temp = Math.random() * 100;
+
+        // Send data to the Grow-IoT app.
+        testDevice.emit({
+          type: 'temperature',
+          value: temp
+        });
+    }
+});
+
+// Connects to localhost:3000 by default.
+testDevice.connect();
+
+</code></pre>
 <h1>Working with hardware.</h1>
-<p>If you want to try Grow.js but don't have a microcontroller, follow the <a href="https://github.com/CommonGarden/Grow-IoT#installing-grow-iot">quickstart guide on the Grow-IoT repo</a>. Below is is a simple Led and photoresistor arduino example, see the <a href="https://github.com/CommonGarden/grow.js/tree/master/examples">examples folder</a> for more hardware examples with various boards.</p>
-<p>Grow.js works with most devices that can run node, and plays very well with the <a href="http://johnny-five.io/">Johnny-Five robotics library</a>, which has plugins for <a href="http://johnny-five.io/#platform-support">a large number of devices</a>. Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators. Please feel free to create your own grow.js device and share it on the <a href="http://forum.commongarden.org/">forum</a>.</p>
+<p>Grow.js works with most devices that can run node, and plays very well with the <a href="http://johnny-five.io/">Johnny-Five robotics library</a>, which has plugins for <a href="http://johnny-five.io/#platform-support">a large number of devices</a>.</p>
+<p>Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators.</p>
 <h3>Wire up photo-resitor and led to arduino</h3>
 <p>Wire up your photo resistor and LED light like so:</p>
 <p><img src="https://raw.githubusercontent.com/CommonGarden/Grow.js/master/examples/arduino/led-and-photoresistor/Arduino-night-light-circuit.png" alt="Wiring diagram"></p>
-<p>Install johnny-five with:</p>
-<pre><code class="language-bash">npm install johnny-five
-</code></pre>
 <p>To use <a href="http://johnny-five.io/">Johnny-Five</a>, you need to make sure that your arduino is flashed with Standard Firmata. Instructions for doing so can be found <a href="https://github.com/rwaldron/johnny-five/wiki/Getting-Started#trouble-shooting">here</a>. Once that's done you're ready for the next step!</p>
-<p>Take a look at the <a href="https://github.com/CommonGarden/Grow.js/tree/master/examples/arduino/led-and-photoresistor">led-and-photoresistor arduino example</a> in the <code>examples/arduino/</code> folder. <strong>Be sure to set the 'username' property to the username you created an account with.</strong></p>
+<p>Take a look at the <a href="https://github.com/CommonGarden/Grow.js/tree/master/examples/arduino/led-and-photoresistor">led-and-photoresistor arduino example</a> in the <code>examples/arduino/</code> folder.</p>
+<p>Create a new thing in the Grow-IoT ui and copy and paste the UUID and Token into the example below.</p>
+<!-- THIS SHOULD BE AN EXAMPLE IN GROW-IOT as well... it should have a web component aspect. -->
 <pre><code class="language-javascript">// Require the Grow.js build and johnny-five library.
-var GrowInstance = require('../../../dist/Grow.umd.js');
+var GrowInstance = require('Grow.js');
 var five = require('johnny-five');
 
 // Create a new board object
@@ -64,123 +108,78 @@ board.on('ready', function start() {
     // Define variables
     // Note: if you wire the device slightly differently you may need to
     // change the pin numbers below.
-    var LED = new five.Pin(13),
-        lightSensor = new five.Sensor('A0');
+    var LED = new five.Pin(13);
 
     // Create a new grow instance.
     var grow = new GrowInstance({
-        name: 'Light', // The display name for the thing.
-        desription: 'An LED light with a basic on/off api.',
-        username: 'jakehart', // The username of the account you want this device to be added to.
+        uuid: 'COPY_PASTE_UUID_HERE',
+        token: 'COPY_PASTE_TOKEN_HERE',
+
         properties: {
             state: 'off'
         },
-        actions: {
-            turn_light_on: {
-                name: 'On', // Display name for the action
-                description: 'Turns the light on.', // Optional description
-                schedule: 'at 9:00am', // Optional scheduling using later.js
-                event: &quot;Light on&quot;, // Message to emit as event when called.
-                function: function () {
-                    // The implementation of the action.
-                    LED.high();
-                    console.log('light on');
-                    grow.set('state', 'on');
-                }
-            },
-            turn_light_off: {
-                name: 'off',
-                schedule: 'at 8:30pm',
-                event: 'Light off',
-                function: function () {
-                    LED.low();
-                    console.log('light off');
-                    grow.set('state', 'off');
-                }
-            },
-            light_data: {
-                name: 'Log light data', 
-                type: 'light', // Currently need for visualization component... HACK.
-                template: 'sensor',
-                schedule: 'every 1 second',
-                function: function () {
-                    grow.log({
-                      type: 'light',
-                      value: lightSensor.value
-                    });
-                }
-            }
+
+        turn_light_on: function () {
+            LED.high();
+            grow.set('state', 'on');
+            console.log('light on');
         },
-        events: {
-            check_light_data: {
-                name: 'Check light data',
-                on: 'light_data', // Adds Listener for action event.
-                function: function () {
-                    if ((lightSensor.value &lt; 100) &amp;&amp; (grow.get('lightconditions') != 'dark')) {
-                        // This could be nice with a chaining API...
-                        // It would be good if we could add additional rules with the environment.
-                        // EventListeners
-                        grow.emitEvent('dark');
-                        grow.set('lightconditions', 'dark');
-                        grow.call('turn_light_on');
-                    } else if ((lightSensor.value &gt;= 100) &amp;&amp; (grow.thing.get('lightconditions') != 'light')) {
-                        // This could be nice with a chaining API...
-                        grow.emitEvent('light');
-                        grow.set('lightconditions', 'light');
-                        grow.call('turn_light_off');
-                    }
-                }
-            }
+
+        turn_light_off: function () {
+            LED.low();
+            grow.set('state', 'off');
+            console.log('light off');
         }
     });
+
+    // Connects to localhost:3000 by default
+    grow.connect();
 });
 </code></pre>
 <p>Run the new <code>example.js</code> file with:</p>
 <pre><code class="language-bash">node examples/arduino/led-and-photoresistor/example.js
 </code></pre>
 <p>Note: on certain opperating systems you may need to prefix that command with <code>sudo</code> to allow the script access to USB.</p>
-<p><a href="http://commongarden.github.io/Grow.js/docs/">Full grow.js documentation and examples can be found here</a>.</p>
 <h1>Connecting devices</h1>
 <h3>Host / Port</h3>
 <p>The host is where the device will be looking for a CommonGarden-IoT instance. By default the host is set to <code>localhost</code> and the port is set to Meteor's standard of <code>3000</code>. This will work nicely for usb devices like Arduino.</p>
-<p>For connecting over wifi, connect your device to wifi and set the <code>host</code> to the IP address where the Grow-IoT instance is running. Simply specify it in your grow.json file.</p>
-<pre><code class="language-json">    &quot;host&quot;: &quot;YOUR_IP_HERE&quot;,
-    &quot;thing&quot;: {...}
+<p>For connecting over wifi, connect your device to wifi and set the <code>host</code> to the IP address where the Grow-IoT instance is running. Pass the options to the <code>connect()</code> method like so:</p>
+<pre><code class="language-javascript">grow.connect({
+    &quot;host&quot;: &quot;YOUR_IP_HERE&quot;
+})
 </code></pre>
 <h4>Connecting over SSL</h4>
 <p>You can connect securely to our Grow-IoT alpha instance on https://grow.commongarden.org, or see the <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT repo</a> to easily start your own IoT network locally or hosted on <a href="https://galaxy.meteor.com">Meteor Galaxy</a>.</p>
-<p>SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address include the following info in your configuration object.</p>
-<pre><code class="language-json">    &quot;host&quot;: &quot;YOUR_IP_HERE&quot;,
+<p>SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address pass the following the <code>connect()</code> method.</p>
+<pre><code class="language-javascript">grow.connect({
+    &quot;host&quot;: &quot;YOUR_IP_HERE&quot;,
     &quot;port&quot;: 443,
-    &quot;ssl&quot;: true,
+    &quot;ssl&quot;: true
+})
 </code></pre>
 <p>If you are hosting on a cloud instance such as <a href="https://galaxy.meteor.com">Meteor Galaxy</a>, you might need specify the servername. The example below shows you how to connect securely to the instance at <a href="https://grow.commongarden.org">grow.commongarden.org</a>:</p>
-<pre><code class="language-json">    &quot;host&quot;: &quot;grow.commongarden.org&quot;,
+<pre><code class="language-javascript">grow.connect({
+    &quot;host&quot;: &quot;grow.commongarden.org&quot;,
     &quot;tlsOpts&quot;: {
         &quot;tls&quot;: {
             &quot;servername&quot;: &quot;galaxy.meteor.com&quot;
         }
     },
     &quot;port&quot;: 443,
-    &quot;ssl&quot;: true,
-    &quot;thing&quot;: { ... }
+    &quot;ssl&quot;: true
+});
 </code></pre>
 <h1>Developing</h1>
-<p>Eventually we'll be making libraries for other languages (not everything can or should run a highlevel language like Javascript) like Lua and python.</p>
 <p>Code is written in ES6, and compiled using <a href="https://github.com/rollup/rollup">rollup</a>.</p>
 <p><code>npm run build</code> builds the library.</p>
 <p><code>npm run test</code> builds the library, and runs tests in the test folder.</p>
-<p>The documentation is written in jsdoc, built using <a href="https://mr-doc.github.io/">Mr-Doc</a>, and kept on the <a href="https://github.com/CommonGarden/Grow.js/tree/gh-pages">gh-pages branch of this repo</a>.</p>
+<p>The documentation is written in jsdoc, built using <a href="https://mr-doc.github.io/">Mr-Doc</a>, and on the <a href="https://github.com/CommonGarden/Grow.js/tree/gh-pages">gh-pages branch of this repo</a>.</p>
 <h1>Contributing</h1>
 <p>Please read:</p>
 <ul>
 <li><a href="https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md">Code of Conduct</a></li>
 <li><a href="https://github.com/CommonGarden/Organization/blob/master/contributing.md">Contributing info</a></li>
 </ul>
-<!-- ### Reach out
-Get involved with our community in any way you are interested: -->
-<!-- * [Join us on Slack](http://slack.commongarden.org) — Collaboration and real time discussions. -->
-<!-- * [Forum](http://forum.commongarden.org/) — General discussion and support by the Common Garden community. -->
 <h2>License</h2>
 <p>Grow.js is released under the 2-Clause BSD License, sometimes referred to as the &quot;Simplified BSD License&quot; or the &quot;FreeBSD License&quot;.</p>
 </section>

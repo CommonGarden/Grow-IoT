@@ -1,6 +1,6 @@
 {
   "name": "Grow.js",
-  "version": "0.2.99",
+  "version": "0.3.0",
   "description": "Easily create new IoT devices and connect them to a Grow-IoT instance.",
   "main": "dist/Grow.umd.js",
   "jsnext:main": "dist/Grow.es6.js",
@@ -35,7 +35,6 @@
     "Thing.js": "^0.2.8",
     "ddp": ">=0.11.0",
     "ddp-ejson": ">=0.8.1-3",
-    "json-stringify-safe": "^5.0.1",
     "underscore": ">=1.8.3"
   },
   "devDependencies": {

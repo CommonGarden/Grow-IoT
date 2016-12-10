@@ -1,9 +1,9 @@
 var Thing = require('./dist/Grow.umd.js');
 
 var testDevice = new Thing({
-  // PUT YOUR UUID AND TOKEN HERE: |||||||||||||||
-  uuid: '2bd10595-f564-43d4-8095-319f4aa5245d',
-  token: 'xpgAe88GoM2F6pkSZQPANBZqLuQt7dJf',
+  // PUT YOUR UUID AND TOKEN HERE!!!
+  uuid: 'PASTE_UUID_HERE',
+  token: 'PASTE_TOKEN_HERE',
 
   testDevice: true, // HACK, unfortunately needed for now...
   component: 'test-device', // The future...

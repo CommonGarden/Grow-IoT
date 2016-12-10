@@ -25,8 +25,8 @@ var Thing = require('Grow.js');
 // Create a new grow instance. Connects by default to localhost:3000
 var testDevice = new Thing({
     // PUT YOUR UUID AND TOKEN HERE:
-    uuid: 'ae3093d5-f6bb-47dd-911b-427e85b7d991',
-    token: 'BmGKqZTh4MRzXMwPNeoqjNLLvFT6yQyG',
+    uuid: 'PASTE_UUID_HERE',
+    token: 'PASTE_TOKEN_HERE',
     
     // HACK, unfortunately needed for now...
     testDevice: true,
@@ -140,8 +140,6 @@ node examples/arduino/led-and-photoresistor/example.js
 
 Note: on certain opperating systems you may need to prefix that command with `sudo` to allow the script access to USB.
 
-[Full grow.js documentation and examples can be found here](http://commongarden.github.io/Grow.js/docs/).
-
 # Connecting devices
 ### Host / Port
 The host is where the device will be looking for a CommonGarden-IoT instance. By default the host is set to `localhost` and the port is set to Meteor's standard of `3000`. This will work nicely for usb devices like Arduino.
@@ -183,8 +181,6 @@ grow.connect({
 ```
 
 # Developing
-
-Eventually we'll be making libraries for other languages (not everything can or should run a highlevel language like Javascript) like Lua and python.
 
 Code is written in ES6, and compiled using [rollup](https://github.com/rollup/rollup).
 
