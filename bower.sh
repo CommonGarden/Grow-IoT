@@ -24,6 +24,7 @@ if [ $# -ne 0 ]; then
   else
     echo "Cleanup Cancelled";
   fi
+  echo "${green}component installed. Add it to imports/ui/imports.html.${reset}"
 else
   echo "no arguments supplied"
 fi
