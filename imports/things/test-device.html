@@ -73,14 +73,14 @@ An example of how to build an interface for an IoT device.
 
       tempData (uuid) {
         if(uuid){
-          this.subscribe('Events.byThingAndType', uuid, 'temperature');
+          this.subscribe('Thing.events', uuid, 'temperature');
           let events = Events.find().fetch();
           this.set('events', events);
           if (!_.isUndefined(events)) {
             let event = events.pop()
             if (!_.isUndefined(event)) {
-              if (event.event.message.type === 'temperature') {
-                this.set('temperature', event.event.message.value);
+              if (event.event.type === 'temperature') {
+                this.set('temperature', event.event.value);
               }
             }
           }

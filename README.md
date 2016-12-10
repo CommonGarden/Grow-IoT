@@ -2,11 +2,17 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Grow-IoT allows you to:
+Grow-IoT allows you to currently:
 * Create custom devices / things with webcomponents #usetheplatform
-* Securely connect and store data from sensors and actuators
+* Securely connect sensors and actuators ([Grow.js](https://github.com/CommonGarden/Grow.js) is there to help)
+* Build a dashboard out of those components
 * Own your data ([host your own instance!](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup))
-* *Beta*: Create interelationships and workflows between things
+
+We hope to be working on these things sooner rather than later
+* Create interelationships and workflows between things (node-red style)
+* Support for more protocols like CoAP and MQTT
+* RESTful API
+* Grow files
 
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place.
 
@@ -88,8 +94,6 @@ node tests/test-device.js
 
 You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
-[REST endpoints coming soon!](https://github.com/CommonGarden/Grow-IoT/issues/208)
-
 ## Adding components
 
 Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
@@ -114,7 +118,7 @@ Work in progress...
 ### Software examples
 Grow-IoT supports all kinds of Things! Even models of ones you can't connect to the Internet, like a tree.
 
-**We've started building a collection of useful custom elments in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).**
+**We've started building a collection of custom elments in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).**
 
 ## Contributing
 Be kind to one another. All are welcome. See the following for more info:

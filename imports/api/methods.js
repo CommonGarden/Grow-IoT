@@ -25,16 +25,13 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
     
-    // TODO: reorganize... we shouldn't have to write things like thing.thing.name
-    // Update the document
 
     config = _.extend(config, { registeredAt: new Date() });
 
+    // Update the document
     if (!Things.update(thing._id, {
       $set: config
     })) { throw new Meteor.Error('internal-error', "Internal error."); }
-
-    // return document;
   },
 
   /*
@@ -85,12 +82,12 @@ Meteor.methods({
   /*
    * Emit an event.
   */
-  'Thing.event': function (auth, body) {
+  'Thing.emit': function (auth, event) {
     check(auth, {
       uuid: String,
       token: String
     });
-    check(body, Object);
+    check(event, Match.OneOf(String, Object));
 
     let thing = Things.findOne(auth, {
       fields: {
@@ -103,7 +100,7 @@ Meteor.methods({
       thing: {
         _id: thing._id
       },
-      event: body,
+      event: event,
       insertedAt: new Date()
     });
   },

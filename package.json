@@ -1,6 +1,6 @@
 {
   "name": "Grow-IoT",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "A meteor application for the Internet of Living things.",
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
-    "Grow.js": "^0.2.98",
     "babel-runtime": "^6.18.0",
     "bcrypt": "^0.8.7",
     "bufferutil": "^1.2.1",
@@ -35,6 +34,7 @@
     "utf-8-validate": "^1.2.1"
   },
   "devDependencies": {
+    "Grow.js": "^0.3.0",
     "babel-eslint": "^7.1.1",
     "eslint": "^3.10.2",
     "eslint-import-resolver-meteor": "^0.3.3",
