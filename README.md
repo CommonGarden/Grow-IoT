@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow.js](https://badges.gitter.im/CommonGarden/Grow.js.svg)](https://gitter.im/CommonGarden/Grow.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Grow.js is an npm package for creating and connecting devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance.
+Grow.js helps you connect things to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance.
 
 ### Installation
 
