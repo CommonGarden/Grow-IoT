@@ -36,9 +36,34 @@ export const DemandLatestTemperatureEvents = {
     extendDemand.call(this, eDemand);
   },
 }
-
+export const DemandLatestPH = {
+  beforeRegister,
+  registered() {
+    const eDemand = {
+      ph: {
+        path: 'event.event.message.value', 
+        // TODO more params needed. eg. 'type, which collection etc'
+      },
+    }
+    extendDemand.call(this, eDemand);
+  },
+}
+export const DemandLatestHumidity = {
+  beforeRegister,
+  registered() {
+    const eDemand = {
+      humidity: {
+        path: 'event.event.message.value', 
+        // TODO more params needed. eg. 'type, which collection etc'
+      },
+    }
+    extendDemand.call(this, eDemand);
+  },
+}
 export const ChildDemands = {
   DemandLatestTemparature,
   DemandLatestTemperatureEvents,
+  DemandLatestPH,
+  DemandLatestHumidity,
 }
 
