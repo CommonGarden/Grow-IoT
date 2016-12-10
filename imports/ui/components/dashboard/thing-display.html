@@ -31,16 +31,8 @@ paper-card {
           Not online
         </div>
 
-        <!-- After a thing registers and connects render its webcomponent -->
-        <!-- THIS PART NEEDS WORK -->
-        <div class="card-content" hidden$="{{!thing.testThing}}">
-          <test-thing uuid="{{thing.uuid}}"></test-thing>
-        </div>
-
-        <div class="card-content" hidden$="{{!thing.testDevice}}">
-          <test-device uuid="{{thing.uuid}}"></test-device>
-        </div>
-
+        <!-- Here we render the component specified in thing.component -->
+        <div id="container"></div>
 
         <div class="card-actions layout horizontal"
              hidden$="{{!thing.registeredAt}}">

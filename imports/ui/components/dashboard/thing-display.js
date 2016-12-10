@@ -3,11 +3,12 @@ class thingDisplay {
     this.is = "thing-display";
     this.properties = {
       uuid: String,
-      thing: {
-        type: Object
-      },
+      thing: Object,
       loader:Number,
     };
+    this.observers = [
+      '_thingChange(thing.component)'
+    ];
   }
 
   get behaviors () {
@@ -29,8 +30,10 @@ class thingDisplay {
       if ((span.innerHTML += '.').length == 4) 
         span.innerHTML = '';
     }, 500);
+  }
 
-    //clearInterval( this.loader ); // at some point, clear the setInterval
+  detached() {
+    clearInterval(this.loader);
   }
 
   subThing (uuid) {
@@ -53,7 +56,6 @@ class thingDisplay {
     });
   }
 
-
   createTestThing () {
     Meteor.call('Thing.register',
       {
@@ -61,8 +63,7 @@ class thingDisplay {
         token: this.thing.token
       },
       {
-        testThing: true, // Hack
-        component: 'test-thing', // The future...
+        component: 'test-thing',
         properties: {
           state: "on"
         }
@@ -74,6 +75,57 @@ class thingDisplay {
         }
       }
     );
+  }
+
+  _thingChange(type) {
+    if (!_.isUndefined(this.thing.component)) {
+      const container = this.$.container;
+      if(container.getAttribute('data-type') !== type) {
+        container.innerHTML = '';
+        container.setAttribute('data-type', type);
+        let children = [this.thing.component];
+        const docFrag = document.createDocumentFragment();
+        for(let i = 0; i < children.length; i++) {
+          const child = document.createElement(children[i]);
+          child.setAttribute('legit-child', 'true'); // LOL
+          child.setAttribute('uuid', this.thing.uuid);
+          const self = this;
+          function onDemandChange(e) {
+            const change = e.detail;
+            const arr = change.path.split(/\./);
+            if (arr.length > 1) {
+              return self._serveChildDemand(e.target, arr[1]);
+            }
+            self._serveChildDemands(e.target);
+          };
+          child.addEventListener('demands-change', onDemandChange)
+          docFrag.appendChild(child);
+        }
+
+        Polymer.dom(container).appendChild(docFrag);
+      }
+    }
+  }
+
+  _serveChildDemands(child) {
+    const demands = child.demands || {};
+    for(key of Object.keys(demands)){
+      const demand = demands[key];
+      const path = demand.path;
+      if(path === undefined) {
+        return console.warn(`path not defined for ${key}`, child);
+      }
+      child.set(key, this.get(path));
+    }
+  }
+
+  _serveChildDemand(child, key) {
+    const demand = child.demands[key];
+    const path = demand.path;
+    if(path === undefined) {
+      return console.warn(`path not defined for ${key}`, child);
+    }
+    child.set(key, this.get(path));
   }
 }
 
