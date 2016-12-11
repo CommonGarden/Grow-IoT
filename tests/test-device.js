@@ -10,9 +10,16 @@ var questions = [
     message: 'Select Event Type',
     choices: ['temperature', 'ph', 'humidity']
   },
+  {
+    type: 'input',
+    name: 'interval',
+    message: 'Enter event interval. (in milliseconds. default: 3000ms)',
+  },
+
 ]
 inquirer.prompt(questions).then(function (answers) {
   const type = answers.type || 'temperature';
+  const interval = answers.interval || '3000';
   console.log(`\nCreating ${type} events.`);
   var testDevice = new Thing({
     // PUT YOUR UUID AND TOKEN HERE
@@ -28,7 +35,7 @@ inquirer.prompt(questions).then(function (answers) {
     start: function () {
       setInterval(()=> {
         testDevice.call('temp_data');
-      }, 3000);
+      }, interval);
     },
 
     turn_on: function () {
