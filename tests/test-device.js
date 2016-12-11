@@ -2,8 +2,8 @@ var Thing = require('Grow.js');
 
 var testDevice = new Thing({
   // PUT YOUR UUID AND TOKEN HERE
-  uuid: 'PASTE_UUID_HERE',
-  token: 'PASTE_TOKEN_HERE',
+  uuid: 'cdbf5b4b-0c7c-42fe-8eec-e59e7f314fe6',
+  token: 'vSfWazG3b38QtdaCZvj27HcQvNFrNNqS',
 
   component: 'test-device',
 
