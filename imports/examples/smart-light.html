@@ -36,10 +36,10 @@
 
     <p>Light: {{state}}</p>
 
-    <paper-button on-click="sendCommand"
+    <paper-button on-click="toggleLight"
                   data-method="turn_on"
                   raised >On</paper-button>
-    <paper-button on-click="sendCommand"
+    <paper-button on-click="toggleLight"
                   data-method="turn_off" 
                   raised >Off</paper-button>
   </template>
@@ -92,43 +92,27 @@ class smartLight {
     this.$.options.open()
   }
 
+  toggleLight (e) {
+    this.sendCommand(e.target.dataset.method);
+  }
+
   updateProperties () {
-    // There is probably a better way of doing this...
-    // But I've got a demo to do
     let interval = {
       key: 'interval',
       value: this.get('interval')
     }
-
-    Meteor.call('Thing.sendCommand',
-      this.uuid,
-      'setProperty',
-      options,
-      (error, documentId) => {
-        if (error) {
-          console.error("Error", error);
-          return alert(`Error: ${error.reason || error}`);
-        }
-      }
-    );
+    this.sendCommand('setProperty', interval);
 
     let threshold = {
       key: 'threshold',
       value: this.get('threshold')
     }
-    // Stupid variable names like this mean this should get rewritten
+    this.sendCommand('setProperty', threshold);
 
-    Meteor.call('Thing.sendCommand',
-      this.uuid,
-      'setProperty',
-      options,
-      (error, documentId) => {
-        if (error) {
-          console.error("Error", error);
-          return alert(`Error: ${error.reason || error}`);
-        }
-      }
-    );
+    // Stop the device to clear current data interval
+    this.sendCommand('stop');
+    // Restart device
+    this.sendCommand('start');
   }
 
   subThing (uuid) {
@@ -152,12 +136,11 @@ class smartLight {
     }
   }
 
-  // REDO
-  sendCommand (e) {
+  sendCommand (command, options) {
     Meteor.call('Thing.sendCommand',
       this.uuid,
-      e.target.dataset.method,
-      null,
+      command,
+      options,
       (error, documentId) => {
         if (error) {
           console.error("Error", error);

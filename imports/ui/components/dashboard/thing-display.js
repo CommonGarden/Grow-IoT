@@ -65,7 +65,6 @@ class thingDisplay {
   }
 
   createNewThing () {
-    console.log(this.get('component'));
     Meteor.call('Thing.register',
       {
         uuid: this.thing.uuid,
