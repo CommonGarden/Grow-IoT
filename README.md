@@ -28,8 +28,9 @@ var testDevice = new Thing({
     uuid: 'PASTE_UUID_HERE',
     token: 'PASTE_TOKEN_HERE',
     
-    // HACK, unfortunately needed for now...
-    testDevice: true,
+
+    // Specifies the web component associated with the thing
+    component: 'test-device',
 
     // Properties can be updated by the API
     properties: {
