@@ -1,0 +1,173 @@
+<!--
+  `smart-light`
+  A light with light sensor example.
+-->
+<dom-module id="smart-light">
+  <template>
+    <style>
+:host {
+  display: block;
+  padding: 15px;
+}
+    </style>
+    <h2>Smart light
+    <paper-icon-button icon="settings"
+                       on-click="toggleDialog">
+    </paper-icon-button>
+    </h2>
+    
+    <p>Currently: <em>{{lightconditions}}</em></p>
+
+    <paper-dialog id="options">
+      <h2>Options</h2>
+      <paper-input always-float-label label="Light threshold" value="{{threshold}}"></paper-input>
+
+      <paper-input always-float-label label="Log data every (miliseconds)" value="{{interval}}"></paper-input>
+
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-click="updateProperties">Save</paper-button>
+      </div>
+    </paper-dialog>
+
+    <light-realtime events="{{events}}"></light-realtime>
+
+    <hr/>
+
+    <p>Light: {{state}}</p>
+
+    <paper-button on-click="sendCommand"
+                  data-method="turn_on"
+                  raised >On</paper-button>
+    <paper-button on-click="sendCommand"
+                  data-method="turn_off" 
+                  raised >Off</paper-button>
+  </template>
+
+  <script>
+class smartLight {
+  beforeRegister(){
+    this.is = "smart-light";
+    this.properties = {
+      state: String,
+      lightconditions: String,
+      light: Number,
+      threshold: Number,
+      interval: Number,
+      events: Array,
+      token: String,
+      uuid: String
+    };
+  }
+
+  get behaviors(){
+    return [mwcMixin]
+  }
+
+  get trackers (){
+    return [
+      "subThing(uuid)",
+      "setState(uuid)",
+      "lightData(uuid)"
+    ];
+  }
+
+  lightData (uuid) {
+    if(uuid){
+      this.subscribe('Thing.events', uuid, 'light');
+      let events = Events.find().fetch();
+      this.set('events', events);
+      if (!_.isUndefined(events)) {
+        let event = events.pop();
+        if (!_.isUndefined(event)) {
+          if (event.event.type === 'light') {
+            this.set('light', event.event.value);
+          }
+        }
+      }
+    }
+  }
+
+  toggleDialog () {
+    this.$.options.open()
+  }
+
+  updateProperties () {
+    // There is probably a better way of doing this...
+    // But I've got a demo to do
+    let interval = {
+      key: 'interval',
+      value: this.get('interval')
+    }
+
+    Meteor.call('Thing.sendCommand',
+      this.uuid,
+      'setProperty',
+      options,
+      (error, documentId) => {
+        if (error) {
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
+
+    let threshold = {
+      key: 'threshold',
+      value: this.get('threshold')
+    }
+    // Stupid variable names like this mean this should get rewritten
+
+    Meteor.call('Thing.sendCommand',
+      this.uuid,
+      'setProperty',
+      options,
+      (error, documentId) => {
+        if (error) {
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
+  }
+
+  subThing (uuid) {
+    if (uuid) {
+      this.subscribe('Things.one', uuid);
+    }
+  }
+
+  setState (uuid) {
+    if (uuid) {
+      let thing = Things.findOne({uuid: uuid});
+      if (!_.isUndefined(thing)) {
+        this.set('token', thing.token);
+        if (!_.isUndefined(thing.properties)) {
+          this.set('state', thing.properties.state);
+          this.set('lightconditions', thing.properties.lightconditions);
+          this.set('threshold', thing.properties.threshold);
+          this.set('interval', thing.properties.interval);
+        }
+      }
+    }
+  }
+
+  // REDO
+  sendCommand (e) {
+    Meteor.call('Thing.sendCommand',
+      this.uuid,
+      e.target.dataset.method,
+      null,
+      (error, documentId) => {
+        if (error) {
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
+  }
+}
+
+Polymer(smartLight);
+  </script>
+</dom-module>

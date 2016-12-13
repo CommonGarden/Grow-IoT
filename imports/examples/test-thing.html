@@ -9,20 +9,17 @@ An example of how to build a thing for Grow-IoT
     <style>
       :host {
         display: block;
+        padding: 15px;
       }
     </style>
-    <h2>Test thing</h2>
-    <p>This is a basic example of a virtual thing.</p>
-    <p>Heater: {{state}}</p>
-    <paper-button on-click="sendCommand"
-                  data-key="state"
-                  data-value="on"
-                  raised >On</paper-button>
-    <paper-button on-click="sendCommand"
-                  data-key="state"
-                  data-value="off"
-                  raised >Off</paper-button>
     <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
+    <div class="layout horizontal">
+      <paper-input always-float-label label="Gauge temperature" value="{{temperature}}"></paper-input>
+      <paper-button on-click="up"
+                    raised >+</paper-button>
+      <paper-button on-click="down"
+                    raised >-</paper-button>
+    </div>
   </template>
 
   <script>
@@ -33,7 +30,10 @@ An example of how to build a thing for Grow-IoT
           state: String,
           uuid: String,
           token: String,
-          temperature: Number
+          temperature: {
+            type: Number,
+            value: 12
+          }
         }
       }
 
@@ -47,6 +47,18 @@ An example of how to build a thing for Grow-IoT
           "thing(uuid)",
           "tempData(uuid)"
         ];
+      }
+
+      up () {
+        let temperature = this.temperature + 1;
+        this.set('temperature', temperature);
+        this.setProperty('temperature', temperature);
+      }
+
+      down () {
+        let temperature = this.temperature - 1;
+        this.set('temperature', temperature);
+        this.setProperty('temperature', temperature);
       }
 
       tempData (uuid) {
@@ -77,19 +89,13 @@ An example of how to build a thing for Grow-IoT
             this.set('token', thing.token);
             if (!_.isUndefined(thing.properties)) {
               this.set('state', thing.properties.state);
+              this.set('temperature', thing.properties.temperature || this.temperature);
             }
           }
         }
       }
 
-      sendCommand (e) {
-        // Hack, moves the needle...
-        if (e.target.dataset.value === 'on') {
-          this.set('temperature', 14);
-        } else if (e.target.dataset.value === 'off') {
-          this.set('temperature', 13);
-        }
-
+      setProperty (key, value) {
         let auth = {
           'uuid': this.uuid,
           'token': this.token
@@ -97,8 +103,8 @@ An example of how to build a thing for Grow-IoT
 
         Meteor.call('Thing.setProperty',
           auth,
-          e.target.dataset.key,
-          e.target.dataset.value,
+          key,
+          value,
           (error, documentId) => {
             if (error) {
               console.error("Error", error);

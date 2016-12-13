@@ -73,7 +73,6 @@ Meteor.publish('Thing.messages', function(auth) {
           }
         });
         Meteor.call('Thing.emit', auth, {
-          name: "offline",
           message: "Thing offline"
         }, function(error, documentId) {
           if (error) {
