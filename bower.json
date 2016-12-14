@@ -11,11 +11,10 @@
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5",
     "polymer-sortablejs": "aruntk/polymer-sortablejs#^0.1.4",
-    "dr-dose": "CommonGarden/dr-dose#^0.0.6",
-    "smart-pot": "CommonGarden/smart-pot#^0.0.1",
-    "grow-elements": "CommonGarden/grow-elements#^0.0.3",
     "iron-icons": "PolymerElements/iron-icons#^1.2.0",
-    "app-route": "PolymerElements/app-route#^0.9.3"
+    "app-route": "PolymerElements/app-route#^0.9.3",
+    "d3": "^4.4.0",
+    "current-weather": "^0.4.0"
   },
   "ignore": [
     "demo/*",

@@ -1,4 +1,4 @@
-import '../imports/ui/index.js';
-import '../imports/collections/index.js';
-import '../imports/api/index.js';
-import '../imports/examples/index.js';
+import '../imports/ui';
+import '../imports/collections';
+import '../imports/api';
+import '../imports/examples';
