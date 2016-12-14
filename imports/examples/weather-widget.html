@@ -9,11 +9,12 @@ An example of how to build a thing for Grow-IoT
     <style>
       :host {
         display: block;
-        padding: 15px;
       }
     </style>
-    <!-- Todo: show weather for current location... -->
-    <current-weather lat="37.871593" lon="-122.272747" units="metric" app-id="ac9326c8de0c2620491ae3e00dc61403" wind suntimes minmax conditiontext chump name></current-weather>
+    <current-weather lat="37.871593" lon="-122.272747" units="metric" app-id="ac9326c8de0c2620491ae3e00dc61403" wind suntimes minmax conditiontext chump name style="width:380px; height: 354px;"></current-weather>
+
+    <!-- Todo: get lat and long for the location... -->
+    <!-- <paper-input always-float-label label="Location" value="Berkeley"></paper-input> -->
   </template>
 
   <script>
@@ -23,6 +24,8 @@ An example of how to build a thing for Grow-IoT
         this.properties = {
           uuid: String,
           token: String,
+          lat: String,
+          lon: String
         }
       }
 

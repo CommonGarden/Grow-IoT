@@ -13,12 +13,7 @@ A ph balancer and nutrient doser.
       }
     </style>
     <h2>[[name]]</h2>
-    <p>Current ph: <strong>{{ph}}</strong></p>
-    <!-- <ph-gauge ph="[[ph]]"></ph-gauge> -->
-
-    <p>Current ec: <strong>{{ec}}</strong></p>
-
-    <br/>
+    <ph-gauge ph="{{ph}}"></ph-gauge>
 
     <paper-tabs selected="{{selected}}">
       <paper-tab>Manual</paper-tab>
@@ -35,14 +30,12 @@ A ph balancer and nutrient doser.
         <br/>
         <paper-button on-click="sendCommand" data-method="acid" raised >Acid</paper-button>
         <paper-button on-click="sendCommand" data-method="base" raised >Base</paper-button>
-        <paper-button on-click="sendCommand" data-method="nutrient" raised >Nutrient</paper-button>
       </div>
       <div>
         <br/>
         <!-- <paper-toggle-button noink>AI disabled</paper-toggle-button> -->
         <!-- Needs validator -->
-        <paper-input label="Target pH" value="{{target_ph}}"></paper-input>
-        <paper-input label="Target conductivity" value="{{target_ec}}"></paper-input>
+        <paper-input label="Target pH" value="{{ph}}"></paper-input>
       </div>
     </iron-pages>
   </template>
@@ -57,7 +50,10 @@ A ph balancer and nutrient doser.
           type: String,
           value: 'Dr. Dose'
         },
-        ph: Number,
+        ph: {
+          type: Number,
+          value: 6.5
+        },
         ec: Number,
         duration: {
           type: Number,

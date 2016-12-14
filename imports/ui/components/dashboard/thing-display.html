@@ -8,52 +8,58 @@ paper-card {
 .handle {
   cursor: all-scroll;
 }
+.thing-toolbar {
+  /*height: 2.5em;*/
+}
     </style>
-    <paper-card hidden$="{{thing.registeredAt}}">
-      <div class="card-content">
-        <p>Waiting for device with the following credentials to connect <span id="loading"></span></p>
-
-        <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
-        <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
-      </div>
-      <div class="card-actions layout horizontal">
-        <paper-button on-click="toggleDialog">Create test thing</paper-button>
-        <paper-button on-click="deleteThing">Cancel</paper-button>
+    <paper-card>
+      <paper-toolbar hidden$="{{!thing.registeredAt}}" class="thing-toolbar">
+        <div class="title" hidden$="{{thing.onlineSince}}">
+          Not online
+        </div>
+        <paper-icon-button icon="move" class="handle"></paper-icon-button>
         <div class="flex"></div>
-        <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
+        <paper-menu-button>
+          <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+          <paper-menu class="dropdown-content">
+            <!-- TODO: add icons. -->
+            <paper-item on-click="deleteThing">Delete</paper-item>
+            <!-- TODO: show options -->
+            <paper-item>Settings</paper-item>
+            <paper-item>Help</paper-item>
+          </paper-menu>
+        </paper-menu-button>
+      </paper-toolbar>
+
+      <div hidden$="{{thing.registeredAt}}">
+        <div class="card-content">
+          <h2>New thing</h2>
+          <p>Connect a device using the following API crendentials or create a test thing <span id="loading"></span></p>
+
+          <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
+          <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
+        </div>
+        <div class="card-actions layout horizontal">
+          <paper-button on-click="toggleDialog">Create test thing</paper-button>
+          <paper-button on-click="deleteThing">Cancel</paper-button>
+          <div class="flex"></div>
+        </div>
       </div>
-    </paper-card>
 
-    <paper-dialog id="new_thing">
-      <h2>New thing</h2>
-      <paper-input always-float-label label="thing-name" value="{{component}}"></paper-input>
-
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm autofocus on-click="createNewThing">Create new thing!</paper-button>
-      </div>
-    </paper-dialog>
-
-    <paper-card image="{{thing.image}}" alt="{{thing.name}}" hidden$="{{!thing.registeredAt}}">
-      <div class="card-content" hidden$="{{thing.onlineSince}}">
-        Not online
+      <div hidden$="{{!thing.registeredAt}}">
+        <!-- Here we render the component specified in thing.component -->
+        <div id="container"></div>
       </div>
 
-<!--         <paper-toolbar>
-        <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
-        <div class="title">Title</div>
-        <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
-      </paper-toolbar> -->
+      <paper-dialog id="new_thing">
+        <h2>New thing</h2>
+        <paper-input always-float-label label="thing-name" value="{{component}}"></paper-input>
 
-      <!-- Here we render the component specified in thing.component -->
-      <div id="container"></div>
-
-      <div class="card-actions layout horizontal"
-           hidden$="{{!thing.registeredAt}}">
-        <paper-button on-click="deleteThing">Delete</paper-button>
-        <div class="flex"></div>
-        <paper-icon-button icon="reorder" class="handle"></paper-icon-button>
-      </div>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm autofocus on-click="createNewThing">Create new thing!</paper-button>
+        </div>
+      </paper-dialog>
     </paper-card>
   </template>
   <script src='thing-display.js'></script>
