@@ -15,6 +15,7 @@
     "app-route": "PolymerElements/app-route#^0.9.3",
     "d3": "^4.4.0",
     "current-weather": "aruntk/current-weather#^0.4.2"
+    "vaadin-combo-box": "vaadin/vaadin-combo-box#^1.1.5"
   },
   "ignore": [
     "demo/*",

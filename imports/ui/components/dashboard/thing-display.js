@@ -8,6 +8,17 @@ class thingDisplay {
         type: String,
         value: 'test-thing'
       },
+      items: {
+        type: Array,
+        value: [
+          "test-device",
+          "test-thing",
+          "dr-dose",
+          "weather-widget",
+          "smart-light",
+          "smart-pot",
+        ],
+      },
       loader:Number,
     };
     this.observers = [
