@@ -1,0 +1,10 @@
+{
+  "map": {
+    "imports/ui/bower_components/": "bower_components/"
+  },
+  "extensions": [
+    "ttf",
+    "eot",
+    "png"
+  ]
+}
