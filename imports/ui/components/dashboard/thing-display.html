@@ -8,7 +8,11 @@ paper-card {
 .handle {
   cursor: all-scroll;
 }
+:root {
+--thing-display-primary-color: #3D9970;
+}
 .thing-toolbar {
+  background: var(--thing-display-primary-color);
   /*height: 2.5em;*/
 }
     </style>
@@ -53,8 +57,15 @@ paper-card {
 
       <paper-dialog id="new_thing">
         <h2>New thing</h2>
-        <paper-input always-float-label label="thing-name" value="{{component}}"></paper-input>
-
+        <!-- <paper-input always-float-label -->
+          <!-- label="thing-name" -->
+          <!-- value="{{component}}"> -->
+        <!-- </paper-input> -->
+        <vaadin-combo-box label="Element"
+                          items="{{items}}"
+                          value="{{component}}">
+        </vaadin-combo-box>
+        
         <div class="buttons">
           <paper-button dialog-dismiss>Cancel</paper-button>
           <paper-button dialog-confirm autofocus on-click="createNewThing">Create new thing!</paper-button>

@@ -9,16 +9,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        'gh-pages': {
-            options: {
-                clone: 'bower_components/current-weather'
-            },
-            src: [
-                'bower_components/**/*',
-                '!bower_components/current-weather/**/*',
-                'demo/*', 'src/*', 'index.html'
-            ]
-        },
         'replace': {
             example: {
                 src: ['src/*'],
@@ -32,11 +22,9 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-text-replace');
 
     grunt.registerTask('build',  ['replace']);
-    grunt.registerTask('deploy', ['gh-pages']);
     grunt.registerTask('server', ['connect']);
 
 };

@@ -14,11 +14,7 @@ An example of how to build a thing for Grow-IoT
     </style>
     <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
     <div class="layout horizontal">
-      <paper-input always-float-label label="Gauge temperature" value="{{temperature}}"></paper-input>
-      <paper-button on-click="up"
-                    raised >+</paper-button>
-      <paper-button on-click="down"
-                    raised >-</paper-button>
+      <paper-input always-float-label label="Gauge temperature" value="{{temperature}}" type="number" class="flex"></paper-input>
     </div>
   </template>
 
