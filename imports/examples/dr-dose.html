@@ -23,7 +23,7 @@ A ph balancer and nutrient doser.
     <iron-pages selected="{{selected}}">
       <div>
         <br/>
-        <paper-input label="Dose duration (in miliseconds)" value="{{duration}}"></paper-input>
+        <paper-input label="Dose duration (in miliseconds)" value="{{duration}}" type="number"></paper-input>
         <br/>
         <!-- Todo: enable pumps upon toggling. -->
         <!-- <paper-toggle-button noink>Pumps disabled</paper-toggle-button> -->
@@ -35,7 +35,7 @@ A ph balancer and nutrient doser.
         <br/>
         <!-- <paper-toggle-button noink>AI disabled</paper-toggle-button> -->
         <!-- Needs validator -->
-        <paper-input label="Target pH" value="{{ph}}"></paper-input>
+        <paper-input label="Target pH" value="{{ph}}" type="number" step="0.1"></paper-input>
       </div>
     </iron-pages>
   </template>

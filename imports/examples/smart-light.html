@@ -20,9 +20,10 @@
 
     <paper-dialog id="options">
       <h2>Options</h2>
-      <paper-input always-float-label label="Light threshold" value="{{threshold}}"></paper-input>
+      <paper-input always-float-label label="Light threshold" value="{{threshold}}" type="number"></paper-input>
 
-      <paper-input always-float-label label="Log data every (miliseconds)" value="{{interval}}"></paper-input>
+      <paper-input always-float-label label="Log data every (miliseconds)" value="{{interval}}" type="number">
+      </paper-input>
 
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>

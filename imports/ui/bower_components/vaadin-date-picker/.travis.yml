@@ -1,0 +1,17 @@
+sudo: false
+language: node_js
+node_js:
+  - "5.3"
+cache:
+  directories:
+    - node_modules
+install: travis_retry npm install && npm install -g bower && bower install
+env:
+  - TEST_SUITE=mobile
+  - TEST_SUITE=desktop
+  - TEST_SUITE=mobile:shadow
+  - TEST_SUITE=desktop:shadow
+script:
+  - gulp lint:js
+  - gulp lint:html
+  - travis_retry gulp test:$TEST_SUITE
