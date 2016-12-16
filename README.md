@@ -8,11 +8,11 @@ Grow-IoT allows you to currently:
 * Build a dashboard out of those components
 * Own your data ([host your own instance!](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup))
 
-We hope to be working on these things sooner rather than later
+We hope to be working on these things sooner rather than later:
+* Support for existing hardware
 * Create interelationships and workflows between things (node-red style)
 * Support for more protocols like CoAP and MQTT
 * RESTful API
-* Grow files
 
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place.
 
@@ -42,9 +42,9 @@ var Thing = require('Grow.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
 var testDevice = new Thing({
-    // PUT YOUR UUID AND TOKEN HERE:
-    uuid: 'ae3093d5-f6bb-47dd-911b-427e85b7d991',
-    token: 'BmGKqZTh4MRzXMwPNeoqjNLLvFT6yQyG',
+    // ADD API CREDENTIALS
+    uuid: 'PASTE_UUID_HERE',
+    token: 'PASTE_TOKEN_HERE',
     
     // Specifies the web component associated with the thing
     component: 'test-device',
@@ -90,9 +90,9 @@ After you add the `uuid` and `token` to the thing and have Grow-IoT running loca
 node tests/test-device.js
 ```
 
-[Grow.js](https://github.com/CommonGarden/Grow.js) is a helper library that makes it fairly easy to connect a thing to Grow-IoT. You can use it for both hardware or virtual things. It plays well with the [Johnny-Five](http://johnny-five.io/) robotics library, so [many devices](http://johnny-five.io/#platform-support) can be connected.
+You can find the web component for this device in the `imports/examples` folder. 
 
-You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
+See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices. You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
 ## Adding components
 
@@ -109,16 +109,6 @@ Now it's ready to use in Grow-IoT!
 Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements catalogue](https://elements.polymer-project.org/) for components to import and use in your things.
 
 For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
-
-### Hardware Examples
-Work in progress...
-* https://github.com/CommonGarden/dr-dose
-* https://github.com/CommonGarden/smart-pot
-
-### Software examples
-Grow-IoT supports all kinds of Things! Even models of ones you can't connect to the Internet, like a tree.
-
-**We've started building a collection of custom elments in our [grow-elements repo](https://github.com/CommonGarden/grow-elements).**
 
 ## Contributing
 Be kind to one another. All are welcome. See the following for more info:
