@@ -23,12 +23,18 @@ class temperatureGauge {
     this.is = 'temperature-gauge';
     this.observers = ['draw(temperature)'];
   }
+
   get behaviors() {
     return [
       mwcMixin,
       DemandLatestTemparature,
     ];
   }
+
+  attached () {
+    this.draw(this.temperature);
+  }
+
   draw(temperature) {
     this.temperatureGauge = this.temperatureGauge || echarts.init(this.$.container, 'macarons');
     const intTmp = Math.floor(temperature);

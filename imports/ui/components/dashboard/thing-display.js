@@ -4,6 +4,21 @@ class thingDisplay {
     this.properties = {
       uuid: String,
       thing: Object,
+      component: {
+        type: String,
+        value: 'test-thing'
+      },
+      items: {
+        type: Array,
+        value: [
+          "test-device",
+          "test-thing",
+          "dr-dose",
+          "weather-widget",
+          "smart-light",
+          "smart-pot",
+        ],
+      },
       loader:Number,
     };
     this.observers = [
@@ -32,6 +47,10 @@ class thingDisplay {
     }, 500);
   }
 
+  toggleDialog () {
+    this.$.new_thing.open()
+  }
+
   detached() {
     clearInterval(this.loader);
   }
@@ -56,14 +75,14 @@ class thingDisplay {
     });
   }
 
-  createTestThing () {
+  createNewThing () {
     Meteor.call('Thing.register',
       {
         uuid: this.thing.uuid,
         token: this.thing.token
       },
       {
-        component: 'test-thing',
+        component: this.get('component'),
         onlineSince: true,
         properties: {
           state: "on"

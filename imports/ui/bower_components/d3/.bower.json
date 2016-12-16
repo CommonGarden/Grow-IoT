@@ -13,6 +13,7 @@
     "commit": "1c1cda73cd6f465e9a28c960095b3c7d299d6442"
   },
   "_source": "https://github.com/mbostock-bower/d3-bower.git",
-  "_target": "^4.3.0",
-  "_originalSource": "d3"
+  "_target": "^4.4.0",
+  "_originalSource": "d3",
+  "_direct": true
 }

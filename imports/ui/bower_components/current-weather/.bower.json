@@ -1,6 +1,6 @@
 {
   "name": "current-weather",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "A polymer element for showing the current weather",
   "license": "MIT",
   "main": "dist/current-weather.html",
@@ -20,14 +20,14 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
     "weather-icons": "~1.3.2"
   },
-  "homepage": "https://github.com/dotch/current-weather",
-  "_release": "0.4.0",
+  "homepage": "https://github.com/aruntk/current-weather",
+  "_release": "0.4.2",
   "_resolution": {
     "type": "version",
-    "tag": "0.4.0",
-    "commit": "eecc93238c653860777e3a3f4e9329626dc51270"
+    "tag": "0.4.2",
+    "commit": "8105b8cc1e6540d5cb6e5f23a9235babdbd88087"
   },
-  "_source": "https://github.com/dotch/current-weather.git",
-  "_target": "^0.4.0",
-  "_originalSource": "current-weather"
+  "_source": "https://github.com/aruntk/current-weather.git",
+  "_target": "^0.4.2",
+  "_originalSource": "aruntk/current-weather"
 }

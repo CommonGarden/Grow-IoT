@@ -15,8 +15,8 @@ var questions = [
     name: 'interval',
     message: 'Enter event interval. (in milliseconds. default: 3000ms)',
   },
+];
 
-]
 inquirer.prompt(questions).then(function (answers) {
   const type = answers.type || 'temperature';
   const interval = answers.interval || '3000';
@@ -25,7 +25,6 @@ inquirer.prompt(questions).then(function (answers) {
     // PUT YOUR UUID AND TOKEN HERE
     uuid: uuid,
     token: token,
-
     component: 'test-device',
 
     properties: {

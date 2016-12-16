@@ -60,7 +60,7 @@ Meteor.methods({
       token: String
     });
     check(key, String);
-    check(value, String);
+    check(value, Match.OneOf(String, Number));
 
     let thing = Things.findOne(auth, {
       fields: {

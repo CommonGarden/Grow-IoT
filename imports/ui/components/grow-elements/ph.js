@@ -29,6 +29,11 @@ class phGauge {
       DemandLatestPH,
   ];
   }
+
+  attached () {
+    this.draw(this.ph);
+  }
+
   draw(ph) {
     this.phGauge = this.phGauge || echarts.init(this.$.container, 'macarons');
     const data = { value: ph, name: 'ph' };

@@ -1,0 +1,65 @@
+<!--
+`test-thing`
+An example of how to build a thing for Grow-IoT
+
+@demo demo/index.html 
+-->
+<dom-module id="weather-widget">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <current-weather lat="37.871593" lon="-122.272747" units="metric" app-id="ac9326c8de0c2620491ae3e00dc61403" wind suntimes minmax conditiontext chump name style="width:380px; height: 354px;"></current-weather>
+
+    <!-- Todo: get lat and long for the location... -->
+    <!-- <paper-input always-float-label label="Location" value="Berkeley"></paper-input> -->
+  </template>
+
+  <script>
+    class weatherWidget {
+      beforeRegister(){
+        this.is = "weather-widget";
+        this.properties = {
+          uuid: String,
+          token: String,
+          lat: String,
+          lon: String
+        }
+      }
+
+      get behaviors(){
+        return [mwcMixin]
+      }
+
+      get trackers (){
+        return [
+          "subThing(uuid)",
+          "thing(uuid)"
+        ];
+      }
+
+      subThing (uuid) {
+        if (uuid) {
+          this.subscribe('Things.one', uuid);
+        }
+      }
+
+      thing (uuid) {
+        if (uuid) {
+          let thing = Things.findOne({uuid: uuid});
+          if (!_.isUndefined(thing)) {
+            this.set('token', thing.token);
+            if (!_.isUndefined(thing.properties)) {
+              this.set('state', thing.properties.state);
+              this.set('temperature', thing.properties.temperature || this.temperature);
+            }
+          }
+        }
+      }
+    }
+
+    Polymer(weatherWidget);
+  </script>
+</dom-module>
