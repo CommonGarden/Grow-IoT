@@ -1,0 +1,63 @@
+<dom-module id="grow-main-view">
+  <template>
+    <style>
+app-header {
+  background:var(--default-primary-color);
+  color: white;
+}
+
+      #dialog{
+        overflow:hidden;
+      }
+
+      [content] app-toolbar {
+        color:black;
+        margin:20px;
+      }
+    </style>
+<app-route route="{{route}}"
+               pattern="/:mainView"
+               tail="{{routeTail}}"
+               data="{{routeData}}"
+               active="{{active}}">
+    </app-route>
+
+    <app-header-layout has-scrolling-region id="headerPanel">
+
+      <app-header effects="waterfall" condenses fixed>
+        <content select="[toolbar]"></content>
+      </app-header>
+
+      <iron-pages class="layout vertical main"
+        id="mainView"
+        selected="[[routeData.mainView]]"
+        fallback-selection="404"
+        attr-for-selected="name">
+        <div class="vertical layout flex" main name="home">
+          <div class="center center-justified layout horizontal">
+            <sortable-js handle=".handle"
+              class="layout horizontal wrap">
+              <template is="dom-repeat" items="{{things}}" as="thing">
+                <thing-display on-delete-thing="_deleteThisThing" thing="{{thing}}"></thing-display>
+              </template>
+            </sortable-js>
+          </div>
+          <empty-state hidden$="{{_ifEmpty(things)}}" class="layout flex vertical"></empty-state>
+        </div>
+        <not-found name="404"></not-found>
+      </iron-pages>
+    </app-header-layout>
+    <paper-dialog with-backdrop="true"
+                  id="dialog"
+                  horizontal-align="left"
+                  vertical-align="top"
+                  dynamic-align="true">
+      <h2>Delete permenantly?</h2>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-tap="_confirmDelete">Proceed</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script src="main-view.js"></script>
+</dom-module>

@@ -1,199 +1,127 @@
 # Grow-IoT
-## Automation + IoT software for growing things!
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Connect custom and 3rd party IoT devices and use them to automate growing environments. 
+Grow-IoT allows you to currently:
+* Create custom devices / things with webcomponents #usetheplatform
+* Securely connect sensors and actuators ([Grow.js](https://github.com/CommonGarden/Grow.js) is there to help)
+* Build a dashboard out of those components
+* Own your data ([host your own instance!](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup))
 
-Control variables like:
-* Moisture
-* Light
-* pH
-* Nutrient dosing
-* Dissolved Oxygen
-* CO2
+We hope to be working on these things sooner rather than later:
+* Support for existing hardware
+* Create interelationships and workflows between things (node-red style)
+* Support for more protocols like CoAP and MQTT
+* RESTful API
 
-Please open issues or PRs with suggestions for improvements.
+If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place.
 
-![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
+## Installing Grow-IoT
 
-Together with [Grow.js](https://github.com/CommonGarden/Grow.js), Grow-IoT is a full javascript based IoT stack with a simple API and basic user interface. Use it to run *your own* home network in the cloud, or as the basis for your own IoT app.
+You need to install [Meteor](https://www.meteor.com/) first (if you haven't already).
 
-The Grow-IoT framework allows you to:
-* Securely connect and store data from devices
-* Schedule actions (such as turning the lights on every day at 8:30 am).
-* Easily create and add new IoT devices with [Grow.js](https://github.com/CommonGarden/Grow.js), using whatever board you want.
-* Have complete ownership over your data.
-* Calibrate sensors *(coming soon!)*
-
-Current status is pre-alpha. We are working examples and providing support for the widely used MQTT protocol.
-
-# Installing Grow-IoT
-
-You need to install [Meteor](https://www.meteor.com/) if you haven't already. To do so, open your terminal and enter:
-```bash
-curl https://install.meteor.com/ | sh
-```
-
-Then clone the repo, enter the new directory, and start meteor.
+Then clone the repo, enter the new directory, and run the `build.sh` script (which installs needed [npm](https://www.npmjs.com/) and [bower](https://bower.io/) packages).
 
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-npm install
+./build.sh
 meteor
 ```
 
-And that's it! Visit http://localhost:3000 with your browser of choice; you should now have a meteor application running.
+And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
-**Next step:** Create an account. You will use the email address you create your account with when you connect to your Grow-IoT instance.
+## Connecting devices (or virtual things)
+Create a new device (click the '+' button) and take note of the device `uuid` and `token`.
 
-# Hardware setup
-
-Grow-IoT works with many devices. For help getting started with any of these popular devices, see their wiki pages:
-
-+ [Raspberry Pi](https://github.com/CommonGarden/Grow-IoT/wiki/Raspberry-Pi)
-<!-- + [Tessel 2]()
-+ [Chip]()
-+ [Particle]() -->
-
-
-# Quickstart
-
-First, make a Grow.js project for a software light you want to control (see the [Grow.js Library](https://github.com/CommonGarden/Grow.js) for hardware examples):
-
-```bash
-mkdir my-plant-light
-cd my-plant-light
-npm init -y
-npm install --save Grow.js
-```
-
-Now, let's make a file called light.js that defines a light for a plant we may be growing. 
-
-**NOTE: Be sure to set the 'username' property below to the username you created an account with.**
-
-**light.js**
+In the `tests` folder checkout `test-device.js`. **Replace the `uuid` and `token` properties of the config object with the credentials you generate.**
 
 ```javascript
-// Import the grow.js library.
-var GrowInstance = require('Grow.js');
+// Import the latest build of the Grow.js library
+var Thing = require('Grow.js');
 
 // Create a new grow instance. Connects by default to localhost:3000
-// Create a new grow instance.
-    var grow = new GrowInstance({
-        name: 'Light', // The display name for the thing.
-        desription: 'An LED light with a basic on/off api.',
-        
-        // The username of the account you want this device to be added to.
-        username: 'YOURUSERNAMEHERE',
+var testDevice = new Thing({
+    // ADD API CREDENTIALS
+    uuid: 'PASTE_UUID_HERE',
+    token: 'PASTE_TOKEN_HERE',
+    
+    // Specifies the web component associated with the thing
+    component: 'test-device',
 
-        // Properties can be updated by the API
-        properties: {
-            state: 'off'
-        },
+    // Properties can be updated by the API
+    properties: {
+        state: 'off'
+    },
 
-        // Actions are the API of the thing.
-        actions: {
-            turn_light_on: {
-                name: 'On', // Display name for the action
-                description: 'Turns the light on.', // Optional description
-                schedule: 'at 9:00am', // Optional scheduling using later.js
-                function: function () {
-                    // The implementation of the action.
-                    console.log('Light on');
+    start: function () {
+        setInterval(()=> {
+            testDevice.call('temp_data');
+        }, 3000);
+    },
 
-                    // Emit a 'light on' event
-                    grow.emitEvent('Light on');
+    turn_on: function () {
+        testDevice.set('state', 'on');
+    },
 
-                    // Set the state property to 'on'
-                    grow.set('state', 'on');
-                }
-            },
-            turn_light_off: {
-                name: 'off',
-                schedule: 'at 8:30pm', // Run this function at 8:30pm
-                function: function () {
-                    console.log('Light off');
+    turn_off: function () {
+        testDevice.set('state', 'off');
+    },
 
-                    // Emit a 'light off' event
-                    grow.emitEvent('Light off');
+    temp_data: function () {
+        let temp = Math.random() * 100;
 
-                    // Set the state property to 'off'
-                    grow.set('state', 'off');
-                }
-            },
-            light_data: {
-                name: 'Log light data',
-                // type and template need for visualization component... HACK. 
-                type: 'light',
-                template: 'sensor',
-                schedule: 'every 1 second',
-                function: function () {
-                    // Send data to the Grow-IoT app.
-                    grow.log({
-                      type: 'light',
-                      value: Math.random()
-                    });
-                }
-            }
-        }
-    });
+        // Send data to the Grow-IoT app.
+        testDevice.emit({
+          type: 'temperature',
+          value: temp
+        });
+    }
+});
+
+// Connects by default to localhost:300
+testDevice.connect();
+
 ```
 
-Run the script with:
+After you add the `uuid` and `token` to the thing and have Grow-IoT running locally run (in a seperate terminal):
 
 ```bash
-node light.js
+node tests/test-device.js
 ```
 
-Next, visit [http://localhost:3000](http://localhost:3000) in your browser.
+You can find the web component for this device in the `imports/examples` folder. 
 
-Create a new environment and you should see the device. Click on it to add it to the environment.
+See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices. You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
-Like magic, you will see a generated UI based on the configuration object you passed in.
+## Adding components
 
-![Example screenshot](https://raw.githubusercontent.com/CommonGarden/Grow-IoT/master/public/example.png)
+Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
 
-If you click on one of the buttons, you should see the appropriate log message in the terminal where you are running `light.js`.
+To add a component:
 
-### Cool! What did I just do?
+1. Install it as `./bower.sh install --save example-component`.
 
-Well, running `light.js` for the first time:
+2. Then add it to the `imports/ui/imports.html` file.
 
-1. Connects to the Grow-IoT host (ddp).
+Now it's ready to use in Grow-IoT!
 
-2. Registers the device with host server. The information in config object is used to create a UI and API.
+Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements catalogue](https://elements.polymer-project.org/) for components to import and use in your things.
 
-3. Saves state to a file `state.json`, so if the device powers off or resets, it resumes it's last configuration.
-
-4. Sets up readable and writable streams and listens for commands.
-
-[Full Grow.js documentation and examples can be found here](http://commongarden.github.io/Grow.js/docs/).
-
-# Code organization
-The code is organized in the `packages` folder. Grow-IoT is a meteor application currently comprised of 3 packages:
-
-* api: a server for interacting with devices
-* app: the frontend application
-* core: document models
-
-### Setting up an instance on Meteor Galaxy
-
-You can easily host **your own** Grow-IoT instance on [Meteor Galaxy](https://galaxy.meteor.com/). See the Meteor Galaxy website for instructions on hosting a new meteor application.
-
-See [instructions in Grow.js for securely connecting devices to the instance](https://github.com/CommonGarden/grow.js).
-
-### Python support
-You can interact with the Grow-IoT api using the [Python DDP library](https://github.com/hharnisc/python-ddp).
+For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
 
 ## Contributing
+Be kind to one another. All are welcome. See the following for more info:
 
-Bitcoin address: 15TQgBpJ7u3PNRrw7tdkLxZw4ybEdATuvv
-
-Please read:
 * [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
-* [Contributing info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
+* [Contributing Info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
 
-### License
+### Code Style
+For now, we are sticking closely to what's documented in the Meteor guide. Take a look at the following for more info and helpful examples:
+
+* [Code style](https://guide.meteor.com/code-style.html)
+* [Application structure](https://guide.meteor.com/structure.html)
+* [Testing](https://guide.meteor.com/testing.html)
+
+## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 

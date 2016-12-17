@@ -1,0 +1,55 @@
+<dom-module id="grow-dashboard">
+  <template>
+    <link rel="stylesheet" type="text/css" href="dashboard.css">
+    <app-route route="{{route}}"
+               pattern="/:dbView"
+               tail="{{routeTail}}"
+               data="{{routeData}}"
+               active="{{active}}">
+    </app-route>
+
+    <iron-media-query query="(max-width: 870px)" query-matches="{{smScreen}}"></iron-media-query>
+
+    <paper-drawer-panel  narrow="{{narrow}}" force-narrow="[[computeForceNarrow(smScreen, showSidebar)]]" responsive-width="0" disable-swipe="[[isSelectedMap]]" disable-edge-swipe="[[isSelectedMap]]" id="drawerPanel" right-drawer>
+
+      <iron-pages attr-for-selected="name"
+                  fallback-selection="404"
+                  selected="[[routeData.dbView]]"
+                  main>
+        <grow-main-view name="main" route="{{routeTail}}">
+          <app-toolbar toolbar>
+            <div main-title>Grow-IoT</div>
+            <paper-icon-button icon="add" on-tap="new" id="addNew"></paper-icon-button>
+            <paper-icon-button icon="menu" hidden$="[[!narrow]]" on-tap="openMenu"></paper-icon-button>
+          </app-toolbar>
+        </grow-main-view>
+        <not-found name="404">
+        </not-found>
+      </iron-pages>
+
+      <div class="layout vertical sidebar" drawer>
+        <app-toolbar>
+          <div title class="flex">
+            Grow-IoT
+          </div>
+          <paper-icon-button hidden$="[[narrow]]" on-tap="closeMenu" icon="chevron-right"></paper-icon-button>
+        </app-toolbar>
+        <paper-menu selected="{{selected}}" class="sidebar-menu">
+          <paper-icon-item on-click="issue">
+            <span class="flex"><a href="https://github.com/CommonGarden/Grow-IoT/issues">Report an issue</a></span>
+          </paper-icon-item>
+        </paper-menu>
+
+        <div class="divider"></div>
+
+        <paper-icon-item id="signOut" on-click="__signOut">
+          <iron-icon  icon="exit-to-app"></iron-icon>
+          <span class="flex">Sign Out</span>
+        </paper-icon-item>
+
+        <div class="divider"></div>
+      </div>
+    </paper-drawer-panel>
+  </template>
+  <script src="dashboard.js"></script>
+</dom-module>

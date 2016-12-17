@@ -1,0 +1,69 @@
+<dom-module id="empty-state">
+  <template>
+    <style>
+:host{
+  opacity:0.7;
+}
+
+#content{
+  position:relative;
+  margin-top:-100px;
+}
+#circle {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+#content iron-icon {
+  --iron-icon-height: 64px;
+  --iron-icon-width: 64px;
+}
+#content .text-content{
+  padding: 70px 20px;
+}
+
+#add-device-circle{
+  color: #594f4f;
+  text-decoration: none;
+}
+
+#add-device-circle{
+  color: #594f4f;
+  text-decoration: none;
+}
+
+#add-device-circle:hover{
+  color: #16a38f;
+  text-decoration: none;
+}
+
+    </style>
+    <div class="layout horizontal">
+      <div class="flex">
+      </div>
+      <canvas 
+           id="arrow" 
+           class="flex"
+           width$="{{canvasWidth}}" 
+           height$="{{canvasHeight}}"
+           style$="margin-left:{{canvasWidth}}">
+      </canvas>
+    </div>
+    <div class="layout vertical flex">
+      <div class="layout horizontal center center-justified">
+        <a href="#" on-tap="new" id="add-device-circle">
+        <div id="content" class="layout vertical">
+          <canvas id="circle"></canvas>
+          <div class="layout flex vertical center center-justified text-content">
+            <iron-icon icon="hardware:phonelink-off"></iron-icon>
+            <h3>Add a new device to start</h3>
+          </div>
+        </div>
+        </a>
+      </div>
+      <div class="flex"></div>
+    </div>
+
+  </template>
+</dom-module>
+<script src="empty-state.js"></script>

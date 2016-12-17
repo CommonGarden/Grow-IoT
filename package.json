@@ -1,6 +1,6 @@
 {
   "name": "Grow-IoT",
-  "version": "0.1.5",
+  "version": "0.2.6",
   "description": "A meteor application for the Internet of Living things.",
   "repository": {
     "type": "git",
@@ -21,15 +21,40 @@
   },
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
-    "Thing.js": "^0.2.3",
+    "Grow.js": "^0.3.0",
+    "babel-runtime": "^6.18.0",
     "bcrypt": "^0.8.7",
-    "meteor-later": "^1.2.0",
+    "bufferutil": "^1.2.1",
+    "chai": "^3.5.0",
+    "echarts": "^3.3.2",
+    "epoch-charting": "^0.8.4",
     "meteor-node-stubs": "^0.2.3",
-    "moment": "^2.13.0",
-    "mosca": "^2.0.2"
+    "moment": "^2.17.1",
+    "polymer-redux": "^0.3.0",
+    "redux": "^3.6.0",
+    "utf-8-validate": "^1.2.1"
   },
   "devDependencies": {
-    "eslint": "^2.11.1",
-    "eslint-plugin-meteor": "^3.6.0"
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.10.2",
+    "eslint-import-resolver-meteor": "^0.3.3",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-meteor": "^4.0.1"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [
+      "meteor"
+    ],
+    "extends": [
+      "plugin:meteor/recommended"
+    ],
+    "settings": {
+      "import/resolver": "meteor"
+    },
+    "rules": {}
   }
 }

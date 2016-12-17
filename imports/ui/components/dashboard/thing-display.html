@@ -1,0 +1,78 @@
+<dom-module id="thing-display">
+  <template>
+    <style type="text/css">
+paper-card {
+  width: 380px;
+  margin: 20px;
+}
+.handle {
+  cursor: all-scroll;
+}
+:root {
+--thing-display-primary-color: #3D9970;
+}
+.thing-toolbar {
+  /*background: var(--thing-display-primary-color);*/
+  /*height: 2.5em;*/
+}
+    </style>
+    <paper-card>
+      <paper-toolbar hidden$="{{!thing.registeredAt}}" class="thing-toolbar">
+        <div class="title" hidden$="{{thing.onlineSince}}">
+          Not online
+        </div>
+        <paper-icon-button icon="move" class="handle"></paper-icon-button>
+        <div class="flex"></div>
+        <paper-menu-button>
+          <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+          <paper-menu class="dropdown-content">
+            <!-- TODO: add icons. -->
+            <paper-item on-click="deleteThing">Delete</paper-item>
+            <!-- TODO: show options -->
+            <paper-item>Settings</paper-item>
+            <paper-item>Help</paper-item>
+          </paper-menu>
+        </paper-menu-button>
+      </paper-toolbar>
+
+      <div hidden$="{{thing.registeredAt}}">
+        <div class="card-content">
+          <h2>New thing</h2>
+          <p>Connect a device using the following API crendentials or create a test thing <span id="loading"></span></p>
+
+          <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
+          <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
+        </div>
+        <div class="card-actions layout horizontal">
+          <paper-button on-click="toggleDialog">Create test thing</paper-button>
+          <paper-button on-click="deleteThing">Cancel</paper-button>
+          <div class="flex"></div>
+        </div>
+      </div>
+
+      <div hidden$="{{!thing.registeredAt}}">
+        <!-- Here we render the component specified in thing.component -->
+        <div id="container"></div>
+      </div>
+
+      <paper-dialog id="new_thing">
+        <h2>New thing</h2>
+        <!-- <paper-input always-float-label -->
+          <!-- label="thing-name" -->
+          <!-- value="{{component}}"> -->
+        <!-- </paper-input> -->
+        <vaadin-combo-box label="Element"
+                          items="{{items}}"
+                          value="{{component}}">
+        </vaadin-combo-box>
+        
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm autofocus on-click="createNewThing">Create new thing!</paper-button>
+        </div>
+      </paper-dialog>
+    </paper-card>
+  </template>
+  <script src='thing-display.js'></script>
+</dom-module>
+
