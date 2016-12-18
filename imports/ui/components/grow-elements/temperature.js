@@ -44,12 +44,21 @@ class temperatureGauge {
         formatter: "{a} <br/>{b} : {c}°"
       },
       toolbox: {
-        show : true,
-        feature : {
-          mark : {show: true},
-          restore : {show: true},
-          saveAsImage : {show: true}
-        }
+        show: true,
+        feature: {
+          mark: {
+            show: true,
+            title: 'Mark',
+          },
+          restore : {
+            show: true,
+          title: 'Restore',
+          },
+          saveAsImage : {
+            show: true,
+          title: 'Save as image',
+          },
+        },
       },
 
       series : [
