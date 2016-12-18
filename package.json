@@ -28,6 +28,7 @@
     "chai": "^3.5.0",
     "echarts": "^3.3.2",
     "epoch-charting": "^0.8.4",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
     "inquirer": "^2.0.0",
     "meteor-node-stubs": "^0.2.3",
     "moment": "^2.17.1",
