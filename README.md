@@ -40,56 +40,7 @@ node tests/test-device.js
 
 You can find the web component for this device in `imports/examples/test-device.html`.
 
-**See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices.** Example device code:
-```javascript
-// Import the latest build of the Grow.js library
-var Thing = require('Grow.js');
-
-// Create a new grow instance. Connects by default to localhost:3000
-var testDevice = new Thing({
-    // ADD API CREDENTIALS
-    uuid: 'PASTE_UUID_HERE',
-    token: 'PASTE_TOKEN_HERE',
-    
-    // Specifies the web component associated with the thing
-    component: 'test-device',
-
-    // Properties can be updated by the API
-    properties: {
-        state: 'off'
-    },
-
-    start: function () {
-        setInterval(()=> {
-            testDevice.call('temp_data');
-        }, 3000);
-    },
-
-    turn_on: function () {
-        testDevice.set('state', 'on');
-    },
-
-    turn_off: function () {
-        testDevice.set('state', 'off');
-    },
-
-    temp_data: function () {
-        let temp = Math.random() * 100;
-
-        // Send data to the Grow-IoT app.
-        testDevice.emit({
-          type: 'temperature',
-          value: temp
-        });
-    }
-});
-
-// Connects by default to localhost:300
-testDevice.connect();
-
-```
-
-You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
+**See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices.** You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
 ## Adding components
 
