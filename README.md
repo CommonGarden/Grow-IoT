@@ -32,10 +32,15 @@ meteor
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
 ## Connecting devices (or virtual things)
-Create a new device (click the '+' button) and take note of the device `uuid` and `token`.
+Create a new device (click the '+' button) and take note of the device `uuid` and `token`. Then run (in a seperate terminal):
 
-In the `tests` folder checkout `test-device.js`. **Replace the `uuid` and `token` properties of the config object with the credentials you generate.**
+```bash
+node tests/test-device.js
+```
 
+You can find the web component for this device in `imports/examples/test-device.html`.
+
+**See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices.** Example device code:
 ```javascript
 // Import the latest build of the Grow.js library
 var Thing = require('Grow.js');
@@ -84,15 +89,7 @@ testDevice.connect();
 
 ```
 
-After you add the `uuid` and `token` to the thing and have Grow-IoT running locally run (in a seperate terminal):
-
-```bash
-node tests/test-device.js
-```
-
-You can find the web component for this device in the `imports/examples` folder. 
-
-See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices. You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
+You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
 
 ## Adding components
 

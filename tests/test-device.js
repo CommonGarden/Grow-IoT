@@ -1,40 +1,50 @@
 var Thing = require('Grow.js');
 var inquirer = require('inquirer');
+var _ = require('underscore')
+
 var args = process.argv.slice(2);
 var uuid = args[0];
 var token = args[1];
+
 var questions = [
   {
-    type: 'list',
-    name: 'type',
-    message: 'Select Event Type',
-    choices: ['temperature', 'ph', 'humidity']
+    type: 'input',
+    name: 'uuid',
+    message: 'Enter device UUID (you are given this when you create a new thing)',
   },
   {
     type: 'input',
-    name: 'interval',
-    message: 'Enter event interval. (in milliseconds. default: 3000ms)',
+    name: 'token',
+    message: 'Enter token',
   },
 ];
 
-inquirer.prompt(questions).then(function (answers) {
-  const type = answers.type || 'temperature';
-  const interval = answers.interval || '3000';
-  console.log(`\nCreating ${type} events.`);
+if(_.isUndefined(uuid) || _.isUndefined(token)) {
+  inquirer.prompt(questions).then(function (answers) {
+    uuid = answers.uuid;
+    token = answers.token;
+    testDevice();
+  });
+} else {
+  testDevice();
+}
+
+function testDevice () {
   var testDevice = new Thing({
-    // PUT YOUR UUID AND TOKEN HERE
+    // PUT YOUR UUID AND TOKEN HERE OR SUPPLY THEM AS ARGUMENTS
     uuid: uuid,
     token: token,
     component: 'test-device',
 
     properties: {
-      state: 'off'
+      state: 'off',
+      interval: 3000
     },
 
     start: function () {
       setInterval(()=> {
         testDevice.call('temp_data');
-      }, interval);
+      }, this.get('interval'));
     },
 
     turn_on: function () {
@@ -53,11 +63,11 @@ inquirer.prompt(questions).then(function (answers) {
       console.log(temp);
 
       testDevice.emit({
-        type: type,
+        type: 'temperature',
         value: temp
       });
     }
   });
-  testDevice.connect();
 
-});
+  testDevice.connect();
+}
