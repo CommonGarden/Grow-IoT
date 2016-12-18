@@ -47,8 +47,14 @@ class lightTimeline {
           dataZoom: {
             yAxisIndex: 'none'
           },
-          restore: {},
-          saveAsImage: {}
+          restore : {
+            show: true,
+            title: 'Restore',
+          },
+          saveAsImage : {
+            show: true,
+            title: 'Save as image',
+          },
         }
       },
       xAxis: {
