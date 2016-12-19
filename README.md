@@ -20,7 +20,7 @@ You create a thing by passing in an object.
 ```javascript
 var GrowInstance = require('Grow.js');
 
-var Thing = new GrowInstance({
+var thing = new GrowInstance({
     properties: {
         name: "Bob"
     },
@@ -33,25 +33,26 @@ var Thing = new GrowInstance({
 
 To `call` a method:
 ``` javascript
-example.call('method');
+thing.call('method');
 ```
 
 To `get` a property:
 ```javascript
-console.log(example.get('name')); // Bob
+console.log(thing.get('name')); // Bob
 ```
 
 To `set` a property:
 ```javascript
-example.set('name', 'Alice');
+thing.set('name', 'Alice');
 ```
 
 The Node [event](https://nodejs.org/dist/latest-v7.x/docs/api/events.html) api is also available:
 ```javascript
-example.on('property-updated', function() {
-  console.log('New name is ' + example.get('name'));
+thing.on('property-updated', function() {
+  console.log('New name is ' + thing.get('name'));
 });
 
+thing.set('name', 'Jill'); // New name is Jill
 ```
 
 See the full example in `examples/example.js`.
