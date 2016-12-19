@@ -2,17 +2,11 @@
 
 [![Join the chat at https://gitter.im/CommonGarden/Grow-IoT](https://badges.gitter.im/CommonGarden/Grow-IoT.svg)](https://gitter.im/CommonGarden/Grow-IoT?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Grow-IoT allows you to currently:
-* Create custom devices / things with webcomponents #usetheplatform
-* Securely connect sensors and actuators ([Grow.js](https://github.com/CommonGarden/Grow.js) is there to help)
+Grow-IoT allows you to:
+* Securely connect sensors and actuators
+* Create custom things with [webcomponents](http://webcomponents.org/)
 * Build a dashboard out of those components
 * Own your data ([host your own instance!](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup))
-
-We hope to be working on these things sooner rather than later:
-* Support for existing hardware
-* Create interelationships and workflows between things (node-red style)
-* Support for more protocols like CoAP and MQTT
-* RESTful API
 
 If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place.
 
@@ -58,18 +52,11 @@ Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements 
 
 For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
 
-## Contributing
-Be kind to one another. All are welcome. See the following for more info:
-
-* [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
-* [Contributing Info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
-
-### Code Style
-For now, we are sticking closely to what's documented in the Meteor guide. Take a look at the following for more info and helpful examples:
-
-* [Code style](https://guide.meteor.com/code-style.html)
-* [Application structure](https://guide.meteor.com/structure.html)
-* [Testing](https://guide.meteor.com/testing.html)
+## Roadmap
+We hope to be working on these things sooner rather than later:
+* More examples
+* Support for existing hardware (Nest thermostat etc.)
+* Create interelationships and workflows between things (node-red style)
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
