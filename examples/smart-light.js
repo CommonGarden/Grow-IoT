@@ -1,53 +1,61 @@
 // Require the Grow.js build and johnny-five library.
 var Thing = require('../dist/Grow.umd.js');
 
-var light_data;
+var light_data, emit_and_analyze;
 
+// Create a new thing.
 var light = new Thing({
-    uuid: '38d7d310-ede4-48e9-88fc-fcf1d9a2fbf7',
-    token: 'wZpSadperac8dTGKTgcpsq37aBAk25XA',
+    uuid: '205d24b0-234b-43b9-9c00-f22d97a79488',
+    token: '7YvjsSAWRCKpDBDzSR8EbkAx6ur7ztvW',
 
     component: 'smart-light',
 
     properties: {
         state: 'off',
         threshold: 300,
-        interval: 2000,
+        interval: 1000,
         lightconditions: null
     },
 
-    start: function () {        
-        setInterval(function emit_and_analyze() {
+    start: function () {
+        var interval = this.get('interval');
+        
+        emit_and_analyze = setInterval(function () {
             light.call('light_data');
             light.call('check_light_data');
-        }, light.get('interval'));
+        }, interval);
+    },
+
+    stop: function () {
+        clearInterval(emit_and_analyze);
     },
 
     turn_on: function () {
+        LED.high();
         light.set('state', 'on');
         console.log('light on');
     },
 
     turn_off:  function () {
+        LED.low();
         light.set('state', 'off');
         console.log('light off')
     },
 
     light_data: function () {
-        light_data = Math.random() * 1000;
-        console.log(light_data);
+        console.log(lightSensor.value);
 
         light.emit({
           type: 'light',
-          value: light_data
+          value: lightSensor.value
         });
     },
 
     check_light_data: function () {
         var threshold = light.get('threshold');
-        if ((light_data < threshold) && (light.get('lightconditions') != 'dark')) {
+        if ((lightSensor.value < threshold) && (light.get('lightconditions') != 'dark')) {
             light.set('lightconditions', 'dark');
-        } else if ((light_data >= threshold) && (light.get('lightconditions') != 'light')) {
+        } else if ((lightSensor.value >= threshold) && (light.get('lightconditions') != 'light')) {
             light.set('lightconditions', 'light');
         }
     }

@@ -11,8 +11,55 @@ npm install Grow.js
 ```
 
 ### Usage
+Grow.js has methods for:
+* Updating properties
+* Calling methods
+* Emiting events for either of the above
 
-Create a new device and take note of the device `uuid` and token.
+You create a thing by passing in an object.
+```javascript
+var GrowInstance = require('Grow.js');
+
+var Thing = new GrowInstance({
+    properties: {
+        name: "Bob"
+    },
+
+    method: function () {
+        console.log('Current name is ' + example.get('name'));
+    }
+});
+```
+
+To call a method:
+``` javascript
+example.call('method');
+```
+
+To get a property:
+```javascript
+var name = example.get('name');
+console.log(name); // Bob
+```
+
+To set a property:
+```javascript
+    example.set('name', 'Alice');
+```
+
+The Node [event](https://nodejs.org/dist/latest-v7.x/docs/api/events.html) api is also available:
+```javascript
+example.on('property-updated', function() {
+  console.log('New name is ' + example.get('name'));
+});
+
+```
+
+See the full example in `examples/example.js`
+
+### Connect to Grow-IoT Instance
+
+In Grow-IoT, create a new device and take note of the device `uuid` and `token`.
 
 In the `examples` folder checkout `test-device.js`.
 
@@ -27,14 +74,13 @@ var testDevice = new Thing({
     // PUT YOUR UUID AND TOKEN HERE:
     uuid: 'PASTE_UUID_HERE',
     token: 'PASTE_TOKEN_HERE',
-    
 
     // Specifies the web component associated with the thing
     component: 'test-device',
 
     // Properties can be updated by the API
     properties: {
-        state: 'off'
+        state: 'off',
     },
 
     // Start method is run when the Thing is constructed.
@@ -43,7 +89,7 @@ var testDevice = new Thing({
             testDevice.call('temp_data');
         }, 3000);
 
-        // Turn on
+        // Call a method
         testDevice.call('turn_on');
     },
 
@@ -71,17 +117,22 @@ testDevice.connect();
 
 ```
 
+Run it with:
+```bash
+node examples/test-device.js
+```
+
 
 # Working with hardware.
 
-Grow.js works with most devices that can run node, and plays very well with the [Johnny-Five robotics library](http://johnny-five.io/), which has plugins for [a large number of devices](http://johnny-five.io/#platform-support). 
+Grow.js works very well with the [Johnny-Five robotics library](http://johnny-five.io/), which has plugins for [a large number of devices](http://johnny-five.io/#platform-support). 
 
 Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators.
 
 ### Wire up photo-resitor and led to arduino
 Wire up your photo resistor and LED light like so:
 
-![Wiring diagram](https://raw.githubusercontent.com/CommonGarden/Grow.js/master/examples/arduino/led-and-photoresistor/Arduino-night-light-circuit.png)
+![Wiring diagram](https://raw.githubusercontent.com/CommonGarden/Grow.js/master/examples/arduino/smart-light/Arduino-night-light-circuit.png)
 
 To use [Johnny-Five](http://johnny-five.io/), you need to make sure that your arduino is flashed with Standard Firmata. Instructions for doing so can be found [here](https://github.com/rwaldron/johnny-five/wiki/Getting-Started#trouble-shooting). Once that's done you're ready for the next step!
 
@@ -89,54 +140,78 @@ Take a look at the [led-and-photoresistor arduino example](https://github.com/Co
 
 Create a new thing in the Grow-IoT ui and copy and paste the UUID and Token into the example below.
 
-<!-- THIS SHOULD BE AN EXAMPLE IN GROW-IOT as well... it should have a web component aspect. -->
-
 ```javascript
 // Require the Grow.js build and johnny-five library.
-var GrowInstance = require('Grow.js');
-var five = require('johnny-five');
+var Thing = require('Grow.js');
 
-// Create a new board object
-var board = new five.Board();
+var light_data, emit_and_analyze;
 
-// When board emits a 'ready' event run this start function.
-board.on('ready', function start() {
-    // Define variables
-    // Note: if you wire the device slightly differently you may need to
-    // change the pin numbers below.
-    var LED = new five.Pin(13);
+// Create a new thing.
+var light = new Thing({
+    uuid: '205d24b0-234b-43b9-9c00-f22d97a79488',
+    token: '7YvjsSAWRCKpDBDzSR8EbkAx6ur7ztvW',
 
-    // Create a new grow instance.
-    var grow = new GrowInstance({
-        uuid: 'COPY_PASTE_UUID_HERE',
-        token: 'COPY_PASTE_TOKEN_HERE',
+    component: 'smart-light',
 
-        properties: {
-            state: 'off'
-        },
+    properties: {
+        state: 'off',
+        threshold: 300,
+        interval: 1000,
+        lightconditions: null
+    },
 
-        turn_light_on: function () {
-            LED.high();
-            grow.set('state', 'on');
-            console.log('light on');
-        },
+    start: function () {
+        var interval = this.get('interval');
+        
+        emit_and_analyze = setInterval(function () {
+            light.call('light_data');
+            light.call('check_light_data');
+        }, interval);
+    },
 
-        turn_light_off: function () {
-            LED.low();
-            grow.set('state', 'off');
-            console.log('light off');
+    stop: function () {
+        clearInterval(emit_and_analyze);
+    },
+
+    turn_on: function () {
+        LED.high();
+        light.set('state', 'on');
+        console.log('light on');
+    },
+
+    turn_off:  function () {
+        LED.low();
+        light.set('state', 'off');
+        console.log('light off')
+    },
+
+    light_data: function () {
+        console.log(lightSensor.value);
+
+        light.emit({
+          type: 'light',
+          value: lightSensor.value
+        });
+    },
+
+    check_light_data: function () {
+        var threshold = light.get('threshold');
+        if ((lightSensor.value < threshold) && (light.get('lightconditions') != 'dark')) {
+            light.set('lightconditions', 'dark');
+        } else if ((lightSensor.value >= threshold) && (light.get('lightconditions') != 'light')) {
+            light.set('lightconditions', 'light');
         }
-    });
-
-    // Connects to localhost:3000 by default
-    grow.connect();
+    }
 });
+
+// Connects by default to localhost:3000
+light.connect();
 ```
 
-Run the new `example.js` file with:
+Run `smart-light.js` with:
 
 ```bash
-node examples/arduino/led-and-photoresistor/example.js
+node examples/smart-light.js
 ```
 
 Note: on certain opperating systems you may need to prefix that command with `sudo` to allow the script access to USB.
@@ -190,12 +265,6 @@ Code is written in ES6, and compiled using [rollup](https://github.com/rollup/ro
 `npm run test` builds the library, and runs tests in the test folder.
 
 The documentation is written in jsdoc, built using [Mr-Doc](https://mr-doc.github.io/), and on the [gh-pages branch of this repo](https://github.com/CommonGarden/Grow.js/tree/gh-pages).
-
-# Contributing
-
-Please read:
-* [Code of Conduct](https://github.com/CommonGarden/Organization/blob/master/code-of-conduct.md)
-* [Contributing info](https://github.com/CommonGarden/Organization/blob/master/contributing.md)
 
 ## License
 Grow.js is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".
