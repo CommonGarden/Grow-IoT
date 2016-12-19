@@ -33,7 +33,7 @@ var thing = new GrowInstance({
 
 To `call` a method:
 ``` javascript
-thing.call('method');
+thing.call('method'); // Current name is Bob
 ```
 
 To `get` a property:
