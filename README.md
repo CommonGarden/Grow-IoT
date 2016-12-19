@@ -55,7 +55,6 @@ For more information on creating custom elements see the [polymer project](https
 ## Roadmap
 We hope to be working on these things sooner rather than later:
 * More examples
-* Support for existing hardware (Nest thermostat etc.)
 * Create interelationships and workflows between things (node-red style)
 
 ## License
