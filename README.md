@@ -31,20 +31,19 @@ var Thing = new GrowInstance({
 });
 ```
 
-To call a method:
+To `call` a method:
 ``` javascript
 example.call('method');
 ```
 
-To get a property:
+To `get` a property:
 ```javascript
-var name = example.get('name');
-console.log(name); // Bob
+console.log(example.get('name')); // Bob
 ```
 
-To set a property:
+To `set` a property:
 ```javascript
-    example.set('name', 'Alice');
+example.set('name', 'Alice');
 ```
 
 The Node [event](https://nodejs.org/dist/latest-v7.x/docs/api/events.html) api is also available:
@@ -55,7 +54,7 @@ example.on('property-updated', function() {
 
 ```
 
-See the full example in `examples/example.js`
+See the full example in `examples/example.js`.
 
 ### Connect to Grow-IoT Instance
 
@@ -104,7 +103,7 @@ var testDevice = new Thing({
     temp_data: function () {
         let temp = Math.random() * 100;
 
-        // Send data to the Grow-IoT app.
+        // Sends event data to the Grow-IoT app.
         testDevice.emit({
           type: 'temperature',
           value: temp
@@ -216,7 +215,7 @@ node examples/smart-light.js
 
 Note: on certain opperating systems you may need to prefix that command with `sudo` to allow the script access to USB.
 
-# Connecting devices
+# Connecting
 ### Host / Port
 The host is where the device will be looking for a CommonGarden-IoT instance. By default the host is set to `localhost` and the port is set to Meteor's standard of `3000`. This will work nicely for usb devices like Arduino.
 
