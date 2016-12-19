@@ -55,7 +55,7 @@ For more information on creating custom elements see the [polymer project](https
 ## Roadmap
 We hope to be working on these things sooner rather than later:
 * More examples
-* Create interelationships and workflows between things (node-red style)
+* Create interelationships and workflows between things ([node-red](http://nodered.org/) style)
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
