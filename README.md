@@ -26,7 +26,7 @@ var thing = new GrowInstance({
     },
 
     method: function () {
-        console.log('Current name is ' + example.get('name'));
+        console.log('Current name is ' + thing.get('name'));
     }
 });
 ```
