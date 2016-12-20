@@ -136,7 +136,7 @@ Wire up your photo resistor and LED light like so:
 
 To use [Johnny-Five](http://johnny-five.io/), you need to make sure that your arduino is flashed with Standard Firmata. Instructions for doing so can be found [here](https://github.com/rwaldron/johnny-five/wiki/Getting-Started#trouble-shooting). Once that's done you're ready for the next step!
 
-Take a look at the [led-and-photoresistor arduino example](https://github.com/CommonGarden/Grow.js/tree/master/examples/arduino/led-and-photoresistor) in the `examples/arduino/` folder.
+Take a look at the `smart-light` example in the `examples/arduino/` folder.
 
 Create a new thing in the Grow-IoT ui and copy and paste the UUID and Token into the example below.
 
