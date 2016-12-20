@@ -17,7 +17,8 @@
     "current-weather": "aruntk/current-weather#^0.4.2",
     "vaadin-combo-box": "vaadin/vaadin-combo-box#^1.1.5",
     "vaadin-date-picker": "^1.2.0",
-    "paper-time-picker": "^1.1.4"
+    "paper-time-picker": "^1.1.4",
+    "morph-animation": "aruntk/morph-animation#^1.0.4"
   },
   "ignore": [
     "demo/*",

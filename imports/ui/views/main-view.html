@@ -34,10 +34,14 @@ app-header {
         fallback-selection="404"
         attr-for-selected="name">
         <div class="vertical layout flex" main name="home">
+          <div class="vertical layout center">
+            <paper-input id="search" label="Search Things" type="search" value="{{searchStr::input}}">
+            </paper-input>
+          </div>
           <div class="center center-justified layout horizontal">
             <sortable-js handle=".handle"
               class="layout horizontal wrap">
-              <template is="dom-repeat" items="{{things}}" as="thing">
+              <template is="dom-repeat" items="{{things}}" as="thing" filter="{{thingFilter(searchStr)}}">
                 <thing-display on-delete-thing="_deleteThisThing" thing="{{thing}}"></thing-display>
               </template>
             </sortable-js>

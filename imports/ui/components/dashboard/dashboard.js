@@ -1,3 +1,4 @@
+/* globals MorphBehavior */
 import { AppState } from '../../state';
 import { setToast, setError, setRoute } from '../../actions';
 
@@ -33,7 +34,7 @@ class growDashboard {
 
   get behaviors() {
     return [
-      mwcMixin, AppState
+      mwcMixin, AppState, MorphBehavior
     ];
   }
 
@@ -48,10 +49,17 @@ class growDashboard {
   openMenu() {
     return this.smScreen ? this.$.drawerPanel.openDrawer() : this.showSidebar = true;
   }
-
+  onCreateButtonClick(e) {
+    const t = e.currentTarget;
+    const dialog = this.$.addDialog;
+    dialog.sizingTarget = t;
+    dialog.positionTarget = t;
+    this.morphThis(e);
+  }
   new() {
     const self = this;
-    Meteor.call('Thing.new',
+    const name = this.newThingName;
+    Meteor.call('Thing.new', { name }, 
       (error, document) => {
         if (error) {
           self.dispatch('setError', error, {

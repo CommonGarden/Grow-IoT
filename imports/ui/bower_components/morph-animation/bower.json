@@ -1,0 +1,17 @@
+{
+  "name": "morph-animation",
+  "description": "Element to element morphing using Polymer",
+  "main": "morph-animation.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "iron-dropdown": "PolymerElements/iron-dropdown#^1.5.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "version": "1.0.4",
+  "ignore":["src", "demo", "morph-animation.html"]
+}

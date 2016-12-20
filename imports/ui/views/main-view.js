@@ -53,6 +53,17 @@ class growMainView {
     let things = Things.find({}).fetch();
     this.set('things', things);
   }
+  thingFilter(searchStr) {
+    if (!searchStr) {
+      // set filter to null to disable filtering
+      return null;
+    }
+    // return a filter function for the current search string
+    searchStr = searchStr.toLowerCase();
+    return function(thing) {
+      return ((thing.name || '').indexOf(searchStr) != -1);
+    }
+  }
   _deleteThisThing(e){
     const thing = e.detail.thing;
     this.set("selectedThing",thing);
