@@ -225,7 +225,7 @@ board.on('ready', function start() {
 Run `smart-light.js` with:
 
 ```bash
-node examples/smart-light.js
+node examples/arduino/smart-light/smart-light.js
 ```
 
 Note: on certain opperating systems you may need to prefix that command with `sudo` to allow the script access to USB.
