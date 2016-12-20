@@ -61,7 +61,7 @@ See the full example in `examples/example.js`.
 
 In Grow-IoT, create a new device and take note of the device `uuid` and `token`.
 
-In the `examples` folder checkout `test-device.js`.
+In the `examples` folder checkout `test-device.js`. If you want to get started straight away with hardware, skip to the [working with hardware]() section.
 
 Replace the `uuid` and `token` properties of the config object with the credentials you generate.
 
@@ -143,69 +143,83 @@ Create a new thing in the Grow-IoT ui and copy and paste the UUID and Token into
 ```javascript
 // Require the Grow.js build and johnny-five library.
 var Thing = require('Grow.js');
+var five = require('johnny-five');
 
-var light_data, emit_and_analyze;
+// See http://johnny-five.io/ to connect devices besides arduino.
+var board = new five.Board();
 
-// Create a new thing.
-var light = new Thing({
-    uuid: '205d24b0-234b-43b9-9c00-f22d97a79488',
-    token: '7YvjsSAWRCKpDBDzSR8EbkAx6ur7ztvW',
+var emit_and_analyze;
 
-    component: 'smart-light',
+// When board emits a 'ready' event run this start function.
+board.on('ready', function start() {
+    // Define variables
+    var LED = new five.Pin(13),
+        lightSensor = new five.Sensor('A0');
 
-    properties: {
-        state: 'off',
-        threshold: 300,
-        interval: 1000,
-        lightconditions: null
-    },
+    // Create a new thing.
+    var light = new Thing({
+        uuid: 'PASTE_UUID_HERE',
+        token: 'PASTE_TOKEN_HERE',
 
-    start: function () {
-        var interval = this.get('interval');
-        
-        emit_and_analyze = setInterval(function () {
-            light.call('light_data');
-            light.call('check_light_data');
-        }, interval);
-    },
+        component: 'smart-light',
 
-    stop: function () {
-        clearInterval(emit_and_analyze);
-    },
+        properties: {
+            state: 'off',
+            threshold: 300,
+            interval: 1000,
+            lightconditions: null
+        },
 
-    turn_on: function () {
-        LED.high();
-        light.set('state', 'on');
-        console.log('light on');
-    },
+        start: function () {
+            var interval = this.get('interval');
+            
+            emit_and_analyze = setInterval(function () {
+                light.call('light_data');
+                light.call('check_light_data');
+            }, interval);
 
-    turn_off:  function () {
-        LED.low();
-        light.set('state', 'off');
-        console.log('light off')
-    },
+            // Todo: implement clear interval function so we can adjust
+            // the rate at which data is logged.
+        },
 
-    light_data: function () {
-        console.log(lightSensor.value);
+        stop: function () {
+            clearInterval(emit_and_analyze);
+        },
 
-        light.emit({
-          type: 'light',
-          value: lightSensor.value
-        });
-    },
+        turn_on: function () {
+            LED.high();
+            light.set('state', 'on');
+            console.log('light on');
+        },
 
-    check_light_data: function () {
-        var threshold = light.get('threshold');
-        if ((lightSensor.value < threshold) && (light.get('lightconditions') != 'dark')) {
-            light.set('lightconditions', 'dark');
-        } else if ((lightSensor.value >= threshold) && (light.get('lightconditions') != 'light')) {
-            light.set('lightconditions', 'light');
+        turn_off:  function () {
+            LED.low();
+            light.set('state', 'off');
+            console.log('light off')
+        },
+
+        light_data: function () {
+            console.log(lightSensor.value);
+
+            light.emit({
+              type: 'light',
+              value: lightSensor.value
+            });
+        },
+
+        check_light_data: function () {
+            var threshold = light.get('threshold');
+            if ((lightSensor.value < threshold) && (light.get('lightconditions') != 'dark')) {
+                light.set('lightconditions', 'dark');
+            } else if ((lightSensor.value >= threshold) && (light.get('lightconditions') != 'light')) {
+                light.set('lightconditions', 'light');
+            }
         }
-    }
+    });
+
+    light.connect();
 });
 
-// Connects by default to localhost:3000
-light.connect();
 ```
 
 Run `smart-light.js` with:
