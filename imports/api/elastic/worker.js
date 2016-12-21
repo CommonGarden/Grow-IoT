@@ -38,9 +38,11 @@ worker.on('failed', function (err) {
 });
 function processParams(params) {
   switch(params.type) {
-    case 'added', 'changed':
-      added(db, params.id, params.collection, params.index);
-
+    case 'added':
+      added(params.id, params.collection, params.index);
+      break;
+    case 'added':
+      added(params.id, params.collection, params.index);
       break;
     case 'removed': 
       removed(params.id, params.collection, params.index);
@@ -51,8 +53,9 @@ function processParams(params) {
 
 }
 // Worker APP
-function added(db, id, collection, index) {
+function added(id, collection, index) {
   // query MongoDB for the document
+      console.log(id);
   esSync.db.collection(collection).find({_id: id}).toArray(
     function (err, docs) {
       // index data on elasticsearch
