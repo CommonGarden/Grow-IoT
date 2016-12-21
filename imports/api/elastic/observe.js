@@ -10,15 +10,17 @@ const enqueueTask = function (id, type) {
     // console.log('enqueued:', job.data);
   });
 };
-const cursor = Events.find({});
-cursor.observeChanges({
-  added: function (id) {
-    enqueueTask(id, 'added');
-  },
-  changed: function (id) {
-    enqueueTask(id, 'changed');
-  },
-  removed: function (id) {
-    enqueueTask(id, 'removed');
-  },
-});
+export const elasticSync = (collection) => {
+  const cursor = collection.find({});
+  cursor.observeChanges({
+    added: function (id) {
+      enqueueTask(id, 'added', collection._name);
+    },
+    changed: function (id) {
+      enqueueTask(id, 'changed', collection._name);
+    },
+    removed: function (id) {
+      enqueueTask(id, 'removed', collection._name);
+    },
+  });
+};
