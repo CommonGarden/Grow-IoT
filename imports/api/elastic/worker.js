@@ -1,5 +1,5 @@
 import elasticsearch from 'elasticsearch';
-import db from 'mongodb';
+import MongoDriver from 'mongodb';
 import { client, MONGO_URL } from './queue';
 const ELASTIC_URL = process.env.ELASTIC_URL || 'localhost:9200';
 const esClient = new elasticsearch.Client({
@@ -7,7 +7,13 @@ const esClient = new elasticsearch.Client({
   log: 'trace'
 });
 
-const MongoClient = db.MongoClient; 
+const MongoClient = MongoDriver.MongoClient; 
+const esSync = {};
+MongoClient.connect(MONGO_URL, function(err, db) {
+  esSync.db = db;
+});
+
+
 // Connection URL 
 // Use connect method to connect to the Server 
 const worker = client.worker(['eventsqueue']);
@@ -31,12 +37,9 @@ worker.on('failed', function (err) {
   // console.log(err);
 });
 function processParams(params) {
-console.log(params);
   switch(params.type) {
     case 'added', 'changed':
-      MongoClient.connect(MONGO_URL, function(err, db) {
-        added(db, params.id, params.collection, params.index);
-      });
+      added(db, params.id, params.collection, params.index);
 
       break;
     case 'removed': 
@@ -50,8 +53,7 @@ console.log(params);
 // Worker APP
 function added(db, id, collection, index) {
   // query MongoDB for the document
-  console.log(id);
-  db.collection(collection).find({_id: id}).toArray(
+  esSync.db.collection(collection).find({_id: id}).toArray(
     function (err, docs) {
       // index data on elasticsearch
       const _doc = _.omit(docs[0], '_id');
