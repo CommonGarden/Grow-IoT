@@ -55,7 +55,6 @@ function processParams(params) {
 // Worker APP
 function added(id, collection, index) {
   // query MongoDB for the document
-      console.log(id);
   esSync.db.collection(collection).find({_id: id}).toArray(
     function (err, docs) {
       // index data on elasticsearch
