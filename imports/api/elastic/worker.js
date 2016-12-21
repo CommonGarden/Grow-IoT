@@ -1,25 +1,21 @@
 import elasticsearch from 'elasticsearch';
 import db from 'mongodb';
-import { client } from './queue';
+import { client, MONGO_URL } from './queue';
+const ELASTIC_URL = process.env.ELASTIC_URL || 'localhost:9200';
 const esClient = new elasticsearch.Client({
   host: 'localhost:9200',
   log: 'trace'
 });
+
+const MongoClient = db.MongoClient; 
+// Connection URL 
+// Use connect method to connect to the Server 
 const worker = client.worker(['eventsqueue']);
 
 worker.register({
   elastic: function (params, callback) {
     try {
-      // switch(params.type) {
-        // case 'added', 'changed':
-          added(params.id, params.collection);
-          // break;
-        // case 'removed': 
-          // removed(params.id, params.collection);
-          // break;
-        // default:
-          // break;
-      // }
+      processParams(params);
       callback(null, params);
     } catch (err) {
       callback(err);
@@ -29,32 +25,51 @@ worker.register({
 
 worker.start();
 worker.on('complete', function (data) {
-  console.log(data);
+  // console.log(data);
 });
 worker.on('failed', function (err) {
-  console.log(err);
+  // console.log(err);
 });
+function processParams(params) {
+console.log(params);
+  switch(params.type) {
+    case 'added', 'changed':
+      MongoClient.connect(MONGO_URL, function(err, db) {
+        added(db, params.id, params.collection, params.index);
+      });
+
+      break;
+    case 'removed': 
+      removed(params.id, params.collection, params.index);
+      break;
+    default:
+      break;
+  }
+
+}
 // Worker APP
-function added(id, collection) {
+function added(db, id, collection, index) {
   // query MongoDB for the document
+  console.log(id);
   db.collection(collection).find({_id: id}).toArray(
     function (err, docs) {
       // index data on elasticsearch
+      const _doc = _.omit(docs[0], '_id');
       esClient.index({
-        index: collection,
+        index,
         type: collection,
-        id: id,
-        body: docs[0] // because there's only one doc
+        id,
+        body: _doc // because there's only one doc
       });
     }
   )
 }
 // changed is same as add
 // function changed(db, esClient, id, collection)
-function removed(id, collection) {
+function removed(id, collection, index) {
   esClient.delete({
-    index: collection,
+    index,
     type: collection,
-    id: id,
+    id,
   });
 }
