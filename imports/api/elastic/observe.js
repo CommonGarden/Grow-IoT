@@ -1,4 +1,4 @@
-import { queue } from './queue';
+import { queue } from '../eventbus';
 
 const enqueueTask = function (id, type, collection, index) {
   const  task = {
@@ -11,6 +11,8 @@ const enqueueTask = function (id, type, collection, index) {
     // console.log('enqueued:', job.data);
   });
 };
+
+// Rename to Eventbus?
 export const elasticSync = (collection, index) => {
   const cursor = collection.find({});
   cursor.observeChanges({
