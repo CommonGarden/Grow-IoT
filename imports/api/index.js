@@ -4,7 +4,6 @@ if (Meteor.isServer) {
   import './server-methods.js';
   import './publish.js';
   import './elastic';
-  import './rules.js';
 }
 
 import './methods.js';
