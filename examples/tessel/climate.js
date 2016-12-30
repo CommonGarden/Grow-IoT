@@ -1,15 +1,11 @@
-var Thing = require('./dist/Grow.umd.js');
+var Thing = require('../../dist/Grow.umd.js');
 
 var testDevice = new Thing({
   // PUT YOUR UUID AND TOKEN HERE!!!
   uuid: 'PASTE_UUID_HERE',
   token: 'PASTE_TOKEN_HERE',
 
-  component: 'test-device',
-
-  properties: {
-    state: 'off'
-  },
+  component: 'tessel-climate',
 
   start: function () {
     setInterval(()=> {
@@ -35,6 +31,17 @@ var testDevice = new Thing({
     testDevice.emit({
       type: 'temperature',
       value: temp
+    });
+  }
+
+  hum_data: function () {
+    let humidity = Math.random() * 100;
+
+    console.log(humidity);
+
+    testDevice.emit({
+      type: 'humidity',
+      value: humidity
     });
   }
 });

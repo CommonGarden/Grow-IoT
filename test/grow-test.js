@@ -65,7 +65,6 @@ describe('Grow test', () => {
 
   describe('Methods', () => {
     it('should be able to call a thing method.', () => {
-      console.log(testThing);
       expect(testThing.call('acid')).to.equal('acid');
     });
 

@@ -25,11 +25,14 @@ var thing = new GrowInstance({
         name: "Bob"
     },
 
-    method: function () {
-        console.log('Current name is ' + thing.get('name'));
+    method: function (name) {
+        let name = name || thing.get('name');
+        console.log('Current name is ' + name);
     }
 });
 ```
+
+<!-- TODO: call a method with options -->
 
 To `call` a method:
 ``` javascript
