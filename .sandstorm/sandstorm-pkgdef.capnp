@@ -19,9 +19,9 @@ const pkgdef :Spk.PackageDefinition = (
 
     appTitle = (defaultText = "Grow IoT"),
 
-    appVersion = 0,  # Increment this for every release.
+    appVersion = 2,  # Increment this for every release.
 
-    appMarketingVersion = (defaultText = "0.0.0"),
+    appMarketingVersion = (defaultText = "0.0.2"),
     # Human-readable representation of appVersion. Should match the way you
     # identify versions of your app in documentation and marketing.
 
@@ -219,16 +219,14 @@ const pkgdef :Spk.PackageDefinition = (
 );
 
 const myCommand :Spk.Manifest.Command = (
-  # Here we define the command used to start up your server.
-  argv = ["/sandstorm-http-bridge", "4000", "--", "node", "start.js"],
-  environ = [
-    # Note that this defines the *entire* environment seen by your app.
-    (key = "PATH", value = "/usr/local/bin:/usr/bin:/bin"),
-    (key = "SANDSTORM", value = "1"),
-    # Export SANDSTORM=1 into the environment, so that apps running within Sandstorm
-    # can detect if $SANDSTORM="1" at runtime, switching UI and/or backend to use
-    # the app's Sandstorm-specific integration code.
-    (key = "STORAGE_DIRECTORY", value = "/var/storage"),
-    # Storage directory for content uploaded by users.
-  ]
+	# Here we define the command used to start up your server.
+	argv = ["/sandstorm-http-bridge", "8000", "--", "/opt/app/.sandstorm/launcher.sh"],
+	environ = [
+		# Note that this defines the *entire* environment seen by your app.
+		(key = "PATH", value = "/usr/local/bin:/usr/bin:/bin"),
+		(key = "SANDSTORM", value = "1"),
+		(key = "Statistics_reporting", value = "false"),
+		(key = "Accounts_AllowUserAvatarChange", value = "false"),
+		(key = "Accounts_AllowUserProfileChange", value = "false")
+	]
 );

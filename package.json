@@ -7,7 +7,7 @@
     "url": "https://github.com/CommonGarden/Grow-IoT"
   },
   "scripts": {
-    "start": "meteor run",
+    "start": "meteor npm i && meteor",
     "lint": "eslint ."
   },
   "keywords": [
