@@ -37,13 +37,15 @@ Meteor.methods({
   /*
    * Creates a new thing with UUID and Token.
   */
-  'Thing.new': function () {
+  'Thing.new': function ({ name }) {
+    check(name, String);
     // Must be a logged in user.
     if (Meteor.userId()) {
       let document = {
         'uuid': Meteor.uuid(),
         'token': Random.id(32),
-        'owner': Meteor.userId()
+        'owner': Meteor.userId(),
+        name,
       };
       if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 

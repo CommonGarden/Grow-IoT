@@ -19,7 +19,7 @@
         <grow-main-view name="main" route="{{routeTail}}">
           <app-toolbar toolbar>
             <div main-title>Grow-IoT</div>
-            <paper-icon-button icon="add" on-tap="new" id="addNew"></paper-icon-button>
+            <paper-icon-button icon="add" on-tap="onCreateButtonClick" id="addNew" morph-target="#addDialog"></paper-icon-button>
             <paper-icon-button icon="menu" hidden$="[[!narrow]]" on-tap="openMenu"></paper-icon-button>
           </app-toolbar>
         </grow-main-view>
@@ -50,6 +50,17 @@
         <div class="divider"></div>
       </div>
     </paper-drawer-panel>
+    <paper-dialog id="addDialog"
+                  horizontal-align="left"
+                  vertical-align="bottom"
+                  dynamic-align="true">
+      <h2>Create New Thing</h2>
+      <paper-input autofocus label="Name of the thing" value="{{newThingName}}"></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="new">Create</paper-button>
+      </div>
+    </paper-dialog>
   </template>
   <script src="dashboard.js"></script>
 </dom-module>

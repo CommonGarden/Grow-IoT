@@ -37,14 +37,14 @@ paper-card {
 
       <div hidden$="{{thing.registeredAt}}">
         <div class="card-content">
-          <h2>New thing</h2>
+          <h2>{{thing.name}}</h2>
           <p>Connect a device using the following API crendentials or create a test thing <span id="loading"></span></p>
 
           <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
           <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
         </div>
         <div class="card-actions layout horizontal">
-          <paper-button on-click="toggleDialog">Create test thing</paper-button>
+          <paper-button on-click="morphThis" morph-target="#new_thing">Create test thing</paper-button>
           <paper-button on-click="deleteThing">Cancel</paper-button>
           <div class="flex"></div>
         </div>
@@ -55,20 +55,24 @@ paper-card {
         <div id="container"></div>
       </div>
 
-      <paper-dialog id="new_thing">
+      <paper-dialog id="new_thing"
+                  horizontal-align="left"
+                  vertical-align="bottom"
+                  dynamic-align="true">
         <h2>New thing</h2>
         <!-- <paper-input always-float-label -->
           <!-- label="thing-name" -->
           <!-- value="{{component}}"> -->
         <!-- </paper-input> -->
         <vaadin-combo-box label="Element"
+                          autofocus
                           items="{{items}}"
                           value="{{component}}">
         </vaadin-combo-box>
         
         <div class="buttons">
           <paper-button dialog-dismiss>Cancel</paper-button>
-          <paper-button dialog-confirm autofocus on-click="createNewThing">Create new thing!</paper-button>
+          <paper-button dialog-confirm on-click="createNewThing">Create new thing!</paper-button>
         </div>
       </paper-dialog>
     </paper-card>
