@@ -27,3 +27,4 @@ npm-bcrypt
 useful:connectivity
 check
 reactive-var
+ground:db@2.0.0-rc.7
