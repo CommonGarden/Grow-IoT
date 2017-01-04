@@ -38,7 +38,7 @@ app-header {
             <paper-input id="search" label="Search Things" type="search" value="{{searchStr::input}}">
             </paper-input>
           </div>
-          <div class="center center-justified layout horizontal">
+          <div class="layout horizontal wrap">
             <template is="dom-repeat" items="{{things}}" as="thing" filter="{{thingFilter(searchStr)}}">
               <thing-display on-delete-thing="_deleteThisThing" thing="{{thing}}"></thing-display>
             </template>
