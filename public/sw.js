@@ -1,5 +1,5 @@
 const HTMLToCache = '/';
-const version = 'cg-grow-iot-2'; // Read - CommonGarden-Grow-IoT-version-1
+const version = 'cg-grow-iot-3'; // Read - CommonGarden-Grow-IoT-version-1
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(version).then((cache) => {

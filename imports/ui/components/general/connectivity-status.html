@@ -1,5 +1,48 @@
 <dom-module id="connectivity-status">
   <template>
+    <style>
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+  @keyframes rotating {
+    from {
+      -ms-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -ms-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  .connecting {
+    -webkit-animation: rotating 2s linear infinite;
+    -moz-animation: rotating 2s linear infinite;
+    -ms-animation: rotating 2s linear infinite;
+    -o-animation: rotating 2s linear infinite;
+    animation: rotating 2s linear infinite;
+
+  }
+    </style>
     <iron-icon icon="[[_connectivityIcon(isSlow, networkStatus)]]"
                class$="[[_connectivityClass(isSlow, networkStatus)]]">
     </iron-icon>
@@ -20,7 +63,11 @@ class connectivityStatus {
           c: 'net slow'
         },
         connecting: {
-          i: 'notification: sync',
+          i: 'notification:sync',
+          c: 'net connecting',
+        },
+        waiting: {
+          i: 'notification:sync',
           c: 'net connecting',
         },
         connected: {
@@ -38,6 +85,10 @@ class connectivityStatus {
           c: 'slow'
         },
         connecting: {
+          i: 'device:signal-wifi-off',
+          c: 'connecting',
+        },
+        waiting: {
           i: 'device:signal-wifi-off',
           c: 'connecting',
         },
