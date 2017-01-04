@@ -1,0 +1,76 @@
+<dom-module id="connectivity-status">
+  <template>
+    <iron-icon icon="[[_connectivityIcon(isSlow, networkStatus)]]"
+               class$="[[_connectivityClass(isSlow, networkStatus)]]">
+    </iron-icon>
+  </template>
+</dom-module>
+<script>
+class connectivityStatus {
+  beforeRegister() {
+    this.is = 'connectivity-status';
+    this.properties = {
+      isSlow: String,
+      networkStatus: Boolean,
+    }
+    this.conn = {
+      on: {
+        slow: {
+          i: 'device:signal-wifi-1-bar',
+          c: 'net slow'
+        },
+        connecting: {
+          i: 'notification: sync',
+          c: 'net connecting',
+        },
+        connected: {
+          i: 'device:signal-wifi-4-bar',
+          c: 'net connected',
+        },
+        disconnected: {
+          i: 'device:signal-wifi-0-bar',
+          c: 'net disconnected',
+        },
+      },
+      off: {
+        slow: {
+          i: 'device:signal-wifi-off',
+          c: 'slow'
+        },
+        connecting: {
+          i: 'device:signal-wifi-off',
+          c: 'connecting',
+        },
+        connected: {
+          i: 'device:signal-wifi-off',
+          c: 'connected',
+        },
+        disconnected: {
+          i: 'device:signal-wifi-off',
+          c: 'disconnected',
+        },
+      },
+    }
+  }
+  get behaviors() {
+    return [
+      mwcMixin,
+    ];
+  }
+  tracker() {
+    this.set('isSlow', Connectivity.isSlow() ? 'slow': Meteor.connection.status().status);
+    this.set('networkStatus', Connectivity._networkStatus.get());
+  }
+  _connObj(s, n) {
+    const net = n ? 'on' : 'off';
+    return this.conn[net][s];
+  }
+  _connectivityIcon(s, n) {
+    return this._connObj(s, n).i;
+  }
+  _connectivityClass(s, n) {
+    return this._connObj(s, n).c;
+  }
+}
+Polymer(connectivityStatus)
+</script>

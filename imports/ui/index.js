@@ -2,6 +2,7 @@ import './imports.html';
 import './state.js';
 import './reducers.js';
 import './actions.js';
+import './connectivity.js';
 import './layouts';
 import './views';
 import './components/style';
