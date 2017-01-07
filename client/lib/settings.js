@@ -1,5 +1,5 @@
 /* client/lib/settings.js */
 window.Polymer = {
-  dom: 'shadow',
+  //dom: 'shadow',
   lazyRegister: true
 };
