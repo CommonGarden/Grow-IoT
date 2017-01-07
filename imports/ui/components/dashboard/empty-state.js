@@ -68,7 +68,7 @@ class emptyState {
     const can = this.$.arrow;
     const ctx = can.getContext('2d');
     this.clearCanvas(ctx,can);
-    const target = document.querySelector("#addNew");
+    const target = document.querySelector("body /deep/ #addNew");
     const targetDm = target.getBoundingClientRect();
     const toolbarWidth = Polymer.dom(target).parentNode.offsetWidth;
     if(toolbarWidth > 768){
