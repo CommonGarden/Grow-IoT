@@ -40,17 +40,18 @@ You can find the web component for this device in `imports/examples/test-device.
 
 Grow-IoT is [webcomponent](http://webcomponents.org/) based and modular. It's easy to create a new component, or add an existing one.
 
-To add a component:
+components get installed in imports/ui/bower_components
 
-1. Install it as `./bower.sh install --save example-component`.
+1. Install the component as `./bower.sh install --save example-component`.
 
-2. Then add it to the `imports/ui/imports.html` file.
+2. Input component name `example-component` to import `example-component/example-component.html`. If you want to import something else (for eg behavior/script/css) skip this step by pressing enter and then manually add it to the `imports/ui/imports.html` file.
 
 Now it's ready to use in Grow-IoT!
 
 Checkout [CustomElements.io](https://customelements.io/) or [Polymer's elements catalogue](https://elements.polymer-project.org/) for components to import and use in your things.
 
 For more information on creating custom elements see the [polymer project](https://www.polymer-project.org/1.0/).
+
 
 ## Roadmap
 We hope to be working on these things sooner rather than later:
@@ -59,3 +60,4 @@ We hope to be working on these things sooner rather than later:
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
+
