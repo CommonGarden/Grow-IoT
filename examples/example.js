@@ -25,4 +25,6 @@ var example = new Thing({
 // 	example.set('name', 'Alice');
 // }, 3000);
 
-example.listen(8080);
+// example.listen(8080);
+
+example.coap();
