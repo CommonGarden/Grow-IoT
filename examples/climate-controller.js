@@ -78,7 +78,16 @@ var thermostat = new Thing({
 
 // TODO update target of controller if the target prop is changed
 thermostat.on('property-updated', function (prop) {
-    if (prop === 'target') {
-        thermostat.ctr.setTarget(target);
+    switch(prop) {
+        case 'target':
+          thermostat.ctr.setTarget(target);
+          break;
+        case 'interval': 
+          clearInterval(emit_and_analyze);
+          // Restart.
+          thermostat.call('start');
+          break;
+        default:
+          break;
     }
 });

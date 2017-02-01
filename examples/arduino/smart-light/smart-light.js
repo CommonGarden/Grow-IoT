@@ -15,8 +15,8 @@ board.on('ready', function start() {
 
     // Create a new thing.
     var light = new Thing({
-        uuid: '8be2d928-326e-4aaa-a545-49efcf2d3dd8',
-        token: 'woiWKNXv9Bo8JerYvshjkRTRutiRD9xf',
+        uuid: '241d52d3-c44a-4207-99df-133fcffe8f28',
+        token: 'L2e7F3gezSfZF8scqLpuk4EmLADjmYQ8',
 
         component: 'smart-light',
 
