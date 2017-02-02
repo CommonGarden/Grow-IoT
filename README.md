@@ -1,5 +1,5 @@
 # grow-rest-api
-Rest API for Grow-IoT project
+Rest API for [Grow-IoT](https://github.com/CommonGarden/Grow-IoT/) project
 
 ```sh
 git clone git@github.com:aruntk/grow-rest-api.git
