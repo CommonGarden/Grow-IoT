@@ -13,9 +13,15 @@ npm run compile
 
 Start your meteor app(if you are using external mongo then ensure it is running).
 
-By default mongo url is set as mongodb://localhost:3001/meteor
+By default mongo url is set as mongodb://localhost:3001/meteor ([config.js](src/config.js))
 
 If you want to change it to something else use set environment variable MONGO_URL
+
+Set super secret key for [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) (Default -> grow-iot-secret. inside [config.js](src/config.js)) env variable APP_SECRET
+
+```sh
+export APP_SECRET = super_secret_key
+```
 
 ```sh
 npm start
