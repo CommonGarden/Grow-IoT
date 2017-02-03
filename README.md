@@ -20,7 +20,7 @@ If you want to change it to something else use set environment variable MONGO_UR
 Set super secret key for [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) (Default -> grow-iot-secret. inside [config.js](src/config.js)) env variable APP_SECRET
 
 ```sh
-export APP_SECRET = super_secret_key
+export APP_SECRET="super_secret_key"
 ```
 
 ```sh
