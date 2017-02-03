@@ -27,16 +27,16 @@ Use [postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdgg
 
 ## Generate auth token
 
-[http://localhost:8080/api/authenticate/?username=<username>&password=<password>](http://localhost:8080/api/authenticate/?username=<username>&password=<password>)
+`http://localhost:8080/api/authenticate/?username=<username>&password=<password>`
 
 ## Get Things
 
-[http://localhost:8080/api/things?token=<token>](http://localhost:8080/api/things?token=<token>)
+`http://localhost:8080/api/things?token=<token>`
 
-[http://localhost:8080/api/things/:thing_id?token=<token>](http://localhost:8080/api/things/:thing_id?token=<token>)
+`http://localhost:8080/api/things/:thing_id?token=<token>`
 
 ## Get Events
 
-[http://localhost:8080/api/events?token=<token>](http://localhost:8080/api/events?token=<token>)
+`http://localhost:8080/api/events?token=<token>`
 
-[http://localhost:8080/api/events/:event_id?token=<token>](http://localhost:8080/api/events/:event_id?token=<token>)
+`http://localhost:8080/api/events/:event_id?token=<token>`
