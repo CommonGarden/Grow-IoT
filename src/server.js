@@ -1,26 +1,97 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import * as _ from 'lodash';
+import morgan from 'morgan';
+import jwt from 'jsonwebtoken'; // used to create, sign, and verify token
 import Things from './app/models/things';
 import Events from './app/models/events';
-import * as _ from 'lodash';
+import config from './config';
+import User from './app/models/user';
 
 const app = express();
 
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:3001/meteor';
+const MONGO_URL = process.env.MONGO_URL || config.database;
+const APP_SECRET = process.env.APP_SECRET || config.secret;
 mongoose.connect(MONGO_URL);
+app.set('superSecret', config.secret);
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// use morgan to log requests to the console
+app.use(morgan('dev'));
 
 const port = process.env.PORT || 8080;
 
 const router = express.Router();
 
+router.post('/authenticate', function(req, res) {
+
+  // find the user
+  User.findOne({
+    username: req.body.username
+  }, function(err, user) {
+
+    if (err) throw err;
+
+    if (!user) {
+      res.json({ success: false, message: 'Authentication failed. User not found.' });
+    } else if (user) {
+
+      // check if password matches
+      if (user.password != req.body.password) {
+        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+      } else {
+
+        // if user is found and password is right
+        // create a token
+        const token = jwt.sign(user, app.get('superSecret'), {
+          expiresIn : 60*60*24
+        });
+
+        // return the information including token as JSON
+        res.json({
+          success: true,
+          message: 'Use this token as param in your future requests!',
+          token: token
+        });
+      }
+
+    }
+
+  });
+});
+
 // middleware to use for all requests
 router.use(function(req, res, next) {
-  console.log('request recieved.');
-  next(); // make sure we go to the next routes and don't stop here
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  // decode token
+  if (token) {
+
+    // verifies secret and checks exp
+    jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        next();
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+      success: false,
+      message: 'No token provided.'
+    });
+
+  }
 });
 
 // test route to make sure everything is working (GET http://localhost:8080/api)
@@ -28,6 +99,7 @@ router.get('/', function(req, res) {
   res.json({ message: 'welcome to grow-iot api!' });
 });
 
+// route to authenticate a user (POST http://localhost:8080/api/authenticate)
 router.route('/things')
 // create a thing (POST http://localhost:8080/api/things)
 // TODO needed more work
