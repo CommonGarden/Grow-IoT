@@ -29,11 +29,15 @@ Use [postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdgg
 
 `http://localhost:8080/api/authenticate/?username=<username>&password=<password>`
 
+![token](screenshots/auth.png)
+
 ## Get Things
 
 `http://localhost:8080/api/things?token=<token>`
 
 `http://localhost:8080/api/things/:thing_id?token=<token>`
+
+![things](screenshots/things.png)
 
 ## Get Events
 
