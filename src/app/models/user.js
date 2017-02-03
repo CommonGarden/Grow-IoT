@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import UserPlugin from 'mongoose-meteor-account';
+import UserPlugin from './auth';
 
 /**
  * User Schema

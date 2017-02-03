@@ -27,13 +27,17 @@
     ]
   },
   "dependencies": {
+    "bcrypt": "^1.0.2",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
+    "chance": "^1.0.4",
+    "es6-error": "^4.0.1",
     "express": "^4.14.1",
-    "i": "^0.3.5",
     "jsonwebtoken": "^7.2.1",
     "lodash": "^4.17.4",
+    "moment": "^2.17.1",
     "mongoose": "^4.8.1",
-    "mongoose-meteor-account": "^1.0.12",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "zxcvbn": "^4.4.1"
   }
 }

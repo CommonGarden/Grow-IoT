@@ -8,6 +8,7 @@ import Things from './app/models/things';
 import Events from './app/models/events';
 import config from './config';
 import User from './app/models/user';
+import Password from './app/models/auth/password';
 
 const app = express();
 
@@ -27,46 +28,55 @@ const port = process.env.PORT || 8080;
 const router = express.Router();
 
 router.post('/authenticate', function(req, res) {
+  const username = req.body.username || req.query.username;
+  const password = req.body.password || req.query.password;
+  if(username === undefined || password === undefined) {
+    res.json({ success: false, message: 'Invalid Username or Password.' });
+  }
+  else {
+    // find the user
+    User.findOne({ username }, {'services.password.bcrypt': 1 }, (err, user) => {
 
-  // find the user
-  User.findOne({
-    username: req.body.username
-  }, function(err, user) {
+      if (err) throw err;
 
-    if (err) throw err;
+      if (!user) {
 
-    if (!user) {
-      res.json({ success: false, message: 'Authentication failed. User not found.' });
-    } else if (user) {
+        res.json({ success: false, message: 'Authentication failed. User not found.' });
+      } else if (user) {
 
-      // check if password matches
-      if (user.password != req.body.password) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-      } else {
+        Password.comparePassword(password, user.services.password.bcrypt)
+          .then((r) => {
 
+            if (!r) {
+
+              res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+            } else {
+
+              const token = jwt.sign(user, app.get('superSecret'), {
+                expiresIn : 60*60*24
+              });
+
+              // return the information including token as JSON
+              res.json({
+                success: true,
+                message: 'Use this token as param in your future requests!',
+                token: token
+              });
+            }
+          }).
+          catch((e) => {
+            throw e;
+          });
         // if user is found and password is right
         // create a token
-        const token = jwt.sign(user, app.get('superSecret'), {
-          expiresIn : 60*60*24
-        });
-
-        // return the information including token as JSON
-        res.json({
-          success: true,
-          message: 'Use this token as param in your future requests!',
-          token: token
-        });
       }
-
-    }
-
-  });
+    });
+  }
 });
-
 // middleware to use for all requests
 router.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
   // decode token
   if (token) {
