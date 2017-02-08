@@ -27,4 +27,7 @@ var example = new Thing({
 
 // example.listen(8080);
 
+// example.coap();
+
+// defaults to localhost
 example.coap();
