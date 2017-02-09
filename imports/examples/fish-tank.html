@@ -1,0 +1,129 @@
+<!--
+`Dr-Dose-Raspberry-Pi`
+A ph balancer and nutrient doser.
+
+@demo demo/index.html 
+-->
+<dom-module id="fish-tank">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 15px;
+      }
+    </style>
+    <h2>[[name]]</h2>
+    <ph-gauge ph="{{ph}}"></ph-gauge>
+    <do-gauge oxygen="{{oxygen}}"></do-gauge>
+    <ec-gauge ec="{{ec}}"></ec-gauge>
+
+  </template>
+
+  <script>
+
+  class fishTank {
+    beforeRegister(){
+      this.is = "fish-tank";
+      this.properties = {
+        name: {
+          type: String,
+          value: 'Fish tank'
+        },
+        ph: {
+          type: Number,
+          value: 6.5
+        },
+        ec: {
+          type: Number,
+          value: 300
+        },
+        oxygen: {
+          type: Number,
+          value: 5.1
+        },
+        duration: {
+          type: Number,
+          value: 2000
+        },
+        selected: {
+          type: Number,
+          value: 0
+        },
+        target_ph: {
+          type: Number,
+          value: 6.5
+        },
+        target_ec: {
+          type: Number,
+          value: 600
+        },
+        uuid: String
+      }
+    }
+
+    get behaviors(){
+      return [mwcMixin]
+    }
+
+    get trackers (){
+      return [
+        "phData(uuid)",
+        "ecData(uuid)"
+      ];
+    }
+
+    phData (uuid) {
+      if(uuid){
+        this.subscribe('Events.byThingAndType', uuid, 'ph');
+        let event = Events.findOne({'event.message.type': 'ph'});
+        if (!_.isUndefined(event)) {
+          if (event.event.message.type === 'ph') {
+            this.set('ph', event.event.message.value);
+          }
+        }
+      }
+    }
+
+    ecData (uuid) {
+      if(uuid){
+        this.subscribe('Events.byThingAndType', uuid, 'ec');
+        let event = Events.findOne({'event.message.type': 'ec'});
+        if (!_.isUndefined(event)) {
+          if (event.event.message.type === 'ec') {
+            this.set('ec', event.event.message.value);
+          }
+        }
+      }
+    }
+
+    doData (uuid) {
+      if(uuid){
+        this.subscribe('Events.byThingAndType', uuid, 'do');
+        let event = Events.findOne({'event.message.type': 'do'});
+        if (!_.isUndefined(event)) {
+          if (event.event.message.type === 'do') {
+            this.set('oxygen', event.event.message.value);
+          }
+        }
+      }
+    }
+
+    sendCommand (e) {
+      Meteor.call('Thing.sendCommand',
+        this.uuid,
+        e.target.dataset.method,
+        this.duration,
+        (error, documentId) => {
+          if (error) {
+            console.error("Error", error);
+            return alert(`Error: ${error.reason || error}`);
+          }
+        }
+      );
+    }
+  }
+
+  Polymer(fishTank);
+  </script>
+</dom-module>
+ 

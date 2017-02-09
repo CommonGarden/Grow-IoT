@@ -17,6 +17,7 @@ class thingDisplay {
           "weather-widget",
           "smart-light",
           "smart-pot",
+          "fish-tank",
         ],
       },
       loader:Number,
