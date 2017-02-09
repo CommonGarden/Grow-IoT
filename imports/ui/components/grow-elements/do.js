@@ -37,7 +37,7 @@ class doGauge {
 
   draw (oxygen) {
     this.doGauge = this.doGauge || echarts.init(this.$.container, 'macarons');
-    const data = { value: oxygen, name: 'Dissolved' };
+    const data = { value: oxygen, name: 'Dissolved Oxygen' };
     const  opt = {
       tooltip : {
         formatter: "{a} <br/>{b} : {c}"

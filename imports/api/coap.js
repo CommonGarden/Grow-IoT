@@ -82,13 +82,5 @@ server.on('request', function(req, res) {
 });
 
 server.listen(function() {
-  console.log('server started')
+  console.log('CoAP server started')
 })
-
-  
-// var req   = coap.request('coap://localhost/method');
-
-// req.on('response', function(res) {
-//   res.pipe(process.stdout)
-// });
-// req.end();
