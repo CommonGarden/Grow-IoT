@@ -1,0 +1,191 @@
+<!--
+`Dr-Dose-Raspberry-Pi`
+A ph balancer and nutrient doser.
+
+@demo demo/index.html 
+-->
+<dom-module id="fish-tank">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 15px;
+      }
+    </style>
+    <h2>[[name]]
+      <paper-icon-button icon="settings"
+                         on-click="toggleDialog">
+      </paper-icon-button>
+    </h2>
+
+    <h3>Light {{state}}</h3>
+    <!-- TODO: reflect state in the switch -->
+    <paper-button on-click="toggleLight"
+                  data-method="light_on"
+                  raised >On</paper-button>
+    <paper-button on-click="toggleLight"
+                  data-method="light_off" 
+                  raised >Off</paper-button>
+
+    <ph-gauge ph="{{ph}}"></ph-gauge>
+    <ec-gauge ec="{{ec}}"></ec-gauge>
+    <do-gauge oxygen="{{oxygen}}"></do-gauge>
+
+    <paper-dialog id="options">
+      <h2>Options</h2>
+      <paper-input always-float-label label="Light on" value="{{light_on}}" type="string"></paper-input>
+
+      <paper-input always-float-label label="Light on" value="{{light_off}}" type="string"></paper-input>
+
+      <paper-input always-float-label label="Update data every (miliseconds)" value="{{interval}}" type="number">
+      </paper-input>
+
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-click="updateProperties">Save</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+
+  <script>
+  class fishTank {
+    beforeRegister(){
+      this.is = "fish-tank";
+      this.properties = {
+        name: {
+          type: String,
+          value: 'Fish tank'
+        },
+        ph: {
+          type: Number,
+          value: 6.5
+        },
+        ec: {
+          type: Number,
+          value: 300
+        },
+        oxygen: {
+          type: Number,
+          value: 5.1
+        },
+        interval: Number,
+        light_on: String,
+        light_off: String,
+        state: String,
+        uuid: String
+      }
+    }
+
+    get behaviors(){
+      return [mwcMixin]
+    }
+
+    get trackers (){
+      return [
+        "phData(uuid)",
+        "ecData(uuid)",
+        "doData(uuid)",
+      ];
+    }
+
+    toggleDialog () {
+      this.$.options.open();
+    }
+
+    toggleLight (e) {
+      this.sendCommand(e.target.dataset.method);
+    }
+
+    phData (uuid) {
+      if(uuid){
+        this.subscribe('Thing.events', uuid, 'ph');
+        let events = Events.find().fetch();
+        // this.set('events', events);
+        if (!_.isUndefined(events)) {
+          let event = events.pop();
+          if (!_.isUndefined(event)) {
+            if (event.event.type === 'ph') {
+              this.set('ph', event.event.value.toFixed(2));
+            }
+          }
+        }
+      }
+    }
+
+    ecData (uuid) {
+      if(uuid){
+        this.subscribe('Thing.events', uuid, 'ec');
+        let events = Events.find().fetch();
+        if (!_.isUndefined(events)) {
+          let event = events.pop();
+          if (!_.isUndefined(event)) {
+            if (event.event.type === 'ec') {
+              this.set('ec', event.event.value.toFixed(2));
+            }
+          }
+        }
+      }
+    }
+
+    doData (uuid) {
+      if(uuid){
+        this.subscribe('Thing.events', uuid, 'do');
+        let events = Events.find().fetch();
+        if (!_.isUndefined(events)) {
+          let event = events.pop();
+          if (!_.isUndefined(event)) {
+            if (event.event.type === 'do') {
+              this.set('oxygen', event.event.value.toFixed(2));
+            }
+          }
+        }
+      }
+    }
+
+    updateProperties () {
+      // THIS IS A HACK. SOMEONE PLEASE REWRITE.
+      let interval = {
+        key: 'interval',
+        value: this.get('interval')
+      }
+      this.sendCommand('setProperty', interval);
+
+      let light_on = {
+        key: 'light_on',
+        value: this.get('light_on')
+      }
+      this.sendCommand('setProperty', light_on);
+
+      let light_off = {
+        key: 'light_off',
+        value: this.get('light_off')
+      }
+      this.sendCommand('setProperty', light_off);
+
+
+      // Stop the device to clear current data interval
+      this.sendCommand('stop');
+      // Restart device
+      this.sendCommand('start');
+    }
+
+    sendCommand (command, options) {
+      Meteor.call('Thing.sendCommand',
+        this.uuid,
+        command,
+        options,
+        (error, documentId) => {
+          if (error) {
+            console.error("Error", error);
+            return alert(`Error: ${error.reason || error}`);
+          }
+        }
+      );
+    }
+  }
+
+  Polymer(fishTank);
+  </script>
+</dom-module>
+ 

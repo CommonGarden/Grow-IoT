@@ -34,7 +34,7 @@ app-header {
         fallback-selection="404"
         attr-for-selected="name">
         <div class="vertical layout flex" main name="home">
-          <div class="vertical layout center">
+          <div class="vertical layout center" hidden$="{{!_ifEmpty(things)}}">
             <paper-input id="search" label="Search Things" type="search" value="{{searchStr::input}}">
             </paper-input>
           </div>
