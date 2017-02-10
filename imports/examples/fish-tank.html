@@ -29,7 +29,7 @@ A ph balancer and nutrient doser.
 
     <ph-gauge ph="{{ph}}"></ph-gauge>
     <ec-gauge ec="{{ec}}"></ec-gauge>
-    <do-gauge oxygen="{{oxygen}}"></do-gauge>
+    <!-- <do-gauge oxygen="{{oxygen}}"></do-gauge> -->
 
     <paper-dialog id="options">
       <h2>Options</h2>
@@ -121,27 +121,27 @@ A ph balancer and nutrient doser.
           let event = events.pop();
           if (!_.isUndefined(event)) {
             if (event.event.type === 'ec') {
-              this.set('ec', event.event.value.toFixed(2));
+              this.set('ec', event.event.value);
             }
           }
         }
       }
     }
 
-    doData (uuid) {
-      if(uuid){
-        this.subscribe('Thing.events', uuid, 'do');
-        let events = Events.find().fetch();
-        if (!_.isUndefined(events)) {
-          let event = events.pop();
-          if (!_.isUndefined(event)) {
-            if (event.event.type === 'do') {
-              this.set('oxygen', event.event.value.toFixed(2));
-            }
-          }
-        }
-      }
-    }
+    // doData (uuid) {
+    //   if(uuid){
+    //     this.subscribe('Thing.events', uuid, 'do');
+    //     let events = Events.find().fetch();
+    //     if (!_.isUndefined(events)) {
+    //       let event = events.pop();
+    //       if (!_.isUndefined(event)) {
+    //         if (event.event.type === 'do') {
+    //           this.set('oxygen', event.event.value.toFixed(2));
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     updateProperties () {
       // THIS IS A HACK. SOMEONE PLEASE REWRITE.
