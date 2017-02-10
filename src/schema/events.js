@@ -1,13 +1,18 @@
 export const EventsSchema = [`
-  _id: String,
-  thing: {
+scalar Date
+type thingEntry {
     _id: String
-  },
-  event: {
+}
+type eventEntry {
     type: String,
-    value: Number,
+    value: Int,
     timestamp: Date
-  },
+}
+type Event {
+  _id: String,
+  thing: thingEntry,
+  event: eventEntry,
   insertedAt: Date
+}
 `];
 

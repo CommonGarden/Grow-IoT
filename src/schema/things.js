@@ -1,5 +1,9 @@
 export const ThingSchema = [`
-type thing {
+type thingProps {
+    state: String
+}
+scalar Date
+type Thing {
   _id: String!
   uuid: String!
   token: String,
@@ -7,9 +11,7 @@ type thing {
   component: String,
   name : String,
   onlineSince: Boolean,
-  properties: {
-    state: String
-  },
+  properties: thingProps,
   registeredAt: Date
 }
 `,

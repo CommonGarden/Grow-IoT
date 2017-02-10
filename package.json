@@ -7,17 +7,24 @@
     "compile": "npm run clean && babel --presets es2015 -d lib/ src/",
     "clean": "rm -rf lib/",
     "prepublish": "npm run compile",
-    "start": "node lib/server.js",
+    "start": "nodemon lib/index.js --watch api --exec babel-node",
     "test": "npm run compile && jest"
   },
   "author": "aruntk",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "body-parser": "^1.16.0",
+    "dotenv": "^4.0.0",
     "express": "^4.14.1",
+    "express-session": "^1.15.0",
+    "graphql": "^0.9.1",
     "graphql-server-express": "^0.6.0",
     "graphql-subscriptions": "^0.3.0",
     "graphql-tools": "^0.10.0",
     "grow-mongoose-models": "^1.0.3",
+    "node-uuid": "^1.4.7",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "subscriptions-transport-ws": "^0.5.0"
   },
   "devDependencies": {
