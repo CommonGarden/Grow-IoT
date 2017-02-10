@@ -17,6 +17,16 @@ A ph balancer and nutrient doser.
                          on-click="toggleDialog">
       </paper-icon-button>
     </h2>
+
+    <h3>Light {{state}}</h3>
+    <!-- TODO: reflect state in the switch -->
+    <paper-button on-click="toggleLight"
+                  data-method="light_on"
+                  raised >On</paper-button>
+    <paper-button on-click="toggleLight"
+                  data-method="light_off" 
+                  raised >Off</paper-button>
+
     <ph-gauge ph="{{ph}}"></ph-gauge>
     <ec-gauge ec="{{ec}}"></ec-gauge>
     <do-gauge oxygen="{{oxygen}}"></do-gauge>
@@ -39,7 +49,6 @@ A ph balancer and nutrient doser.
   </template>
 
   <script>
-
   class fishTank {
     beforeRegister(){
       this.is = "fish-tank";
@@ -63,6 +72,7 @@ A ph balancer and nutrient doser.
         interval: Number,
         light_on: String,
         light_off: String,
+        state: String,
         uuid: String
       }
     }
@@ -80,7 +90,11 @@ A ph balancer and nutrient doser.
     }
 
     toggleDialog () {
-      this.$.options.open()
+      this.$.options.open();
+    }
+
+    toggleLight (e) {
+      this.sendCommand(e.target.dataset.method);
     }
 
     phData (uuid) {
