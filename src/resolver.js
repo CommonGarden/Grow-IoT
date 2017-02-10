@@ -26,49 +26,62 @@ const rootResolvers = {
         });
       });
     },
+    getEvent(root, { _id }, /* content */) {
+      return new Promise((resolve, reject) => {
+        Events.findById(_id, function(err, event) {
+          if (err){
+            reject(err);
+          }
+          else {
+            resolve([event]);
+          }
+        });
+      });
+    },
+    // TODO implement auth
     // authenticate(root, {
-      // username,
-      // password,
+    // username,
+    // password,
     // }, [> context <]) {
-      // return new Promise((resolve, reject) => {
-        // User.findOne({ username }, {'services.password.bcrypt': 1 }, (err, user) => {
+    // return new Promise((resolve, reject) => {
+    // User.findOne({ username }, {'services.password.bcrypt': 1 }, (err, user) => {
 
-          // if (err) reject(err)
+    // if (err) reject(err)
 
-          // if (!user) {
+    // if (!user) {
 
-            // reject({ success: false, message: 'Authentication failed. User not found.' });
-          // } else if (user) {
+    // reject({ success: false, message: 'Authentication failed. User not found.' });
+    // } else if (user) {
 
-            // Password.comparePassword(password, user.services.password.bcrypt)
-              // .then((r) => {
+    // Password.comparePassword(password, user.services.password.bcrypt)
+    // .then((r) => {
 
-                // if (!r) {
+    // if (!r) {
 
-                  // reject({ success: false, message: 'Authentication failed. Wrong password.' });
-                // } else {
+    // reject({ success: false, message: 'Authentication failed. Wrong password.' });
+    // } else {
 
-                  // // const token = jwt.sign(user, app.get('superSecret'), {
-                  // // expiresIn : 60*60*24
-                  // // });
+    // // const token = jwt.sign(user, app.get('superSecret'), {
+    // // expiresIn : 60*60*24
+    // // });
 
-                  // // return the information including token as JSON
-                  // resolve({
-                    // success: true,
-                    // message: 'Use this token as param in your future requests!',
-                    // token: token
-                  // });
-                // }
-              // }).
-              // catch((e) => {
-                // throw e;
-              // });
-            // // if user is found and password is right
-            // // create a token
-          // }
-        // });
+    // // return the information including token as JSON
+    // resolve({
+    // success: true,
+    // message: 'Use this token as param in your future requests!',
+    // token: token
+    // });
+    // }
+    // }).
+    // catch((e) => {
+    // throw e;
+    // });
+    // // if user is found and password is right
+    // // create a token
+    // }
+    // });
 
-      // })
+    // })
     // },
   },
 };

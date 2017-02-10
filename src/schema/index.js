@@ -4,11 +4,10 @@ const rootSchema = [`
 type Query {
   getThing(
   uuid: String!
-  token: String,
-  owner: String,
-  component: String,
-  name : String,
   ): [Thing]
+getEvent(
+_id: String!
+  ): [Event]
 }
 schema {
   query: Query

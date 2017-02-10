@@ -70,6 +70,11 @@ app.use('/graphiql', graphiqlExpress({
     component
     name
   }
+  getEvent(_id: "paste-event-id") {
+    thing {
+      _id
+    }
+  }
 }` },
 ));
 
