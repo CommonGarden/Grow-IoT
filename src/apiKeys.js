@@ -2,6 +2,9 @@ import dotenv from 'dotenv';
 
 dotenv.config({ silent: true });
 export const {
-  GROW_JWT_TOKEN
+  APP_SECRET,
+  MONGO_URL,
 } = process.env;
-console.log('key',NEWS_API_KEY);
+console.log('key', GROW_APP_SECRET);
+
+
