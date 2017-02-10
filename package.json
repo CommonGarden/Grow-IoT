@@ -1,10 +1,14 @@
 {
   "name": "grow-mongoose-models",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "grow mongoose models",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "npm run clean && babel --presets es2015 -d lib/ src/",
+    "clean": "rm -rf lib/",
+    "prepublish": "npm run compile",
+    "start": "node lib/server.js",
+    "test": "npm run compile && jest"
   },
   "repository": {
     "type": "git",
