@@ -3,4 +3,4 @@ import Things from './things';
 import User from './user';
 import Password from './auth/password';
 
-export default { Events, Things, User, Password };
+export { Events, Things, User, Password };
