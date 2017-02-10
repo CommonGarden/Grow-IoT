@@ -63,7 +63,7 @@ app.use('/graphql', graphqlExpress((req) => {
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
   query: `{
-  getThing(_id: "paste-uuid-here") {
+  getThing(uuid: "paste-uuid-here") {
     uuid
     token
     owner
