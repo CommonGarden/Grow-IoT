@@ -4,11 +4,8 @@ import mongoose from 'mongoose';
 import * as _ from 'lodash';
 import morgan from 'morgan';
 import jwt from 'jsonwebtoken'; // used to create, sign, and verify token
-import Things from './app/models/things';
-import Events from './app/models/events';
+import { Events, Things, User, Password } from 'grow-mongoose-models';
 import config from './config';
-import User from './app/models/user';
-import Password from './app/models/auth/password';
 
 const app = express();
 
