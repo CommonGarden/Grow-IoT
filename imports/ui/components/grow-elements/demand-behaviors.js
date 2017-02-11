@@ -19,7 +19,7 @@ export const DemandLatestTemparature = {
   registered() {
     const tempDemand = {
       temperature: {
-        path: 'event.event.message.value', 
+        path: 'event.event.value', 
         // TODO more params needed. eg. 'type'
       },
     }
@@ -45,7 +45,7 @@ export const DemandLatestPH = {
   registered() {
     const eDemand = {
       ph: {
-        path: 'event.event.message.value', 
+        path: 'event.event.value', 
         // TODO more params needed. eg. 'type, which collection etc'
       },
     }
@@ -58,7 +58,7 @@ export const DemandLatestDO = {
   registered() {
     const eDemand = {
       do: {
-        path: 'event.event.message.value', 
+        path: 'event.event.value', 
         // TODO more params needed. eg. 'type, which collection etc'
       },
     }
@@ -71,7 +71,7 @@ export const DemandLatestEC = {
   registered() {
     const eDemand = {
       ec: {
-        path: 'event.event.message.value', 
+        path: 'event.event.value', 
         // TODO more params needed. eg. 'type, which collection etc'
       },
     }
@@ -84,7 +84,7 @@ export const DemandLatestHumidity = {
   registered() {
     const eDemand = {
       humidity: {
-        path: 'event.event.message.value', 
+        path: 'event.event.value', 
         // TODO more params needed. eg. 'type, which collection etc'
       },
     }

@@ -106,7 +106,7 @@ A ph balancer and nutrient doser.
           let event = events.pop();
           if (!_.isUndefined(event)) {
             if (event.event.type === 'ph') {
-              this.set('ph', event.event.value.toFixed(2));
+              this.set('ph', event.event.value );
             }
           }
         }
