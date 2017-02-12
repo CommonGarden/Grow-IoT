@@ -63,19 +63,25 @@ app.use('/graphql', graphqlExpress((req) => {
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
   query: `{
-  getThing(uuid: "paste-uuid-here") {
+  getThing(uuid: "paste-thing-uuid") {
     uuid
     token
     owner
     component
     name
+    registeredAt
   }
   getEvent(_id: "paste-event-id") {
     thing {
       _id
     }
+    event {
+      type
+      value
+    }
+    insertedAt
   }
-}` },
+}`},
 ));
 
 //login route for passport
