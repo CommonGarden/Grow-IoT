@@ -40,8 +40,8 @@ paper-card {
           <h2>{{thing.name}}</h2>
           <p>Connect a device using the following API crendentials or create a test thing <span id="loading"></span></p>
 
-          <p>UUID: <span class="selectable">{{thing.uuid}}</span></p>
-          <p>TOKEN: <span class="selectable">{{thing.token}}</span></p>
+          <p><b>UUID:</b></p> <p><span class="selectable">{{thing.uuid}}</span></p>
+          <p><b>TOKEN:</b></p> <p><span class="selectable">{{thing.token}}</span></p>
         </div>
         <div class="card-actions layout horizontal">
           <paper-button on-click="morphThis" morph-target="#new_thing">Create test thing</paper-button>
