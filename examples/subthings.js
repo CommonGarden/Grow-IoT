@@ -11,11 +11,25 @@ const complexThing = new Thing({
 	// Way to include a thing, create a property for the object!
 	testThing: testThing,
 
+	initialize: function () {
+		console.log('complexThing initialized');
+		
+		this.on('method', ()=> {
+			console.log('Got property of subthing');
+		});
+	},
+
+	wrapup: function () {
+		this.removeAllListeners();
+		console.log('Listeners removed');
+	},
+
 	method: function () {
 		// use a subthing method like this:
 		console.log(this.testThing.get('name'));
 	}
 });
 
-console.log(complexThing);
+complexThing.call('method');
+complexThing.call('wrapup');
 complexThing.call('method');
