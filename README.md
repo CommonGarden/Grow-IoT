@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/CommonGarden/Thing.js.svg?branch=master)](https://travis-ci.org/CommonGarden/Thing.js)
 
+[![Code Climate](https://codeclimate.com/github/CommonGarden/Thing.js/badges/gpa.svg)](https://codeclimate.com/github/CommonGarden/Thing.js)
+
 Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html) and basic methods for:
 
 * Updating properties
