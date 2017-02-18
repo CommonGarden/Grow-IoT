@@ -31,7 +31,7 @@ global.expect = require('chai').expect;
       },
           
       base: function (duration) {
-        return 'base';
+        return duration;
       },
 
       nutrient: function (duration) {
@@ -60,12 +60,24 @@ describe('Thing test', () => {
     global.testThing = new Thing(thing);
   });
 
-  it('should have cloned metadata', () => {
-    expect(testThing.token).to.equal(null);
-    expect(testThing.uuid).to.equal(null);
-  });
-
   describe('PROPERTIES', () => {
+    it('should have cloned metadata', () => {
+      expect(testThing.token).to.equal(null);
+      expect(testThing.uuid).to.equal(null);
+    });
+
+    it('should return a list of its events', () => {
+      testThing.on('property-updated', () => {
+        return event = true;
+      });
+      testThing.eventList();
+    });
+
+    it('should return a list of its methods', () => {
+      testThing.methodList();
+    });
+
+
     it('should get a property', () => {
       expect(testThing.get('duration')).to.equal(2000);
     });
@@ -86,10 +98,15 @@ describe('Thing test', () => {
     });
   });
 
-  describe('Methods:', () => {
+  describe('METHODS', () => {
     it('should be able to call a method.', () => {
       expect(testThing.call('acid')).to.equal('acid');
     });
+
+    it('should be able to call a method with options.', () => {
+      expect(testThing.call('base', 1000)).to.equal(1000);
+    });
+
 
     it('should emit an event when a method is called', () => {
       var event = false;

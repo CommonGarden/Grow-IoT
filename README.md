@@ -8,7 +8,7 @@ Thing.js exports a single class 'Thing,' which is an extension of the [Node.js E
 
 [Full documentation available here](http://commongarden.github.io/Thing.js/docs/Thing.js.html).
 
-For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js) which is used to connect devices (or purely software things) to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance.
+For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js).
 
 ## Install
 ```bash
