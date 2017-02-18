@@ -5,6 +5,10 @@ var thing1 = new Thing({
 		name: "Bob"
 	},
 
+	initialize: function () {
+		console.log('Thing 1 started.');
+	},
+
     method: function (name) {
         let newname = name || thing1.get('name');
         console.log('Current name is ' + newname);

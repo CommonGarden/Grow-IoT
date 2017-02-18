@@ -31,16 +31,14 @@ board.on('ready', function start() {
             var interval = this.get('interval');
             
             emit_and_analyze = setInterval(function () {
-                light.call('light_data');
-                light.call('check_light_data');
+                this.light_data();
+                this.check_light_data();
             }, interval);
-
-            // Todo: implement clear interval function so we can adjust
-            // the rate at which data is logged.
         },
 
         stop: function () {
             clearInterval(emit_and_analyze);
+            this.removeAllListeners();
         },
 
         turn_on: function () {
