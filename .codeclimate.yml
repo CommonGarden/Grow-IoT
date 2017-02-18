@@ -8,9 +8,11 @@ engines:
     config:
       languages:
       - javascript
+  fixme:
+    enabled: true
 ratings:
   paths:
-  - lib/**
+  - "**.js"
 exclude_paths:
-- examples/**/*
-- docs
+- examples/
+- docs/
