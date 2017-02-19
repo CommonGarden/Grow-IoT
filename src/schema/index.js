@@ -2,11 +2,11 @@ import { EventsSchema } from './events';
 import { ThingSchema } from './things';
 const rootSchema = [`
 type Query {
-  getThings(
+  allThings(
   limit: Int
   skip: Int
   ): [Thing]
-  getEvents(
+  allEvents(
   limit: Int
   skip: Int
   ): [Event]

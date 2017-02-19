@@ -64,7 +64,7 @@ app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
   query: `{
 # defaults: limit = 10, skip = 0
-  getThings(limit: 5, skip: 2) {
+  allThings(limit: 5, skip: 2) {
     uuid
     token
     owner
@@ -73,7 +73,7 @@ app.use('/graphiql', graphiqlExpress({
     registeredAt
   }
 # defaults: limit = 10, skip = 0
-  getEvents(limit: 5, skip: 2) {
+  allEvents(limit: 5, skip: 2) {
     thing {
       _id
     }

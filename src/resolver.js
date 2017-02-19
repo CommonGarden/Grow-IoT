@@ -40,7 +40,7 @@ const rootResolvers = {
         });
       });
     },
-    getThings(root, { limit, skip }, /* content */) {
+    allThings(root, { limit, skip }, /* content */) {
       const l = limit || 10;
       const s = skip || 0;
       const q = Things.find({})
@@ -59,7 +59,7 @@ const rootResolvers = {
       });
     },
 
-    getEvents(root, { limit, skip }, /* content */) {
+    allEvents(root, { limit, skip }, /* content */) {
       const l = limit || 10;
       const s = skip || 0;
       const q = Events.find({})
