@@ -40,10 +40,12 @@ const rootResolvers = {
         });
       });
     },
-    getThings(root, { limit }, /* content */) {
+    getThings(root, { limit, skip }, /* content */) {
       const l = limit || 10;
+      const s = skip || 0;
       const q = Things.find({})
         .sort({registeredAt: -1})
+        .skip(s)
         .limit(l);
       return new Promise((resolve, reject) => {
         q.exec(function(err, things) {
@@ -57,10 +59,12 @@ const rootResolvers = {
       });
     },
 
-    getEvents(root, { limit }, /* content */) {
+    getEvents(root, { limit, skip }, /* content */) {
       const l = limit || 10;
+      const s = skip || 0;
       const q = Events.find({})
         .sort({insertedAt: -1})
+        .skip(s)
         .limit(l);
       return new Promise((resolve, reject) => {
         q.exec(function(err, events) {

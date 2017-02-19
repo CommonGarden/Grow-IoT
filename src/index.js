@@ -63,8 +63,8 @@ app.use('/graphql', graphqlExpress((req) => {
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
   query: `{
-# limit default 10
-  getThings(limit: 5) {
+# defaults: limit = 10, skip = 0
+  getThings(limit: 5, skip: 2) {
     uuid
     token
     owner
@@ -72,8 +72,8 @@ app.use('/graphiql', graphiqlExpress({
     name
     registeredAt
   }
-# limit default 10
-  getEvents(limit: 5) {
+# defaults: limit = 10, skip = 0
+  getEvents(limit: 5, skip: 2) {
     thing {
       _id
     }

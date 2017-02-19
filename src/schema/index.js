@@ -4,9 +4,11 @@ const rootSchema = [`
 type Query {
   getThings(
   limit: Int
+  skip: Int
   ): [Thing]
   getEvents(
   limit: Int
+  skip: Int
   ): [Event]
   getThing(
     uuid: String!
