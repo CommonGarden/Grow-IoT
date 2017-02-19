@@ -2,12 +2,19 @@ import { EventsSchema } from './events';
 import { ThingSchema } from './things';
 const rootSchema = [`
 type Query {
-  getThing(
-  uuid: String!
+  getThings(
+  limit: Int
   ): [Thing]
-getEvent(
-_id: String!
+  getEvents(
+  limit: Int
   ): [Event]
+  getThing(
+    uuid: String!
+  ): [Thing]
+  getEvent(
+    _id: String!
+  ): [Event]
+
 }
 schema {
   query: Query

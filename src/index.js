@@ -63,7 +63,8 @@ app.use('/graphql', graphqlExpress((req) => {
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
   query: `{
-  getThing(uuid: "paste-thing-uuid") {
+# limit default 10
+  getThings(limit: 5) {
     uuid
     token
     owner
@@ -71,7 +72,8 @@ app.use('/graphiql', graphiqlExpress({
     name
     registeredAt
   }
-  getEvent(_id: "paste-event-id") {
+# limit default 10
+  getEvents(limit: 5) {
     thing {
       _id
     }
@@ -81,6 +83,24 @@ app.use('/graphiql', graphiqlExpress({
     }
     insertedAt
   }
+#  getThing(uuid: "paste-thing-uuid") {
+#    uuid
+#    token
+#    owner
+#    component
+#    name
+#    registeredAt
+#  }
+#  getEvent(_id: "paste-event-id") {
+#    thing {
+#      _id
+#    }
+#    event {
+#      type
+#      value
+#    }
+#    insertedAt
+#  }
 }`},
 ));
 

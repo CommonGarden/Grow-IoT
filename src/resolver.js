@@ -40,6 +40,40 @@ const rootResolvers = {
         });
       });
     },
+    getThings(root, { limit }, /* content */) {
+      const l = limit || 10;
+      const q = Things.find({})
+        .sort({registeredAt: -1})
+        .limit(l);
+      return new Promise((resolve, reject) => {
+        q.exec(function(err, things) {
+          if (err){
+            reject(err);
+          }
+          else {
+            resolve(things);
+          }
+        });
+      });
+    },
+
+    getEvents(root, { limit }, /* content */) {
+      const l = limit || 10;
+      const q = Events.find({})
+        .sort({insertedAt: -1})
+        .limit(l);
+      return new Promise((resolve, reject) => {
+        q.exec(function(err, events) {
+          if (err){
+            reject(err);
+          }
+          else {
+            resolve(events);
+          }
+        });
+      });
+    },
+
     // TODO implement auth
     // authenticate(root, {
     // username,
