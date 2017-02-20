@@ -33,3 +33,5 @@ const complexThing = new Thing({
 complexThing.call('method');
 complexThing.call('wrapup');
 complexThing.call('method');
+
+

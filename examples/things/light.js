@@ -3,11 +3,18 @@ const Thing = require('../../dist/Thing.es6.js');
 
 module.exports = new Thing({
 	properties: {
-		name: "Plant",
-		target_day_temp: 82,
+		name: "Light"
 	},
 
 	initialize: function () {
-		console.log('Plant initialized. Ideal day time temperature is ' + this.get('target_day_temp') + 'F');
+		console.log('Light initialized');
 	},
+
+    turn_on: function () {
+        console.log("Light on");
+    },
+
+    turn_off: function () {
+        console.log("Light off");
+    }
 });
