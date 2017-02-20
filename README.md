@@ -18,26 +18,21 @@ npm install Thing.js
 ```
 
 ### Usage
+
+Include `Thing.js`:
 ```javascript
 const Thing = require('Thing.js');
 
+```
+
+Make a new thing and pass in an object.
+
+```javascript
+
 const Light = new Thing({
-  name: 'Light',
-  desription: 'An LED light with a basic on/off api.',
-  username: 'jakehart',
-  // These are setable and getable by the api.
+  // Properties can be set by the API
   properties: {
     state: null,
-  },
-
-  start: function () {
-    console.log('Thing initialized, this code runs first');
-
-    // Things are an extension of the node EventEmitter class 
-    // Thus have the same API
-    this.on('turn_light_on', function() {
-      console.log('Light turned on.')
-    });
   },
 
   turn_light_on: function () {
@@ -51,12 +46,83 @@ const Light = new Thing({
   }
 });
 
+// Things are an extension of the node EventEmitter class 
+// Thus have the same API
+Light.on('property-updated', function(key, value) {
+  console.log('Light turned ' + value);
+});
+
 // Calling a method emits an event
 Light.call('turn_light_on');
 // light on
 // Light turned on.
 
 ```
+
+### Initialize
+Things can optionally have an `initialize` function which runs when the thing is constructed:
+
+```javascript
+const testThing = new Thing({
+  initialize: function () {
+    console.log('testThing initialized');
+  }
+});
+// testThing initialized
+
+```
+
+### Things as modules
+
+If you want to make more complex things you may want to organize them into modules. Here's an example for a hypothetical `software-light.js`:
+
+```javascript
+
+const Thing = require('Thing.js');
+
+module.exports = new Thing({
+  metadata: 'We can include metadata like so',
+
+  properties: {
+    name: "Light"
+  },
+
+  initialize: function () {
+    console.log('Light initialized');
+  },
+
+  turn_on: function () {
+    console.log("Light on");
+  },
+
+  turn_off: function () {
+    console.log("Light off");
+  }
+});
+```
+
+Then you can import them with `require()` and even use them inside other things!
+
+```javascript
+const softwareLight = require('./software-light.js');
+// Light initialized
+
+const growRoom = new Thing({
+  // Optional: you may want to do this if you want the properties of 
+  // softwareLight to be discoverable by Grow-IoT.
+  light: softwareLight,
+
+  initialize: function () {
+    softwareLight.call('turn_on');
+    this.light.call('turn_off');
+  }
+});
+// Light on
+// Light off
+
+```
+
+See the examples folder for more!
 
 # Developing
 

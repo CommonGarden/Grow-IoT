@@ -4,7 +4,7 @@ const Thing = require('../../dist/Thing.es6.js');
 module.exports = new Thing({
 	properties: {
 		name: "Plant",
-		target_day_temp: 82,
+		target_day_temp: 75,
 	},
 
 	initialize: function () {
