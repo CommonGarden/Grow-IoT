@@ -1,12 +1,12 @@
 // Require the Grow.js build and johnny-five library.
 var Thing = require('../dist/Grow.umd.js');
 
-var light_data, emit_and_analyze;
+var lux, emit_and_analyze;
 
 // Create a new thing.
 var light = new Thing({
-    uuid: '205d24b0-234b-43b9-9c00-f22d97a79488',
-    token: '7YvjsSAWRCKpDBDzSR8EbkAx6ur7ztvW',
+    uuid: '3d728d07-a3c0-4039-9f73-8009e5216145',
+    token: 'LonTWSW8pGB9Ziks6Wcfygc2pXsuYWu3',
 
     component: 'smart-light',
 
@@ -21,41 +21,40 @@ var light = new Thing({
         var interval = this.get('interval');
         
         emit_and_analyze = setInterval(function () {
-            light.call('light_data');
-            light.call('check_light_data');
+            light.light_data();
+            light.check_light_data();
         }, interval);
     },
 
     stop: function () {
         clearInterval(emit_and_analyze);
+        this.removeAllListeners();
     },
 
     turn_on: function () {
-        LED.high();
         light.set('state', 'on');
         console.log('light on');
     },
 
     turn_off:  function () {
-        LED.low();
         light.set('state', 'off');
         console.log('light off')
     },
 
     light_data: function () {
-        console.log(lightSensor.value);
+        lux = Math.random() * 10; 
 
         light.emit({
           type: 'light',
-          value: lightSensor.value
+          value: lux
         });
     },
 
     check_light_data: function () {
         var threshold = light.get('threshold');
-        if ((lightSensor.value < threshold) && (light.get('lightconditions') != 'dark')) {
+        if ((lux < threshold) && (light.get('lightconditions') != 'dark')) {
             light.set('lightconditions', 'dark');
-        } else if ((lightSensor.value >= threshold) && (light.get('lightconditions') != 'light')) {
+        } else if ((lux >= threshold) && (light.get('lightconditions') != 'light')) {
             light.set('lightconditions', 'light');
         }
     }
