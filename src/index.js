@@ -29,19 +29,19 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }) );
 app.use(bodyParser.json());
 
-// import './auth.js'; //see snippet below
-//passport's session piggy-backs on express-session
-// app.use(
-  // session({
-    // genid: function(req) {
-      // return uuid.v4();
-    // },
-    // secret: app_secret,
-  // })
-// );
+import './auth.js'; //see snippet below
+passport's session piggy-backs on express-session
+app.use(
+  session({
+    genid: function(req) {
+      return uuid.v4();
+    },
+    secret: app_secret,
+  })
+);
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/graphql', graphqlExpress((req) => {
   // Get the query, the same way express-graphql does it
@@ -104,17 +104,24 @@ app.use('/graphiql', graphiqlExpress({
 }`},
 ));
 
-//login route for passport
-// app.post('/login', passport.authenticate('local', {
-  // successRedirect: '/',
-  // failureRedirect: '/login',
-  // failureFlash: true
-// }) );
+app.get('/',
+  function(req, res) {
+    res.render('home', { user: req.user });
+  });
 
-// Serve our helpful static landing page. Not used in production.
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+
+app.get('/login',
+  function(req, res){
+    res.render('login');
+  });
+
+//login route for passport
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+}) );
+
 
 app.listen(PORT, () => console.log( // eslint-disable-line no-console
   `API Server is now running on http://localhost:${PORT}`

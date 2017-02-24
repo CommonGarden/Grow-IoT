@@ -79,50 +79,50 @@ const rootResolvers = {
     },
 
     // TODO implement auth
-    // authenticate(root, {
-    // username,
-    // password,
-    // }, [> context <]) {
-    // return new Promise((resolve, reject) => {
-    // User.findOne({ username }, {'services.password.bcrypt': 1 }, (err, user) => {
+    authenticate(root, {
+      username,
+      password,
+    }, /* context */) {
+      return new Promise((resolve, reject) => {
+        User.findOne({ username }, {'services.password.bcrypt': 1 }, (err, user) => {
 
-    // if (err) reject(err)
+          if (err) reject(err)
 
-    // if (!user) {
+          if (!user) {
 
-    // reject({ success: false, message: 'Authentication failed. User not found.' });
-    // } else if (user) {
+            reject({ success: false, message: 'Authentication failed. User not found.' });
+          } else if (user) {
 
-    // Password.comparePassword(password, user.services.password.bcrypt)
-    // .then((r) => {
+            Password.comparePassword(password, user.services.password.bcrypt)
+              .then((r) => {
 
-    // if (!r) {
+                if (!r) {
 
-    // reject({ success: false, message: 'Authentication failed. Wrong password.' });
-    // } else {
+                  reject({ success: false, message: 'Authentication failed. Wrong password.' });
+                } else {
 
-    // // const token = jwt.sign(user, app.get('superSecret'), {
-    // // expiresIn : 60*60*24
-    // // });
+                  // const token = jwt.sign(user, app.get('superSecret'), {
+                  // expiresIn : 60*60*24
+                  // });
 
-    // // return the information including token as JSON
-    // resolve({
-    // success: true,
-    // message: 'Use this token as param in your future requests!',
-    // token: token
-    // });
-    // }
-    // }).
-    // catch((e) => {
-    // throw e;
-    // });
-    // // if user is found and password is right
-    // // create a token
-    // }
-    // });
+                  // return the information including token as JSON
+                  resolve({
+                    success: true,
+                    message: 'Use this token as param in your future requests!',
+                    token: token
+                  });
+                }
+              }).
+              catch((e) => {
+                throw e;
+              });
+            // if user is found and password is right
+            // create a token
+          }
+        });
 
-    // })
-    // },
+      })
+    },
   },
   Date: new GraphQLScalarType({
     name: 'Date',
