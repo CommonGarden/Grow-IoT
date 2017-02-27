@@ -24,4 +24,8 @@ http@1.2.10
 force-ssl@1.0.13
 browser-policy@1.0.9
 npm-bcrypt
+useful:connectivity
+check
+reactive-var
+ground:db@2.0.0-rc.7
 mwc:synthesis-assets

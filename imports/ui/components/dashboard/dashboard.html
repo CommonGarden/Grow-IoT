@@ -19,7 +19,9 @@
         <grow-main-view name="main" route="{{routeTail}}">
           <app-toolbar toolbar>
             <div main-title>Grow-IoT</div>
+            <connectivity-status></connectivity-status> 
             <paper-icon-button icon="add" on-tap="onCreateButtonClick" id="addNew" morph-target="#addDialog"></paper-icon-button>
+
             <paper-icon-button icon="menu" hidden$="[[!narrow]]" on-tap="openMenu"></paper-icon-button>
           </app-toolbar>
         </grow-main-view>
