@@ -10,14 +10,14 @@
     "gold-email-input": "PolymerElements/gold-email-input#^1.0.7",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5",
-    "polymer-sortablejs": "aruntk/polymer-sortablejs#^0.1.4",
     "iron-icons": "PolymerElements/iron-icons#^1.2.0",
     "app-route": "PolymerElements/app-route#^0.9.3",
     "d3": "^4.4.0",
-    "current-weather": "aruntk/current-weather#^0.4.2",
+    "current-weather": "dotch/current-weather#^0.4.0",
     "vaadin-combo-box": "vaadin/vaadin-combo-box#^1.1.5",
     "vaadin-date-picker": "^1.2.0",
-    "paper-time-picker": "^1.1.4"
+    "paper-time-picker": "^1.1.4",
+    "morph-animation": "aruntk/morph-animation#^1.0.4"
   },
   "ignore": [
     "demo/*",

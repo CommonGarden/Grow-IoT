@@ -68,7 +68,7 @@ class emptyState {
     const can = this.$.arrow;
     const ctx = can.getContext('2d');
     this.clearCanvas(ctx,can);
-    const target = document.querySelector("#addNew");
+    const target = document.querySelector("body /deep/ #addNew");
     const targetDm = target.getBoundingClientRect();
     const toolbarWidth = Polymer.dom(target).parentNode.offsetWidth;
     if(toolbarWidth > 768){
@@ -165,17 +165,17 @@ class emptyState {
     return points;            
   } 
 
-  // let's see if this will work
-  new() {
-    Meteor.call('Thing.new',
-      (error, document) => {
-        if (error) {
-          console.error("New deviceerror", error);
-          return alert(`New deviceerror: ${error.reason || error}`);
-        }
-      }
-    );
-  }
+  // // let's see if this will work
+  // new() {
+  //   Meteor.call('Thing.new',
+  //     (error, document) => {
+  //       if (error) {
+  //         console.error("New deviceerror", error);
+  //         return alert(`New deviceerror: ${error.reason || error}`);
+  //       }
+  //     }
+  //   );
+  // }
 
 }
 Polymer(emptyState);

@@ -34,8 +34,8 @@ Or [download as ZIP](https://github.com/dotch/current-weather/archive/master.zip
 3. Start using it!
 
     ```html
-    <current-weather lat="37.3860500" lon="-122.0838500" units="imperial" app-id="your-open-weather-map-app-id"></current-weather>
-    <current-weather lat="49.27826" lon="11.45929" units="metric" app-id="your-open-weather-map-app-id"></current-weather>
+    <current-weather lat="37.3860500" lon="-122.0838500" units="imperial"></current-weather>
+    <current-weather lat="49.27826" lon="11.45929" units="metric"></current-weather>
     ```
 
 ## Options
@@ -44,7 +44,6 @@ Attribute       | Options     | Default      | Description
 ---             | ---         | ---          | ---
 `lat`           | *double*    | ``           | The latitude of the desired location
 `long`          | *double*    | ``           | The longitude of the desired location
-`app-id`        | *string*    | ``           | Open weather map app id
 `imperial`      | *boolean*   | `false`      | use imperial instead of metric units
 `wind`          | *boolean*   | `false`      | show wind information
 `suntimes`      | *boolean*   | `false`      | show sunrise und sunset times
@@ -54,9 +53,7 @@ Attribute       | Options     | Default      | Description
 `conditiontext` | *boolean*   | `false`      | show the weathercondition in text form e.g. "clouded"
 `language`      | *string*    | `en`         | specify the language for the conditiontext e.g. "de", possible values: en, ru, it, sp, ua, de, pt, ro, pl, fi, nl, fr, bg, se, zh_tw, zh_cn, tr
 
-Note:
 
-If `lat` and `lon` are not provided, it will use the geolocation of your browser.
 
 ## Events
 
@@ -90,6 +87,12 @@ In order to run it locally you'll need to fetch some dependencies and a basic se
 
     ```sh
     $ grunt build
+    ```
+
+* To provide a live demo, send everything to `gh-pages` branch.
+
+    ```sh
+    $ grunt deploy
     ```
 
 ## Contributing

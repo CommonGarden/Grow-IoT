@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="current-weather">
-  <link rel="stylesheet" href="/bower_components/weather-icons/css/weather-icons.css">
+  <link rel="import" type="css" href="../bower_components/weather-icons/css/weather-icons.css">
 
   <template>
     <style>
@@ -226,15 +226,6 @@
           tempLevel: getTempLevel(res.main.temp, this.imperial)
         };
         this.fire('current-weather-load', {weather: this.data});
-      },
-      getCurrentLocation: function(position) {
-	  this.lat = position.coords.latitude;
-	  this.lon = position.coords.longitude;
-      },
-      ready: function() {
-	  if (typeof(this.lat) == "undefined" && typeof(this.lon) == "undefined") {
-	      navigator.geolocation.getCurrentPosition(this.getCurrentLocation.bind(this));
-	  }
       }
     });
   </script>

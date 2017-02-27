@@ -17,6 +17,7 @@ class thingDisplay {
           "weather-widget",
           "smart-light",
           "smart-pot",
+          "fish-tank",
         ],
       },
       loader:Number,
@@ -28,7 +29,7 @@ class thingDisplay {
 
   get behaviors () {
     return [
-      mwcMixin,
+      mwcMixin, MorphBehavior
     ];
   }
 
@@ -47,8 +48,12 @@ class thingDisplay {
     }, 500);
   }
 
-  toggleDialog () {
-    this.$.new_thing.open()
+  toggleDialog (e) {
+    const dialog = this.$.new_thing;
+    const t = e.detail.target;
+    dialog.sizingTarget = t;
+    dialog.positionTarget = t;
+    this.$.morphThis(e);
   }
 
   detached() {
