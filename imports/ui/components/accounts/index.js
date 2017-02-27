@@ -1,2 +1,4 @@
 import './accounts-element.html';
-import './client-avatar.html';
+
+// TODO: maybe delete?
+// import './client-avatar.html';
