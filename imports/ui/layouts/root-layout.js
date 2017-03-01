@@ -22,6 +22,7 @@ class rootLayout extends Polymer.Class(
   routeChange(route) {
     if (route.path === '/') {
       this.set('route.path', '/dashboard/main/home');
+      this.firstRedirect();
     }
     this.dispatch(setRoute.bind(this, route));
   }
