@@ -1,7 +1,7 @@
 {
   "name": "grow-graphql-api",
   "version": "1.0.0",
-  "description": "grow-iot graohql api",
+  "description": "grow-iot graphql api",
   "main": "index.js",
   "scripts": {
     "compile": "npm run clean && babel --presets es2015 -d lib/ src/",
@@ -10,7 +10,7 @@
     "start": "nodemon lib/index.js --watch api --exec babel-node",
     "test": "npm run compile && jest"
   },
-  "author": "aruntk",
+  "author": "CommonGarden",
   "license": "BSD-2-Clause",
   "dependencies": {
     "body-parser": "^1.16.0",
@@ -45,10 +45,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aruntk/grow-graphql-api.git"
+    "url": "git+https://github.com/CommonGarden/graphql-api.git"
   },
   "bugs": {
-    "url": "https://github.com/aruntk/grow-graphql-api/issues"
+    "url": "https://github.com/CommonGarden/graphql-api/issues"
   },
-  "homepage": "https://github.com/aruntk/grow-graphql-api#readme"
+  "homepage": "https://github.com/CommonGarden/graphql-api#readme"
 }
