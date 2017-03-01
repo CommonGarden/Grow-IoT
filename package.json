@@ -14,8 +14,8 @@
     "type": "git",
     "url": "git+https://github.com/aruntk/grow-mongoose-models.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "CommonGarden",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/aruntk/grow-mongoose-models/issues"
   },
