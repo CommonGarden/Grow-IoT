@@ -39,6 +39,8 @@
     "mongodb": "^2.2.16",
     "monq": "^0.3.6",
     "polymer-redux": "^0.3.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "redux": "^3.6.0",
     "utf-8-validate": "^1.2.1"
   },
