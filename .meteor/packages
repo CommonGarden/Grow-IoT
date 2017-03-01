@@ -29,3 +29,4 @@ check
 reactive-var
 ground:db@2.0.0-rc.7
 mwc:synthesis-assets
+react-meteor-data
