@@ -66,18 +66,6 @@ describe('Thing test', () => {
       expect(testThing.uuid).to.equal(null);
     });
 
-    it('should return a list of its events', () => {
-      testThing.on('property-updated', () => {
-        return event = true;
-      });
-      testThing.eventList();
-    });
-
-    it('should return a list of its methods', () => {
-      testThing.methodList();
-    });
-
-
     it('should get a property', () => {
       expect(testThing.get('duration')).to.equal(2000);
     });

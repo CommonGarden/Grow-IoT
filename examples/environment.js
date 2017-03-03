@@ -8,13 +8,36 @@ const plant = require('./things/plant');
 
 const growRoom = new Thing({
 	type: 'environment',
+	// Include subthings in the config object to make the recognizable by Grow-IoT
 	heater: heater,
 	tempSensor: tempSensor,
 	light: light,
 	plant: plant,
 
+	// TODO: contain a list of things as opposed to assigning them to properties.
+	contains: [],
+
+	properties: {
+		cycle: String
+	},
+
 	initialize: function () {
 		console.log("Grow room initialized");
+
+		console.log('Lights on ' + plant.get('day_start'));
+		console.log('Lights off ' + plant.get('night_start'));
+
+		tempSensor.on('read', (options, data)=> {
+			console.log(data);
+			if (data < plant.get('min_temp')) {
+				console.log('Temp too low');
+				// An 'alert' event creates a notification.
+				this.emit('alert', 'Temperature too low.')
+			} else if (data > plant.get('max_temp')) {
+				console.log('Temp too high');
+				this.emit('alert', 'Temperature too high.');
+			}
+		});
 
 		// Turn on light
 		light.call('turn_on');
@@ -29,8 +52,6 @@ const growRoom = new Thing({
 		let heaterState = heater.get('state');
 		let targetTemp = plant.get('target_day_temp');
 		let currentTemp = tempSensor.call('read');
-
-		console.log('Current temp: ' + currentTemp);
 
 		// One could also implement this with a PID controller.
 		if (currentTemp < targetTemp) {
@@ -63,6 +84,6 @@ const growRoom = new Thing({
 	}
 });
 
-setTimeout(function() {
-	growRoom.wrapup();
-}, 30000)
+// setTimeout(function() {
+// 	growRoom.wrapup();
+// }, 30000)
