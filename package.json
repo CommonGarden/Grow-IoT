@@ -37,12 +37,13 @@
     "babel-preset-es2015-rollup": "^1.1.1",
     "babel-register": "^6.9.0",
     "babelrc-rollup": "^1.1.0",
+    "chai": "^3.5.0",
+    "coap": "^0.20.0",
     "eslint": "^2.11.1",
     "mocha": "^2.5.3",
+    "mr-doc-theme-cayman": "^1.4.1",
     "rollup": "^0.31.2",
     "rollup-plugin-babel": "^2.5.1",
-    "chai": "^3.5.0",
-    "mr-doc-theme-cayman": "^1.4.1",
     "source-map-support": "^0.4.0"
   },
   "dependencies": {

@@ -1,6 +1,8 @@
 // TODO: a plant example... which is really just a simple model of a plant.
 const Thing = require('../../dist/Thing.es6.js');
 
+// TODO: hs100 example with space heater plugged in.
+
 module.exports = new Thing({
 	properties: {
 		name: "Heater",
