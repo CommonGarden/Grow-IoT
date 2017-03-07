@@ -1,18 +1,39 @@
 // TODO: a plant example... which is really just a simple model of a plant.
 const Thing = require('../../dist/Thing.es6.js');
 
-// A rough example... first draft, it's crude.
+// A rough GrowFile example... first draft, it's crude.
 module.exports = new Thing({
 	properties: {
-		name: "Plant",
-		target_day_temp: 75,
-		min_temp: 60,
-		max_temp: 80,
-		day_start: 'at 8:00am',
-		night_start: 'at 7:00pm',
-	},
+		name: "Grow File example",
+		version: '0.1.0',
+		alerts: {
+			temperature: {
+				min: 60,
+				max: 80
+			},
+			ph: {
+				min: 5.6,
+				max: 6.7
+			},
+			humidity: {
+				min: 10 // percent
+			},
+		},
 
-	initialize: function () {
-		console.log('Plant initialized. Ideal day time temperature is ' + this.get('target_day_temp') + 'F');
-	},
+		// cycles can be an option inside of phases.
+		cycles: {
+			day: {
+				start: 'after 7:00am',
+				targets: {
+					temperature: 75
+				}
+			},
+			night: {
+				start: 'after 7:00pm',
+				targets: {
+					temperature: 65
+				}
+			}
+		}
+	}
 });

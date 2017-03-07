@@ -3,33 +3,30 @@ const Hs100Api = require('hs100-api');
 
 module.exports = new Thing({
 	properties: {
-		name: "Light"
+		name: "Water pump"
 	},
 
 	initialize: function () {
-		console.log('Light initialized');
+		console.log('Water pump initialized');
 
         var client = new Hs100Api.Client();
 
 		// Look for plug, assign to plug property.
         client.startDiscovery().on('plug-new', (plug) => {
-          // console.log(plug);
-
-          // There is definitely a better way of doing this.
-          if (plug.name === 'Plant Light') {
-            this.light = plug;
+          if (plug.name === 'Water Pump') {
+            this.pump = plug;
           }
         });
 	},
 
     turn_on: function () {
-    	this.light.setPowerState(true);
-        console.log("Light on");
+    	this.pump.setPowerState(true);
+        console.log("Pump on");
     },
 
     turn_off: function () {
-        console.log("Light off");
-        this.light.setPowerState(false);
+        console.log("Pump off");
+        this.pump.setPowerState(false);
     }
 });
 
