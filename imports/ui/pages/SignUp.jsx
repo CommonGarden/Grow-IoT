@@ -16,12 +16,15 @@ export default class SignIn extends Component {
       <form className="loginForm" onSubmit={this.handleSubmit}>
         <Paper zDepth={1} style={cardStyle}>
           <div className="layout vertical">
-            <h2> Sign In </h2>
+            <h2> Sign Up </h2>
             <TextField
               hintText="Email"/>
             <TextField
               type="password"
               hintText="Password"/>
+            <TextField
+              type="password"
+              hintText="Repeat Password"/>
             <div className="layout horizontal">
               <div className="flex" />
               <RaisedButton label="Submit" primary={true} type="submit"/>

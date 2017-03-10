@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
+import { Link } from 'react-router'
 import Paper from 'material-ui/Paper';
 
 const signInIcon = <FontIcon className="material-icons"></FontIcon>;
@@ -11,8 +12,10 @@ class AccountsBottomNavigation extends Component {
     selectedIndex: 0,
   };
 
-  select = (index) => this.setState({selectedIndex: index});
-
+  select (index) {
+    this.setState({selectedIndex: index});
+    this.props.onTabChange(index); 
+  }
   render() {
     return (
       <Paper zDepth={1}>
