@@ -12,13 +12,12 @@ module.exports = new Thing({
 	},
 
 	initialize: function () {
-		console.log('Heater initialized');
-
         var client = new Hs100Api.Client();
 
         // Look for plug, assign to plug property.
         client.startDiscovery().on('plug-new', (plug) => {
           if (plug.name === 'Heater') {
+            console.log('Heater connected');
             this.heater = plug;
           }
         });
@@ -27,14 +26,18 @@ module.exports = new Thing({
     turn_on: function () {
         if (this.get('state') === 'off') {
             this.set('state', 'on');
-            this.heater.setPowerState(true);
+            if (this.heater) {
+                this.heater.setPowerState(true);
+            }
             console.log("Heater on");
         }
     },
 
     turn_off: function () {
         this.set('state', 'off');
-        this.heater.setPowerState(false);
+        if (this.heater) {
+            this.heater.setPowerState(false);
+        }
         console.log("Heater off");
     }
 });

@@ -7,26 +7,29 @@ module.exports = new Thing({
 	},
 
 	initialize: function () {
-		console.log('Water pump initialized');
-
         var client = new Hs100Api.Client();
 
 		// Look for plug, assign to plug property.
         client.startDiscovery().on('plug-new', (plug) => {
           if (plug.name === 'Water Pump') {
+            console.log('Water pump initialized');
             this.pump = plug;
           }
         });
 	},
 
     turn_on: function () {
-    	this.pump.setPowerState(true);
+        if (this.pump) {
+            this.pump.setPowerState(true);
+        }
         console.log("Pump on");
     },
 
     turn_off: function () {
         console.log("Pump off");
-        this.pump.setPowerState(false);
+        if (this.pump) {
+            this.pump.setPowerState(false);
+        }
     }
 });
 

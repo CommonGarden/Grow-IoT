@@ -8,7 +8,7 @@ module.exports = new Thing({
 	},
 
 	initialize: function () {
-		console.log('Temp sensor initialized');
+		// console.log('Temp sensor initialized');
 	},
 
     tempUp: function () {

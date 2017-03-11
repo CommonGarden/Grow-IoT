@@ -1,11 +1,11 @@
 const Thing = require('../dist/Thing.es6.js');
+const _ = require('underscore');
 
 // Lets import a few things!
 const heater = require('./things/heater');
 const tempSensor = require('./things/temp-sensor');
 const waterpump = require('./things/waterpump');
 const light = require('./things/light');
-const growfile = require('./things/plant');
 const later = require('later');
 
 // Use local time, not UTC.
@@ -21,9 +21,10 @@ const growRoom = new Thing({
 	properties: {
 		targets: {},
 		growfile: {
-			name: "Generic plant",
-			description: "A growfile example.",
+			name: "Grow File example",
 			version: '0.1.0',
+
+			// Alerts should fire if the thing emits an event with a value out of bounds
 			alerts: {
 				temperature: {
 					min: 60,
@@ -56,38 +57,58 @@ const growRoom = new Thing({
 		}
 	},
 
-	parseCycles: function(cycles) {
-	    console.log(this);
-	    // for cycle in 
+	day: function () {
+		console.log('It is day!');
+        console.log(this.get('targets'))
+        light.call('turn_on');
+        // waterpump.call('turn_on');
 	},
 
+	night: function () {
+		console.log('It is night!');
+		console.log(this.get('targets'))
+        light.call('turn_off');
+	},
+
+	// Move to grow.js?
+	parseCycles: function(cycles) {
+	    _.each(cycles, (list, iteratee)=> {
+			let scheduledTime = later.parse.text(String(cycles[iteratee].start));
+	        return later.setTimeout(()=> {
+	        	try {
+	        		if (cycles[iteratee].targets) {
+	        			this.set('targets', cycles[iteratee].targets);
+	        		}
+
+	        		if(cycles[iteratee].options) {
+	        			this.call(iteratee, cycles[iteratee].options);
+	        		} else {
+	        			console.log(iteratee);
+	        			this.call(iteratee);
+	        		}
+	        	} catch (error) {
+	        		console.log(error);
+	        	}
+	        }, scheduledTime);
+	    });
+	},
 
 	initialize: function () {
 		console.log("Grow room initialized");
 
-		console.log("Day starts: " + growfile.get('cycles').day.start);
-		console.log("Night starts: " + growfile.get('cycles').night.start);
+		// light.c/all('turn_off');
+		waterpump.call('turn_off');
 
-		var day_time = later.parse.text(String(growfile.get('cycles').day.start));
-        var night_time = later.parse.text(String(growfile.get('cycles').night.start));
+		let growfile = this.get('growfile');
 
-        // The day cycle
-        day_timer = later.setTimeout(()=> {
-        	console.log('Currently day');
-        	this.set('targets', growfile.get('cycles').day.targets);
-            light.call('turn_on');
-        }, day_time);
-
-        night_timer = later.setTimeout(()=> {
-        	console.log('Currently night');
-        	this.set('targets', growfile.get('cycles').night.targets);
-            light.call('turn_off');
-        }, night_time);
+		this.parseCycles(growfile.cycles);
 
 		// Read temp sensor every 3 seconds.
-		// this.interval = setInterval(()=> {
-		// 	this.checkTemp();
-		// }, 3000);
+		this.interval = setInterval(()=> {
+					waterpump.call('turn_off');
+
+			this.checkTemp();
+		}, 3000);
 	},
 
 	checkTemp: function () {
@@ -128,6 +149,6 @@ const growRoom = new Thing({
 	}
 });
 
-// setTimeout(function() {
-// 	growRoom.wrapup();
-// }, 30000)
+setTimeout(function() {
+	growRoom.wrapup();
+}, 30000)

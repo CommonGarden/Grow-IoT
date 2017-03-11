@@ -7,20 +7,19 @@ module.exports = new Thing({
 	},
 
 	initialize: function () {
-		console.log('Light initialized');
-
         var client = new Hs100Api.Client();
 
-        this.plugs = [];
+        var plugs = [];
 
 		// Look for plug, assign to plug property.
         client.startDiscovery().on('plug-new', (plug) => {
           // There is definitely a better way of doing this.
-          this.plugs.push(plug);
+          console.log(plug);
+          plugs.push(plug);
         });
 
         setTimeout(function(){
-        	console.log(this.plugs);
+        	console.log(plugs);
         }, 3000)
 	},
 
