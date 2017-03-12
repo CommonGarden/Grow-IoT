@@ -23,6 +23,7 @@ class AuthenticatedApp extends Component {
   }
 
   componentWillMount() {
+    document.title = "Grow IoT";
     // Check that the user is logged in before the component mounts
     if (!this.props.user && !Meteor.loggingIn()) {
       browserHistory.push('/account');
