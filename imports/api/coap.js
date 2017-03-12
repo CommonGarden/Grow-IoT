@@ -23,7 +23,7 @@ server.on('request', function(req, res) {
     uuid: String,
     token: String
   });
-  // Todo: much more extensive checks.
+  // Todo: more extensive checks.
   check(payload, Object);
 
   switch (method) {
@@ -72,30 +72,36 @@ server.on('request', function(req, res) {
       break;
 
     case 'setProperty':
-      let key = urlParts.query.key;
-      let value = urlParts.query.value;
+      let key = payload.key;
+      let value = payload.value;
+      check(key, String);
+      check(value, Match.OneOf(String, Number, Boolean, Object));
 
-      Meteor.call('Thing.setProperty', auth, key, value, function(error, documentId) {
-        if (error) {
-          return console.error("New Thing.event Error", error);
-        }
 
-        // res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify({ok: true}));
-      });
-      break;
+      Fiber(function () {
+        check(auth, {
+          uuid: String,
+          token: String
+        });
+        check(key, String);
+        check(value, Match.OneOf(String, Number));
 
-    case 'call':
-      Meteor.call('Thing.sendCommand', auth.uuid, type, options, function(error, documentId) {
-        console.log(documentId);
+        let thing = Things.findOne(auth, {
+          fields: {
+            _id: 1,
+            properties: 1
+          }
+        });
+        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-        if (error) {
-          return console.error("New Thing.event Error", error);
-        }
+        thing.properties[key] = value;
 
-        // res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify({ok: true}));
-      });
+        return Things.update(thing._id, {
+          $set: {
+            'properties': thing.properties
+          }
+        });
+      }).run();
       break;
 
     default:
