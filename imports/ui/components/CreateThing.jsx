@@ -12,7 +12,7 @@ export default class CreateThing extends Component {
     thingName: ''
   };
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({open: true, thingName: ''});
   };
 
   handleClose = () => {
@@ -44,7 +44,6 @@ export default class CreateThing extends Component {
       <FlatButton
         label="Submit"
         primary={true}
-        keyboardFocused={true}
         onTouchTap={this.handleSubmit}
       />,
     ];
