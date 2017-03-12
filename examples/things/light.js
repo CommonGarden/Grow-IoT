@@ -17,19 +17,19 @@ module.exports = new Thing({
     });
 	},
 
-    turn_on: function () {
-      if (this.light) {
-        this.light.setPowerState(true);
-      }
-      console.log("Light on");
-    },
-
-    turn_off: function () {
-      console.log("Light off");
-      if (this.light) {
-        this.light.setPowerState(false);
-      }
+  turn_on: function () {
+    if (this.light) {
+      this.light.setPowerState(true);
     }
+    console.log("Light on");
+  },
+
+  turn_off: function () {
+    console.log("Light off");
+    if (this.light) {
+      this.light.setPowerState(false);
+    }
+  }
 });
 
 

@@ -84,6 +84,7 @@ const growRoom = new Thing({
             light.call('turn_off');
         }, night_time);
 
+
 		// Read temp sensor every 3 seconds.
 		// this.interval = setInterval(()=> {
 		// 	this.checkTemp();
