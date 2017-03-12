@@ -6,20 +6,17 @@ import Paper from 'material-ui/Paper';
 import BottomNavigation from '../components/BottomNavigation.jsx';
 
 export default class SignIn extends Component {
- constructor(props) {
-   super(props);
-   this.state = {password: '', email: ''};
-   this.handleSubmit = this.handleSubmit.bind(this);
-   this.emailChange = this.emailChange.bind(this);
-   this.passwordChange = this.passwordChange.bind(this);
-  }
-  handleSubmit(e) {
+  state = {
+    password: '',
+    email: '',
+  };
+  handleSubmit = (e) => {
     e.preventDefault();
     const email = this.state.email.trim();
     const password = this.state.password.trim();
 
     Meteor.loginWithPassword({ email }, password, this.signInCallback);
-  }
+  };
   signInCallback(error) {
     if (error === undefined) {
       // Navigate to the authenticated app since the sign in was successful
@@ -29,10 +26,10 @@ export default class SignIn extends Component {
   componentWillMount() {
     document.title = "Sign In";
   }
-  emailChange(e, n) {
+  emailChange = (e, n) => {
     this.setState({ email: n });
-  }
-  passwordChange(e, n) {
+  };
+  passwordChange = (e, n) => {
     this.setState({ password: n });
   }
   render() {

@@ -12,6 +12,7 @@ import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import ThingsList from './pages/ThingsList.jsx';
+import CreateThing from './components/CreateThing.jsx';
 
 class AuthenticatedApp extends Component {
 
@@ -49,8 +50,7 @@ class AuthenticatedApp extends Component {
             iconElementRight={ LogOut }
           />
           <div className="layout vertical flex center center-justified">
-            <h1>COMMON GARDEN</h1>
-            <h2>Creating the Internet of Living Things</h2>
+            <CreateThing />
           </div>
           <ThingsList user={this.props.user}/>
         </div>

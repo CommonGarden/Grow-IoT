@@ -12,10 +12,10 @@ class AccountsBottomNavigation extends Component {
     selectedIndex: 0,
   };
 
-  select (index) {
+  select = (index) => {
     this.setState({selectedIndex: index});
     this.props.onTabChange(index); 
-  }
+  };
   render() {
     return (
       <Paper zDepth={1}>
