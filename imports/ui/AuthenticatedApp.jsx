@@ -11,6 +11,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import ThingsList from './pages/ThingsList.jsx';
 
 class AuthenticatedApp extends Component {
 
@@ -27,7 +28,7 @@ class AuthenticatedApp extends Component {
 
   componentWillMount() {
     // Check that the user is logged in before the component mounts
-    if (!this.props.user) {
+    if (!this.props.user && !Meteor.loggingIn()) {
       browserHistory.push('/account');
     }
   }
@@ -51,7 +52,7 @@ class AuthenticatedApp extends Component {
             <h1>COMMON GARDEN</h1>
             <h2>Creating the Internet of Living Things</h2>
           </div>
-
+          <ThingsList user={this.props.user}/>
         </div>
       </MuiThemeProvider>
     );
