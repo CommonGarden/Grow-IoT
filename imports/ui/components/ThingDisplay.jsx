@@ -26,7 +26,10 @@ export default class ThingDisplay extends Component {
       <Card style={thingStyle}>
         <CardTitle title={this.props.thing.name} />
         <CardText>
-          <p>Connect a device using the following API crendentials or create a test thing <span ref="loading"></span></p>
+          <p>Connect a device using the following API crendentials or
+            <br />
+            create a test thing <span ref="loading"></span>
+          </p>
 
           <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
           <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
