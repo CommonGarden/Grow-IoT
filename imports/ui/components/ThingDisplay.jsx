@@ -6,12 +6,7 @@ import Paper from 'material-ui/Paper';
 
 
 export default class ThingDisplay extends Component {
- constructor(props) {
-   super(props);
-   this.deleteThing = this.deleteThing.bind(this);
-  }
-
-  deleteThing() {
+  deleteThing = () => {
     const thing = this.props.thing;
     Meteor.call('Thing.delete',
       thing.uuid,
@@ -21,10 +16,14 @@ export default class ThingDisplay extends Component {
         }
       }
     );
-  }
+  };
   render () {
+    const thingStyle = {
+      margin: '20px',
+    }
+
     return (
-      <Card>
+      <Card style={thingStyle}>
         <CardTitle title={this.props.thing.name} />
         <CardText>
           <p>Connect a device using the following API crendentials or create a test thing <span ref="loading"></span></p>

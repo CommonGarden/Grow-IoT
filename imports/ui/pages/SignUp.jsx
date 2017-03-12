@@ -5,9 +5,9 @@ import Paper from 'material-ui/Paper';
 import BottomNavigation from '../components/BottomNavigation.jsx';
 
 export default class SignIn extends Component {
-  handleSubmit(e) {
+  handleSubmit = (e)  => {
     e.preventDefault();
-  }
+  };
   render() {
     const cardStyle = {
       padding: '20px',

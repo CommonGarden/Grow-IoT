@@ -14,18 +14,14 @@ class ThingsList extends Component {
     Meteor.subscribe('Things.list');
   }
   render () {
-    const thingStyle = {
-      margin: '20px',
-    }
-    return (
+      return (
       <div className="layout horizontal wrap">
         {
           this.props.Things.map((v, k) => {
             return (
               <ThingDisplay key={k}
                 thing={v}
-                className="thing-card"
-                style={thingStyle}/>
+              />
             )
           })
         }
