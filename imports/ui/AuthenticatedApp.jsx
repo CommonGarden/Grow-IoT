@@ -5,12 +5,7 @@ import { browserHistory } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
-import Toggle from 'material-ui/Toggle';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import FlatButton from 'material-ui/FlatButton';
 import ThingsList from './pages/ThingsList.jsx';
 import CreateThing from './components/CreateThing.jsx';
 
@@ -41,7 +36,7 @@ class AuthenticatedApp extends Component {
     }
   }
   render() {
-    const LogOut = <RaisedButton label="Sign Out" onClick={this.signOut} secondary={true}/>;
+    const LogOut = <FlatButton label="Sign Out" onClick={this.signOut} secondary={true}/>;
     return (
       <MuiThemeProvider>
         <div>
