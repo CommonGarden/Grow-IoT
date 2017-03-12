@@ -1,9 +1,13 @@
 const Thing = require('../../dist/Thing.es6.js');
 const Hs100Api = require('hs100-api');
 
+// This is meant to be a generic smart-plug class.
 module.exports = new Thing({
+    component: 'smart-plug'
+
 	properties: {
-		name: "Tp-link smart plug(s) controller"
+		name: "Tp-link smart plug(s) controller",
+        state: null
 	},
 
 	initialize: function () {
