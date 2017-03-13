@@ -47,7 +47,6 @@ class growMainView {
   }
   subThings(){
     this.subscribe('Things.list');
-
   }
   setThings(){
     let things = Things.find({}).fetch();
