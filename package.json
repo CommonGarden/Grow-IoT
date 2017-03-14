@@ -51,7 +51,6 @@
     "eslint": "^2.11.1",
     "johnny-five": "^0.9.49",
     "mocha": "^2.5.3",
-    "mr-doc-theme-cayman": "^1.4.1",
     "rollup": "^0.31.2",
     "rollup-plugin-babel": "^2.5.1",
     "source-map-support": "^0.4.0"

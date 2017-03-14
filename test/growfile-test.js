@@ -3,7 +3,8 @@ import _ from 'underscore';
 import cycles from '../examples/growfiles/cycles';
 import phases from '../examples/growfiles/phases';
 
-global.expect = require('chai').expect;
+// 
+const expect = require('chai').expect;
 
 (function setup () {
   beforeEach(function() {
@@ -18,12 +19,16 @@ global.expect = require('chai').expect;
   });
 })();
 
-describe('Grow test', () => {
+describe('Growfile test', () => {
   beforeEach(() => {
     global.testThing = new Grow(phases);
   });
 
+  it('should parse and schedule cycles', () => {
+    testThing.parseCycles(cycles.properties.cycles);
+  });
+
   it('should parse phases', () => {
-    testThing.parsePhases(phases);
+    testThing.parsePhases(phases.properties.phases);
   });
 });
