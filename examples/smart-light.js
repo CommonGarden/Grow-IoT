@@ -5,8 +5,8 @@ var lux, emit_and_analyze;
 
 // Create a new thing.
 var light = new Thing({
-    uuid: '3d728d07-a3c0-4039-9f73-8009e5216145',
-    token: 'LonTWSW8pGB9Ziks6Wcfygc2pXsuYWu3',
+    uuid: '69109a33-be4b-4648-bd88-2118570cb71b',
+    token: 'ABHHzr7p8CpSyHAXn9JPHtZ3sw3Ab6vA',
 
     component: 'smart-light',
 
