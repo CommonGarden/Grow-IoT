@@ -75,15 +75,15 @@ board.on('ready', function start() {
     });
 
     light.connect(
-    // {
-    //     host: "grow.commongarden.org",
-    //     tlsOpts: {
-    //       tls: {
-    //         servername: "galaxy.meteor.com"
-    //       }
-    //     },
-    //     port: 443,
-    //     ssl: true
-    // }
+    {
+        host: "grow.commongarden.org",
+        tlsOpts: {
+          tls: {
+            servername: "galaxy.meteor.com"
+          }
+        },
+        port: 443,
+        ssl: true
+    }
     );
 });
