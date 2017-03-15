@@ -30,18 +30,11 @@ Create a new device (click the '+' button) and take note of the device `uuid` an
 ```bash
 node tests/test-device.js
 ```
+Paste in the `uuid` and `token` and presto! You've connected your first thing to Grow-IoT.
 
 You can find the web component for this device in `imports/examples/test-device.html`.
 
-**See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices.** You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
-
-
-
-## Roadmap
-We hope to be working on these things sooner rather than later:
-* More examples
-* Create interelationships and workflows between things ([node-red](http://nodered.org/) style)
-
+**See [Grow.js](https://github.com/CommonGarden/Grow.js) for more info on connecting devices.** You can also interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list. We are also slowly adding support for the [CoAP protocol](http://coap.technology/).
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
