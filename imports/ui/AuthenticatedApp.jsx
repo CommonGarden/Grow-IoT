@@ -27,7 +27,6 @@ class AuthenticatedApp extends Component {
     const actions = <TopLeftActions/>;
 
     // Todo: flower icon. ; )
-    
     return (
       <MuiThemeProvider>
         <div>
