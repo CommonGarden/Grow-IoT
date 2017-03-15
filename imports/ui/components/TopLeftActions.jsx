@@ -5,8 +5,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-
-class TopLeftActions extends Component {
+export default class TopLeftActions extends Component {
   signOut(e) {
     e.preventDefault();
     // Log out the user and navigate back to the home page on success
@@ -21,23 +20,19 @@ class TopLeftActions extends Component {
 
   render() {
     return (
-	<div>
-		<CreateThing/>
-		<IconMenu
-	        iconButtonElement={
-	          <IconButton tooltip="Menu"
-          				  tooltipPosition="bottom-left">
-          		<MoreVertIcon />
-          	  </IconButton>
-	        }
-	        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-	        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-	      >
-	        <MenuItem primaryText="Sign out" onClick={this.signOut} />
-	    </IconMenu>
-    </div>
+      <div>
+        <CreateThing/>
+        <IconMenu iconButtonElement={
+                    <IconButton tooltip="Menu"
+                          tooltipPosition="bottom-left">
+                    <MoreVertIcon />
+                    </IconButton>
+                  }
+                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'top'}} >
+          <MenuItem primaryText="Sign out" onClick={this.signOut} />
+        </IconMenu>
+      </div>
     );
   }
 }
-
-export default TopLeftActions;
