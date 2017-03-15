@@ -3,7 +3,6 @@ import _ from 'underscore';
 import cycles from '../examples/growfiles/cycles';
 import phases from '../examples/growfiles/phases';
 
-// 
 const expect = require('chai').expect;
 
 (function setup () {
