@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }) );
 app.use(bodyParser.json());
 
 import './auth.js'; //see snippet below
-passport's session piggy-backs on express-session
+// passport's session piggy-backs on express-session
 app.use(
   session({
     genid: function(req) {
