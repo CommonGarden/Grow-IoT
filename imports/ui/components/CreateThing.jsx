@@ -6,11 +6,13 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
+
 export default class CreateThing extends Component {
   state = {
     open: false,
     thingName: ''
   };
+
   handleOpen = () => {
     this.setState({open: true, thingName: ''});
   };
@@ -18,9 +20,11 @@ export default class CreateThing extends Component {
   handleClose = () => {
     this.setState({open: false});
   };
+
   nameFieldChange = (e, newValue) => {
     this.setState({ thingName: newValue });
   };
+
   handleSubmit = () => {
     const self = this;
     const name = this.state.thingName;
@@ -34,6 +38,7 @@ export default class CreateThing extends Component {
       }
     );
   };
+
   render() {
     const actions = [
       <FlatButton
@@ -47,29 +52,31 @@ export default class CreateThing extends Component {
         onTouchTap={this.handleSubmit}
       />,
     ];
+
     return (
       <span>
         <IconButton
           onTouchTap={this.handleOpen}
           tooltip="Create Thing"
           tooltipPosition="bottom-left"
-          iconStyle={{color: 'white'}}>
+          iconStyle={{color: 'white'}}
+        >
           <ContentAdd />
         </IconButton> 
-      <Dialog
-        title="Add New Thing"
-        actions={actions}
-        modal={false}
-        open={this.state.open}
-        onRequestClose={this.handleClose}
-      >
-        <TextField
-          floatingLabelText="Name of the Thing"
-          defaultValue={this.state.thingName}
-          onChange={this.nameFieldChange}
-        />
-      </Dialog>
-    </span>
+        <Dialog
+          title="Add New Thing"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          <TextField
+            floatingLabelText="Name of the Thing"
+            defaultValue={this.state.thingName}
+            onChange={this.nameFieldChange}
+          />
+        </Dialog>
+      </span>
     )
   }
 }

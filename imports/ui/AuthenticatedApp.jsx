@@ -7,6 +7,7 @@ import AppBar from 'material-ui/AppBar';
 import ThingsList from './pages/ThingsList.jsx';
 import TopLeftActions from './components/TopLeftActions.jsx';
 
+
 class AuthenticatedApp extends Component {
   componentWillMount() {
     document.title = "Grow IoT";
@@ -15,6 +16,7 @@ class AuthenticatedApp extends Component {
       browserHistory.push('/account');
     }
   }
+
   // When the data changes, this method is called
   componentDidUpdate(prevProps, prevState) {
     // Now check that they are still logged in. Redirect to sign in page if they aren't.
@@ -49,7 +51,8 @@ class AuthenticatedApp extends Component {
 AuthenticatedApp.propTypes = {
   user: React.PropTypes.object,
 }
-export default AuthenticatedAppContainer= createContainer(() => {
+
+export default AuthenticatedAppContainer = createContainer(() => {
   return {
     user: Meteor.user(),
   }
