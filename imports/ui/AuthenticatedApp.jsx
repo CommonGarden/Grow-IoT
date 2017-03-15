@@ -4,24 +4,10 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { browserHistory } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
 import ThingsList from './pages/ThingsList.jsx';
-import CreateThing from './components/CreateThing.jsx';
+import TopLeftActions from './components/TopLeftActions.jsx';
 
 class AuthenticatedApp extends Component {
-
-  signOut(e) {
-    e.preventDefault();
-    // Log out the user and navigate back to the home page on success
-    Meteor.logout(this.signOutCallback);
-  }
-  signOutCallback(error) {
-    if (error === undefined) {
-      browserHistory.push('/');
-    }
-  }
-
   componentWillMount() {
     document.title = "Grow IoT";
     // Check that the user is logged in before the component mounts
@@ -36,17 +22,23 @@ class AuthenticatedApp extends Component {
       browserHistory.push('/account');
     }
   }
+
   render() {
-    const LogOut = <FlatButton label="Sign Out" onClick={this.signOut} secondary={true}/>;
+    const actions = <TopLeftActions/>;
+
+    // Todo: flower icon. ; )
+    
     return (
       <MuiThemeProvider>
         <div>
           <AppBar
             title="Grow-IoT"
-            iconElementRight={ LogOut }
+            iconElementRight={actions}
+            iconStyleLeft={{
+              display: 'none'
+            }}
           />
           <div className="layout vertical flex center center-justified">
-            <CreateThing />
           </div>
           <ThingsList user={this.props.user}/>
         </div>

@@ -52,7 +52,7 @@ export default class CreateThing extends Component {
         <IconButton
           onTouchTap={this.handleOpen}
           tooltip="Create Thing"
-          tooltipPosition="bottom-right">
+          tooltipPosition="bottom-left">
           <ContentAdd />
         </IconButton> 
       <Dialog
