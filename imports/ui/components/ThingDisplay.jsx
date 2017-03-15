@@ -58,10 +58,8 @@ export default class ThingDisplay extends Component {
               <br />
               create a test thing <span ref="loading"></span>
             </p>
-
             <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
             <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
-
           </CardText>
           <CardActions>
             <FlatButton label="Cancel" onTouchTap={this.handleOpen}/>

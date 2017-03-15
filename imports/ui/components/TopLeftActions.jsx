@@ -21,10 +21,12 @@ export default class TopLeftActions extends Component {
   render() {
     return (
       <div>
-        <CreateThing/>
+        <CreateThing />
         <IconMenu iconButtonElement={
                     <IconButton tooltip="Menu"
-                          tooltipPosition="bottom-left">
+                                tooltipPosition="bottom-left"
+                                iconStyle={{color: 'white'}}
+                                >
                     <MoreVertIcon />
                     </IconButton>
                   }

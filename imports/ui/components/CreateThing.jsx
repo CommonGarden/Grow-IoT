@@ -48,11 +48,12 @@ export default class CreateThing extends Component {
       />,
     ];
     return (
-      <div>
+      <span>
         <IconButton
           onTouchTap={this.handleOpen}
           tooltip="Create Thing"
-          tooltipPosition="bottom-left">
+          tooltipPosition="bottom-left"
+          iconStyle={{color: 'white'}}>
           <ContentAdd />
         </IconButton> 
       <Dialog
@@ -68,7 +69,7 @@ export default class CreateThing extends Component {
           onChange={this.nameFieldChange}
         />
       </Dialog>
-    </div>
+    </span>
     )
   }
 }
