@@ -10,7 +10,6 @@ const server = coap.createServer();
 
 server.on('request', function(req, res) {
   let urlParts = url.parse(req.url, true);
-
   let method = urlParts.pathname.replace(/\//g, '');
   let payload = JSON.parse(req.payload.toString());
 
@@ -76,7 +75,6 @@ server.on('request', function(req, res) {
       let value = payload.value;
       check(key, String);
       check(value, Match.OneOf(String, Number, Boolean, Object));
-
 
       Fiber(function () {
         check(auth, {

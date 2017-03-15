@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import '../imports/collections';
 import '../imports/api';
+import '../imports/examples';
 import Routes from '../imports/startup/client/routes.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 

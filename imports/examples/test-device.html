@@ -1,7 +1,11 @@
 <!--
   `test-device`
-  An example of how to build an interface for an IoT device.
+  An example of how to build an webcomponent interface for an IoT device.
 -->
+<script src="../ui/polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<link rel="import" href="../ui/polymer/bower_components/polymer/polymer.html">
+<link rel="import" href="../ui/polymer/bower_components/paper-button/paper-button.html">
+
 <dom-module id="test-device">
   <template>
     <style>
@@ -12,16 +16,13 @@
     </style>
     <h2>Test Device</h2>
     <p>State: {{state}}</p>
+    <p>Temperature: {{temperature}}</p>
     <paper-button on-click="sendCommand"
                   data-method="turn_on"
                   raised >On</paper-button>
-      <paper-button on-click="sendCommand"
-                    data-method="turn_off" 
-                    raised >Off</paper-button>
-        <div id="container">
-        </div>
-        <temperature-gauge temperature="{{temperature}}"></temperature-gauge>
-        <temperature-realtime events="{{events}}"></temperature-realtime>
+    <paper-button on-click="sendCommand"
+                  data-method="turn_off" 
+                  raised >Off</paper-button>
   </template>
 
   <script>
