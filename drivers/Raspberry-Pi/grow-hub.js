@@ -96,7 +96,6 @@ board.on('ready', function start() {
               console.log("Ambient Light Level: ", this.level);
             });
 
-
             this.parseCycles(growfile.properties.cycles);
         },
 
@@ -105,30 +104,7 @@ board.on('ready', function start() {
             clearInterval(emit_and_analyze);
             clearInterval(light_on_timer);
             clearInterval(light_off_timer);
-            // TODO: remove all listeners
-        },
-
-        // Move to grow.js?
-        parseCycles: function(cycles) {
-            _.each(cycles, (list, iteratee)=> {
-                var scheduledTime = later.parse.text(String(cycles[iteratee].start));
-                return later.setTimeout(()=> {
-                    try {
-                        if (cycles[iteratee].targets) {
-                            this.set('targets', cycles[iteratee].targets);
-                        }
-
-                        if(cycles[iteratee].options) {
-                            this.call(iteratee, cycles[iteratee].options);
-                        } else {
-                            console.log(iteratee);
-                            this.call(iteratee);
-                        }
-                    } catch (error) {
-                        console.log(error);
-                    }
-                }, scheduledTime);
-            });
+            this.removeAllListeners();
         },
         
         day: function () {
@@ -178,7 +154,12 @@ board.on('ready', function start() {
             var targets = this.get('targets');
             var currentTemp = this.multi.thermometer.celsius;
 
-            console.log('Current temp: ' + currentTemp);
+            console.log('Temp: ' + currentTemp);
+
+            growHub.emit({
+                type: 'temperature',
+                value: currentTemp
+            });
 
             // One could also implement this with a PID controller.
             if (currentTemp < targets.temperature) {
@@ -195,7 +176,13 @@ board.on('ready', function start() {
         },
 
         hum_data: function () {
-            console.log("Humidity: " + this.multi.hygrometer.relativeHumidity);
+            let currentHumidity = this.multi.hygrometer.relativeHumidity;
+            growHub.emit({
+                type: 'humidity',
+                value: currentHumidity
+            });
+
+            console.log("Humidity: " + currentHumidity);
         }
     });
 

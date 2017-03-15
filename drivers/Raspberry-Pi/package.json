@@ -10,7 +10,7 @@
   "author": "Common Garden",
   "license": "MIT",
   "dependencies": {
-    "Grow.js": "^0.3.0",
+    "Grow.js": "^0.3.2",
     "ascii-codes": "^1.0.0",
     "hs100-api": "^0.3.0",
     "hysteresis": "0.0.2",
