@@ -1,76 +1,107 @@
 import coap from 'coap';
 import url from 'url';
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import Fiber from 'fibers';
+import _ from 'underscore';
+import { Match } from 'meteor/check';
 
 const server = coap.createServer();
-
 
 server.on('request', function(req, res) {
   let urlParts = url.parse(req.url, true);
 
-  console.log(req);
-
   let method = urlParts.pathname.replace(/\//g, '');
-  
-  // TODO...
-  let auth = {};
-  let event = {
-    message: 'test event'
-  };
-  let config = {
-    component: 'test-device'
-  };
+  let payload = JSON.parse(req.payload.toString());
+
+  let auth = {
+    uuid: payload.uuid,
+    token: payload.token
+  }
+
+  check(auth, {
+    uuid: String,
+    token: String
+  });
+  // Todo: more extensive checks.
+  check(payload, Object);
 
   switch (method) {
+    // Rename to subscribe?
     case 'register':
-      // if (req.headers['Observe'] !== 0) return res.end(new Date().toISOString() + '\n');
+      Fiber(function () {
+        let thing = Things.findOne(auth, {
+          fields: {
+            _id: 1
+          }
+        });
+        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-      Meteor.call('Thing.register', auth, config, function(error, documentId) {
-        if (error) {
-          return console.error("New Thing.event Error", error);
-        }
+        let config = _.extend(payload, { registeredAt: new Date() });
 
-        // res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify({ok: true}));
-      });
+        // Update the document
+        if (!Things.update(thing._id, {
+          $set: config
+        })) { throw new Meteor.Error('internal-error', "Internal error."); }
+
+        res.write('Registered:' + new Date().toISOString() + '\n');
+      }).run();
+
       break;
 
     case 'emit':
-      Meteor.call('Thing.emit', auth, event, function(error, documentId) {
-        if (error) {
-          return console.error("New Thing.event Error", error);
-        }
+      let event = payload.event;
+      check(event, Match.OneOf(String, Object));
 
-        // res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify({ok: true}));
-      });
+      Fiber(function () {
+        let thing = Things.findOne(auth, {
+          fields: {
+            _id: 1
+          }
+        });
+        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+        return !!Events.insert({
+          thing: {
+            _id: thing._id
+          },
+          event: event,
+          insertedAt: new Date()
+        });
+      }).run();
       break;
 
     case 'setProperty':
-      let key = urlParts.query.key;
-      let value = urlParts.query.value;
+      let key = payload.key;
+      let value = payload.value;
+      check(key, String);
+      check(value, Match.OneOf(String, Number, Boolean, Object));
 
-      Meteor.call('Thing.setProperty', auth, key, value, function(error, documentId) {
-        if (error) {
-          return console.error("New Thing.event Error", error);
-        }
 
-        // res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify({ok: true}));
-      });
-      break;
+      Fiber(function () {
+        check(auth, {
+          uuid: String,
+          token: String
+        });
+        check(key, String);
+        check(value, Match.OneOf(String, Number));
 
-    case 'call':
-      Meteor.call('Thing.sendCommand', thingUuid, type, options, function(error, documentId) {
-        console.log(documentId);
+        let thing = Things.findOne(auth, {
+          fields: {
+            _id: 1,
+            properties: 1
+          }
+        });
+        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-        if (error) {
-          return console.error("New Thing.event Error", error);
-        }
+        thing.properties[key] = value;
 
-        // res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify({ok: true}));
-      });
+        return Things.update(thing._id, {
+          $set: {
+            'properties': thing.properties
+          }
+        });
+      }).run();
       break;
 
     default:
@@ -79,7 +110,9 @@ server.on('request', function(req, res) {
   }
 
   res.on('finish', function(err) {
-    console.log('finished');
+    if(err) {
+      console.log(err);
+    }
   });
 });
 
