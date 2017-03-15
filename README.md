@@ -17,7 +17,7 @@ yarn run compile
 start Grow-IoT app
 
 ```sh
-
+#export MONGO_URL=mongodb://localhost:27017/db_name
 yarn start
 #npm start
 
