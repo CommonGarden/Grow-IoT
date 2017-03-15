@@ -4,10 +4,8 @@ import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigati
 import { Link } from 'react-router'
 import Paper from 'material-ui/Paper';
 
-const signInIcon = <FontIcon className="material-icons"></FontIcon>;
-const signUpIcon = <FontIcon className="material-icons"></FontIcon>;
 
-class AccountsBottomNavigation extends Component {
+export default class AccountsBottomNavigation extends Component {
   state = {
     selectedIndex: 0,
   };
@@ -16,7 +14,11 @@ class AccountsBottomNavigation extends Component {
     this.setState({selectedIndex: index});
     this.props.onTabChange(index); 
   };
+
   render() {
+    const signInIcon = <FontIcon className="material-icons"></FontIcon>;
+    const signUpIcon = <FontIcon className="material-icons"></FontIcon>;
+    
     return (
       <Paper zDepth={1}>
         <BottomNavigation selectedIndex={this.state.selectedIndex}>
@@ -35,5 +37,3 @@ class AccountsBottomNavigation extends Component {
     );
   }
 }
-
-export default AccountsBottomNavigation;

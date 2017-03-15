@@ -23,6 +23,7 @@ export default class ThingDisplay extends Component {
       }
     );
   };
+
   handleOpen = () => {
     this.setState({ dltOpen: true });
   };
