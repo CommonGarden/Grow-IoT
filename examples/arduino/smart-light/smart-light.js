@@ -1,89 +1,128 @@
 // Require the Grow.js build and johnny-five library.
-var Thing = require('../../../dist/Grow.umd.js');
-var five = require('johnny-five');
+const Thing = require('../../../lib/Grow.js');
+const five = require('johnny-five');
+const later = require('later');
+
+// Use local time, not UTC.
+later.date.localTime();
+
+// TODO: use an actual light. : )
+// const Hs100Api = require('hs100-api');
 
 // See http://johnny-five.io/ to connect devices besides arduino.
-var board = new five.Board();
+const board = new five.Board();
 
-var emit_and_analyze;
 
 // When board emits a 'ready' event run this start function.
 board.on('ready', function start() {
-    // Define variables
-    var LED = new five.Pin(13),
-        lightSensor = new five.Sensor('A1');
+  // Define variables
+  var LED = new five.Pin(13),
+    lightSensor = new five.Sensor('A1');
 
-    // Create a new thing.
-    var light = new Thing({
-        uuid: '35b9e367-5a0c-48b8-b11c-4b0b92390632',
-        token: 'FJPkgSnv5LmM7JPcQeSvfayo6KWfnRYw',
+  // Create a new thing.
+  var light = new Thing({
+    uuid: '',
+    token: '',
 
-        component: 'smart-light',
+    component: 'smart-light',
 
-        properties: {
-            state: 'off',
-            threshold: 300,
-            interval: 3000,
-            lightconditions: null
-        },
-
-        start: function () {
-            var interval = this.get('interval');
-            
-            emit_and_analyze = setInterval(function () {
-                light.light_data();
-                light.check_light_data();
-            }, interval);
-        },
-
-        stop: function () {
-            clearInterval(emit_and_analyze);
-            light.removeAllListeners();
-        },
-
-        turn_on: function () {
-            LED.high();
-            light.set('state', 'on');
-            console.log('light on');
-        },
-
-        turn_off:  function () {
-            LED.low();
-            light.set('state', 'off');
-            console.log('light off')
-        },
-
-        light_data: function () {
-            console.log(lightSensor.value);
-
-            light.emit({
-              type: 'light',
-              value: lightSensor.value
-            });
-        },
-
-        check_light_data: function () {
-            var threshold = light.get('threshold');
-            if ((lightSensor.value < threshold) && (light.get('lightconditions') != 'dark')) {
-                light.set('lightconditions', 'dark');
-                light.call('turn_on');
-            } else if ((lightSensor.value >= threshold) && (light.get('lightconditions') != 'light')) {
-                light.set('lightconditions', 'light');
-                light.call('turn_off');
+    properties: {
+        state: 'off',
+        threshold: 300,
+        interval: 3000,
+        currently: null,
+        lightconditions: null,
+        cycles: {
+            day: {
+                start: 'after 7:00am'
+            },
+            night: {
+                start: 'after 8:00pm'
             }
         }
-    });
+    },
 
-    light.connect(
-    // {
-    //     host: "grow.commongarden.org",
-    //     tlsOpts: {
-    //       tls: {
-    //         servername: "galaxy.meteor.com"
-    //       }
-    //     },
-    //     port: 443,
-    //     ssl: true
-    // }
-    );
+    start: function () {
+        var interval = this.get('interval');
+        
+        this.interval = setInterval(function () {
+            light.light_data();
+            light.check_light_data();
+        }, interval);
+
+        this.parseCycles(this.get('cycles'));
+    },
+
+    stop: function () {
+        clearInterval(this.interval);
+        this.removeAllListeners();
+    },
+
+    day: function () {
+        console.log('It is day!');
+        this.set('currently', 'day');
+        this.call('turn_on');
+    },
+
+    night: function () {
+        console.log('It is night!');
+        this.set('currently', 'night');
+        this.call('turn_off');
+    },
+
+    turn_on: function () {
+        LED.high();
+        this.set('state', 'on');
+        console.log('light on');
+    },
+
+    turn_off:  function () {
+        LED.low();
+        this.set('state', 'off');
+        console.log('light off')
+    },
+
+    light_data: function () {
+        console.log(lightSensor.value);
+
+        light.emit({
+          type: 'light',
+          value: lightSensor.value
+        });
+    },
+
+    check_light_data: function () {
+        let threshold = this.get('threshold');
+        let state = this.get('state');
+        let currently = this.get('currently');
+
+        if ((lightSensor.value < threshold) && 
+            (this.get('lightconditions') != 'dark') &&
+            (currently === 'day')) {
+            console.log('Too dark for daylight hours, turning on light.')
+            this.set('lightconditions', 'dark');
+            this.call('turn_on');
+        } 
+
+        else if ((lightSensor.value >= threshold) && 
+            (this.get('lightconditions') != 'light') &&
+            (currently === 'day')) {
+            this.set('lightconditions', 'light');
+            this.call('turn_off');
+        }
+    }
+  });
+
+  // light.connect(
+  // {
+  //     host: "grow.commongarden.org",
+  //     tlsOpts: {
+  //       tls: {
+  //         servername: "galaxy.meteor.com"
+  //       }
+  //     },
+  //     port: 443,
+  //     ssl: true
+  // }
+  // );
 });
