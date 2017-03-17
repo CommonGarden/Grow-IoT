@@ -1,2 +1,2 @@
-import './test-device.html';
-import './weather-widget.html';
+// import './test-device.html';
+// import './weather-widget.html';
