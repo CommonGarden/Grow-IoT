@@ -38,7 +38,6 @@ class TestDevice extends Component {
 }
 TestDevice.propTypes = {
   event: React.PropTypes.object,
-  user: React.PropTypes.object,
   loading: React.PropTypes.bool,
 }
 export default TestDeviceContainer = createContainer(({ thing }) => {
