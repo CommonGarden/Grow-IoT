@@ -2,10 +2,6 @@
   `test-device`
   An example of how to build an webcomponent interface for an IoT device.
 -->
-<script src="../ui/polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<link rel="import" href="../ui/polymer/bower_components/polymer/polymer.html">
-<link rel="import" href="../ui/polymer/bower_components/paper-button/paper-button.html">
-
 <dom-module id="test-device">
   <template>
     <style>
@@ -31,22 +27,10 @@ class testDevice {
     this.is = "test-device";
     this.properties = {
       state: String,
-      uuid: String,
       temperature: Number,
       events: Array,
       event: Object,
-      ph: {
-        type: Number,
-        value: 6.7,
-      },
-      humidity: {
-        type: Number,
-        value: 50,
-      },
-      light: Number,
-      conductivity: Number,
-      dOxygen: Number,
-      co2: Number,
+      thing: Object
     };
   }
 
@@ -56,26 +40,15 @@ class testDevice {
 
   get trackers (){
     return [
-      "subThing(uuid)",
-      "setState(uuid)",
-      "tempData(uuid)"
+      "setState(thing)",
+      "tempData(thing)"
     ];
   }
-  attached() {
-    const self = this;
-    this.timer = setInterval(() => {
-      self.ph = Math.round(Math.random() * 1400)/100;
-      self.humidity = Math.round(Math.random() * 1000)/10;
-    },3000);
-  }
 
-  detached() {
-    clearInterval(this.timer);
-  }
-
-  tempData (uuid) {
-    if(uuid){
-      this.subscribe('Thing.events', uuid, 'temperature');
+  // Todo: pass in events.
+  tempData (thing) {
+    if(thing.uuid){
+      this.subscribe('Thing.events', thing.uuid, 'temperature');
       let events = Events.find().fetch();
       this.set('events', events);
       if (!_.isUndefined(events)) {
@@ -90,26 +63,15 @@ class testDevice {
     }
   }
 
-  subThing (uuid) {
-    if (uuid) {
-      this.subscribe('Things.one', uuid);
-    }
-  }
-
-  setState (uuid) {
-    if (uuid) {
-      let thing = Things.findOne({uuid: uuid});
-      if (!_.isUndefined(thing)) {
-        if (!_.isUndefined(thing.properties)) {
-          this.set('state', thing.properties.state);
-        }
-      }
+  setState (thing) {
+    if (!_.isUndefined(thing.properties)) {
+      this.set('state', thing.properties.state);
     }
   }
 
   sendCommand (e) {
     Meteor.call('Thing.sendCommand',
-      this.uuid,
+      this.thing.uuid,
       e.target.dataset.method,
       null,
       (error, documentId) => {
