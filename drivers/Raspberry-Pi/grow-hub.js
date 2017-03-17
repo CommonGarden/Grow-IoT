@@ -9,6 +9,7 @@ var Hs100Api = require('hs100-api');
 var growfile = require('./growfile');
 var heater = require('./heater');
 var light = require('./light');
+var PID = require('node-pid-controller');
 var _ = require('underscore');
 
 // Use local time, not UTC.
