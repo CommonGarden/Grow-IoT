@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import TestDevice from '../../examples/TestDevice.jsx';
 import SmartLight from '../../examples/SmartLight.jsx';
+import CreateComponent from './CreateComponent.jsx';
 
 export default class ThingDisplay extends Component {
   state = {
@@ -91,6 +92,7 @@ export default class ThingDisplay extends Component {
             {cardText}
           </CardText>
           <CardActions>
+            { r ? null : <CreateComponent uuid={this.props.thing.uuid} token={this.props.thing.token} /> }
             <FlatButton label={r ? 'Delete': 'Cancel'} onTouchTap={this.handleOpen}/>
           </CardActions>
         </Card>
