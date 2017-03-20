@@ -96,56 +96,5 @@ export default class ThingDisplay extends Component {
         />
       </div>
     )
-
-    // if (!this.props.thing.registeredAt) {
-    //   return (
-    //     <div>
-    //       <Card style={thingStyle}>
-    //         <CardTitle title={this.props.thing.name} />
-    //         <CardText>
-    //           <p>Connect a device using the following API crendentials or
-    //             <br />
-    //             create a test thing <span ref="loading"></span>
-    //           </p>
-    //           <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
-    //           <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
-    //         </CardText>
-    //         <CardActions>
-    //           <FlatButton label="Cancel" onTouchTap={this.handleOpen}/>
-    //         </CardActions>
-    //       </Card>
-    //       <Dialog
-    //         title="Are you sure?"
-    //         actions={actions}
-    //         modal={false}
-    //         open={this.state.dltOpen}
-    //         onRequestClose={this.handleClose}
-    //       />
-    //     </div>
-    //   )
-    // } else {
-    //   // Stringify thing object for passing into a webcomponent
-    //   const thing = JSON.stringify(this.props.thing);
-    //   return (
-    //     <div>
-    //       <Card style={thingStyle}>
-    //         <CardTitle title={this.props.thing.name} />
-    //         <CardText>
-    //           <this.props.thing.component thing={thing} />
-    //         </CardText>
-    //         <CardActions>
-    //           <FlatButton label="Delete" onTouchTap={this.handleOpen}/>
-    //         </CardActions>
-    //       </Card>
-    //       <Dialog
-    //         title="Are you sure?"
-    //         actions={actions}
-    //         modal={false}
-    //         open={this.state.dltOpen}
-    //         onRequestClose={this.handleClose}
-    //       />
-    //     </div>
-    //   )
-    // }
   }
 }

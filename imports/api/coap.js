@@ -22,6 +22,7 @@ server.on('request', function(req, res) {
     uuid: String,
     token: String
   });
+
   // Todo: more extensive checks.
   check(payload, Object);
 
@@ -40,12 +41,36 @@ server.on('request', function(req, res) {
 
         // Update the document
         if (!Things.update(thing._id, {
-          $set: config
+          $set: {
+            config,
+            onlineSince: new Date()
+          }
         })) { throw new Meteor.Error('internal-error', "Internal error."); }
 
-        res.write('Registered:' + new Date().toISOString() + '\n');
-      }).run();
+        // See publish.js for more ideas on returning messages.... this isn't working as well as it does with ddp.
+        var query = {
+          'thing._id': thing._id,
+          createdAt: {
+            $gte: new Date()
+          }
+        };
 
+        var options = {
+          fields: {
+            body: 1
+          },
+          sort: {
+            createdAt: 1
+          }
+        };
+
+        return Messages.find(query, options).observeChanges({
+          added: (id, fields) => {
+            res.write(JSON.stringify(fields));
+            return Messages.remove(id);
+          }
+        });
+      }).run();
       break;
 
     case 'emit':
@@ -77,13 +102,6 @@ server.on('request', function(req, res) {
       check(value, Match.OneOf(String, Number, Boolean, Object));
 
       Fiber(function () {
-        check(auth, {
-          uuid: String,
-          token: String
-        });
-        check(key, String);
-        check(value, Match.OneOf(String, Number));
-
         let thing = Things.findOne(auth, {
           fields: {
             _id: 1,

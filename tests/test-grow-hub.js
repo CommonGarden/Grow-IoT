@@ -3,8 +3,8 @@ const growfile = require('./grow.js')
 
 // Create a new growHub instance and connect to https://growHub.commongarden.org
 const growHub = new Thing({
-    uuid: '50a3b507-2838-4638-9848-95d09c2f1f4c',
-    token: 'e3kW8PdS9d9grfmNGL29wJtd4abm92ez',
+    uuid: '836a591a-2188-4ee2-a1f0-1fde5e82bf8f',
+    token: 'edHeTSJvSLC5RmrRzLTgfjrMDmAaF5ho',
     component: 'grow-hub',
 
     // Properties can be updated by the API

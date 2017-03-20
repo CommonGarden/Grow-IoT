@@ -5,10 +5,10 @@
 <dom-module id="test-device">
   <template>
     <style>
-:host {
-  display: block;
-  padding: 15px;
-}
+      :host {
+        display: block;
+        padding: 15px;
+      }
     </style>
     <h2>Test Device</h2>
     <p>State: {{state}}</p>
@@ -22,68 +22,68 @@
   </template>
 
   <script>
-class testDevice {
-  beforeRegister(){
-    this.is = "test-device";
-    this.properties = {
-      state: String,
-      temperature: Number,
-      events: Array,
-      event: Object,
-      thing: Object
-    };
-  }
+    class testDevice {
+      beforeRegister(){
+        this.is = "test-device";
+        this.properties = {
+          state: String,
+          temperature: Number,
+          events: Array,
+          event: Object,
+          thing: Object
+        };
+      }
 
-  get behaviors(){
-    return [mwcMixin]
-  }
+      get behaviors(){
+        return [mwcMixin]
+      }
 
-  get trackers (){
-    return [
-      "setState(thing)",
-      "tempData(thing)"
-    ];
-  }
+      get trackers (){
+        return [
+          "setState(thing)",
+          "tempData(thing)"
+        ];
+      }
 
-  // Todo: pass in events.
-  tempData (thing) {
-    if(thing.uuid){
-      this.subscribe('Thing.events', thing.uuid, 'temperature');
-      let events = Events.find().fetch();
-      this.set('events', events);
-      if (!_.isUndefined(events)) {
-        let event = events.pop();
-        this.set('event', event);
-        if (!_.isUndefined(event)) {
-          if (event.event.type === 'temperature') {
-            this.set('temperature', event.event.value);
+      // Todo: pass in events.
+      tempData (thing) {
+        if(thing.uuid){
+          this.subscribe('Thing.events', thing.uuid, 'temperature');
+          let events = Events.find().fetch();
+          this.set('events', events);
+          if (!_.isUndefined(events)) {
+            let event = events.pop();
+            this.set('event', event);
+            if (!_.isUndefined(event)) {
+              if (event.event.type === 'temperature') {
+                this.set('temperature', event.event.value);
+              }
+            }
           }
         }
       }
-    }
-  }
 
-  setState (thing) {
-    if (!_.isUndefined(thing.properties)) {
-      this.set('state', thing.properties.state);
-    }
-  }
-
-  sendCommand (e) {
-    Meteor.call('Thing.sendCommand',
-      this.thing.uuid,
-      e.target.dataset.method,
-      null,
-      (error, documentId) => {
-        if (error) {
-          console.error("Error", error);
-          return alert(`Error: ${error.reason || error}`);
+      setState (thing) {
+        if (!_.isUndefined(thing.properties)) {
+          this.set('state', thing.properties.state);
         }
       }
-    );
-  }
-}
 
-Polymer(testDevice);
+      sendCommand (e) {
+        Meteor.call('Thing.sendCommand',
+          this.thing.uuid,
+          e.target.dataset.method,
+          null,
+          (error, documentId) => {
+            if (error) {
+              console.error("Error", error);
+              return alert(`Error: ${error.reason || error}`);
+            }
+          }
+        );
+      }
+    }
+
+    Polymer(testDevice);
   </script>
 </dom-module>

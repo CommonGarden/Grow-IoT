@@ -21,6 +21,7 @@ class TestDevice extends Component {
         }
       });
   };
+
   render () {
     const thing = this.props.thing;
     const event = this.props.event;
@@ -36,10 +37,12 @@ class TestDevice extends Component {
     )
   }
 }
+
 TestDevice.propTypes = {
   event: React.PropTypes.object,
   loading: React.PropTypes.bool,
 }
+
 export default TestDeviceContainer = createContainer(({ thing }) => {
   const handle = Meteor.subscribe('Thing.events', thing.uuid, 'temperature');
   const loading = !handle.ready();

@@ -7,11 +7,11 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-// Not working currently... both ways should be valid for making components.
 class GrowHub extends Component {
   constructor(props) {
     super(props);
   }
+
   state = {
     types: [
       {
@@ -32,6 +32,7 @@ class GrowHub extends Component {
       },
     ]
   };
+
   sendCommand (method, duration) {
     Meteor.call('Thing.sendCommand',
       this.props.thing.uuid,
@@ -45,10 +46,12 @@ class GrowHub extends Component {
       }
     );
   }
+
   getEventValue(type) {
     const e = this.props[`${type}Event`];
     return e ? e.event.value : 'NA';
   }
+
   render() {
     const actions = [
       <FlatButton
@@ -80,6 +83,7 @@ GrowHub.propTypes = {
   tempEvent: React.PropTypes.object,
   humidityEvent: React.PropTypes.object,
 }
+
 export default GrowHubContainer = createContainer(({ thing }) => {
   const phHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ph', 1);
   const tempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'temperature', 1);
