@@ -8,29 +8,19 @@ import TestDevice from '../../examples/TestDevice.jsx';
 import SmartLight from '../../examples/SmartLight.jsx';
 import CreateComponent from './CreateComponent.jsx';
 
+const components = {
+  TestDevice,
+  SmartLight,
+};
+
+const getComponentType = function(c) {
+  return c.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); }).capitalizeFirstLetter();
+}
+
 export default class ThingDisplay extends Component {
   state = {
     dltOpen: false,
-    component: ''
   };
-  componentWillMount() {
-    this.setComponentType();
-  }
-  componentDidUpdate(prevProps, prevState) {
-    const prevThing = prevProps.thing;
-    const currentThing = this.props.thing;
-    if(currentThing) {
-      if(!prevThing || prevThing.component !== currentThing.component) {
-        this.setComponentType();
-      }
-    }
-  }
-  setComponentType() {
-    const _component = this.props.thing.component || '';
-    const component = _component.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); }).capitalizeFirstLetter();
-    this.setState({ component });
-  }
-
   deleteThing = () => {
     const thing = this.props.thing;
     this.handleClose();
@@ -79,10 +69,9 @@ export default class ThingDisplay extends Component {
       <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
       <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
     </div>;
-    const registeredText = <div>
-      <SmartLight thing={this.props.thing} />
-    </div>;
-    const cardText = r ? registeredText : unregisteredText;
+    const cmpNameInCamel = getComponentType(this.props.thing.component || '');
+    const RegisteredText = components[cmpNameInCamel];
+    const cardText = r ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
     return (
       <div>
         <Card style={thingStyle}>
