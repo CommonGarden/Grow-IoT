@@ -13,7 +13,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">Thing.js</h1>
-      <h2 class="project-tagline">Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.</h2><a href="https://github.com/CommonGarden/Thing.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/Thing.js" target="_blank" class="btn">View on npm</a>
+      <h2 class="project-tagline">Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.</h2><a href="https://github.com/CommonGarden/Thing.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/thing.js" target="_blank" class="btn">View on npm</a>
     </section>
     <section data-spy="scroll" data-target=".scrollspy" class="main-content">
       <div class="row">
@@ -24,17 +24,19 @@
                 <ul class="nav nav-stacked">
                   <li><a href="#Thing"><i class="alert alert-success"></i><span>Thing</span></a>
                   </li>
-                  <li><a href="#getAction"><i class="alert alert-info"></i><span>getAction</span></a>
-                  </li>
-                  <li><a href="#getEvent"><i class="alert alert-info"></i><span>getEvent</span></a>
-                  </li>
                   <li><a href="#set"><i class="alert alert-info"></i><span>set</span></a>
                   </li>
                   <li><a href="#get"><i class="alert alert-info"></i><span>get</span></a>
                   </li>
                   <li><a href="#call"><i class="alert alert-info"></i><span>call</span></a>
                   </li>
-                  <li><a href="#schedule"><i class="alert alert-info"></i><span>schedule</span></a>
+                  <li><a href="#listen"><i class="alert alert-info"></i><span>listen</span></a>
+                  </li>
+                  <li><a href="#connect"><i class="alert alert-info"></i><span>connect</span></a>
+                  </li>
+                  <li><a href="#emit"><i class="alert alert-success"></i><span>emit</span></a>
+                  </li>
+                  <li><a href="#set"><i class="alert alert-success"></i><span>set</span></a>
                   </li>
                 </ul></a></li>
           </ul>
@@ -81,134 +83,21 @@
     if (!config) {
       throw new Error('Thing.js requires an config object.');
     } else {
+      this.thing = config;
       _.extend(this, config);
     }
 
-    this.scheduled = {};
-
-    if (!_.isUndefined(this.actions)) {
-      _.each(this.actions, (action, key, list) =&gt; {
-        if (!_.isUndefined(action.schedule)) {
-          this.schedule(key);
-        }
-      });
+    if (!_.isUndefined(this.initialize)) {
+      this.initialize();
     }
 
-    if (!_.isUndefined(this.events)) {
-      _.each(this.events, (event, key, list) =&gt; {
-        if (!_.isUndefined(event.schedule)) {
-          this.schedule(key);
-        }
-
-        if (!_.isUndefined(event.on)) {
-          this.on(event.on, () =&gt; {
-            if (!_.isUndefined(event.rule)) {
-              if (event.rule.condition() === true) {
-                event.rule.consequence();
-              }
-            } else {
-              event.function();
-            }
-          });
-        }
-      });
+    if (!_.isUndefined(this.start)){
+      this.start();
     }
-
-    if (!_.isUndefined(this.properties)) {
-      for (var property in this.properties) {
-        // If the property is a function we initialize it.
-        if (typeof this.properties[property] === 'function') {
-          // Note this function should return property value.
-          this.properties[property] = this.properties[property]()
-        }
-      }
-    }
-
-    // Callback is optional. May be used for a start function.
-    if (!_.isUndefined(callback)) {
-      callback();
-    }
+    
+    // Emit 'ready' event to show that the Thing has initialized.
+    this.emit('ready');
   }</code></pre>
-          <section id="getAction">
-            <h1>getAction</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getAction()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ID</td>
-                <td>String</td>
-                <td><p>The key of the action object you want.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Get an action object by key</p></div>
-          <pre><code class="language-javascript">getAction (ID) {
-  let action = {};
-  _.each(this.actions, (value, key, list) =&gt; {
-    if (key === ID) {
-      return action = value;
-    } else if (this.actions[key].id === ID) {
-      return action = value; 
-    }
-  });
-
-  if (_.isEmpty(action)) {
-    return false;
-  } else {
-    return action;
-  }
-}</code></pre>
-          <section id="getEvent">
-            <h1>getEvent</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.getEvent()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ID</td>
-                <td>String</td>
-                <td><p>The key / id of the event object you want.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Get event object by key</p></div>
-          <pre><code class="language-javascript">getEvent (ID) {
-  let event = {}
-  _.each(this.events, (value, key, list) =&gt; {
-    if (key === ID) {
-      return event = value;
-    } else if (this.events[key].id === ID) {
-      return event = value; 
-    }
-  });
-
-  if (_.isEmpty(event)) {
-    return false;
-  } else {
-    return event;
-  }
-}</code></pre>
           <section id="set">
             <h1>set</h1>
             <h5 class="subheader"></h5>
@@ -242,23 +131,10 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Update a property based on a component ID.</p></div>
-          <pre><code class="language-javascript">set (property, value, key) {
-  if (_.isUndefined(key)) {
-    this.properties[property] = value;
-    this.emit('property-updated');
-  }
-  else {
-    // what if they both have the same key?
-    let action = this.getAction(key);
-    let event = this.getEvent(key);
-    if (action) {
-      action[property] = value;
-    } else if (event) {
-      event[property] = value;
-    }
-    this.emit('property-updated');    
-  }
+          <div class="description"><p>Update a property. Emit an event.</p></div>
+          <pre><code class="language-javascript">set (key, value) {
+  this.properties[key] = value;
+  this.emit('property-updated', key);
 }</code></pre>
           <section id="get">
             <h1>get</h1>
@@ -284,19 +160,8 @@
             </tbody>
           </table>
           <div class="description"><p>Get a property by key.</p></div>
-          <pre><code class="language-javascript">get (property, key) {
-  if (_.isUndefined(key)) {
-    return this.properties[property];
-  } else {
-    let action = this.getAction(key);
-    let event = this.getEvent(key);
-    if (action) {
-      return action[property];
-    }
-    if (event) {
-      return event[property];
-    }
-  }
+          <pre><code class="language-javascript">get (key) {
+  return this.properties[key];
 }</code></pre>
           <section id="call">
             <h1>call</h1>
@@ -315,9 +180,9 @@
             </thead>
             <tbody>
               <tr>
-                <td>actionId</td>
+                <td>method</td>
                 <td>String</td>
-                <td><p>The id of the action to call.</p></td>
+                <td><p>The method to call.</p></td>
               </tr>
               <tr>
                 <td>options</td>
@@ -326,35 +191,181 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Calls a registered action, emits event if the the action has an &#39;event&#39;<br />property defined. Updates the state if the action has an &#39;updateState&#39;<br />property specified.</p></div>
-          <pre><code class="language-javascript">call (actionId, options) {
+          <div class="description"><p>Call a method, emit event.</p></div>
+          <pre><code class="language-javascript">call (method, options) {
   try {
-    let action = this.getAction(actionId);
-
     if (!_.isUndefined(options)) {
-      var output = action.function(options);
+      var output = this[method](options);
     }
     else {
-      var output = action.function();
+      var output = this[method]();
     }
-    this.emit(actionId);
 
-    // We return any returns of called functions for testing.
     if (!_.isUndefined(output)) {
+      this.emit(method, options, output);
+      // We return any returns of called functions.
       return output;
+    } else {
+      this.emit(method, options);
     }
   }
   catch (error) {
-    // If there is an error we emit an error.
-    return this.emit('error', error);
+    console.log(error);
   }
-
 }</code></pre>
-          <section id="schedule">
-            <h1>schedule</h1>
+          <section id="listen">
+            <h1>listen</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.schedule()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.listen()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Create a CoAP server (Needs work... see: <a href="https://github.com/mcollina/node-coap">https://github.com/mcollina/node-coap</a>)<br />Don&#39;t use in production yet... but do help us get it to the point where we can.</p></div>
+          <pre><code class="language-javascript">listen (options) {
+  this.server = coap.createServer((req, res)=&gt; {      
+    var urlParts = url.parse(req.url, true);
+
+    try {
+      // Remove slashes from path.
+      let method = urlParts.pathname.replace(/\//g, '');
+      
+      if (method === 'set') {
+        // should be called with a key, value query
+        let key = urlParts.query.key;
+        let value = urlParts.query.value;
+        this.set(key, value);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({key: value}));
+      }
+
+      else if (method === 'get') {
+        let key = urlParts.query.key;
+        let property = this.get(key);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({value: property}));
+      }
+
+      // emit?
+
+      else {
+        var output = this.call(method, urlParts.query);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({output}));
+      }
+    }
+
+    catch (error) {
+      console.log(error);
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.end(error);
+    }
+  }).listen();
+}</code></pre>
+          <section id="connect">
+            <h1>connect</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.connect()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>Connection options</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Connect to a CoAP server (Needs work... see: <a href="https://github.com/mcollina/node-coap">https://github.com/mcollina/node-coap</a>)<br />Don&#39;t use in production yet... but do help us get it to the point where we can.</p></div>
+          <pre><code class="language-javascript">connect (options) {
+  // Rename to subscribe?
+  let req = coap.request({
+    pathname: 'register',
+    observe: true
+  })
+  
+  req.write(JSON.stringify(this.thing));
+
+  req.on('response', (res)=&gt; {
+    // Responses are messages
+    res.pipe(process.stdout)
+  })
+
+  req.end();</code></pre>
+          <section id="emit">
+            <h1>emit</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.emit</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>event</td>
+                <td>Object</td>
+                <td><p>The event to emit</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>this</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Emits a timestamped event to CoAP server.</p></div>
+          <pre><code class="language-javascript">this.emit = (event) =&gt; {
+  super.emit(event);
+
+  if (typeof event === 'object') {
+    event.timestamp = new Date();
+  }
+
+  else if (typeof event === 'string') {
+    event = {
+      event,
+      timestamp: new Date()
+    }
+  }
+
+  let req = coap.request({
+    pathname: 'emit'
+  })
+  
+  req.write(JSON.stringify({
+    uuid: this.uuid,
+    token: this.token,
+    event
+  }));
+
+  req.on('response', function(res) {
+    res.pipe(process.stdout)
+  })
+
+  req.end();
+
+  return this;
+}</code></pre>
+          <section id="set">
+            <h1>set</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.set</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -368,29 +379,50 @@
             <tbody>
               <tr>
                 <td>key</td>
-                <td>Object</td>
-                <td><p>An action or event object.</p></td>
+                <td>String</td>
+                <td><p>Key of the of the property you wish to update</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Object, List, String, Number, Boolean</td>
+                <td><p>The new value to set the property to.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>this</p></td>
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Starts a reoccurring action or event if a schedule property is defined.</p></div>
-          <pre><code class="language-javascript">schedule (key) {
-  // what if they both have the same key?
-  let action = this.getAction(key);
-  let event = this.getEvent(key);
-  if (action) {
-    let schedule = later.parse.text(action.schedule);
-    let scheduledAction = later.setInterval(()=&gt; {this.call(key);}, schedule);
-    return this.scheduled[key] = scheduledAction;
-  } else if (event) {
-    let schedule = later.parse.text(event.schedule);
-    let scheduledEvent = later.setInterval(()=&gt; {this.call(key);}, schedule);
-    return this.scheduled[key] = scheduledEvent;
-  }
+          <div class="description"><p>Update thing property on thing and CoAP server.</p></div>
+          <pre><code class="language-javascript">this.set = (key, value) =&gt; {
+  super.set(key, value);
+
+  let req = coap.request({
+    pathname: 'setProperty'
+  })
+  
+  req.write(JSON.stringify({
+    uuid: this.uuid,
+    token: this.token,
+    key: key,
+    value: value
+  }));
+
+  req.on('response', function(res) {
+    res.pipe(process.stdout)
+  })
+
+  req.end();
+
+  return this;
 }
+
+return this;
+  }
 };
 
-export default Thing;</code></pre>
+module.exports = Thing;</code></pre>
           <div class="footer site-footer">
             <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
             <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>

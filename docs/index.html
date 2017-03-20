@@ -13,7 +13,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">Thing.js</h1>
-      <h2 class="project-tagline">Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.</h2><a href="https://github.com/CommonGarden/Thing.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/Thing.js" target="_blank" class="btn">View on npm</a>
+      <h2 class="project-tagline">Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.</h2><a href="https://github.com/CommonGarden/Thing.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/thing.js" target="_blank" class="btn">View on npm</a>
     </section>
     <section data-spy="scroll" data-target=".scrollspy" class="main-content">
       <div class="row">
@@ -27,6 +27,7 @@
         </div>
         <div class="col-md-9">
           <section id="Main" class="readme"><h1>Thing.js</h1>
+<p><a href="https://travis-ci.org/CommonGarden/Thing.js"><img src="https://travis-ci.org/CommonGarden/Thing.js.svg?branch=development" alt="Build Status"></a> <a href="https://codeclimate.com/github/CommonGarden/Thing.js"><img src="https://codeclimate.com/github/CommonGarden/Thing.js/badges/gpa.svg" alt="Code Climate"></a> <a href="https://codeclimate.com/github/CommonGarden/Thing.js/coverage"><img src="https://codeclimate.com/github/CommonGarden/Thing.js/badges/coverage.svg" alt="Test Coverage"></a> <a href="https://gitter.im/CommonGarden/Thing.js?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/CommonGarden/Thing.js.svg" alt="Gitter"></a></p>
 <p>Thing.js exports a single class 'Thing,' which is an extension of the <a href="https://nodejs.org/api/events.html">Node.js EventEmitter Class</a> and basic methods for:</p>
 <ul>
 <li>Updating properties</li>
@@ -34,41 +35,100 @@
 <li>Emiting events for either of the above.</li>
 </ul>
 <p><a href="http://commongarden.github.io/Thing.js/docs/Thing.js.html">Full documentation available here</a>.</p>
-<p>For example of how this can be used in an IoT stack, checkout <a href="https://github.com/CommonGarden/Grow.js">Grow.js</a> which is used to connect devices (or purely software things) to a <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT</a> instance.</p>
+<p>For example of how this can be used in an IoT stack, checkout <a href="https://github.com/CommonGarden/Grow.js">Grow.js</a>.</p>
 <h2>Install</h2>
 <pre><code class="language-bash">npm install Thing.js
 </code></pre>
 <h3>Usage</h3>
+<p>Include <code>Thing.js</code>:</p>
 <pre><code class="language-javascript">const Thing = require('Thing.js');
 
+</code></pre>
+<p>Make a new thing and pass in an object.</p>
+<pre><code class="language-javascript">
 const Light = new Thing({
-  name: 'Light',
-  desription: 'An LED light with a basic on/off api.',
-  username: 'jakehart',
-  // These are setable and getable by the api.
+  // Properties can be set by the API
   properties: {
     state: null,
   },
-  start: function () {
-    console.log('Thing initialized, this code runs first');
-  },
+
   turn_light_on: function () {
     console.log('light on');
     Light.set('state', 'on');
   },
+
   turn_light_off: function () {
     console.log('light off');
     Light.set('state', 'off');
   }
 });
 
-Light.on('turn_light_on', function() {
-  console.log('Light turned on.')
+// Things are an extension of the node EventEmitter class 
+// Thus have the same API
+Light.on('property-updated', function(key, value) {
+  console.log('Light turned ' + value);
 });
 
+// Calling a method emits an event
 Light.call('turn_light_on');
+// light on
+// Light turned on.
 
 </code></pre>
+<h3>Initialize</h3>
+<p>Things can optionally have an <code>initialize</code> function which runs when the thing is constructed:</p>
+<pre><code class="language-javascript">const testThing = new Thing({
+  initialize: function () {
+    console.log('testThing initialized');
+  }
+});
+// testThing initialized
+
+</code></pre>
+<h3>Things as modules</h3>
+<p>If you want to make more complex things you may want to organize them into modules. Here's an example for a hypothetical <code>software-light.js</code>:</p>
+<pre><code class="language-javascript">
+const Thing = require('Thing.js');
+
+module.exports = new Thing({
+  metadata: 'We can include metadata like so',
+
+  properties: {
+    name: &quot;Light&quot;
+  },
+
+  initialize: function () {
+    console.log('Light initialized');
+  },
+
+  turn_on: function () {
+    console.log(&quot;Light on&quot;);
+  },
+
+  turn_off: function () {
+    console.log(&quot;Light off&quot;);
+  }
+});
+</code></pre>
+<p>Then you can import them with <code>require()</code> and even use them inside other things!</p>
+<pre><code class="language-javascript">const softwareLight = require('./software-light.js');
+// Light initialized
+
+const growRoom = new Thing({
+  // Optional: you may want to do this if you want the properties of 
+  // softwareLight to be discoverable by Grow-IoT.
+  light: softwareLight,
+
+  initialize: function () {
+    softwareLight.call('turn_on');
+    this.light.call('turn_off');
+  }
+});
+// Light on
+// Light off
+
+</code></pre>
+<p>See the examples folder for more!</p>
 <h1>Developing</h1>
 <p>Code is written in ES6, and compiled using <a href="https://github.com/rollup/rollup">rollup</a>. <a href="http://commongarden.github.io/Thing.js/docs/Thing.js.html">Full documentation is available here</a>.</p>
 <p><code>npm run build</code> builds the library.</p>
