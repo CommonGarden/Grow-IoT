@@ -4,27 +4,43 @@ const coap = require('coap');
 
 // This example sucks, make i
 const Light = new Thing({
-  uuid: '9033b9c1-889c-43eb-bb3e-339348770c0e',
-  token: 'FQhx9bb4qczkNWERNEABQNP6yMTotoLM',
+  uuid: '44ce5f56-722d-4262-9901-0e46598944c9',
+  token: '5Qp4Rh4Z9P6Ha2cETDBoS5ENWxs54hgf',
 
-  component: 'smart-light',
+  component: 'test-device',
 
   properties: {
-    state: light.properties.state,
+    state: 'off',
+    interval: 3000
   },
 
   start: function () {
-    console.log('Thing initialized, this code runs first');
+    setInterval(()=> {
+      this.call('temp_data');
+    }, this.get('interval'));
   },
 
   turn_on: function () {
-    light.call('turn_on');
+    console.log('on');
+    Light.set('state', 'on');
   },
 
   turn_off: function () {
-    light.call('turn_off');
+    console.log('off');
+    Light.set('state', 'off');
+  },
+
+  temp_data: function () {
+    let temp = Math.random() * 100;
+
+    console.log(temp);
+
+    this.emit({
+      type: 'temperature',
+      value: temp
+    });
   }
 });
 
 Light.connect();
-Light.call('turn_on');
+// Light.call('turn_on');
