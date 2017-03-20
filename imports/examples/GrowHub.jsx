@@ -12,36 +12,39 @@ class GrowHub extends Component {
   constructor(props) {
     super(props);
   }
-
   state = {
-    open: false,
-    temp: '50deg',
-    ph: '6.4',
-    humidity: '60%',
-    ec: '100 mS/m',
+    types: [
+      {
+        type: 'temp',
+        title: 'Room Temparature',
+      },
+      {
+        type: 'humidity',
+        title: 'Room Humidity',
+      },
+      {
+        type: 'ph',
+        title: 'Water PH',
+      },
+      {
+        type: 'ec',
+        title: 'Water Conductivity',
+      },
+    ]
   };
-
-  handleOpen = () => {
-    this.setState({open: true, thingName: ''});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
-
-  handleSubmit = () => {
-    const self = this;
-    const name = this.state.thingName;
-    Meteor.call('Thing.new', { name }, 
-      (error, document) => {
+  sendCommand (method, duration) {
+    Meteor.call('Thing.sendCommand',
+      this.props.thing.uuid,
+      method,
+      duration,
+      (error, documentId) => {
         if (error) {
-          throw error;
-        } else {
-          this.handleClose();
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
         }
       }
     );
-  };
+  }
   getEventValue(type) {
     const e = this.props[`${type}Event`];
     return e ? e.event.value : 'NA';
@@ -61,35 +64,11 @@ class GrowHub extends Component {
     ];
     return (
       <div>
-        <p>Room Temperature: <strong>{this.getEventValue('temp')}</strong></p>
-
-        <p>Room Humidity: <strong>{this.getEventValue('humidity')}</strong></p>
-
-        <p>Water ph: <strong>{this.getEventValue('ph')}</strong></p>
-
-        <p>Water conductivity: <strong>{this.getEventValue('ec')}</strong></p>
-
-        <IconButton
-          onTouchTap={this.handleOpen}
-          tooltip="Create Thing"
-          tooltipPosition="bottom-left"
-          iconStyle={{color: 'white'}}
-        >
-          <ContentAdd />
-        </IconButton> 
-        <Dialog
-          title="Add New Thing"
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
-          <TextField
-            floatingLabelText="Name of the Thing"
-            defaultValue={this.state.thingName}
-            onChange={this.nameFieldChange}
-          />
-        </Dialog>
+        {
+          this.state.types.map((v, k) => {
+              return <p key={k}>{v.title}: <strong>{this.getEventValue(v.type)}</strong> </p>
+          })
+        }
       </div>
     )
   }
