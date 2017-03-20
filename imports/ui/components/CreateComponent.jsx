@@ -16,13 +16,14 @@ export default class CreateComponent extends Component {
     open: false,
     value: 0,
     components: [
-          "test-device",
-          "test-thing",
-          "dr-dose",
-          "weather-widget",
-          "smart-light",
-          "smart-pot",
-          "fish-tank",
+      "test-device",
+      "test-thing",
+      "dr-dose",
+      "weather-widget",
+      "smart-light",
+      "smart-pot",
+      "fish-tank",
+      "grow-hub"
     ]
   };
 
@@ -88,14 +89,14 @@ export default class CreateComponent extends Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-      <SelectField
-        floatingLabelText="Component Type"
-          value={this.state.value}
-          onChange={this.handleChange}
-        >
-          {componentItems}
-      </SelectField>
-      </Dialog>
+          <SelectField
+            floatingLabelText="Component Type"
+            value={this.state.value}
+            onChange={this.handleChange}
+          >
+            {componentItems}
+          </SelectField>
+        </Dialog>
       </span>
     )
   }

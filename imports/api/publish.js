@@ -98,7 +98,7 @@ Meteor.publish('Things.one', function(ThingUuid) {
   });
 });
 
-Meteor.publish('Thing.events', function(uuid, type) {
+Meteor.publish('Thing.events', function(uuid, type, l) {
   check(uuid, String);
   check(type, Match.OneOf(String, undefined));
 
@@ -114,6 +114,7 @@ Meteor.publish('Thing.events', function(uuid, type) {
 
   if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
 
+  const limit = l || 100;
   if (type === undefined) {
       return Events.find(
         {'thing._id': thing._id}
@@ -121,7 +122,7 @@ Meteor.publish('Thing.events', function(uuid, type) {
         'sort': {
           'insertedAt': -1
         },
-        'limit': 100
+        limit
       });
   }
 
@@ -134,7 +135,7 @@ Meteor.publish('Thing.events', function(uuid, type) {
       'sort': {
         'insertedAt': -1
       },
-      'limit': 100
+      limit
     });
   }
 });
