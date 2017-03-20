@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
@@ -7,7 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 // Not working currently... both ways should be valid for making components.
-export default class GrowHub extends Component {
+class GrowHub extends Component {
   constructor(props) {
     super(props);
   }
@@ -41,7 +42,10 @@ export default class GrowHub extends Component {
       }
     );
   };
-
+  getEventValue(type) {
+    const e = this.props[`${type}Event`];
+    return e ? e.event.value : 'NA';
+  }
   render() {
     const actions = [
       <FlatButton
@@ -55,16 +59,15 @@ export default class GrowHub extends Component {
         onTouchTap={this.handleSubmit}
       />,
     ];
-
     return (
       <div>
-        <p>Room Temperature: <strong>{this.state.temp}</strong></p>
+        <p>Room Temperature: <strong>{this.getEventValue('temp')}</strong></p>
 
-        <p>Room Humidity: <strong>{this.state.humidity}</strong></p>
+        <p>Room Humidity: <strong>{this.getEventValue('humidity')}</strong></p>
 
-        <p>Water ph: <strong>{this.state.ph}</strong></p>
+        <p>Water ph: <strong>{this.getEventValue('ph')}</strong></p>
 
-        <p>Water conductivity: <strong>{this.state.ec}</strong></p>
+        <p>Water conductivity: <strong>{this.getEventValue('ec')}</strong></p>
 
         <IconButton
           onTouchTap={this.handleOpen}
@@ -91,3 +94,34 @@ export default class GrowHub extends Component {
     )
   }
 }
+
+GrowHub.propTypes = {
+  ecEvent: React.PropTypes.object,
+  phEvent: React.PropTypes.object,
+  tempEvent: React.PropTypes.object,
+  humidityEvent: React.PropTypes.object,
+}
+export default GrowHubContainer = createContainer(({ thing }) => {
+  const phHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ph', 1);
+  const tempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'temperature', 1);
+  const ecHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ec', 1);
+  const humidityHandle = Meteor.subscribe('Thing.events', thing.uuid, 'humidity', 1);
+  const loading = [ phHandle, tempHandle, ecHandle, humidityHandle ].every(
+    (h) => {
+      return h.ready();
+    }
+  );
+
+  const phEvent = Events.findOne({'event.type': 'ph'});
+  const ecEvent = Events.findOne({'event.type': 'ec'});
+  const tempEvent = Events.findOne({'event.type': 'temperature'});
+  const humidityEvent = Events.findOne({'event.type': 'humidity'});
+
+  return {
+    phEvent,
+    ecEvent,
+    tempEvent,
+    humidityEvent,
+    loading
+  }
+}, GrowHub);
