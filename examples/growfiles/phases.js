@@ -1,4 +1,4 @@
-const Thing = require('Grow.js');
+const Thing = require('../../lib/Grow.js');
 
 // A rough GrowFile example... first draft, it's crude.
 module.exports = new Thing({
