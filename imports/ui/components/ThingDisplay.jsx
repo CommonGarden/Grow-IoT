@@ -6,11 +6,13 @@ import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import TestDevice from '../../examples/TestDevice.jsx';
 import SmartLight from '../../examples/SmartLight.jsx';
+import GrowHub from '../../examples/GrowHub.jsx';
 import CreateComponent from './CreateComponent.jsx';
 
 const components = {
   TestDevice,
   SmartLight,
+  GrowHub,
 };
 
 const getComponentType = function(c) {
