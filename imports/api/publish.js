@@ -101,6 +101,7 @@ Meteor.publish('Things.one', function(ThingUuid) {
 Meteor.publish('Thing.events', function(uuid, type, l) {
   check(uuid, String);
   check(type, Match.OneOf(String, undefined));
+  check(l, Match.OneOf(Number, undefined));
 
   let thing = Things.findOne({
     'uuid': uuid,

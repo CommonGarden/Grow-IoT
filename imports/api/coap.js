@@ -9,34 +9,37 @@ import { Match } from 'meteor/check';
 const server = coap.createServer();
 
 server.on('request', function(req, res) {
-  let urlParts = url.parse(req.url, true);
-  let method = urlParts.pathname.replace(/\//g, '');
-  let payload = JSON.parse(req.payload.toString());
+  Fiber(function () {
+    let urlParts = url.parse(req.url, true);
+    let method = urlParts.pathname.replace(/\//g, '');
+    let payload = JSON.parse(req.payload.toString());
 
-  let auth = {
-    uuid: payload.uuid,
-    token: payload.token
-  }
+    let auth = {
+      uuid: payload.uuid,
+      token: payload.token
+    }
 
-  check(auth, {
-    uuid: String,
-    token: String
-  });
+    check(auth, {
+      uuid: String,
+      token: String
+    });
 
-  // Todo: more extensive checks.
-  check(payload, Object);
+    var thing = Things.findOne(auth, {
+      fields: {
+        _id: 1,
+        properties: 1
+      }
+    });
+    if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-  switch (method) {
-    // Rename to subscribe?
-    case 'register':
-      Fiber(function () {
-        let thing = Things.findOne(auth, {
-          fields: {
-            _id: 1
-          }
-        });
-        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+    // Todo: more extensive checks.
+    check(payload, Object);
 
+    console.log(method);
+
+    switch (method) {
+      // Rename to subscribe?
+      case 'register':
         let config = _.extend(payload, { registeredAt: new Date() });
 
         // Update the document
@@ -64,26 +67,20 @@ server.on('request', function(req, res) {
           }
         };
 
-        return Messages.find(query, options).observeChanges({
-          added: (id, fields) => {
+        var handle = Messages.find(query, options).observeChanges({
+          added: function (id, fields) {
+            // Why does this run 4 times?
+            console.log(fields);
+            console.log(res)
             res.write(JSON.stringify(fields));
             return Messages.remove(id);
           }
         });
-      }).run();
-      break;
+        break;
 
-    case 'emit':
-      let event = payload.event;
-      check(event, Match.OneOf(String, Object));
-
-      Fiber(function () {
-        let thing = Things.findOne(auth, {
-          fields: {
-            _id: 1
-          }
-        });
-        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+      case 'emit':
+        let event = payload.event;
+        check(event, Match.OneOf(String, Object));
 
         return !!Events.insert({
           thing: {
@@ -92,23 +89,13 @@ server.on('request', function(req, res) {
           event: event,
           insertedAt: new Date()
         });
-      }).run();
-      break;
+        break;
 
-    case 'setProperty':
-      let key = payload.key;
-      let value = payload.value;
-      check(key, String);
-      check(value, Match.OneOf(String, Number, Boolean, Object));
-
-      Fiber(function () {
-        let thing = Things.findOne(auth, {
-          fields: {
-            _id: 1,
-            properties: 1
-          }
-        });
-        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+      case 'setProperty':
+        let key = payload.key;
+        let value = payload.value;
+        check(key, String);
+        check(value, Match.OneOf(String, Number, Boolean, Object));
 
         thing.properties[key] = value;
 
@@ -117,19 +104,20 @@ server.on('request', function(req, res) {
             'properties': thing.properties
           }
         });
-      }).run();
-      break;
+        break;
 
-    default:
-      res.end('Hello ' + req.url.split('/')[1] + '\n');
-      break;
-  }
-
-  res.on('finish', function(err) {
-    if(err) {
-      console.log(err);
+      default:
+        res.end('Hello ' + req.url.split('/')[1] + '\n');
+        break;
     }
-  });
+
+    res.on('finish', function(err) {
+      if(err) {
+        console.log(err);
+      }
+    });
+
+  }).run();
 });
 
 server.listen(function() {
