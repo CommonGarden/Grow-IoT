@@ -35,19 +35,13 @@ server.on('request', function(req, res) {
     // Todo: more extensive checks.
     check(payload, Object);
 
-    console.log(method);
-
     switch (method) {
-      // Rename to subscribe?
       case 'register':
         let config = _.extend(payload, { registeredAt: new Date() });
 
         // Update the document
         if (!Things.update(thing._id, {
-          $set: {
-            config,
-            onlineSince: new Date()
-          }
+          $set: config
         })) { throw new Meteor.Error('internal-error', "Internal error."); }
 
         // See publish.js for more ideas on returning messages.... this isn't working as well as it does with ddp.
@@ -69,9 +63,6 @@ server.on('request', function(req, res) {
 
         var handle = Messages.find(query, options).observeChanges({
           added: function (id, fields) {
-            // Why does this run 4 times?
-            console.log(fields);
-            console.log(res)
             res.write(JSON.stringify(fields));
             return Messages.remove(id);
           }
