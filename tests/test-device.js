@@ -23,17 +23,17 @@ if(_.isUndefined(uuid) || _.isUndefined(token)) {
   inquirer.prompt(questions).then(function (answers) {
     uuid = answers.uuid;
     token = answers.token;
-    testDevice();
+    testDevice(uuid, token);
   });
 } else {
-  testDevice();
+  testDevice(uuid, token);
 }
 
-function testDevice () {
+function testDevice (u, t) {
   var testDevice = new Thing({
     // PUT YOUR UUID AND TOKEN HERE OR SUPPLY THEM AS ARGUMENTS
-    uuid: uuid,
-    token: token,
+    uuid: u,
+    token: t,
     component: 'GrowHub',
 
     properties: {
