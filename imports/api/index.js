@@ -5,6 +5,8 @@ if (Meteor.isServer) {
   import './publish.js';
   import './elastic';
   import './coap.js';
+  // import './rest/server.js';
+  import './graphql';
 }
 
 import './methods.js';

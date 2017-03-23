@@ -4,14 +4,13 @@ import { Meteor } from 'meteor/meteor';
 
 const server = coap.createServer();
 
-
 server.on('request', function(req, res) {
   let urlParts = url.parse(req.url, true);
 
   console.log(req);
 
   let method = urlParts.pathname.replace(/\//g, '');
-  
+
   // TODO...
   let auth = {};
   let event = {
