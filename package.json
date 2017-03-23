@@ -34,6 +34,7 @@
     "epoch-charting": "^0.8.4",
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "fibers": "^1.0.15",
+    "influx": "^5.0.6",
     "inquirer": "^2.0.0",
     "material-ui": "^0.17.0",
     "meteor-node-stubs": "^0.2.3",

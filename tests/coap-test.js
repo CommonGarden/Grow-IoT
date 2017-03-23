@@ -1,3 +1,4 @@
+// thing.js v0.3.2 has experimental coap support.
 var Thing = require('thing.js');
 var inquirer = require('inquirer');
 var _ = require('underscore')

@@ -35,14 +35,23 @@ function createGrowHub(u, t) {
   const growHub = new Thing({
     uuid: u,
     token: t,
-    component: 'grow-hub',
+    component: 'GrowHub',
 
     // Properties can be updated by the API
     properties: {
-      state: null,
-      duration: 2000,
-      interval: 5000,
-      targets: {},
+      state: 'off',
+      threshold: 300,
+      interval: 3000,
+      currently: null,
+      lightconditions: null,
+      cycles: {
+        day: {
+          start: 'after 7:00am'
+        },
+        night: {
+          start: 'after 8:00pm'
+        }
+      }
     },
 
     start: function () {
@@ -63,8 +72,6 @@ function createGrowHub(u, t) {
     stop: function () {
       console.log("Grow-Hub stopped.");
       clearInterval(emit_and_analyze);
-      clearInterval(light_on_timer);
-      clearInterval(light_off_timer);
       this.removeAllListeners();
     },
 

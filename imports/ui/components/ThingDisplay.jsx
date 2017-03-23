@@ -8,6 +8,7 @@ import TestDevice from '../../examples/TestDevice.jsx';
 import SmartLight from '../../examples/SmartLight.jsx';
 import GrowHub from '../../examples/GrowHub.jsx';
 import CreateComponent from './CreateComponent.jsx';
+import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
 
 const components = {
   TestDevice,
@@ -78,7 +79,6 @@ export default class ThingDisplay extends Component {
       <div>
         <Card style={thingStyle}>
           <CardTitle title={this.props.thing.name} />
-
           <CardText>
             {cardText}
           </CardText>
