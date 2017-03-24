@@ -15,7 +15,6 @@ import SvgIcon from 'material-ui/SvgIcon';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 
-
 class GrowHub extends Component {
   constructor(props) {
     super(props);
@@ -172,6 +171,8 @@ class GrowHub extends Component {
       columns: ["time", "value"],
       points: []
     };
+
+    console.log(this.props.events);
     _.each(this.props.events, (value, key, list) => {
       if (!_.isUndefined(value.event.timestamp)) {
         data.points.unshift([value.event.timestamp.getTime(), value.event.value])
@@ -192,6 +193,8 @@ class GrowHub extends Component {
       -[ ] get iconset for the above.
       -[x] add lux sensor.
       -[ ] show power usage data on the plugs.
+      -[ ] show / hide event history.
+      -[ ] Round data to 2 decimal places.
     */
     return (
       <div style={style}>
@@ -201,6 +204,7 @@ class GrowHub extends Component {
           })
         }
 
+        <i className="wi wi-night-sleet"></i>
         <div className="buttons">
         <div style={left}>
           <h4>Light
@@ -385,6 +389,15 @@ class GrowHub extends Component {
           open={this.state.dltOpen}
           onRequestClose={this.handleClose}
         />
+        <br/>
+        <div>
+          <h4>Event history</h4>
+          { 
+            this.props.events.map((v, k) => {
+              return <p key={k}>{v.event.type}</p>
+            })
+          }
+        </div>
       </div>
     )
   }

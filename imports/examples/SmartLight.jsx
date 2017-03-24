@@ -7,6 +7,7 @@ import { TimeSeries, TimeRange, Event } from "pondjs";
 import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import SvgIcon from 'material-ui/SvgIcon';
+import CircularProgress from 'material-ui/CircularProgress';
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -80,7 +81,7 @@ class SmartLight extends Component {
 
     if (this.props.loading || !!!events.points[0]) {
       return (
-        <div>Loading</div>
+        <div><CircularProgress /> Loading</div>
       );
     } else {
       return (
