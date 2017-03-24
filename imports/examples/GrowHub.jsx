@@ -12,6 +12,8 @@ import { TimeSeries, TimeRange, Event } from "pondjs";
 import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import SvgIcon from 'material-ui/SvgIcon';
+import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 
 
 class GrowHub extends Component {
@@ -24,18 +26,45 @@ class GrowHub extends Component {
     this.sendCommand(command);
   };
 
-  handleOpen = () => {
-    this.setState({ dltOpen: true });
+  handleOpen = (event) => {
+    let dialog = event.target.dataset.dialog;
+    switch (dialog) {
+      case 'dltOpen':
+        this.setState({ dltOpen: true });
+        break;
+      case 'showLightOptionsDialog':
+        this.setState({showLightOptionsDialog: true});
+        break;
+      case 'showHeaterOptionsDialog':
+        this.setState({showHeaterOptionsDialog: true});
+        break;
+      case 'showWaterPumpOptionsDialog':
+        this.setState({showWaterPumpOptionsDialog: true});
+        break;
+    }
   };
 
-  handleClose = () => {
-    this.setState({ dltOpen: false });
+  handleClose = (event) => {
+    let dialog = event.target.dataset.dialog;
+    switch (dialog) {
+      case 'dltOpen':
+        this.setState({ dltOpen: false });
+        break;
+      case 'showLightOptionsDialog':
+        this.setState({showLightOptionsDialog: false});
+        break;
+      case 'showHeaterOptionsDialog':
+        this.setState({showHeaterOptionsDialog: false});
+        break;
+      case 'showWaterPumpOptionsDialog':
+        this.setState({showWaterPumpOptionsDialog: false});
+        break;
+    }
   };
 
   handleValueChange = (event, newValue) => {
     const uuid = this.props.thing.uuid;
     const key = event.target.dataset.key;
-    console.log(key);
     this.setProperty(key, newValue);
   };
 
@@ -62,6 +91,9 @@ class GrowHub extends Component {
 
   state = {
     dltOpen: false,
+    showWaterPumpOptionsDialog: false,
+    showHeaterOptionsDialog: false,
+    showLightOptionsDialog: false,
     types: [
       {
         type: 'temp',
@@ -79,11 +111,15 @@ class GrowHub extends Component {
         type: 'ec',
         title: 'Water Conductivity',
       },
+      {
+        type: 'temp',
+        title: 'Resevoir temperature',
+      },
+      {
+        type: 'lux',
+        title: 'Lux',
+      },
     ]
-  };
-
-  style = {
-    'marginRight': '20px',
   };
 
   sendCommand (method, duration) {
@@ -107,13 +143,21 @@ class GrowHub extends Component {
 
   render() {
     const style = {
-      width: '1200px'
+      width: '100%'
     };
+
+    const styles = {
+      smallIcon: {
+        width: 20,
+        height: 20,
+      },
+    }
 
     const actions = [
       <FlatButton
         label="No"
         primary={true}
+        data-dialog="dltOpen"
         onTouchTap={this.handleClose}
       />,
       <FlatButton
@@ -129,21 +173,25 @@ class GrowHub extends Component {
       points: []
     };
     _.each(this.props.events, (value, key, list) => {
-      // console.log(value);
-      // needs timestamp...
       if (!_.isUndefined(value.event.timestamp)) {
         data.points.unshift([value.event.timestamp.getTime(), value.event.value])
       }
     });
 
-    // console.log(data);
+    const actionsStyle = {
+      width: '100%'
+    }
+
+    const left = {
+      float: 'left'
+    }
 
     /*
       Todo:
-      - give light, heater, and fan their own options dialog.
-      - get iconset for the above.
-      - 
-
+      -[x] give light, heater, and fan their own options dialog.
+      -[ ] get iconset for the above.
+      -[x] add lux sensor.
+      -[ ] show power usage data on the plugs.
     */
     return (
       <div style={style}>
@@ -153,7 +201,19 @@ class GrowHub extends Component {
           })
         }
 
-        <div>Light
+        <div className="buttons">
+        <div style={left}>
+          <h4>Light
+            <IconButton
+              tooltip="Light options"
+              tooltipPosition="top-center"
+              onTouchTap={this.handleOpen}
+              iconStyle={styles.smallIcon}
+              data-dialog="showLightOptionsDialog"
+            >
+              <SettingsIcon />
+            </IconButton>
+          </h4>
           <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
                                 backgroundColor="rgb(208, 208, 208)"
                                 onTouchTap={this.handleTap}
@@ -163,9 +223,60 @@ class GrowHub extends Component {
               <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/>
             </SvgIcon>
           </FloatingActionButton>
+          <Dialog
+            title="Light options"
+            actions={[
+              <FlatButton
+                label="Close"
+                primary={true}
+                data-dialog="showLightOptionsDialog"
+                onTouchTap={this.handleClose}
+              />
+            ]}
+            modal={false}
+            open={this.state.showLightOptionsDialog}
+            data-dialog="showLightOptionsDialog"
+            onRequestClose={this.handleClose}>
+            <TextField
+              hintText="Light threshold"
+              data-key="threshold"
+              floatingLabelText="Light threshold"
+              defaultValue="300"
+              onChange={this.handleValueChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Day start"
+              floatingLabelText="Day start"
+              data-key="day"
+              defaultValue="after 7:00am"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Night start"
+              floatingLabelText="Night start"
+              data-key="night"
+              defaultValue="after 7:00pm"
+              onChange={this.handleScheduleChange}
+            />
+          </Dialog>
         </div>
 
-        <div>Heater
+        <div style={left}>
+          <h4>Heater
+            <IconButton
+              tooltip="Heater options"
+              tooltipPosition="top-center"
+              onTouchTap={this.handleOpen}
+              iconStyle={styles.smallIcon}
+              data-dialog="showHeaterOptionsDialog"
+            >
+              <SettingsIcon />
+            </IconButton>
+          </h4>
           <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
                                 backgroundColor="rgb(208, 208, 208)"
                                 onTouchTap={this.handleTap}
@@ -175,9 +286,53 @@ class GrowHub extends Component {
               <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/>
             </SvgIcon>
           </FloatingActionButton>
+
+          <Dialog
+            title="Heater options"
+            actions={[
+              <FlatButton
+                label="Close"
+                primary={true}
+                data-dialog="showHeaterOptionsDialog"
+                onTouchTap={this.handleClose}
+              />
+            ]}
+            modal={false}
+            open={this.state.showHeaterOptionsDialog}
+            data-dialog="showHeaterOptionsDialog"
+            onRequestClose={this.handleClose}>
+            <TextField
+              hintText="Target day temperature"
+              data-key="day_temp"
+              floatingLabelText="Target day temperature"
+              defaultValue="21"
+              onChange={this.handleValueChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Target night temperature"
+              floatingLabelText="Target night temperature"
+              data-key="night_temp"
+              defaultValue="18"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+          </Dialog>
         </div>
 
-        <div>Pump
+        <div style={left}>
+          <h4>Pump
+            <IconButton
+              tooltip="Water pump options"
+              tooltipPosition="top-center"
+              onTouchTap={this.handleOpen}
+              data-dialog="showWaterPumpOptionsDialog"
+              iconStyle={styles.smallIcon}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </h4>
           <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
                                 backgroundColor="rgb(208, 208, 208)"
                                 onTouchTap={this.handleTap}
@@ -187,44 +342,41 @@ class GrowHub extends Component {
               <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/>
             </SvgIcon>
           </FloatingActionButton>
+
+          <Dialog
+            title="Water pump options"
+            actions={[
+              <FlatButton
+                label="Close"
+                primary={true}
+                data-dialog="showWaterPumpOptionsDialog"
+                onTouchTap={this.handleClose}
+              />
+            ]}
+            modal={false}
+            open={this.state.showWaterPumpOptionsDialog}
+            data-dialog="showWaterPumpOptionsDialog"
+            onRequestClose={this.handleClose}>
+            <div>
+            <TextField
+              hintText="Schedule"
+              data-key="water_schedule"
+              floatingLabelText="Schedule"
+              defaultValue="every 2 hours"
+              onChange={this.handleValueChange}
+            />
+            <br/>
+            <TextField
+              hintText="Duration"
+              floatingLabelText="Duration (milliseconds)"
+              data-key="water_duration"
+              defaultValue="20000"
+              onChange={this.handleScheduleChange}
+            />
+            </div>
+          </Dialog>
         </div>
-        <br/>
-
-        <TextField
-          hintText="Light threshold"
-          data-key="threshold"
-          floatingLabelText="Light threshold"
-          defaultValue={this.props.thing.properties.threshold}
-          onChange={this.handleValueChange}
-        />
-        <br/>
-
-        <TextField
-          hintText="Day start"
-          floatingLabelText="Day start"
-          data-key="day"
-          defaultValue={this.props.thing.properties.cycles.day.start}
-          onChange={this.handleScheduleChange}
-        />
-        <br/>
-
-        <TextField
-          hintText="Night start"
-          floatingLabelText="Night start"
-          data-key="night"
-          defaultValue={this.props.thing.properties.cycles.night.start}
-          onChange={this.handleScheduleChange}
-        />
-        <br/>
-
-        <TextField
-          hintText="Log data every (milliseconds)"
-          floatingLabelText="Log data every (milliseconds)"
-          data-key="interval"
-          defaultValue={this.props.thing.properties.interval}
-          onChange={this.handleScheduleChange}
-        />
-        <br/>
+        </div>
 
         <Dialog
           title="Are you sure?"
