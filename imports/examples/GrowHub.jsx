@@ -97,26 +97,32 @@ class GrowHub extends Component {
       {
         type: 'temp',
         title: 'Room Temparature',
+        icon: 'wi wi-night-sleet'
       },
       {
         type: 'humidity',
         title: 'Room Humidity',
+        icon: 'wi wi-humidity'
       },
       {
         type: 'ph',
         title: 'Water PH',
+        icon: ''
       },
       {
         type: 'ec',
         title: 'Water Conductivity',
+        icon: ''
       },
       {
         type: 'temp',
         title: 'Resevoir temperature',
+        icon: ''
       },
       {
         type: 'lux',
         title: 'Lux',
+        icon: ''
       },
     ]
   };
@@ -200,11 +206,10 @@ class GrowHub extends Component {
       <div style={style}>
         {
           this.state.types.map((v, k) => {
-              return <p key={k}>{v.title}: <strong>{this.getEventValue(v.type)}</strong> </p>
+              return <p key={k}><i className={v.icon}></i>{v.title}: <strong>{this.getEventValue(v.type)}</strong> </p>
           })
         }
 
-        <i className="wi wi-night-sleet"></i>
         <div className="buttons">
         <div style={left}>
           <h4>Light
