@@ -144,8 +144,8 @@ class AuthenticatedApp extends Component {
             open={this.state.navDrawerOpen}
           />
           <div className="layout vertical flex center center-justified">
+            <ThingsList user={this.props.user}/>
           </div>
-          <ThingsList user={this.props.user}/>
         </div>
       </MuiThemeProvider>
     );
@@ -156,8 +156,8 @@ AuthenticatedApp.propTypes = {
   user: React.PropTypes.object,
 }
 
-export default AuthenticatedAppContainer = createContainer(() => {
+export default withWidth()(AuthenticatedAppContainer = createContainer(() => {
   return {
     user: Meteor.user(),
   }
-}, AuthenticatedApp);
+}, AuthenticatedApp));
