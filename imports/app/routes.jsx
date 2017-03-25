@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 import App from './App.jsx';
+import Master from './components/Master.jsx'
 import IndexPage from './pages/IndexPage.jsx';
 import AuthenticatedApp from './AuthenticatedApp.jsx';
 import AccountsUI from './pages/AccountsUI.jsx';
@@ -12,7 +13,7 @@ export default class Routes extends Component {
     return (
       <Router history={browserHistory}>
         <Route path="/" component={App}>
-          <IndexRoute component={IndexPage} />
+          <IndexRoute component={Master} />
           <Route path="/account" component={AccountsUI}>
             <IndexRoute component={SignIn} />
             <Route path="/account/create" component={SignUp} />

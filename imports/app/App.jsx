@@ -10,6 +10,9 @@ export default class App extends Component {
         <div className="container layout vertical fit">
           <AppBar
             title="Grow-IoT"
+            iconStyleLeft={{
+              display: 'none'
+            }}
           />
           <div className="flex layout vertical">
             {this.props.children}

@@ -78,19 +78,19 @@ class Master extends Component {
         color: lightWhite,
         maxWidth: 356,
       },
-      browserstack: {
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        margin: '25px 15px 0',
-        padding: 0,
-        color: lightWhite,
-        lineHeight: '25px',
-        fontSize: 12,
-      },
-      browserstackLogo: {
-        margin: '0 3px',
-      },
+      // browserstack: {
+      //   display: 'flex',
+      //   alignItems: 'flex-start',
+      //   justifyContent: 'center',
+      //   margin: '25px 15px 0',
+      //   padding: 0,
+      //   color: lightWhite,
+      //   lineHeight: '25px',
+      //   fontSize: 12,
+      // },
+      // browserstackLogo: {
+      //   margin: '0 3px',
+      // },
       iconButton: {
         color: darkWhite,
       },
@@ -144,12 +144,7 @@ class Master extends Component {
 
     const router = this.context.router;
     const styles = this.getStyles();
-    const title =
-      router.isActive('/get-started') ? 'Get Started' :
-      router.isActive('/customization') ? 'Customization' :
-      router.isActive('/components') ? 'Components' :
-      router.isActive('/discover-more') ? 'Discover More' : '';
-
+    const title = 'Grow-IoT';
     let docked = false;
     let showMenuIconButton = true;
 
@@ -181,16 +176,6 @@ class Master extends Component {
           style={styles.appBar}
           showMenuIconButton={showMenuIconButton}
         />
-        {title !== '' ?
-          <div style={prepareStyles(styles.root)}>
-            <div style={prepareStyles(styles.content)}>
-              {React.cloneElement(children, {
-                onChangeMuiTheme: this.handleChangeMuiTheme,
-              })}
-            </div>
-          </div> :
-          children
-        }
         <AppNavDrawer
           style={styles.navDrawer}
           location={location}
@@ -202,13 +187,13 @@ class Master extends Component {
         <FullWidthSection style={styles.footer}>
           <p style={prepareStyles(styles.p)}>
             {'Hand crafted with love by the engineers at '}
-            <a style={styles.a} href="http://www.call-em-all.com/Careers">
-              Call-Em-All
+            <a style={styles.a} href="https://commongarden.org">
+              Common Garden
             </a>
             {' and our awesome '}
             <a
               style={prepareStyles(styles.a)}
-              href="https://github.com/callemall/material-ui/graphs/contributors"
+              href="https://github.com/CommonGarden/Grow-IoT/graphs/contributors"
             >
               contributors
             </a>.
@@ -218,13 +203,6 @@ class Master extends Component {
             iconClassName="muidocs-icon-custom-github"
             href="https://github.com/callemall/material-ui"
           />
-          <p style={prepareStyles(styles.browserstack)}>
-            {'Thank you to '}
-            <a href="https://www.browserstack.com" style={prepareStyles(styles.browserstackLogo)} target="_blank">
-              <img src="http://www.browserstack.com/images/layout/logo.png" height="25" width="auto" />
-            </a>
-            {' for providing real browser testing infrastructure.'}
-          </p>
         </FullWidthSection>
       </div>
     );
