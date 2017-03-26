@@ -4,11 +4,12 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
+import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
+import _ from 'underscore';
 import TestDevice from '../../examples/TestDevice.jsx';
 import SmartLight from '../../examples/SmartLight.jsx';
 import GrowHub from '../../examples/GrowHub.jsx';
 import CreateComponent from './CreateComponent.jsx';
-import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
 
 const components = {
   TestDevice,
@@ -19,6 +20,23 @@ const components = {
 const getComponentType = function(c) {
   return c.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); }).capitalizeFirstLetter();
 }
+
+const availableComponents = [
+  "test-device",
+  "test-thing",
+  "dr-dose",
+  "weather-widget",
+  "smart-light",
+  "smart-pot",
+  "fish-tank",
+  "grow-hub"
+];
+_.each(availableComponents, (v) => {
+  const cmp = getComponentType(v);
+  if (!components[cmp]) {
+    components[cmp] = TestDevice;
+  }
+});
 
 export default class ThingDisplay extends Component {
   state = {

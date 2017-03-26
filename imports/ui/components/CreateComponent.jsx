@@ -4,6 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import _ from 'underscore';
 
 const styles = {
   customWidth: {
@@ -16,14 +17,35 @@ export default class CreateComponent extends Component {
     open: false,
     value: 0,
     components: [
-      "test-device",
-      "test-thing",
-      "dr-dose",
-      "weather-widget",
-      "smart-light",
-      "smart-pot",
-      "fish-tank",
-      "grow-hub"
+      {
+        name: 'test-device',
+      },
+      {
+        name: 'test-thing',
+        disabled: true,
+      },
+      {
+        name: 'dr-dose',
+        disabled: true,
+      },
+      {
+        name: 'weather-widget',
+        disabled: true,
+      },
+      {
+        name: 'smart-light',
+      },
+      {
+        name: 'smart-pot',
+        disabled: true,
+      },
+      {
+        name: 'fish-tank',
+        disabled: true,
+      },
+      {
+        name: 'grow-hub',
+      },
     ]
   };
 
@@ -40,23 +62,25 @@ export default class CreateComponent extends Component {
   handleSubmit = () => {
     const uuid = this.props.uuid;
     const token = this.props.token;
-    const component = this.state.components[this.state.value];
-    Meteor.call('Thing.register',
-      { uuid, token },
-      {
-        component,
-        onlineSince: true,
-        properties: {
-          state: "on"
+    const component = _.find(this.state.components, v => v.name === this.state.value);
+    if (component) {
+      Meteor.call('Thing.register',
+        { uuid, token },
+        {
+          component: component.name,
+          onlineSince: true,
+          properties: {
+            state: "on"
+          }
+        },
+        (error, document) => {
+          if (error) {
+            console.error("New deviceerror", error);
+            return alert(`New deviceerror: ${error.reason || error}`);
+          }
         }
-      },
-      (error, document) => {
-        if (error) {
-          console.error("New deviceerror", error);
-          return alert(`New deviceerror: ${error.reason || error}`);
-        }
-      }
-    );
+      );
+    }
   };
 
   render() {
@@ -73,7 +97,7 @@ export default class CreateComponent extends Component {
       />,
     ];
     const componentItems = this.state.components.map((v, k) => {
-      return <MenuItem value={k} primaryText={v} key={k}/>
+      return <MenuItem value={k} primaryText={v.name} key={k} disabled={v.disabled}/>
     });
     return (
       <span>
