@@ -4,7 +4,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import _ from 'underscore';
 
 const styles = {
   customWidth: {
@@ -62,7 +61,7 @@ export default class CreateComponent extends Component {
   handleSubmit = () => {
     const uuid = this.props.uuid;
     const token = this.props.token;
-    const component = _.find(this.state.components, v => v.name === this.state.value);
+    const component = this.state.components[this.state.value];
     if (component) {
       Meteor.call('Thing.register',
         { uuid, token },
