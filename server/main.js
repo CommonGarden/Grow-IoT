@@ -1,2 +1,3 @@
-import '../imports/collections/index.js';
-import '../imports/api/index.js';
+import '../imports/api';
+
+// This is a good place to put extra code you might need like running an MQTT message broker.
