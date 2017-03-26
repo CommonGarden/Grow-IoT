@@ -11,23 +11,6 @@ import {cyan500} from 'material-ui/styles/colors';
 
 const SelectableList = makeSelectable(List);
 
-const styles = {
-  logo: {
-    cursor: 'pointer',
-    fontSize: 24,
-    color: typography.textFullWhite,
-    lineHeight: `${spacing.desktopKeylineIncrement}px`,
-    fontWeight: typography.fontWeightLight,
-    backgroundColor: cyan500,
-    paddingLeft: spacing.desktopGutter,
-    marginBottom: 8,
-  },
-  version: {
-    paddingLeft: spacing.desktopGutterLess,
-    fontSize: 16,
-  },
-};
-
 class AppNavDrawer extends Component {
   static propTypes = {
     docked: PropTypes.bool.isRequired,
@@ -41,10 +24,6 @@ class AppNavDrawer extends Component {
   static contextTypes = {
     muiTheme: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
-  };
-
-  state = {
-    muiVersions: [],
   };
 
   handleRequestChangeLink = (event, value) => {
@@ -79,6 +58,23 @@ class AppNavDrawer extends Component {
       style,
     } = this.props;
 
+    const styles = {
+      logo: {
+        cursor: 'pointer',
+        fontSize: 24,
+        color: typography.textFullWhite,
+        lineHeight: `${spacing.desktopKeylineIncrement}px`,
+        fontWeight: typography.fontWeightLight,
+        backgroundColor: cyan500,
+        paddingLeft: spacing.desktopGutter,
+        marginBottom: 8,
+      },
+      version: {
+        paddingLeft: spacing.desktopGutterLess,
+        fontSize: 16,
+      },
+    };
+
     return (
       <Drawer
         style={style}
@@ -97,23 +93,14 @@ class AppNavDrawer extends Component {
           onChange={onChangeList}
         >
           <ListItem
-            primaryText="Get Started"
+            primaryText="Documentation"
             primaryTogglesNestedList={true}
             nestedItems={[
               <ListItem primaryText="Required Knowledge" value="/get-started/required-knowledge" />,
               <ListItem primaryText="Installation" value="/get-started/installation" />,
-              <ListItem primaryText="Usage" value="/get-started/usage" />,
-              <ListItem primaryText="Server Rendering" value="/get-started/server-rendering" />,
+              <ListItem primaryText="Connecting devices" value="/get-started/usage" />,
+              <ListItem primaryText="Creating custom components (things)" value="/get-started/server-rendering" />,
               <ListItem primaryText="Examples" value="/get-started/examples" />,
-            ]}
-          />
-          <ListItem
-            primaryText="Customization"
-            primaryTogglesNestedList={true}
-            nestedItems={[
-              <ListItem primaryText="Themes" value="/customization/themes" />,
-              <ListItem primaryText="Styles" value="/customization/styles" />,
-              <ListItem primaryText="Colors" value="/customization/colors" />,
             ]}
           />
         </SelectableList>
@@ -126,12 +113,8 @@ class AppNavDrawer extends Component {
           onChange={this.handleRequestChangeLink}
         >
           <Subheader>Resources</Subheader>
-          <ListItem primaryText="GitHub" value="https://github.com/callemall/material-ui" />
-          <ListItem primaryText="React" value="http://facebook.github.io/react" />
-          <ListItem
-            primaryText="Material Design"
-            value="https://www.google.com/design/spec/material-design/introduction.html"
-          />
+          <ListItem primaryText="GitHub Issues" value="https://github.com/callemall/material-ui" />
+          <ListItem primaryText="Dev list" value="" />
         </SelectableList>
       </Drawer>
     );

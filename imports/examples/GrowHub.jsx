@@ -196,11 +196,11 @@ class GrowHub extends Component {
     /*
       Todo:
       -[x] give light, heater, and fan their own options dialog.
-      -[ ] get iconset for the above.
+      -[x] get iconset for the above.
       -[x] add lux sensor.
       -[ ] show power usage data on the plugs.
-      -[ ] show / hide event history.
-      -[ ] Round data to 2 decimal places.
+      -[ ] Round data to 2 decimal places
+      -[ ] Use ListItem to make the layout for sensor data.
     */
     return (
       <div style={style}>
