@@ -2,79 +2,162 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import ComponentIcon from 'material-ui/svg-icons/av/web';
+import DevicesIcon from 'material-ui/svg-icons/hardware/router'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import Subheader from 'material-ui/Subheader';
 
-
+/*
+  TODO:
+  - [x] handle connecting a device or creating something else.
+  - [x] make name optional
+  - [x] still allow for Create Component workflow
+  - [x] Add a 'thing created' snackbar message.
+  - [ ] Implement stepper?
+  - [ ] Make new thing it's own route rather than happening in a dialog?
+*/
 export default class CreateThing extends Component {
   state = {
     open: false,
-    thingName: ''
+    uuid: '',
+    token: '',
+    thingName: '',
+    components: [
+      {
+        name: 'test-device',
+      },
+      {
+        name: 'smart-light',
+      },
+      {
+        name: 'grow-hub',
+      },
+    ],
+    value: 0,
   };
 
+  // Modify to create a new thing.
   handleOpen = () => {
-    this.setState({open: true, thingName: ''});
+    this.setState({open: true});
+    this.handleNewDevice();
   };
+
+  handleNewDevice = () => {
+    Meteor.call('Thing.new', 
+      (error, document) => {
+        if (error) {
+          throw error;
+        } else {
+          this.setState({
+            'uuid': document.uuid,
+            'token': document.token
+          });
+        }
+      }
+    );
+  }
 
   handleClose = () => {
     this.setState({open: false});
   };
 
+  handleCancel = () => {
+    this.handleClose();
+    Meteor.call('Thing.delete',
+      this.state.uuid,
+      (error, document) => {
+        if (error) {
+          throw error;
+        }
+      }
+    );
+  }
+
   nameFieldChange = (e, newValue) => {
     this.setState({ thingName: newValue });
   };
 
+  handleChange = (event, index, value) => this.setState({value});
+
   handleSubmit = () => {
-    const self = this;
-    const name = this.state.thingName;
-    Meteor.call('Thing.new', { name }, 
-      (error, document) => {
-        if (error) {
-          throw error;
-        } else {
-          this.handleClose();
+    const uuid = this.state.uuid;
+    const token = this.state.token;
+    const component = this.state.components[this.state.value];
+    if (component) {
+      Meteor.call('Thing.register',
+        { uuid, token },
+        {
+          component: component.name,
+          onlineSince: true,
+          properties: {
+            state: 'off'
+          }
+        },
+        (error, document) => {
+          if (error) {
+            console.error("New deviceerror", error);
+            return alert(`New deviceerror: ${error.reason || error}`);
+          }
+          this.setState({open: false});
         }
-      }
-    );
+      );
+    }
   };
 
   render() {
     const actions = [
       <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.handleClose}
+          label="Cancel"
+          primary={true}
+          onTouchTap={this.handleCancel}
       />,
       <FlatButton
-        label="Submit"
+        label="Create component"
         primary={true}
         onTouchTap={this.handleSubmit}
-      />,
+      />
     ];
+
+    const componentItems = this.state.components.map((v, k) => {
+      return <MenuItem value={k} primaryText={v.name} key={k} disabled={v.disabled}/>
+    });
 
     return (
       <span>
-        <IconButton
-          onTouchTap={this.handleOpen}
-          tooltip="Create Thing"
-          tooltipPosition="bottom-left"
-          iconStyle={{color: 'white'}}
+        <IconMenu
+          iconButtonElement={<IconButton iconStyle={{color: 'white'}}><ContentAdd /></IconButton>}
+          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
         >
-          <ContentAdd />
-        </IconButton> 
+          <Subheader>Create new:</Subheader>
+          <MenuItem primaryText="Device" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewDevice} />
+          <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleOpen} />
+        </IconMenu>
         <Dialog
-          title="Add New Thing"
+          title="Create new component"
           actions={actions}
-          modal={false}
+          modal={true}
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
           <TextField
-            floatingLabelText="Name of the Thing"
+            floatingLabelText="Name of the thing (optional)"
             defaultValue={this.state.thingName}
             onChange={this.nameFieldChange}
           />
+          <br/>
+          <SelectField
+            floatingLabelText="Component Type"
+            value={this.state.value}
+            onChange={this.handleChange}
+          >
+            {componentItems}
+          </SelectField>
         </Dialog>
       </span>
     )

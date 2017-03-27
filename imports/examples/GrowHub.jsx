@@ -147,6 +147,7 @@ class GrowHub extends Component {
   }
 
   render() {
+    console.log(this.props.alerts);
     const styles = {
       smallIcon: {
         width: 20,
@@ -162,6 +163,9 @@ class GrowHub extends Component {
       sensorData: {
         paddingLeft: 10,
         paddingRight: 10
+      },
+      sensorIcon: {
+        marginRight: 5
       }
     }
 
@@ -179,36 +183,24 @@ class GrowHub extends Component {
       />,
     ];
 
-    var data = {
-      name: "light",
-      columns: ["time", "value"],
-      points: []
-    };
-
-    console.log(this.props.events);
-    _.each(this.props.events, (value, key, list) => {
-      if (!_.isUndefined(value.event.timestamp)) {
-        data.points.unshift([value.event.timestamp.getTime(), value.event.value])
-      }
-    });
-
     /*
       Todo:
       -[ ] show power usage data on the plugs.
       -[ ] Clean up icon spacing and font size.
-
       { current: 1.0805,
         voltage: 120.438369,
         power: 128.792394,
         total: 0.041,
         err_code: 0 }
+      -[ ] Make one settings menu for the whole thing?
+      -[ ] Modify thing creation work flow
     */
     return (
       <div>
         <div style={styles.sensorData}>
         {
           this.state.types.map((v, k) => {
-              return <p key={k}><i className={v.icon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong> </p>
+              return <p key={k}><i className={v.icon} style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong> </p>
           })
         }
         </div>
@@ -416,13 +408,14 @@ export default GrowHubContainer = createContainer(({ thing }) => {
   const ecHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ec', 1);
   const humidityHandle = Meteor.subscribe('Thing.events', thing.uuid, 'humidity', 1);
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
-  const loading = [ phHandle, tempHandle, ecHandle, humidityHandle, eventsHandle ].every(
+  const alertsHandle = Meteor.subscribe('Thing.events', thing.uuid, 'alert', 10);
+  const loading = [ phHandle, tempHandle, ecHandle, humidityHandle, eventsHandle, alertsHandle ].every(
     (h) => {
       return h.ready();
     }
   );
 
-  const events = Events.find({}).fetch();
+  const alerts = Events.find({'event.type': 'alert'}).fetch();
   const phEvent = Events.findOne({'event.type': 'ph'});
   const ecEvent = Events.findOne({'event.type': 'ec'});
   const tempEvent = Events.findOne({'event.type': 'temperature'});
@@ -433,7 +426,7 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     ecEvent,
     tempEvent,
     humidityEvent,
-    events,
+    alerts,
     loading
   }
 }, GrowHub);

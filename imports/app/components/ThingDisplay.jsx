@@ -42,6 +42,7 @@ export default class ThingDisplay extends Component {
   state = {
     dltOpen: false,
   };
+
   deleteThing = () => {
     const thing = this.props.thing;
     this.handleClose();
@@ -82,13 +83,12 @@ export default class ThingDisplay extends Component {
     ];
 
     const r = this.props.thing.registeredAt;
+
     const unregisteredText = <div>
-      <p>Connect a device using the following API crendentials or
-        <br />
-        create a test thing <span ref="loading"></span>
-      </p>
+      <p>Connect a device using the following API crendentials or create a component instead.</p>
       <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
       <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
+
     </div>;
     const cmpNameInCamel = getComponentType(this.props.thing.component || '');
     const RegisteredText = components[cmpNameInCamel];
@@ -96,7 +96,6 @@ export default class ThingDisplay extends Component {
     return (
       <div>
         <Card style={thingStyle}>
-          <CardTitle title={this.props.thing.name} />
           <CardText>
             {cardText}
           </CardText>

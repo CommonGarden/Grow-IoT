@@ -37,15 +37,15 @@ Meteor.methods({
   /*
    * Creates a new thing with UUID and Token.
   */
-  'Thing.new': function ({ name }) {
-    check(name, String);
-    // Must be a logged in user.
+  'Thing.new': function (thing) {
+    check(thing, Match.OneOf(Object, undefined));
+    // Must be a logged in user. Anyone want to do a security audit?
     if (Meteor.userId()) {
       let document = {
         'uuid': Meteor.uuid(),
         'token': Random.id(32),
         'owner': Meteor.userId(),
-        name,
+        thing,
       };
       if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
@@ -123,7 +123,7 @@ Meteor.methods({
   'Thing.delete': function (uuid) {
     check(uuid, String);
 
-    // Users can only delete things they own.
+    // Users can only delete things they own... someone please audit this...
     let thing = Things.findOne({
       'uuid': uuid,
       'owner': Meteor.userId()
