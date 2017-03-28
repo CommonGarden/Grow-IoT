@@ -54,6 +54,11 @@ class AuthenticatedApp extends Component {
       iconButton: {
         color: darkWhite,
       },
+      logo: {
+        width: 25,
+        height: 'auto',
+        marginTop: 3
+      }
     };
 
     if (this.props.width === MEDIUM || this.props.width === LARGE) {
@@ -109,10 +114,8 @@ class AuthenticatedApp extends Component {
   }
 
   render() {
-    // const actions = <TopLeftActions/>;
     const styles = this.getStyles();
 
-    // Todo: flower icon. ; )
     return (
       <MuiThemeProvider>
         <div>
@@ -129,9 +132,9 @@ class AuthenticatedApp extends Component {
                 </IconButton>
               </div>
             }
-            iconStyleLeft={{
-              display: 'none'
-            }}
+            iconElementLeft={
+              <img src="img/white_flower.png" style={styles.logo} />
+            }
           />
           <AppNavDrawer
             style={styles.navDrawer}

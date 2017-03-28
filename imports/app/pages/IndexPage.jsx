@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 
+// if user is not logged in, redirect to accounts, if logged in redirect to app.
 export default class IndexPage extends Component {
   goToApp() {
     browserHistory.push('/app');

@@ -11,14 +11,14 @@ export default class Routes extends Component {
   render() {
     return (
       <Router history={browserHistory}>
-        <Route path="/" component={App}>
+        <Route path="/account" component={App}>
           <IndexRoute component={IndexPage} />
           <Route path="/account" component={AccountsUI}>
             <IndexRoute component={SignIn} />
             <Route path="/account/create" component={SignUp} />
           </Route>
         </Route>
-        <Route path="/app" component={AuthenticatedApp}>
+        <Route path="/" component={AuthenticatedApp}>
         </Route>
       </Router>
     );
