@@ -43,7 +43,7 @@ export default class SignIn extends Component {
     if (error === undefined) {
       this.handleSnackbarClose();
       // Navigate to the authenticated app since the sign in was successful
-      browserHistory.push(`/app`);
+      browserHistory.push(`/`);
     } else {
       this.openSnackbar(error.message);
     }
