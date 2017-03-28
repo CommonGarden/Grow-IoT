@@ -196,6 +196,12 @@ class GrowHub extends Component {
       Todo:
       -[ ] show power usage data on the plugs.
       -[ ] Clean up icon spacing and font size.
+
+      { current: 1.0805,
+        voltage: 120.438369,
+        power: 128.792394,
+        total: 0.041,
+        err_code: 0 }
     */
     return (
       <div>
