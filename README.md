@@ -2,12 +2,19 @@
 
 [![Build Status](https://travis-ci.org/CommonGarden/Grow.js.svg?branch=development)](https://travis-ci.org/CommonGarden/Grow.js) [![Code Climate](https://codeclimate.com/github/CommonGarden/Grow.js/badges/gpa.svg)](https://codeclimate.com/github/CommonGarden/Grow.js) [![Test Coverage](https://codeclimate.com/github/CommonGarden/Grow.js/badges/coverage.svg)](https://codeclimate.com/github/CommonGarden/Grow.js/coverage) [![Join the chat at https://gitter.im/CommonGarden/Grow.js](https://badges.gitter.im/CommonGarden/Grow.js.svg)](https://gitter.im/CommonGarden/Grow.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Grow.js helps you connect things to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance.
+Grow.js helps you create and connect devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. 
+
+### v0.4
+v0.4 begins to introduce some utilities for growers including:
+
+* scheduling (water your plants 'every 2 hours', or whatever)
+* useful utilities for creating controlled environments (let us know if they are useful, we want to solve real problems)
+* Sneak peak at *Grow Files*.
 
 ### Installation
 
 ```bash
-npm install Grow.js
+npm install Grow.js@next
 ```
 
 ### Usage
@@ -15,8 +22,6 @@ Grow.js has methods for:
 * Updating properties
 * Calling methods
 * Emiting events for either of the above
-
-NOTE: Grow.js, will be changing soon. See Thing.js for all the funtionality this provides
 
 You create a thing by passing in an object.
 ```javascript
