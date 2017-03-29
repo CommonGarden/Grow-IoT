@@ -60,7 +60,6 @@ describe('Thing test', () => {
   // Do we really need a new thing every time?
   beforeEach(() => {
     global.testThing = new Thing(thing);
-    // global.testThing.listen();
   });
 
   describe('PROPERTIES', () => {
