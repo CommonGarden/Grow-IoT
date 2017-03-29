@@ -9,8 +9,8 @@ module.exports = new Thing({
     // todo, register event listeners for these.
     alerts: {
       temperature: {
-        min: 21,
-        max: 90
+        min: 17,
+        max: 25
       },
       ph: {
         min: 5.7,

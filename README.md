@@ -23,6 +23,8 @@ Grow.js has methods for:
 * Calling methods
 * Emiting events for either of the above
 
+NOTE: Grow.js, will be changing soon. See Thing.js for all the funtionality this provides
+
 You create a thing by passing in an object.
 ```javascript
 var GrowInstance = require('Grow.js');

@@ -56,7 +56,7 @@ module.exports = new Thing({
 						targets: {
 							temperature: 20,
 							co2: 400
-						}
+						},
 						humidity: {
 							min: 51,
 							max: 59
