@@ -2,7 +2,6 @@ const Thing = require('../../lib/Thing.js');
 const light = require('../things/light');
 const coap = require('coap');
 
-// This example sucks, make i
 const Light = new Thing({
   uuid: '44ce5f56-722d-4262-9901-0e46598944c9',
   token: '5Qp4Rh4Z9P6Ha2cETDBoS5ENWxs54hgf',
