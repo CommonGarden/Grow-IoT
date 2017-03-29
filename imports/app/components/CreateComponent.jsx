@@ -4,12 +4,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
 
-const styles = {
-  customWidth: {
-    width: 150,
-  },
-};
 
 export default class CreateComponent extends Component {
   state = {
@@ -69,7 +65,7 @@ export default class CreateComponent extends Component {
           component: component.name,
           onlineSince: true,
           properties: {
-            state: "on"
+            state: 'off'
           }
         },
         (error, document) => {
@@ -83,6 +79,12 @@ export default class CreateComponent extends Component {
   };
 
   render() {
+    const styles = {
+      customWidth: {
+        width: 150,
+      },
+    };
+
     const actions = [
       <FlatButton
         label="Cancel"
@@ -95,9 +97,11 @@ export default class CreateComponent extends Component {
         onTouchTap={this.handleSubmit}
       />,
     ];
+
     const componentItems = this.state.components.map((v, k) => {
       return <MenuItem value={k} primaryText={v.name} key={k} disabled={v.disabled}/>
     });
+
     return (
       <span>
         <FlatButton
@@ -106,12 +110,18 @@ export default class CreateComponent extends Component {
         >
         </FlatButton>
         <Dialog
-          title="Add New Thing"
+          title="Create new component"
           actions={actions}
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
+          <TextField
+            floatingLabelText="Name of the thing (optional)"
+            defaultValue={this.state.thingName}
+            onChange={this.nameFieldChange}
+          />
+          <br/>
           <SelectField
             floatingLabelText="Component Type"
             value={this.state.value}
