@@ -30,4 +30,10 @@ describe('Growfile test', () => {
   it('should parse phases', () => {
     testThing.parsePhases(phases.properties.phases);
   });
+
+  it('should register alert event listeners', () => {
+    testThing.registerAlerts(phases.properties.phases);
+  });
+
+
 });
