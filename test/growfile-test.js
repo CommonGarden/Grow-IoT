@@ -31,9 +31,14 @@ describe('Growfile test', () => {
     testThing.parsePhases(phases.properties.phases);
   });
 
-  it('should register alert event listeners', () => {
-    testThing.registerAlerts(phases.properties.phases);
-  });
+  // it('should register alert event listeners', () => {
+  //   testThing.registerAlerts(phases.properties.alerts);
+  //   testThing.on('alert', (key, message)=> {
+  //     console.log(key);
+  //     console.log(message);
+  //   });
+  //   testThing.emit('temperature', {value: 10});
+  // });
 
 
 });

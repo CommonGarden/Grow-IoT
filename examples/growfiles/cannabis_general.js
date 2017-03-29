@@ -6,9 +6,6 @@ module.exports = new Thing({
 	properties: {
 		name: "Grow File example",
 		version: '0.2.0',
-		targets: {
-			ph: 6.2
-		},
 		phases: {
 			vegetative: {
 				cycles: {
@@ -59,7 +56,7 @@ module.exports = new Thing({
 						targets: {
 							temperature: 20,
 							co2: 400
-						}
+						},
 						humidity: {
 							min: 51,
 							max: 59
