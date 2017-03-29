@@ -7,7 +7,7 @@ const later = require('later');
 later.date.localTime();
 
 // TODO: use an actual light. : )
-// const Hs100Api = require('hs100-api');
+const Hs100Api = require('hs100-api');
 
 // See http://johnny-five.io/ to connect devices besides arduino.
 const board = new five.Board();
@@ -21,8 +21,8 @@ board.on('ready', function start() {
 
   // Create a new thing.
   var light = new Thing({
-    uuid: '639cb174-4b59-4923-992c-f6fb5571998a',
-    token: 'hXAYxPEvhRk3TMq5BteFgDPYShAEDrrw',
+    uuid: 'e5340c3d-2b02-4597-8c05-d1eecb8a8946',
+    token: 'AHf8k5Mo2E9R3gbHNEpj5StxG43xifa8',
 
     component: 'smart-light',
 
@@ -43,13 +43,23 @@ board.on('ready', function start() {
     },
 
     start: function () {
-      console.log(this.properties)
       var interval = this.get('interval');
       
       this.interval = setInterval(function () {
         light.light_data();
         light.check_light_data();
       }, interval);
+
+      var client = new Hs100Api.Client();
+
+      client.startDiscovery().on('plug-new', (plug) => {
+        // There is definitely a better way of doing this.
+        // todo: get energy usage?
+        plug.getInfo().then(console.log);
+        if (plug.name === 'Plant Light') {
+          this.light = plug;
+        }
+      });
 
       this.parseCycles(this.get('cycles'));
     },
@@ -71,14 +81,30 @@ board.on('ready', function start() {
       this.call('turn_off');
     },
 
+    power_data: function () {
+      if (this.light) {
+        this.light.getInfo().then((data)=> {
+          let powerData = data.consumption.get_realtime;
+          this.emit({
+            type: 'power',
+            value: powerData
+          });
+        });
+      }
+    },
+
     turn_on: function () {
-      LED.high();
+      if (this.light) {
+        this.light.setPowerState(true);
+      }
       this.set('state', 'on');
       console.log('light on');
     },
 
     turn_off:  function () {
-      LED.low();
+      if (this.light) {
+        this.light.setPowerState(false);
+      }
       this.set('state', 'off');
       console.log('light off');
     },

@@ -23,15 +23,6 @@ module.exports = new Thing({
       },
     },
 
-    // GROW ROOM HUMIDITY: 51-61% during vegetative phase; 51 to 59% during flowering.
-    // cycles can be an optionally inside of phases.
-
-    // 900-1600 parts per million during lights-on cycle.
-    // Natural C02 levels are approximately 387 ppm.
-
-    // Your C02 emitter should be timed in relation to exhaust fan so that C02 is not sucked out of room.
-
-    // phases: vegetative || flowering
     phases: {
       vegetative: {
         cycles: {
