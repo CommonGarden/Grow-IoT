@@ -14,6 +14,8 @@ If you think the Internet of Things should be based on open standards and intero
 
 You need to install [Meteor](https://www.meteor.com/) first (if you haven't already).
 
+Then:
+
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
