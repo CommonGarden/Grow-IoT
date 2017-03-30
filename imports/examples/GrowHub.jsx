@@ -149,16 +149,19 @@ class GrowHub extends Component {
   render() {
     console.log(this.props.alerts);
     const styles = {
-      smallIcon: {
-        width: 20,
-        height: 20,
-      },
       left: {
         float: 'left'
       },
-      actuators: {
-        display: 'flex',
-        padding: 10
+      right: {
+        float: 'right'
+      },
+      actuator: {
+        float: 'left',
+        paddingTop: 10
+      },
+      actionButton: {
+        float: 'left',
+        marginRight: 20
       },
       sensorData: {
         paddingLeft: 10,
@@ -186,17 +189,38 @@ class GrowHub extends Component {
     /*
       Todo:
       -[ ] show power usage data on the plugs.
-      -[ ] Clean up icon spacing and font size.
+      Data format:
       { current: 1.0805,
         voltage: 120.438369,
         power: 128.792394,
         total: 0.041,
         err_code: 0 }
+      -[x] Clean up icon spacing and font size.
       -[ ] Make one settings menu for the whole thing?
-      -[ ] Modify thing creation work flow
+        <TextField
+          hintText="Log data every (milliseconds)"
+          floatingLabelText="Log data every (milliseconds)"
+          data-key="interval"
+          defaultValue="2000"
+          onChange={this.handleScheduleChange}
+        />
+      -[ ] 
     */
     return (
       <div>
+        <div>
+        <h2 style={styles.left}>Grow Hub
+        </h2>
+          <IconButton
+                tooltip="Options"
+                tooltipPosition="top-center"
+                onTouchTap={this.handleOpen}
+                data-dialog="showWaterPumpOptionsDialog"
+                iconStyle={styles.right}
+              >
+                <SettingsIcon />
+          </IconButton>
+        </div>
         <div style={styles.sensorData}>
         {
           this.state.types.map((v, k) => {
@@ -205,180 +229,106 @@ class GrowHub extends Component {
         }
         </div>
 
-        <TextField
-          hintText="Log data every (milliseconds)"
-          floatingLabelText="Log data every (milliseconds)"
-          data-key="interval"
-          defaultValue="2000"
-          onChange={this.handleScheduleChange}
-        />
+        <Divider />
+
+        <div style={styles.actuator}>
+          <div style={styles.actionButton}>
+            <h3>Light</h3>
+            <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
+                                  backgroundColor="rgb(208, 208, 208)"
+                                  onTouchTap={this.handleTap}>
+              <PowerIcon />
+            </FloatingActionButton>
+          </div>
+          <div style={styles.right}>
+            <TextField
+              hintText="Light threshold"
+              data-key="threshold"
+              floatingLabelText="Light threshold"
+              defaultValue="300"
+              onChange={this.handleValueChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Day start"
+              floatingLabelText="Day start"
+              data-key="day"
+              defaultValue="after 7:00am"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Night start"
+              floatingLabelText="Night start"
+              data-key="night"
+              defaultValue="after 7:00pm"
+              onChange={this.handleScheduleChange}
+            />
+          </div>
+        </div>
 
         <Divider />
-        <div style={styles.actuators}>
-          <div style={styles.left}>
-            <h4>Light
-              <IconButton
-                tooltip="Light options"
-                tooltipPosition="top-center"
-                onTouchTap={this.handleOpen}
-                iconStyle={styles.smallIcon}
-                data-dialog="showLightOptionsDialog"
-              >
-                <SettingsIcon />
-              </IconButton>
-            </h4>
+
+        <div style={styles.actuator}>
+          <div style={styles.actionButton}>
+            <h3>Heater</h3>
             <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
-                                  onTouchTap={this.handleTap}
-                                  style={this.style}>
+                                  onTouchTap={this.handleTap}>
               <PowerIcon />
             </FloatingActionButton>
-            <Dialog
-              title="Light options"
-              actions={[
-                <FlatButton
-                  label="Close"
-                  primary={true}
-                  data-dialog="showLightOptionsDialog"
-                  onTouchTap={this.handleClose}
-                />
-              ]}
-              modal={false}
-              open={this.state.showLightOptionsDialog}
-              data-dialog="showLightOptionsDialog"
-              onRequestClose={this.handleClose}>
-              <TextField
-                hintText="Light threshold"
-                data-key="threshold"
-                floatingLabelText="Light threshold"
-                defaultValue="300"
-                onChange={this.handleValueChange}
-              />
-              <br/>
-
-              <TextField
-                hintText="Day start"
-                floatingLabelText="Day start"
-                data-key="day"
-                defaultValue="after 7:00am"
-                onChange={this.handleScheduleChange}
-              />
-              <br/>
-
-              <TextField
-                hintText="Night start"
-                floatingLabelText="Night start"
-                data-key="night"
-                defaultValue="after 7:00pm"
-                onChange={this.handleScheduleChange}
-              />
-            </Dialog>
           </div>
+          <div style={styles.right}>
+            <TextField
+              hintText="Target day temperature"
+              data-key="day_temp"
+              floatingLabelText="Target day temperature"
+              defaultValue="21"
+              onChange={this.handleValueChange}
+            />
+            <br/>
 
-          <div style={styles.left}>
-            <h4>Heater
-              <IconButton
-                tooltip="Heater options"
-                tooltipPosition="top-center"
-                onTouchTap={this.handleOpen}
-                iconStyle={styles.smallIcon}
-                data-dialog="showHeaterOptionsDialog"
-              >
-                <SettingsIcon />
-              </IconButton>
-            </h4>
-            <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
-                                  backgroundColor="rgb(208, 208, 208)"
-                                  onTouchTap={this.handleTap}
-                                  style={this.style}>
-              <PowerIcon />
-            </FloatingActionButton>
-
-            <Dialog
-              title="Heater options"
-              actions={[
-                <FlatButton
-                  label="Close"
-                  primary={true}
-                  data-dialog="showHeaterOptionsDialog"
-                  onTouchTap={this.handleClose}
-                />
-              ]}
-              modal={false}
-              open={this.state.showHeaterOptionsDialog}
-              data-dialog="showHeaterOptionsDialog"
-              onRequestClose={this.handleClose}>
-              <TextField
-                hintText="Target day temperature"
-                data-key="day_temp"
-                floatingLabelText="Target day temperature"
-                defaultValue="21"
-                onChange={this.handleValueChange}
-              />
-              <br/>
-
-              <TextField
-                hintText="Target night temperature"
-                floatingLabelText="Target night temperature"
-                data-key="night_temp"
-                defaultValue="18"
-                onChange={this.handleScheduleChange}
-              />
-              <br/>
-            </Dialog>
+            <TextField
+              hintText="Target night temperature"
+              floatingLabelText="Target night temperature"
+              data-key="night_temp"
+              defaultValue="18"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
           </div>
+        </div>
 
-          <div style={styles.left}>
-            <h4>Pump
-              <IconButton
-                tooltip="Water pump options"
-                tooltipPosition="top-center"
-                onTouchTap={this.handleOpen}
-                data-dialog="showWaterPumpOptionsDialog"
-                iconStyle={styles.smallIcon}
-              >
-                <SettingsIcon />
-              </IconButton>
-            </h4>
+        <Divider />
+
+        <div style={styles.actuator}>
+          <div style={styles.actionButton}>
+            <h3>Pump</h3>
             <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
                                   onTouchTap={this.handleTap}
-                                  style={this.style}>
+                                  style={styles.left}>
               <PowerIcon />
             </FloatingActionButton>
-
-            <Dialog
-              title="Water pump options"
-              actions={[
-                <FlatButton
-                  label="Close"
-                  primary={true}
-                  data-dialog="showWaterPumpOptionsDialog"
-                  onTouchTap={this.handleClose}
-                />
-              ]}
-              modal={false}
-              open={this.state.showWaterPumpOptionsDialog}
-              data-dialog="showWaterPumpOptionsDialog"
-              onRequestClose={this.handleClose}>
-              <div>
-              <TextField
-                hintText="Schedule"
-                data-key="water_schedule"
-                floatingLabelText="Schedule"
-                defaultValue="every 2 hours"
-                onChange={this.handleValueChange}
-              />
-              <br/>
-              <TextField
-                hintText="Duration"
-                floatingLabelText="Duration (milliseconds)"
-                data-key="water_duration"
-                defaultValue="20000"
-                onChange={this.handleScheduleChange}
-              />
-              </div>
-            </Dialog>
+          </div>
+          <div style={styles.right}>
+            <TextField
+              hintText="Schedule"
+              data-key="water_schedule"
+              floatingLabelText="Schedule"
+              defaultValue="every 2 hours"
+              onChange={this.handleValueChange}
+            />
+            <br/>
+            <TextField
+              hintText="Duration"
+              floatingLabelText="Duration (milliseconds)"
+              data-key="water_duration"
+              defaultValue="20000"
+              onChange={this.handleScheduleChange}
+            />
           </div>
         </div>
 

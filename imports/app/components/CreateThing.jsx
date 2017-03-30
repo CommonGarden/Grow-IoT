@@ -12,15 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import Subheader from 'material-ui/Subheader';
 
-/*
-  TODO:
-  - [x] handle connecting a device or creating something else.
-  - [x] make name optional
-  - [x] still allow for Create Component workflow
-  - [x] Add a 'thing created' snackbar message.
-  - [ ] Implement stepper?
-  - [ ] Make new thing it's own route rather than happening in a dialog?
-*/
+
 export default class CreateThing extends Component {
   state = {
     open: false,
