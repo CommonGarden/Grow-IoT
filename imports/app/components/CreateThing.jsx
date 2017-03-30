@@ -11,11 +11,13 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import Subheader from 'material-ui/Subheader';
+import Snackbar from 'material-ui/Snackbar';
 
 
 export default class CreateThing extends Component {
   state = {
     open: false,
+    newThingSnackOpen: false,
     uuid: '',
     token: '',
     thingName: '',
@@ -45,6 +47,9 @@ export default class CreateThing extends Component {
         if (error) {
           throw error;
         } else {
+          if (!this.state.open) {
+            this.setState({newThingSnackOpen:true});
+          }
           this.setState({
             'uuid': document.uuid,
             'token': document.token
@@ -74,6 +79,12 @@ export default class CreateThing extends Component {
     this.setState({ thingName: newValue });
   };
 
+  handleRequestClose = () => {
+    this.setState({
+      newThingSnackOpen: false,
+    });
+  };
+
   handleChange = (event, index, value) => this.setState({value});
 
   handleSubmit = () => {
@@ -96,6 +107,7 @@ export default class CreateThing extends Component {
             return alert(`New deviceerror: ${error.reason || error}`);
           }
           this.setState({open: false});
+          this.setState({newThingSnackOpen:true});
         }
       );
     }
@@ -151,6 +163,12 @@ export default class CreateThing extends Component {
             {componentItems}
           </SelectField>
         </Dialog>
+        <Snackbar
+          open={this.state.newThingSnackOpen}
+          message="Thing created"
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
       </span>
     )
   }

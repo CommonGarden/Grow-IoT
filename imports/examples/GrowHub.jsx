@@ -204,7 +204,9 @@ class GrowHub extends Component {
           defaultValue="2000"
           onChange={this.handleScheduleChange}
         />
-      -[ ] 
+      -[ ] Add camera icon and teaser todo dialog. : )
+      
+
     */
     return (
       <div>
@@ -305,7 +307,7 @@ class GrowHub extends Component {
 
         <div style={styles.actuator}>
           <div style={styles.actionButton}>
-            <h3>Pump</h3>
+            <h3>Watering</h3>
             <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
                                   onTouchTap={this.handleTap}
