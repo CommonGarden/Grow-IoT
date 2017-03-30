@@ -6,14 +6,14 @@ import GrowSchema from './schema/index';
 import { Events, Things, User, Password } from 'grow-mongoose-models';
 
 import {
-  APP_SECRET,
+  // APP_SECRET,
   MONGO_URL,
 } from './apiKeys';
 
 
 const rootResolvers = ({ config = {}, validate }) => {
   const mongo_url = MONGO_URL || config.database;
-  const app_secret = APP_SECRET || config.secret;
+  // const app_secret = APP_SECRET || config.secret;
   mongoose.connect(mongo_url);
   return {
     Query: {
