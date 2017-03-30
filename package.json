@@ -1,7 +1,7 @@
 {
-  "name": "grow-graphql-api",
+  "name": "grow-graphql-api-server",
   "version": "1.0.0",
-  "description": "grow-iot graphql api",
+  "description": "grow-iot graphql api server",
   "main": "index.js",
   "scripts": {
     "compile": "npm run clean && babel --presets es2015 -d lib/ src/",
@@ -14,6 +14,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "body-parser": "^1.16.0",
+    "cors": "^2.8.3",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "express-session": "^1.15.0",
@@ -21,6 +22,7 @@
     "graphql-server-express": "^0.6.0",
     "graphql-subscriptions": "^0.3.0",
     "graphql-tools": "^0.10.0",
+    "grow-graphql-schema": "file:///Users/tkay/coding/grow/grow-graphql-schema-1.0.1.tgz",
     "grow-mongoose-models": "^1.0.3",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",

@@ -7,15 +7,17 @@ import uuid from 'node-uuid';
 import session from 'express-session';
 import passport from 'passport';
 import { createServer } from 'http';
+import  cors  from 'cors';
+import executableSchema from 'grow-graphql-schema';
 
 import { subscriptionManager } from './subscriptions';
 
-import schema from './resolver';
 import config from './config';
-import {
-  APP_SECRET,
-} from './apiKeys';
-const app_secret = APP_SECRET || config.secret;
+const schema = executableSchema({ config });
+// import {
+  // APP_SECRET,
+// } from './apiKeys';
+// const app_secret = APP_SECRET || config.secret;
 
 let PORT = 3010;
 if (process.env.PORT) {
@@ -26,22 +28,35 @@ const WS_PORT = process.env.WS_PORT || 8080;
 
 const app = express();
 
+//FIXES CORS ERROR
+const whitelist = [
+    'http://localhost:3000',
+];
+const corsOptions = {
+    origin(origin, callback){
+        const originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+        callback(null, originIsWhitelisted);
+    },
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }) );
 app.use(bodyParser.json());
 
-import './auth.js'; //see snippet below
-// passport's session piggy-backs on express-session
-app.use(
-  session({
-    genid: function(req) {
-      return uuid.v4();
-    },
-    secret: app_secret,
-  })
-);
+// import './auth.js'; //see snippet below
+// // passport's session piggy-backs on express-session
+// app.use(
+  // session({
+    // genid: function(req) {
+      // return uuid.v4();
+    // },
+    // secret: app_secret,
+  // })
+// );
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use('/graphql', graphqlExpress((req) => {
   // Get the query, the same way express-graphql does it
@@ -110,17 +125,17 @@ app.get('/',
   });
 
 
-app.get('/login',
-  function(req, res){
-    res.render('login');
-  });
+// app.get('/login',
+  // function(req, res){
+    // res.render('login');
+  // });
 
 //login route for passport
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}) );
+// app.post('/login', passport.authenticate('local', {
+  // successRedirect: '/',
+  // failureRedirect: '/login',
+  // failureFlash: true
+// }) );
 
 
 app.listen(PORT, () => console.log( // eslint-disable-line no-console
