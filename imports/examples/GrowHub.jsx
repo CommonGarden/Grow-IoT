@@ -13,6 +13,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import PowerIcon from 'material-ui/svg-icons/action/power-settings-new';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import Divider from 'material-ui/Divider';
 
 class GrowHub extends Component {
@@ -176,18 +177,23 @@ class GrowHub extends Component {
     return (
       <div>
         <div>
-        <h2 style={styles.left}>Grow Hub
-        </h2>
+          <h2 style={styles.left}>Grow Hub</h2>
           <IconButton
-                tooltip="Advanced Options"
-                tooltipPosition="top-center"
-                onTouchTap={this.handleOpen}
-                data-dialog="settingsDialogOpen"
-                iconStyle={styles.right}
-              >
-                <SettingsIcon />
+            tooltip="Take image"
+            tooltipPosition="top-center"
+            iconStyle={styles.right}>
+            <CameraIcon />
+          </IconButton>
+          <IconButton
+            tooltip="Advanced Options"
+            tooltipPosition="top-center"
+            onTouchTap={this.handleOpen}
+            data-dialog="settingsDialogOpen"
+            iconStyle={styles.right}>
+            <SettingsIcon />
           </IconButton>
         </div>
+        
         <div style={styles.sensorData}>
         {
           this.state.types.map((v, k) => {

@@ -8,22 +8,27 @@ import CircularProgress from 'material-ui/CircularProgress';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 
+
 class ThingsList extends Component {
   state = {
     loading: false,
   }
+
   componentWillMount() {
     this.subThings();
   }
+
   componentWillReceiveProps(nextProps) {
     this.props.thingsChanged(nextProps.Things);
   }
+
   subThings(){
     this.setState({ loading: true });
     Meteor.subscribe('Things.list', (h) => {
       this.setState({ loading: false });
     });
   }
+
   renderThings() {
     const things = this.props.Things;
     if (things && things.length) {
@@ -33,12 +38,13 @@ class ThingsList extends Component {
         <EmptyState>
           <div className="layout vertical center center-justified"
             style={{height: '100%'}}>
-            Empty.
+            Click the + button to create a new thing.
           </div>
         </EmptyState>
       );
     }
   }
+
   render () {
       return (
       <div className="layout horizontal wrap">
@@ -49,9 +55,11 @@ class ThingsList extends Component {
     )
   }
 }
+
 ThingsList.PropTypes = {
   Things: React.PropTypes.array,
 }
+
 export default ThingsListContainer= createContainer(({ user, thingsChanged }) => {
   const things = Things.find().fetch();
   return {
