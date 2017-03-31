@@ -21,7 +21,6 @@ class AuthenticatedApp extends Component {
   state = {
     navDrawerOpen: false,
     highlightCreate: false,
-    mounted: false,
   };
 
   getStyles() {
@@ -99,9 +98,7 @@ class AuthenticatedApp extends Component {
     this.setState({navDrawerOpen: true})
   }
   handleThingsChange = (things) => {
-    if (this.state.mounted) {
-      this.setState({highlightCreate: !things.length});
-    }
+    this.setState({highlightCreate: !things.length});
   }
   componentWillMount() {
     document.title = "Grow IoT";
@@ -118,11 +115,11 @@ class AuthenticatedApp extends Component {
       browserHistory.push('/account');
     }
   }
-  componentDidMount() { 
-    this.setState({mounted:  true});
+  componentDidMount() {
+    this._mounted =  true;
   }
   componentWillUnmount() {
-    this.setState({mounted:  false});
+    this._mounted =  false;
   }
   render() {
     const styles = this.getStyles();
