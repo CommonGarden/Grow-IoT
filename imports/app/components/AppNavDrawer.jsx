@@ -37,7 +37,8 @@ class AppNavDrawer extends Component {
   }
 
   handleRequestChangeLink = (event, value) => {
-    window.location = value;
+    var win = window.open(value, '_blank');
+    win.focus();
   };
 
   handleTouchTapHeader = () => {
@@ -98,7 +99,7 @@ class AppNavDrawer extends Component {
           value=""
           onChange={this.handleRequestChangeLink}
         >
-          <ListItem primaryText="Issues and Feedback" value="https://github.com/callemall/material-ui" leftIcon={<FeedbackIcon />} />
+          <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />
           <ListItem primaryText="Dev list" value="https://groups.google.com/a/commongarden.org/forum/#!forum/dev" leftIcon={<MailIcon />}/>
         </SelectableList>
         <ListItem primaryText="Sign Out" onTouchTap={this.signOut} leftIcon={

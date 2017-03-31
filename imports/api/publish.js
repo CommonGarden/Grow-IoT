@@ -113,7 +113,7 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
     }
   });
 
-  if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
+  if (!thing) { throw new Meteor.Error('not-found', `Thing '${uuid}' cannot be found.`); }
 
   const limit = l || 100;
   if (type === undefined) {

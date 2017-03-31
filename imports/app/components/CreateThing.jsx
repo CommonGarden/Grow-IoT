@@ -106,8 +106,7 @@ export default class CreateThing extends Component {
             console.error("New deviceerror", error);
             return alert(`New deviceerror: ${error.reason || error}`);
           }
-          this.setState({open: false});
-          this.setState({newThingSnackOpen:true});
+          this.setState({ open: false, newThingSnackOpen:true});
         }
       );
     }
