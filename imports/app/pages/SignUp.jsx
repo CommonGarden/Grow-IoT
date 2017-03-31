@@ -5,11 +5,12 @@ import Snackbar from 'material-ui/Snackbar';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import BottomNavigation from '../components/BottomNavigation.jsx';
+import { withApollo } from 'react-apollo';
 
 const noError = {
   message: '',
 };
-export default class SignIn extends Component {
+class SignUp extends Component {
   state = {
     password: '',
     email: '',
@@ -42,6 +43,7 @@ export default class SignIn extends Component {
   signUpCallback = (error) => {
     if (error === undefined) {
       this.handleSnackbarClose();
+      this.props.client.resetStore();
       // Navigate to the authenticated app since the sign in was successful
       browserHistory.push(`/`);
     } else {
@@ -112,3 +114,4 @@ export default class SignIn extends Component {
     );
   }
 }
+export default withApollo(SignUp);

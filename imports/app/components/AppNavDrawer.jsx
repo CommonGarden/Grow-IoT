@@ -13,6 +13,7 @@ import MailIcon from 'material-ui/svg-icons/content/mail';
 import FeedbackIcon from 'material-ui/svg-icons/action/feedback';
 import HelpIcon from 'material-ui/svg-icons/action/help';
 import SvgIcon from 'material-ui/SvgIcon';
+import { withApollo } from 'react-apollo';
 
 const SelectableList = makeSelectable(List);
 
@@ -54,6 +55,7 @@ class AppNavDrawer extends Component {
   signOutCallback(error) {
     console.log(error);
     if (error === undefined) {
+      this.props.client.resetStore();
       this.context.router.push('/');
     }
   }
@@ -111,4 +113,4 @@ class AppNavDrawer extends Component {
   }
 }
 
-export default AppNavDrawer;
+export default withApollo(AppNavDrawer);

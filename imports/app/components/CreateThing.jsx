@@ -65,14 +65,14 @@ export default class CreateThing extends Component {
 
   handleCancel = () => {
     this.handleClose();
-    Meteor.call('Thing.delete',
-      this.state.uuid,
-      (error, document) => {
-        if (error) {
-          throw error;
-        }
-      }
-    );
+    // Meteor.call('Thing.delete',
+      // this.state.uuid,
+      // (error, document) => {
+        // if (error) {
+          // throw error;
+        // }
+      // }
+    // );
   }
 
   nameFieldChange = (e, newValue) => {
