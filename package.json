@@ -1,6 +1,6 @@
 {
   "name": "grow-graphql-schema",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "grow-iot graphql executable schema",
   "main": "index.js",
   "scripts": {
@@ -42,6 +42,7 @@
     ]
   },
   "dependencies": {
+    "dotenv": "^4.0.0",
     "graphql": "^0.9.1",
     "graphql-tools": "^0.11.0",
     "grow-mongoose-models": "^1.0.3",
