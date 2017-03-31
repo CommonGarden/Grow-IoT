@@ -42,18 +42,20 @@ export default class CreateThing extends Component {
   };
 
   handleNewDevice = () => {
+    const self = this;
     Meteor.call('Thing.new', 
       (error, document) => {
         if (error) {
           throw error;
         } else {
-          if (!this.state.open) {
-            this.setState({newThingSnackOpen:true});
+          if (!self.state.open) {
+            self.setState({newThingSnackOpen:true});
           }
-          this.setState({
+          self.setState({
             'uuid': document.uuid,
             'token': document.token
           });
+          self.props.afterCreate();
         }
       }
     );
@@ -91,6 +93,7 @@ export default class CreateThing extends Component {
     const uuid = this.state.uuid;
     const token = this.state.token;
     const component = this.state.components[this.state.value];
+    const self = this;
     if (component) {
       Meteor.call('Thing.register',
         { uuid, token },
@@ -106,8 +109,8 @@ export default class CreateThing extends Component {
             console.error("New deviceerror", error);
             return alert(`New deviceerror: ${error.reason || error}`);
           }
-          this.setState({open: false});
-          this.setState({newThingSnackOpen:true});
+          self.setState({open: false, newThingSnackOpen:true});
+          self.props.afterCreate();
         }
       );
     }

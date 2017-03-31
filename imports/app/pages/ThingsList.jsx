@@ -15,6 +15,9 @@ class ThingsList extends Component {
   subThings(){
     // Meteor.subscribe('Things.list');
   }
+  refetchThings() {
+    this.props.refetch();
+  }
   render () {
     const Things = this.props.Things || [];
     return (
@@ -57,7 +60,6 @@ const withData = graphql(GET_THINGS_DATA, {
   props: ({ data: { error, loading, allThings, refetch } }) => {
     if (loading) return { loading: true };
     if (error) return { hasErrors: true };
-
     return {
       Things: allThings,
       refetch,

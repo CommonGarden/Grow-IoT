@@ -96,7 +96,9 @@ class AuthenticatedApp extends Component {
   handleOpen = () => {
     this.setState({navDrawerOpen: true})
   }
-
+  handleCreate = () => {
+    this.refs.list.renderedElement.props.refetch();
+  }
   componentWillMount() {
     document.title = "Grow IoT";
     // Check that the user is logged in before the component mounts
@@ -123,7 +125,7 @@ class AuthenticatedApp extends Component {
             title="Grow-IoT"
             iconElementRight={
               <div>
-                <CreateThing />
+                <CreateThing afterCreate={this.handleCreate}/>
                 <IconButton tooltip="Menu"
                             tooltipPosition="bottom-left"
                             iconStyle={{color: 'white'}}
@@ -145,7 +147,7 @@ class AuthenticatedApp extends Component {
             open={this.state.navDrawerOpen}
           />
           <div className="layout vertical flex center center-justified">
-            <ThingsList user={this.props.user}/>
+            <ThingsList user={this.props.user} ref="list"/>
           </div>
         </div>
       </MuiThemeProvider>
