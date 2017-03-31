@@ -22,6 +22,7 @@ class GrowHub extends Component {
 
   handleTap = () => {
     const command = this.props.thing.properties.state === 'on' ? 'turn_off' : 'turn_on';
+    console.log(command);
     this.sendCommand(command);
   };
 
@@ -31,14 +32,8 @@ class GrowHub extends Component {
       case 'dltOpen':
         this.setState({ dltOpen: true });
         break;
-      case 'showLightOptionsDialog':
-        this.setState({showLightOptionsDialog: true});
-        break;
-      case 'showHeaterOptionsDialog':
-        this.setState({showHeaterOptionsDialog: true});
-        break;
-      case 'showWaterPumpOptionsDialog':
-        this.setState({showWaterPumpOptionsDialog: true});
+      case 'settingsDialogOpen':
+        this.setState({settingsDialogOpen: true});
         break;
     }
   };
@@ -49,14 +44,8 @@ class GrowHub extends Component {
       case 'dltOpen':
         this.setState({ dltOpen: false });
         break;
-      case 'showLightOptionsDialog':
-        this.setState({showLightOptionsDialog: false});
-        break;
-      case 'showHeaterOptionsDialog':
-        this.setState({showHeaterOptionsDialog: false});
-        break;
-      case 'showWaterPumpOptionsDialog':
-        this.setState({showWaterPumpOptionsDialog: false});
+      case 'settingsDialogOpen':
+        this.setState({settingsDialogOpen: false});
         break;
     }
   };
@@ -90,9 +79,7 @@ class GrowHub extends Component {
 
   state = {
     dltOpen: false,
-    showWaterPumpOptionsDialog: false,
-    showHeaterOptionsDialog: false,
-    showLightOptionsDialog: false,
+    settingsDialogOpen: false,
     types: [
       {
         type: 'temp',
@@ -147,7 +134,8 @@ class GrowHub extends Component {
   }
 
   render() {
-    console.log(this.props.alerts);
+    // console.log(this.props.alerts);
+  
     const styles = {
       left: {
         float: 'left'
@@ -157,11 +145,12 @@ class GrowHub extends Component {
       },
       actuator: {
         float: 'left',
-        paddingTop: 10
+        padding: 10,
       },
       actionButton: {
         float: 'left',
-        marginRight: 20
+        marginRight: 20,
+        marginleft: 20
       },
       sensorData: {
         paddingLeft: 10,
@@ -172,20 +161,6 @@ class GrowHub extends Component {
       }
     }
 
-    const actions = [
-      <FlatButton
-        label="No"
-        primary={true}
-        data-dialog="dltOpen"
-        onTouchTap={this.handleClose}
-      />,
-      <FlatButton
-        label="Yes"
-        primary={true}
-        onTouchTap={this.deleteThing}
-      />,
-    ];
-
     /*
       Todo:
       -[ ] show power usage data on the plugs.
@@ -195,18 +170,8 @@ class GrowHub extends Component {
         power: 128.792394,
         total: 0.041,
         err_code: 0 }
-      -[x] Clean up icon spacing and font size.
-      -[ ] Make one settings menu for the whole thing?
-        <TextField
-          hintText="Log data every (milliseconds)"
-          floatingLabelText="Log data every (milliseconds)"
-          data-key="interval"
-          defaultValue="2000"
-          onChange={this.handleScheduleChange}
-        />
       -[ ] Add camera icon and teaser todo dialog. : )
-      
-
+      -[ ] Show uuid and token in settings
     */
     return (
       <div>
@@ -214,10 +179,10 @@ class GrowHub extends Component {
         <h2 style={styles.left}>Grow Hub
         </h2>
           <IconButton
-                tooltip="Options"
+                tooltip="Advanced Options"
                 tooltipPosition="top-center"
                 onTouchTap={this.handleOpen}
-                data-dialog="showWaterPumpOptionsDialog"
+                data-dialog="settingsDialogOpen"
                 iconStyle={styles.right}
               >
                 <SettingsIcon />
@@ -244,15 +209,6 @@ class GrowHub extends Component {
           </div>
           <div style={styles.right}>
             <TextField
-              hintText="Light threshold"
-              data-key="threshold"
-              floatingLabelText="Light threshold"
-              defaultValue="300"
-              onChange={this.handleValueChange}
-            />
-            <br/>
-
-            <TextField
               hintText="Day start"
               floatingLabelText="Day start"
               data-key="day"
@@ -271,11 +227,9 @@ class GrowHub extends Component {
           </div>
         </div>
 
-        <Divider />
-
         <div style={styles.actuator}>
           <div style={styles.actionButton}>
-            <h3>Heater</h3>
+            <h3>Fan</h3>
             <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
                                   onTouchTap={this.handleTap}>
@@ -302,8 +256,6 @@ class GrowHub extends Component {
             <br/>
           </div>
         </div>
-
-        <Divider />
 
         <div style={styles.actuator}>
           <div style={styles.actionButton}>
@@ -335,8 +287,43 @@ class GrowHub extends Component {
         </div>
 
         <Dialog
+          title="Settings"
+          actions={<FlatButton
+            label="Close"
+            primary={true}
+            data-dialog="settingsDialogOpen"
+            onTouchTap={this.handleClose}
+          />}
+          modal={false}
+          open={this.state.settingsDialogOpen}
+          onRequestClose={this.handleClose}>
+          <TextField
+            hintText="Log data every (milliseconds)"
+            floatingLabelText="Log data every (milliseconds)"
+            data-key="interval"
+            defaultValue="2000"
+            onChange={this.handleScheduleChange}
+          />
+          <br/>
+          <p>UUID: {this.props.thing.uuid}</p>
+          <p>Token: {this.props.thing.token}</p>
+        </Dialog>
+
+        <Dialog
           title="Are you sure?"
-          actions={actions}
+          actions={
+            <FlatButton
+              label="No"
+              primary={true}
+              data-dialog="dltOpen"
+              onTouchTap={this.handleClose}
+            />,
+            <FlatButton
+              label="Yes"
+              primary={true}
+              onTouchTap={this.deleteThing}
+            />
+          }
           modal={false}
           open={this.state.dltOpen}
           onRequestClose={this.handleClose}

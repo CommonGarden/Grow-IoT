@@ -19,6 +19,7 @@ var questions = [
     message: 'Enter token',
   },
 ];
+
 if(_.isUndefined(uuid) || _.isUndefined(token)) {
   inquirer.prompt(questions).then(function (answers) {
     uuid = answers.uuid;
@@ -32,10 +33,44 @@ if(_.isUndefined(uuid) || _.isUndefined(token)) {
 
 // Create a new growHub instance and connect to https://growHub.commongarden.org
 function createGrowHub(u, t) {
+  const Light = new Thing({  
+    properties: {
+      state: null,
+    },
+
+    start: function () {
+      console.log('Thing initialized, this code runs first');
+
+      // Things are an extension of the node EventEmitter class 
+      // Thus have the same API. Here we register a listener.
+      this.on('turn_light_on', function() {
+        console.log('Light turned on.');
+        // Calling a method emits an event
+        Light.call('turn_light_on');
+      });
+
+      // Calling a method emits an event
+      this.call('turn_light_on');
+
+    },
+
+    turn_light_on: function () {
+      console.log('light on');
+      Light.set('state', 'on');
+    },
+
+    turn_light_off: function () {
+      console.log('light off');
+      Light.set('state', 'off');
+    }
+  });
+
   const growHub = new Thing({
     uuid: u,
     token: t,
     component: 'GrowHub',
+
+    light: Light,
 
     // Properties can be updated by the API
     properties: {
@@ -64,6 +99,7 @@ function createGrowHub(u, t) {
         this.hum_data();
         this.ph_data();
         this.ec_data();
+        this.lux_data();
       }, interval);
 
       this.parseCycles(growfile.properties.cycles);
@@ -118,6 +154,17 @@ function createGrowHub(u, t) {
       console.log('Temp: ' + currentTemp);
     },
 
+    lux_data: function () {
+      let lux = Math.random();
+
+      this.emit({
+        type: 'lux',
+        value: lux
+      });
+
+      console.log('Lux: ' + lux);
+    },
+
     hum_data: function () {
       let currentHumidity = Math.random();
       this.emit({
@@ -128,15 +175,6 @@ function createGrowHub(u, t) {
       console.log("Humidity: " + currentHumidity);
     }
   }).connect();
+
+  console.log(growHub);
 }
-// Default is localhost: 3000
-// growHub.connect({
-//     host: "grow.commongarden.org",
-//     tlsOpts: {
-//       tls: {
-//         servername: "galaxy.meteor.com"
-//       }
-//     },
-//     port: 443,
-//     ssl: true
-// });
