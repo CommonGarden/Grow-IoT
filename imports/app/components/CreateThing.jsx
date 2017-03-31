@@ -129,11 +129,11 @@ export default class CreateThing extends Component {
     const componentItems = this.state.components.map((v, k) => {
       return <MenuItem value={k} primaryText={v.name} key={k} disabled={v.disabled}/>
     });
-
     return (
       <span>
         <IconMenu
-          iconButtonElement={<IconButton iconStyle={{color: 'white'}}><ContentAdd /></IconButton>}
+          iconButtonElement={<IconButton className={this.props.highlight ? 'pulse' : ''}
+            iconStyle={{color: 'white'}}><ContentAdd /></IconButton>}
           anchorOrigin={{horizontal: 'left', vertical: 'top'}}
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
         >

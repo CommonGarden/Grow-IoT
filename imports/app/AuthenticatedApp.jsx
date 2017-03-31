@@ -20,6 +20,7 @@ class AuthenticatedApp extends Component {
 
   state = {
     navDrawerOpen: false,
+    highlightCreate: false,
   };
 
   getStyles() {
@@ -96,7 +97,9 @@ class AuthenticatedApp extends Component {
   handleOpen = () => {
     this.setState({navDrawerOpen: true})
   }
-
+  handleThingsChange = (things) => {
+    this.setState({highlightCreate: !things.length});
+  }
   componentWillMount() {
     document.title = "Grow IoT";
     // Check that the user is logged in before the component mounts
@@ -112,7 +115,12 @@ class AuthenticatedApp extends Component {
       browserHistory.push('/account');
     }
   }
-
+  componentDidMount() {
+    this._mounted =  true;
+  }
+  componentWillUnmount() {
+    this._mounted =  false;
+  }
   render() {
     const styles = this.getStyles();
 
@@ -123,7 +131,7 @@ class AuthenticatedApp extends Component {
             title="Grow-IoT"
             iconElementRight={
               <div>
-                <CreateThing />
+                <CreateThing highlight={this.state.highlightCreate}/>
                 <IconButton tooltip="Menu"
                             tooltipPosition="bottom-left"
                             iconStyle={{color: 'white'}}
@@ -145,7 +153,7 @@ class AuthenticatedApp extends Component {
             open={this.state.navDrawerOpen}
           />
           <div className="layout vertical flex center center-justified">
-            <ThingsList user={this.props.user}/>
+            <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange}/>
           </div>
         </div>
       </MuiThemeProvider>
