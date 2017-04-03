@@ -33,48 +33,17 @@ if(_.isUndefined(uuid) || _.isUndefined(token)) {
 
 // Create a new growHub instance and connect to https://growHub.commongarden.org
 function createGrowHub(u, t) {
-  const Light = new Thing({  
-    properties: {
-      state: null,
-    },
-
-    start: function () {
-      console.log('Thing initialized, this code runs first');
-
-      // Things are an extension of the node EventEmitter class 
-      // Thus have the same API. Here we register a listener.
-      this.on('turn_light_on', function() {
-        console.log('Light turned on.');
-        // Calling a method emits an event
-        Light.call('turn_light_on');
-      });
-
-      // Calling a method emits an event
-      this.call('turn_light_on');
-
-    },
-
-    turn_light_on: function () {
-      console.log('light on');
-      Light.set('state', 'on');
-    },
-
-    turn_light_off: function () {
-      console.log('light off');
-      Light.set('state', 'off');
-    }
-  });
-
   const growHub = new Thing({
     uuid: u,
     token: t,
     component: 'GrowHub',
 
-    light: Light,
-
     // Properties can be updated by the API
     properties: {
       state: 'off',
+      light_state: 'off',
+      fan_state: 'off',
+      pump_state: 'off',
       threshold: 300,
       interval: 3000,
       currently: null,
@@ -100,6 +69,8 @@ function createGrowHub(u, t) {
         this.ph_data();
         this.ec_data();
         this.lux_data();
+        this.water_temp_data();
+        this.power_data();
       }, interval);
 
       this.parseCycles(growfile.properties.cycles);
@@ -113,12 +84,40 @@ function createGrowHub(u, t) {
 
     day: function () {
       console.log('It is day!');
-      console.log(this.get('targets'))
     },
 
     night: function () {
       console.log('It is night!');
-      console.log(this.get('targets'))
+    },
+
+    turn_light_on: function () {
+      console.log('light on');
+      this.set('light_state', 'on');
+    },
+
+    turn_light_off: function () {
+      console.log('light off');
+      this.set('light_state', 'off');
+    },
+
+    turn_fan_on: function () {
+      console.log('Fan on');
+      this.set('fan_state', 'on');
+    },
+
+    turn_fan_off: function () {
+      console.log('Fan off');
+      this.set('fan_state', 'off');
+    },
+
+    turn_pump_on: function () {
+      console.log('Pump on');
+      this.set('pump_state', 'on');
+    },
+
+    turn_pump_off: function () {
+      console.log('Pump off');
+      this.set('pump_state', 'off');
     },
 
     ec_data: function () {
@@ -154,6 +153,50 @@ function createGrowHub(u, t) {
       console.log('Temp: ' + currentTemp);
     },
 
+    water_temp_data: function () {
+      let currentWaterTemp = Math.random();
+
+      this.emit({
+        type: 'water_temperature',
+        value: currentWaterTemp
+      });
+
+      console.log('Water Temp: ' + currentWaterTemp);
+    },
+
+    power_data: function () {
+      this.emit({
+        type: 'fan_power',
+        value: {
+          current: Math.random(),
+          voltage: Math.random(),
+          power: Math.random(),
+          total: Math.random()
+        }
+      });
+
+      this.emit({
+        type: 'pump_power',
+        value: {
+          current: Math.random(),
+          voltage: Math.random(),
+          power: Math.random(),
+          total: Math.random()
+        }
+      });
+
+
+      this.emit({
+        type: 'light_power',
+        value: {
+          current: Math.random(),
+          voltage: Math.random(),
+          power: Math.random(),
+          total: Math.random()
+        }
+      });
+    },
+
     lux_data: function () {
       let lux = Math.random();
 
@@ -167,6 +210,7 @@ function createGrowHub(u, t) {
 
     hum_data: function () {
       let currentHumidity = Math.random();
+
       this.emit({
         type: 'humidity',
         value: currentHumidity

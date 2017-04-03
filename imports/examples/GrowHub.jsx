@@ -21,9 +21,9 @@ class GrowHub extends Component {
     super(props);
   }
 
-  handleTap = () => {
-    const command = this.props.thing.properties.state === 'on' ? 'turn_off' : 'turn_on';
-    console.log(command);
+  handleTap = (event) => {
+    let device = event.currentTarget.dataset.device;
+    const command = this.props.thing.properties[`${device}_state`] === 'on' ? `turn_${device}_off` : `turn_${device}_on`;
     this.sendCommand(command);
   };
 
@@ -129,14 +129,25 @@ class GrowHub extends Component {
     );
   }
 
+  setProperty = (key, value) => {
+    let command = 'setProperty';
+    let options = {
+      key: key,
+      value: value
+    };
+    this.sendCommand(command, options);
+  }
+
   getEventValue(type) {
     const e = this.props[`${type}Event`];
     return e ? e.event.value.toFixed(1) : 'NA';
   }
 
   render() {
-    // console.log(this.props.alerts);
-  
+    const lightPower = this.props.lightPowerEvent ? this.props.lightPowerEvent.event.value: {current:0, voltage: 0, power: 0, total: 0};
+    const fanPower = this.props.fanPowerEvent ? this.props.fanPowerEvent.event.value: {current:0, voltage: 0, power: 0, total: 0};
+    const pumpPower = this.props.pumpPowerEvent ? this.props.pumpPowerEvent.event.value: {current:0, voltage: 0, power: 0, total: 0};
+
     const styles = {
       left: {
         float: 'left'
@@ -149,41 +160,35 @@ class GrowHub extends Component {
         padding: 10,
       },
       actionButton: {
-        float: 'left',
+        // float: 'left',
         marginRight: 20,
         marginleft: 20
       },
+      main: {
+        height: '100%'
+      },
       sensorData: {
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+      },
+      powerData: {
+        fontSize: 10,
+        padding: 10
+      },
+      waterPowerDataHack: {
+        fontSize: 10,
+        padding: 10,
+        paddingTop: 18
       },
       sensorIcon: {
         marginRight: 5
       }
     }
 
-    /*
-      Todo:
-      -[ ] show power usage data on the plugs.
-      Data format:
-      { current: 1.0805,
-        voltage: 120.438369,
-        power: 128.792394,
-        total: 0.041,
-        err_code: 0 }
-      -[ ] Add camera icon and teaser todo dialog. : )
-      -[ ] Show uuid and token in settings
-    */
     return (
-      <div>
+      <div style={styles.main}>
         <div>
           <h2 style={styles.left}>Grow Hub</h2>
-          <IconButton
-            tooltip="Take image"
-            tooltipPosition="top-center"
-            iconStyle={styles.right}>
-            <CameraIcon />
-          </IconButton>
           <IconButton
             tooltip="Advanced Options"
             tooltipPosition="top-center"
@@ -195,11 +200,11 @@ class GrowHub extends Component {
         </div>
         
         <div style={styles.sensorData}>
-        {
-          this.state.types.map((v, k) => {
-              return <p key={k}><i className={v.icon} style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong> </p>
-          })
-        }
+          {
+            this.state.types.map((v, k) => {
+              return <h4 key={k}><i className={v.icon} style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong> </h4>
+            })
+          }
         </div>
 
         <Divider />
@@ -207,11 +212,19 @@ class GrowHub extends Component {
         <div style={styles.actuator}>
           <div style={styles.actionButton}>
             <h3>Light</h3>
-            <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
+            <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
+                                  data-device="light"
                                   onTouchTap={this.handleTap}>
               <PowerIcon />
             </FloatingActionButton>
+            <br/>
+            <div style={styles.powerData}>
+              Current: {lightPower.current.toFixed(2)}<br/>
+              Voltage: {lightPower.voltage.toFixed(2)}<br/>
+              Power: {lightPower.power.toFixed(2)}<br/>
+              Total: {lightPower.total.toFixed(2)}<br/>
+            </div>
           </div>
           <div style={styles.right}>
             <TextField
@@ -236,11 +249,19 @@ class GrowHub extends Component {
         <div style={styles.actuator}>
           <div style={styles.actionButton}>
             <h3>Fan</h3>
-            <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
+            <FloatingActionButton secondary={this.props.thing.properties.fan_state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
+                                  data-device="fan"
                                   onTouchTap={this.handleTap}>
               <PowerIcon />
             </FloatingActionButton>
+            <br/>
+            <div style={styles.powerData}>
+              Current: {fanPower.current.toFixed(2)}<br/>
+              Voltage: {fanPower.voltage.toFixed(2)}<br/>
+              Power: {fanPower.power.toFixed(2)}<br/>
+              Total: {fanPower.total.toFixed(2)}<br/>
+            </div>
           </div>
           <div style={styles.right}>
             <TextField
@@ -266,12 +287,22 @@ class GrowHub extends Component {
         <div style={styles.actuator}>
           <div style={styles.actionButton}>
             <h3>Watering</h3>
-            <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
+            <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
+                                  data-device="pump"
                                   onTouchTap={this.handleTap}
                                   style={styles.left}>
               <PowerIcon />
             </FloatingActionButton>
+            <br/>
+            <br/>
+            <br/>
+            <div style={styles.waterPowerDataHack}>
+              Current: {pumpPower.current.toFixed(2)}<br/>
+              Voltage: {pumpPower.voltage.toFixed(2)}<br/>
+              Power: {pumpPower.power.toFixed(2)}<br/>
+              Total: {pumpPower.total.toFixed(2)}<br/>
+            </div>
           </div>
           <div style={styles.right}>
             <TextField
@@ -314,26 +345,7 @@ class GrowHub extends Component {
           <p>UUID: {this.props.thing.uuid}</p>
           <p>Token: {this.props.thing.token}</p>
         </Dialog>
-
-        <Dialog
-          title="Are you sure?"
-          actions={
-            <FlatButton
-              label="No"
-              primary={true}
-              data-dialog="dltOpen"
-              onTouchTap={this.handleClose}
-            />,
-            <FlatButton
-              label="Yes"
-              primary={true}
-              onTouchTap={this.deleteThing}
-            />
-          }
-          modal={false}
-          open={this.state.dltOpen}
-          onRequestClose={this.handleClose}
-        />
+        <br/>
       </div>
     )
   }
@@ -343,34 +355,68 @@ GrowHub.propTypes = {
   ecEvent: React.PropTypes.object,
   phEvent: React.PropTypes.object,
   tempEvent: React.PropTypes.object,
+  waterTempEvent: React.PropTypes.object,
   humidityEvent: React.PropTypes.object,
+  luxEvent: React.PropTypes.object,
+  pumpPowerEvent: React.PropTypes.object,
+  fanPowerEvent: React.PropTypes.object,
+  lightPowerEvent: React.PropTypes.object,
   events: React.PropTypes.array,
+  alerts: React.PropTypes.array,
 }
 
 export default GrowHubContainer = createContainer(({ thing }) => {
   const phHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ph', 1);
   const tempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'temperature', 1);
+  const waterTempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'water_temperature', 1);
   const ecHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ec', 1);
   const humidityHandle = Meteor.subscribe('Thing.events', thing.uuid, 'humidity', 1);
+  const luxHandle = Meteor.subscribe('Thing.events', thing.uuid, 'lux', 1);
+  const fanPowerHandle = Meteor.subscribe('Thing.events', thing.uuid, 'fan_power', 1);
+  const lightPowerHandle = Meteor.subscribe('Thing.events', thing.uuid, 'light_power', 1);
+  const pumpPowerHandle = Meteor.subscribe('Thing.events', thing.uuid, 'pump_power', 1);
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
   const alertsHandle = Meteor.subscribe('Thing.events', thing.uuid, 'alert', 10);
-  const loading = [ phHandle, tempHandle, ecHandle, humidityHandle, eventsHandle, alertsHandle ].every(
+  
+  const loading = [ phHandle,
+                    tempHandle,
+                    ecHandle,
+                    humidityHandle,
+                    waterTempHandle,
+                    luxHandle,
+                    fanPowerHandle,
+                    lightPowerHandle,
+                    pumpPowerHandle,
+                    eventsHandle,
+                    alertsHandle ].every(
     (h) => {
       return h.ready();
     }
   );
 
+  const events = Events.find({}).fetch();
   const alerts = Events.find({'event.type': 'alert'}).fetch();
   const phEvent = Events.findOne({'event.type': 'ph'});
   const ecEvent = Events.findOne({'event.type': 'ec'});
+  const luxEvent = Events.findOne({'event.type': 'lux'});
   const tempEvent = Events.findOne({'event.type': 'temperature'});
+  const waterTempEvent = Events.findOne({'event.type': 'water_temperature'});
   const humidityEvent = Events.findOne({'event.type': 'humidity'});
+  const fanPowerEvent = Events.findOne({'event.type': 'fan_power'});
+  const pumpPowerEvent = Events.findOne({'event.type': 'pump_power'});
+  const lightPowerEvent = Events.findOne({'event.type': 'light_power'});
 
   return {
     phEvent,
     ecEvent,
     tempEvent,
+    waterTempEvent,
     humidityEvent,
+    luxEvent,
+    fanPowerEvent,
+    lightPowerEvent,
+    pumpPowerEvent,
+    events,
     alerts,
     loading
   }
