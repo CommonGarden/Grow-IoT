@@ -147,7 +147,6 @@ class AppNavDrawer extends Component {
       },
     };
     const fsButtonStyle = {
-      width: '100%',
       backgroundColor: 'white',
       color: 'rgba(0, 0, 0, 0.87)',
       display: 'block',
@@ -158,9 +157,9 @@ class AppNavDrawer extends Component {
       textAlign: 'left',
       cursor: "pointer",
     };
-    const fsIconStyle = {
-      margin: '12px 24px 12px 16px',
-    }
+    const fsIconStyle = _.extend({
+      margin: '12px 20px 12px 10px',
+    }, fsButtonStyle);
     return (
       <Drawer
         style={style}
@@ -176,7 +175,9 @@ class AppNavDrawer extends Component {
         >
           {/* button instead of ListItem to because fullscreen request is not autherized for synthetic events. */}
           <div className="horizontal layout">
-            {this.state.fullscreen ? <FullscreenExitIcon style={fsIconStyle} /> : <FullscreenIcon style={fsIconStyle}/>}
+            <button onClick={this.handleFullscreenToggle} style={fsIconStyle} >
+              {this.state.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+            </button>
             <button onClick={this.handleFullscreenToggle} style={fsButtonStyle} className="flex">
               {this.state.fullscreen ? 'Exit' : 'Go'} Fullscreen 
             </button>
