@@ -155,11 +155,12 @@ class AppNavDrawer extends Component {
       outline: '0px',
       border: 'none',
       textAlign: 'left',
-      cursor: "pointer",
+      cursor: 'pointer',
+      padding: '0px',
     };
-    const fsIconStyle = _.extend({
-      margin: '12px 20px 12px 10px',
-    }, fsButtonStyle);
+    const fsIconStyle = _.extend({}, fsButtonStyle, {
+      padding: '12px 32px 12px 16px',
+    });
     return (
       <Drawer
         style={style}
