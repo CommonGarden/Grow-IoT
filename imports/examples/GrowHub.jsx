@@ -15,6 +15,7 @@ import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import Divider from 'material-ui/Divider';
+import FileUpload from '../app/components/FileUpload';
 
 class GrowHub extends Component {
   constructor(props) {
@@ -206,6 +207,8 @@ class GrowHub extends Component {
             })
           }
         </div>
+
+        <FileUpload />
 
         <Divider />
 
