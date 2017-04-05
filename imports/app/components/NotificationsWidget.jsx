@@ -2,6 +2,7 @@ import React from 'react';
 import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
+import WarningIcon from 'material-ui/svg-icons/alert/warning';
 
 // Probably don't need all of these.
 import {List, ListItem} from 'material-ui/List';
@@ -14,12 +15,30 @@ import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import {blue500, yellow600} from 'material-ui/styles/colors';
 import EditorInsertChart from 'material-ui/svg-icons/editor/insert-chart';
 
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 // TODO: drop down list of notifications.
 const NotificationsWidget = () => (
   <span>
-    <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
-      <NotificationsIcon />
-    </IconButton>
+    <IconMenu
+      iconButtonElement={
+        <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
+          <NotificationsIcon />
+        </IconButton>
+      }
+      anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+      targetOrigin={{horizontal: 'left', vertical: 'top'}}
+    >
+      {
+        _.times(5, function(n){
+          return <MenuItem key={n} primaryText={
+            `Notification ${n}. Something went wrong`
+          } leftIcon={<WarningIcon />} />
+        })
+      }
+      <Divider />
+      <MenuItem value="go" primaryText="See All Notification" />
+    </IconMenu>
     <Badge
       badgeContent={10}
       secondary={true}
