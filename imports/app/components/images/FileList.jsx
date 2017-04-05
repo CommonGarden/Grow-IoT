@@ -17,6 +17,9 @@ const styles = {
     height: 450,
     overflowY: 'auto',
   },
+  img: {
+  	maxWidth: '100%',
+  }
 };
 
 // get images instead.
@@ -80,7 +83,7 @@ const GridListExampleSimple = () => (
           subtitle={<span>by <b>{tile.author}</b></span>}
           actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
         >
-          <img src={tile.img} />
+          <img src={tile.img} style={styles.img} />
         </GridTile>
       ))}
     </GridList>

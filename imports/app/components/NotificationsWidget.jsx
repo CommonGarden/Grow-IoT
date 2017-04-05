@@ -13,14 +13,26 @@ import FileFolder from 'material-ui/svg-icons/file/folder';
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import {blue500, yellow600} from 'material-ui/styles/colors';
 import EditorInsertChart from 'material-ui/svg-icons/editor/insert-chart';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import WarningIcon from 'material-ui/svg-icons/alert/warning';
 
-// TODO: drop down list of notifications.
+// TODO: list of notifications, also 'mark as read functionality'
 const NotificationsWidget = () => (
-  <span>
-    <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
-      <NotificationsIcon />
-    </IconButton>
-    <Badge
+  <span style={{marginRight: -30}}>
+    <IconMenu
+      iconButtonElement={
+        <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
+          <NotificationsIcon />
+        </IconButton>
+      }
+      anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+      targetOrigin={{horizontal: 'left', vertical: 'top'}}
+    >
+      <Subheader>Notifications</Subheader>
+      <MenuItem primaryText="pH low" leftIcon={<WarningIcon />} />
+    </IconMenu>
+        <Badge
       badgeContent={10}
       secondary={true}
       badgeStyle={{top: 5, right: 34, padding: 0}}

@@ -1,4 +1,9 @@
 import React from 'react';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+
 
 // Just make a normal class...
 const IndividualFile = React.createClass({
@@ -44,6 +49,11 @@ const IndividualFile = React.createClass({
   },
 
   render() {
+    const styles = {
+      img: {
+        maxWidth: '100%'
+      }
+    };
 
     return <div className="m-t-sm">
       <div className="row">
@@ -56,16 +66,7 @@ const IndividualFile = React.createClass({
 
       <div className="row">
         <div className="col-md-3">
-          <button onClick={this.renameFile} className="btn btn-outline btn-primary btn-sm">
-            Rename
-          </button>
-        </div>
-
-
-        <div className="col-md-3">
-          <a href={this.props.fileUrl} className="btn btn-outline btn-primary btn-sm"
-             target="_blank">View</a>
-          <img src={this.props.fileUrl} />
+          <img src={this.props.fileUrl} style={styles.img}/>
         </div>
 
         <div className="col-md-2">
