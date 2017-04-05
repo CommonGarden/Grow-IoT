@@ -14,17 +14,17 @@ import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import {blue500, yellow600} from 'material-ui/styles/colors';
 import EditorInsertChart from 'material-ui/svg-icons/editor/insert-chart';
 
+// TODO: drop down list of notifications.
 const NotificationsWidget = () => (
   <span>
+    <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
+      <NotificationsIcon />
+    </IconButton>
     <Badge
       badgeContent={10}
       secondary={true}
-      badgeStyle={{top: 12, right: 12}}
-    >
-      <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
-        <NotificationsIcon />
-      </IconButton>
-    </Badge>
+      badgeStyle={{top: 5, right: 34, padding: 0}}
+    />
   </span>
 );
 
