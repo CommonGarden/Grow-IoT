@@ -361,6 +361,7 @@ GrowHub.propTypes = {
   pumpPowerEvent: React.PropTypes.object,
   fanPowerEvent: React.PropTypes.object,
   lightPowerEvent: React.PropTypes.object,
+  ready: React.PropTypes.bool,
   events: React.PropTypes.array,
   alerts: React.PropTypes.array,
 }
@@ -378,7 +379,7 @@ export default GrowHubContainer = createContainer(({ thing }) => {
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
   const alertsHandle = Meteor.subscribe('Thing.events', thing.uuid, 'alert', 10);
   
-  const loading = [ phHandle,
+  const ready = [ phHandle,
                     tempHandle,
                     ecHandle,
                     humidityHandle,
@@ -418,6 +419,6 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     pumpPowerEvent,
     events,
     alerts,
-    loading
+    ready
   }
 }, GrowHub);

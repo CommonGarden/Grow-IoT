@@ -9,4 +9,3 @@ if (Meteor.isServer) {
 }
 
 import './methods.js';
-import './images.js';

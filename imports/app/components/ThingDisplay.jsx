@@ -88,7 +88,6 @@ export default class ThingDisplay extends Component {
       <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
     </div>;
     const cmpNameInCamel = getComponentType(this.props.thing.component || '');
-    console.log(cmpNameInCamel);
     const RegisteredText = components[cmpNameInCamel];
     const cardText = r ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
     return (
