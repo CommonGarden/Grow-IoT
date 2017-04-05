@@ -4,11 +4,23 @@ import {Meteor} from 'meteor/meteor';
 import {_} from 'meteor/underscore';
 import {GridList, GridTile} from 'material-ui/GridList';
 import CircularProgress from 'material-ui/CircularProgress';
-
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 class ImageGrid extends Component {
   constructor(props) {
     super(props);
+  }
+
+  removeFile (event) {
+    let id = event.currentTarget.dataset.id;
+    let conf = confirm('Are you sure you want to delete the file?') || false;
+    if (conf == true) {
+      Meteor.call('Image.delete', id, function (err, res) {
+        if (err)
+          console.log(err);
+      });
+    }
   }
 
   render() {
@@ -19,8 +31,6 @@ class ImageGrid extends Component {
         justifyContent: 'space-around',
       },
       gridList: {
-        width: 500,
-        height: 450,
         overflowY: 'auto',
       },
       img: {
@@ -46,6 +56,7 @@ class ImageGrid extends Component {
                   <GridTile
                     title={aFile.name}
                     subtitle={<span>Size: {aFile.size}</span>}
+                    actionIcon={<IconButton onTouchTap={this.removeFile} data-id={aFile._id} ><StarBorder color="white" /></IconButton>}
                   >
                     <img src={link} style={styles.img} />
                   </GridTile>

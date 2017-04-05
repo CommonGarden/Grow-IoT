@@ -150,13 +150,13 @@ class GrowHub extends Component {
 
     const styles = {
       left: {
-        float: 'left'
+        // float: 'left'
       },
       right: {
         float: 'right'
       },
       actuator: {
-        float: 'left',
+        // float: 'left',
         padding: 10,
       },
       actionButton: {
@@ -188,15 +188,15 @@ class GrowHub extends Component {
     return (
       <div style={styles.main}>
         <div>
-          <h2 style={styles.left}>Grow Hub</h2>
-          <IconButton
-            tooltip="Advanced Options"
-            tooltipPosition="top-center"
-            onTouchTap={this.handleOpen}
-            data-dialog="settingsDialogOpen"
-            iconStyle={styles.right}>
-            <SettingsIcon />
-          </IconButton>
+          <h2 style={styles.left}>Grow Hub
+            <IconButton
+              tooltip="Advanced Options"
+              tooltipPosition="top-center"
+              onTouchTap={this.handleOpen}
+              data-dialog="settingsDialogOpen">
+              <SettingsIcon />
+            </IconButton>
+          </h2>
         </div>
         
         <div style={styles.sensorData}>
