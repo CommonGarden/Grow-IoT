@@ -16,27 +16,10 @@ export default class CreateComponent extends Component {
         name: 'test-device',
       },
       {
-        name: 'test-thing',
-        disabled: true,
-      },
-      {
-        name: 'dr-dose',
-        disabled: true,
-      },
-      {
-        name: 'weather-widget',
-        disabled: true,
-      },
-      {
         name: 'smart-light',
       },
       {
-        name: 'smart-pot',
-        disabled: true,
-      },
-      {
-        name: 'fish-tank',
-        disabled: true,
+        name: 'image-component',
       },
       {
         name: 'grow-hub',
