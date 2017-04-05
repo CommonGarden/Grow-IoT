@@ -1,4 +1,6 @@
 import React from 'react';
+
+// Just make a normal class...
 const IndividualFile = React.createClass({
 
   propTypes: {

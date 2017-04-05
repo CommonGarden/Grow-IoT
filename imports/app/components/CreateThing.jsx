@@ -29,6 +29,9 @@ export default class CreateThing extends Component {
         name: 'smart-light',
       },
       {
+        name: 'image-component',
+      },
+      {
         name: 'grow-hub',
       },
     ],
@@ -129,6 +132,7 @@ export default class CreateThing extends Component {
     const componentItems = this.state.components.map((v, k) => {
       return <MenuItem value={k} primaryText={v.name} key={k} disabled={v.disabled}/>
     });
+
     return (
       <span>
         <IconMenu

@@ -98,16 +98,6 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    // influx.writePoints([
-    //   {
-    //     measurement: 'events',
-    //     tags: { thing: thing._id },
-    //     fields: { value: event.value, type: event.type },
-    //   }
-    // ]).catch(err => {
-    //   console.error(`Error saving data to InfluxDB! ${err.stack}`)
-    // })
-
     return !!Events.insert({
       thing: {
         _id: thing._id
@@ -131,5 +121,13 @@ Meteor.methods({
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
     return Things.remove(thing._id);
+  },
+
+/*
+ *
+ */
+  'Image.delete': function (id) {
+    // TODO: remove image
+    check(id, String);
   }
 });

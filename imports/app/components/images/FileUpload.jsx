@@ -5,6 +5,7 @@ import IndividualFile from './FileIndividualFile.jsx';
 import {_} from 'meteor/underscore';
 
 // See: https://github.com/VeliovGroup/Meteor-Files/wiki/React-Example
+// TODO: use material UI
 const FileUploadComponent = React.createClass({
   mixins: [ReactMeteorData],
 

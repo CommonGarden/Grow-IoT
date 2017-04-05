@@ -9,12 +9,14 @@ import _ from 'underscore';
 import TestDevice from '../../examples/TestDevice.jsx';
 import SmartLight from '../../examples/SmartLight.jsx';
 import GrowHub from '../../examples/GrowHub.jsx';
+import ImageComponent from '../../examples/ImageComponent.jsx';
 import CreateComponent from './CreateComponent.jsx';
 
 const components = {
   TestDevice,
   SmartLight,
   GrowHub,
+  ImageComponent
 };
 
 const getComponentType = function(c) {
@@ -23,13 +25,9 @@ const getComponentType = function(c) {
 
 const availableComponents = [
   "test-device",
-  "test-thing",
-  "dr-dose",
-  "weather-widget",
   "smart-light",
-  "smart-pot",
-  "fish-tank",
-  "grow-hub"
+  "grow-hub",
+  "image-component"
 ];
 _.each(availableComponents, (v) => {
   const cmp = getComponentType(v);
@@ -91,6 +89,7 @@ export default class ThingDisplay extends Component {
 
     </div>;
     const cmpNameInCamel = getComponentType(this.props.thing.component || '');
+    console.log(cmpNameInCamel);
     const RegisteredText = components[cmpNameInCamel];
     const cardText = r ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
     return (

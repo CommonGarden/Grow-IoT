@@ -10,6 +10,7 @@ import spacing from 'material-ui/styles/spacing';
 import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
 import {darkWhite, lightWhite, grey900} from 'material-ui/styles/colors';
 import CreateThing from './components/CreateThing.jsx';
+import NotificationsWidget from './components/NotificationsWidget';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -131,6 +132,7 @@ class AuthenticatedApp extends Component {
             title="Grow-IoT"
             iconElementRight={
               <div>
+                <NotificationsWidget />
                 <CreateThing highlight={this.state.highlightCreate}/>
                 <IconButton tooltip="Menu"
                             tooltipPosition="bottom-left"
