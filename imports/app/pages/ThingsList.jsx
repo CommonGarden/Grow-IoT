@@ -48,7 +48,7 @@ class ThingsList extends Component {
   render () {
     const styles = {
       circProg: {
-        marginTop: 20
+        marginTop: 45
       }
     };
     

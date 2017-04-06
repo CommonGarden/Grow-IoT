@@ -63,5 +63,5 @@ Images = new FilesCollection({
 });
 
 if (Meteor.isServer) {
-  Images.denyClient();
+  // Images.denyClient();
 }

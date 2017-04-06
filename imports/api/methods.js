@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { Random } from 'meteor/random';
+import { EJSON } from 'meteor/ejson';
 import influx from 'influx';
 
 const INFLUX_URL = process.env.INFLUX_URL;
@@ -146,6 +147,8 @@ Meteor.methods({
       token: String
     });
 
+    // check(file, Match.Where(EJSON.isBinary));
+
     let thing = Things.findOne(auth, {
       fields: {
         _id: 1
@@ -153,18 +156,18 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
+    let imageFile = Buffer.from(file);
 
-    Images.insert({
-      file: file,
-      meta: {
-        thing: thing._id,
-        insertedAt: new Date(),
-        locator: this.props.fileLocator,
-        userId: Meteor.userId() // Optional, used to check on server for file tampering
-      },
-      streams: 'dynamic',
-      chunkSize: 'dynamic',
-      allowWebWorkers: true // If you see issues with uploads, change this to false
+    Images.write(imageFile, {
+      thing: thing._id,
+      insertedAt: new Date(),
+      userId: Meteor.userId() // Optional, used to check on server for file tampering
+    }, function (error, fileRef) {
+      if (error) {
+        throw error;
+      } else {
+        console.log(fileRef.name + ' is successfully saved to FS. _id: ' + fileRef._id);
+      }
     });
   },
 
