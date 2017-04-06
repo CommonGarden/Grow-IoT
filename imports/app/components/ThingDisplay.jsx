@@ -90,6 +90,7 @@ export default class ThingDisplay extends Component {
     const cmpNameInCamel = getComponentType(this.props.thing.component || '');
     const RegisteredText = components[cmpNameInCamel];
     const cardText = r ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
+
     return (
       <div>
         <Card style={thingStyle}>
@@ -101,6 +102,7 @@ export default class ThingDisplay extends Component {
             <FlatButton label={r ? 'Delete': 'Cancel'} onTouchTap={this.handleOpen}/>
           </CardActions>
         </Card>
+
         <Dialog
           title="Are you sure?"
           actions={actions}

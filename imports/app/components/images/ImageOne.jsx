@@ -30,7 +30,7 @@ ImageOne.propTypes = {
   ready: React.PropTypes.bool,
 }
 
-// // Get images!
+// Get images!
 export default ImageOneContainer = createContainer(({ thing }) => {
   const imagesHandle = Meteor.subscribe('files.images.all');
   

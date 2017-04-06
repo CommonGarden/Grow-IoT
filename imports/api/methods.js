@@ -140,7 +140,7 @@ Meteor.methods({
     return Things.remove(thing._id);
   },
 
-  'Image.new': function (auth, imageBuffer) {
+  'Image.new': function (auth, file) {
     check(auth, {
       uuid: String,
       token: String

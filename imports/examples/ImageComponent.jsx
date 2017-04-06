@@ -13,7 +13,6 @@ class ImageComponent extends Component {
   render() {
     return (
       <div>
-      	<ImageOne />
       	<ImageUpload />
       	<br/>
     	<ImageGrid />
