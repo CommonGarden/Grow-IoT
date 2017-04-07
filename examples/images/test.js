@@ -3,8 +3,8 @@ const RaspiCam = require('raspicam');
 const fs = require('fs');
 
 const Cam = new Thing({
-  uuid: '2234f0ca-c8b3-43a9-abae-eaa70324eb5a',
-  token: 'FyLwxWWrx4cJQpfY23PAnFwFgTDyKctT',
+  uuid: 'bdc72ff7-f879-418b-8bc9-989d333ef022',
+  token: '9SPHfRZWoNG6EWFEWXoPXRmbaLKns2JX',
 
   component: 'image-component',
 
@@ -28,6 +28,7 @@ const Cam = new Thing({
       fs.readFile('./image.jpg', (err, data) => {
         if (err) throw err; // Fail if the file can't be read.
         this.sendImage(data);
+        camera.stop();
       });
     });
 

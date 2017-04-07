@@ -2,6 +2,7 @@ import Grow from '../lib/Grow.js';
 import _ from 'underscore';
 import cycles from '../examples/growfiles/cycles';
 import phases from '../examples/growfiles/phases';
+import cannabis from '../examples/growfiles/cannabis';
 
 const expect = require('chai').expect;
 
@@ -20,15 +21,17 @@ const expect = require('chai').expect;
 
 describe('Growfile test', () => {
   beforeEach(() => {
-    global.testThing = new Grow(phases);
+    global.testPhase = new Grow(phases);
+    global.testCycle = new Grow(cycles);
+    global.testCannabis = new Grow(cannabis)
   });
 
   it('should parse and schedule cycles', () => {
-    testThing.parseCycles(cycles.properties.cycles);
+    testCannabis.parseCycles(cycles.properties.cycles);
   });
 
   it('should parse phases', () => {
-    testThing.parsePhases(phases.properties.phases);
+    testCannabis.parsePhases(phases.properties.phases);
   });
 
   // it('should register alert event listeners', () => {
