@@ -50,7 +50,7 @@ class ImageGrid extends Component {
                 // console.log('A file: ', aFile.link(), aFile.get('name'));
 
                 let link = Images.findOne({_id: aFile._id}).link();  //The "view/download" link
-                console.log(link);
+                // console.log(link);
 
                 // Send out components that show details of each file
                 return <span key={key}>

@@ -141,13 +141,17 @@ Meteor.methods({
     return Things.remove(thing._id);
   },
 
+  /*
+   *
+   */
   'Image.new': function (auth, file) {
     check(auth, {
       uuid: String,
       token: String
     });
 
-    // check(file, Match.Where(EJSON.isBinary));
+    // Should be binary...
+    check(file, Match.Where(EJSON.isBinary));
 
     let thing = Things.findOne(auth, {
       fields: {
@@ -159,9 +163,12 @@ Meteor.methods({
     let imageFile = Buffer.from(file);
 
     Images.write(imageFile, {
-      thing: thing._id,
-      insertedAt: new Date(),
-      userId: Meteor.userId() // Optional, used to check on server for file tampering
+      meta: {
+        thing: thing._id,
+        insertedAt: new Date(),
+        userId: Meteor.userId(), // Optional, used to check on server for file tampering
+      },
+      type: 'image/jpg',
     }, function (error, fileRef) {
       if (error) {
         throw error;
@@ -181,29 +188,17 @@ Meteor.methods({
 
   // Add links? For example if a device is offline, clicking on the notification
   // takes you to the offline device.
-  'Notifications.new': function (notification, userId) {
-    check(notification, Match.NonEmptyString);
-    check(userId, Match.OneOf(String, undefined));
+  'Notifications.new': function (notification) {
+    check(notification, String);
 
-    if (userId) {
-      var document = {
-        timestamp: new Date(),
-        notification,
-        read: false,
-        owner: {
-          _id: userId
-        }
-      };
-    } else {
-      var document = {
-        timestamp: new Date(),
-        notification,
-        read: false,
-        owner: {
-          _id: Meteor.userId()
-        }
-      };
-    }
+    let document = {
+      timestamp: new Date(),
+      notification,
+      read: false,
+      owner: {
+        _id: Meteor.userId()
+      }
+    };
 
     if (!Notifications.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
@@ -212,7 +207,7 @@ Meteor.methods({
 
   // Mark a notification as read by id.
   'Notifications.read': function (id) {
-    check(id, Match.NonEmptyString);
+    check(id, String);
 
     return Notifications.update(id, {
       $set: {

@@ -23,17 +23,20 @@ export default class CreateThing extends Component {
     thingName: '',
     components: [
       {
-        name: 'test-device',
+        name: 'TestDevice',
       },
       {
-        name: 'smart-light',
+        name: 'SmartLight',
       },
       {
-        name: 'image-component',
+        name: 'ImageComponent',
       },
       {
-        name: 'grow-hub',
+        name: 'GrowHub',
       },
+      {
+        name: 'NotificationsComponent'
+      }
     ],
     value: 0,
   };

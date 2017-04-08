@@ -141,13 +141,31 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
   }
 });
 
+// MASSIVE HACK for development purposes only
 Meteor.publish('files.images.all', function () {
-  return Images.find().cursor;
+  return Images.find({}, {'sort': {
+    'meta.insertedAt': -1
+  }}).cursor;
 });
 
-// Not working yet.
-Meteor.publish('Things.images', function (uuid) {
+Meteor.publish('Thing.images', function (uuid, l) {
   check(uuid, String);
+  check(l, Number);
+
+  console.log(uuid);
+  console.log(l);
+
+  let thing = Things.findOne({
+    'uuid': uuid,
+    'owner': this.userId
+  }
+  , {
+    fields: {
+      _id: 1
+    }
+  });
+
+  if (!thing) throw new Meteor.Error('unauthorized', "Unauthorized.");
 
   const limit = l || 10;
   return Images.find(
@@ -155,6 +173,20 @@ Meteor.publish('Things.images', function (uuid) {
   , {
     'sort': {
       'insertedAt': -1
+    },
+    limit
+  });
+});
+
+Meteor.publish('Notifications', function(l) {
+  check(l, Match.OneOf(Number, undefined));
+
+  const limit = l || 10;
+  return Notifications.find({
+    'owner._id': this.userId
+  }, {
+    'sort': {
+      'timestamp': -1
     },
     limit
   });

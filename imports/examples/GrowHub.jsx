@@ -401,6 +401,12 @@ GrowHub.propTypes = {
 }
 
 export default GrowHubContainer = createContainer(({ thing }) => {
+  // _.mapObject(thing, (value, key) => {
+  //   console.log(key);
+  //   console.log(value);
+  // })
+
+  // TODO: clean this up.
   const phHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ph', 1);
   const tempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'temperature', 1);
   const waterTempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'water_temperature', 1);
