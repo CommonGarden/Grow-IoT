@@ -9,7 +9,7 @@ class ImageOne extends Component {
   }
 
   render() {
-    if (this.props.ready) {
+    if (this.props.ready && this.props.image) {
       'use strict';
 
       let image = this.props.image;

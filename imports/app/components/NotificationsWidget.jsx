@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Notifications from '../../api/collections/notifications';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
+import moment from 'moment';
+
 import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
@@ -17,34 +22,80 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 
-// TODO: drop down list of notifications.
-const NotificationsWidget = () => (
-  <span>
-    <IconMenu
-      iconButtonElement={
-        <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
-          <NotificationsIcon />
-        </IconButton>
-      }
-      anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-      targetOrigin={{horizontal: 'left', vertical: 'top'}}
-    >
-      {
-        _.times(5, function(n){
-          return <MenuItem key={n} primaryText={
-            `Notification ${n}. Something went wrong`
-          } leftIcon={<WarningIcon />} />
-        })
-      }
-      <Divider />
-      <MenuItem value="go" primaryText="See All Notification" />
-    </IconMenu>
-    <Badge
-      badgeContent={10}
-      secondary={true}
-      badgeStyle={{top: 5, right: 34, padding: 0}}
-    />
-  </span>
-);
+const iconList = {
+  warning: <WarningIcon />,
+}
 
-export default NotificationsWidget;
+class NotificationsWidget extends Component {
+  state = {
+    loading: false,
+    notificationCount: 0,
+  };
+
+  componentWillMount() {
+    this.subNotifications();
+    this.getNotificationCount();
+  }
+  getNotificationCount() {
+    Notifications.find({owner : Meteor.userId()}).observe({
+      added: (document) => {
+        Meteor.call('Notifications.getCount', (e, notificationCount) => {
+          if(!e) {
+            this.setState({ notificationCount });
+          }
+        });
+      },
+    });
+  }
+  subNotifications(){
+    this.setState({ loading: true });
+    Meteor.subscribe('Notifications.all', {limit: 5}, (h) => {
+      this.setState({ loading: false });
+    });
+  }
+  render() {
+    return (
+      <span>
+        <IconMenu
+          iconButtonElement={
+            <IconButton tooltip="Notifications" iconStyle={{color: 'white'}}>
+              <NotificationsIcon />
+            </IconButton>
+          }
+          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+        >
+          {
+            this.props.notifications.length ? _.map(this.props.notifications, function(n, i){
+              // TODO secondary text style. or use dialog and list instead of iconMenu
+              return <MenuItem
+                key={i}
+                primaryText={n.message}
+                secondaryText={moment(n.timestamp).calendar()}
+                leftIcon={iconList[n.type || 'warning']} />
+            }) : <MenuItem value="go" primaryText="No new notifications" />
+          }
+          <Divider />
+          <MenuItem value="go" primaryText="See All Notification" />
+        </IconMenu>
+        <Badge
+          badgeContent={this.state.notificationCount}
+          secondary={true}
+          badgeStyle={{top: 5, right: 34, padding: 0}}
+        />
+      </span>
+    )
+  }
+};
+
+NotificationsWidget.PropTypes = {
+  notifications: React.PropTypes.array,
+}
+
+export default NotificationsWidgetContainer= createContainer(() => {
+  const owner = Meteor.userId();
+  const notifications = Notifications.find({ owner }).fetch();
+  return {
+    notifications,
+  }
+}, NotificationsWidget);

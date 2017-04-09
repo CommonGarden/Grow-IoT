@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { Factory } from 'meteor/dburles:factory';
 
-const Notifications = new Mongo.Collection('Notifications');
+const Notifications = new Mongo.Collection('notifications');
 
 Notifications.allow({
   insert: function (userId, doc) {
@@ -29,4 +31,35 @@ Notifications.deny({
   fetch: ['locked'] // no need to fetch 'owner'
 });
 
+Notifications.schema = new SimpleSchema({
+  _id: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  },
+  thing: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  },
+  event: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  },
+  owner: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  },
+  type: { type: String, optional: true },
+  timestamp: { type: Date },
+  message: { type: String },
+  read: { type: Boolean },
+});
+
+Notifications.attachSchema(Notifications.schema);
+
+Factory.define('notifications', Notifications, {
+  etl_insert_time: new Date(),
+  secureType: 'private',
+});
 export default Notifications;
+
+

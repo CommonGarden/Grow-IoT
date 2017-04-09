@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { Random } from 'meteor/random';
 import { EJSON } from 'meteor/ejson';
+import Notifications from './collections/notifications';
 import influx from 'influx';
 
 const INFLUX_URL = process.env.INFLUX_URL;
@@ -219,5 +220,8 @@ Meteor.methods({
         'read':true
       }
     });
+  },
+  'Notifications.getCount': function() {
+    return Notifications.find({ owner: this.userId }).count();
   }
 });
