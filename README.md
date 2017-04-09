@@ -2,13 +2,7 @@
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
 
-Grow-IoT allows you to:
-* Securely connect sensors and actuators
-* Create custom things with [webcomponents](http://webcomponents.org/)
-* Build a dashboard out of those components
-* Own your data ([host your own instance!](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup))
-
-If you think the Internet of Things should be based on open standards and interoperable by design (kind of like the web)... well, you've come to the right place.
+![screenshot](https://cloud.githubusercontent.com/assets/521978/24823129/316d1ac4-1bb0-11e7-81a0-7df6f5ca4ef5.png)
 
 ## Installing Grow-IoT
 
@@ -62,6 +56,8 @@ We have a few different repos for alternative (perhaps non-Meteor) stacks:
 ) and [schema](https://github.com/CommonGarden/graphql-schema)
 * [Rest API](https://github.com/CommonGarden/rest-api) *(using [Express](https://expressjs.com/))*
 * [Mongoose models](https://github.com/CommonGarden/mongoose-models)
+
+Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growing assortment of useful info, please help improve it.
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
