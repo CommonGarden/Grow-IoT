@@ -38,13 +38,15 @@ class NotificationsWidget extends Component {
   }
   getNotificationCount() {
     Notifications.find({owner : Meteor.userId()}).observe({
-      added: (document) => {
-        Meteor.call('Notifications.getCount', (e, notificationCount) => {
-          if(!e) {
-            this.setState({ notificationCount });
-          }
-        });
-      },
+      added: this.callGetCount,
+      removed: this.callGetCount,
+    });
+  }
+  callGetCount = () => {
+    Meteor.call('Notifications.getCount', (e, notificationCount) => {
+      if(!e) {
+        this.setState({ notificationCount });
+      }
     });
   }
   subNotifications(){
