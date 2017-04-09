@@ -60,4 +60,8 @@ We have a few different repos for alternative (perhaps non-Meteor) stacks:
 Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growing assortment of useful info, please help improve it.
 
 ## License
-Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License". 
+Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".
+
+# Join the dev list
+
+Link => https://groups.google.com/a/commongarden.org/forum/#!forum/dev
