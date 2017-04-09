@@ -141,4 +141,22 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
   }
 });
 
+Meteor.publish('files.images.all', function () {
+  return Images.find().cursor;
+});
+
+// Not working yet.
+Meteor.publish('Things.images', function (uuid) {
+  check(uuid, String);
+
+  const limit = l || 10;
+  return Images.find(
+    {'thing._id': thing._id}
+  , {
+    'sort': {
+      'insertedAt': -1
+    },
+    limit
+  });
+});
 

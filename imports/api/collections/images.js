@@ -15,7 +15,7 @@ if (Meteor.isServer) {
 }
 
 Images = new FilesCollection({
-  collectionName: 'images',
+  collectionName: 'Images',
   allowClientCode: false,
   storagePath: 'assets/app/uploads',
   debug: Meteor.isServer && process.env.NODE_ENV === 'development',
@@ -63,8 +63,5 @@ Images = new FilesCollection({
 });
 
 if (Meteor.isServer) {
-  Images.denyClient();
-  Meteor.publish('files.images.all', function () {
-    return Images.find().cursor;
-  });
+  // Images.denyClient();
 }

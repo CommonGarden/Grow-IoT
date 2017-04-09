@@ -86,12 +86,11 @@ export default class ThingDisplay extends Component {
       <p>Connect a device using the following API crendentials or create a component instead.</p>
       <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
       <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
-
     </div>;
     const cmpNameInCamel = getComponentType(this.props.thing.component || '');
-    console.log(cmpNameInCamel);
     const RegisteredText = components[cmpNameInCamel];
     const cardText = r ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
+
     return (
       <div>
         <Card style={thingStyle}>
@@ -103,6 +102,7 @@ export default class ThingDisplay extends Component {
             <FlatButton label={r ? 'Delete': 'Cancel'} onTouchTap={this.handleOpen}/>
           </CardActions>
         </Card>
+
         <Dialog
           title="Are you sure?"
           actions={actions}

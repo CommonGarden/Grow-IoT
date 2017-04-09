@@ -2,7 +2,6 @@ import React from 'react';
 import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
-import WarningIcon from 'material-ui/svg-icons/alert/warning';
 
 // Probably don't need all of these.
 import {List, ListItem} from 'material-ui/List';
@@ -14,9 +13,10 @@ import FileFolder from 'material-ui/svg-icons/file/folder';
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import {blue500, yellow600} from 'material-ui/styles/colors';
 import EditorInsertChart from 'material-ui/svg-icons/editor/insert-chart';
-
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import WarningIcon from 'material-ui/svg-icons/alert/warning';
+
 // TODO: drop down list of notifications.
 const NotificationsWidget = () => (
   <span>

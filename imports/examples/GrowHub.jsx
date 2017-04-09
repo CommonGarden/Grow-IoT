@@ -14,7 +14,12 @@ import PowerIcon from 'material-ui/svg-icons/action/power-settings-new';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
+import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
 import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
+import ImageOne from '../app/components/images/ImageOne';
+
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 class GrowHub extends Component {
   constructor(props) {
@@ -150,61 +155,87 @@ class GrowHub extends Component {
 
     const styles = {
       left: {
-        float: 'left'
+        // float: 'left'
       },
       right: {
         float: 'right'
       },
+      options: {
+        marginLeft: 100,
+        position: 'relative',
+        bottom: 100,
+      },
       actuator: {
-        float: 'left',
         padding: 10,
+        marginBottom: -50,
       },
       actionButton: {
-        // float: 'left',
         marginRight: 20,
         marginleft: 20
       },
       main: {
-        height: '100%'
+        marginTop: -25
       },
       sensorData: {
         paddingLeft: 10,
         paddingRight: 10,
       },
       powerData: {
-        fontSize: 10,
-        padding: 10
-      },
-      waterPowerDataHack: {
+        position: 'relative',
+        marginBottom: -58,
         fontSize: 10,
         padding: 10,
-        paddingTop: 18
+        top: 9,
       },
       sensorIcon: {
         marginRight: 5
+      },
+      energyIcon: {
+        height: 14,
+        width: 14,
+        position: 'relative',
+        left: 2
+      },
+      powerStats: {
+        marginLeft: -22,
+        fontSize: 13
+      },
+      image: {
+        maxWidth: 400,
+        position: 'relative',
+        marginLeft: 300,
+        marginTop: -300,
+        top: 7,
+        left: 16,
+        marginBottom: 14,
       }
     }
 
     return (
       <div style={styles.main}>
         <div>
-          <h2 style={styles.left}>Grow Hub</h2>
-          <IconButton
-            tooltip="Advanced Options"
-            tooltipPosition="top-center"
-            onTouchTap={this.handleOpen}
-            data-dialog="settingsDialogOpen"
-            iconStyle={styles.right}>
-            <SettingsIcon />
-          </IconButton>
+          <h2>Grow Hub
+            <CameraIcon style={{marginLeft: 12}}/>
+            <IconButton
+              tooltip="Options"
+              tooltipPosition="top-center"
+              onTouchTap={this.handleOpen}
+              data-dialog="settingsDialogOpen">
+              <SettingsIcon />
+            </IconButton>
+          </h2>
         </div>
         
         <div style={styles.sensorData}>
           {
             this.state.types.map((v, k) => {
-              return <h4 key={k}><i className={v.icon} style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong> </h4>
+              return <h3 key={k}><i className={v.icon} style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong> </h3>
             })
           }
+        </div>
+
+        <div style={styles.image}>
+          <ImageOne />
         </div>
 
         <Divider />
@@ -220,13 +251,14 @@ class GrowHub extends Component {
             </FloatingActionButton>
             <br/>
             <div style={styles.powerData}>
+              <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
               Current: {lightPower.current.toFixed(2)}<br/>
               Voltage: {lightPower.voltage.toFixed(2)}<br/>
               Power: {lightPower.power.toFixed(2)}<br/>
               Total: {lightPower.total.toFixed(2)}<br/>
             </div>
           </div>
-          <div style={styles.right}>
+          <div style={styles.options}>
             <TextField
               hintText="Day start"
               floatingLabelText="Day start"
@@ -257,13 +289,13 @@ class GrowHub extends Component {
             </FloatingActionButton>
             <br/>
             <div style={styles.powerData}>
+              <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
               Current: {fanPower.current.toFixed(2)}<br/>
               Voltage: {fanPower.voltage.toFixed(2)}<br/>
               Power: {fanPower.power.toFixed(2)}<br/>
               Total: {fanPower.total.toFixed(2)}<br/>
             </div>
-          </div>
-          <div style={styles.right}>
+            <div style={styles.options}>
             <TextField
               hintText="Target day temperature"
               data-key="day_temp"
@@ -281,12 +313,13 @@ class GrowHub extends Component {
               onChange={this.handleScheduleChange}
             />
             <br/>
+            </div>
           </div>
         </div>
 
         <div style={styles.actuator}>
           <div style={styles.actionButton}>
-            <h3>Watering</h3>
+            <h3>Watering pump</h3>
             <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
                                   backgroundColor="rgb(208, 208, 208)"
                                   data-device="pump"
@@ -295,16 +328,15 @@ class GrowHub extends Component {
               <PowerIcon />
             </FloatingActionButton>
             <br/>
-            <br/>
-            <br/>
-            <div style={styles.waterPowerDataHack}>
+            <div style={styles.powerData}>
+              <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
               Current: {pumpPower.current.toFixed(2)}<br/>
               Voltage: {pumpPower.voltage.toFixed(2)}<br/>
               Power: {pumpPower.power.toFixed(2)}<br/>
               Total: {pumpPower.total.toFixed(2)}<br/>
             </div>
           </div>
-          <div style={styles.right}>
+          <div style={styles.options}>
             <TextField
               hintText="Schedule"
               data-key="water_schedule"
@@ -351,6 +383,8 @@ class GrowHub extends Component {
   }
 }
 
+// Hack, let's make this a little more elegant...
+
 GrowHub.propTypes = {
   ecEvent: React.PropTypes.object,
   phEvent: React.PropTypes.object,
@@ -361,6 +395,7 @@ GrowHub.propTypes = {
   pumpPowerEvent: React.PropTypes.object,
   fanPowerEvent: React.PropTypes.object,
   lightPowerEvent: React.PropTypes.object,
+  ready: React.PropTypes.bool,
   events: React.PropTypes.array,
   alerts: React.PropTypes.array,
 }
@@ -378,7 +413,7 @@ export default GrowHubContainer = createContainer(({ thing }) => {
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
   const alertsHandle = Meteor.subscribe('Thing.events', thing.uuid, 'alert', 10);
   
-  const loading = [ phHandle,
+  const ready = [ phHandle,
                     tempHandle,
                     ecHandle,
                     humidityHandle,
@@ -418,6 +453,6 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     pumpPowerEvent,
     events,
     alerts,
-    loading
+    ready
   }
 }, GrowHub);

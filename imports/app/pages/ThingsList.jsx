@@ -46,10 +46,16 @@ class ThingsList extends Component {
   }
 
   render () {
-      return (
+    const styles = {
+      circProg: {
+        marginTop: 45
+      }
+    };
+    
+    return (
       <div className="layout horizontal wrap">
         {
-          this.state.loading ? <CircularProgress size={80} thickness={5} /> : this.renderThings()
+          this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
         }
       </div>
     )

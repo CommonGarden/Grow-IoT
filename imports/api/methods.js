@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { Random } from 'meteor/random';
+import { EJSON } from 'meteor/ejson';
+import influx from 'influx';
+
+const INFLUX_URL = process.env.INFLUX_URL;
 
 /*
  * Thing methods
@@ -98,6 +102,20 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
+
+    if (INFLUX_URL) {
+      influx.writePoints([
+        {
+          measurement: 'events',
+          tags: { thing: thing._id },
+          fields: { value: event.value, type: event.type },
+        }
+      ]).catch(err => {
+        console.error(`Error saving data to InfluxDB! ${err.stack}`)
+      })
+    }
+
+
     return !!Events.insert({
       thing: {
         _id: thing._id
@@ -123,11 +141,83 @@ Meteor.methods({
     return Things.remove(thing._id);
   },
 
-/*
- *
- */
+  'Image.new': function (auth, file) {
+    check(auth, {
+      uuid: String,
+      token: String
+    });
+
+    // check(file, Match.Where(EJSON.isBinary));
+
+    let thing = Things.findOne(auth, {
+      fields: {
+        _id: 1
+      }
+    });
+    if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+    let imageFile = Buffer.from(file);
+
+    Images.write(imageFile, {
+      thing: thing._id,
+      insertedAt: new Date(),
+      userId: Meteor.userId() // Optional, used to check on server for file tampering
+    }, function (error, fileRef) {
+      if (error) {
+        throw error;
+      } else {
+        console.log(fileRef.name + ' is successfully saved to FS. _id: ' + fileRef._id);
+      }
+    });
+  },
+
+  /*
+   * Delete an image file.
+   */
   'Image.delete': function (id) {
-    // TODO: remove image
     check(id, String);
+    if (!Images.remove({'_id': id})) { throw new Meteor.Error('internal-error', "Internal error."); }
+  },
+
+  // Add links? For example if a device is offline, clicking on the notification
+  // takes you to the offline device.
+  'Notifications.new': function (notification, userId) {
+    check(notification, Match.NonEmptyString);
+    check(userId, Match.OneOf(String, undefined));
+
+    if (userId) {
+      var document = {
+        timestamp: new Date(),
+        notification,
+        read: false,
+        owner: {
+          _id: userId
+        }
+      };
+    } else {
+      var document = {
+        timestamp: new Date(),
+        notification,
+        read: false,
+        owner: {
+          _id: Meteor.userId()
+        }
+      };
+    }
+
+    if (!Notifications.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+
+    return document;
+  },
+
+  // Mark a notification as read by id.
+  'Notifications.read': function (id) {
+    check(id, Match.NonEmptyString);
+
+    return Notifications.update(id, {
+      $set: {
+        'read':true
+      }
+    });
   }
 });
