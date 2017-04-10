@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Factory } from 'meteor/dburles:factory';
 
-const Notifications = new Mongo.Collection('notifications');
+const Notifications = new Mongo.Collection('Notifications');
 
 Notifications.allow({
   insert: function (userId, doc) {
@@ -64,7 +64,7 @@ Notifications.schema = new SimpleSchema({
 
 Notifications.attachSchema(Notifications.schema);
 
-Factory.define('notifications', Notifications, {
+Factory.define('Notifications', Notifications, {
   etl_insert_time: new Date(),
   secureType: 'private',
 });
