@@ -141,9 +141,9 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
   }
 });
 
-// MASSIVE HACK for development purposes only
-Meteor.publish('files.images.all', function () {
-  return Images.find({}, {'sort': {
+Meteor.publish('Images.all', function () {
+  // Return only images owned by the authenticated user.
+  return Images.find({'meta.owner._id': this.userId}, {'sort': {
     'meta.insertedAt': -1
   }}).cursor;
 });
@@ -151,9 +151,6 @@ Meteor.publish('files.images.all', function () {
 Meteor.publish('Thing.images', function (uuid, l) {
   check(uuid, String);
   check(l, Number);
-
-  console.log(uuid);
-  console.log(l);
 
   let thing = Things.findOne({
     'uuid': uuid,
@@ -169,13 +166,13 @@ Meteor.publish('Thing.images', function (uuid, l) {
 
   const limit = l || 10;
   return Images.find(
-    {'thing._id': thing._id}
+    {'meta.thing': thing._id}
     , {
       'sort': {
-        'insertedAt': -1
+        'meta.insertedAt': -1
       },
       limit
-    });
+    }).cursor;
 });
 
 Meteor.publish('Notifications.all', function({ limit }) {

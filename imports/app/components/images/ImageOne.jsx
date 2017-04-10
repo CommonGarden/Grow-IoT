@@ -31,8 +31,8 @@ ImageOne.propTypes = {
 }
 
 // Get images!
-export default ImageOneContainer = createContainer(({ thing }) => {
-  const imagesHandle = Meteor.subscribe('files.images.all');
+export default ImageOneContainer = createContainer(({ uuid }) => {
+  const imagesHandle = Meteor.subscribe('Thing.images', uuid, 1);
   
   const ready = [ imagesHandle ].every(
     (h) => {

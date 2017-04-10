@@ -81,7 +81,7 @@ ImageGrid.propTypes = {
 
 // // Get images!
 export default ImageGridContainer = createContainer(({ thing }) => {
-  const imagesHandle = Meteor.subscribe('files.images.all');
+  const imagesHandle = Meteor.subscribe('Images.all');
   
   const ready = [ imagesHandle ].every(
     (h) => {

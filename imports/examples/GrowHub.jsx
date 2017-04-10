@@ -213,11 +213,12 @@ class GrowHub extends Component {
       }
     }
 
+    // <CameraIcon style={{marginLeft: 12}}/>
+
     return (
       <div style={styles.main}>
         <div>
           <h2>Grow Hub
-            <CameraIcon style={{marginLeft: 12}}/>
             <IconButton
               tooltip="Options"
               tooltipPosition="top-center"
@@ -237,7 +238,7 @@ class GrowHub extends Component {
         </div>
 
         <div style={styles.image}>
-          <ImageOne />
+          <ImageOne uuid={this.props.thing.uuid}/>
         </div>
 
         <Divider />

@@ -167,7 +167,7 @@ Meteor.methods({
       meta: {
         thing: thing._id,
         insertedAt: new Date(),
-        userId: Meteor.userId(), // Optional, used to check on server for file tampering
+        'owner._id': this.userId, // Optional, used to check on server for file tampering
       },
       type: 'image/jpg',
     }, function (error, fileRef) {
