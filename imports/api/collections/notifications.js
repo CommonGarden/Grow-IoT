@@ -31,6 +31,13 @@ Notifications.deny({
   fetch: ['locked'] // no need to fetch 'owner'
 });
 
+const ownerSchema = new SimpleSchema({
+  _id: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  }
+});
+
 Notifications.schema = new SimpleSchema({
   _id: {
     type: String,
@@ -39,18 +46,19 @@ Notifications.schema = new SimpleSchema({
   thing: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
+    optional: true,
   },
   event: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
+    optional: true,
   },
   owner: {
-    type: String,
-    regEx: SimpleSchema.RegEx.Id,
+    type: ownerSchema,
   },
   type: { type: String, optional: true },
   timestamp: { type: Date },
-  message: { type: String },
+  notification: { type: String },
   read: { type: Boolean },
 });
 

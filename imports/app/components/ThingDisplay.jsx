@@ -6,35 +6,23 @@ import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
 import _ from 'underscore';
+import CreateComponent from './CreateComponent.jsx';
+
+// Find a nicer way to add new components...
+// In the mean time, if you want to add custom components, put them here!
 import TestDevice from '../../examples/TestDevice.jsx';
 import SmartLight from '../../examples/SmartLight.jsx';
 import GrowHub from '../../examples/GrowHub.jsx';
 import ImageComponent from '../../examples/ImageComponent.jsx';
-import CreateComponent from './CreateComponent.jsx';
+import NotificationsComponent from '../../examples/NotificationsComponent';
 
 const components = {
   TestDevice,
   SmartLight,
   GrowHub,
-  ImageComponent
+  ImageComponent,
+  NotificationsComponent
 };
-
-const getComponentType = function(c) {
-  return c.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); }).capitalizeFirstLetter();
-}
-
-const availableComponents = [
-  "test-device",
-  "smart-light",
-  "grow-hub",
-  "image-component"
-];
-_.each(availableComponents, (v) => {
-  const cmp = getComponentType(v);
-  if (!components[cmp]) {
-    components[cmp] = TestDevice;
-  }
-});
 
 export default class ThingDisplay extends Component {
   state = {
@@ -80,16 +68,16 @@ export default class ThingDisplay extends Component {
       />,
     ];
 
-    const r = this.props.thing.registeredAt;
+    const registered = this.props.thing.registeredAt;
 
     const unregisteredText = <div>
       <p>Connect a device using the following API crendentials or create a component instead.</p>
       <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
       <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
     </div>;
-    const cmpNameInCamel = getComponentType(this.props.thing.component || '');
-    const RegisteredText = components[cmpNameInCamel];
-    const cardText = r ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
+
+    const RegisteredText = components[this.props.thing.component];
+    const cardText = registered ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
 
     return (
       <div>
@@ -98,8 +86,8 @@ export default class ThingDisplay extends Component {
             {cardText}
           </CardText>
           <CardActions>
-            { r ? null : <CreateComponent uuid={this.props.thing.uuid} token={this.props.thing.token} /> }
-            <FlatButton label={r ? 'Delete': 'Cancel'} onTouchTap={this.handleOpen}/>
+            { registered ? null : <CreateComponent uuid={this.props.thing.uuid} token={this.props.thing.token} /> }
+            <FlatButton label={registered ? 'Delete': 'Cancel'} onTouchTap={this.handleOpen}/>
           </CardActions>
         </Card>
 

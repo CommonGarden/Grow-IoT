@@ -13,16 +13,19 @@ export default class CreateComponent extends Component {
     value: 0,
     components: [
       {
-        name: 'test-device',
+        name: 'TestDevice',
       },
       {
-        name: 'smart-light',
+        name: 'CmartLight',
       },
       {
-        name: 'image-component',
+        name: 'ImageComponent',
       },
       {
-        name: 'grow-hub',
+        name: 'GrowHub',
+      },
+      {
+        name: 'NotificationsComponent'
       },
     ]
   };
