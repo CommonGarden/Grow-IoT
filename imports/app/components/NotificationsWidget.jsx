@@ -30,7 +30,7 @@ class NotificationsWidget extends Component {
     this.getNotificationCount();
   }
   getNotificationCount() {
-    Notifications.find({'owner._id' : Meteor.userId()}).observe({
+    Notifications.find({'owner._id' : Meteor.userId(), read: false,}).observe({
       added: this.callGetCount,
       removed: this.callGetCount,
     });
@@ -113,7 +113,7 @@ export default NotificationsWidgetContainer = createContainer(() => {
   );
 
   // Todo: get unread notifications.
-  const notifications = Notifications.find({}).fetch();
+  const notifications = Notifications.find({}, { sort: { timestamp: -1 } }).fetch();
 
   return {
     ready,
