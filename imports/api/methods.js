@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { Random } from 'meteor/random';
 import { EJSON } from 'meteor/ejson';
+import Notifications from './collections/notifications';
 import influx from 'influx';
 
 const INFLUX_URL = process.env.INFLUX_URL;
@@ -188,15 +189,14 @@ Meteor.methods({
 
   // Add links? For example if a device is offline, clicking on the notification
   // takes you to the offline device.
-  'Notifications.new': function (notification) {
+  'Notifications.new': function ({ notification }) {
     check(notification, String);
-
     let document = {
       timestamp: new Date(),
       notification,
       read: false,
       owner: {
-        _id: Meteor.userId()
+        _id: this.userId,
       }
     };
 
@@ -214,5 +214,5 @@ Meteor.methods({
         'read':true
       }
     });
-  }
+  },
 });

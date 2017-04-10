@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
+import Notifications from './collections/notifications';
 
 Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
@@ -32,5 +33,9 @@ Meteor.methods({
     }
 
     Messages.insert(document);
+  },
+  'Notifications.getCount': function() {
+    return Notifications.find({ 'owner._id': this.userId, read: false }).fetch().length;
   }
+
 });

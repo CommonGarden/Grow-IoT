@@ -1,12 +1,9 @@
 import { Mongo } from 'meteor/mongo';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { Factory } from 'meteor/dburles:factory';
 
-// Create a collection where users can only modify documents that
-// they own. Ownership is tracked by an 'owner' field on each
-// document. All documents must be owned by the user that created
-// them and ownership can't be changed. Only a document's owner
-// is allowed to delete it, and the 'locked' attribute can be
-// set on a document to prevent its accidental deletion.
-Notifications = new Mongo.Collection("Notifications");
+const Notifications = new Mongo.Collection('Notifications');
+
 Notifications.allow({
   insert: function (userId, doc) {
     // the user must be logged in, and the document must be owned by the user
@@ -33,3 +30,44 @@ Notifications.deny({
   },
   fetch: ['locked'] // no need to fetch 'owner'
 });
+
+const ownerSchema = new SimpleSchema({
+  _id: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  }
+});
+
+Notifications.schema = new SimpleSchema({
+  _id: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  },
+  thing: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+    optional: true,
+  },
+  event: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+    optional: true,
+  },
+  owner: {
+    type: ownerSchema,
+  },
+  type: { type: String, optional: true },
+  timestamp: { type: Date },
+  notification: { type: String },
+  read: { type: Boolean },
+});
+
+Notifications.attachSchema(Notifications.schema);
+
+Factory.define('Notifications', Notifications, {
+  etl_insert_time: new Date(),
+  secureType: 'private',
+});
+export default Notifications;
+
+

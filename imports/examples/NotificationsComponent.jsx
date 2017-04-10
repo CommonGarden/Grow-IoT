@@ -10,7 +10,7 @@ class NotificationsComponent extends Component {
   }
 
   handleValueChange = (event, newValue) => {
-  	this.setState({value: newValue});
+    this.setState({value: newValue});
   }
 
   state = {
@@ -18,9 +18,9 @@ class NotificationsComponent extends Component {
   }
 
   newNotification (event) {
-    let value = event.currentTarget.dataset.value;
+    let notification = event.currentTarget.dataset.value;
     Meteor.call('Notifications.new',
-      value,
+      { notification },
       (error, documentId) => {
         if (error) {
           console.error("Error", error);

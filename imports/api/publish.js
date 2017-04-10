@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
-import { Match } from 'meteor/check';
+import { check, Match } from 'meteor/check';
+import Notifications from './collections/notifications';
 
 Meteor.publish('Thing.messages', function(auth) {
   var thing, handle, options, query;
-  
+
   check(auth, {
     uuid: String,
     token: String
@@ -107,18 +107,18 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
     'uuid': uuid,
     'owner': this.userId
   }
-  , {
-    fields: {
-      _id: 1
-    }
-  });
+    , {
+      fields: {
+        _id: 1
+      }
+    });
 
   if (!thing) { throw new Meteor.Error('not-found', `Thing '${uuid}' cannot be found.`); }
 
   const limit = l || 100;
   if (type === undefined) {
-      return Events.find(
-        {'thing._id': thing._id}
+    return Events.find(
+      {'thing._id': thing._id}
       , {
         'sort': {
           'insertedAt': -1
@@ -132,12 +132,12 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
       'thing._id': thing._id,
       'event.type': type,
     }
-    , {
-      'sort': {
-        'insertedAt': -1
-      },
-      limit
-    });
+      , {
+        'sort': {
+          'insertedAt': -1
+        },
+        limit
+      });
   }
 });
 
@@ -170,25 +170,25 @@ Meteor.publish('Thing.images', function (uuid, l) {
   const limit = l || 10;
   return Images.find(
     {'thing._id': thing._id}
-  , {
-    'sort': {
-      'insertedAt': -1
-    },
-    limit
-  });
+    , {
+      'sort': {
+        'insertedAt': -1
+      },
+      limit
+    });
 });
 
-Meteor.publish('Notifications', function(l) {
-  check(l, Match.OneOf(Number, undefined));
+Meteor.publish('Notifications.all', function({ limit }) {
+  check(limit, Match.OneOf(Number, undefined));
 
-  const limit = l || 10;
+  const l = limit || 10;
   return Notifications.find({
     'owner._id': this.userId
   }, {
     'sort': {
       'timestamp': -1
     },
-    limit
+    limit: l
   });
 });
 
