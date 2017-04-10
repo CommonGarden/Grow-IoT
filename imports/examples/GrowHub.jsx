@@ -202,6 +202,8 @@ class GrowHub extends Component {
       },
       image: {
         maxWidth: 400,
+        minWidth: 300,
+        minHeight: 300,
         position: 'relative',
         marginLeft: 300,
         marginTop: -300,
