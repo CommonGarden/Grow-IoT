@@ -16,7 +16,7 @@ export default class CreateComponent extends Component {
         name: 'TestDevice',
       },
       {
-        name: 'CmartLight',
+        name: 'SmartLight',
       },
       {
         name: 'ImageComponent',
