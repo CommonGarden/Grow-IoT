@@ -215,7 +215,4 @@ Meteor.methods({
       }
     });
   },
-  'Notifications.getCount': function() {
-    return Notifications.find({ 'owner._id': this.userId, read: false }).count();
-  }
 });

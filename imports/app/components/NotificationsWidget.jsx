@@ -36,10 +36,12 @@ class NotificationsWidget extends Component {
     });
   }
   callGetCount = () => {
-    Meteor.call('Notifications.getCount', (e, notificationCount) => {
-      if(!e) {
-        this.setState({ notificationCount });
-      }
+    setTimeout(() => {
+      Meteor.call('Notifications.getCount', (e, r) => {
+        if(!e) {
+          this.setState({ notificationCount: r });
+        }
+      });
     });
   }
   handleRead (event) {
