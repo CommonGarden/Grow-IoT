@@ -45,7 +45,7 @@ File/Folder   | Provides
 `.meteor`     | Meteor stuff, well documented in other places.
 `.sandstorm`  | Sandstorm.io stuff (can)
 `client`      | Imports things and starts the React app.
-`Imports`     | API, UI, and thing examples live here
+`imports`     | API, UI, and thing examples live here
 `public`      | Fonts and other static, public assets live here.
 `tests`       | Unit and Thread conformance tests
 `server`      | Imports the server code.
