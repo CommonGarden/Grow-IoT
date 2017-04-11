@@ -2,7 +2,8 @@ import elasticsearch from 'elasticsearch';
 import MongoDriver from 'mongodb';
 import { client, MONGO_URL } from '../eventbus';
 
-const ELASTIC_URL = process.env.ELASTIC_URL;
+const ELASTIC_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).ELASTIC_URL : false;
+
 
 if (ELASTIC_URL) {
   const esClient = new elasticsearch.Client({

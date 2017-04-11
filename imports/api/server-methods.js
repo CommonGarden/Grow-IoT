@@ -4,6 +4,8 @@ import { Match } from 'meteor/check';
 import influx from './influx/influx';
 import Notifications from './collections/notifications';
 
+const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
+
 Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
     check(thingUuid, String);
@@ -56,18 +58,20 @@ Meteor.methods({
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    influx.writePoints([
-      {
-        measurement: 'events',
-        tags: { thing: thing._id, type: event.type },
-        fields: { value: event.value },
-      }
-    ]).catch(err => {
-      // TODO: if an InfluxDB host is not configured fall back gracefully to using mongo.
-      if (err.message !== 'No host available') {
-        if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
-      }
-    })
+    if (INFLUX_URL) {
+      influx.writePoints([
+        {
+          measurement: 'events',
+          tags: { thing: thing._id, type: event.type },
+          fields: { value: event.value },
+        }
+      ]).catch(err => {
+        // TODO: if an InfluxDB host is not configured fall back gracefully to using mongo.
+        if (err.message !== 'No host available') {
+          if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
+        }
+      })
+    }
     
     return !!Events.insert({
       thing: {

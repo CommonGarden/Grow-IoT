@@ -1,0 +1,4 @@
+{ 
+	"INFLUX_URL": "localhost",
+	"ELASTIC_URL": false
+}
