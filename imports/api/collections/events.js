@@ -1,8 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import Influx from 'influx';
 import { Meteor } from 'meteor/meteor';
-
-const INFLUX_URL = process.env.INFLUX_URL;
 
 // Create a collection where users can only modify documents that
 // they own. Ownership is tracked by an 'owner' field on each
@@ -37,37 +34,3 @@ Events.deny({
   },
   fetch: ['locked'] // no need to fetch 'owner'
 });
-
-
-if (Meteor.isServer) {
-  if (INFLUX_URL) {
-    // TODO: think more about schemas etc... and reorganize code...
-    // https://docs.influxdata.com/influxdb/v1.2/concepts/schema_and_data_layout/
-    influx = new Influx.InfluxDB({
-      host: 'localhost',
-      database: 'events',
-      schema: [
-        {
-          measurement: 'events',
-          fields: {
-            type: Influx.FieldType.STRING,
-            value: Influx.FieldType.FLOAT
-          },
-          tags: [
-            'thing', 'environment'
-          ]
-        }
-      ]
-    });
-
-    influx.getDatabaseNames()
-    .then(names => {
-      if (!names.includes('events')) {
-        return influx.createDatabase('events');
-      }
-    })
-    .catch(err => {
-      console.error(`Error creating Influx database!`);
-    })
-  }
-}

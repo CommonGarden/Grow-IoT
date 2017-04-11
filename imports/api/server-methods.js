@@ -1,14 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
+import influx from './influx/influx';
 import Notifications from './collections/notifications';
 
 Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
     check(thingUuid, String);
     check(type, String);
-    // Todo: Options are optional...
-    // check(options, Object);
+    check(options, Object);
 
     // Must be owner of the device.
     let thing = Things.findOne(
@@ -34,8 +34,48 @@ Meteor.methods({
 
     Messages.insert(document);
   },
+
   'Notifications.getCount': function() {
     return Notifications.find({ 'owner._id': this.userId, read: false }).fetch().length;
-  }
+  },
+
+  /*
+   * Emit an event.
+  */
+  'Thing.emit': function (auth, event) {
+    check(auth, {
+      uuid: String,
+      token: String
+    });
+    check(event, Match.OneOf(String, Object));
+
+    let thing = Things.findOne(auth, {
+      fields: {
+        _id: 1
+      }
+    });
+    if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+    influx.writePoints([
+      {
+        measurement: 'events',
+        tags: { thing: thing._id, type: event.type },
+        fields: { value: event.value },
+      }
+    ]).catch(err => {
+      // TODO: if an InfluxDB host is not configured fall back gracefully to using mongo.
+      if (err.message !== 'No host available') {
+        if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
+      }
+    })
+    
+    return !!Events.insert({
+      thing: {
+        _id: thing._id
+      },
+      event: event,
+      insertedAt: new Date()
+    });
+  },
 
 });

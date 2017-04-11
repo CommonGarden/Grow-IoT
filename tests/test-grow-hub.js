@@ -70,7 +70,7 @@ function createGrowHub(u, t) {
         this.ec_data();
         this.lux_data();
         this.water_temp_data();
-        this.power_data();
+        // this.power_data();
       }, interval);
 
       this.parseCycles(growfile.properties.cycles);
