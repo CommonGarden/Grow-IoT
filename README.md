@@ -57,7 +57,12 @@ We have a few different repos for alternative (perhaps non-Meteor) stacks:
 * [Rest API](https://github.com/CommonGarden/rest-api) *(using [Express](https://expressjs.com/))*
 * [Mongoose models](https://github.com/CommonGarden/mongoose-models)
 
-Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growing assortment of useful info, please help improve it.
+Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growing assortment of useful info, including:
+* [Cloud setup](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup)
+* [Elastic support](https://github.com/CommonGarden/Grow-IoT/wiki/Elastic)
+* [Influx support](https://github.com/CommonGarden/Grow-IoT/wiki/Influx-DB)
+* [Running locally](https://github.com/CommonGarden/Grow-IoT/wiki/Running-locally)
+* [Supported hardware](https://github.com/CommonGarden/Grow-IoT/wiki/Supported-hardware)
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".
