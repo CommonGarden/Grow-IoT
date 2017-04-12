@@ -7,22 +7,7 @@ import Paper from 'material-ui/Paper';
 import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
 import _ from 'underscore';
 import CreateComponent from './CreateComponent.jsx';
-
-// Find a nicer way to add new components...
-// In the mean time, if you want to add custom components, put them here!
-import TestDevice from '../../examples/TestDevice.jsx';
-import SmartLight from '../../examples/SmartLight.jsx';
-import GrowHub from '../../examples/GrowHub.jsx';
-import ImageComponent from '../../examples/ImageComponent.jsx';
-import NotificationsComponent from '../../examples/NotificationsComponent';
-
-const components = {
-  TestDevice,
-  SmartLight,
-  GrowHub,
-  ImageComponent,
-  NotificationsComponent
-};
+import Components from '../../things/';
 
 export default class ThingDisplay extends Component {
   state = {
@@ -76,7 +61,7 @@ export default class ThingDisplay extends Component {
       <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
     </div>;
 
-    const RegisteredText = components[this.props.thing.component];
+    const RegisteredText = Components[this.props.thing.component];
     const cardText = registered ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
 
     return (

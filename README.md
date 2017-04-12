@@ -36,6 +36,15 @@ You can interact with the Grow-IoT api using the Distributed Data Protocol. *The
 
 We are also slowly adding support for connecting devices over the [CoAP protocol](http://coap.technology/). See the experimental server in `imports/api/coap.js`.
 
+### Adding custom devices components
+
+To do so:
+
+1. Make a new `CustomComponent.jsx` file in `imports/things/'
+2. Open `imports/things/index.js`.
+3. `import CustomComponent from './CustomComponent'`
+4. Lastly, add `CustomComponent` to the exported `components` object.
+
 ## What's included ##
 
 In the repo you'll find the following directories and files:
