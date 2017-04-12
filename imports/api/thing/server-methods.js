@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
-import influx from './influx/influx';
-import Notifications from './collections/notifications';
+import influx from '../influx/influx';
 
 const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 
@@ -35,10 +34,6 @@ Meteor.methods({
     }
 
     Messages.insert(document);
-  },
-
-  'Notifications.getCount': function() {
-    return Notifications.find({ 'owner._id': this.userId, read: false }).fetch().length;
   },
 
   /*

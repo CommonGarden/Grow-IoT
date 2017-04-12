@@ -2,10 +2,15 @@ import { Meteor } from 'meteor/meteor';
 import './collections';
 
 if (Meteor.isServer) {
-  import './server-methods.js';
-  import './publish.js';
+  import './thing/publish';
+  import './notifications/publish';
+  import './images/publish';
+  import './thing/server-methods';
+  import './notifications/server-methods.js';
   import './elastic';
-  import './coap.js';
+  import './coap/coap.js';
 }
 
-import './methods.js';
+import './thing/methods';
+import './notifications/methods';
+import './images/methods';
