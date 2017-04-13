@@ -18,7 +18,8 @@ Meteor.methods({
 
     let thing = Things.findOne(auth, {
       fields: {
-        _id: 1
+        _id: 1,
+        owner: 1
       }
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
@@ -29,7 +30,7 @@ Meteor.methods({
       meta: {
         thing: thing._id,
         insertedAt: new Date(),
-        'owner._id': this.userId, // Optional, used to check on server for file tampering
+        owner: thing.owner,
       },
       type: 'image/jpg',
     }, function (error, fileRef) {

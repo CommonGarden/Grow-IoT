@@ -37,9 +37,6 @@ if (ELASTIC_URL) {
       case 'added':
         added(params.id, params.collection, params.index);
         break;
-      case 'added':
-        added(params.id, params.collection, params.index);
-        break;
       case 'removed': 
         removed(params.id, params.collection, params.index);
         break;

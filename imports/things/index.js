@@ -3,6 +3,7 @@ import GrowHub from './GrowHub';
 import NotificationsComponent from './NotificationsComponent';
 import TestDevice from './TestDevice.jsx';
 import SmartLight from './SmartLight.jsx';
+import ImageComponent from './ImageComponent';
 
 const components = {
 	CameraComponent,
@@ -10,6 +11,7 @@ const components = {
 	NotificationsComponent,
 	TestDevice,
 	SmartLight,
+	ImageComponent
 };
 
 export default components;
