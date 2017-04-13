@@ -80,5 +80,21 @@ Meteor.methods({
         'properties': thing.properties
       }
     });
-  }
+  },
+
+  /*
+   * Delete thing.
+  */
+  'Thing.delete': function (uuid) {
+    check(uuid, String);
+
+    // Users can only delete things they own... someone please audit this...
+    let thing = Things.findOne({
+      'uuid': uuid,
+      'owner': Meteor.userId()
+    });
+    if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+    return Things.remove(thing._id);
+  },
 });
