@@ -120,7 +120,7 @@ board.on('ready', function start() {
       }, waterSchedule);
 
       var interval = this.get('interval');
-      
+
       emit_data = setInterval(()=> {
         this.temp_data();
         this.hum_data();
@@ -131,7 +131,7 @@ board.on('ready', function start() {
         this.power_data();
       }, interval);
 
-      // this.parseCycles(this.get('cycles'));
+      this.startGrow(growfile);
     },
 
     stop: function () {
@@ -208,6 +208,7 @@ board.on('ready', function start() {
     },
 
     power_data: function () {
+    	// TODO: for influx db, the power data must be a number not an object...
       this.light.getInfo().then((data)=> {
         let powerData = data.consumption.get_realtime;
         this.emit({
@@ -242,7 +243,7 @@ board.on('ready', function start() {
       // Request a reading, 
       board.i2cWrite(0x64, [0x52, 0x00]);
 
-      eC_reading = parseEC(eC_reading);
+      eC_reading = this.parseEC(eC_reading);
 
       if (eC_reading) {
         this.emit({
@@ -258,7 +259,7 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
-      if (ispH(pH_reading)) {
+      if (this.ispH(pH_reading)) {
         this.emit({
           type: 'ph',
           value: pH_reading
@@ -323,43 +324,3 @@ board.on('ready', function start() {
     ssl: true
   });
 });
-
-
-// Todo: maybe include some of these helper functions in Grow.js
-// Returns true if the reading falls in a valid pH range.
-// This is to filter out bad readings.
-function ispH (reading) {
-  if (reading === undefined) {
-    return false;
-  }
-
-  else if (reading > 0 && reading <= 14) {
-    return true;
-  } 
-
-  else {
-    return false;
-  }
-}
-
-// Parse the Electrical conductivity value from the sensor reading.
-function parseEC (reading) {
-  if (typeof reading === 'string') {
-    return reading.split(',')[0];
-  } else {
-    return false;
-  }
-}
-
-function average (listOfReadings) {
-  // Here we take the average of the readings
-  // This is to prevent overdosing.
-  var average = 0;
-  for (var i = listOfReadings.length - 1; i >= 0; i--) {
-    if (listOfReadings[i] !== undefined && listOfReadings !== 0) {
-      average += Number(listOfReadings[i]);
-    }
-  }
-
-  return average / listOfReadings.length;
-}

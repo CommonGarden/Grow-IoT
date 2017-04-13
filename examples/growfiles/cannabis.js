@@ -5,14 +5,12 @@
 module.exports = {
   name: 'It goes by many names...',
   version: '0.0.1', // Not grower tested, any recommendations?
-
   phases: {
     vegetative: {
       // Global targets durning this phase.
       // min / max set alerts
       // ideal is the target for the phase or cycle
-      // Rename?
-      global: {
+      targets: {
         ph: {
           min: 6.0,
           ideal: 6.15,
@@ -63,7 +61,7 @@ module.exports = {
     },
 
     bloom: {
-      global: {
+      targets: {
         ph: {
           min: 6.0,
           ideal: 6.15,
