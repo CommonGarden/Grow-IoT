@@ -44,7 +44,10 @@ Meteor.methods({
       uuid: String,
       token: String
     });
-    check(event, Match.OneOf(String, Object));
+    check(event, Match.OneOf(String, {
+      type: String,
+      value: Number
+    }));
 
     let thing = Things.findOne(auth, {
       fields: {
@@ -57,8 +60,8 @@ Meteor.methods({
       influx.writePoints([
         {
           measurement: 'events',
-          tags: { thing: thing._id, type: event.type },
-          fields: { value: event.value },
+          tags: { thing: thing._id, type: event.type ? event.type: event },
+          fields: { value: event.value ? event.value: event},
         }
       ]).catch(err => {
         // TODO: if an InfluxDB host is not configured fall back gracefully to using mongo.
