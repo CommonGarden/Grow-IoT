@@ -6,7 +6,7 @@ const Cam = new Thing({
   uuid: '2234f0ca-c8b3-43a9-abae-eaa70324eb5a',
   token: 'FyLwxWWrx4cJQpfY23PAnFwFgTDyKctT',
 
-  component: 'camera-component',
+  component: 'CameraComponent',
 
   properties: {
     name: 'Camera',

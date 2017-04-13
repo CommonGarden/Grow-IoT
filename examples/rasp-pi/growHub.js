@@ -33,9 +33,9 @@ board.on('ready', function start() {
 
   // Create a new growHub instance and connect to https://growHub.commongarden.org
   var growHub = new Grow({
-    uuid: 'b335f1d2-18ef-4226-8564-a7f26738fab2',
-    token: 'MQBREZQFCjz7bLv9SNJ4erqzJtd8Fyya',
-    component: 'grow-hub',
+    uuid: 'a6607b0f-9fae-4158-bbba-22b355adedaf',
+    token: '5GZWZAXhHQiLs3orwQLEcg5qFyYffjuL',
+    component: 'GrowHub',
 
     // Properties can be updated by the API
     properties: {
@@ -110,7 +110,6 @@ board.on('ready', function start() {
           console.log('Fan connected');
           this.fan = plug;
         }
-
       });
 
       let waterSchedule = later.parse.text(String(this.get('water_schedule')));
@@ -212,31 +211,62 @@ board.on('ready', function start() {
       this.light.getInfo().then((data)=> {
         let powerData = data.consumption.get_realtime;
         this.emit({
-          type: 'light_power',
-          value: powerData
+          type: 'light_power_current',
+          value: powerData.current
         });
-        // console.log(powerData);
+        this.emit({
+          type: 'light_power_voltage',
+          value: powerData.voltage
+        });
+        this.emit({
+          type: 'light_power_power',
+          value: powerData.power
+        });
+        this.emit({
+          type: 'light_power_total',
+          value: powerData.total
+        });
       });
 
       this.fan.getInfo().then((data)=> {
         let powerData = data.consumption.get_realtime;
         this.emit({
-          type: 'fan_power',
-          value: powerData
+          type: 'fan_power_current',
+          value: powerData.current
         });
-        // console.log(powerData);
+        this.emit({
+          type: 'fan_power_voltage',
+          value: powerData.voltage
+        });
+        this.emit({
+          type: 'fan_power_power',
+          value: powerData.power
+        });
+        this.emit({
+          type: 'fan_power_total',
+          value: powerData.total
+        });
       });
 
       this.pump.getInfo().then((data)=> {
         let powerData = data.consumption.get_realtime;
         this.emit({
-          type: 'pump_power',
-          value: powerData
+          type: 'pump_power_current',
+          value: powerData.current
         });
-        // console.log(powerData);
+        this.emit({
+          type: 'pump_power_voltage',
+          value: powerData.voltage
+        });
+        this.emit({
+          type: 'pump_power_power',
+          value: powerData.power
+        });
+        this.emit({
+          type: 'pump_power_total',
+          value: powerData.total
+        });
       });
-
-
     },
 
     ec_data: function () {
@@ -312,15 +342,19 @@ board.on('ready', function start() {
     }
   });
 
-  // Default is localhost: 3000
   growHub.connect({
-    host: 'grow.commongarden.org',
-    tlsOpts: {
-      tls: {
-        servername: 'galaxy.meteor.com'
-      }
-    },
-    port: 443,
-    ssl: true
+    host: '192.168.1.111'
   });
+
+  // Default is localhost: 3000
+  // growHub.connect({
+  //   host: 'grow.commongarden.org',
+  //   tlsOpts: {
+  //     tls: {
+  //       servername: 'galaxy.meteor.com'
+  //     }
+  //   },
+  //   port: 443,
+  //   ssl: true
+  // });
 });
