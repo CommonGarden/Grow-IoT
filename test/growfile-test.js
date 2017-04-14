@@ -31,11 +31,30 @@ describe('Growfile test', () => {
         max: 25,
       }
     });
-    testGrow.emit('temperature', {value: 10});
+    var event = false;
     testGrow.on('alert', (key, message)=> {
-      console.log(key);
-      console.log(message);
+      return event = !event;
     });
+    testGrow.emit('temperature', {value: 10});
+    expect(event).to.equal(true);
+    testGrow.emit('temperature', {value: 27});
+    expect(event).to.equal(false);
+  });
+
+  it('should not emit multiple alert events', () => {
+    testGrow.registerAlerts({
+      temperature: {
+        min: 15,
+        max: 25,
+      }
+    });
+    var event = false;
+    testGrow.on('alert', (key, message)=> {
+      return event = !event;
+    });
+    testGrow.emit('temperature', {value: 10});
+    testGrow.emit('temperature', {value: 10});
+    expect(event).to.equal(true);
   });
 
   afterEach(() => {

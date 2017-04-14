@@ -32,7 +32,7 @@
   ],
   "homepage": "https://github.com/CommonGarden/Grow.js",
   "dependencies": {
-    "Thing.js": "^0.3.1",
+    "Thing.js": "^0.3.4",
     "ascii-codes": "^1.0.0",
     "awesome-pid": "^1.0.3",
     "coap": "^0.20.0",
