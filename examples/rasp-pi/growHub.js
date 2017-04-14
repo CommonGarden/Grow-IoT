@@ -101,22 +101,43 @@ board.on('ready', function start() {
         if (plug.name === 'Grow tent light') {
           console.log('Light connected');
           this.light = plug;
+          this.light.getInfo().then((data)=> {
+            if (data.sysInfo.relay_state === 1) {
+              this.set('light_state', 'on');
+            } else {
+              this.set('light_state', 'off');
+            }
+          });
         }
         else if (plug.name === 'Water Pump') {
           console.log('Water pump connected');
           this.pump = plug;
+          this.pump.getInfo().then((data)=> {
+            if (data.sysInfo.relay_state === 1) {
+              this.set('pump_state', 'on');
+            } else {
+              this.set('pump_state', 'off');
+            }
+          });
         }
         else if (plug.name === 'Fan') {
           console.log('Fan connected');
           this.fan = plug;
+          this.fan.getInfo().then((data)=> {
+            if (data.sysInfo.relay_state === 1) {
+              this.set('fan_state', 'on');
+            } else {
+              this.set('fan_state', 'off');
+            }
+          });
         }
       });
 
-      let waterSchedule = later.parse.text(String(this.get('water_schedule')));
+      // let waterSchedule = later.parse.text(String(this.get('water_schedule')));
 
-      later.setTimeout(()=> {
-        growHub.call('water');
-      }, waterSchedule);
+      // later.setTimeout(()=> {
+      //   growHub.call('water');
+      // }, waterSchedule);
 
       var interval = this.get('interval');
 
@@ -283,7 +304,7 @@ board.on('ready', function start() {
           value: eC_reading
         });
 
-        console.log('Conductivity: ' + eC_reading);
+        // console.log('Conductivity: ' + eC_reading);
       }
     },
 
@@ -297,7 +318,7 @@ board.on('ready', function start() {
           value: pH_reading
         });
 
-        console.log('ph: ' + pH_reading);
+        // console.log('ph: ' + pH_reading);
       }
     },
 
@@ -307,7 +328,7 @@ board.on('ready', function start() {
         value: lux.level
       });
       
-      console.log('Light: ' + lux.level);
+      // console.log('Light: ' + lux.level);
     },
 
     water_temp_data: function () {
@@ -319,7 +340,7 @@ board.on('ready', function start() {
         value: water_temp
       });
 
-      console.log('Resevoir temp: ' + water_temp);
+      // console.log('Resevoir temp: ' + water_temp);
     },
 
     temp_data: function () {
@@ -330,7 +351,7 @@ board.on('ready', function start() {
         value: currentTemp
       });
 
-      console.log('Temperature: ' + currentTemp);
+      // console.log('Temperature: ' + currentTemp);
     },
 
     hum_data: function () {
@@ -340,7 +361,7 @@ board.on('ready', function start() {
         value: currentHumidity
       });
 
-      console.log('Humidity: ' + currentHumidity);
+      // console.log('Humidity: ' + currentHumidity);
     }
   });
 
