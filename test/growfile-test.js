@@ -57,6 +57,27 @@ describe('Growfile test', () => {
     expect(event).to.equal(true);
   });
 
+  it('should emit OK alert events', () => {
+    testGrow.registerAlerts({
+      temperature: {
+        min: 15,
+        max: 25,
+      }
+    });
+    var event = false;
+    testGrow.on('alert', (key, message)=> {
+      return event = message;
+    });
+    testGrow.emit('temperature', {value: 10});
+    testGrow.emit('temperature', {value: 15});
+    expect(event).to.equal('ok');
+    // Shouldn't emit multiple 'ok' events
+    event = false;
+    testGrow.emit('temperature', {value: 15});
+    expect(event).to.equal(false);
+  });
+
+
   afterEach(() => {
     delete global.testGrow;
   });
