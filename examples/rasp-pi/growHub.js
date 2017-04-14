@@ -142,11 +142,13 @@ board.on('ready', function start() {
     day: function () {
       console.log('It is day!');
       this.call('turn_light_on');
+      this.call('turn_pump_on');
     },
 
     night: function () {
       console.log('It is night!');
       this.call('turn_light_off');
+      this.call('turn_pump_off');
     },
 
     // Note, there are probably more elegant ways of handling subthing methods.

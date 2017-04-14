@@ -29,11 +29,6 @@ module.exports = {
 
       // You can have more cycles than just day or night.
       cycles: {
-        water: {
-          // Cycles have a start property which I will probably rename to schedule, because that's what it is.
-          // Grow.js calls the corresponding function according to the schedule.
-          start: 'every 2 hours'
-        },
         day: {
           // Note: you may want to run the lights a little longer, adjust accordingly.
           start: 'after 6:00am',
