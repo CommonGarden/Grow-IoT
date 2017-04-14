@@ -65,8 +65,8 @@ describe('Growfile test', () => {
       }
     });
     var event = false;
-    testGrow.on('alert', (key, message)=> {
-      return event = message;
+    testGrow.on('alert', (alert)=> {
+      return event = alert['temperature'];
     });
     testGrow.emit('temperature', {value: 10});
     testGrow.emit('temperature', {value: 15});
