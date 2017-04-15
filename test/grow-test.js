@@ -1,4 +1,4 @@
-import Grow from '../dist/Grow.umd';
+import Grow from '../lib/Grow.js';
 import _ from 'underscore';
 
 global.expect = require('chai').expect;
@@ -6,8 +6,6 @@ global.expect = require('chai').expect;
 (function setup () {
   beforeEach(function() {
 
-    // Setup test things
-    // In the future we can test multiple different kinds of things!
     global.thing = {
       // Meta data
       uuid: null,
@@ -15,35 +13,26 @@ global.expect = require('chai').expect;
 
       // Properties can be updated by the API, Metadata cannot.
       properties: {
-        name: 'Dr. Dose',
-        desription: 'Dr. Dose keeps your pH balanced.',
-        state: null,
-        duration: 2000
+        state: 'on',
+        testInitialize: false,
+        testStart: false,
+      },
+
+      initialize: function () {
+        return this.set('testInitialize', true);
       },
 
       start: function () {
-        return 'Dr. Dose initialized.';
+        return this.set('testStart', true);
       },
 
-      acid: function (duration) {
-        return 'acid';
-      },
-          
-      base: function (duration) {
-        return 'base';
+      testMethod: function () {
+        return 'test';
       },
 
-      nutrient: function (duration) {
-        return 'nutrient: ' + duration;
+      testOptions: function (option) {
+        return option;
       },
-
-      ec_data: function () {
-        return 'ec_data';
-      },
-
-      ph_data: function () {
-        return 'ph_data';
-      }
     }
   });
 
@@ -53,39 +42,24 @@ global.expect = require('chai').expect;
 })();
 
 
-describe('Grow test', () => {
+describe('Thing.js API', () => {
   beforeEach(() => {
     global.testThing = new Grow(thing);
   });
 
-  it('should have cloned metadata', () => {
-    expect(testThing.uuid).to.equal(null);
-    expect(testThing.token).to.equal(null);
-  });
-
-  describe('Methods', () => {
-    it('should be able to call a thing method.', () => {
-      expect(testThing.call('acid')).to.equal('acid');
-    });
-
-    it('should emit an event when a method is called', () => {
-      var event = false;
-      testThing.on('acid', () => {
-        return event = true;
-      });
-      testThing.call('acid');
-      expect(event).to.equal(true);
-    });
-  });
-
   describe('PROPERTIES', () => {
-    it('should get a thing property', () => {
-      expect(testThing.get('duration')).to.equal(2000);
+    it('should have cloned metadata', () => {
+      expect(testThing.token).to.equal(null);
+      expect(testThing.uuid).to.equal(null);
+    });
+
+    it('should get a property', () => {
+      expect(testThing.get('state')).to.equal('on');
     });
 
     it('should set a property', () => {
-      testThing.set('duration', 1000);
-      expect(testThing.get('duration')).to.equal(1000);
+      testThing.set('state', 'off');
+      expect(testThing.get('state')).to.equal('off');
     });
 
     it('should emit an event when a property is set', () => {
@@ -93,8 +67,36 @@ describe('Grow test', () => {
       testThing.on('property-updated', () => {
         return event = true;
       });
-      testThing.set('duration', 5000);
-      expect(testThing.get('duration')).to.equal(5000);
+      testThing.set('state', 'testing');
+      expect(testThing.get('state')).to.equal('testing');
+      expect(event).to.equal(true);
+    });
+  });
+
+  describe('METHODS', () => {
+    it('should start or initialize correctly', () => {
+      expect(testThing.get('testStart')).to.equal(true);
+      expect(testThing.get('testInitialize')).to.equal(true);
+    });
+
+    it('should be able to call a method.', () => {
+      expect(testThing.call('testMethod')).to.equal('test');
+    });
+
+    it('should contain a list of methods', () => {
+      expect(testThing.functions.length).to.equal(4);
+    });
+
+    it('should be able to call a method with options.', () => {
+      expect(testThing.call('testOptions', 1000)).to.equal(1000);
+    });
+
+    it('should emit an event when a method is called', () => {
+      var event = false;
+      testThing.on('testMethod', () => {
+        return event = true;
+      });
+      testThing.call('testMethod');
       expect(event).to.equal(true);
     });
   });
