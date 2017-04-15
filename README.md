@@ -4,71 +4,56 @@
 
 Grow.js helps you create and connect devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. 
 
-### v0.4
-v0.4 begins to introduce some utilities for growers including:
-
-* scheduling (water your plants 'every 2 hours', or whatever)
-* useful utilities for creating controlled environments (let us know if they are useful, we want to solve real problems)
-* Sneak peak at *Grow Files*.
-
-
 ### Installation
 
-```bash
-npm install Grow.js@next
+`npm install Grow.js`
+
+## Usage
+Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) which is an extension of the [Node EventEmitter](https://nodejs.org/api/events.html).
+
+In addition, it also has some functionality for scheduling, registering and monitoring for alerts (temperature low, etc.), and easily and securely connecting to a Grow-IoT instance.
+
+### Connection options
+
+The connect method takes a configuration object.
+
+The `host` property is where the device will connect to a Grow-IoT instance. By default the `host` is set to `localhost` and the port is set to Meteor's standard of `3000`. This works nicely for usb devices like Arduino.
+
+For connecting over wifi, connect your device to wifi and set the `host` to the IP address where the Grow-IoT instance is running. Pass the options to the `connect()` method like so:
+
+```javascript
+grow.connect({
+    "host": "YOUR_IP_HERE"
+})
 ```
 
-### Usage
-Grow.js has methods for:
-* Updating properties
-* Calling methods
-* Emiting events for either of the above
+#### Connecting over SSL
+You can connect securely to our Grow-IoT alpha instance on https://grow.commongarden.org, or see the [Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT) to easily start your own IoT network locally or hosted on [Meteor Galaxy](https://galaxy.meteor.com).
 
-NOTE: Grow.js, will be changing soon. See Thing.js for all the funtionality this provides
+SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address pass the following the `connect()` method.
 
-You create a thing by passing in an object.
 ```javascript
-var GrowInstance = require('Grow.js');
+grow.connect({
+    "host": "YOUR_IP_HERE",
+    "port": 443,
+    "ssl": true
+})
+```
 
-var thing = new GrowInstance({
-    properties: {
-        name: "Bob"
+If you are hosting on a cloud instance such as [Meteor Galaxy](https://galaxy.meteor.com), you might need specify the servername. The example below shows you how to connect securely to the instance at [grow.commongarden.org](https://grow.commongarden.org):
+
+```javascript
+grow.connect({
+    "host": "grow.commongarden.org",
+    "tlsOpts": {
+        "tls": {
+            "servername": "galaxy.meteor.com"
+        }
     },
-
-    method: function (name) {
-        let name = name || thing.get('name');
-        console.log('Current name is ' + name);
-    }
+    "port": 443,
+    "ssl": true
 });
 ```
-
-<!-- TODO: call a method with options -->
-
-To `call` a method:
-``` javascript
-thing.call('method'); // Current name is Bob
-```
-
-To `get` a property:
-```javascript
-console.log(thing.get('name')); // Bob
-```
-
-To `set` a property:
-```javascript
-thing.set('name', 'Alice');
-```
-
-The Node [event](https://nodejs.org/dist/latest-v7.x/docs/api/events.html) api is also available:
-```javascript
-thing.on('property-updated', function() {
-  console.log('New name is ' + thing.get('name'));
-});
-
-thing.set('name', 'Jill'); // New name is Jill
-```
-
-See the full example in `examples/example.js`.
 
 ### Connect to Grow-IoT Instance
 
@@ -88,22 +73,12 @@ var testDevice = new Thing({
     uuid: 'PASTE_UUID_HERE',
     token: 'PASTE_TOKEN_HERE',
 
-    // Specifies the web component associated with the thing
-    component: 'test-device',
+    // Specifies the component associated with the thing
+    component: 'TestDevice',
 
     // Properties can be updated by the API
     properties: {
         state: 'off',
-    },
-
-    // Start method is run when the Thing is constructed.
-    start: function () {
-        setInterval(()=> {
-            testDevice.call('temp_data');
-        }, 3000);
-
-        // Call a method
-        testDevice.call('turn_on');
     },
 
     turn_on: function () {
@@ -113,16 +88,6 @@ var testDevice = new Thing({
     turn_off: function () {
         testDevice.set('state', 'off');
     },
-
-    temp_data: function () {
-        let temp = Math.random() * 100;
-
-        // Sends event data to the Grow-IoT app.
-        testDevice.emit({
-          type: 'temperature',
-          value: temp
-        });
-    }
 });
 
 // Connects to localhost:3000 by default.
@@ -134,7 +99,6 @@ Run it with:
 ```bash
 node examples/test-device.js
 ```
-
 
 # Working with hardware.
 
@@ -243,45 +207,6 @@ node examples/arduino/smart-light/smart-light.js
 
 Note: on certain opperating systems you may need to prefix that command with `sudo` to allow the script access to USB.
 
-# Connecting
-### Host / Port
-The host is where the device will be looking for a CommonGarden-IoT instance. By default the host is set to `localhost` and the port is set to Meteor's standard of `3000`. This will work nicely for usb devices like Arduino.
-
-For connecting over wifi, connect your device to wifi and set the `host` to the IP address where the Grow-IoT instance is running. Pass the options to the `connect()` method like so:
-
-```javascript
-grow.connect({
-    "host": "YOUR_IP_HERE"
-})
-```
-
-#### Connecting over SSL
-You can connect securely to our Grow-IoT alpha instance on https://grow.commongarden.org, or see the [Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT) to easily start your own IoT network locally or hosted on [Meteor Galaxy](https://galaxy.meteor.com).
-
-SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address pass the following the `connect()` method.
-
-```javascript
-grow.connect({
-    "host": "YOUR_IP_HERE",
-    "port": 443,
-    "ssl": true
-})
-```
-
-If you are hosting on a cloud instance such as [Meteor Galaxy](https://galaxy.meteor.com), you might need specify the servername. The example below shows you how to connect securely to the instance at [grow.commongarden.org](https://grow.commongarden.org):
-
-```javascript
-grow.connect({
-    "host": "grow.commongarden.org",
-    "tlsOpts": {
-        "tls": {
-            "servername": "galaxy.meteor.com"
-        }
-    },
-    "port": 443,
-    "ssl": true
-});
-```
 
 # Developing
 

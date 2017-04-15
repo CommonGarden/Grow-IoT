@@ -2,43 +2,85 @@ import Grow from '../lib/Grow.js';
 import _ from 'underscore';
 import cycles from '../examples/growfiles/cycles';
 import phases from '../examples/growfiles/phases';
+import cannabis from '../examples/growfiles/cannabis';
 
 const expect = require('chai').expect;
 
-(function setup () {
-  beforeEach(function() {
-  	// Setup test things
-    // console.log(cycles);
-    // console.log(phases);
-    // Grow.parsePhases(phases);
-    // In the future we can test multiple different kinds of things!
-  });
-  afterEach(function() {
-    // delete global.thing;
-  });
-})();
-
 describe('Growfile test', () => {
+
   beforeEach(() => {
-    global.testThing = new Grow(phases);
+    global.testGrow = new Grow({});
   });
 
   it('should parse and schedule cycles', () => {
-    testThing.parseCycles(cycles.properties.cycles);
+    testGrow.parseCycles(cycles.properties.cycles);
   });
 
-  it('should parse phases', () => {
-    testThing.parsePhases(phases.properties.phases);
+  it('should start a Growfile', () => {
+    testGrow.startGrow(cannabis);
   });
 
-  // it('should register alert event listeners', () => {
-  //   testThing.registerAlerts(phases.properties.alerts);
-  //   testThing.on('alert', (key, message)=> {
-  //     console.log(key);
-  //     console.log(message);
-  //   });
-  //   testThing.emit('temperature', {value: 10});
-  // });
+  it('should start a phase from a Growfile', () => {
+    testGrow.startPhase('bloom', cannabis);
+    // expect(testGrow.currentPhase).to.equal('bloom');
+  });
 
+  it('should register alert event listeners', () => {
+    testGrow.registerAlerts({
+      temperature: {
+        min: 15,
+        max: 25,
+      }
+    });
+    var event = false;
+    testGrow.on('alert', (key, message)=> {
+      return event = !event;
+    });
+    testGrow.emit('temperature', {value: 10});
+    expect(event).to.equal(true);
+    testGrow.emit('temperature', {value: 27});
+    expect(event).to.equal(false);
+  });
+
+  it('should not emit multiple alert events', () => {
+    testGrow.registerAlerts({
+      temperature: {
+        min: 15,
+        max: 25,
+      }
+    });
+    var event = false;
+    testGrow.on('alert', (key, message)=> {
+      return event = !event;
+    });
+    testGrow.emit('temperature', {value: 10});
+    testGrow.emit('temperature', {value: 10});
+    expect(event).to.equal(true);
+  });
+
+  it('should emit OK alert events', () => {
+    testGrow.registerAlerts({
+      temperature: {
+        min: 15,
+        max: 25,
+      }
+    });
+    var event = false;
+    testGrow.on('alert', (alert)=> {
+      return event = alert['temperature'];
+    });
+    testGrow.emit('temperature', {value: 10});
+    testGrow.emit('temperature', {value: 15});
+    expect(event).to.equal('ok');
+    // Shouldn't emit multiple 'ok' events
+    event = false;
+    testGrow.emit('temperature', {value: 15});
+    expect(event).to.equal(false);
+  });
+
+
+  afterEach(() => {
+    delete global.testGrow;
+  });
 
 });

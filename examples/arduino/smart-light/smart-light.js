@@ -21,8 +21,8 @@ board.on('ready', function start() {
 
   // Create a new thing.
   var light = new Thing({
-    uuid: 'e5340c3d-2b02-4597-8c05-d1eecb8a8946',
-    token: 'AHf8k5Mo2E9R3gbHNEpj5StxG43xifa8',
+    uuid: 'dfdcff53-8cf9-4218-a165-6d8152f8fc7c',
+    token: 'qL7C76psYiD9okfgtFQXQnrNPek7omi6',
 
     component: 'smart-light',
 
@@ -142,16 +142,14 @@ board.on('ready', function start() {
     }
   });
 
-  light.connect(
-  // {
-  //     host: "grow.commongarden.org",
-  //     tlsOpts: {
-  //       tls: {
-  //         servername: "galaxy.meteor.com"
-  //       }
-  //     },
-  //     port: 443,
-  //     ssl: true
-  // }
-  );
+  light.connect({
+    host: "grow.commongarden.org",
+    tlsOpts: {
+      tls: {
+        servername: "galaxy.meteor.com"
+      }
+    },
+    port: 443,
+    ssl: true
+  });
 });
