@@ -1,5 +1,6 @@
-export const MONGO_URL = process.env.MONGO_URL;
 import monq from 'monq';
+
+export const MONGO_URL = process.env.MONGO_URL;
 export const client = monq(MONGO_URL);
 export const queue = client.queue('eventsqueue');
 
@@ -12,6 +13,7 @@ const enqueueTask = function (id, type, collection, index) {
     collection,
     index,
   };
+  // If type == alert, send notification?
   queue.enqueue('events', task, (err, job) => {
     if (err) {throw err}
   });
@@ -31,6 +33,8 @@ const EventBus = (collection, index) => {
     },
   });
 };
+
+EventBus(Events, 'event');
 
 const worker = client.worker(['eventsqueue']);
 
@@ -57,6 +61,7 @@ worker.register({
 worker.start();
 
 function added(id, collection, index) {
+	console.log('added')
 // query MongoDB for the document
 }
 

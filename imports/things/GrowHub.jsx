@@ -18,8 +18,12 @@ import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ImageOne from '../app/components/images/ImageOne';
+import CameraComponent from './CameraComponent';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+
+import WarningIcon from 'material-ui/svg-icons/alert/warning';
+
 
 class GrowHub extends Component {
   constructor(props) {
@@ -108,7 +112,7 @@ class GrowHub extends Component {
         icon: 'wi wi-barometer'
       },
       {
-        type: 'temp',
+        type: 'water_temperature',
         title: 'Resevoir temperature',
         icon: 'wi wi-thermometer'
       },
@@ -145,36 +149,31 @@ class GrowHub extends Component {
 
   getEventValue(type) {
     const e = this.props[`${type}Event`];
-    return e ? e.event.value.toFixed(1) : 'NA';
+    return e ? Number(e.event.value).toFixed(2) : 'NA';
   }
 
   render() {
-    const lightPower = this.props.lightPowerEvent ? this.props.lightPowerEvent.event.value: {current:0, voltage: 0, power: 0, total: 0};
-    const fanPower = this.props.fanPowerEvent ? this.props.fanPowerEvent.event.value: {current:0, voltage: 0, power: 0, total: 0};
-    const pumpPower = this.props.pumpPowerEvent ? this.props.pumpPowerEvent.event.value: {current:0, voltage: 0, power: 0, total: 0};
-
     const styles = {
-      left: {
-        // float: 'left'
-      },
       right: {
         float: 'right'
       },
       options: {
-        marginLeft: 100,
+        marginLeft: 200,
         position: 'relative',
         bottom: 100,
       },
       actuator: {
         padding: 10,
-        marginBottom: -50,
+        float: 'left',
+        marginRight: 20
       },
       actionButton: {
         marginRight: 20,
         marginleft: 20
       },
       main: {
-        marginTop: -25
+        marginTop: -25,
+        marginBottom: 200
       },
       sensorData: {
         paddingLeft: 10,
@@ -182,7 +181,7 @@ class GrowHub extends Component {
       },
       powerData: {
         position: 'relative',
-        marginBottom: -58,
+        // marginBottom: -58,
         fontSize: 10,
         padding: 10,
         top: 9,
@@ -200,6 +199,12 @@ class GrowHub extends Component {
         marginLeft: -22,
         fontSize: 13
       },
+      smallIcon: {
+        height: 15,
+        width: 15,
+        padding: 0,
+        marginLeft: 3,
+      },
       image: {
         maxWidth: 400,
         minWidth: 300,
@@ -213,7 +218,7 @@ class GrowHub extends Component {
       }
     }
 
-    // <CameraIcon style={{marginLeft: 12}}/>
+    const alerts = this.props.thing.properties.alerts;
 
     return (
       <div style={styles.main}>
@@ -232,13 +237,25 @@ class GrowHub extends Component {
         <div style={styles.sensorData}>
           {
             this.state.types.map((v, k) => {
-              return <h3 key={k}><i className={v.icon} style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong> </h3>
+              return <h3 key={k}>
+                       <i className={v.icon} 
+                          style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
+                          {
+                            alerts[v.type] ? <IconButton
+                              tooltip={alerts[v.type]}
+                              tooltipPosition="top-center"
+                              iconStyle={styles.smallIcon}
+                              style={styles.smallIcon}>
+                              <WarningIcon />
+                            </IconButton>: <span></span>
+                          }   
+                     </h3>
             })
           }
         </div>
 
         <div style={styles.image}>
-          <ImageOne uuid={this.props.thing.uuid}/>
+          <CameraComponent uuid={this.props.thing.uuid}/>
         </div>
 
         <Divider />
@@ -255,29 +272,11 @@ class GrowHub extends Component {
             <br/>
             <div style={styles.powerData}>
               <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
-              Current: {lightPower.current.toFixed(2)}<br/>
-              Voltage: {lightPower.voltage.toFixed(2)}<br/>
-              Power: {lightPower.power.toFixed(2)}<br/>
-              Total: {lightPower.total.toFixed(2)}<br/>
+              Current: {this.getEventValue('light_power_current')}<br/>
+              Voltage: {this.getEventValue('light_power_voltage')}<br/>
+              Power: {this.getEventValue('light_power_power')}<br/>
+              Total: {this.getEventValue('light_power_total')}<br/>
             </div>
-          </div>
-          <div style={styles.options}>
-            <TextField
-              hintText="Day start"
-              floatingLabelText="Day start"
-              data-key="day"
-              defaultValue="after 7:00am"
-              onChange={this.handleScheduleChange}
-            />
-            <br/>
-
-            <TextField
-              hintText="Night start"
-              floatingLabelText="Night start"
-              data-key="night"
-              defaultValue="after 7:00pm"
-              onChange={this.handleScheduleChange}
-            />
           </div>
         </div>
 
@@ -293,29 +292,10 @@ class GrowHub extends Component {
             <br/>
             <div style={styles.powerData}>
               <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
-              Current: {fanPower.current.toFixed(2)}<br/>
-              Voltage: {fanPower.voltage.toFixed(2)}<br/>
-              Power: {fanPower.power.toFixed(2)}<br/>
-              Total: {fanPower.total.toFixed(2)}<br/>
-            </div>
-            <div style={styles.options}>
-            <TextField
-              hintText="Target day temperature"
-              data-key="day_temp"
-              floatingLabelText="Target day temperature"
-              defaultValue="21"
-              onChange={this.handleValueChange}
-            />
-            <br/>
-
-            <TextField
-              hintText="Target night temperature"
-              floatingLabelText="Target night temperature"
-              data-key="night_temp"
-              defaultValue="18"
-              onChange={this.handleScheduleChange}
-            />
-            <br/>
+              Current: {this.getEventValue('fan_power_current')}<br/>
+              Voltage: {this.getEventValue('fan_power_voltage')}<br/>
+              Power: {this.getEventValue('fan_power_power')}<br/>
+              Total: {this.getEventValue('fan_power_total')}<br/>
             </div>
           </div>
         </div>
@@ -333,28 +313,11 @@ class GrowHub extends Component {
             <br/>
             <div style={styles.powerData}>
               <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
-              Current: {pumpPower.current.toFixed(2)}<br/>
-              Voltage: {pumpPower.voltage.toFixed(2)}<br/>
-              Power: {pumpPower.power.toFixed(2)}<br/>
-              Total: {pumpPower.total.toFixed(2)}<br/>
+              Current: {this.getEventValue('pump_power_current')}<br/>
+              Voltage: {this.getEventValue('pump_power_voltage')}<br/>
+              Power: {this.getEventValue('pump_power_power')}<br/>
+              Total: {this.getEventValue('pump_power_total')}<br/>
             </div>
-          </div>
-          <div style={styles.options}>
-            <TextField
-              hintText="Schedule"
-              data-key="water_schedule"
-              floatingLabelText="Schedule"
-              defaultValue="every 2 hours"
-              onChange={this.handleValueChange}
-            />
-            <br/>
-            <TextField
-              hintText="Duration"
-              floatingLabelText="Duration (milliseconds)"
-              data-key="water_duration"
-              defaultValue="20000"
-              onChange={this.handleScheduleChange}
-            />
           </div>
         </div>
 
@@ -367,18 +330,73 @@ class GrowHub extends Component {
             onTouchTap={this.handleClose}
           />}
           modal={false}
+          autoScrollBodyContent={true}
           open={this.state.settingsDialogOpen}
           onRequestClose={this.handleClose}>
-          <TextField
-            hintText="Log data every (milliseconds)"
-            floatingLabelText="Log data every (milliseconds)"
-            data-key="interval"
-            defaultValue="2000"
-            onChange={this.handleScheduleChange}
-          />
-          <br/>
-          <p>UUID: {this.props.thing.uuid}</p>
-          <p>Token: {this.props.thing.token}</p>
+            <TextField
+              hintText="Log data every (milliseconds)"
+              floatingLabelText="Log data every (milliseconds)"
+              data-key="interval"
+              defaultValue="2000"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Day start"
+              floatingLabelText="Day start"
+              data-key="day"
+              defaultValue="after 7:00am"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Night start"
+              floatingLabelText="Night start"
+              data-key="night"
+              defaultValue="after 7:00pm"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Target day temperature"
+              data-key="day_temp"
+              floatingLabelText="Target day temperature"
+              defaultValue="21"
+              onChange={this.handleValueChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Target night temperature"
+              floatingLabelText="Target night temperature"
+              data-key="night_temp"
+              defaultValue="18"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Schedule"
+              data-key="water_schedule"
+              floatingLabelText="Schedule"
+              defaultValue="every 2 hours"
+              onChange={this.handleValueChange}
+            />
+            <br/>
+
+            <TextField
+              hintText="Duration"
+              floatingLabelText="Duration (milliseconds)"
+              data-key="water_duration"
+              defaultValue="20000"
+              onChange={this.handleScheduleChange}
+            />
+            <br/>
+            <p>UUID: {this.props.thing.uuid}</p>
+            <p>Token: {this.props.thing.token}</p>
         </Dialog>
         <br/>
       </div>
@@ -392,75 +410,77 @@ GrowHub.propTypes = {
   ecEvent: React.PropTypes.object,
   phEvent: React.PropTypes.object,
   tempEvent: React.PropTypes.object,
-  waterTempEvent: React.PropTypes.object,
+  water_temperatureEvent: React.PropTypes.object,
   humidityEvent: React.PropTypes.object,
   luxEvent: React.PropTypes.object,
-  pumpPowerEvent: React.PropTypes.object,
-  fanPowerEvent: React.PropTypes.object,
-  lightPowerEvent: React.PropTypes.object,
+  fan_power_powerEvent: React.PropTypes.object,
+  light_power_powerEvent: React.PropTypes.object,
+  pump_power_powerEvent: React.PropTypes.object,
+  fan_power_voltageEvent: React.PropTypes.object,
+  pump_power_voltageEvent: React.PropTypes.object,
+  light_power_voltageEvent: React.PropTypes.object,
+  fan_power_currentEvent: React.PropTypes.object,
+  pump_power_currentEvent: React.PropTypes.object,
+  light_power_currentEvent: React.PropTypes.object,
+  fan_power_totalEvent: React.PropTypes.object,
+  pump_power_totalEvent: React.PropTypes.object,
+  light_power_totalEvent: React.PropTypes.object,
   ready: React.PropTypes.bool,
-  events: React.PropTypes.array,
   alerts: React.PropTypes.array,
 }
 
 export default GrowHubContainer = createContainer(({ thing }) => {
-  // _.mapObject(thing, (value, key) => {
-  //   console.log(key);
-  //   console.log(value);
-  // })
-
-  // TODO: clean this up.
-  const phHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ph', 1);
-  const tempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'temperature', 1);
-  const waterTempHandle = Meteor.subscribe('Thing.events', thing.uuid, 'water_temperature', 1);
-  const ecHandle = Meteor.subscribe('Thing.events', thing.uuid, 'ec', 1);
-  const humidityHandle = Meteor.subscribe('Thing.events', thing.uuid, 'humidity', 1);
-  const luxHandle = Meteor.subscribe('Thing.events', thing.uuid, 'lux', 1);
-  const fanPowerHandle = Meteor.subscribe('Thing.events', thing.uuid, 'fan_power', 1);
-  const lightPowerHandle = Meteor.subscribe('Thing.events', thing.uuid, 'light_power', 1);
-  const pumpPowerHandle = Meteor.subscribe('Thing.events', thing.uuid, 'pump_power', 1);
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
-  const alertsHandle = Meteor.subscribe('Thing.events', thing.uuid, 'alert', 10);
-  
-  const ready = [ phHandle,
-                    tempHandle,
-                    ecHandle,
-                    humidityHandle,
-                    waterTempHandle,
-                    luxHandle,
-                    fanPowerHandle,
-                    lightPowerHandle,
-                    pumpPowerHandle,
-                    eventsHandle,
-                    alertsHandle ].every(
+
+  const ready = [ eventsHandle ].every(
     (h) => {
       return h.ready();
     }
   );
 
-  const events = Events.find({}).fetch();
   const alerts = Events.find({'event.type': 'alert'}).fetch();
   const phEvent = Events.findOne({'event.type': 'ph'});
   const ecEvent = Events.findOne({'event.type': 'ec'});
   const luxEvent = Events.findOne({'event.type': 'lux'});
   const tempEvent = Events.findOne({'event.type': 'temperature'});
-  const waterTempEvent = Events.findOne({'event.type': 'water_temperature'});
+  const water_temperatureEvent = Events.findOne({'event.type': 'water_temperature'});
   const humidityEvent = Events.findOne({'event.type': 'humidity'});
-  const fanPowerEvent = Events.findOne({'event.type': 'fan_power'});
-  const pumpPowerEvent = Events.findOne({'event.type': 'pump_power'});
-  const lightPowerEvent = Events.findOne({'event.type': 'light_power'});
+
+  const fan_power_powerEvent = Events.findOne({'event.type': 'fan_power_power'});
+  const pump_power_powerEvent = Events.findOne({'event.type': 'pump_power_power'});
+  const light_power_powerEvent = Events.findOne({'event.type': 'light_power_power'});
+
+  const fan_power_voltageEvent = Events.findOne({'event.type': 'fan_power_voltage'});
+  const pump_power_voltageEvent = Events.findOne({'event.type': 'pump_power_voltage'});
+  const light_power_voltageEvent = Events.findOne({'event.type': 'light_power_voltage'});
+
+  const fan_power_currentEvent = Events.findOne({'event.type': 'fan_power_current'});
+  const pump_power_currentEvent = Events.findOne({'event.type': 'pump_power_current'});
+  const light_power_currentEvent = Events.findOne({'event.type': 'light_power_current'});
+
+  const fan_power_totalEvent = Events.findOne({'event.type': 'fan_power_total'});
+  const pump_power_totalEvent = Events.findOne({'event.type': 'pump_power_total'});
+  const light_power_totalEvent = Events.findOne({'event.type': 'light_power_total'});
 
   return {
     phEvent,
     ecEvent,
     tempEvent,
-    waterTempEvent,
+    water_temperatureEvent,
     humidityEvent,
     luxEvent,
-    fanPowerEvent,
-    lightPowerEvent,
-    pumpPowerEvent,
-    events,
+    fan_power_powerEvent,
+    light_power_powerEvent,
+    pump_power_powerEvent,
+    fan_power_voltageEvent,
+    pump_power_voltageEvent,
+    light_power_voltageEvent,
+    fan_power_currentEvent,
+    pump_power_currentEvent,
+    light_power_currentEvent,
+    fan_power_totalEvent,
+    pump_power_totalEvent,
+    light_power_totalEvent,
     alerts,
     ready
   }

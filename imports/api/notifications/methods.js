@@ -8,14 +8,15 @@ import Notifications from '../collections/notifications';
 Meteor.methods({
   // Add links? For example if a device is offline, clicking on the notification
   // takes you to the offline device.
-  'Notifications.new': function ({ notification }) {
-    check(notification, String);
+  'Notifications.new': function (notification, owner) {
+    check(notification, String, Object);
+    check(owner, Match.OneOf(String, undefined));
     let document = {
       timestamp: new Date(),
       notification,
       read: false,
       owner: {
-        _id: this.userId,
+        _id: this.userId || owner,
       }
     };
 
