@@ -2,7 +2,7 @@
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
 
-![screenshot](https://cloud.githubusercontent.com/assets/521978/24823129/316d1ac4-1bb0-11e7-81a0-7df6f5ca4ef5.png)
+![screenshot](https://cloud.githubusercontent.com/assets/521978/25060230/2aec41aa-214d-11e7-9498-a05d35f733c7.jpg)
 
 ## Installing Grow-IoT
 

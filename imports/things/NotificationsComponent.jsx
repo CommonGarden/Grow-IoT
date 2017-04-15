@@ -20,7 +20,7 @@ class NotificationsComponent extends Component {
   newNotification (event) {
     let notification = event.currentTarget.dataset.value;
     Meteor.call('Notifications.new',
-      { notification },
+      notification,
       (error, documentId) => {
         if (error) {
           console.error("Error", error);
