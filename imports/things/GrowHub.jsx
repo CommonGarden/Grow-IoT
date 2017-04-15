@@ -10,6 +10,7 @@ import { Charts, ChartContainer, ChartRow, YAxis, LineChart } from "react-timese
 import { TimeSeries, TimeRange, Event } from "pondjs";
 import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import PowerIcon from 'material-ui/svg-icons/action/power-settings-new';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
@@ -87,7 +88,8 @@ class GrowHub extends Component {
       {
         type: 'temp',
         title: 'Room Temparature',
-        icon: 'wi wi-thermometer'
+        icon: 'wi wi-thermometer',
+        unit: 'wi wi-celsius'
       },
       {
         type: 'humidity',
@@ -102,12 +104,13 @@ class GrowHub extends Component {
       {
         type: 'ec',
         title: 'Water Conductivity',
-        icon: 'wi wi-barometer'
+        icon: 'wi wi-barometer',
       },
       {
         type: 'water_temperature',
         title: 'Resevoir temperature',
-        icon: 'wi wi-thermometer'
+        icon: 'wi wi-thermometer',
+        unit: 'wi wi-celsius'
       },
       {
         type: 'lux',
@@ -140,15 +143,36 @@ class GrowHub extends Component {
     this.sendCommand(command, options);
   }
 
+  updateGrowfile () {
+    try {
+      let growfile = JSON.parse(document.getElementById('Growfile').value);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
   getEventValue(type) {
     const e = this.props[`${type}Event`];
     return e ? Number(e.event.value).toFixed(2) : 'NA';
+  }
+
+  onlineSince () {
+    const onlineSince = this.props.thing.onlineSince || false;
+
+    if (!this.props.thing.onlineSince) {
+      return <span>Offline</span>
+    } else {
+      return <span></span>
+    }
   }
 
   render() {
     const styles = {
       right: {
         float: 'right'
+      },
+      oneHundred: {
+        width: '100%'
       },
       options: {
         marginLeft: 200,
@@ -211,6 +235,7 @@ class GrowHub extends Component {
       }
     }
 
+    const thing = this.props.thing;
     const alerts = this.props.thing.properties.alerts || {};
 
     return (
@@ -226,6 +251,7 @@ class GrowHub extends Component {
             </IconButton>
           </h2>
         </div>
+        {this.onlineSince()}
         
         <div style={styles.sensorData}>
           {
@@ -233,6 +259,8 @@ class GrowHub extends Component {
               return <h3 key={k}>
                        <i className={v.icon} 
                           style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
+                          {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
+                          {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
                           {
                             alerts[v.type] ? <IconButton
                               tooltip={alerts[v.type]}
@@ -330,66 +358,32 @@ class GrowHub extends Component {
               hintText="Log data every (milliseconds)"
               floatingLabelText="Log data every (milliseconds)"
               data-key="interval"
-              defaultValue="2000"
+              defaultValue={thing.properties.interval}
               onChange={this.handleScheduleChange}
             />
             <br/>
 
             <TextField
-              hintText="Day start"
-              floatingLabelText="Day start"
-              data-key="day"
-              defaultValue="after 7:00am"
-              onChange={this.handleScheduleChange}
+              hintText="Insert valid Growfile JSON"
+              errorText="This field is required."
+              floatingLabelText="Growfile"
+              id="Growfile"
+              ref="Growfile"
+              defaultValue={JSON.stringify(thing.properties.growfile, null, 2)}
+              multiLine={true}
+              style={styles.oneHundred}
+              rows={10}
             />
             <br/>
-
-            <TextField
-              hintText="Night start"
-              floatingLabelText="Night start"
-              data-key="night"
-              defaultValue="after 7:00pm"
-              onChange={this.handleScheduleChange}
-            />
+            <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
             <br/>
-
-            <TextField
-              hintText="Target day temperature"
-              data-key="day_temp"
-              floatingLabelText="Target day temperature"
-              defaultValue="21"
-              onChange={this.handleValueChange}
-            />
             <br/>
-
-            <TextField
-              hintText="Target night temperature"
-              floatingLabelText="Target night temperature"
-              data-key="night_temp"
-              defaultValue="18"
-              onChange={this.handleScheduleChange}
-            />
             <br/>
-
-            <TextField
-              hintText="Schedule"
-              data-key="water_schedule"
-              floatingLabelText="Schedule"
-              defaultValue="every 2 hours"
-              onChange={this.handleValueChange}
-            />
-            <br/>
-
-            <TextField
-              hintText="Duration"
-              floatingLabelText="Duration (milliseconds)"
-              data-key="water_duration"
-              defaultValue="20000"
-              onChange={this.handleScheduleChange}
-            />
-            <br/>
-            <p>UUID: {this.props.thing.uuid}</p>
-            <p>Token: {this.props.thing.token}</p>
+            <Divider />
+            <p>Auth credentials:</p>
+            <p>uuid: {thing.uuid}</p>
+            <p>token: {thing.token}</p>
+            <RaisedButton label="Delete Grow Hub" secondary={true} />
         </Dialog>
         <br/>
       </div>
