@@ -1,4 +1,4 @@
-import { queue } from '../eventbus';
+import { queue } from '../events/eventBus';
 
 const enqueueTask = function (id, type, collection, index) {
   const  task = {

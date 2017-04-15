@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-import Notifications from './collections/notifications';
 
 Meteor.publish('Thing.messages', function(auth) {
   var thing, handle, options, query;
@@ -141,13 +140,6 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
   }
 });
 
-Meteor.publish('Images.all', function () {
-  // Return only images owned by the authenticated user.
-  return Images.find({'meta.owner._id': this.userId}, {'sort': {
-    'meta.insertedAt': -1
-  }}).cursor;
-});
-
 Meteor.publish('Thing.images', function (uuid, l) {
   check(uuid, String);
   check(l, Number);
@@ -173,19 +165,5 @@ Meteor.publish('Thing.images', function (uuid, l) {
       },
       limit
     }).cursor;
-});
-
-Meteor.publish('Notifications.all', function({ limit }) {
-  check(limit, Match.OneOf(Number, undefined));
-
-  const l = limit || 10;
-  return Notifications.find({
-    'owner._id': this.userId
-  }, {
-    'sort': {
-      'timestamp': -1
-    },
-    limit: l
-  });
 });
 
