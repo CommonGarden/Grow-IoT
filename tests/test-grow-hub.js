@@ -48,12 +48,85 @@ function createGrowHub(u, t) {
       interval: 3000,
       currently: null,
       lightconditions: null,
-      cycles: {
-        day: {
-          start: 'after 7:00am'
-        },
-        night: {
-          start: 'after 8:00pm'
+      growfile: {
+        phases: {
+          vegetative: {
+            targets: {
+              ph: {
+                min: 6.0,
+                ideal: 6.15,
+                max: 6.3,
+              },
+              ec: {
+                min: 1400,
+                ideal: 1500,
+                max: 1700,
+              },
+              humidity: {
+                min: 51,
+                max: 61
+              },
+            },
+
+            // You can have more cycles than just day or night.
+            cycles: {
+              day: {
+                start: 'after 6:00am',
+                targets: {
+                  temperature: 24,
+                  co2: {
+                    min: 900,
+                    max: 1600
+                  }
+                }
+              },
+              night: {
+                start: 'after 9:00pm',
+                targets: {
+                  temperature: 20,
+                  co2: {
+                    min: 400,
+                    max: 1000
+                  },
+                }
+              }
+            }
+          },
+
+          bloom: {
+            targets: {
+              ph: {
+                min: 6.0,
+                ideal: 6.15,
+                max: 6.3,
+              },
+              ec: {
+                min: 1400,
+                ideal: 1500,
+                max: 1700,
+              },
+              humidity: {
+                min: 51,
+                max: 59
+              },
+            },
+
+            cycles: {
+              day: {
+                start: 'after 7:00am',
+                targets: {
+                  temperature: 24,
+                }
+              },
+              night: {
+                start: 'after 7:00pm',
+                targets: {
+                  temperature: 20,
+                  co2: 400,
+                },
+              }
+            }
+          }
         }
       }
     },
