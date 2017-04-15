@@ -48,6 +48,7 @@ board.on('ready', function start() {
       night_temp: 18,
       water_schedule: 'every 2 hours',
       water_duration: 20000,
+      growfile: growfile,
       targets: {},
     },
 
@@ -151,12 +152,14 @@ board.on('ready', function start() {
         this.power_data();
       }, interval);
 
+      let grow = this.get('growfile');
       this.startGrow(growfile);
     },
 
     stop: function () {
       console.log('Grow-Hub stopped.');
       clearInterval(emit_data);
+      // clear alerts and cycles?
       this.removeAllListeners();
     },
     

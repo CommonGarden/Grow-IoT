@@ -4,22 +4,14 @@
 
 Grow.js helps you create and connect devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. 
 
-### v0.4
-v0.4 begins to introduce some utilities for growers including:
-
-* scheduling (water your plants 'every 2 hours', or whatever)
-* useful utilities for creating controlled environments (let us know if they are useful, we want to solve real problems)
-* Sneak peak at *Grow Files*.
-
-
 ### Installation
 
-Not published yet... so you have to clone this repo and `npm install`.
+`npm install Grow.js`
 
 ## Usage
-Grow.js is an extension of Thing.js which is an extension of the Node Event emitter.
+Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) which is an extension of the [Node EventEmitter](https://nodejs.org/api/events.html).
 
-In addition, it also has some functionality for scheduling, registering alerts (temperature low, etc.), and easily and securely connecting to a Grow-IoT instance.
+In addition, it also has some functionality for scheduling, registering and monitoring for alerts (temperature low, etc.), and easily and securely connecting to a Grow-IoT instance.
 
 ### Connection options
 
@@ -67,7 +59,7 @@ grow.connect({
 
 In Grow-IoT, create a new device and take note of the device `uuid` and `token`.
 
-In the `examples` folder checkout `test-device.js`. If you want to get started straight away with hardware, skip to the [working with hardware]() section.
+In the `examples` folder checkout `test-device.js`. If you want to get started straight away with hardware, skip to the [working with hardware](https://github.com/CommonGarden/Grow.js#working-with-hardware) section.
 
 Replace the `uuid` and `token` properties of the config object with the credentials you generate.
 

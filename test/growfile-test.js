@@ -22,6 +22,7 @@ describe('Growfile test', () => {
 
   it('should start a phase from a Growfile', () => {
     testGrow.startPhase('bloom', cannabis);
+    // expect(testGrow.currentPhase).to.equal('bloom');
   });
 
   it('should register alert event listeners', () => {
