@@ -24,7 +24,25 @@
                 <ul class="nav nav-stacked">
                   <li><a href="#Grow"><i class="alert alert-success"></i><span>Grow</span></a>
                   </li>
+                  <li><a href="#registerAlerts"><i class="alert alert-info"></i><span>registerAlerts</span></a>
+                  </li>
+                  <li><a href="#removeAlerts"><i class="alert alert-info"></i><span>removeAlerts</span></a>
+                  </li>
+                  <li><a href="#startGrow"><i class="alert alert-info"></i><span>startGrow</span></a>
+                  </li>
+                  <li><a href="#startPhase"><i class="alert alert-info"></i><span>startPhase</span></a>
+                  </li>
+                  <li><a href="#parseCycles"><i class="alert alert-info"></i><span>parseCycles</span></a>
+                  </li>
+                  <li><a href="#ispH"><i class="alert alert-info"></i><span>ispH</span></a>
+                  </li>
+                  <li><a href="#parseEC"><i class="alert alert-info"></i><span>parseEC</span></a>
+                  </li>
+                  <li><a href="#average"><i class="alert alert-info"></i><span>average</span></a>
+                  </li>
                   <li><a href="#connect"><i class="alert alert-info"></i><span>connect</span></a>
+                  </li>
+                  <li><a href="#sendImage"><i class="alert alert-success"></i><span>sendImage</span></a>
                   </li>
                   <li><a href="#emit"><i class="alert alert-success"></i><span>emit</span></a>
                   </li>
@@ -57,8 +75,8 @@
               </tr>
               <tr>
                 <td>return</td>
-                <td></td>
-                <td><p>A new grow instance.</p></td>
+                <td>Grow</td>
+                <td><p>A new Grow instance.</p></td>
               </tr>
             </tbody>
           </table>
@@ -69,12 +87,346 @@
 
     this.config = config;
 
+    this.controller = controller;
+
+    this.alerts = {};
+
+    if (!this.properties) {
+      this.properties = {};
+    }
+
     if (!this.uuid &amp;&amp; !this.token) {
       new Error('UUID and token are required to connect to a Grow-IoT instance.');
     }
 
     this._messageHandlerInstalled = false;
   }</code></pre>
+          <section id="registerAlerts">
+            <h1>registerAlerts</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.registerAlerts()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>alerts</td>
+                <td>Object</td>
+                <td><p>An object contain event keys and corresponding min / max values.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates listeners for alerts objects in grow files.</p></div>
+          <pre><code class="language-javascript">registerAlerts(alerts) {
+  _.each(alerts, (value, key) =&gt; {
+    if (typeof value === 'object') {
+      if (value.min || value.max) {
+        this.on(key, (eventData) =&gt; {
+          if (value.min &amp;&amp; eventData.value &lt; value.min) {
+            if (this.alerts[key] === 'low') {
+              return;
+            } else {
+              let alert = {};
+              alert[key] = 'low';
+              _.extend(this.alerts, alert);
+              this.set('alerts', this.alerts);
+              this.emit('alert', alert);
+            }
+          }
+          else if (value.max &amp;&amp; eventData.value &gt; value.max) {
+            if (this.alerts[key] === 'high') {
+              return;
+            } else {
+              let alert = {};
+              alert[key] = 'high';
+              _.extend(this.alerts, alert);
+              this.set('alerts', this.alerts);
+              this.emit('alert', alert);
+            }
+          } else {
+            if (this.alerts[key]) {
+              let alert = {};
+              alert[key] = 'ok';
+              this.emit('alert', alert);
+              this.set('alerts', this.alerts);
+              this.alerts = _.omit(this.alerts, key);
+            }
+          }
+        })
+      }
+    }
+  })
+}</code></pre>
+          <section id="removeAlerts">
+            <h1>removeAlerts</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.removeAlerts()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>alerts</td>
+                <td>Object</td>
+                <td><p>Alerts to be removed.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Remove alerts</p></div>
+          <pre><code class="language-javascript">removeAlerts(alerts) {
+  this.alerts = _.omit(this.alerts, alerts);
+  this.set('alerts', this.alerts);
+  _.each(alerts, (value, key) =&gt; {
+    this.removeAllListeners(key);
+  });
+}</code></pre>
+          <section id="startGrow">
+            <h1>startGrow</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.startGrow()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>growfile</td>
+                <td>Object</td>
+                <td><p>The Growfile object.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Start the Growfile from the first phase.</p></div>
+          <pre><code class="language-javascript">startGrow (growfile) {
+  let key = _.keys(growfile.phases)[0];
+  this.startPhase(key, growfile);
+}</code></pre>
+          <section id="startPhase">
+            <h1>startPhase</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.startPhase()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>phaseKey</td>
+                <td>String</td>
+                <td><p>The key of the phase to start.</p></td>
+              </tr>
+              <tr>
+                <td>growfile</td>
+                <td>Object</td>
+                <td><p>The Growfile object.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Start a new phase, such as going from vegetative to bloom, or to &#39;harvest&#39;.</p></div>
+          <pre><code class="language-javascript">startPhase (phaseKey, growfile) {
+  let phases = growfile.phases;
+  let cycles = phases[phaseKey].cycles;
+  let targets = phases[phaseKey].targets;
+
+  this.currentPhase = phases[phaseKey];
+  console.log(phases[phaseKey]);
+
+  try {
+    if (targets) {
+      this.registerAlerts(targets)
+    }
+
+    if (cycles) {
+      this.parseCycles(cycles);
+
+      if (cycles.targets) {
+        this.registerAlerts(cycles.targets)
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  };
+}</code></pre>
+          <section id="parseCycles">
+            <h1>parseCycles</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.parseCycles()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Schedules the cycles component of a phase or simple Growfile.</p></div>
+          <pre><code class="language-javascript">parseCycles(cycles) {
+  _.each(cycles, (list, iteratee)=&gt; {
+    let scheduledTime = later.parse.text(String(cycles[iteratee].start));
+    // assign to a cycle property?
+    this.cycle = iteratee;
+    return later.setTimeout(()=&gt; {
+      try {
+        if (cycles[iteratee].targets) {
+          // call registerAlerts with targets instead? so we can setup event listeners?
+          // TODO: get targets and extend them...
+          this.set('targets', cycles[iteratee].targets);
+        }
+
+        if(cycles[iteratee].options) {
+          this.call(iteratee, cycles[iteratee].options);
+        } else {
+          console.log(iteratee);
+          this.call(iteratee);
+        }
+      } catch (error) {
+        console.log(error);
+      };
+    }, scheduledTime);
+  });
+}</code></pre>
+          <section id="ispH">
+            <h1>ispH</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.ispH()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>reading</td>
+                <td>String</td>
+                <td><p>The reading to check.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Boolean</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns true if the reading falls in a valid pH range.</p></div>
+          <pre><code class="language-javascript">ispH (reading) {
+  if (reading === undefined) {
+    return false;
+  }
+
+  else if (reading &gt; 0 &amp;&amp; reading &lt;= 14) {
+    return true;
+  } 
+
+  else {
+    return false;
+  }
+}</code></pre>
+          <section id="parseEC">
+            <h1>parseEC</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.parseEC()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>reading</td>
+                <td>String</td>
+                <td><p>The reading to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Boolean</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses EC reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseEC (reading) {
+  if (typeof reading === 'string') {
+    return reading.split(',')[0];
+  } else {
+    return false;
+  }
+}</code></pre>
+          <section id="average">
+            <h1>average</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.average()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>listOfReadings</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td><p>The average value</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Average a list of readings.</p></div>
+          <pre><code class="language-javascript">average (listOfReadings) {
+  var average = 0;
+  for (var i = listOfReadings.length - 1; i &gt;= 0; i--) {
+    if (listOfReadings[i] !== undefined &amp;&amp; listOfReadings !== 0) {
+      average += Number(listOfReadings[i]);
+    }
+  }
+
+  return average / listOfReadings.length;
+}</code></pre>
           <section id="connect">
             <h1>connect</h1>
             <h5 class="subheader"></h5>
@@ -165,6 +517,41 @@
       }
     );
   };</code></pre>
+          <section id="sendImage">
+            <h1>sendImage</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.sendImage</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Sends an image (buffer) to the Grow-IoT server.</p></div>
+          <pre><code class="language-javascript">this.sendImage = (buffer) =&gt; {
+  this.ddpclient.call(
+    'Image.new',
+    [{uuid: this.uuid, token: this.token}, buffer],
+    function (error, result) {
+      if (error) {
+        console.log(error, result);
+      }
+    }
+  );
+}</code></pre>
           <section id="emit">
             <h1>emit</h1>
             <h5 class="subheader"></h5>
@@ -193,17 +580,19 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>Emits event to Grow-IoT server.</p></div>
-          <pre><code class="language-javascript">this.emit = (event) =&gt; {
-  super.emit(event);
-
+          <div class="description"><p>Emits event to Grow-IoT server. Adds a timestamp to the event</p></div>
+          <pre><code class="language-javascript">this.emit = (event, message) =&gt; {
+  // The API expects a timestamped event object.
   if (typeof event === 'object') {
     event.timestamp = new Date();
+    super.emit(event.type, event);
   }
 
   else if (typeof event === 'string') {
+    super.emit(event, message);
     event = {
-      message: event,
+      type: event,
+      message,
       timestamp: new Date()
     }
   }
@@ -274,7 +663,7 @@
   }
 };
 
-export default Grow;</code></pre>
+module.exports = Grow;</code></pre>
           <div class="footer site-footer">
             <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
             <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
