@@ -8,7 +8,7 @@ Thing.js exports a single class 'Thing,' which is an extension of the [Node.js E
 * Calling methods
 * Emiting events for either of the above.
 
-[Full documentation available here](http://commongarden.github.io/Thing.js/docs/Thing.js.html).
+[Full documentation available here](http://commongarden.github.io/Thing.js/docs/thing.js.html).
 
 For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js) or the [thing.js CoAP branch](https://github.com/CommonGarden/Thing.js/tree/coap).
 
