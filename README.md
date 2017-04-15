@@ -59,7 +59,7 @@ grow.connect({
 
 In Grow-IoT, create a new device and take note of the device `uuid` and `token`.
 
-In the `examples` folder checkout `test-device.js`. If you want to get started straight away with hardware, skip to the [working with hardware](https://github.com/CommonGarden/Grow.js#working-with-hardware) section.
+In the `examples` folder checkout `test-device.js`. If you want to get started straight away with hardware, skip to the [working with hardware](#working-with-hardware) section.
 
 Replace the `uuid` and `token` properties of the config object with the credentials you generate.
 
