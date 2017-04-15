@@ -143,10 +143,10 @@ board.on('ready', function start() {
   });
 
   light.connect({
-    host: "grow.commongarden.org",
+    host: 'grow.commongarden.org',
     tlsOpts: {
       tls: {
-        servername: "galaxy.meteor.com"
+        servername: 'galaxy.meteor.com'
       }
     },
     port: 443,

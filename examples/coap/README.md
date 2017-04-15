@@ -1,1 +1,0 @@
-Coap support is a work in progress.
