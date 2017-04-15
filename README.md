@@ -1,6 +1,6 @@
 # Thing.js
 
-[![Build Status](https://travis-ci.org/CommonGarden/Thing.js.svg?branch=development)](https://travis-ci.org/CommonGarden/Thing.js) [![Code Climate](https://codeclimate.com/github/CommonGarden/Thing.js/badges/gpa.svg)](https://codeclimate.com/github/CommonGarden/Thing.js) [![Test Coverage](https://codeclimate.com/github/CommonGarden/Thing.js/badges/coverage.svg)](https://codeclimate.com/github/CommonGarden/Thing.js/coverage) [![Gitter](https://badges.gitter.im/CommonGarden/Thing.js.svg)](https://gitter.im/CommonGarden/Thing.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/CommonGarden/Thing.js.svg?branch=development)](https://travis-ci.org/CommonGarden/Thing.js) [![Code Climate](https://codeclimate.com/github/CommonGarden/Thing.js/badges/gpa.svg)](https://codeclimate.com/github/CommonGarden/Thing.js) [![Gitter](https://badges.gitter.im/CommonGarden/Thing.js.svg)](https://gitter.im/CommonGarden/Thing.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Thing.js exports a single class 'Thing,' which is an extension of the [Node.js EventEmitter Class](https://nodejs.org/api/events.html) and basic methods for:
 
