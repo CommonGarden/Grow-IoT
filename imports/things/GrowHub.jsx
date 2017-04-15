@@ -70,17 +70,10 @@ class GrowHub extends Component {
     this.sendCommand('stop');
     let key = event.target.dataset.key;
     let cycles = this.props.thing.properties.cycles;
-
-    if (key === 'day') {
-      key = 'cycles';
-      cycles['day'].start = newValue;
-      this.setProperty(key, cycles);
-
-    } else if (key === 'night') {
-      key = 'cycles';
-      cycles['night'].start = newValue;
-      this.setProperty(key, cycles);
-
+    const cycleKeys = ['day', 'night'];
+    if (cycleKeys.indexOf(key) > -1) {
+      cycles[key].start = newValue;
+      this.setProperty('cycle', cycles);
     } else {
       this.setProperty(key, newValue);
     }
@@ -124,11 +117,11 @@ class GrowHub extends Component {
     ]
   };
 
-  sendCommand (method, duration) {
+  sendCommand (method, options) {
     Meteor.call('Thing.sendCommand',
       this.props.thing.uuid,
       method,
-      duration,
+      options,
       (error, documentId) => {
         if (error) {
           console.error("Error", error);
@@ -218,7 +211,7 @@ class GrowHub extends Component {
       }
     }
 
-    const alerts = this.props.thing.properties.alerts;
+    const alerts = this.props.thing.properties.alerts || {};
 
     return (
       <div style={styles.main}>
