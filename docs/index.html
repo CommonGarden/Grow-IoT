@@ -35,7 +35,7 @@
 <li>Emiting events for either of the above.</li>
 </ul>
 <p><a href="http://commongarden.github.io/Thing.js/docs/Thing.js.html">Full documentation available here</a>.</p>
-<p>For example of how this can be used in an IoT stack, checkout <a href="https://github.com/CommonGarden/Grow.js">Grow.js</a>.</p>
+<p>For example of how this can be used in an IoT stack, checkout <a href="https://github.com/CommonGarden/Grow.js">Grow.js</a> or the <a href="https://github.com/CommonGarden/Thing.js/tree/coap">thing.js CoAP branch</a>.</p>
 <h2>Install</h2>
 <pre><code class="language-bash">npm install Thing.js
 </code></pre>
@@ -76,7 +76,7 @@ Light.call('turn_light_on');
 
 </code></pre>
 <h3>Initialize</h3>
-<p>Things can optionally have an <code>initialize</code> function which runs when the thing is constructed:</p>
+<p>Things can optionally have an <code>initialize</code>  or <code>start</code> function which runs when the thing is constructed:</p>
 <pre><code class="language-javascript">const testThing = new Thing({
   initialize: function () {
     console.log('testThing initialized');

@@ -10,7 +10,7 @@ Thing.js exports a single class 'Thing,' which is an extension of the [Node.js E
 
 [Full documentation available here](http://commongarden.github.io/Thing.js/docs/Thing.js.html).
 
-For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js).
+For example of how this can be used in an IoT stack, checkout [Grow.js](https://github.com/CommonGarden/Grow.js) or the [thing.js CoAP branch](https://github.com/CommonGarden/Thing.js/tree/coap).
 
 ## Install
 ```bash
@@ -60,7 +60,7 @@ Light.call('turn_light_on');
 ```
 
 ### Initialize
-Things can optionally have an `initialize` function which runs when the thing is constructed:
+Things can optionally have an `initialize`  or `start` function which runs when the thing is constructed:
 
 ```javascript
 const testThing = new Thing({

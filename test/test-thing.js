@@ -11,42 +11,29 @@ global.expect = require('chai').expect;
       // Meta data
       uuid: null,
       token: null,
-      name: 'Dr. Dose', // The display name for the thing.
-      desription: 'Dr. Dose keeps your pH balanced.',
 
       // Properties can be updated by the API, Metadata cannot.
       properties: {
-        state: null,
-        duration: 2000,
-        eC_reading: null,
-        pH_reading: null
+        state: 'on',
+        testInitialize: false,
+        testStart: false,
+      },
+
+      initialize: function () {
+        return this.set('testInitialize', true);
       },
 
       start: function () {
-        // Maybe emit an event instead?
-        return 'Dr. Dose initialized.';
+        return this.set('testStart', true);
       },
 
-      acid: function (duration) {
-        // console.log('acid');
-        return 'acid';
+      testMethod: function () {
+        return 'test';
       },
           
-      base: function (duration) {
-        return duration;
+      testOptions: function (option) {
+        return option;
       },
-
-      nutrient: function (duration) {
-        return 'nutrient: ' + duration;
-      },
-
-      ec_data: function () {
-        return 'ec_data';
-      },
-
-      ph_data: function () {
-        return 'ph_data';          
-      }
     }
   });
 
@@ -69,12 +56,12 @@ describe('Thing test', () => {
     });
 
     it('should get a property', () => {
-      expect(testThing.get('duration')).to.equal(2000);
+      expect(testThing.get('state')).to.equal('on');
     });
 
     it('should set a property', () => {
-      testThing.set('duration', 3000);
-      expect(testThing.get('duration')).to.equal(3000);
+      testThing.set('state', 'off');
+      expect(testThing.get('state')).to.equal('off');
     });
 
     it('should emit an event when a property is set', () => {
@@ -82,55 +69,39 @@ describe('Thing test', () => {
       testThing.on('property-updated', () => {
         return event = true;
       });
-      testThing.set('duration', 5000);
-      expect(testThing.get('duration')).to.equal(5000);
+      testThing.set('state', 'testing');
+      expect(testThing.get('state')).to.equal('testing');
       expect(event).to.equal(true);
     });
   });
 
   describe('METHODS', () => {
+    it('should start or initialize correctly', () => {
+      expect(testThing.get('testStart')).to.equal(true);
+      expect(testThing.get('testInitialize')).to.equal(true);
+    });
+
     it('should be able to call a method.', () => {
-      expect(testThing.call('acid')).to.equal('acid');
+      expect(testThing.call('testMethod')).to.equal('test');
+    });
+
+    it('should contain a list of methods', () => {
+      expect(testThing.functions.length).to.equal(4);
     });
 
     it('should be able to call a method with options.', () => {
-      expect(testThing.call('base', 1000)).to.equal(1000);
+      expect(testThing.call('testOptions', 1000)).to.equal(1000);
     });
-
 
     it('should emit an event when a method is called', () => {
       var event = false;
-      testThing.on('acid', () => {
+      testThing.on('testMethod', () => {
         return event = true;
       });
-      testThing.call('acid');
+      testThing.call('testMethod');
       expect(event).to.equal(true);
     });
   });
-
-  // TODO: TEST COAP
-  // describe('COAP', () => {
-  //   it('should be able to call a method over coap', () => {
-  //     var req = coap.request('coap://localhost/acid');
-
-  //     req.on('response', function(res) {
-  //       console.log(res);
-  //       res.pipe(process.stdout)
-  //     })
-
-  //     req.end()
-
-  //     // var req2 = coap.request('coap://localhost/get?key=state');
-
-  //     // req2.on('response', function(res2) {
-  //     //   res2.pipe(process.stdout)
-  //     // });
-
-  //     // req2.end();
-
-  //     // expect(false).to.equal(true);
-  //   });
-  // });
 
   afterEach(() => {
     delete global.testThing;
