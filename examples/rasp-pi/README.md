@@ -20,7 +20,7 @@ Test that's it's working with `node -v`.
 
 Then clone the Grow.js repo and additionally install the following packages.
 
-`npm install raspio johnny-five`
+`npm install raspi-io johnny-five`
 
 # Scheduling
 

@@ -3,10 +3,10 @@ const RaspiCam = require('raspicam');
 const fs = require('fs');
 
 const Cam = new Thing({
-  uuid: 'bdc72ff7-f879-418b-8bc9-989d333ef022',
-  token: '9SPHfRZWoNG6EWFEWXoPXRmbaLKns2JX',
+  uuid: '335111e0-3952-4844-be1b-f2abc9aa8848',
+  token: 'T2yXwHo2NC6WvCp93GkvKu6KHfc8AT78',
 
-  component: 'image-component',
+  component: 'ImageComponent',
 
   properties: {
     name: 'Camera',
@@ -37,11 +37,17 @@ const Cam = new Thing({
     });
 
     camera.start();
+
+    setInterval(function() {
+      camera.start();
+    }, 3600000)
   }
 });
 
 
 Cam.connect({
-  host: '192.168.1.111'
+  host: 'grow.commongarden.org',
+  port: 443,
+  ssl: true
 });
 

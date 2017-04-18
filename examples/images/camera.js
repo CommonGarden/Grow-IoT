@@ -44,6 +44,8 @@ const Cam = new Thing({
 
 // Connect over a local network.
 Cam.connect({
-  host: '192.168.1.111'
+  host: 'grow.commongarden.org',
+  port: 443,
+  ssl: true
 });
 
