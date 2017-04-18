@@ -33,8 +33,8 @@ board.on('ready', function start() {
 
   // Create a new growHub instance and connect to https://growHub.commongarden.org
   var growHub = new Grow({
-    uuid: 'a6607b0f-9fae-4158-bbba-22b355adedaf',
-    token: '5GZWZAXhHQiLs3orwQLEcg5qFyYffjuL',
+    uuid: '290af35b-cd7d-44f4-89bf-bb3abb3807e2',
+    token: 'zqgostXDcueuetD7hJuvLiHhpMzJ2ydt',
     component: 'GrowHub',
 
     // Properties can be updated by the API
@@ -369,9 +369,10 @@ board.on('ready', function start() {
   });
 
   growHub.connect({
-    host: '192.168.1.111'
+    host: 'grow.commongarden.org',
+    port: 443,
+    ssl: true
   });
-
   // Default is localhost: 3000
   // growHub.connect({
   //   host: 'grow.commongarden.org',
