@@ -1,11 +1,9 @@
 import Influx from 'influx';
 import { Meteor } from 'meteor/meteor';
 
-console.log(process.env);
-console.log(process.env.METEOR_SETTINGS);
-
 const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 
+console.log('Influx URL: ' + INFLUX_URL);
 // TODO: think more about schemas etc... and reorganize code...
 // https://docs.influxdata.com/influxdb/v1.2/concepts/schema_and_data_layout/
 
@@ -34,7 +32,7 @@ if (INFLUX_URL) {
     }
   })
   .catch(err => {
-    console.error(`Error creating Influx database! Be sure you are using an INFLUX_URL environment variable or hosting an instance locally.`);
+    console.error(err);
   })
 
   export default influx;
