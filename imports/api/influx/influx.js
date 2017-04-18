@@ -1,6 +1,9 @@
 import Influx from 'influx';
 import { Meteor } from 'meteor/meteor';
 
+console.log(process.env);
+console.log(process.env.METEOR_SETTINGS);
+
 const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 
 // TODO: think more about schemas etc... and reorganize code...
