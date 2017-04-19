@@ -18,11 +18,12 @@ describe('Growfile test', () => {
 
   it('should start a Growfile', () => {
     testGrow.startGrow(cannabis);
+    expect(testGrow.currentPhase).to.equal('vegetative');
   });
 
   it('should start a phase from a Growfile', () => {
     testGrow.startPhase('bloom', cannabis);
-    // expect(testGrow.currentPhase).to.equal('bloom');
+    expect(testGrow.currentPhase).to.equal('bloom');
   });
 
   it('should register alert event listeners', () => {
@@ -76,6 +77,29 @@ describe('Growfile test', () => {
     event = false;
     testGrow.emit('temperature', {value: 15});
     expect(event).to.equal(false);
+  });
+
+
+  it('should emit remove alerts', () => {
+    testGrow.registerAlerts({
+      temperature: {
+        min: 15,
+        max: 25,
+      },
+      humidity: {
+        min: 40
+      },
+    });
+
+    expect(testGrow._eventsCount).to.equal(2);
+
+    testGrow.removeAlerts({
+      humidity: {
+        min: 40
+      },
+    });
+
+    expect(testGrow._eventsCount).to.equal(1);
   });
 
 

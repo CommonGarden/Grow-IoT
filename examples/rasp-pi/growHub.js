@@ -43,7 +43,7 @@ board.on('ready', function start() {
       fan_state: null,
       pump_state: null,
       duration: 2000,
-      interval: 5000,
+      interval: 60000,
       day_temp: 21,
       night_temp: 18,
       water_schedule: 'every 2 hours',
