@@ -17,7 +17,7 @@ if (Meteor.isServer) {
 Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: false,
-  storagePath: '/images',
+  storagePath: 'assets/app/uploads',
   debug: Meteor.isServer && process.env.NODE_ENV === 'development',
   onBeforeUpload(file) {
     if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) return true;
