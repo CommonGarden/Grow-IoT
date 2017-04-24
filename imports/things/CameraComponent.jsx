@@ -73,17 +73,22 @@ CameraComponent.propTypes = {
 }
 
 // Get images!
-export default CameraComponentContainer = createContainer(({ uuid }) => {
-  const imagesHandle = Meteor.subscribe('Thing.images', uuid, 1);
-  
+export default CameraComponentContainer = createContainer(({ thing }) => {
+  const imagesHandle = Meteor.subscribe('Thing.images', thing.uuid, 1);
+
   const ready = [ imagesHandle ].every(
     (h) => {
       return h.ready();
     }
   );
 
-  const image = Images.findOne({});
-
+  const image = Images.findOne({
+    'meta.thing': thing._id,
+  }, {
+    'sort': {
+      'meta.insertedAt': -1
+    },
+  });
   return {
     image,
     ready
