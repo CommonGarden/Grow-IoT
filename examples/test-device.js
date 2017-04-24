@@ -1,11 +1,11 @@
-var Thing = require('./dist/Grow.umd.js');
+var Thing = require('../dist/Grow.umd.js');
 
 var testDevice = new Thing({
   // PUT YOUR UUID AND TOKEN HERE!!!
-  uuid: 'PASTE_UUID_HERE',
-  token: 'PASTE_TOKEN_HERE',
+  uuid: 'ef890d71-0137-4253-a130-f328615043bf',
+  token: '7kQbxeCr4R4q7YwCih6PsPCKTLrLiSd4',
 
-  component: 'test-device',
+  component: 'TestDevice',
 
   properties: {
     state: 'off'
@@ -13,18 +13,18 @@ var testDevice = new Thing({
 
   start: function () {
     setInterval(()=> {
-      testDevice.call('temp_data');
+      this.call('temp_data');
     }, 3000);
   },
 
   turn_on: function () {
     console.log('on');
-    testDevice.set('state', 'on');
+    this.set('state', 'on');
   },
 
   turn_off: function () {
     console.log('off');
-    testDevice.set('state', 'off');
+    this.set('state', 'off');
   },
 
   temp_data: function () {
@@ -32,11 +32,15 @@ var testDevice = new Thing({
 
     console.log(temp);
 
-    testDevice.emit({
+    this.emit({
       type: 'temperature',
       value: temp
     });
   }
 });
 
-testDevice.connect();
+growHub.connect({
+  host: 'grow.commongarden.org',
+  port: 443,
+  ssl: true
+});

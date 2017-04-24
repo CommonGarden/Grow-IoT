@@ -25,32 +25,19 @@ module.exports = {
           min: 51,
           max: 61
         },
+        temperature: {
+          min: 17,
+          max: 28
+        }
       },
 
-      // You can have more cycles than just day or night.
+      // Cycles are function that have a 'schedule' property
       cycles: {
         day: {
-          // Note: you may want to run the lights a little longer, adjust accordingly.
-          start: 'after 6:00am',
-          // You can also specify a targets property, these will be updated before the function runs. ; )
-          targets: {
-            temperature: 24,
-            // Protip: C02 emitter should be timed in relation to exhaust fan so that C02 is not sucked out of room.
-            co2: {
-              min: 900,
-              max: 1600
-            }
-          }
+          schedule: 'after 6:00am',
         },
         night: {
-          start: 'after 9:00pm',
-          targets: {
-            temperature: 20,
-            co2: {
-              min: 400,
-              max: 1000
-            },
-          }
+          schedule: 'after 9:00pm',
         }
       }
     },
@@ -71,21 +58,18 @@ module.exports = {
           min: 51,
           max: 59
         },
+        temperature: {
+          min: 17,
+          max: 28
+        }
       },
 
       cycles: {
         day: {
-          start: 'after 7:00am',
-          targets: {
-            temperature: 24,
-          }
+          schedule: 'after 7:00am'
         },
         night: {
-          start: 'after 7:00pm',
-          targets: {
-            temperature: 20,
-            co2: 400,
-          },
+          schedule: 'after 7:00pm'
         }
       }
     }

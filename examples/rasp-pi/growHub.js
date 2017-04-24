@@ -28,7 +28,7 @@ board.on('ready', function start() {
   });
 
   var multi = new five.Multi({
-    controller: 'SI7020'
+    controller: 'BMP280'
   });
 
   // Create a new growHub instance and connect to https://growHub.commongarden.org
