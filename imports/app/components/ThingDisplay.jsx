@@ -8,6 +8,7 @@ import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
 import _ from 'underscore';
 import CreateComponent from './CreateComponent.jsx';
 import Components from '../../things/';
+import { Row, Col } from 'react-flexbox-grid';
 
 export default class ThingDisplay extends Component {
   state = {
@@ -55,26 +56,29 @@ export default class ThingDisplay extends Component {
 
     const registered = this.props.thing.registeredAt;
 
-    const unregisteredText = <div>
-      <p>Connect a device using the following API crendentials or create a component instead.</p>
-      <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
-      <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
-    </div>;
+    const unregisteredText = <Card style={thingStyle}>
+      <CardText>
+        <div>
+          <p>Connect a device using the following API crendentials or create a component instead.</p>
+          <p><b>UUID:</b></p> <p><span className="selectable">{this.props.thing.uuid}</span></p>
+          <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
+        </div>
+      </CardText>
+      <CardActions>
+        <CreateComponent uuid={this.props.thing.uuid} token={this.props.thing.token} /> 
+      </CardActions>
+    </Card>;
 
     const RegisteredText = Components[this.props.thing.component];
-    const cardText = registered ? <RegisteredText thing={this.props.thing}/> : unregisteredText;
-
     return (
-      <div>
-        <Card style={thingStyle}>
-          <CardText>
-            {cardText}
-          </CardText>
-          <CardActions>
-            { registered ? null : <CreateComponent uuid={this.props.thing.uuid} token={this.props.thing.token} /> }
-            <FlatButton label={registered ? 'Delete': 'Cancel'} onTouchTap={this.handleOpen}/>
-          </CardActions>
-        </Card>
+      <Col xs={12} style={{flexBasis: 'initial'}}>
+        {
+          registered ? <RegisteredText thing={this.props.thing} actions={
+            [ <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ]
+          }>
+        </RegisteredText>
+          : unregisteredText
+        }
 
         <Dialog
           title="Are you sure?"
@@ -83,7 +87,7 @@ export default class ThingDisplay extends Component {
           open={this.state.dltOpen}
           onRequestClose={this.handleClose}
         />
-      </div>
+      </Col>
     )
   }
 }

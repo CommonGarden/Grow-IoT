@@ -5,6 +5,8 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import CircularProgress from 'material-ui/CircularProgress';
+import { Grid, Row, Col } from 'react-flexbox-grid';
+
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 
@@ -32,7 +34,12 @@ class ThingsList extends Component {
   renderThings() {
     const things = this.props.Things;
     if (things && things.length) {
-      return things.map((v, k) => <ThingDisplay key={k} thing={v} />);
+      return things.map((v, k) => {
+        return (
+          <ThingDisplay thing={v} key={k}/>
+        )
+      }
+      );
     } else {
       return (
         <EmptyState>
@@ -51,13 +58,14 @@ class ThingsList extends Component {
         marginTop: 45
       }
     };
-    
     return (
-      <div className="layout horizontal wrap">
-        {
-          this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
-        }
-      </div>
+      <Grid style={{width: '100%'}}>
+        <Row>
+          {
+            this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
+          }
+        </Row>
+      </Grid>
     )
   }
 }
