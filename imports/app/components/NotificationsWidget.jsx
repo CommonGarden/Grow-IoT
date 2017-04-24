@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Notifications from '../../api/collections/notifications';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import { browserHistory } from 'react-router';
 import moment from 'moment';
 
 import Badge from 'material-ui/Badge';
@@ -28,6 +29,7 @@ class NotificationsWidget extends Component {
 
   componentDidMount() {
     this.getNotificationCount();
+    this.callGetCount();
   }
   getNotificationCount() {
     Notifications.find({'owner._id' : Meteor.userId(), read: false,}).observe({
@@ -57,7 +59,9 @@ class NotificationsWidget extends Component {
       }
     );
   }
-
+  goToAllNotifications = () => {
+    browserHistory.push('/notifications');
+  }
   renderBadge (count) {
     return count ? <Badge
       badgeContent={count}
@@ -92,7 +96,7 @@ class NotificationsWidget extends Component {
                 onTouchTap={this.handleRead} />;
             })
           }
-          <MenuItem value="all" primaryText="See All Notification" />
+          <MenuItem value="all" primaryText="See All Notification" onTouchTap={this.goToAllNotifications}/>
         </IconMenu>
         {this.renderBadge(this.state.notificationCount)}
       </span>

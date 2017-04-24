@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { browserHistory } from 'react-router';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import ThingsList from './pages/ThingsList.jsx';
 import AppNavDrawer from './components/AppNavDrawer';
@@ -124,41 +123,48 @@ class AuthenticatedApp extends Component {
   }
   render() {
     const styles = this.getStyles();
-
     return (
-      <MuiThemeProvider>
-        <div>
-          <AppBar
-            title="Grow-IoT"
-            iconElementRight={
-              <div>
-                <NotificationsWidget />
-                <CreateThing highlight={this.state.highlightCreate}/>
-                <IconButton tooltip="Menu"
-                            tooltipPosition="bottom-left"
-                            iconStyle={{color: 'white'}}
-                            onTouchTap={this.handleOpen}>
-                  <MenuIcon />
-                </IconButton>
-              </div>
-            }
-            iconElementLeft={
-              <img src="img/white_flower.png" style={styles.logo} />
-            }
-          />
-          <AppNavDrawer
-            style={styles.navDrawer}
-            location={location}
-            docked={false}
-            onRequestChangeNavDrawer={this.handleChangeRequestNavDrawer}
-            onChangeList={this.handleChangeList}
-            open={this.state.navDrawerOpen}
-          />
-          <div className="layout vertical flex center center-justified">
-            <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange}/>
-          </div>
+      <div>
+        <AppBar
+          title="Grow-IoT"
+          iconElementRight={
+            <div>
+              <NotificationsWidget />
+              <CreateThing highlight={this.state.highlightCreate}/>
+              <IconButton tooltip="Menu"
+                tooltipPosition="bottom-left"
+                iconStyle={{color: 'white'}}
+                onTouchTap={this.handleOpen}>
+                <MenuIcon />
+              </IconButton>
+            </div>
+          }
+          iconElementLeft={
+            <img src="img/white_flower.png" style={styles.logo} />
+          }
+        />
+        <AppNavDrawer
+          style={styles.navDrawer}
+          location={location}
+          docked={false}
+          onRequestChangeNavDrawer={this.handleChangeRequestNavDrawer}
+          onChangeList={this.handleChangeList}
+          open={this.state.navDrawerOpen}
+        />
+        <div className="layout vertical flex center center-justified">
+          {
+            React.Children.map(this.props.children,
+              (child) => React.cloneElement(child, {
+                user: this.props.user,
+                thingsChanged: this.handleThingsChange,
+              })
+            )
+          }
+          {
+          // <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange}/>
+          }
         </div>
-      </MuiThemeProvider>
+      </div>
     );
   }
 }

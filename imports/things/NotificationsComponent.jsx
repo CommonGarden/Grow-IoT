@@ -17,7 +17,7 @@ class NotificationsComponent extends Component {
     value: ''
   }
 
-  newNotification (event) {
+  newNotification = (event) => {
     let notification = event.currentTarget.dataset.value;
     Meteor.call('Notifications.new',
       notification,
@@ -26,6 +26,7 @@ class NotificationsComponent extends Component {
           console.error("Error", error);
           return alert(`Error: ${error.reason || error}`);
         }
+        this.setState({ value: '' });
       }
     );
   }
