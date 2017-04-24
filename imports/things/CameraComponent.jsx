@@ -17,8 +17,13 @@ class CameraComponent extends Component {
 
   render() {
     const styles = {
+      main: {
+        width: '100%',
+        height: '100%',
+      },
       img: {
-        maxWidth: '100%'
+        maxHeight: '100%',
+        width: '100%',
       },
       white: {
         color: 'white'
@@ -39,7 +44,7 @@ class CameraComponent extends Component {
       let link = Images.findOne({_id: image._id}).link();
 
       return (
-        <div>
+        <div style={styles.main}>
             <img src={link} style={styles.img} />
             <IconButton onTouchTap={this.takePicture}
                         tooltip="Take picture"
