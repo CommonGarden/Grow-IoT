@@ -279,9 +279,7 @@ class GrowHub extends Component {
 
             </Col>
             <Col xs={12} md={6}>
-              <div style={styles.image}>
-                <CameraComponent uuid={this.props.thing.uuid}/>
-              </div>
+              <CameraComponent uuid={this.props.thing.uuid}/>
             </Col>
           </Row>
           <Divider />

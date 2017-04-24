@@ -34,11 +34,19 @@ class ThingsList extends Component {
   renderThings() {
     const things = this.props.Things;
     if (things && things.length) {
-      return things.map((v, k) => {
-        return (
-          <ThingDisplay thing={v} key={k}/>
-        )
-      }
+      return (
+        <Grid style={{width: '100%'}}>
+          <Row>
+            {
+              things.map((v, k) => {
+                return (
+                  <ThingDisplay thing={v} key={k}/>
+                )
+              }
+              )
+            }
+          </Row>
+        </Grid> 
       );
     } else {
       return (
@@ -59,13 +67,7 @@ class ThingsList extends Component {
       }
     };
     return (
-      <Grid style={{width: '100%'}}>
-        <Row>
-          {
-            this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
-          }
-        </Row>
-      </Grid>
+      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
     )
   }
 }
