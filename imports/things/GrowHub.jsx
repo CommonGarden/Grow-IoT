@@ -24,6 +24,7 @@ import CameraComponent from './CameraComponent';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
+import { Row, Col } from 'react-flexbox-grid';
 
 
 class GrowHub extends Component {
@@ -189,8 +190,7 @@ class GrowHub extends Component {
         marginleft: 20
       },
       main: {
-        marginTop: -25,
-        marginBottom: 200
+        margin: '20px',
       },
       sensorData: {
         paddingLeft: 10,
@@ -239,121 +239,131 @@ class GrowHub extends Component {
     const alerts = this.props.thing.properties.alerts || {};
 
     return (
-      <div style={styles.main}>
-        <div>
-          <h2>Grow Hub
-            <IconButton
-              tooltip="Options"
-              tooltipPosition="top-center"
-              onTouchTap={this.handleOpen}
-              data-dialog="settingsDialogOpen">
-              <SettingsIcon />
-            </IconButton>
-          </h2>
-        </div>
-        {this.onlineSince()}
-        
-        <div style={styles.sensorData}>
-          {
-            this.state.types.map((v, k) => {
-              return <h3 key={k}>
-                       <i className={v.icon} 
-                          style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
-                          {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
-                          {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
-                          {
-                            alerts[v.type] ? <IconButton
-                              tooltip={alerts[v.type]}
-                              tooltipPosition="top-center"
-                              iconStyle={styles.smallIcon}
-                              style={styles.smallIcon}>
-                              <WarningIcon />
-                            </IconButton>: <span></span>
-                          }   
-                     </h3>
-            })
-          }
-        </div>
+      <Card style={styles.main}>
+        <CardText>
+          <Row>
+            <Col xs={12} md={6}>
+              <div>
+                <h2>Grow Hub
+                  <IconButton
+                    tooltip="Options"
+                    tooltipPosition="top-center"
+                    onTouchTap={this.handleOpen}
+                    data-dialog="settingsDialogOpen">
+                    <SettingsIcon />
+                  </IconButton>
+                </h2>
+              </div>
+              {this.onlineSince()}
+              <div style={styles.sensorData}>
+                {
+                  this.state.types.map((v, k) => {
+                    return <h3 key={k}>
+                      <i className={v.icon} 
+                        style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
+                      {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
+                      {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
+                      {
+                        alerts[v.type] ? <IconButton
+                          tooltip={alerts[v.type]}
+                          tooltipPosition="top-center"
+                          iconStyle={styles.smallIcon}
+                          style={styles.smallIcon}>
+                          <WarningIcon />
+                        </IconButton>: <span></span>
+                      }
+                    </h3>
+                  })
+                }
+              </div>
 
-        <div style={styles.image}>
-          <CameraComponent uuid={this.props.thing.uuid}/>
-        </div>
+            </Col>
+            <Col xs={12} md={6}>
+              <div style={styles.image}>
+                <CameraComponent uuid={this.props.thing.uuid}/>
+              </div>
+            </Col>
+          </Row>
+          <Divider />
+          <Row>
+            <Col xs={12} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Light</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="light"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                  <br/>
+                  <div style={styles.powerData}>
+                    <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
+                    Current: {this.getEventValue('light_power_current')}<br/>
+                    Voltage: {this.getEventValue('light_power_voltage')}<br/>
+                    Power: {this.getEventValue('light_power_power')}<br/>
+                    Total: {this.getEventValue('light_power_total')}<br/>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col xs={12} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Fan</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.fan_state === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="fan"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                  <br/>
+                  <div style={styles.powerData}>
+                    <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
+                    Current: {this.getEventValue('fan_power_current')}<br/>
+                    Voltage: {this.getEventValue('fan_power_voltage')}<br/>
+                    Power: {this.getEventValue('fan_power_power')}<br/>
+                    Total: {this.getEventValue('fan_power_total')}<br/>
+                  </div>
+                </div>
+              </div>
+            </Col>
 
-        <Divider />
-
-        <div style={styles.actuator}>
-          <div style={styles.actionButton}>
-            <h3>Light</h3>
-            <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
-                                  backgroundColor="rgb(208, 208, 208)"
-                                  data-device="light"
-                                  onTouchTap={this.handleTap}>
-              <PowerIcon />
-            </FloatingActionButton>
-            <br/>
-            <div style={styles.powerData}>
-              <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
-              Current: {this.getEventValue('light_power_current')}<br/>
-              Voltage: {this.getEventValue('light_power_voltage')}<br/>
-              Power: {this.getEventValue('light_power_power')}<br/>
-              Total: {this.getEventValue('light_power_total')}<br/>
-            </div>
-          </div>
-        </div>
-
-        <div style={styles.actuator}>
-          <div style={styles.actionButton}>
-            <h3>Fan</h3>
-            <FloatingActionButton secondary={this.props.thing.properties.fan_state === 'on' ? true: false}
-                                  backgroundColor="rgb(208, 208, 208)"
-                                  data-device="fan"
-                                  onTouchTap={this.handleTap}>
-              <PowerIcon />
-            </FloatingActionButton>
-            <br/>
-            <div style={styles.powerData}>
-              <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
-              Current: {this.getEventValue('fan_power_current')}<br/>
-              Voltage: {this.getEventValue('fan_power_voltage')}<br/>
-              Power: {this.getEventValue('fan_power_power')}<br/>
-              Total: {this.getEventValue('fan_power_total')}<br/>
-            </div>
-          </div>
-        </div>
-
-        <div style={styles.actuator}>
-          <div style={styles.actionButton}>
-            <h3>Watering pump</h3>
-            <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
-                                  backgroundColor="rgb(208, 208, 208)"
-                                  data-device="pump"
-                                  onTouchTap={this.handleTap}
-                                  style={styles.left}>
-              <PowerIcon />
-            </FloatingActionButton>
-            <br/>
-            <div style={styles.powerData}>
-              <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
-              Current: {this.getEventValue('pump_power_current')}<br/>
-              Voltage: {this.getEventValue('pump_power_voltage')}<br/>
-              Power: {this.getEventValue('pump_power_power')}<br/>
-              Total: {this.getEventValue('pump_power_total')}<br/>
-            </div>
-          </div>
-        </div>
-
-        <Dialog
-          title="Settings"
-          actions={<FlatButton
-            label="Close"
-            primary={true}
-            data-dialog="settingsDialogOpen"
-            onTouchTap={this.handleClose}
-          />}
-          modal={false}
-          autoScrollBodyContent={true}
-          open={this.state.settingsDialogOpen}
-          onRequestClose={this.handleClose}>
+            <Col xs={12} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Watering pump</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="pump"
+                    onTouchTap={this.handleTap}
+                    style={styles.left}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                  <br/>
+                  <div style={styles.powerData}>
+                    <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
+                    Current: {this.getEventValue('pump_power_current')}<br/>
+                    Voltage: {this.getEventValue('pump_power_voltage')}<br/>
+                    Power: {this.getEventValue('pump_power_power')}<br/>
+                    Total: {this.getEventValue('pump_power_total')}<br/>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Dialog
+            title="Settings"
+            actions={<FlatButton
+              label="Close"
+              primary={true}
+              data-dialog="settingsDialogOpen"
+              onTouchTap={this.handleClose}
+            />}
+            modal={false}
+            autoScrollBodyContent={true}
+            open={this.state.settingsDialogOpen}
+            onRequestClose={this.handleClose}>
             <TextField
               hintText="Log data every (milliseconds)"
               floatingLabelText="Log data every (milliseconds)"
@@ -384,9 +394,13 @@ class GrowHub extends Component {
             <p>uuid: {thing.uuid}</p>
             <p>token: {thing.token}</p>
             <RaisedButton label="Delete Grow Hub" secondary={true} />
-        </Dialog>
-        <br/>
-      </div>
+          </Dialog>
+          <br/>
+        </CardText>
+        <CardActions>
+          {this.props.actions}
+        </CardActions>
+      </Card>
     )
   }
 }

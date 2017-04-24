@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { Row, Col } from 'react-flexbox-grid';
 
 // This component is for testing notifications.
 class NotificationsComponent extends Component {
@@ -32,16 +34,24 @@ class NotificationsComponent extends Component {
   }
 
   render() {
+    const cardStyle = {
+      margin: '20px',
+    }
     return (
-      <div>
-        <TextField
-          hintText="New notification"
-          floatingLabelText="New notification"
-          value={this.state.value}
-          onChange={this.handleValueChange}
-        />
-        <RaisedButton label="Send" primary={true} data-value={this.state.value} onTouchTap={this.newNotification} />
-      </div>
+      <Card style={cardStyle}>
+        <CardText>
+          <TextField
+            hintText="New notification"
+            floatingLabelText="New notification"
+            value={this.state.value}
+            onChange={this.handleValueChange}
+          />
+          <RaisedButton label="Send" primary={true} data-value={this.state.value} onTouchTap={this.newNotification} />
+        </CardText>
+        <CardActions>
+          {this.props.actions}
+        </CardActions>
+      </Card>
     );
   }
 }
