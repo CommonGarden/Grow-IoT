@@ -36,7 +36,7 @@ class ThingsList extends Component {
     if (things && things.length) {
       return (
         <Grid style={{width: '100%'}}>
-          <Row>
+          <Row className="layout horizontal center-justified">
             {
               things.map((v, k) => {
                 return (

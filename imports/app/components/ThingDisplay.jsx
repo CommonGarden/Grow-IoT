@@ -55,7 +55,7 @@ export default class ThingDisplay extends Component {
     ];
 
     const registered = this.props.thing.registeredAt;
-
+    const deleteButton =  <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ;
     const unregisteredText = <Card style={thingStyle}>
       <CardText>
         <div>
@@ -66,6 +66,9 @@ export default class ThingDisplay extends Component {
       </CardText>
       <CardActions>
         <CreateComponent uuid={this.props.thing.uuid} token={this.props.thing.token} /> 
+        {
+          deleteButton
+        }
       </CardActions>
     </Card>;
 
@@ -74,7 +77,7 @@ export default class ThingDisplay extends Component {
       <Col xs={12} style={{flexBasis: 'initial'}}>
         {
           registered ? <RegisteredText thing={this.props.thing} actions={
-            [ <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ]
+            [ deleteButton ]
           }>
         </RegisteredText>
           : unregisteredText
