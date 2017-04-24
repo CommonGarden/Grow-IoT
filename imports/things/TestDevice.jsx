@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { createContainer } from 'meteor/react-meteor-data';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 String.prototype.capitalizeFirstLetter = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 class TestDevice extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   handleTap = () => {
     const command = this.props.thing.properties.state === 'on' ? 'turn_off' : 'turn_on';
     const uuid = this.props.thing.uuid;
@@ -25,15 +30,24 @@ class TestDevice extends Component {
   render () {
     const thing = this.props.thing;
     const event = this.props.event;
+    const cardStyle = {
+      margin: '20px',
+    }
     return (
-      <div>
-        <h2>Test Device</h2>
-        <p>State: {thing.properties.state}</p>
-        <p>Temperature: {event ? event.event.value : '-'}</p>
-        <RaisedButton onTouchTap={this.handleTap}>
-          {this.props.thing.properties.state === 'on' ? 'Off': 'On'}
-        </RaisedButton>
-      </div>
+      <Card style={cardStyle}>
+        <CardText>
+
+          <h2>Test Device</h2>
+          <p>State: {thing.properties.state}</p>
+          <p>Temperature: {event ? event.event.value : '-'}</p>
+          <RaisedButton onTouchTap={this.handleTap}>
+            {this.props.thing.properties.state === 'on' ? 'Off': 'On'}
+          </RaisedButton>
+        </CardText>
+        <CardActions>
+          {this.props.actions}
+        </CardActions>
+      </Card>
     )
   }
 }

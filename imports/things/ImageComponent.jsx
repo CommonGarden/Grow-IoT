@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import ImageUpload from '../app/components/images/ImageUpload';
 import ImageGrid from '../app/components/images/ImageGrid';
 import ImageOne from '../app/components/images/ImageOne';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 
 class ImageComponent extends Component {
@@ -11,12 +12,20 @@ class ImageComponent extends Component {
   }
 
   render() {
+    const cardStyle = {
+      margin: '20px',
+    }
     return (
-      <div>
-      	<ImageUpload />
-      	<br/>
-    	<ImageGrid />
-      </div>
+      <Card style={cardStyle}>
+        <CardText>
+          <ImageUpload />
+          <br/>
+          <ImageGrid />
+        </CardText>
+        <CardActions>
+          {this.props.actions}
+        </CardActions>
+      </Card>
     );
   }
 }
