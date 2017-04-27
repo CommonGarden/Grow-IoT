@@ -27,19 +27,17 @@ npm install
 npm install raspi-io johnny-five
 ```
 
-You're ready to go! Connect to your Grow-IoT intance and create a new device.
+You're almost ready to go! Connect to your Grow-IoT intance and create a new device.
 
 You will be given auth credentials, a `uuid` and `token`.
 
 Add those to `examples/rasp-pi/t3.js` and proceed to hardware setup!
 
 ### Hardware setup.
-For Hydroponics, Aquaponics, Fermentation, or Aquariums we recommend the Tentacle hat from Whitebox labs! Currently we support Atlas Scientific sensors only, but we're looking for cheaper open source alternatives.
+For Hydroponics, Aquaponics, Fermentation, or Aquariums we recommend the [Tentacle hat from Whitebox labs]()! Currently we support Atlas Scientific sensors only, but we're looking for cheaper open source alternatives.
 
-This is how your hat should look like when it's plugged in and on: 
-[Insert Picture]
-
-Note the blue lights on the Atlas Scientific sensors, this means there in I2C mode. If they are not in I2C the code won't work. Also note, the hats are stackable if you want to have sensors for everything. ; )
+This is how your hat should look like when it's put together (no soldering required):
+[Example image](https://cloud.githubusercontent.com/assets/521978/25507754/dfcd09dc-2b62-11e7-9fc7-c8e0cfe3b0e6.JPG)
 
 Once all looks good you're ready to go, run it with:
 
@@ -47,10 +45,6 @@ Once all looks good you're ready to go, run it with:
 sudo node examples/rasp-pi/t3.js
 ```
 
-
-
-#### Scheduling
-To make sure your schedules run on time, make sure your Raspberry pi's clock is set correctly!
 
 
 
