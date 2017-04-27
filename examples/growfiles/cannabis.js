@@ -35,9 +35,15 @@ module.exports = {
       cycles: {
         day: {
           schedule: 'after 6:00am',
+          temperature: {
+            ideal: 22
+          }
         },
         night: {
           schedule: 'after 9:00pm',
+          temperature: {
+            ideal: 18
+          }
         }
       }
     },
