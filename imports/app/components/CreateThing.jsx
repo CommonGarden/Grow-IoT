@@ -12,7 +12,13 @@ import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import Subheader from 'material-ui/Subheader';
 import Snackbar from 'material-ui/Snackbar';
+import Components from '../../things/';
+import _ from 'underscore';
 
+var components = []
+_.each(Components, (value, key)=> {
+  components.push({name:key});
+});
 
 export default class CreateThing extends Component {
   state = {
@@ -21,23 +27,7 @@ export default class CreateThing extends Component {
     uuid: '',
     token: '',
     thingName: '',
-    components: [
-      {
-        name: 'TestDevice',
-      },
-      {
-        name: 'SmartLight',
-      },
-      {
-        name: 'ImageComponent',
-      },
-      {
-        name: 'GrowHub',
-      },
-      {
-        name: 'NotificationsComponent'
-      }
-    ],
+    components: components,
     value: 0,
   };
 

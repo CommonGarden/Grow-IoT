@@ -5,29 +5,18 @@ import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import Components from '../../things/';
 
+var components = []
+_.each(Components, (value, key)=> {
+  components.push({name:key});
+});
 
 export default class CreateComponent extends Component {
   state = {
     open: false,
     value: 0,
-    components: [
-      {
-        name: 'TestDevice',
-      },
-      {
-        name: 'SmartLight',
-      },
-      {
-        name: 'ImageComponent',
-      },
-      {
-        name: 'GrowHub',
-      },
-      {
-        name: 'NotificationsComponent'
-      },
-    ]
+    components: components
   };
 
   handleOpen = () => {

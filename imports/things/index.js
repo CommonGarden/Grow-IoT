@@ -4,6 +4,7 @@ import NotificationsComponent from './NotificationsComponent';
 import TestDevice from './TestDevice.jsx';
 import SmartLight from './SmartLight.jsx';
 import ImageComponent from './ImageComponent';
+import TentacleExample from './TentacleExample';
 
 const components = {
 	CameraComponent,
@@ -11,7 +12,8 @@ const components = {
 	NotificationsComponent,
 	TestDevice,
 	SmartLight,
-	ImageComponent
+	ImageComponent,
+	TentacleExample
 };
 
 export default components;
