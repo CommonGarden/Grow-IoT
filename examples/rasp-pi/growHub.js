@@ -8,7 +8,7 @@ const later = require('later');
 const Hs100Api = require('hs100-api');
 const growfile = require('../growfiles/cannabis');
 const _ = require('underscore');
-
+const Controller = require('node-pid-controller');
 
 // Use local time, not UTC.
 later.date.localTime();
@@ -31,23 +31,17 @@ board.on('ready', function start() {
     controller: 'SI7020'
   });
 
-  // Create a new growHub instance and connect to https://growHub.commongarden.org
   var growHub = new Grow({
     uuid: '290af35b-cd7d-44f4-89bf-bb3abb3807e2',
     token: 'zqgostXDcueuetD7hJuvLiHhpMzJ2ydt',
     component: 'GrowHub',
 
-    // Properties can be updated by the API
     properties: {
       light_state: null,
       fan_state: null,
       pump_state: null,
       duration: 2000,
       interval: 60000,
-      day_temp: 21,
-      night_temp: 18,
-      water_schedule: 'every 2 hours',
-      water_duration: 20000,
       growfile: growfile,
       targets: {},
     },
@@ -139,6 +133,15 @@ board.on('ready', function start() {
       // later.setTimeout(()=> {
       //   growHub.call('water');
       // }, waterSchedule);
+
+      this.ctr = new Controller({
+        k_p: 0.25,
+        k_i: 0.01,
+        k_d: 0.01,
+        dt: 1
+      });
+
+      this.ctr.setTarget(120);
 
       var interval = this.get('interval');
 
