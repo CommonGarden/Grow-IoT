@@ -1,4 +1,4 @@
-// var brain = require('brain.js');
+var brain = require('brain.js');
 const Controller = require('node-pid-controller');
 
 // //create a simple recurrent neural network 
