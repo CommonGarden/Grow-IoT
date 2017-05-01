@@ -1,4 +1,4 @@
-const Grow = require('Grow.js');
+const Grow = require('../../lib/Grow.js');
 const raspio = require('raspi-io');
 const five = require('johnny-five');
 const ascii = require('ascii-codes');
