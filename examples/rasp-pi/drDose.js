@@ -139,11 +139,12 @@ board.on('ready', function start() {
 
       eC_reading = this.parseEC(eC_reading);
 
+      console.log('EC: ' + eC_reading);
+
       let threshold = this.get('threshold');
       let correction = ecCtr.update(eC_reading);
       if (correction > threshold) {
-        console.log(eC_reading);
-        console.log(correction);
+        console.log('EC correction: ' + correction);
         if (correction * 1000 > 100) {
           // this.call('base', correction * 1000)
         }
@@ -160,13 +161,14 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
+      console.log('pH: ' + pH_reading);
+
       // Filter out non-readings
       if (this.ispH(pH_reading)) {
         let threshold = this.get('threshold');
         let correction = phCtr.update(pH_reading);
         if (correction > threshold) {
-          console.log(pH_reading);
-          console.log(correction);
+          console.log('pH correction: ' + correction);
           if (correction * 1000 > 100) {
             // this.call('base', correction * 1000)
           }
@@ -181,9 +183,9 @@ board.on('ready', function start() {
     }
   });
 
-  grow.connect({
-    host: 'grow.commongarden.org',
-    port: 443,
-    ssl: true
-  });
+  // grow.connect({
+  //   host: 'grow.commongarden.org',
+  //   port: 443,
+  //   ssl: true
+  // });
 });
