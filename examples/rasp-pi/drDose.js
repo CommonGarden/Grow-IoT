@@ -167,8 +167,9 @@ board.on('ready', function start() {
       // if (this.ispH(pH_reading)) {
         let threshold = this.get('threshold');
         let correction = phCtr.update(pH_reading);
+        console.log('pH correction: ' + correction);
+
         if (correction > threshold) {
-          console.log('pH correction: ' + correction);
           if (correction * 1000 > 100) {
             // this.call('base', correction * 1000)
           }
