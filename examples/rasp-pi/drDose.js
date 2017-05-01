@@ -164,7 +164,7 @@ board.on('ready', function start() {
       console.log('pH: ' + pH_reading);
 
       // Filter out non-readings
-      if (this.ispH(pH_reading)) {
+      // if (this.ispH(pH_reading)) {
         let threshold = this.get('threshold');
         let correction = phCtr.update(pH_reading);
         if (correction > threshold) {
@@ -179,7 +179,7 @@ board.on('ready', function start() {
           type: 'pH',
           value: pH_reading
         });
-      }
+      // }
     }
   });
 
