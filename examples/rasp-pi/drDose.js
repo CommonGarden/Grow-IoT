@@ -142,6 +142,7 @@ board.on('ready', function start() {
       let threshold = this.get('threshold');
       let correction = ecCtr.update(eC_reading);
       if (correction > threshold) {
+        console.log(eC_reading);
         console.log(correction);
         if (correction * 1000 > 100) {
           // this.call('base', correction * 1000)
@@ -162,8 +163,9 @@ board.on('ready', function start() {
       // Filter out non-readings
       if (this.ispH(pH_reading)) {
         let threshold = this.get('threshold');
-        let correction = phCtr.update(eC_reading);
+        let correction = phCtr.update(pH_reading);
         if (correction > threshold) {
+          console.log(pH_reading);
           console.log(correction);
           if (correction * 1000 > 100) {
             // this.call('base', correction * 1000)
