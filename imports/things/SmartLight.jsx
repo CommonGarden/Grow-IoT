@@ -51,7 +51,6 @@ class SmartLight extends Component {
   handleValueChange = (event, newValue) => {
     const uuid = this.props.thing.uuid;
     const key = event.target.dataset.key;
-    console.log(key);
     this.setProperty(key, newValue);
   };
 

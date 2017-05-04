@@ -12,7 +12,7 @@ Meteor.methods({
     check(type, String);
     check(options, Match.OneOf(Object, null, undefined));
 
-    // Must be owner of the device.
+    // TODO: Must be owner of the device.
     let thing = Things.findOne(
       {uuid: thingUuid}
     , {
@@ -120,5 +120,4 @@ Meteor.methods({
       insertedAt: new Date()
     });
   },
-
 });

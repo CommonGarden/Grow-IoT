@@ -18,18 +18,12 @@ import Subheader from 'material-ui/Subheader';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
-
+import CircularProgress from 'material-ui/CircularProgress';
 
 class TentacleExample extends Component {
   constructor(props) {
     super(props);
   }
-
-  handleTap = (event) => {
-    let device = event.currentTarget.dataset.device;
-    const command = this.props.thing.properties[`${device}_state`] === 'on' ? `turn_${device}_off` : `turn_${device}_on`;
-    this.sendCommand(command);
-  };
 
   handleOpen = (event) => {
     let dialog = event.currentTarget.dataset.dialog;
@@ -121,6 +115,7 @@ class TentacleExample extends Component {
     this.sendCommand(command, options);
   }
 
+  // TODO...
   updateGrowfile () {
     try {
       let growfile = JSON.parse(document.getElementById('Growfile').value);
@@ -130,8 +125,22 @@ class TentacleExample extends Component {
   }
 
   getEventValue(type) {
-    const e = this.props[`${type}Event`];
-    return e ? Number(e.event.value).toFixed(2) : 'NA';
+    const e = this.props[`${type}Events`];
+    return e[0] ? Number(e[0].event.value).toFixed(2) : 'NA';
+  }
+
+  getEvents(type) {
+    const e = this.props[`${type}Events`];
+
+    let data = {
+      name: type,
+      columns: ["time", "value"],
+      points: []
+    };
+    _.each(e, (value, key, list) => {
+      data.points.unshift([value.event.timestamp.getTime(), value.event.value])
+    });
+    if (data.points[0]) return new TimeSeries(data);
   }
 
   onlineSince () {
@@ -146,9 +155,6 @@ class TentacleExample extends Component {
 
   render() {
     const styles = {
-      right: {
-        float: 'right'
-      },
       oneHundred: {
         width: '100%'
       },
@@ -157,15 +163,6 @@ class TentacleExample extends Component {
         position: 'relative',
         bottom: 100,
       },
-      actuator: {
-        padding: 10,
-        float: 'left',
-        marginRight: 20
-      },
-      actionButton: {
-        marginRight: 20,
-        marginleft: 20
-      },
       main: {
         margin: '20px',
       },
@@ -173,25 +170,8 @@ class TentacleExample extends Component {
         paddingLeft: 10,
         paddingRight: 10,
       },
-      powerData: {
-        position: 'relative',
-        // marginBottom: -58,
-        fontSize: 10,
-        padding: 10,
-        top: 9,
-      },
       sensorIcon: {
         marginRight: 5
-      },
-      energyIcon: {
-        height: 14,
-        width: 14,
-        position: 'relative',
-        left: 2
-      },
-      powerStats: {
-        marginLeft: -22,
-        fontSize: 13
       },
       smallIcon: {
         height: 15,
@@ -199,17 +179,6 @@ class TentacleExample extends Component {
         padding: 0,
         marginLeft: 3,
       },
-      image: {
-        maxWidth: 400,
-        minWidth: 300,
-        minHeight: 300,
-        position: 'relative',
-        marginLeft: 300,
-        marginTop: -300,
-        top: 7,
-        left: 16,
-        marginBottom: 14,
-      }
     }
 
     const thing = this.props.thing;
@@ -235,7 +204,7 @@ class TentacleExample extends Component {
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {
-                    return <h3 key={k}>
+                    return <div key={k}>
                       <i className={v.icon} 
                         style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
                       {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
@@ -249,7 +218,22 @@ class TentacleExample extends Component {
                           <WarningIcon />
                         </IconButton>: <span></span>
                       }
-                    </h3>
+                      <br/>
+                      {
+                      !this.props.ready ? <div><CircularProgress /> Loading</div> :
+                        <ChartContainer timeRange={this.getEvents(v.type).range()}>
+                          <ChartRow height="150">
+                            <YAxis
+                              id={v.type}
+                              min={this.getEvents(v.type).min()} max={this.getEvents(v.type).max()}
+                              width="30" />
+                            <Charts>
+                              <LineChart axis={v.type} series={this.getEvents(v.type)} />
+                            </Charts>
+                          </ChartRow>
+                        </ChartContainer>
+                      }
+                    </div>
                   })
                 }
               </div>
@@ -309,11 +293,11 @@ class TentacleExample extends Component {
 }
 
 TentacleExample.propTypes = {
-  ecEvent: React.PropTypes.object,
-  phEvent: React.PropTypes.object,
-  water_temperatureEvent: React.PropTypes.object,
-  ready: React.PropTypes.bool,
+  ecEvents: React.PropTypes.array,
+  phEvents: React.PropTypes.array,
+  water_temperatureEvents: React.PropTypes.array,
   alerts: React.PropTypes.array,
+  ready: React.PropTypes.bool,
 }
 
 export default TentacleExampleContainer = createContainer(({ thing }) => {
@@ -325,15 +309,23 @@ export default TentacleExampleContainer = createContainer(({ thing }) => {
     }
   );
 
-  const alerts = Events.find({'event.type': 'alert'}).fetch();
-  const phEvent = Events.findOne({'event.type': 'ph'});
-  const ecEvent = Events.findOne({'event.type': 'ec'});
-  const water_temperatureEvent = Events.findOne({'event.type': 'water_temperature'});
+  const alerts = Events.find({'event.type': 'alert'}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+  const phEvents = Events.find({'event.type': 'ph'}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+  const ecEvents = Events.find({'event.type': 'ec'}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+  const water_temperatureEvents = Events.find({'event.type': 'water_temperature'}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
 
   return {
-    phEvent,
-    ecEvent,
-    water_temperatureEvent,
+    phEvents,
+    ecEvents,
+    water_temperatureEvents,
     alerts,
     ready
   }
