@@ -35,14 +35,18 @@ module.exports = {
       cycles: {
         day: {
           schedule: 'after 6:00am',
-          temperature: {
-            ideal: 22
+          targets: {
+            temperature: {
+              ideal: 22
+            }
           }
         },
         night: {
           schedule: 'after 9:00pm',
-          temperature: {
-            ideal: 18
+          targets: {
+            temperature: {
+              ideal: 18
+            }
           }
         }
       }
@@ -72,10 +76,20 @@ module.exports = {
 
       cycles: {
         day: {
-          schedule: 'after 7:00am'
+          schedule: 'after 7:00am',
+          targets: {
+            temperature: {
+              ideal: 22
+            }
+          }
         },
         night: {
-          schedule: 'after 7:00pm'
+          schedule: 'after 7:00pm',
+          targets: {
+            temperature: {
+              ideal: 22
+            }
+          }
         }
       }
     }

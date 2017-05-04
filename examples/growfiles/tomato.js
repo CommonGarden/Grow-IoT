@@ -34,14 +34,18 @@ module.exports = {
     // You can optionally define a function called 'day' or 'night' or 'whatever_the_hell_you_want_to_name_the_property', which will run when scheduled. ; )
     day: {
       schedule: 'after 6:00am',
-      temperature: {
-        ideal: 22
+      targets: {
+        temperature: {
+          ideal: 22
+        }
       }
     },
     night: {
       schedule: 'after 9:00pm',
-      temperature: {
-        ideal: 18
+      targets: {
+        temperature: {
+          ideal: 18
+        }
       }
     }
   }
