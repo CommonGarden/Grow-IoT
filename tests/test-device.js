@@ -34,7 +34,7 @@ function testDevice (u, t) {
     // PUT YOUR UUID AND TOKEN HERE OR SUPPLY THEM AS ARGUMENTS
     uuid: u,
     token: t,
-    component: 'GrowHub',
+    component: 'TestDevice',
 
     properties: {
       state: 'off',

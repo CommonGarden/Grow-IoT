@@ -64,7 +64,33 @@ Meteor.methods({
             fields: { value: event.value },
           }
         ]).catch(err => {
-          // TODO: if an InfluxDB host is not configured fall back gracefully to using mongo.
+          if (err.message !== 'No host available') {
+            if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
+          }
+        })
+      }
+
+      else if (event.message) {
+        influx.writePoints([
+          {
+            measurement: 'events',
+            tags: { thing: thing._id, type: event.type },
+            fields: { message: event.message },
+          }
+        ]).catch(err => {
+          if (err.message !== 'No host available') {
+            if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
+          }
+        })
+      }
+
+      else if (event.type) {
+        influx.writePoints([
+          {
+            measurement: 'events',
+            tags: { thing: thing._id, type: event.type }
+          }
+        ]).catch(err => {
           if (err.message !== 'No host available') {
             if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
           }

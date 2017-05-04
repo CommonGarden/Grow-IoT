@@ -4,11 +4,10 @@ import { Meteor } from 'meteor/meteor';
 const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 
 console.log('Influx URL: ' + INFLUX_URL);
-// TODO: think more about schemas etc... and reorganize code...
-// https://docs.influxdata.com/influxdb/v1.2/concepts/schema_and_data_layout/
 
 if (INFLUX_URL) {
-  // See https://www.npmjs.com/package/influx
+  // See: https://www.npmjs.com/package/influx
+  // See: https://docs.influxdata.com/influxdb/v1.2/concepts/schema_and_data_layout/
   const influx = new Influx.InfluxDB({
     host: INFLUX_URL,
     database: 'events',
@@ -16,7 +15,8 @@ if (INFLUX_URL) {
       {
         measurement: 'events',
         fields: {
-          value: Influx.FieldType.FLOAT
+          value: Influx.FieldType.FLOAT,
+          message: Influx.FieldType.STRING,
         },
         tags: [
           'thing', 'environment', 'type'
