@@ -165,21 +165,21 @@ board.on('ready', function start() {
 
       // Filter out non-readings
       // if (this.ispH(pH_reading)) {
-        let threshold = this.get('threshold');
-        let correction = phCtr.update(pH_reading);
-        console.log('pH correction: ' + correction);
+      let threshold = this.get('threshold');
+      let correction = phCtr.update(pH_reading);
+      console.log('pH correction: ' + correction);
 
-        if (correction > threshold) {
-          if (correction * 1000 > 100) {
-            // this.call('base', correction * 1000)
-          }
+      if (correction > threshold) {
+        if (correction * 1000 > 100) {
+          // this.call('base', correction * 1000)
         }
+      }
 
-        // Send data to the Grow-IoT app.
-        grow.emit({
-          type: 'pH',
-          value: pH_reading
-        });
+      // Send data to the Grow-IoT app.
+      grow.emit({
+        type: 'pH',
+        value: pH_reading
+      });
       // }
     }
   });

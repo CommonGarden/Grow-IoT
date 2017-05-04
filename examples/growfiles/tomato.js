@@ -19,16 +19,19 @@ module.exports = {
     },
     humidity: {
       min: 51,
-      max: 61
+      ideal: 55,
+      max: 61,
     },
     temperature: {
       unit: 'Celsius',
       min: 17,
       max: 28,
-    }
+    },
   },
 
+  // Targets can be moving!
   cycles: {
+    // You can optionally define a function called 'day' or 'night' or 'whatever_the_hell_you_want_to_name_the_property', which will run when scheduled. ; )
     day: {
       schedule: 'after 6:00am',
       temperature: {
