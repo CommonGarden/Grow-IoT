@@ -89,6 +89,7 @@ export default CameraComponentContainer = createContainer(({ thing }) => {
       'meta.insertedAt': -1
     },
   });
+
   return {
     image,
     ready

@@ -5,8 +5,9 @@ import ImageGrid from '../app/components/images/ImageGrid';
 import ImageOne from '../app/components/images/ImageOne';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
+// TODO: implement show more...
 
-class ImageComponent extends Component {
+class ImageList extends Component {
   constructor(props) {
     super(props);
   }
@@ -18,8 +19,6 @@ class ImageComponent extends Component {
     return (
       <Card style={cardStyle}>
         <CardText>
-          <ImageUpload />
-          <br/>
           <ImageGrid />
         </CardText>
         <CardActions>
@@ -30,4 +29,4 @@ class ImageComponent extends Component {
   }
 }
 
-export default ImageComponent;
+export default ImageList;

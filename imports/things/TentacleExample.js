@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import PropTypes from 'prop-types';
-import IconButton from 'material-ui/IconButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
 import { TimeSeries, TimeRange, Event } from "pondjs";
-import _ from 'underscore';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
-import SettingsIcon from 'material-ui/svg-icons/action/settings';
-import Divider from 'material-ui/Divider';
-import Subheader from 'material-ui/Subheader';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import _ from 'underscore';
+import PropTypes from 'prop-types';
+import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import CircularProgress from 'material-ui/CircularProgress';
 
 class TentacleExample extends Component {

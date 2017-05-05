@@ -93,9 +93,6 @@ export default class CreateThing extends Component {
         {
           component: component.name,
           onlineSince: true,
-          properties: {
-            state: 'off'
-          }
         },
         (error, document) => {
           if (error) {

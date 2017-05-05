@@ -1,7 +1,7 @@
 const Thing = require('Grow.js');
 var inquirer = require('inquirer');
 var _ = require('underscore')
-const growfile = require('./grow.js')
+const growfile = require('./tomato.js')
 
 var args = process.argv.slice(2);
 var uuid = args[0];

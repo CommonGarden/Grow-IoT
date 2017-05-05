@@ -6,7 +6,8 @@ import {_} from 'meteor/underscore';
 import {GridList, GridTile} from 'material-ui/GridList';
 import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import FileDownload from 'material-ui/svg-icons/file/file-download';
 
 class ImageGrid extends Component {
   constructor(props) {
@@ -48,17 +49,21 @@ class ImageGrid extends Component {
           >
             {
               this.props.images.map((aFile, key) => {
-                // console.log('A file: ', aFile.link(), aFile.get('name'));
-
                 let link = Images.findOne({_id: aFile._id}).link();  //The "view/download" link
-                // console.log(link);
 
                 // Send out components that show details of each file
                 return <span key={key}>
                   <GridTile
                     title={aFile.name}
                     subtitle={<span>Size: {aFile.size}</span>}
-                    actionIcon={<IconButton onTouchTap={this.removeFile} data-id={aFile._id} ><StarBorder color="white" /></IconButton>}
+                    actionIcon={
+                      <IconButton onTouchTap={this.removeFile}
+                                  data-id={aFile._id}
+                                  tooltip="Delete Picture"
+                                  tooltipPosition="top-left">
+                        <DeleteIcon color="white" />
+                      </IconButton>
+                    }
                   >
                     <img src={link} style={styles.img} />
                   </GridTile>

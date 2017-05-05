@@ -39,9 +39,6 @@ export default class CreateComponent extends Component {
         {
           component: component.name,
           onlineSince: true,
-          properties: {
-            state: 'off'
-          }
         },
         (error, document) => {
           if (error) {
