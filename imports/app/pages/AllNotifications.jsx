@@ -8,21 +8,40 @@ import {List, ListItem} from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import RaisedButton from 'material-ui/RaisedButton';
+import MenuItem from 'material-ui/MenuItem';
+
 
 class AllNotifications extends Component {
   constructor(props) {
     super(props);
   }
+
   state = {
     limit: 20,
     skip: 0,
   }
+
   handleLoadMore = () => {
     const skip = this.state.skip + 20;
     const limit = this.state.limit;
     Meteor.subscribe('Notifications.all', { limit, skip });
     this.setState({ skip });
   }
+
+  handleRead (event) {
+    event.preventDefault();
+    let id = event.currentTarget.dataset.id;
+    Meteor.call('Notifications.read',
+      id,
+      (error, documentId) => {
+        if (error) {
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
+  }
+
   render() {
     const cardStyle = {
       margin: 20,
@@ -35,16 +54,11 @@ class AllNotifications extends Component {
         <List>
           {
             this.props.notifications.map((v, k) => {
-              return <ListItem primaryText={v.notification}
+              return <MenuItem primaryText={v.notification}
                 key={k}
                 disabled={v.read}
                 data-id={v._id}
                 leftIcon={
-                  <span>
-                    { k + 1 }
-                  </span>
-                }
-                rightIcon={
                     <WarningIcon />
                 }
                 onTouchTap={this.handleRead} />;

@@ -76,17 +76,17 @@ class TentacleExample extends Component {
     types: [
       {
         type: 'ph',
-        title: 'Water PH',
+        title: 'pH',
         icon: 'wi wi-raindrop'
       },
       {
         type: 'ec',
-        title: 'Water Conductivity',
+        title: 'Conductivity (ec)',
         icon: 'wi wi-barometer',
       },
       {
         type: 'water_temperature',
-        title: 'Resevoir temperature',
+        title: 'Temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius'
       }
@@ -120,7 +120,7 @@ class TentacleExample extends Component {
   updateGrowfile () {
     try {
       let growfile = JSON.parse(document.getElementById('Growfile').value);
-      console.log(growfile);
+      this.setProperty('growfile', growfile);
     } catch (err) {
       alert(err);
     }
@@ -169,8 +169,8 @@ class TentacleExample extends Component {
         margin: '20px',
       },
       sensorData: {
-        paddingLeft: 10,
-        paddingRight: 10,
+        padding: 10,
+        fontSize: 16,
         width: 400
       },
       sensorIcon: {
@@ -208,6 +208,7 @@ class TentacleExample extends Component {
                 {
                   this.state.types.map((v, k) => {
                     return <div key={k}>
+                      <div style={styles.sensorData}>
                       <i className={v.icon} 
                         style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
                       {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
@@ -221,7 +222,7 @@ class TentacleExample extends Component {
                           <WarningIcon />
                         </IconButton>: <span></span>
                       }
-                      <br/>
+                      </div>
                       {
                       !this.props.ready ? <div><CircularProgress /> Loading</div> :
                       <Resizable>
