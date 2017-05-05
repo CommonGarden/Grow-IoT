@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 
 
 class ImageOne extends Component {
@@ -26,8 +27,8 @@ class ImageOne extends Component {
 }
 
 ImageOne.propTypes = {
-  image: React.PropTypes.object,
-  ready: React.PropTypes.bool,
+  image: PropTypes.object,
+  ready: PropTypes.bool,
 }
 
 // Get images!

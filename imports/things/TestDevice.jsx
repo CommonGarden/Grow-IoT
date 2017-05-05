@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { createContainer } from 'meteor/react-meteor-data';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import PropTypes from 'prop-types';
 
 String.prototype.capitalizeFirstLetter = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -53,8 +54,8 @@ class TestDevice extends Component {
 }
 
 TestDevice.propTypes = {
-  event: React.PropTypes.object,
-  loading: React.PropTypes.bool,
+  event: PropTypes.object,
+  loading: PropTypes.bool,
 }
 
 export default TestDeviceContainer = createContainer(({ thing }) => {

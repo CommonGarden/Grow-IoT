@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import ThingsList from './pages/ThingsList.jsx';
@@ -97,9 +98,11 @@ class AuthenticatedApp extends Component {
   handleOpen = () => {
     this.setState({navDrawerOpen: true})
   }
+
   handleThingsChange = (things) => {
     this.setState({highlightCreate: !things.length});
   }
+
   componentWillMount() {
     document.title = "Grow IoT";
     // Check that the user is logged in before the component mounts
@@ -115,12 +118,15 @@ class AuthenticatedApp extends Component {
       browserHistory.push('/account');
     }
   }
+
   componentDidMount() {
     this._mounted =  true;
   }
+
   componentWillUnmount() {
     this._mounted =  false;
   }
+
   render() {
     const styles = this.getStyles();
     return (
@@ -160,9 +166,6 @@ class AuthenticatedApp extends Component {
               })
             )
           }
-          {
-          // <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange}/>
-          }
         </div>
       </div>
     );
@@ -170,7 +173,7 @@ class AuthenticatedApp extends Component {
 }
 
 AuthenticatedApp.propTypes = {
-  user: React.PropTypes.object,
+  user: PropTypes.object,
 }
 
 export default withWidth()(AuthenticatedAppContainer = createContainer(() => {

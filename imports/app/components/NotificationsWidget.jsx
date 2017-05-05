@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { browserHistory } from 'react-router';
 import moment from 'moment';
-
+import PropTypes from 'prop-types';
 import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
@@ -105,8 +105,8 @@ class NotificationsWidget extends Component {
 };
 
 NotificationsWidget.propTypes = {
-  notifications: React.PropTypes.array,
-  ready: React.PropTypes.bool,
+  notifications: PropTypes.array,
+  ready: PropTypes.bool,
 }
 
 export default NotificationsWidgetContainer = createContainer(() => {

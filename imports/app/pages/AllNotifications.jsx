@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Notifications from '../../api/collections/notifications';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 import {List, ListItem} from 'material-ui/List';
@@ -60,8 +61,8 @@ class AllNotifications extends Component {
 }
 
 AllNotifications.propTypes = {
-  notifications: React.PropTypes.array,
-  ready: React.PropTypes.bool,
+  notifications: PropTypes.array,
+  ready: PropTypes.bool,
 }
 
 export default NotificationsWidgetContainer = createContainer(() => {

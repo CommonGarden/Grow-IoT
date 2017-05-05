@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import { Charts, ChartContainer, ChartRow, YAxis, LineChart } from "react-timeseries-charts";
+import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
 import { TimeSeries, TimeRange, Event } from "pondjs";
 import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -119,6 +120,7 @@ class TentacleExample extends Component {
   updateGrowfile () {
     try {
       let growfile = JSON.parse(document.getElementById('Growfile').value);
+      console.log(growfile);
     } catch (err) {
       alert(err);
     }
@@ -169,6 +171,7 @@ class TentacleExample extends Component {
       sensorData: {
         paddingLeft: 10,
         paddingRight: 10,
+        width: 400
       },
       sensorIcon: {
         marginRight: 5
@@ -221,6 +224,7 @@ class TentacleExample extends Component {
                       <br/>
                       {
                       !this.props.ready ? <div><CircularProgress /> Loading</div> :
+                      <Resizable>
                         <ChartContainer timeRange={this.getEvents(v.type).range()}>
                           <ChartRow height="150">
                             <YAxis
@@ -232,6 +236,7 @@ class TentacleExample extends Component {
                             </Charts>
                           </ChartRow>
                         </ChartContainer>
+                      </Resizable>
                       }
                     </div>
                   })
@@ -262,7 +267,6 @@ class TentacleExample extends Component {
 
             <TextField
               hintText="Insert valid Growfile JSON"
-              errorText="This field is required."
               floatingLabelText="Growfile"
               id="Growfile"
               ref="Growfile"
@@ -293,11 +297,11 @@ class TentacleExample extends Component {
 }
 
 TentacleExample.propTypes = {
-  ecEvents: React.PropTypes.array,
-  phEvents: React.PropTypes.array,
-  water_temperatureEvents: React.PropTypes.array,
-  alerts: React.PropTypes.array,
-  ready: React.PropTypes.bool,
+  ecEvents: PropTypes.array,
+  phEvents: PropTypes.array,
+  water_temperatureEvents: PropTypes.array,
+  alerts: PropTypes.array,
+  ready: PropTypes.bool,
 }
 
 export default TentacleExampleContainer = createContainer(({ thing }) => {

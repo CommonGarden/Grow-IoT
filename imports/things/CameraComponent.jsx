@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
-
+import PropTypes from 'prop-types';
 
 class CameraComponent extends Component {
   constructor(props) {
@@ -68,8 +68,8 @@ class CameraComponent extends Component {
 }
 
 CameraComponent.propTypes = {
-  image: React.PropTypes.object,
-  ready: React.PropTypes.bool,
+  image: PropTypes.object,
+  ready: PropTypes.bool,
 }
 
 // Get images!

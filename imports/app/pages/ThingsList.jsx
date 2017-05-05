@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import CircularProgress from 'material-ui/CircularProgress';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-
+import PropTypes from 'prop-types';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 
@@ -73,7 +73,7 @@ class ThingsList extends Component {
 }
 
 ThingsList.PropTypes = {
-  Things: React.PropTypes.array,
+  Things: PropTypes.array,
 }
 
 export default ThingsListContainer= createContainer(({ user, thingsChanged }) => {

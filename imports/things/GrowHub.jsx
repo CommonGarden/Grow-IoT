@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
@@ -20,6 +21,7 @@ import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ImageOne from '../app/components/images/ImageOne';
 import CameraComponent from './CameraComponent';
+
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
@@ -406,26 +408,26 @@ class GrowHub extends Component {
 // Hack, let's make this a little more elegant...
 
 GrowHub.propTypes = {
-  ecEvent: React.PropTypes.object,
-  phEvent: React.PropTypes.object,
-  tempEvent: React.PropTypes.object,
-  water_temperatureEvent: React.PropTypes.object,
-  humidityEvent: React.PropTypes.object,
-  luxEvent: React.PropTypes.object,
-  fan_power_powerEvent: React.PropTypes.object,
-  light_power_powerEvent: React.PropTypes.object,
-  pump_power_powerEvent: React.PropTypes.object,
-  fan_power_voltageEvent: React.PropTypes.object,
-  pump_power_voltageEvent: React.PropTypes.object,
-  light_power_voltageEvent: React.PropTypes.object,
-  fan_power_currentEvent: React.PropTypes.object,
-  pump_power_currentEvent: React.PropTypes.object,
-  light_power_currentEvent: React.PropTypes.object,
-  fan_power_totalEvent: React.PropTypes.object,
-  pump_power_totalEvent: React.PropTypes.object,
-  light_power_totalEvent: React.PropTypes.object,
-  ready: React.PropTypes.bool,
-  alerts: React.PropTypes.array,
+  ecEvent: PropTypes.object,
+  phEvent: PropTypes.object,
+  tempEvent: PropTypes.object,
+  water_temperatureEvent: PropTypes.object,
+  humidityEvent: PropTypes.object,
+  luxEvent: PropTypes.object,
+  fan_power_powerEvent: PropTypes.object,
+  light_power_powerEvent: PropTypes.object,
+  pump_power_powerEvent: PropTypes.object,
+  fan_power_voltageEvent: PropTypes.object,
+  pump_power_voltageEvent: PropTypes.object,
+  light_power_voltageEvent: PropTypes.object,
+  fan_power_currentEvent: PropTypes.object,
+  pump_power_currentEvent: PropTypes.object,
+  light_power_currentEvent: PropTypes.object,
+  fan_power_totalEvent: PropTypes.object,
+  pump_power_totalEvent: PropTypes.object,
+  light_power_totalEvent: PropTypes.object,
+  ready: PropTypes.bool,
+  alerts: PropTypes.array,
 }
 
 export default GrowHubContainer = createContainer(({ thing }) => {

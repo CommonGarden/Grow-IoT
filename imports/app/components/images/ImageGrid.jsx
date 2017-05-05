@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import {Meteor} from 'meteor/meteor';
 import {_} from 'meteor/underscore';
 import {GridList, GridTile} from 'material-ui/GridList';
@@ -75,8 +76,8 @@ class ImageGrid extends Component {
 }
 
 ImageGrid.propTypes = {
-  images: React.PropTypes.array,
-  ready: React.PropTypes.bool,
+  images: PropTypes.array,
+  ready: PropTypes.bool,
 }
 
 // // Get images!

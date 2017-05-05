@@ -6,10 +6,12 @@ export default class AccountsUI extends Component {
   handleSubmit(e) {
     e.preventDefault();
   }
+
   handleTabChange(i) {
     const paths = { 0: '', 1: 'create' };
     browserHistory.push(`/account/${paths[i]}`);
   }
+
   render() {
     const cardStyle = {
       padding: '20px',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import { Charts, ChartContainer, ChartRow, YAxis, LineChart } from "react-timeseries-charts";
 import { TimeSeries, TimeRange, Event } from "pondjs";
@@ -167,9 +168,9 @@ class SmartLight extends Component {
 }
 
 SmartLight.propTypes = {
-  event: React.PropTypes.object,
-  loading: React.PropTypes.bool,
-  data: React.PropTypes.object,
+  event: PropTypes.object,
+  loading: PropTypes.bool,
+  data: PropTypes.object,
 }
 
 export default SmartLightContainer = createContainer(({ thing }) => {

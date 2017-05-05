@@ -4,7 +4,6 @@ import {Meteor} from 'meteor/meteor';
 import {_} from 'meteor/underscore';
 import {GridList, GridTile} from 'material-ui/GridList';
 
-
 class ImageUpload extends Component {
   constructor(props) {
     super(props);
