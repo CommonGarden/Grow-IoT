@@ -19,7 +19,6 @@ describe('Growfile test', () => {
 
   it('should start a simple Growfile', () => {
     testGrow.startGrow(tomato);
-    // expect(testGrow.currentPhase).to.equal('vegetative');
   });
 
   it('should start a Growfile with phases', () => {
