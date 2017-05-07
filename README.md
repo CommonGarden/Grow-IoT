@@ -4,6 +4,8 @@
 
 ![screenshot](https://cloud.githubusercontent.com/assets/521978/25060230/2aec41aa-214d-11e7-9498-a05d35f733c7.jpg)
 
+![grow-data](https://cloud.githubusercontent.com/assets/521978/25785182/4bea3d82-332f-11e7-9ba3-e1b1850fbab9.jpg)
+
 ## Installing Grow-IoT
 
 You need to install [Meteor](https://www.meteor.com/) first (if you haven't already).

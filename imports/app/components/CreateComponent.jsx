@@ -39,6 +39,9 @@ export default class CreateComponent extends Component {
         {
           component: component.name,
           onlineSince: true,
+          properties: {
+            state: 'off'
+          }
         },
         (error, document) => {
           if (error) {
@@ -88,12 +91,6 @@ export default class CreateComponent extends Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-          <TextField
-            floatingLabelText="Name of the thing (optional)"
-            defaultValue={this.state.thingName}
-            onChange={this.nameFieldChange}
-          />
-          <br/>
           <SelectField
             floatingLabelText="Component Type"
             value={this.state.value}

@@ -96,7 +96,7 @@ class NotificationsWidget extends Component {
                 onTouchTap={this.handleRead} />;
             })
           }
-          <MenuItem value="all" primaryText="See All Notification" onTouchTap={this.goToAllNotifications}/>
+          <MenuItem value="all" primaryText="See all notifications" onTouchTap={this.goToAllNotifications}/>
         </IconMenu>
         {this.renderBadge(this.state.notificationCount)}
       </span>

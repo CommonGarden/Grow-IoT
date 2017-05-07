@@ -1,4 +1,4 @@
-import CameraComponent from './CameraComponent';
+// import CameraComponent from './CameraComponent';
 import GrowHub from './GrowHub';
 import NotificationsComponent from './NotificationsComponent';
 import TestDevice from './TestDevice.jsx';
@@ -7,13 +7,13 @@ import ImageComponent from './ImageComponent';
 import TentacleExample from './TentacleExample';
 
 const components = {
-	CameraComponent,
+	// CameraComponent,
 	GrowHub,
-	NotificationsComponent,
-	TestDevice,
 	SmartLight,
+	NotificationsComponent,
+	TentacleExample,
+	TestDevice,
 	ImageComponent,
-	TentacleExample
 };
 
 export default components;

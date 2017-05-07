@@ -50,12 +50,7 @@ class ThingsList extends Component {
       );
     } else {
       return (
-        <EmptyState>
-          <div className="layout vertical center center-justified"
-            style={{height: '100%'}}>
-            Click the + button to create a new thing.
-          </div>
-        </EmptyState>
+        <EmptyState />
       );
     }
   }
