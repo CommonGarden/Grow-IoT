@@ -19,6 +19,7 @@ module.exports = {
     },
 
     phases: {
+      description: "In the vegatative phase",
       vegetative: {
         cycles: {
           day: {
@@ -39,6 +40,7 @@ module.exports = {
           }
         }
       },
+
       bloom: {
         cycles: {
           day: {

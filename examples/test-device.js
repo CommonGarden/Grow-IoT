@@ -2,8 +2,8 @@ var Thing = require('../dist/Grow.umd.js');
 
 var testDevice = new Thing({
   // PUT YOUR UUID AND TOKEN HERE!!!
-  uuid: 'ef890d71-0137-4253-a130-f328615043bf',
-  token: '7kQbxeCr4R4q7YwCih6PsPCKTLrLiSd4',
+  uuid: '0edc307c-5054-44a3-9769-1ef3afc082c8',
+  token: 'MSbMLBzBxfKPPxZA9JfS2vMqWqHSTSNH',
 
   component: 'TestDevice',
 
@@ -39,8 +39,6 @@ var testDevice = new Thing({
   }
 });
 
-growHub.connect({
-  host: 'grow.commongarden.org',
-  port: 443,
-  ssl: true
-});
+// Defaults to localhost:3000/
+testDevice.connect();
+

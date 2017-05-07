@@ -1,28 +1,29 @@
-var brain = require('brain.js');
-const Controller = require('node-pid-controller');
+const brain = require('brain.js');
 
 // //create a simple recurrent neural network 
-// var net = new brain.recurrent.RNN();
+let net = new brain.NeuralNetwork();
 
-// net.train([{input: { pH: 0.613 }, output: { ok: 1 }},
-//            {input: { pH: 0.616 }, output: { ok: 1 }},
-//            {input: { pH: 0.615 }, output: { ok: 1 }},
-//            {input: { pH: 0.615 }, output: { ok: 1 }},
-//            {input: { pH: 0.515 }, output: { base: 1 }},
-//            {input: { pH: 0.715 }, output: { acid: 1 }}]);
+const data = [
+   {input: { p: 0.613 }, output: { ok: 1 }},
+   {input: { p: 0.616 }, output: { ok: 1 }},
+   {input: { p: 0.615 }, output: { ok: 1 }},
+   {input: { p: 0.615 }, output: { ok: 1 }},
+   {input: { p: 0.515 }, output: { base: 1 }},
+   {input: { p: 0.715 }, output: { acid: 1 }},
+]
 
-// var output = net.run({ pH: 0.815 });  // { white: 0.81, black: 0.18 }
+net.train(data);
+
+var output = net.run({ p: 0.715 });  // { white: 0.81, black: 0.18 }
 
 
-// console.log(output);
+console.log(output);
 
-const Controller = require('node-pid-controller');
+// var net = new brain.NeuralNetwork();
 
-ctr = new Controller({
-	k_p: 0.25,
-	k_i: 0.01,
-	k_d: 0.01,
-	dt: 1
-});
+// net.train([{input: { r: 0.03, g: 0.7, b: 0.5 }, output: { black: 1 }},
+//            {input: { r: 0.16, g: 0.09, b: 0.2 }, output: { white: 1 }},
+//            {input: { r: 0.5, g: 0.5, b: 1.0 }, output: { white: 1 }}]);
 
-ctr.setTarget(120);
+// var output = net.run({ r: 1, g: 0.4, b: 0 });  // { white
+	// console.log(output);
