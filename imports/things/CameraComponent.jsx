@@ -11,8 +11,25 @@ class CameraComponent extends Component {
     super(props);
   }
 
+  handleScheduleChange = (event, newValue) => {
+    this.sendCommand('stop');
+    let key = event.target.dataset.key;
+    this.setProperty(key, newValue);
+    this.sendCommand('start');
+  }
+
   takePicture () {
-    console.log('To do. Send picture command...');
+    Meteor.call('Thing.sendCommand',
+      this.props.thing.uuid,
+      'picture',
+      null,
+      (error, documentId) => {
+        if (error) {
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
   }
 
   render() {
@@ -54,6 +71,7 @@ class CameraComponent extends Component {
               hintText="Example: every 2 hours"
               floatingLabelText="Schedule photo"
               defaultValue="every hour"
+              data-key="interval"
               onChange={this.handleScheduleChange}
               inputStyle={styles.white}
               floatingLabelStyle={styles.white}
