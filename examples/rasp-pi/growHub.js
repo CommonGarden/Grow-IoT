@@ -6,7 +6,7 @@ const raspio = require('raspi-io');
 const five = require('johnny-five');
 const later = require('later');
 const Hs100Api = require('hs100-api');
-const growfile = require('../growfiles/tomato');
+const growfile = require('../growfiles/cannabis');
 const _ = require('underscore');
 const Controller = require('node-pid-controller');
 
