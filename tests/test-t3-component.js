@@ -1,8 +1,6 @@
 var Thing = require('Grow.js');
 var inquirer = require('inquirer');
 var _ = require('underscore')
-var growfile = require('./grow.js')
-
 
 var args = process.argv.slice(2);
 var uuid = args[0];
@@ -60,6 +58,18 @@ function testDevice (u, t) {
       setInterval(()=> {
         testDevice.data();
       }, this.get('interval'));
+
+      let growfile = {};
+      growfile.targets = this.get('growfile');
+      this.startGrow(growfile);
+      console.log(this);
+    },
+
+    restart: function () {
+      let targets = this.get('growfile');
+      this.removeTargets(targets);
+      console.log(this);
+      this.start();
     },
 
     data: function () {

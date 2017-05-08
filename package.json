@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
-    "Grow.js": "^0.3.6",
+    "Grow.js": "^0.3.75",
     "babel-runtime": "^6.18.0",
     "bcrypt": "^0.8.7",
     "bson-ext": "^1.0.1",

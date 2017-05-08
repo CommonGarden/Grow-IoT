@@ -53,17 +53,9 @@ class TentacleExample extends Component {
   };
 
   handleScheduleChange = (event, newValue) => {
-    this.sendCommand('stop');
     let key = event.target.dataset.key;
-    let cycles = this.props.thing.properties.cycles;
-    const cycleKeys = ['day', 'night'];
-    if (cycleKeys.indexOf(key) > -1) {
-      cycles[key].start = newValue;
-      this.setProperty('cycle', cycles);
-    } else {
-      this.setProperty(key, newValue);
-    }
-    this.sendCommand('start');
+    this.setProperty(key, newValue);
+    this.sendCommand('restart');
   }
 
   state = {
@@ -112,11 +104,11 @@ class TentacleExample extends Component {
     this.sendCommand(command, options);
   }
 
-  // TODO...
-  updateGrowfile () {
+  updateGrowfile = () => {
     try {
       let growfile = JSON.parse(document.getElementById('Growfile').value);
       this.setProperty('growfile', growfile);
+      this.sendCommand('restart');
     } catch (err) {
       alert(err);
     }
