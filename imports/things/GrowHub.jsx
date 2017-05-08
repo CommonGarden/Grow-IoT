@@ -73,14 +73,7 @@ class GrowHub extends Component {
   handleScheduleChange = (event, newValue) => {
     this.sendCommand('stop');
     let key = event.target.dataset.key;
-    let cycles = this.props.thing.properties.cycles;
-    const cycleKeys = ['day', 'night'];
-    if (cycleKeys.indexOf(key) > -1) {
-      cycles[key].start = newValue;
-      this.setProperty('cycle', cycles);
-    } else {
-      this.setProperty(key, newValue);
-    }
+    this.setProperty(key, newValue);
     this.sendCommand('start');
   }
 
@@ -146,9 +139,11 @@ class GrowHub extends Component {
     this.sendCommand(command, options);
   }
 
-  updateGrowfile () {
+  updateGrowfile = () => {
     try {
       let growfile = JSON.parse(document.getElementById('Growfile').value);
+      this.setProperty('growfile', growfile);
+      this.sendCommand('restart');
     } catch (err) {
       alert(err);
     }
@@ -200,7 +195,6 @@ class GrowHub extends Component {
       },
       powerData: {
         position: 'relative',
-        // marginBottom: -58,
         fontSize: 10,
         padding: 10,
         top: 9,
@@ -406,7 +400,6 @@ class GrowHub extends Component {
 }
 
 // Hack, let's make this a little more elegant...
-
 GrowHub.propTypes = {
   ecEvent: PropTypes.object,
   phEvent: PropTypes.object,

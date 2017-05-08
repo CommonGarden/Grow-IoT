@@ -8,10 +8,23 @@ import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import FileDownload from 'material-ui/svg-icons/file/file-download';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class ImageGrid extends Component {
   constructor(props) {
     super(props);
+  }
+
+  state = {
+    limit: 10,
+    skip: 0,
+  }
+
+  handleLoadMore = () => {
+    const skip = this.state.skip + 10;
+    const limit = this.state.limit;
+    Meteor.subscribe('Images.all', limit, skip);
+    this.setState({ skip });
   }
 
   removeFile (event) {
@@ -71,6 +84,9 @@ class ImageGrid extends Component {
               })
             }
           </GridList>
+          <div style={{padding: 10}}>
+            <RaisedButton label="Load More" primary={true} onTouchTap={this.handleLoadMore}/>
+          </div>
         </div>
       )
     }

@@ -28,7 +28,7 @@ class ImageUpload extends Component {
           file: file,
           meta: {
             locator: this.props.fileLocator,
-            userId: Meteor.userId() // Optional, used to check on server for file tampering
+            owner: Meteor.userId() // Optional, used to check on server for file tampering
           },
           streams: 'dynamic',
           chunkSize: 'dynamic',
@@ -39,15 +39,6 @@ class ImageUpload extends Component {
           uploading: uploadInstance, // Keep track of this instance to use below
           inProgress: true // Show the progress bar now
         });
-
-        // These are the event functions, don't need most of them, it shows where we are in the process
-        // uploadInstance.on('start', () => {
-        //   console.log('Starting');
-        // });
-
-        // uploadInstance.on('end', (error, fileObj) => {
-        //   console.log('On end File Object: ', fileObj);
-        // });
 
         uploadInstance.on('uploaded', (error, fileObj) => {
           console.log('uploaded: ', fileObj);
