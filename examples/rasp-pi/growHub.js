@@ -6,7 +6,7 @@ const raspio = require('raspi-io');
 const five = require('johnny-five');
 const later = require('later');
 const Hs100Api = require('hs100-api');
-const growfile = require('../growfiles/cannabis');
+const growfile = require('../growfiles/tomato');
 const _ = require('underscore');
 const Controller = require('node-pid-controller');
 
@@ -160,10 +160,13 @@ board.on('ready', function start() {
     },
 
     stop: function () {
-      console.log('Grow-Hub stopped.');
       clearInterval(emit_data);
-      // clear alerts and cycles?
-      this.removeAllListeners();
+    },
+
+    restart: function () {
+      let growfile = this.get('growfile');
+      this.removeTargets(growfile.targets);
+      this.start();
     },
     
     day: function () {
