@@ -21,7 +21,7 @@ class ImageUpload extends Component {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       // We upload only one file, in case
       // there was multiple files selected
-      var file = e.currentTarget.files[0];
+      let file = e.currentTarget.files[0];
 
       if (file) {
         let uploadInstance = Images.insert({

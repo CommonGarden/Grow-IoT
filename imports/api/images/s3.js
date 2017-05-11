@@ -1,4 +1,4 @@
-var knox, bound, client, Request, cfdomain, Collections = {};
+let knox, bound, client, Request, cfdomain, Collections = {};
 
 // https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration
 
@@ -29,16 +29,16 @@ Collections.files = new FilesCollection({
   allowClientCode: false,
   onAfterUpload: function(fileRef) {
     // In onAfterUpload callback we will move file to AWS:S3
-    var self = this;
+    let self = this;
     _.each(fileRef.versions, function(vRef, version) {
       // We use Random.id() instead of real file's _id 
       // to secure files from reverse engineering
       // As after viewing this code it will be easy
       // to get access to unlisted and protected files
-      var filePath = "files/" + (Random.id()) + "-" + version + "." + fileRef.extension;
+      let filePath = "files/" + (Random.id()) + "-" + version + "." + fileRef.extension;
       client.putFile(vRef.path, filePath, function(error, res) {
         bound(function() {
-          var upd;
+          let upd;
           if (error) {
             console.error(error);
           } else {
@@ -64,7 +64,7 @@ Collections.files = new FilesCollection({
     });
   },
   interceptDownload: function(http, fileRef, version) {
-    var path, ref, ref1, ref2;
+    let path, ref, ref1, ref2;
     path = (ref = fileRef.versions) != null ? (ref1 = ref[version]) != null ? (ref2 = ref1.meta) != null ? ref2.pipeFrom : void 0 : void 0 : void 0;
     if (path) {
       // If file is moved to S3
@@ -86,13 +86,13 @@ Collections.files = new FilesCollection({
 if (Meteor.isServer) {
   // Intercept File's collection remove method
   // to remove file from S3
-  var _origRemove = Collections.files.remove;
+  let _origRemove = Collections.files.remove;
 
   Collections.files.remove = function(search) {
-    var cursor = this.collection.find(search);
+    let cursor = this.collection.find(search);
     cursor.forEach(function(fileRef) {
       _.each(fileRef.versions, function(vRef) {
-        var ref;
+        let ref;
         if (vRef != null ? (ref = vRef.meta) != null ? ref.pipePath : void 0 : void 0) {
           client.deleteFile(vRef.meta.pipePath, function(error) {
             bound(function() {

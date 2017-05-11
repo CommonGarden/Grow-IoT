@@ -24,7 +24,7 @@ server.on('request', function(req, res) {
       token: String
     });
 
-    var thing = Things.findOne(auth, {
+    let thing = Things.findOne(auth, {
       fields: {
         _id: 1,
         properties: 1
@@ -45,14 +45,14 @@ server.on('request', function(req, res) {
         })) { throw new Meteor.Error('internal-error', "Internal error."); }
 
         // See publish.js for more ideas on returning messages.... this isn't working as well as it does with ddp.
-        var query = {
+        let query = {
           'thing._id': thing._id,
           createdAt: {
             $gte: new Date()
           }
         };
 
-        var options = {
+        let options = {
           fields: {
             body: 1
           },
@@ -61,7 +61,7 @@ server.on('request', function(req, res) {
           }
         };
 
-        var handle = Messages.find(query, options).observeChanges({
+        let handle = Messages.find(query, options).observeChanges({
           added: function (id, fields) {
             res.write(JSON.stringify(fields));
             return Messages.remove(id);

@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import Components from '../../things/';
 
-var components = []
+let components = []
 _.each(Components, (value, key)=> {
   components.push({name:key});
 });

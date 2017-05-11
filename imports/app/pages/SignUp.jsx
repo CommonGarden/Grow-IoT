@@ -27,7 +27,7 @@ export default class SignIn extends Component {
     } else if(this.state.password !== this.state.rPassword) {
       this.openSnackbar('Passwords do not match');
     } else {
-      var self = this;
+      let self = this;
       Accounts.createUser({
         email: this.state.email,
         password: this.state.password
@@ -61,7 +61,7 @@ export default class SignIn extends Component {
     this.setState({ emailError })
   };
   validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
   passwordChange = (e, n) => {

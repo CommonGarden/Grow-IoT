@@ -15,7 +15,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Components from '../../things/';
 import _ from 'underscore';
 
-var components = []
+let components = []
 _.each(Components, (value, key)=> {
   components.push({name:key});
 });

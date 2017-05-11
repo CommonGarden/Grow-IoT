@@ -50,7 +50,7 @@ class AppNavDrawer extends Component {
 
   handleRequestChangeLink = (event, value) => {
     console.log(event);
-    var win = window.open(value, '_blank');
+    let win = window.open(value, '_blank');
     win.focus();
   };
 

@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
 Meteor.publish('Thing.messages', function(auth) {
-  var thing, handle, options, query;
+  let thing, handle, options, query;
 
   check(auth, {
     uuid: String,
