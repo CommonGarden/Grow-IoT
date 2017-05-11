@@ -25,7 +25,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
 
-
+// Should there be a base thing component that has methods like setProperty and sendcommand?
 class GrowHub extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class GrowHub extends Component {
 
   handleTap = (event) => {
     let device = event.currentTarget.dataset.device;
-    const command = this.props.thing.properties[`${device}_state`] === 'on' ? `turn_${device}_off` : `turn_${device}_on`;
+    let command = this.props.thing.properties[`${device}_state`] === 'on' ? `turn_${device}_off` : `turn_${device}_on`;
     this.sendCommand(command);
   };
 
@@ -62,7 +62,6 @@ class GrowHub extends Component {
   };
 
   handleValueChange = (event, newValue) => {
-    const uuid = this.props.thing.uuid;
     const key = event.target.dataset.key;
     this.setProperty(key, newValue);
   };
@@ -151,16 +150,6 @@ class GrowHub extends Component {
     return e ? Number(e.event.value).toFixed(2) : 'NA';
   }
 
-  onlineSince () {
-    const onlineSince = this.props.thing.onlineSince || false;
-
-    if (!this.props.thing.onlineSince) {
-      return <span>Offline</span>
-    } else {
-      return <span></span>
-    }
-  }
-
   render() {
     const styles = {
       right: {
@@ -247,7 +236,6 @@ class GrowHub extends Component {
                   </IconButton>
                 </h2>
               </div>
-              {this.onlineSince()}
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {

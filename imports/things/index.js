@@ -4,7 +4,7 @@ import TestDevice from './TestDevice.jsx';
 import SmartLight from './SmartLight.jsx';
 import ImageComponent from './ImageComponent';
 import TentacleExample from './TentacleExample';
-// import CameraComponent from './CameraComponent';
+import CameraComponent from './CameraComponent';
 
 const components = {
 	GrowHub,
@@ -13,7 +13,7 @@ const components = {
 	TentacleExample,
 	TestDevice,
 	ImageComponent,
-	// CameraComponent,
+	CameraComponent,
 };
 
 export default components;

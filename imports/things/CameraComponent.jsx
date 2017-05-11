@@ -5,8 +5,9 @@ import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
+import BaseThing from './BaseThing';
 
-class CameraComponent extends Component {
+class CameraComponent extends BaseThing {
   constructor(props) {
     super(props);
   }
@@ -18,18 +19,8 @@ class CameraComponent extends Component {
     this.sendCommand('start');
   }
 
-  takePicture () {
-    Meteor.call('Thing.sendCommand',
-      this.props.thing.uuid,
-      'picture',
-      null,
-      (error, documentId) => {
-        if (error) {
-          console.error("Error", error);
-          return alert(`Error: ${error.reason || error}`);
-        }
-      }
-    );
+  takePicture = () => {
+    this.sendCommand('picture');
   }
 
   render() {
@@ -68,9 +59,9 @@ class CameraComponent extends Component {
                         style={styles.button}
                         iconStyle={styles.white} ><CameraIcon /></IconButton>
             <TextField
-              hintText="Example: every 2 hours"
+              hintText="Milliseconds between pictures"
               floatingLabelText="Schedule photo"
-              defaultValue="every hour"
+              defaultValue="60000"
               data-key="interval"
               onChange={this.handleScheduleChange}
               inputStyle={styles.white}
@@ -81,7 +72,14 @@ class CameraComponent extends Component {
         </div>
       )
     }
-    else return <div></div>
+    else return (
+      <div style={styles.img}>No Images
+        <IconButton onTouchTap={this.takePicture}
+                    tooltip="Take picture">
+          <CameraIcon />
+        </IconButton>
+      </div>
+    )
   }
 }
 
