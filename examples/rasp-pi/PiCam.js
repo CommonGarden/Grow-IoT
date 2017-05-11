@@ -10,6 +10,7 @@ const Cam = new Thing({
 
   properties: {
     name: 'Camera',
+    interval: 5000,
   },
 
   camera: new RaspiCam({
@@ -19,7 +20,7 @@ const Cam = new Thing({
     timeout: 0 // take the picture immediately
   }),
 
-  start: function () {
+  initialize: function () {
     this.camera.on('start', function( err, timestamp ){
       console.log('photo started at ' + timestamp );
     });
@@ -39,10 +40,20 @@ const Cam = new Thing({
   picture: function () {
     this.camera.start();
     this.camera.stop();
+  },
+
+  start: function () {
+    let interval = this.get('interval');
+    this.interval = setInterval(()=> {
+      this.picture();
+    }, interval);
+  },
+
+  stop: function () {
+    clearInterval(this.interval);
   }
 });
 
-// Connect over a local network.
 Cam.connect({
   host: 'grow.commongarden.org',
   port: 443,
