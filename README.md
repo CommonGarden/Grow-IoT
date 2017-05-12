@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/CommonGarden/Grow.js.svg?branch=development)](https://travis-ci.org/CommonGarden/Grow.js) [![Code Climate](https://codeclimate.com/github/CommonGarden/Grow.js/badges/gpa.svg)](https://codeclimate.com/github/CommonGarden/Grow.js) [![Join the chat at https://gitter.im/CommonGarden/Grow.js](https://badges.gitter.im/CommonGarden/Grow.js.svg)](https://gitter.im/CommonGarden/Grow.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Grow.js helps you create and connect devices to a [Grow-IoT](https://github.com/CommonGarden/Grow-IoT) instance. 
+Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) with extra utilities for growers.
 
 ### Installation
 
@@ -107,6 +107,8 @@ module.exports = {
 };
 ```
 
+## Usage
+TODO
 
 # Developing
 
