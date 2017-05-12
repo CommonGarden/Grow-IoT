@@ -1,31 +1,44 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" charset="utf-8">
     <title>Thing.js</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/cayman.css">
-    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
   </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Thing.js</h1>
-      <h2 class="project-tagline">Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.</h2><a href="https://github.com/CommonGarden/Thing.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/thing.js" target="_blank" class="btn">View on npm</a>
-    </section>
-    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>Thing.js</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
       <div class="row">
-        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
-          <ul id="sidebar" class="nav nav-stacked fixed">
-            <li class="active"><a href="index.html">Main
-                <ul class="nav nav-stacked">
-                </ul></a></li>
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li class="active"><a href="index.html">Main</a></li>
             <li><a href="Thing.js.html">Thing.js</a></li>
           </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+            </ul>
+          </div>
         </div>
-        <div class="col-md-9">
+        <div class="span9">
           <section id="Main" class="readme"><h1>Thing.js</h1>
 <p><a href="https://travis-ci.org/CommonGarden/Thing.js"><img src="https://travis-ci.org/CommonGarden/Thing.js.svg?branch=development" alt="Build Status"></a> <a href="https://codeclimate.com/github/CommonGarden/Thing.js"><img src="https://codeclimate.com/github/CommonGarden/Thing.js/badges/gpa.svg" alt="Code Climate"></a> <a href="https://gitter.im/CommonGarden/Thing.js?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/CommonGarden/Thing.js.svg" alt="Gitter"></a></p>
 <p>Thing.js exports a single class 'Thing,' which is an extension of the <a href="https://nodejs.org/api/events.html">Node.js EventEmitter Class</a> and basic methods for:</p>
@@ -129,39 +142,189 @@ const growRoom = new Thing({
 
 </code></pre>
 <p>See the examples folder for more!</p>
+<h3>Connection options</h3>
+<p>The connect method takes a configuration object.</p>
+<p>The <code>host</code> property is where the device will connect to a Grow-IoT instance. By default the <code>host</code> is set to <code>localhost</code> and the port is set to Meteor's standard of <code>3000</code>. This works nicely for usb devices like Arduino.</p>
+<p>For connecting over wifi, connect your device to wifi and set the <code>host</code> to the IP address where the Grow-IoT instance is running. Pass the options to the <code>connect()</code> method like so:</p>
+<pre><code class="language-javascript">grow.connect({
+    &quot;host&quot;: &quot;YOUR_IP_HERE&quot;
+})
+</code></pre>
+<h4>Connecting over SSL</h4>
+<p>You can connect securely to our Grow-IoT alpha instance on https://grow.commongarden.org, or see the <a href="https://github.com/CommonGarden/Grow-IoT">Grow-IoT repo</a> to easily start your own IoT network locally or hosted on <a href="https://galaxy.meteor.com">Meteor Galaxy</a>.</p>
+<p>SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address pass the following the <code>connect()</code> method.</p>
+<pre><code class="language-javascript">grow.connect({
+    &quot;host&quot;: &quot;YOUR_IP_HERE&quot;,
+    &quot;port&quot;: 443,
+    &quot;ssl&quot;: true
+})
+</code></pre>
+<p>If you are hosting on a cloud instance such as <a href="https://galaxy.meteor.com">Meteor Galaxy</a>, you might need specify the servername. The example below shows you how to connect securely to the instance at <a href="https://grow.commongarden.org">grow.commongarden.org</a>:</p>
+<pre><code class="language-javascript">grow.connect({
+    &quot;host&quot;: &quot;grow.commongarden.org&quot;,
+    &quot;tlsOpts&quot;: {
+        &quot;tls&quot;: {
+            &quot;servername&quot;: &quot;galaxy.meteor.com&quot;
+        }
+    },
+    &quot;port&quot;: 443,
+    &quot;ssl&quot;: true
+});
+</code></pre>
+<h3>Connect to Grow-IoT Instance</h3>
+<p>In Grow-IoT, create a new device and take note of the device <code>uuid</code> and <code>token</code>.</p>
+<p>In the <code>examples</code> folder checkout <code>test-device.js</code>. If you want to get started straight away with hardware, skip to the <a href="#working-with-hardware">working with hardware</a> section.</p>
+<p>Replace the <code>uuid</code> and <code>token</code> properties of the config object with the credentials you generate.</p>
+<pre><code class="language-javascript">// Import the latest build of the Grow.js library
+var Thing = require('Grow.js');
+
+// Create a new grow instance. Connects by default to localhost:3000
+var testDevice = new Thing({
+    // PUT YOUR UUID AND TOKEN HERE:
+    uuid: 'PASTE_UUID_HERE',
+    token: 'PASTE_TOKEN_HERE',
+
+    // Specifies the component associated with the thing
+    component: 'TestDevice',
+
+    // Properties can be updated by the API
+    properties: {
+        state: 'off',
+    },
+
+    turn_on: function () {
+        testDevice.set('state', 'on');
+    },
+
+    turn_off: function () {
+        testDevice.set('state', 'off');
+    },
+});
+
+// Connects to localhost:3000 by default.
+testDevice.connect();
+
+</code></pre>
+<p>Run it with:</p>
+<pre><code class="language-bash">node examples/test-device.js
+</code></pre>
+<h1>Working with hardware.</h1>
+<p>Grow.js works very well with the <a href="http://johnny-five.io/">Johnny-Five robotics library</a>, which has plugins for <a href="http://johnny-five.io/#platform-support">a large number of devices</a>.</p>
+<p>Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators.</p>
+<h3>Wire up photo-resitor and led to arduino</h3>
+<p>Wire up your photo resistor and LED light like so:</p>
+<p><img src="https://raw.githubusercontent.com/CommonGarden/Grow.js/master/examples/arduino/smart-light/Arduino-night-light-circuit.png" alt="Wiring diagram"></p>
+<p>To use <a href="http://johnny-five.io/">Johnny-Five</a>, you need to make sure that your arduino is flashed with Standard Firmata. Instructions for doing so can be found <a href="https://github.com/rwaldron/johnny-five/wiki/Getting-Started#trouble-shooting">here</a>. Once that's done you're ready for the next step!</p>
+<p>Take a look at the <code>smart-light</code> example in the <code>examples/arduino/</code> folder.</p>
+<p>Create a new thing in the Grow-IoT ui and copy and paste the UUID and Token into the example below.</p>
+<pre><code class="language-javascript">// Require the Grow.js build and johnny-five library.
+var Thing = require('Grow.js');
+var five = require('johnny-five');
+
+// See http://johnny-five.io/ to connect devices besides arduino.
+var board = new five.Board();
+
+var emit_and_analyze;
+
+// When board emits a 'ready' event run this start function.
+board.on('ready', function start() {
+    // Define variables
+    var LED = new five.Pin(13),
+        lightSensor = new five.Sensor('A0');
+
+    // Create a new thing.
+    var light = new Thing({
+        uuid: 'PASTE_UUID_HERE',
+        token: 'PASTE_TOKEN_HERE',
+
+        component: 'smart-light',
+
+        properties: {
+            state: 'off',
+            threshold: 300,
+            interval: 1000,
+            lightconditions: null
+        },
+
+        start: function () {
+            var interval = this.get('interval');
+            
+            emit_and_analyze = setInterval(function () {
+                light.call('light_data');
+                light.call('check_light_data');
+            }, interval);
+
+            // Todo: implement clear interval function so we can adjust
+            // the rate at which data is logged.
+        },
+
+        stop: function () {
+            clearInterval(emit_and_analyze);
+        },
+
+        turn_on: function () {
+            LED.high();
+            light.set('state', 'on');
+            console.log('light on');
+        },
+
+        turn_off:  function () {
+            LED.low();
+            light.set('state', 'off');
+            console.log('light off')
+        },
+
+        light_data: function () {
+            console.log(lightSensor.value);
+
+            light.emit({
+              type: 'light',
+              value: lightSensor.value
+            });
+        },
+
+        check_light_data: function () {
+            var threshold = light.get('threshold');
+            if ((lightSensor.value &lt; threshold) &amp;&amp; (light.get('lightconditions') != 'dark')) {
+                light.set('lightconditions', 'dark');
+            } else if ((lightSensor.value &gt;= threshold) &amp;&amp; (light.get('lightconditions') != 'light')) {
+                light.set('lightconditions', 'light');
+            }
+        }
+    });
+
+    light.connect();
+});
+
+</code></pre>
+<p>Run <code>smart-light.js</code> with:</p>
+<pre><code class="language-bash">node examples/arduino/smart-light/smart-light.js
+</code></pre>
+<p>Note: on certain opperating systems you may need to prefix that command with <code>sudo</code> to allow the script access to USB.</p>
 <h1>Developing</h1>
 <p>Code is written in ES6, and compiled using <a href="https://github.com/rollup/rollup">rollup</a>. <a href="http://commongarden.github.io/Thing.js/docs/Thing.js.html">Full documentation is available here</a>.</p>
 <p><code>npm run build</code> builds the library.</p>
 <p><code>npm run test</code> builds the library, and runs tests in the test folder.</p>
 <p>The documentation is written in jsdoc, built using <a href="https://mr-doc.github.io/">Mr-Doc</a>, and kept on the <a href="https://github.com/CommonGarden/Thing.js/tree/gh-pages">gh-pages branch of this repo</a>.</p>
 </section>
-          <div class="footer site-footer">
-            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
-            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
-          </div>
         </div>
       </div>
-    </section>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/affix.js"></script>
-    <script src="js/dropdown.js"></script>
-    <script src="js/scrollspy.js"></script>
-    <script src="js/prism.js"></script>
-    <script src="js/prism-bash.js"></script>
-    <script>
-      $(document).ready(function(){
-        $('body').scrollspy({
-          target: ".bs-docs-sidebar",
-          offset: 40
-        });
-        $('#sidebar').affix({
-          offset:{
-            bottom:60,
-            top: 60
-          }
-        }) 
-      });
-    </script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
   </body>
 </html>
