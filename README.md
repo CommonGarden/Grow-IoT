@@ -8,204 +8,104 @@ Grow.js helps you create and connect devices to a [Grow-IoT](https://github.com/
 
 `npm install Grow.js`
 
-## Usage
-Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) which is an extension of the [Node EventEmitter](https://nodejs.org/api/events.html).
-
-In addition, it also has some functionality for scheduling, registering and monitoring for alerts (temperature low, etc.), and easily and securely connecting to a Grow-IoT instance.
-
-### Connection options
-
-The connect method takes a configuration object.
-
-The `host` property is where the device will connect to a Grow-IoT instance. By default the `host` is set to `localhost` and the port is set to Meteor's standard of `3000`. This works nicely for usb devices like Arduino.
-
-For connecting over wifi, connect your device to wifi and set the `host` to the IP address where the Grow-IoT instance is running. Pass the options to the `connect()` method like so:
-
+## Example Growfile
 ```javascript
-grow.connect({
-    "host": "YOUR_IP_HERE"
-})
-```
-
-#### Connecting over SSL
-You can connect securely to our Grow-IoT alpha instance on https://grow.commongarden.org, or see the [Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT) to easily start your own IoT network locally or hosted on [Meteor Galaxy](https://galaxy.meteor.com).
-
-SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address pass the following the `connect()` method.
-
-```javascript
-grow.connect({
-    "host": "YOUR_IP_HERE",
-    "port": 443,
-    "ssl": true
-})
-```
-
-If you are hosting on a cloud instance such as [Meteor Galaxy](https://galaxy.meteor.com), you might need specify the servername. The example below shows you how to connect securely to the instance at [grow.commongarden.org](https://grow.commongarden.org):
-
-```javascript
-grow.connect({
-    "host": "grow.commongarden.org",
-    "tlsOpts": {
-        "tls": {
-            "servername": "galaxy.meteor.com"
+// A rough GrowFile example... first draft, it's crude.
+// Feel free to make suggestions though.
+module.exports = {
+  name: 'A plant',
+  version: '0.0.1', // Not grower tested, any recommendations?
+  phases: {
+    vegetative: {
+      // Global targets durning this phase.
+      // min / max set alerts
+      // ideal is the target for the phase or cycle
+      targets: {
+        ph: {
+          min: 6.0,
+          ideal: 6.15,
+          max: 6.3,
+        },
+        ec: {
+          min: 1400,
+          ideal: 1500,
+          max: 1700,
+        },
+        humidity: {
+          min: 51,
+          max: 61
+        },
+        temperature: {
+          min: 17,
+          max: 28
         }
-    },
-    "port": 443,
-    "ssl": true
-});
-```
+      },
 
-### Connect to Grow-IoT Instance
-
-In Grow-IoT, create a new device and take note of the device `uuid` and `token`.
-
-In the `examples` folder checkout `test-device.js`. If you want to get started straight away with hardware, skip to the [working with hardware](#working-with-hardware) section.
-
-Replace the `uuid` and `token` properties of the config object with the credentials you generate.
-
-```javascript
-// Import the latest build of the Grow.js library
-var Thing = require('Grow.js');
-
-// Create a new grow instance. Connects by default to localhost:3000
-var testDevice = new Thing({
-    // PUT YOUR UUID AND TOKEN HERE:
-    uuid: 'PASTE_UUID_HERE',
-    token: 'PASTE_TOKEN_HERE',
-
-    // Specifies the component associated with the thing
-    component: 'TestDevice',
-
-    // Properties can be updated by the API
-    properties: {
-        state: 'off',
-    },
-
-    turn_on: function () {
-        testDevice.set('state', 'on');
-    },
-
-    turn_off: function () {
-        testDevice.set('state', 'off');
-    },
-});
-
-// Connects to localhost:3000 by default.
-testDevice.connect();
-
-```
-
-Run it with:
-```bash
-node examples/test-device.js
-```
-
-# Working with hardware.
-
-Grow.js works very well with the [Johnny-Five robotics library](http://johnny-five.io/), which has plugins for [a large number of devices](http://johnny-five.io/#platform-support). 
-
-Note, with boards like the Tessel 2, Johnny-five is not required, but we're including it to make it easier to get started and support a wide variety of devices, sensors, and actuators.
-
-### Wire up photo-resitor and led to arduino
-Wire up your photo resistor and LED light like so:
-
-![Wiring diagram](https://raw.githubusercontent.com/CommonGarden/Grow.js/master/examples/arduino/smart-light/Arduino-night-light-circuit.png)
-
-To use [Johnny-Five](http://johnny-five.io/), you need to make sure that your arduino is flashed with Standard Firmata. Instructions for doing so can be found [here](https://github.com/rwaldron/johnny-five/wiki/Getting-Started#trouble-shooting). Once that's done you're ready for the next step!
-
-Take a look at the `smart-light` example in the `examples/arduino/` folder.
-
-Create a new thing in the Grow-IoT ui and copy and paste the UUID and Token into the example below.
-
-```javascript
-// Require the Grow.js build and johnny-five library.
-var Thing = require('Grow.js');
-var five = require('johnny-five');
-
-// See http://johnny-five.io/ to connect devices besides arduino.
-var board = new five.Board();
-
-var emit_and_analyze;
-
-// When board emits a 'ready' event run this start function.
-board.on('ready', function start() {
-    // Define variables
-    var LED = new five.Pin(13),
-        lightSensor = new five.Sensor('A0');
-
-    // Create a new thing.
-    var light = new Thing({
-        uuid: 'PASTE_UUID_HERE',
-        token: 'PASTE_TOKEN_HERE',
-
-        component: 'smart-light',
-
-        properties: {
-            state: 'off',
-            threshold: 300,
-            interval: 1000,
-            lightconditions: null
-        },
-
-        start: function () {
-            var interval = this.get('interval');
-            
-            emit_and_analyze = setInterval(function () {
-                light.call('light_data');
-                light.call('check_light_data');
-            }, interval);
-
-            // Todo: implement clear interval function so we can adjust
-            // the rate at which data is logged.
-        },
-
-        stop: function () {
-            clearInterval(emit_and_analyze);
-        },
-
-        turn_on: function () {
-            LED.high();
-            light.set('state', 'on');
-            console.log('light on');
-        },
-
-        turn_off:  function () {
-            LED.low();
-            light.set('state', 'off');
-            console.log('light off')
-        },
-
-        light_data: function () {
-            console.log(lightSensor.value);
-
-            light.emit({
-              type: 'light',
-              value: lightSensor.value
-            });
-        },
-
-        check_light_data: function () {
-            var threshold = light.get('threshold');
-            if ((lightSensor.value < threshold) && (light.get('lightconditions') != 'dark')) {
-                light.set('lightconditions', 'dark');
-            } else if ((lightSensor.value >= threshold) && (light.get('lightconditions') != 'light')) {
-                light.set('lightconditions', 'light');
+      // Cycles are function that have a 'schedule' property
+      cycles: {
+        day: {
+          schedule: 'after 6:00am',
+          targets: {
+            temperature: {
+              ideal: 22
             }
+          }
+        },
+        night: {
+          schedule: 'after 9:00pm',
+          targets: {
+            temperature: {
+              ideal: 18
+            }
+          }
         }
-    });
+      }
+    },
 
-    light.connect();
-});
+    bloom: {
+      targets: {
+        ph: {
+          min: 6.0,
+          ideal: 6.15,
+          max: 6.3,
+        },
+        ec: {
+          min: 1400,
+          ideal: 1500,
+          max: 1700,
+        },
+        humidity: {
+          min: 51,
+          max: 59
+        },
+        temperature: {
+          min: 17,
+          max: 28
+        }
+      },
 
+      cycles: {
+        day: {
+          schedule: 'after 7:00am',
+          targets: {
+            temperature: {
+              ideal: 22
+            }
+          }
+        },
+        night: {
+          schedule: 'after 7:00pm',
+          targets: {
+            temperature: {
+              ideal: 22
+            }
+          }
+        }
+      }
+    }
+  }
+};
 ```
-
-Run `smart-light.js` with:
-
-```bash
-node examples/arduino/smart-light/smart-light.js
-```
-
-Note: on certain opperating systems you may need to prefix that command with `sudo` to allow the script access to USB.
 
 
 # Developing
