@@ -1,39 +1,68 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" charset="utf-8">
     <title>Thing.js</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/cayman.css">
-    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
   </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Thing.js</h1>
-      <h2 class="project-tagline">Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.</h2><a href="https://github.com/CommonGarden/Thing.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/thing.js" target="_blank" class="btn">View on npm</a>
-    </section>
-    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
-      <div class="row">
-        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
-          <ul id="sidebar" class="nav nav-stacked fixed">
-            <li><a href="index.html">Main</a></li>
-            <li class="active"><a href="Thing.js.html">Thing.js
-                <ul class="nav nav-stacked">
-                  <li><a href="#Thing"><i class="alert alert-success"></i><span>Thing</span></a>
-                  </li>
-                  <li><a href="#set"><i class="alert alert-info"></i><span>set</span></a>
-                  </li>
-                  <li><a href="#get"><i class="alert alert-info"></i><span>get</span></a>
-                  </li>
-                  <li><a href="#call"><i class="alert alert-info"></i><span>call</span></a>
-                  </li>
-                </ul></a></li>
-          </ul>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
         </div>
-        <div class="col-md-9">
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>Thing.js</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="Thing.js.html">Thing.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#Thing"><i class="alert alert-success"></i><span>Thing</span></a>
+              </li>
+              <li><a href="#set"><i class="alert alert-info"></i><span>set</span></a>
+              </li>
+              <li><a href="#get"><i class="alert alert-info"></i><span>get</span></a>
+              </li>
+              <li><a href="#call"><i class="alert alert-info"></i><span>call</span></a>
+              </li>
+              <li><a href="#connect"><i class="alert alert-info"></i><span>connect</span></a>
+              </li>
+              <li><a href="#sendImage"><i class="alert alert-success"></i><span>sendImage</span></a>
+              </li>
+              <li><a href="#emit"><i class="alert alert-success"></i><span>emit</span></a>
+              </li>
+              <li><a href="#set"><i class="alert alert-success"></i><span>set</span></a>
+              </li>
+              <li><a href="#listen"><i class="alert alert-info"></i><span>listen</span></a>
+              </li>
+              <li><a href="#coapConnect"><i class="alert alert-info"></i><span>coapConnect</span></a>
+              </li>
+              <li><a href="#emit"><i class="alert alert-success"></i><span>emit</span></a>
+              </li>
+              <li><a href="#set"><i class="alert alert-success"></i><span>set</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
           <section id="Thing">
             <h1>Thing</h1>
             <h5 class="subheader"></h5>
@@ -62,19 +91,30 @@
               </tr>
               <tr>
                 <td>return</td>
-                <td></td>
+                <td>Thing</td>
                 <td><p>A new thing object</p></td>
               </tr>
             </tbody>
           </table>
           <div class="description"><p>A Thing is an extension of <a href="https://nodejs.org/api/events.html">node&#39;s built-in EventEmitter class</a>.</p></div>
           <pre><code class="language-javascript">class Thing extends EventEmitter {
-  constructor(config, callback) {
+  constructor(config) {
     super();
+
+    if (!this.properties) {
+      this.properties = {};
+    }
+
+    if (!this.uuid &amp;&amp; !this.token) {
+      new Error('UUID and token are required to connect to a Grow-IoT instance.');
+    }
+
+    this._messageHandlerInstalled = false;
 
     if (!config) {
       throw new Error('Thing.js requires an config object.');
     } else {
+      this.config = config;
       _.extend(this, config);
       this.functions = _.functions(config);
     }
@@ -107,19 +147,14 @@
             </thead>
             <tbody>
               <tr>
-                <td>property</td>
+                <td>key</td>
                 <td>String</td>
-                <td><p>The property of the component to be update.</p></td>
+                <td><p>The property to be updated.</p></td>
               </tr>
               <tr>
                 <td>value</td>
-                <td>String</td>
+                <td>Object, Number, String, Boolean</td>
                 <td><p>The value to update the property to.</p></td>
-              </tr>
-              <tr>
-                <td>key</td>
-                <td>String</td>
-                <td><p>Optional. Use to update the property of an event or action.</p></td>
               </tr>
             </tbody>
           </table>
@@ -145,9 +180,9 @@
             </thead>
             <tbody>
               <tr>
-                <td>property</td>
+                <td>key</td>
                 <td>String</td>
-                <td></td>
+                <td><p>Use to get the current value of a property.</p></td>
               </tr>
             </tbody>
           </table>
@@ -204,37 +239,481 @@
   catch (error) {
     console.log(error);
   }
-}  
+}</code></pre>
+          <section id="connect">
+            <h1>connect</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Thing.prototype.connect()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>Connection options</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Connects to Grow-IoT server over DDP. Help us support more protocols (like CoAP)! ; )</p></div>
+          <pre><code class="language-javascript">connect (options) {
+  this.ddpclient = new DDPClient(_.defaults(options, {
+    host: 'localhost',
+    port: 3000,
+    ssl: false,
+    maintainCollections: false
+  }));
+
+  this.ddpclient.connect((error, wasReconnect) =&gt; {
+    if (error) {
+      console.log(error)
+    }
+
+    if (wasReconnect) {
+      console.log('Reestablishment of a Grow server connection.');
+    } else {
+      console.log('Grow server connection established.');
+    }
+
+    this.ddpclient.call(
+      'Thing.register',
+      [{uuid: this.uuid, token: this.token}, this.config],
+      (error, result) =&gt; {
+        if (error) {
+          console.log(error);
+        }
+
+        this.afterConnect(result);
+      }
+    );
+  });
+
+  this.afterConnect = (result) =&gt; {
+    this.ddpclient.subscribe(
+      'Thing.messages',
+      [{uuid: this.uuid, token: this.token}],
+      (error) =&gt; {
+        if (error) return console.log(error);
+
+        if (!this._messageHandlerInstalled) {
+          this._messageHandlerInstalled = true;
+
+          this.ddpclient.on('message', (data)=&gt; {
+            data = JSON.parse(data);
+
+            if (data.msg !== 'added' || data.collection !== 'Things.messages') {
+              return;
+            }
+
+            let command = data.fields.body;
+            let opts = command.options;
+            let type = command.type;
+            if (type === 'setProperty') {
+              this.set(opts.key, opts.value);
+            } else if (opts) {
+              this.call(type, opts);
+            } else {
+              this.call(type);
+            }
+          });
+        }
+      }
+    );
+  };</code></pre>
+          <section id="sendImage">
+            <h1>sendImage</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.sendImage</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Sends an image (buffer) to the Grow-IoT server.</p></div>
+          <pre><code class="language-javascript">this.sendImage = (buffer) =&gt; {
+  this.ddpclient.call(
+    'Image.new',
+    [{uuid: this.uuid, token: this.token}, buffer],
+    function (error, result) {
+      if (error) {
+        console.log(error, result);
+      }
+    }
+  );
+}</code></pre>
+          <section id="emit">
+            <h1>emit</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.emit</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>event</td>
+                <td>Object</td>
+                <td><p>The event to emit</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>this</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Emits event to Grow-IoT server. Adds a timestamp to the event<br />since the API expects a timestamped object.</p></div>
+          <pre><code class="language-javascript">this.emit = (event, message) =&gt; {
+  if (typeof event === 'object') {
+    event.timestamp = new Date();
+    super.emit(event.type, event);
+  }
+
+  else if (typeof event === 'string') {
+    super.emit(event, message);
+    event = {
+      type: event,
+      message,
+      timestamp: new Date()
+    }
+  }
+
+  this.ddpclient.call(
+    'Thing.emit',
+    [{uuid: this.uuid, token: this.token}, event],
+    function (error, result) {
+      if (error) {
+        console.log(error, result);
+      }
+    }
+  );
+
+  return this;
+}</code></pre>
+          <section id="set">
+            <h1>set</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.set</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>key</td>
+                <td>String</td>
+                <td><p>Key of the of the property you wish to update</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Object, List, String, Number, Boolean</td>
+                <td><p>The new value to set the property to.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>this</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update thing property on thing and Grow-IoT server.</p></div>
+          <pre><code class="language-javascript">this.set = (key, value) =&gt; {
+  super.set(key, value);
+
+  if (this.ddpclient) {
+    this.ddpclient.call(
+      'Thing.setProperty',
+      [{uuid: this.uuid, token: this.token}, key, value],
+      function (error, result) {
+        if (error) {
+          console.log(error);
+        }
+      }
+    );
+  }
+
+  return this;
+}
+  }</code></pre>
+          <section id="listen">
+            <h1>listen</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>listen()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Create a CoAP server (Needs work... see: <a href="https://github.com/mcollina/node-coap">https://github.com/mcollina/node-coap</a>)<br />Don&#39;t use in production yet... but do help us get it to the point where we can.</p></div>
+          <pre><code class="language-javascript">listen (options) {
+  // todo pass options into server...
+  this.server = coap.createServer((req, res)=&gt; {      
+    var urlParts = url.parse(req.url, true);
+
+    try {
+      // Remove slashes from path.
+      let method = urlParts.pathname.replace(/\//g, '');
+      
+      if (method === 'set') {
+        // should be called with a key, value query
+        let key = urlParts.query.key;
+        let value = urlParts.query.value;
+        this.set(key, value);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({key: value}));
+      }
+
+      else if (method === 'get') {
+        let key = urlParts.query.key;
+        let property = this.get(key);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({value: property}));
+      }
+
+      // emit?
+
+      else {
+        var output = this.call(method, urlParts.query);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({output}));
+      }
+    }
+
+    catch (error) {
+      console.log(error);
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.end(error);
+    }
+  }).listen();
+
+  return this;
+}</code></pre>
+          <section id="coapConnect">
+            <h1>coapConnect</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>coapConnect()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>Connection options</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Connect to a CoAP server (Needs work... see: <a href="https://github.com/mcollina/node-coap">https://github.com/mcollina/node-coap</a>)<br />Don&#39;t use in production yet... but do help us get it to the point where we can.</p></div>
+          <pre><code class="language-javascript">coapConnect (options) {
+  this.register = (options) =&gt; {
+    let req = coap.request({
+      pathname: 'register',
+      observe: true
+    });
+    
+    req.write(JSON.stringify(this));
+
+    req.on('response', (res)=&gt; {
+      let command = JSON.parse(res.payload.toString()).body;
+      let opts = command.options;
+      let type = command.type;
+      if (type === 'setProperty') {
+        this.set(opts.key, opts.value);
+      } else if (opts) {
+        this.call(type, opts);
+      } else {
+        this.call(type);
+      }
+    });
+
+    req.end();
+  }
+
+  this.register(options);
+
+  this._messageHandlerInstalled = true;</code></pre>
+          <section id="emit">
+            <h1>emit</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.emit</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>event</td>
+                <td>Object</td>
+                <td><p>The event to emit</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>this</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Emits a timestamped event to CoAP server.<br />Emits event to CoAP server.</p></div>
+          <pre><code class="language-javascript">this.emit = (event) =&gt; {
+  super.emit(event);
+
+  if (typeof event === 'object') {
+    event.timestamp = new Date();
+  }
+
+  else if (typeof event === 'string') {
+    event = {
+      event,
+      timestamp: new Date()
+    }
+  }
+
+  let req = coap.request({
+    pathname: 'emit'
+  })
+  
+  req.write(JSON.stringify({
+    uuid: this.uuid,
+    token: this.token,
+    event
+  }));
+
+  req.on('response', function(res) {
+    res.pipe(process.stdout)
+  })
+
+  req.end();
+
+  return this;
+};</code></pre>
+          <section id="set">
+            <h1>set</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.set</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>key</td>
+                <td>String</td>
+                <td><p>Key of the of the property you wish to update</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Object, List, String, Number, Boolean</td>
+                <td><p>The new value to set the property to.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td></td>
+                <td><p>this</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Update thing property on thing and CoAP server.</p></div>
+          <pre><code class="language-javascript">this.set = (key, value) =&gt; {
+  // this.set(key, value);
+  let req = coap.request({
+    pathname: 'setProperty'
+  });
+  
+  req.write(JSON.stringify({
+    uuid: this.uuid,
+    token: this.token,
+    key: key,
+    value: value
+  }));
+
+  req.on('response', function(res) {
+    res.pipe(process.stdout)
+  });
+
+  req.end();
+
+  return this;
+};
+
+return this;
+  }
 };
 
 module.exports = Thing;</code></pre>
-          <div class="footer site-footer">
-            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
-            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
-          </div>
         </div>
       </div>
-    </section>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/affix.js"></script>
-    <script src="js/dropdown.js"></script>
-    <script src="js/scrollspy.js"></script>
-    <script src="js/prism.js"></script>
-    <script src="js/prism-bash.js"></script>
-    <script>
-      $(document).ready(function(){
-        $('body').scrollspy({
-          target: ".bs-docs-sidebar",
-          offset: 40
-        });
-        $('#sidebar').affix({
-          offset:{
-            bottom:60,
-            top: 60
-          }
-        }) 
-      });
-    </script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
   </body>
 </html>
