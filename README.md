@@ -8,10 +8,67 @@ Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) 
 
 `npm install Grow.js`
 
-## Example Growfile
+# Usage
+
+### Targets
+
 ```javascript
-// A rough GrowFile example... first draft, it's crude.
-// Feel free to make suggestions though.
+const Grow = require('Grow.js');
+const example = new Grow();
+
+let targets = {
+  temperature: {
+    min: 17,
+    ideal: 22,
+    max: 28,
+  },
+}
+
+example.on('alert', (message)=> {
+  console.log(message);
+});
+
+example.registerTargets(targets);
+
+example.emit('temperature', {value: 10});
+// { temperature: 'low' }
+
+example.emit('temperature', {value: 30});
+// { temperature: 'high' }
+
+```
+
+### Cycles
+
+
+```javascript
+example.parseCycles({
+  day: {
+    schedule: 'after 7:00am',
+    targets: {
+      temperature: {
+        ideal: 22
+      }
+    }
+  },
+  night: {
+    schedule: 'after 7:00pm',
+    targets: {
+      temperature: {
+        ideal: 22
+      }
+    }
+  }
+})
+```
+
+### Phases
+
+
+## Growfiles
+You can combine targets, cycles, phases, and metadata into a Growfile. For example:
+
+```javascript
 module.exports = {
   name: 'A plant',
   version: '0.0.1', // Not grower tested, any recommendations?
@@ -106,9 +163,6 @@ module.exports = {
   }
 };
 ```
-
-## Usage
-TODO
 
 # Developing
 
