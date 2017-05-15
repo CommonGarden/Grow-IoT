@@ -9,12 +9,15 @@ Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) 
 `npm install Grow.js`
 
 # Usage
+See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits. This readme, covers Grow.js specific features.
 
 ### Targets
 
+Targets create listeners for events from sensors and emit alerts or correction events. `min`, `max`, and `ideal` are supported.
+
 ```javascript
 const Grow = require('Grow.js');
-const example = new Grow();
+const example = new Grow({});
 
 let targets = {
   temperature: {
@@ -38,8 +41,23 @@ example.emit('temperature', {value: 30});
 
 ```
 
-### Cycles
+#### Built-in PID controller
+If an ideal is specified a PID controller is created and emits `correction` events. Continuing from the above example...
 
+```javascript
+    testGrow.on('corrections', (key, correction)=> {
+      console.log(key);
+      console.log(correction);
+    });
+    testGrow.emit('temperature', {value: 17});
+```
+
+You can use the correction to control heaters, dosing pumps, and more!
+
+### Cycles
+Cycles are functions that are called at specific times in the day. Cycles require a `schedule` property which takes a valid [Later.js](https://bunkat.github.io/later/) string. When you create a grow instance, you define a method the name of the function. For example, you might implement a `day` function that turns on the lights!
+
+Cycles are also a way of defining moving targets.
 
 ```javascript
 example.parseCycles({
@@ -55,7 +73,7 @@ example.parseCycles({
     schedule: 'after 7:00pm',
     targets: {
       temperature: {
-        ideal: 22
+        ideal: 18
       }
     }
   }
@@ -63,7 +81,15 @@ example.parseCycles({
 ```
 
 ### Phases
+Cycles and targets aren't enough to fully express a plant's life cycle. Phases are a way to create groups of cycles and/or targets. 
 
+A plants life cycle might be broke up into the following phases:
+* Seedling
+* Vegatative
+* Flowering
+* Harvest
+
+There is much more work to do with regards to phases.
 
 ## Growfiles
 You can combine targets, cycles, phases, and metadata into a Growfile. For example:
