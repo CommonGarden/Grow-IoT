@@ -42,9 +42,9 @@ describe('Growfile test', () => {
     testGrow.on('alert', (key, message)=> {
       return event = !event;
     });
-    testGrow.emit('temperature', {value: 10});
+    testGrow.emit('temperature', 10);
     expect(event).to.equal(true);
-    testGrow.emit('temperature', {value: 27});
+    testGrow.emit('temperature', 27);
     expect(event).to.equal(false);
   });
 
@@ -59,8 +59,8 @@ describe('Growfile test', () => {
     testGrow.on('alert', (key, message)=> {
       return event = !event;
     });
-    testGrow.emit('temperature', {value: 10});
-    testGrow.emit('temperature', {value: 10});
+    testGrow.emit('temperature', 10);
+    testGrow.emit('temperature', 10);
     expect(event).to.equal(true);
   });
 
@@ -85,7 +85,7 @@ describe('Growfile test', () => {
       console.log(key);
       console.log(correction);
     });
-    testGrow.emit('ph', {value: 6.4});
+    testGrow.emit('ph', 6.4);
     // testGrow.emit({
     //   type: ''
     // })
@@ -103,12 +103,12 @@ describe('Growfile test', () => {
     testGrow.on('alert', (alert)=> {
       return event = alert['temperature'];
     });
-    testGrow.emit('temperature', {value: 10});
-    testGrow.emit('temperature', {value: 15});
+    testGrow.emit('temperature', 10);
+    testGrow.emit('temperature', 15);
     expect(event).to.equal('ok');
     // Shouldn't emit multiple 'ok' events
     event = false;
-    testGrow.emit('temperature', {value: 15});
+    testGrow.emit('temperature',  15);
     expect(event).to.equal(false);
   });
 
@@ -124,12 +124,12 @@ describe('Growfile test', () => {
     testGrow.on('alert', (alert)=> {
       return event = alert['temperature'];
     });
-    testGrow.emit('temperature', {value: 10});
-    testGrow.emit('temperature', {value: 15});
+    testGrow.emit('temperature', 10);
+    testGrow.emit('temperature', 15);
     expect(event).to.equal('ok');
     // Shouldn't emit multiple 'ok' events
     event = false;
-    testGrow.emit('temperature', {value: 15});
+    testGrow.emit('temperature', 15);
     expect(event).to.equal(false);
   });
 
