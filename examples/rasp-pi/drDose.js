@@ -29,8 +29,8 @@ board.on('ready', function start() {
 
   // Create a new grow instance and connect to https://grow.commongarden.org
   var grow = new Grow({
-    uuid: null,
-    token: null,
+    uuid: '8bb8102e-5f0d-4a74-8ade-f721384bf0eb',
+    token: 'iYPicvF9xm84gDpZcKqe8idd55LtPtGT',
 
     // Properties can be updated by the API
     properties: {

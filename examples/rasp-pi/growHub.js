@@ -95,20 +95,18 @@ board.on('ready', function start() {
       client.startDiscovery().on('plug-new', (plug) => {
         if (plug.name === 'Plant Light') {
           console.log('Light connected');
-          // console.log(plug);
           this.light = plug;
-          // this.light.getInfo().then((data)=> {
-          //   // console.log(data);
-          //   if (data.sysInfo.relay_state === 1) {
-          //     this.set('light_state', 'on');
-          //   } else {
-          //     this.set('light_state', 'off');
-          //   }
-          // }).catch(
-          //   (reason) => {
-          //     console.log('Handle rejected promise ('+reason+') here.');
-          //   }
-          // );
+          this.light.getInfo().then((data)=> {
+            if (data.sysInfo.relay_state === 1) {
+              this.set('light_state', 'on');
+            } else {
+              this.set('light_state', 'off');
+            }
+          }).catch(
+            (reason) => {
+              console.log('Handle rejected promise ('+reason+') here.');
+            }
+          );
         }
       });
 

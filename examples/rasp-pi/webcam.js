@@ -13,7 +13,7 @@ const opts = {
   verbose: true
 }
 
-module.exports = new Thing({
+const cam = new Thing({
   properties: {
     name: 'Camera',
     interval: 100000
@@ -29,14 +29,17 @@ module.exports = new Thing({
     });
   },
 
-  // start: function () {
-  //   let interval = this.get('interval');
-  //   this.interval = setInterval(()=> {
-  //     this.picture();
-  //   }, interval);
-  // },
+  start: function () {
+    let interval = this.get('interval');
+    this.interval = setInterval(()=> {
+      this.picture();
+    }, interval);
+  },
 
   stop: function () {
     clearInterval(this.interval);
   }
 });
+
+
+
