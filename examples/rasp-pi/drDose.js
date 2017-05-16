@@ -1,7 +1,7 @@
+// Break this out into separate repo.
 const Grow = require('../../lib/Grow.js');
 const raspio = require('raspi-io');
 const five = require('johnny-five');
-const ascii = require('ascii-codes');
 
 // Create a new board object
 var board = new five.Board({
@@ -27,29 +27,39 @@ board.on('ready', function start() {
 
   // Create a new grow instance and connect to https://grow.commongarden.org
   var grow = new Grow({
-    uuid: '14a930dc-4d4e-41a4-8791-52edd09fea15',
-    token: 'yvTaZdssbMXj9eueaZurrSByRXKAz5gu',
+    uuid: '44f3bded-0245-4e07-b478-289f11207025',
+    token: 'wt9HDFw3XSt4rmjWjAoic2oKmhyvJeWF',
 
     component: 'DrDose',
 
     // Properties can be updated by the API
     properties: {
-      ph_state: null,
-      ec_state: null,
-      targets: {
+      growfile: {
         ph: {
           min: 6.0,
           ideal: 6.15,
           max: 6.3,
+          pid: {
+            k_p: 0.25,
+            k_i: 0.01,
+            k_d: 0.01,
+            dt: 1
+          }
         },
         ec: {
-          min: 1400,
-          ideal: 1500,
-          max: 1700,
+          min: 0,
+          ideal: 70,
+          max: 200,
+          pid: {
+            k_p: 0.25,
+            k_i: 0.01,
+            k_d: 0.01,
+            dt: 1
+          }
         },
       },
-      interval: 5000,
-      threshold: 0.1,
+      interval: 10000,
+      threshold: 0.5,
     },
 
     start: function () {
@@ -57,61 +67,46 @@ board.on('ready', function start() {
       // See Johnny-Five docs: http://johnny-five.io
       board.i2cConfig();
 
-      // Read response.
+      // Read i2c response from ec sensor.
       board.i2cRead(0x64, 32, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          // console.log(bytes);
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          eC_reading = bytelist.join('');
-        }
+        let eC = Grow.parseAtlasEC(bytes);
+        if (eC) eC_reading = eC;
       });
 
-      // Read response.
-      board.i2cRead(0x63, 7, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          pH_reading = Number(bytelist.join(''));
-        }
+      // Read i2c response from pH sensor.
+      board.i2cRead(0x63, 7, (bytes) => {
+        let pH = Grow.parseAtlasPH(bytes);
+        if (pH) pH_reading = pH;
       });
 
       let interval = this.get('interval');
-      setInterval(()=> {
+      data_interval = setInterval(()=> {
         this.ph_data();
         this.ec_data();
       }, interval);
 
 
-      let targets = this.get('targets');
-      this.registerTargets(targets);
+      let growfile = this.get('growfile');
+      this.registerTargets(growfile);
 
       let threshold = this.get('threshold');
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
-        // console.log(correction);
-
+        console.log(key);
+        console.log(correction);
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
             if (correction < 0) {
-              this.call('acid', Math.abs(correction));
+              this.call('acid', Math.abs(correction) * 1000);
             } else {
-              this.call('base', correction);
+              this.call('base', correction * 1000);
             }
           } else if (key === 'ec') {
             if (correction < 0) {
-              this.emit('ec too high, dilute water');
+              this.emit('alert', 'ec too high, dilute water');
             } else {
-              this.call('nutrient', correction);
+              this.call('nutrient', correction * 100);
             }
           }
         }
@@ -123,10 +118,16 @@ board.on('ready', function start() {
       this.removeAllListeners();
     },
 
+    reset: function () {
+      this.stop();
+      this.removeTargets();
+      this.start();
+      console.log(this);
+    },
+
     acid: function (duration) {
       acidpump.low();
 
-      var duration = Number(grow.get('duration', 'acid'));
       setTimeout(function () {
         acidpump.high();
       }, duration);
@@ -152,8 +153,6 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x64, [0x52, 0x00]);
 
-      eC_reading = Number(this.parseEC(eC_reading));
-
       if (eC_reading) {
         grow.emit('ec', eC_reading);
 
@@ -165,9 +164,7 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
-      // Filter out non-readings
-      if (this.ispH(pH_reading)) {
-  
+      if (pH_reading) {
         // Send data to the Grow-IoT app.
         grow.emit('ph', pH_reading);
 

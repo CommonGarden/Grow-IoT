@@ -8,7 +8,17 @@ const later = require('later');
 const Hs100Api = require('hs100-api');
 const growfile = require('../growfiles/cannabis');
 const _ = require('underscore');
-// const Cam = require('./webcam.js');
+const NodeWebcam = require('node-webcam');
+const fs = require('fs');
+
+const opts = {
+  width: 1280,
+  height: 720,
+  delay: 0,
+  quality: 100,
+  output: 'jpeg',
+  verbose: true
+}
 
 // Use local time, not UTC.
 later.date.localTime();
@@ -32,11 +42,9 @@ board.on('ready', function start() {
   // });
 
   var growHub = new Grow({
-    uuid: '48d7251e-45c2-43b3-84bd-cdac0bd8c412',
-    token: '3XMJdsSsTqmxMYjEMzaBtqrGwk7hxozv',
+    uuid: '394d94b5-ed0b-4a1c-aae4-bbba6af84ba1',
+    token: 'BMopNmonSwbYpRZRmg5XzGYgkMjYT3MC',
     component: 'GrowHub',
-
-    // camera: Cam,
 
     properties: {
       light_state: null,
@@ -54,40 +62,18 @@ board.on('ready', function start() {
       board.i2cConfig();
 
       board.i2cRead(0x64, 32, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          // console.log(bytes);
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          eC_reading = bytelist.join('');
-        }
+        let eC = Grow.parseAtlasEC(bytes);
+        if (eC) eC_reading = eC;
       });
 
       board.i2cRead(0x63, 7, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          pH_reading = bytelist.join('');
-        }
+        let pH = Grow.parseAtlasPH(bytes);
+        if (pH) pH_reading = pH;
       });
 
       board.i2cRead(0x66, 7, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          water_temp = bytelist.join('');
-        }
+        let temp = Grow.parseAtlasTemperature(bytes);
+        if (temp) water_temp = temp;
       });
 
       var client = new Hs100Api.Client();
@@ -116,10 +102,10 @@ board.on('ready', function start() {
       emit_data = setInterval(()=> {
         // this.temp_data();
         // this.hum_data();
+        // this.light_data();
         this.ph_data();
         this.ec_data();
         this.water_temp_data();
-        // this.light_data();
         this.power_data();
       }, interval);
 
@@ -127,9 +113,8 @@ board.on('ready', function start() {
         this.call('turn_light_on');
       }, 3000);
 
-      // let grow = this.get('growfile');
-      // console.log(growfile);
-      // this.startGrow(growfile);
+      let grow = this.get('growfile');
+      this.startGrow(growfile);
     },
 
     stop: function () {
@@ -138,9 +123,8 @@ board.on('ready', function start() {
 
     restart: function () {
       let growfile = this.get('growfile');
-      console.log(growfile);
-      // this.removeTargets(growfile.targets);
-      // this.start();
+      this.removeTargets();
+      this.start();
     },
     
     day: function () {
@@ -170,26 +154,23 @@ board.on('ready', function start() {
       this.set('light_state', 'off');
     },
 
+    picture: function () {
+      NodeWebcam.capture( 'image', opts, ( err, data )=> {
+        if ( !err ) console.log( 'Image created!' );
+        fs.readFile('./' + data, (err, data) => {
+          if (err) throw err; // Fail if the file can't be read.
+          this.sendImage(data);
+        });
+      });
+    },
+
     power_data: function () {
-    	// TODO: for influx db, the power data must be a number not an object...
       this.light.getInfo().then((data)=> {
         let powerData = data.consumption.get_realtime;
-        this.emit({
-          type: 'light_power_current',
-          value: powerData.current
-        });
-        this.emit({
-          type: 'light_power_voltage',
-          value: powerData.voltage
-        });
-        this.emit({
-          type: 'light_power_power',
-          value: powerData.power
-        });
-        this.emit({
-          type: 'light_power_total',
-          value: powerData.total
-        });
+        this.emit('light_power_current', powerData.current);
+        this.emit('light_power_voltage', powerData.voltage);
+        this.emit('light_power_power', powerData.power);
+        this.emit('light_power_total', powerData.total);
       });
     },
 
@@ -197,13 +178,8 @@ board.on('ready', function start() {
       // Request a reading, 
       board.i2cWrite(0x64, [0x52, 0x00]);
 
-      eC_reading = this.parseEC(eC_reading);
-
       if (eC_reading) {
-        this.emit({
-          type: 'ec',
-          value: eC_reading
-        });
+        this.emit('ec', eC_reading);
 
         console.log('Conductivity: ' + eC_reading);
       }
@@ -213,57 +189,45 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
-      if (this.ispH(pH_reading)) {
-        this.emit({
-          type: 'ph',
-          value: pH_reading
-        });
+      if (pH_reading) {
+        this.emit('ph', pH_reading);
 
         console.log('ph: ' + pH_reading);
       }
     },
 
-    // light_data: function () {
-    //   this.emit({
-    //     type: 'lux',
-    //     value: lux.level
-    //   });
-      
-    //   console.log('Light: ' + lux.level);
-    // },
-
     water_temp_data: function () {
       // Request a reading
       board.i2cWrite(0x66, [0x52, 0x00]);
 
-      this.emit({
-        type: 'water_temperature',
-        value: water_temp
-      });
+      if (water_temp) {
+        this.emit('water_temperature', water_temp);
 
-      console.log('Resevoir temp: ' + water_temp);
+        console.log('Resevoir temp: ' + water_temp);
+      }
     },
 
-    // temp_data: function () {
-    //   var currentTemp = multi.thermometer.celsius;
+    light_data: function () {
+      this.emit('lux', lux.level);
+      
+      console.log('Light: ' + lux.level);
+    },
 
-    //   this.emit({
-    //     type: 'temperature',
-    //     value: currentTemp
-    //   });
+    temp_data: function () {
+      var currentTemp = multi.thermometer.celsius;
 
-    //   console.log('Temperature: ' + currentTemp);
-    // },
+      this.emit('temperature', currentTemp);
 
-    // hum_data: function () {
-    //   var currentHumidity = multi.hygrometer.relativeHumidity;
-    //   this.emit({
-    //     type: 'humidity',
-    //     value: currentHumidity
-    //   });
+      console.log('Temperature: ' + currentTemp);
+    },
 
-    //   console.log('Humidity: ' + currentHumidity);
-    // }
+    hum_data: function () {
+      var currentHumidity = multi.hygrometer.relativeHumidity;
+
+      this.emit('humidity', currentHumidity);
+
+      console.log('Humidity: ' + currentHumidity);
+    }
   });
 
   growHub.connect({
