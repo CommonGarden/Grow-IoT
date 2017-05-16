@@ -98,21 +98,20 @@ board.on('ready', function start() {
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
-        console.log(key);
         console.log(correction);
 
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
             if (correction < 0) {
-              this.call('acid', correction * 100);
+              this.call('acid', correction);
             } else {
-              this.call('base', correction * 100);
+              this.call('base', correction);
             }
           } else if (key === 'ec') {
             if (correction < 0) {
               this.emit('ec too high, dilute water');
             } else {
-              this.call('nutrient', correction * 100);
+              this.call('nutrient', correction);
             }
           }
         }
