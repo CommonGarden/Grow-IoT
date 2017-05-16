@@ -155,9 +155,7 @@ board.on('ready', function start() {
       eC_reading = this.parseEC(eC_reading);
 
       if (eC_reading) {
-        grow.emit('ec', {
-          value: eC_reading
-        });
+        grow.emit('ec', eC_reading);
 
         console.log('ec: ' + eC_reading);
       }
@@ -171,9 +169,7 @@ board.on('ready', function start() {
       if (this.ispH(pH_reading)) {
   
         // Send data to the Grow-IoT app.
-        grow.emit('ph', {
-          value: pH_reading
-        });
+        grow.emit('ph', pH_reading);
 
         console.log('ph: ' + pH_reading);
       }
