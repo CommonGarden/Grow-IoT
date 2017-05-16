@@ -24,9 +24,9 @@ board.on('ready', function start() {
   // Declare needed variables.
   var pH_reading, eC_reading, water_temp, emit_data;
 
-  var lux = new five.Light({
-    controller: 'TSL2561'
-  });
+  // var lux = new five.Light({
+  //   controller: 'TSL2561'
+  // });
 
   var multi = new five.Multi({
     controller: 'SI7020'
@@ -226,14 +226,14 @@ board.on('ready', function start() {
       }
     },
 
-    light_data: function () {
-      this.emit({
-        type: 'lux',
-        value: lux.level
-      });
+    // light_data: function () {
+    //   this.emit({
+    //     type: 'lux',
+    //     value: lux.level
+    //   });
       
-      console.log('Light: ' + lux.level);
-    },
+    //   console.log('Light: ' + lux.level);
+    // },
 
     water_temp_data: function () {
       // Request a reading
