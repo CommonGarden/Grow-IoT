@@ -97,8 +97,8 @@ board.on('ready', function start() {
       let threshold = this.get('threshold');
 
       // Listen for correction events from our PID controller
-      this.on('correction', (key, correction)=> {
-        // console.log(key);
+      this.on('correction', (key, correction) => {
+        console.log(key);
         console.log(correction);
 
         if (Math.abs(correction) > threshold) {
@@ -156,8 +156,7 @@ board.on('ready', function start() {
       eC_reading = this.parseEC(eC_reading);
 
       if (eC_reading) {
-        grow.emit({
-          type: 'ec',
+        grow.emit('ec', {
           value: eC_reading
         });
 
@@ -173,8 +172,7 @@ board.on('ready', function start() {
       if (this.ispH(pH_reading)) {
   
         // Send data to the Grow-IoT app.
-        grow.emit({
-          type: 'pH',
+        grow.emit('ph', {
           value: pH_reading
         });
 
