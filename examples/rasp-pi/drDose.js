@@ -12,9 +12,7 @@ var board = new five.Board({
 board.on('ready', function start() {
 
   var pH_reading,
-    pH_readings = [],
     eC_reading,
-    eC_readings = [],
     data_interval,
     acidpump = new five.Pin('P1-11'),
     basepump = new five.Pin('P1-12'),
@@ -97,6 +95,7 @@ board.on('ready', function start() {
       let threshold = this.get('threshold');
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction)=> {
+        console.log(key);
         console.log(correction);
 
         if (Math.abs(correction) > threshold) {
@@ -157,6 +156,8 @@ board.on('ready', function start() {
         type: 'ec',
         value: eC_reading
       });
+
+      console.log('ec: ' + eC_reading);
     },
 
     ph_data: function () {
@@ -172,6 +173,8 @@ board.on('ready', function start() {
           value: pH_reading
         });
       }
+
+      console.log('ph: ' + pH_reading);
     }
   });
 
