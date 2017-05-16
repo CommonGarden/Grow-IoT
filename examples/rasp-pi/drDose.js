@@ -138,19 +138,23 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x64, [0x52, 0x00]);
 
-      grow.emit('ec', eC_reading);
+      if (eC_reading) {
+        grow.emit('ec', eC_reading);
 
-      console.log('ec: ' + eC_reading);
+        console.log('ec: ' + eC_reading);
+      }
     },
 
     ph_data: function () {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
-      // Send data to the Grow-IoT app.
-      grow.emit('ph', pH_reading);
+      if (pH_reading) {
+        // Send data to the Grow-IoT app.
+        grow.emit('ph', pH_reading);
 
-      console.log('ph: ' + pH_reading);
+        console.log('ph: ' + pH_reading);
+      }
     }
   });
 
