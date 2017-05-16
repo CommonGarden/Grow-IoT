@@ -67,18 +67,29 @@ describe('Growfile test', () => {
   // Todo....
   it('should create a PID controller if an ideal is specified', () => {
     testGrow.registerTargets({
-      temperature: {
-        min: 15,
-        ideal: 20,
-        max: 25,
+      ph: {
+        min: 6.0,
+        ideal: 6.15,
+        max: 6.3,
+      },
+      ec: {
+        min: 1400,
+        ideal: 1500,
+        max: 1700,
       }
     });
-    expect(!!testGrow.controllers.temperature).to.equal(true);
-    testGrow.on('corrections', (key, correction)=> {
+    expect(!!testGrow.controllers.ph).to.equal(true);
+    expect(!!testGrow.controllers.ec).to.equal(true);
+
+    testGrow.on('correction', (key, correction)=> {
       console.log(key);
       console.log(correction);
     });
-    testGrow.emit('temperature', {value: 17});
+    testGrow.emit('ph', {value: 6.4});
+    // testGrow.emit({
+    //   type: ''
+    // })
+    // console.log(testGrow);
   });
 
   it('should emit OK alert events', () => {
