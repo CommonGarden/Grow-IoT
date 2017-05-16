@@ -24,13 +24,13 @@ board.on('ready', function start() {
   // Declare needed variables.
   var pH_reading, eC_reading, water_temp, emit_data;
 
-  // var lux = new five.Light({
-  //   controller: 'TSL2561'
-  // });
+  var lux = new five.Light({
+    controller: 'TSL2561'
+  });
 
-  // var multi = new five.Multi({
-  //   controller: 'SI7020'
-  // });
+  var multi = new five.Multi({
+    controller: 'SI7020'
+  });
 
   var growHub = new Grow({
     uuid: '48d7251e-45c2-43b3-84bd-cdac0bd8c412',
@@ -117,12 +117,12 @@ board.on('ready', function start() {
       var interval = this.get('interval');
 
       emit_data = setInterval(()=> {
-        // this.temp_data();
-        // this.hum_data();
+        this.temp_data();
+        this.hum_data();
         this.ph_data();
         this.ec_data();
         this.water_temp_data();
-        // this.light_data();
+        this.light_data();
         this.power_data();
       }, interval);
 
@@ -226,14 +226,14 @@ board.on('ready', function start() {
       }
     },
 
-    // light_data: function () {
-    //   this.emit({
-    //     type: 'lux',
-    //     value: lux.level
-    //   });
+    light_data: function () {
+      this.emit({
+        type: 'lux',
+        value: lux.level
+      });
       
-    //   console.log('Light: ' + lux.level);
-    // },
+      console.log('Light: ' + lux.level);
+    },
 
     water_temp_data: function () {
       // Request a reading
@@ -247,26 +247,26 @@ board.on('ready', function start() {
       console.log('Resevoir temp: ' + water_temp);
     },
 
-    // temp_data: function () {
-    //   var currentTemp = multi.thermometer.celsius;
+    temp_data: function () {
+      var currentTemp = multi.thermometer.celsius;
 
-    //   this.emit({
-    //     type: 'temperature',
-    //     value: currentTemp
-    //   });
+      this.emit({
+        type: 'temperature',
+        value: currentTemp
+      });
 
-    //   console.log('Temperature: ' + currentTemp);
-    // },
+      console.log('Temperature: ' + currentTemp);
+    },
 
-    // hum_data: function () {
-    //   var currentHumidity = multi.hygrometer.relativeHumidity;
-    //   this.emit({
-    //     type: 'humidity',
-    //     value: currentHumidity
-    //   });
+    hum_data: function () {
+      var currentHumidity = multi.hygrometer.relativeHumidity;
+      this.emit({
+        type: 'humidity',
+        value: currentHumidity
+      });
 
-    //   console.log('Humidity: ' + currentHumidity);
-    // }
+      console.log('Humidity: ' + currentHumidity);
+    }
   });
 
   growHub.connect({
