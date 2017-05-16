@@ -13,12 +13,7 @@ const opts = {
   verbose: true
 }
 
-const Cam = new Thing({
-  uuid: '6953ff83-2711-4ee1-9fa7-4eabed7e117c',
-  token: '4NcgxvvoPaxAcNxFsHooZhv4mLnk3ocw',
-
-  component: 'CameraComponent',
-
+module.exports = new Thing({
   properties: {
     name: 'Camera',
     interval: 100000
@@ -34,17 +29,14 @@ const Cam = new Thing({
     });
   },
 
-  start: function () {
-    let interval = this.get('interval');
-    this.interval = setInterval(()=> {
-      this.picture();
-    }, interval);
-  },
+  // start: function () {
+  //   let interval = this.get('interval');
+  //   this.interval = setInterval(()=> {
+  //     this.picture();
+  //   }, interval);
+  // },
 
   stop: function () {
     clearInterval(this.interval);
   }
 });
-
-// Defaults to connecting over localhost:3000
-Cam.connect();

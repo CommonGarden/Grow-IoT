@@ -130,6 +130,10 @@ board.on('ready', function start() {
     },
   });
 
+  growHub.connect({
+    host: '10.0.0.198',
+  });
+
   // Default is http://localhost:3000
   // growHub.connect({
   //   host: 'grow.commongarden.org',
