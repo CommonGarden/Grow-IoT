@@ -58,13 +58,13 @@ board.on('ready', function start() {
       board.i2cConfig();
 
       // Read i2c response from ec sensor.
-      board.i2cRead(0x64, 32, function (bytes) {
-        eC_reading = parseAtlasEC(bytes);
+      board.i2cRead(0x64, 32, (bytes)=> {
+        eC_reading = this.parseAtlasEC(bytes);
       });
 
       // Read i2c response from pH sensor.
       board.i2cRead(0x63, 7, (bytes) => {
-        pH_reading = parseAtlasPH(bytes);
+        pH_reading = this.parseAtlasPH(bytes);
       });
 
       let interval = this.get('interval');
