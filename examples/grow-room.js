@@ -129,6 +129,6 @@ const growRoom = new Thing({
 	}
 });
 
-// setTimeout(function() {
-// 	growRoom.wrapup();
-// }, 30000)
+setTimeout(function() {
+	growRoom.wrapup();
+}, 30000)
