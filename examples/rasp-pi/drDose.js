@@ -30,6 +30,8 @@ board.on('ready', function start() {
     uuid: '8bb8102e-5f0d-4a74-8ade-f721384bf0eb',
     token: 'iYPicvF9xm84gDpZcKqe8idd55LtPtGT',
 
+    component: 'DrDose',
+
     // Properties can be updated by the API
     properties: {
       ph_state: null,
@@ -93,9 +95,10 @@ board.on('ready', function start() {
       this.registerTargets(targets);
 
       let threshold = this.get('threshold');
+
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction)=> {
-        console.log(key);
+        // console.log(key);
         console.log(correction);
 
         if (Math.abs(correction) > threshold) {
@@ -152,12 +155,14 @@ board.on('ready', function start() {
 
       eC_reading = this.parseEC(eC_reading);
 
-      grow.emit({
-        type: 'ec',
-        value: eC_reading
-      });
+      if (eC_reading) {
+        grow.emit({
+          type: 'ec',
+          value: eC_reading
+        });
 
-      console.log('ec: ' + eC_reading);
+        console.log('ec: ' + eC_reading);
+      }
     },
 
     ph_data: function () {
@@ -172,9 +177,9 @@ board.on('ready', function start() {
           type: 'pH',
           value: pH_reading
         });
-      }
 
-      console.log('ph: ' + pH_reading);
+        console.log('ph: ' + pH_reading);
+      }
     }
   });
 
