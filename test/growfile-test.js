@@ -79,6 +79,7 @@ describe('Growfile test', () => {
       console.log(correction);
     });
     testGrow.emit('temperature', {value: 17});
+    // console.log(testGrow);
   });
 
   it('should emit OK alert events', () => {
