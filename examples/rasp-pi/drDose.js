@@ -1,7 +1,7 @@
+// Break this out into separate repo.
 const Grow = require('../../lib/Grow.js');
 const raspio = require('raspi-io');
 const five = require('johnny-five');
-const ascii = require('ascii-codes');
 
 // Create a new board object
 var board = new five.Board({
@@ -57,31 +57,14 @@ board.on('ready', function start() {
       // See Johnny-Five docs: http://johnny-five.io
       board.i2cConfig();
 
-      // Read response.
+      // Read i2c response from ec sensor.
       board.i2cRead(0x64, 32, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          // console.log(bytes);
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          eC_reading = bytelist.join('');
-        }
+        eC_reading = parseAtlasEC(bytes);
       });
 
-      // Read response.
-      board.i2cRead(0x63, 7, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          pH_reading = Number(bytelist.join(''));
-        }
+      // Read i2c response from pH sensor.
+      board.i2cRead(0x63, 7, (bytes) => {
+        pH_reading = parseAtlasPH(bytes);
       });
 
       let interval = this.get('interval');
@@ -152,27 +135,17 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x64, [0x52, 0x00]);
 
-      eC_reading = Number(this.parseEC(eC_reading));
-
-      if (eC_reading) {
-        grow.emit('ec', eC_reading);
-
-        console.log('ec: ' + eC_reading);
-      }
+      grow.emit('ec', eC_reading);
     },
 
     ph_data: function () {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
-      // Filter out non-readings
-      if (this.ispH(pH_reading)) {
-  
-        // Send data to the Grow-IoT app.
-        grow.emit('ph', pH_reading);
+      // Send data to the Grow-IoT app.
+      grow.emit('ph', pH_reading);
 
-        console.log('ph: ' + pH_reading);
-      }
+      console.log('ph: ' + pH_reading);
     }
   });
 
