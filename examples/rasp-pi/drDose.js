@@ -2,6 +2,7 @@
 const Grow = require('../../lib/Grow.js');
 const raspio = require('raspi-io');
 const five = require('johnny-five');
+// const ascii = require('ascii-codes');
 
 // Create a new board object
 var board = new five.Board({
@@ -58,13 +59,13 @@ board.on('ready', function start() {
       board.i2cConfig();
 
       // Read i2c response from ec sensor.
-      board.i2cRead(0x64, 32, (bytes)=> {
-        eC_reading = this.parseAtlasEC(bytes);
+      board.i2cRead(0x64, 32, function (bytes) {
+        eC_reading = Grow.parseAtlasEC(bytes);
       });
 
       // Read i2c response from pH sensor.
       board.i2cRead(0x63, 7, (bytes) => {
-        pH_reading = this.parseAtlasPH(bytes);
+        pH_reading = Grow.parseAtlasPH(bytes);
       });
 
       let interval = this.get('interval');
@@ -136,6 +137,8 @@ board.on('ready', function start() {
       board.i2cWrite(0x64, [0x52, 0x00]);
 
       grow.emit('ec', eC_reading);
+
+      console.log('ec: ' + eC_reading);
     },
 
     ph_data: function () {
