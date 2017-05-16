@@ -28,10 +28,7 @@ module.exports = new Thing({
       this.light.getInfo().then((data)=> {
         let powerData = data.consumption.get_realtime;
         console.log(powerData);
-        this.emit({
-          type: 'power',
-          value: powerData
-        });
+        this.emit('power', powerData);
       });
     }
   },
