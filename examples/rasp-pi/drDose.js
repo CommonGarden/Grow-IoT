@@ -84,7 +84,7 @@ board.on('ready', function start() {
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
-        // console.log(correction);
+        console.log(correction);
 
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {

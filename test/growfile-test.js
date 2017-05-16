@@ -108,7 +108,7 @@ describe('Growfile test', () => {
     expect(event).to.equal('ok');
     // Shouldn't emit multiple 'ok' events
     event = false;
-    testGrow.emit('temperature',  15);
+    testGrow.emit('temperature', 15);
     expect(event).to.equal(false);
   });
 
