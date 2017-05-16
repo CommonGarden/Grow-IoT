@@ -80,7 +80,7 @@ board.on('ready', function start() {
               bytelist.push(ascii.symbolForDecimal(bytes[i]));
             }
           }
-          pH_reading = bytelist.join('');
+          pH_reading = Number(bytelist.join(''));
         }
       });
 
@@ -98,12 +98,12 @@ board.on('ready', function start() {
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
-        console.log(correction);
+        // console.log(correction);
 
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
             if (correction < 0) {
-              this.call('acid', correction);
+              this.call('acid', Math.abs(correction));
             } else {
               this.call('base', correction);
             }
@@ -152,7 +152,7 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x64, [0x52, 0x00]);
 
-      eC_reading = this.parseEC(eC_reading);
+      eC_reading = Number(this.parseEC(eC_reading));
 
       if (eC_reading) {
         grow.emit('ec', eC_reading);
