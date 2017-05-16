@@ -9,7 +9,6 @@ const Hs100Api = require('hs100-api');
 const growfile = require('../growfiles/cannabis');
 const _ = require('underscore');
 // const Cam = require('./webcam.js');
-const Controller = require('node-pid-controller');
 
 // Use local time, not UTC.
 later.date.localTime();

@@ -74,7 +74,7 @@ describe('Growfile test', () => {
       }
     });
     expect(!!testGrow.controllers.temperature).to.equal(true);
-    testGrow.on('corrections', (key, correction)=> {
+    testGrow.on('correction', (key, correction)=> {
       console.log(key);
       console.log(correction);
     });

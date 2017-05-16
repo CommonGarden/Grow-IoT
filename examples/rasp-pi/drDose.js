@@ -2,8 +2,6 @@ const Grow = require('../../lib/Grow.js');
 const raspio = require('raspi-io');
 const five = require('johnny-five');
 const ascii = require('ascii-codes');
-const growfile = require('../growfiles/tomato');
-const Controller = require('node-pid-controller');
 
 // Create a new board object
 var board = new five.Board({
@@ -179,6 +177,7 @@ board.on('ready', function start() {
 
   growHub.connect({
     host: '10.0.0.198',
+    port: 3001
   });
 
   // grow.connect({
