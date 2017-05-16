@@ -86,7 +86,9 @@ describe('Growfile test', () => {
       console.log(correction);
     });
     testGrow.emit('ph', {value: 6.4});
-    testGrow.emit('ec', {value: 900})
+    // testGrow.emit({
+    //   type: ''
+    // })
     // console.log(testGrow);
   });
 

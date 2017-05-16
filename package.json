@@ -36,7 +36,7 @@
     "ddp": "0.12.1",
     "later": "^1.2.0",
     "node-pid-controller": "^1.0.0",
-    "Thing.js": "^0.3.95",
+    "Thing.js": "^0.3.96",
     "underscore": ">=1.8.3"
   },
   "devDependencies": {
