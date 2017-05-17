@@ -39,11 +39,23 @@ board.on('ready', function start() {
           min: 6.0,
           ideal: 6.15,
           max: 6.3,
+          pid: {
+            k_p: 0.25,
+            k_i: 0.01,
+            k_d: 0.01,
+            dt: 1
+          }
         },
         ec: {
           min: 0,
           ideal: 70,
           max: 200,
+          pid: {
+            k_p: 0.25,
+            k_i: 0.01,
+            k_d: 0.01,
+            dt: 1
+          }
         },
       },
       interval: 10000,
@@ -81,6 +93,7 @@ board.on('ready', function start() {
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
+        console.log(key);
         console.log(correction);
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
@@ -91,7 +104,7 @@ board.on('ready', function start() {
             }
           } else if (key === 'ec') {
             if (correction < 0) {
-              this.emit('ec too high, dilute water');
+              this.emit('alert', 'ec too high, dilute water');
             } else if (correction > 100) {
               this.call('nutrient', correction);
             }
