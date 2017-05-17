@@ -32,8 +32,8 @@ board.on('ready', function start() {
   // });
 
   var growHub = new Grow({
-    uuid: '09220f42-7cb2-476c-a930-4a57914b8d59',
-    token: 'h3HD5DxLYWSfcMyFJi4MTFNkZtmibiak',
+    uuid: '394d94b5-ed0b-4a1c-aae4-bbba6af84ba1',
+    token: 'BMopNmonSwbYpRZRmg5XzGYgkMjYT3MC',
     component: 'GrowHub',
 
     // camera: Cam,
