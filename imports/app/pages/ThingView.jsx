@@ -37,7 +37,9 @@ class ThingView extends Component {
       );
     } else {
       return (
-        <EmptyState />
+        <EmptyState>
+          Thing with uuid {this.props.params.uuid} does not exist.
+        </EmptyState>
       );
     }
   }
