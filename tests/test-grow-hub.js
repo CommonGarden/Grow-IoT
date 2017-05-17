@@ -196,10 +196,7 @@ function createGrowHub(u, t) {
     ec_data: function () {
       eC_reading = Math.random() * 1000;
 
-      this.emit({
-        type: 'ec',
-        value: eC_reading
-      });
+      this.emit('ec', eC_reading);
 
       console.log('Conductivity: ' + eC_reading);
     },
@@ -207,10 +204,7 @@ function createGrowHub(u, t) {
     ph_data: function () {
       pH_reading = Math.random() * 14;
 
-      this.emit({
-        type: 'ph',
-        value: pH_reading
-      });
+      this.emit('ph', pH_reading);
 
       console.log('ph: ' + pH_reading);
     },
@@ -218,10 +212,7 @@ function createGrowHub(u, t) {
     temp_data: function () {
       let currentTemp = Math.random();
 
-      this.emit({
-        type: 'temperature',
-        value: currentTemp
-      });
+      this.emit('temperature', currentTemp);
 
       console.log('Temp: ' + currentTemp);
     },
@@ -229,54 +220,48 @@ function createGrowHub(u, t) {
     water_temp_data: function () {
       let currentWaterTemp = Math.random();
 
-      this.emit({
-        type: 'water_temperature',
-        value: currentWaterTemp
-      });
+      this.emit('water_temperature', currentWaterTemp);
 
       console.log('Water Temp: ' + currentWaterTemp);
     },
 
-    power_data: function () {
-      this.emit({
-        type: 'fan_power',
-        value: {
-          current: Math.random(),
-          voltage: Math.random(),
-          power: Math.random(),
-          total: Math.random()
-        }
-      });
+    // power_data: function () {
+    //   this.emit({
+    //     type: 'fan_power',
+    //     value: {
+    //       current: Math.random(),
+    //       voltage: Math.random(),
+    //       power: Math.random(),
+    //       total: Math.random()
+    //     }
+    //   });
 
-      this.emit({
-        type: 'pump_power',
-        value: {
-          current: Math.random(),
-          voltage: Math.random(),
-          power: Math.random(),
-          total: Math.random()
-        }
-      });
+    //   this.emit({
+    //     type: 'pump_power',
+    //     value: {
+    //       current: Math.random(),
+    //       voltage: Math.random(),
+    //       power: Math.random(),
+    //       total: Math.random()
+    //     }
+    //   });
 
 
-      this.emit({
-        type: 'light_power',
-        value: {
-          current: Math.random(),
-          voltage: Math.random(),
-          power: Math.random(),
-          total: Math.random()
-        }
-      });
-    },
+    //   this.emit({
+    //     type: 'light_power',
+    //     value: {
+    //       current: Math.random(),
+    //       voltage: Math.random(),
+    //       power: Math.random(),
+    //       total: Math.random()
+    //     }
+    //   });
+    // },
 
     lux_data: function () {
       let lux = Math.random();
 
-      this.emit({
-        type: 'lux',
-        value: lux
-      });
+      this.emit('lux', lux);
 
       console.log('Lux: ' + lux);
     },
@@ -284,10 +269,7 @@ function createGrowHub(u, t) {
     hum_data: function () {
       let currentHumidity = Math.random();
 
-      this.emit({
-        type: 'humidity',
-        value: currentHumidity
-      });
+      this.emit('humidity', currentHumidity);
 
       console.log("Humidity: " + currentHumidity);
     }

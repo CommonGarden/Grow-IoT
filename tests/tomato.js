@@ -1,5 +1,3 @@
-// const Grow = require('Grow.js');
-
 // A rough GrowFile example... first draft, it's crude.
 // Feel free to make suggestions though.
 module.exports = {

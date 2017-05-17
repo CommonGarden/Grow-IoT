@@ -38,11 +38,27 @@ class GrowHub extends Component {
   };
 
   handleOpen = (event) => {
-    this.setState({settingsDialogOpen: true});
+    let dialog = event.currentTarget.dataset.dialog;
+    switch (dialog) {
+      case 'dltOpen':
+        this.setState({ dltOpen: true });
+        break;
+      case 'settingsDialogOpen':
+        this.setState({settingsDialogOpen: true});
+        break;
+    }
   };
 
   handleClose = (event) => {
-    this.setState({settingsDialogOpen: false});
+    let dialog = event.currentTarget.dataset.dialog;
+    switch (dialog) {
+      case 'dltOpen':
+        this.setState({ dltOpen: false });
+        break;
+      case 'settingsDialogOpen':
+        this.setState({settingsDialogOpen: false});
+        break;
+    }
   };
 
   handleValueChange = (event, newValue) => {
@@ -58,19 +74,20 @@ class GrowHub extends Component {
   }
 
   state = {
+    dltOpen: false,
     settingsDialogOpen: false,
     types: [
-      // {
-      //   type: 'temp',
-      //   title: 'Room Temparature',
-      //   icon: 'wi wi-thermometer',
-      //   unit: 'wi wi-celsius'
-      // },
-      // {
-      //   type: 'humidity',
-      //   title: 'Room Humidity',
-      //   icon: 'wi wi-humidity'
-      // },
+      {
+        type: 'temp',
+        title: 'Room Temparature',
+        icon: 'wi wi-thermometer',
+        unit: 'wi wi-celsius'
+      },
+      {
+        type: 'humidity',
+        title: 'Room Humidity',
+        icon: 'wi wi-humidity'
+      },
       {
         type: 'ph',
         title: 'Water PH',
@@ -86,7 +103,12 @@ class GrowHub extends Component {
         title: 'Resevoir temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius'
-      }
+      },
+      // {
+      //   type: 'lux',
+      //   title: 'Lux',
+      //   icon: 'wi wi-day-sunny'
+      // },
     ]
   };
 
@@ -125,7 +147,7 @@ class GrowHub extends Component {
 
   getEventValue(type) {
     const e = this.props[`${type}Event`];
-    return e ? Number(e.event.message).toFixed(2) : 'NA';
+    return e ? Number(e.event.value).toFixed(2) : 'NA';
   }
 
   render() {
@@ -196,29 +218,10 @@ class GrowHub extends Component {
     }
 
     const thing = this.props.thing;
-    const properties = this.props.thing.properties;
     const alerts = this.props.thing.properties.alerts || {};
 
     return (
       <Card style={styles.main}>
-      <CardMedia
-        overlay={
-          <CardTitle 
-            title={ 
-              <h2>Grow Hub
-                <IconButton
-                  tooltip="Options"
-                  tooltipPosition="top-center"
-                  onTouchTap={this.handleOpen}
-                  data-dialog="settingsDialogOpen">
-                  <SettingsIcon />
-                </IconButton>
-              </h2>
-            } 
-            subtitle={properties.description}
-          />}>
-        <CameraComponent thing={this.props.thing} style={styles.image} />
-      </CardMedia>
         <CardText>
           <Row>
             <Col xs={12} md={6}>
@@ -227,7 +230,8 @@ class GrowHub extends Component {
                   <IconButton
                     tooltip="Options"
                     tooltipPosition="top-center"
-                    onTouchTap={this.handleOpen}>
+                    onTouchTap={this.handleOpen}
+                    data-dialog="settingsDialogOpen">
                     <SettingsIcon />
                   </IconButton>
                 </h2>
@@ -255,6 +259,9 @@ class GrowHub extends Component {
               </div>
 
             </Col>
+            <Col xs={12} md={6}>
+              <CameraComponent thing={this.props.thing}/>
+            </Col>
           </Row>
           <Divider />
           <Row>
@@ -279,18 +286,64 @@ class GrowHub extends Component {
                 </div>
               </div>
             </Col>
+
+            <Col xs={12} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Fan</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.fan_state === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="fan"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                  <br/>
+                  <div style={styles.powerData}>
+                    <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
+                    Current: {this.getEventValue('fan_power_current')}<br/>
+                    Voltage: {this.getEventValue('fan_power_voltage')}<br/>
+                    Power: {this.getEventValue('fan_power_power')}<br/>
+                    Total: {this.getEventValue('fan_power_total')}<br/>
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col xs={12} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Watering pump</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="pump"
+                    onTouchTap={this.handleTap}
+                    style={styles.left}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                  <br/>
+                  <div style={styles.powerData}>
+                    <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
+                    Current: {this.getEventValue('pump_power_current')}<br/>
+                    Voltage: {this.getEventValue('pump_power_voltage')}<br/>
+                    Power: {this.getEventValue('pump_power_power')}<br/>
+                    Total: {this.getEventValue('pump_power_total')}<br/>
+                  </div>
+                </div>
+              </div>
+            </Col>
           </Row>
           <Dialog
             title="Settings"
             actions={<FlatButton
               label="Close"
               primary={true}
+              data-dialog="settingsDialogOpen"
               onTouchTap={this.handleClose}
             />}
             modal={false}
             autoScrollBodyContent={true}
-            onRequestClose={this.handleClose}
-            open={this.state.settingsDialogOpen}>
+            open={this.state.settingsDialogOpen}
+            onRequestClose={this.handleClose}>
             <TextField
               hintText="Log data every (milliseconds)"
               floatingLabelText="Log data every (milliseconds)"
@@ -336,21 +389,21 @@ class GrowHub extends Component {
 GrowHub.propTypes = {
   ecEvent: PropTypes.object,
   phEvent: PropTypes.object,
-  // tempEvent: PropTypes.object,
+  tempEvent: PropTypes.object,
   water_temperatureEvent: PropTypes.object,
-  // humidityEvent: PropTypes.object,
-  // luxEvent: PropTypes.object,
-  // fan_power_powerEvent: PropTypes.object,
+  humidityEvent: PropTypes.object,
+  luxEvent: PropTypes.object,
+  fan_power_powerEvent: PropTypes.object,
   light_power_powerEvent: PropTypes.object,
-  // pump_power_powerEvent: PropTypes.object,
-  // fan_power_voltageEvent: PropTypes.object,
-  // pump_power_voltageEvent: PropTypes.object,
+  pump_power_powerEvent: PropTypes.object,
+  fan_power_voltageEvent: PropTypes.object,
+  pump_power_voltageEvent: PropTypes.object,
   light_power_voltageEvent: PropTypes.object,
-  // fan_power_currentEvent: PropTypes.object,
-  // pump_power_currentEvent: PropTypes.object,
+  fan_power_currentEvent: PropTypes.object,
+  pump_power_currentEvent: PropTypes.object,
   light_power_currentEvent: PropTypes.object,
-  // fan_power_totalEvent: PropTypes.object,
-  // pump_power_totalEvent: PropTypes.object,
+  fan_power_totalEvent: PropTypes.object,
+  pump_power_totalEvent: PropTypes.object,
   light_power_totalEvent: PropTypes.object,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
@@ -365,42 +418,48 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     }
   );
 
-  const alerts = Events.find({'event.type': 'alert',
-    'thing._id': thing._id}).fetch();
-  const phEvent = Events.findOne({'event.type': 'ph',
-    'thing._id': thing._id});
-  const ecEvent = Events.findOne({'event.type': 'ec',
-    'thing._id': thing._id});
-  // const luxEvent = Events.findOne({'event.type': 'lux'});
-  // const tempEvent = Events.findOne({'event.type': 'temperature'});
-  const water_temperatureEvent = Events.findOne({'event.type': 'water_temperature',
-    'thing._id': thing._id});
-  // const humidityEvent = Events.findOne({'event.type': 'humidity'});
+  const alerts = Events.find({'event.type': 'alert'}).fetch();
+  const phEvent = Events.findOne({'event.type': 'ph'});
+  const ecEvent = Events.findOne({'event.type': 'ec'});
+  const luxEvent = Events.findOne({'event.type': 'lux'});
+  const tempEvent = Events.findOne({'event.type': 'temperature'});
+  const water_temperatureEvent = Events.findOne({'event.type': 'water_temperature'});
+  const humidityEvent = Events.findOne({'event.type': 'humidity'});
 
-  const light_power_powerEvent = Events.findOne({'event.type': 'light_power_power',
-    'thing._id': thing._id});
+  const fan_power_powerEvent = Events.findOne({'event.type': 'fan_power_power'});
+  const pump_power_powerEvent = Events.findOne({'event.type': 'pump_power_power'});
+  const light_power_powerEvent = Events.findOne({'event.type': 'light_power_power'});
 
-  const light_power_voltageEvent = Events.findOne({'event.type': 'light_power_voltage',
-    'thing._id': thing._id});
+  const fan_power_voltageEvent = Events.findOne({'event.type': 'fan_power_voltage'});
+  const pump_power_voltageEvent = Events.findOne({'event.type': 'pump_power_voltage'});
+  const light_power_voltageEvent = Events.findOne({'event.type': 'light_power_voltage'});
 
-  
-  const light_power_currentEvent = Events.findOne({'event.type': 'light_power_current',
-    'thing._id': thing._id});
+  const fan_power_currentEvent = Events.findOne({'event.type': 'fan_power_current'});
+  const pump_power_currentEvent = Events.findOne({'event.type': 'pump_power_current'});
+  const light_power_currentEvent = Events.findOne({'event.type': 'light_power_current'});
 
- 
-  const light_power_totalEvent = Events.findOne({'event.type': 'light_power_total',
-    'thing._id': thing._id});
+  const fan_power_totalEvent = Events.findOne({'event.type': 'fan_power_total'});
+  const pump_power_totalEvent = Events.findOne({'event.type': 'pump_power_total'});
+  const light_power_totalEvent = Events.findOne({'event.type': 'light_power_total'});
 
   return {
     phEvent,
     ecEvent,
-    // tempEvent,
+    tempEvent,
     water_temperatureEvent,
-    // humidityEvent,
-    // luxEvent,
+    humidityEvent,
+    luxEvent,
+    fan_power_powerEvent,
     light_power_powerEvent,
+    pump_power_powerEvent,
+    fan_power_voltageEvent,
+    pump_power_voltageEvent,
     light_power_voltageEvent,
+    fan_power_currentEvent,
+    pump_power_currentEvent,
     light_power_currentEvent,
+    fan_power_totalEvent,
+    pump_power_totalEvent,
     light_power_totalEvent,
     alerts,
     ready

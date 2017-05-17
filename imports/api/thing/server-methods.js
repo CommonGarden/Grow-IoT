@@ -53,48 +53,35 @@ Meteor.methods({
         owner: 1
       }
     });
+
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
     if (INFLUX_URL) {
-      if (event.value && event.type) {
-        influx.writePoints([
-          {
-            measurement: 'events',
-            tags: { thing: thing._id, type: event.type },
-            fields: { value: event.value },
-          }
-        ]).catch(err => {
-          if (err.message !== 'No host available') {
-            if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
-          }
-        })
+      let dataPoint = {
+        measurement: 'events',
+        tags: { thing: thing._id, type: event.type }
+      };
+
+      if (_.isNumber(event.message)) {
+        _.extend(dataPoint, {
+          fields: {value: event.message}
+        });
       }
 
-      else if (event.message) {
-        influx.writePoints([
-          {
-            measurement: 'events',
-            tags: { thing: thing._id, type: event.type },
-            fields: { message: event.message },
-          }
-        ]).catch(err => {
-          if (err.message !== 'No host available') {
-            if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
-          }
-        })
+      else if (_.isString(event.message)) {
+        _.extend(dataPoint, {
+          fields: {message: event.message}
+        });
       }
 
-      else if (event.type) {
+      if (dataPoint.fields) {
         influx.writePoints([
-          {
-            measurement: 'events',
-            tags: { thing: thing._id, type: event.type }
-          }
+          dataPoint
         ]).catch(err => {
           if (err.message !== 'No host available') {
             if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
           }
-        })
+        });
       }
     }
 
