@@ -75,7 +75,7 @@ board.on('ready', function start() {
       }, interval);
 
 
-      let targets = this.get('growfile');
+      let growfile = this.get('growfile');
       this.registerTargets(growfile);
 
       let threshold = this.get('threshold');
