@@ -59,7 +59,7 @@ board.on('ready', function start() {
         },
       },
       interval: 10000,
-      threshold: 0.5,
+      threshold: 0.2,
     },
 
     start: function () {
@@ -93,20 +93,16 @@ board.on('ready', function start() {
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
-        console.log(key);
-        console.log(correction);
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
             if (correction < 0) {
               this.call('acid', Math.abs(correction) * 1000);
             } else {
-              this.call('base', correction);
+              this.call('base', correction * 1000);
             }
           } else if (key === 'ec') {
-            if (correction < 0) {
-              this.emit('alert', 'ec too high, dilute water');
-            } else if (correction > 100) {
-              this.call('nutrient', correction);
+            if (correction > 0) {
+              this.call('nutrient', correction * 1000);
             }
           }
         }
@@ -118,11 +114,10 @@ board.on('ready', function start() {
       this.removeAllListeners();
     },
 
-    reset: function () {
+    restart: function () {
       this.stop();
       this.removeTargets();
       this.start();
-      console.log(this);
     },
 
     acid: function (duration) {

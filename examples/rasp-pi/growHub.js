@@ -6,9 +6,18 @@ const raspio = require('raspi-io');
 const five = require('johnny-five');
 const later = require('later');
 const Hs100Api = require('hs100-api');
-const growfile = require('../growfiles/cannabis');
 const _ = require('underscore');
-// const Cam = require('./webcam.js');
+const NodeWebcam = require('node-webcam');
+const fs = require('fs');
+
+const opts = {
+  width: 1280,
+  height: 720,
+  delay: 0,
+  quality: 100,
+  output: 'jpeg',
+  verbose: true
+}
 
 // Use local time, not UTC.
 later.date.localTime();
@@ -36,13 +45,33 @@ board.on('ready', function start() {
     token: 'BMopNmonSwbYpRZRmg5XzGYgkMjYT3MC',
     component: 'GrowHub',
 
-    // camera: Cam,
-
     properties: {
       light_state: null,
       duration: 2000,
       interval: 6000,
-      growfile: growfile,
+      growfile: {
+        targets: {
+          water_temperature: {
+            min: 22,
+            max: 29
+          },
+          ph: {
+            min: 6.9,
+            max: 8.5
+          },
+          ec: {
+            max: 500
+          }
+        },
+        cycles: {
+          day: {
+            schedule: 'after 9:00am'
+          },
+          night: {
+            schedule: 'after 7:00pm'
+          }
+        }
+      },
       targets: {},
     },
 
@@ -94,31 +123,27 @@ board.on('ready', function start() {
       emit_data = setInterval(()=> {
         // this.temp_data();
         // this.hum_data();
+        // this.light_data();
         this.ph_data();
         this.ec_data();
         this.water_temp_data();
-        // this.light_data();
         this.power_data();
       }, interval);
 
-      setTimeout(()=> {
-        this.call('turn_light_on');
-      }, 3000);
-
-      // let grow = this.get('growfile');
-      // console.log(growfile);
-      // this.startGrow(growfile);
+      let growfile = this.get('growfile');
+      this.registerTargets(growfile.targets);
+      this.parseCycles(growfile.cycles);
     },
 
     stop: function () {
       clearInterval(emit_data);
+      this.removeAllListeners();
+      this.removeTargets();
     },
 
     restart: function () {
-      let growfile = this.get('growfile');
-      console.log(growfile);
-      // this.removeTargets(growfile.targets);
-      // this.start();
+      this.stop();
+      this.start();
     },
     
     day: function () {
@@ -148,26 +173,23 @@ board.on('ready', function start() {
       this.set('light_state', 'off');
     },
 
+    picture: function () {
+      NodeWebcam.capture( 'image', opts, ( err, data )=> {
+        if ( !err ) console.log( 'Image created!' );
+        fs.readFile('./' + data, (err, data) => {
+          if (err) throw err; // Fail if the file can't be read.
+          this.sendImage(data);
+        });
+      });
+    },
+
     power_data: function () {
-    	// TODO: for influx db, the power data must be a number not an object...
       this.light.getInfo().then((data)=> {
         let powerData = data.consumption.get_realtime;
-        this.emit({
-          type: 'light_power_current',
-          value: powerData.current
-        });
-        this.emit({
-          type: 'light_power_voltage',
-          value: powerData.voltage
-        });
-        this.emit({
-          type: 'light_power_power',
-          value: powerData.power
-        });
-        this.emit({
-          type: 'light_power_total',
-          value: powerData.total
-        });
+        this.emit('light_power_current', powerData.current);
+        this.emit('light_power_voltage', powerData.voltage);
+        this.emit('light_power_power', powerData.power);
+        this.emit('light_power_total', powerData.total);
       });
     },
 
@@ -193,15 +215,6 @@ board.on('ready', function start() {
       }
     },
 
-    // light_data: function () {
-    //   this.emit({
-    //     type: 'lux',
-    //     value: lux.level
-    //   });
-      
-    //   console.log('Light: ' + lux.level);
-    // },
-
     water_temp_data: function () {
       // Request a reading
       board.i2cWrite(0x66, [0x52, 0x00]);
@@ -213,26 +226,27 @@ board.on('ready', function start() {
       }
     },
 
-    // temp_data: function () {
-    //   var currentTemp = multi.thermometer.celsius;
+    light_data: function () {
+      this.emit('lux', lux.level);
+      
+      console.log('Light: ' + lux.level);
+    },
 
-    //   this.emit({
-    //     type: 'temperature',
-    //     value: currentTemp
-    //   });
+    temp_data: function () {
+      var currentTemp = multi.thermometer.celsius;
 
-    //   console.log('Temperature: ' + currentTemp);
-    // },
+      this.emit('temperature', currentTemp);
 
-    // hum_data: function () {
-    //   var currentHumidity = multi.hygrometer.relativeHumidity;
-    //   this.emit({
-    //     type: 'humidity',
-    //     value: currentHumidity
-    //   });
+      console.log('Temperature: ' + currentTemp);
+    },
 
-    //   console.log('Humidity: ' + currentHumidity);
-    // }
+    hum_data: function () {
+      var currentHumidity = multi.hygrometer.relativeHumidity;
+
+      this.emit('humidity', currentHumidity);
+
+      console.log('Humidity: ' + currentHumidity);
+    }
   });
 
   growHub.connect({

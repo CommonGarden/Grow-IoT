@@ -27,49 +27,28 @@ board.on('ready', function start() {
     },
 
     start: function () {
+      // Set up I2C listeners
+
       // This must be called prior to any I2C reads or writes.
       // See Johnny-Five docs: http://johnny-five.io
       board.i2cConfig();
-
-      // Set up I2C listeners
+      
       // Read from Atlas Scientific Conductivity sensor
       board.i2cRead(0x64, 32, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          // console.log(bytes);
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          eC_reading = bytelist.join('');
-        }
+        let eC = Grow.parseAtlasEC(bytes);
+        if (eC) eC_reading = eC;
       });
 
       // Read from Atlas Scientific pH sensor
       board.i2cRead(0x63, 7, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          pH_reading = bytelist.join('');
-        }
+        let pH = Grow.parseAtlasPH(bytes);
+        if (pH) pH_reading = pH;
       });
 
       // Read from Atlas Scientific temperature sensor
       board.i2cRead(0x66, 7, function (bytes) {
-        var bytelist = [];
-        if (bytes[0] === 1) {
-          for (i = 0; i < bytes.length; i++) {
-            if (bytes[i] !== 1 && bytes[i] !== 0) {
-              bytelist.push(ascii.symbolForDecimal(bytes[i]));
-            }
-          }
-          water_temp = bytelist.join('');
-        }
+        let temp = Grow.parseAtlasTemperature(bytes);
+        if (temp) water_temp = temp;
       });
 
       var interval = this.get('interval');
@@ -85,6 +64,11 @@ board.on('ready', function start() {
       clearInterval(emit_data);
       this.removeAllListeners();
     },
+
+    reset: function () {
+      this.stop();
+      this.start();
+    },
     
     ec_data: function () {
       // Request a reading, 
@@ -93,10 +77,7 @@ board.on('ready', function start() {
       eC_reading = this.parseEC(eC_reading);
 
       if (eC_reading) {
-        this.emit({
-          type: 'ec',
-          value: eC_reading
-        });
+        this.emit('ec', eC_reading);
 
         console.log('Conductivity: ' + eC_reading);
       }
@@ -106,11 +87,8 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
-      if (this.ispH(pH_reading)) {
-        this.emit({
-          type: 'ph',
-          value: pH_reading
-        });
+      if (pH_reading) {
+        this.emit('ph', pH_reading);
 
         console.log('ph: ' + pH_reading);
       }
@@ -121,10 +99,7 @@ board.on('ready', function start() {
       // Request a reading
       board.i2cWrite(0x66, [0x52, 0x00]);
 
-      this.emit({
-        type: 'water_temperature',
-        value: water_temp
-      });
+      this.emit('water_temperature', water_temp);
 
       console.log('Resevoir temp: ' + water_temp);
     },
