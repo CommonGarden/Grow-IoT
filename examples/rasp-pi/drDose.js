@@ -86,9 +86,9 @@ board.on('ready', function start() {
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
             if (correction < 0) {
-              this.call('acid', Math.abs(correction) * 100);
+              this.call('acid', Math.abs(correction) * 1000);
             } else {
-              this.call('base', correction) * 100;
+              this.call('base', correction) * 1000;
             }
           } else if (key === 'ec') {
             if (correction < 0) {
