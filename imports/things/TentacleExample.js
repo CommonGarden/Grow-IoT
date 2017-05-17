@@ -23,27 +23,11 @@ class TentacleExample extends Component {
   }
 
   handleOpen = (event) => {
-    let dialog = event.currentTarget.dataset.dialog;
-    switch (dialog) {
-      case 'dltOpen':
-        this.setState({ dltOpen: true });
-        break;
-      case 'settingsDialogOpen':
-        this.setState({settingsDialogOpen: true});
-        break;
-    }
+    this.setState({settingsDialogOpen: true});
   };
 
   handleClose = (event) => {
-    let dialog = event.currentTarget.dataset.dialog;
-    switch (dialog) {
-      case 'dltOpen':
-        this.setState({ dltOpen: false });
-        break;
-      case 'settingsDialogOpen':
-        this.setState({settingsDialogOpen: false});
-        break;
-    }
+    this.setState({settingsDialogOpen: false});
   };
 
   handleValueChange = (event, newValue) => {
@@ -185,8 +169,7 @@ class TentacleExample extends Component {
                   <IconButton
                     tooltip="Options"
                     tooltipPosition="top-center"
-                    onTouchTap={this.handleOpen}
-                    data-dialog="settingsDialogOpen">
+                    onTouchTap={this.handleOpen}>
                     <SettingsIcon />
                   </IconButton>
                 </h2>
@@ -195,10 +178,12 @@ class TentacleExample extends Component {
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {
+                    const eValue = this.getEventValue(v.type);
+                    const events = this.getEvents(v.type);
                     return <div key={k}>
                       <div style={styles.sensorData}>
                       <i className={v.icon} 
-                        style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
+                        style={styles.sensorIcon}></i> {v.title}: <strong>{eValue}</strong>
                       {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
                       {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
                       {
@@ -212,16 +197,16 @@ class TentacleExample extends Component {
                       }
                       </div>
                       {
-                      !this.props.ready ? <div><CircularProgress /> Loading</div> :
+                      !this.props.ready || !events ? <div><CircularProgress /> Loading</div> :
                       <Resizable>
-                        <ChartContainer timeRange={this.getEvents(v.type).range()}>
+                        <ChartContainer timeRange={events.range()}>
                           <ChartRow height="150">
                             <YAxis
                               id={v.type}
-                              min={this.getEvents(v.type).min()} max={this.getEvents(v.type).max()}
+                              min={events.min()} max={events.max()}
                               width="30" />
                             <Charts>
-                              <LineChart axis={v.type} series={this.getEvents(v.type)} />
+                              <LineChart axis={v.type} series={events} />
                             </Charts>
                           </ChartRow>
                         </ChartContainer>
@@ -238,13 +223,12 @@ class TentacleExample extends Component {
             actions={<FlatButton
               label="Close"
               primary={true}
-              data-dialog="settingsDialogOpen"
               onTouchTap={this.handleClose}
             />}
             modal={false}
             autoScrollBodyContent={true}
-            open={this.state.settingsDialogOpen}
-            onRequestClose={this.handleClose}>
+            onRequestClose={this.handleClose}
+            open={this.state.settingsDialogOpen}>
             <TextField
               hintText="Log data every (milliseconds)"
               floatingLabelText="Log data every (milliseconds)"
