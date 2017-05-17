@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
@@ -30,7 +29,7 @@ export default class SignIn extends Component {
     if (error === undefined) {
       this.setState({ error: noError, sbOpen: false });
       // Navigate to the authenticated app since the sign in was successful
-      browserHistory.push(`/`);
+      this.props.history.push(`/`);
     } else {
       this.setState({ error, sbOpen: true });
     }

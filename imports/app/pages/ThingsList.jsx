@@ -17,18 +17,6 @@ class ThingsList extends Component {
   }
 
   componentWillMount() {
-    this.subThings();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.props.thingsChanged(nextProps.Things);
-  }
-
-  subThings(){
-    this.setState({ loading: true });
-    Meteor.subscribe('Things.list', (h) => {
-      this.setState({ loading: false });
-    });
   }
 
   renderThings() {
@@ -73,8 +61,11 @@ ThingsList.PropTypes = {
 
 export default ThingsListContainer= createContainer(({ user, thingsChanged }) => {
   const things = Things.find().fetch();
+  const h = Meteor.subscribe('Things.list');
+
   return {
     Things: things,
     thingsChanged,
+    loading: h.ready(),
   }
 }, ThingsList);

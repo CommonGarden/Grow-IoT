@@ -60,7 +60,7 @@ class NotificationsWidget extends Component {
     );
   }
   goToAllNotifications = () => {
-    browserHistory.push('/notifications');
+    this.props.history.push(`${this.props.match.url}/notifications`);
   }
   renderBadge (count) {
     return count ? <Badge

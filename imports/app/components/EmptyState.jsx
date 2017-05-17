@@ -16,8 +16,10 @@ export default class EmptyState extends Component {
         <Paper style={style} zDepth={1} circle={true} >
           <div className="layout vertical center center-justified"
             style={{height: '100%', fontSize: 20}}>
-            Nothing to show.
-            Click the + button to create a new thing.
+            {
+              this.props.children || `Nothing to show.
+              Click the + button to create a new thing.` 
+            }
           </div>
         </Paper>
       </div>
