@@ -4,6 +4,7 @@ import App from './App.jsx';
 import UnauthenticatedApp from './UnauthenticatedApp.jsx';
 import AuthenticatedApp from './AuthenticatedApp.jsx';
 import ThingsList from './pages/ThingsList.jsx';
+import ThingView from './pages/ThingView.jsx';
 import AllNotifications from './pages/AllNotifications.jsx';
 import AccountsUI from './pages/AccountsUI.jsx';
 import SignIn from './pages/SignIn.jsx';
@@ -18,6 +19,7 @@ export default class Routes extends Component {
           <Route path="/app" component={AuthenticatedApp}>
             <IndexRedirect to="/things"/>
             <Route path="/things" component={ThingsList} />
+            <Route path="/thing/:uuid" component={ThingView} />
             <Route path="/notifications" component={AllNotifications} />
           </Route>
           <Route path="/" component={UnauthenticatedApp}>

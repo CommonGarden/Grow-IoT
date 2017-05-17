@@ -146,7 +146,7 @@ class AuthenticatedApp extends Component {
             </div>
           }
           iconElementLeft={
-            <img src="img/white_flower.png" style={styles.logo} />
+            <img src="/img/white_flower.png" style={styles.logo} />
           }
         />
         <AppNavDrawer
@@ -160,10 +160,10 @@ class AuthenticatedApp extends Component {
         <div className="layout vertical flex center center-justified">
           {
             React.Children.map(this.props.children,
-              (child) => React.cloneElement(child, {
-                user: this.props.user,
-                thingsChanged: this.handleThingsChange,
-              })
+              (child) => React.cloneElement(child, Object.assign({}, 
+                _.pick(this.props, 'user', 'uuid'),
+                { thingsChanged: this.handleThingsChange,
+              }))
             )
           }
         </div>
