@@ -2,7 +2,6 @@
 const Grow = require('../../lib/Grow.js');
 const raspio = require('raspi-io');
 const five = require('johnny-five');
-// const ascii = require('ascii-codes');
 
 // Create a new board object
 var board = new five.Board({
@@ -42,9 +41,9 @@ board.on('ready', function start() {
           max: 6.3,
         },
         ec: {
-          min: 1400,
-          ideal: 1500,
-          max: 1700,
+          min: 0,
+          ideal: 70,
+          max: 200,
         },
       },
       interval: 10000,
@@ -69,7 +68,7 @@ board.on('ready', function start() {
       });
 
       let interval = this.get('interval');
-      setInterval(()=> {
+      data_interval = setInterval(()=> {
         this.ph_data();
         this.ec_data();
       }, interval);
@@ -105,6 +104,12 @@ board.on('ready', function start() {
     stop: function () {
       clearInterval(data_interval);
       this.removeAllListeners();
+    },
+
+    reset: function () {
+      this.stop();
+      this.removeTargets();
+      this.start();
     },
 
     acid: function (duration) {
