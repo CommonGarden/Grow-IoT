@@ -22,7 +22,7 @@ class ThingView extends Component {
 
   subThings(){
     this.setState({ loading: true });
-    Meteor.subscribe('Things.one', this.props.params.uuid, (h) => {
+    Meteor.subscribe('Things.one', this.props.match.params.uuid, (h) => {
       this.setState({ loading: false });
     });
   }
@@ -38,7 +38,10 @@ class ThingView extends Component {
     } else {
       return (
         <EmptyState>
-          Thing with uuid {this.props.params.uuid} does not exist.
+          <div
+            style={{fontSize: 15}}>
+            Thing with uuid <br/> {this.props.match.params.uuid} <br/> does not exist.
+          </div>
         </EmptyState>
       );
     }
@@ -60,8 +63,8 @@ ThingView.PropTypes = {
   Thing: PropTypes.object,
 }
 
-export default ThingViewContainer= createContainer(({ user, params }) => {
-  const thing = Things.findOne({ uuid: params.uuid });
+export default ThingViewContainer= createContainer(({ user, match }) => {
+  const thing = Things.findOne({ uuid: match.params.uuid });
   return {
     Thing: thing,
   }

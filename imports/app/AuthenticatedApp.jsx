@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
+import { Route, Redirect, Link, Switch } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
-import ThingsList from './pages/ThingsList.jsx';
-import AppNavDrawer from './components/AppNavDrawer';
 import spacing from 'material-ui/styles/spacing';
 import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
 import {darkWhite, lightWhite, grey900} from 'material-ui/styles/colors';
-import CreateThing from './components/CreateThing.jsx';
-import NotificationsWidget from './components/NotificationsWidget';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
+import AppNavDrawer from './components/AppNavDrawer';
+import ThingsList from './pages/ThingsList.jsx';
+import ThingView from './pages/ThingView.jsx';
+import AllNotifications from './pages/AllNotifications.jsx';
+import CreateThing from './components/CreateThing.jsx';
+import NotificationsWidget from './components/NotificationsWidget';
 
 class AuthenticatedApp extends Component {
 
@@ -102,12 +104,15 @@ class AuthenticatedApp extends Component {
   handleThingsChange = (things) => {
     this.setState({highlightCreate: !things.length});
   }
-
+  goHome = (e) => {
+    const rootUrl = this.props.match.url;
+    this.props.history.push(`${rootUrl}/things`);
+  }
   componentWillMount() {
     document.title = "Grow IoT";
     // Check that the user is logged in before the component mounts
     if (!this.props.user && !Meteor.loggingIn()) {
-      browserHistory.push('/account');
+      this.props.history.push('/public/account');
     }
   }
 
@@ -115,7 +120,7 @@ class AuthenticatedApp extends Component {
   componentDidUpdate(prevProps, prevState) {
     // Now check that they are still logged in. Redirect to sign in page if they aren't.
     if (!this.props.user) {
-      browserHistory.push('/account');
+      this.props.history.push('/public/account');
     }
   }
 
@@ -128,14 +133,16 @@ class AuthenticatedApp extends Component {
   }
 
   render() {
+    const rootUrl = this.props.match.url;
     const styles = this.getStyles();
     return (
       <div>
         <AppBar
-          title="Grow-IoT"
+          title={<span style={{cursor: 'pointer'}}>Grow-IoT</span>}
+          onTitleTouchTap={this.goHome}
           iconElementRight={
             <div>
-              <NotificationsWidget />
+              <NotificationsWidget history={this.props.history} match={this.props.match}/>
               <CreateThing highlight={this.state.highlightCreate}/>
               <IconButton tooltip="Menu"
                 tooltipPosition="bottom-left"
@@ -158,13 +165,19 @@ class AuthenticatedApp extends Component {
           open={this.state.navDrawerOpen}
         />
         <div className="layout vertical flex center center-justified">
+          <Switch>
+            <Redirect exact from={`${rootUrl}/`} to={`${rootUrl}/things`}/>
+            <Route path={`${rootUrl}/things`} render={routeProps=> <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
+            <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView  user={this.props.user} {...routeProps}/>}/>
+            <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
+          </Switch>
           {
-            React.Children.map(this.props.children,
-              (child) => React.cloneElement(child, Object.assign({}, 
-                _.pick(this.props, 'user', 'uuid'),
-                { thingsChanged: this.handleThingsChange,
-              }))
-            )
+            // React.Children.map(this.props.children,
+              // (child) => React.cloneElement(child, Object.assign({}, 
+                // _.pick(this.props, 'user', 'uuid'),
+                // { thingsChanged: this.handleThingsChange,
+              // }))
+            // )
           }
         </div>
       </div>
