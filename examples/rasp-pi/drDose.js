@@ -122,6 +122,7 @@ board.on('ready', function start() {
       this.stop();
       this.removeTargets();
       this.start();
+      console.log(this);
     },
 
     acid: function (duration) {
