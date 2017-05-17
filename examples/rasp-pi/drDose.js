@@ -66,7 +66,7 @@ board.on('ready', function start() {
 
       // Read i2c response from pH sensor.
       board.i2cRead(0x63, 7, (bytes) => {
-        pH = Grow.parseAtlasPH(bytes);
+        let pH = Grow.parseAtlasPH(bytes);
         if (pH) pH_reading = pH;
       });
 
