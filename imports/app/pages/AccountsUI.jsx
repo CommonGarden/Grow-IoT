@@ -10,7 +10,7 @@ export default class AccountsUI extends Component {
     e.preventDefault();
   }
 
-  handleTabChange(i) {
+  handleTabChange = (i) => {
     const paths = { 0: 'signin', 1: 'signup' };
     this.props.history.push(`/public/account/${paths[i]}`);
   }
