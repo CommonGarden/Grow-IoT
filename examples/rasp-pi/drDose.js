@@ -86,14 +86,14 @@ board.on('ready', function start() {
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
             if (correction < 0) {
-              this.call('acid', Math.abs(correction));
+              this.call('acid', Math.abs(correction) * 100);
             } else {
-              this.call('base', correction);
+              this.call('base', correction) * 100;
             }
           } else if (key === 'ec') {
             if (correction < 0) {
               this.emit('ec too high, dilute water');
-            } else {
+            } else if (correction > 100) {
               this.call('nutrient', correction);
             }
           }
