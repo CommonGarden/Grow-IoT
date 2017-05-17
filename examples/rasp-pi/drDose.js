@@ -81,8 +81,6 @@ board.on('ready', function start() {
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
-        console.log(correction);
-
         if (Math.abs(correction) > threshold) {
           if (key === 'ph') {
             if (correction < 0) {
@@ -115,7 +113,6 @@ board.on('ready', function start() {
     acid: function (duration) {
       acidpump.low();
 
-      var duration = Number(grow.get('duration', 'acid'));
       setTimeout(function () {
         acidpump.high();
       }, duration);
