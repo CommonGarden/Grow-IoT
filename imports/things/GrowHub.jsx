@@ -38,27 +38,11 @@ class GrowHub extends Component {
   };
 
   handleOpen = (event) => {
-    let dialog = event.currentTarget.dataset.dialog;
-    switch (dialog) {
-      case 'dltOpen':
-        this.setState({ dltOpen: true });
-        break;
-      case 'settingsDialogOpen':
-        this.setState({settingsDialogOpen: true});
-        break;
-    }
+    this.setState({settingsDialogOpen: true});
   };
 
   handleClose = (event) => {
-    let dialog = event.currentTarget.dataset.dialog;
-    switch (dialog) {
-      case 'dltOpen':
-        this.setState({ dltOpen: false });
-        break;
-      case 'settingsDialogOpen':
-        this.setState({settingsDialogOpen: false});
-        break;
-    }
+    this.setState({settingsDialogOpen: false});
   };
 
   handleValueChange = (event, newValue) => {
@@ -74,7 +58,6 @@ class GrowHub extends Component {
   }
 
   state = {
-    dltOpen: false,
     settingsDialogOpen: false,
     types: [
       {
@@ -230,8 +213,7 @@ class GrowHub extends Component {
                   <IconButton
                     tooltip="Options"
                     tooltipPosition="top-center"
-                    onTouchTap={this.handleOpen}
-                    data-dialog="settingsDialogOpen">
+                    onTouchTap={this.handleOpen}>
                     <SettingsIcon />
                   </IconButton>
                 </h2>
@@ -336,13 +318,12 @@ class GrowHub extends Component {
             actions={<FlatButton
               label="Close"
               primary={true}
-              data-dialog="settingsDialogOpen"
               onTouchTap={this.handleClose}
             />}
             modal={false}
             autoScrollBodyContent={true}
-            open={this.state.settingsDialogOpen}
-            onRequestClose={this.handleClose}>
+            onRequestClose={this.handleClose}
+            open={this.state.settingsDialogOpen}>
             <TextField
               hintText="Log data every (milliseconds)"
               floatingLabelText="Log data every (milliseconds)"
