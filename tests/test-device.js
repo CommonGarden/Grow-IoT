@@ -62,10 +62,7 @@ function testDevice (u, t) {
 
       console.log(temp);
 
-      testDevice.emit({
-        type: 'temperature',
-        value: temp
-      });
+      testDevice.emit('temperature', temp);
     }
   });
 

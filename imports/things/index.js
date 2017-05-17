@@ -5,6 +5,7 @@ import SmartLight from './SmartLight.jsx';
 import ImageComponent from './ImageComponent';
 import TentacleExample from './TentacleExample';
 import CameraComponent from './CameraComponent';
+import DrDose from './DrDose';
 
 const components = {
 	GrowHub,
@@ -14,6 +15,7 @@ const components = {
 	TestDevice,
 	ImageComponent,
 	CameraComponent,
+	DrDose
 };
 
 export default components;

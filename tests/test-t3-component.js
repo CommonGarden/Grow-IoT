@@ -77,20 +77,11 @@ function testDevice (u, t) {
       let ph = Math.random() * 14;
       let conductivity = Math.random() * 1000;
 
-      testDevice.emit({
-        type: 'water_temperature',
-        value: temp
-      });
+      testDevice.emit('water_temperature', temp);
 
-      testDevice.emit({
-        type: 'ec',
-        value: conductivity
-      });
+      testDevice.emit('ec', conductivity);
 
-      testDevice.emit({
-        type: 'ph',
-        value: ph
-      });
+      testDevice.emit('ph', ph);
     }
   });
 

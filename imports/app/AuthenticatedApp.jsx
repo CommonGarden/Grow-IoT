@@ -99,15 +99,17 @@ class AuthenticatedApp extends Component {
 
   handleOpen = () => {
     this.setState({navDrawerOpen: true})
-  }
+  };
 
   handleThingsChange = (things) => {
     this.setState({highlightCreate: !things.length});
-  }
+  };
+
   goHome = (e) => {
     const rootUrl = this.props.match.url;
     this.props.history.push(`${rootUrl}/things`);
-  }
+  };
+
   componentWillMount() {
     document.title = "Grow IoT";
     // Check that the user is logged in before the component mounts
@@ -171,14 +173,6 @@ class AuthenticatedApp extends Component {
             <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView  user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
           </Switch>
-          {
-            // React.Children.map(this.props.children,
-              // (child) => React.cloneElement(child, Object.assign({}, 
-                // _.pick(this.props, 'user', 'uuid'),
-                // { thingsChanged: this.handleThingsChange,
-              // }))
-            // )
-          }
         </div>
       </div>
     );
