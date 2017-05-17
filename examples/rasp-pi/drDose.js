@@ -35,9 +35,7 @@ board.on('ready', function start() {
 
     // Properties can be updated by the API
     properties: {
-      ph_state: null,
-      ec_state: null,
-      targets: {
+      growfile: {
         ph: {
           min: 6.0,
           ideal: 6.15,
@@ -50,7 +48,7 @@ board.on('ready', function start() {
         },
       },
       interval: 10000,
-      threshold: 0.1,
+      threshold: 0.5,
     },
 
     start: function () {
@@ -77,8 +75,8 @@ board.on('ready', function start() {
       }, interval);
 
 
-      let targets = this.get('targets');
-      this.registerTargets(targets);
+      let targets = this.get('growfile');
+      this.registerTargets(growfile);
 
       let threshold = this.get('threshold');
 
