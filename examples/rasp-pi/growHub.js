@@ -6,7 +6,6 @@ const raspio = require('raspi-io');
 const five = require('johnny-five');
 const later = require('later');
 const Hs100Api = require('hs100-api');
-const growfile = require('../growfiles/cannabis');
 const _ = require('underscore');
 const NodeWebcam = require('node-webcam');
 const fs = require('fs');
@@ -50,7 +49,29 @@ board.on('ready', function start() {
       light_state: null,
       duration: 2000,
       interval: 6000,
-      growfile: growfile,
+      growfile: {
+        targets: {
+          water_temperature: {
+            min: 22,
+            max: 29
+          },
+          ph: {
+            min: 6.9,
+            max: 8.5
+          },
+          ec: {
+            max: 500
+          }
+        },
+        cycles: {
+          day: {
+            schedule: 'after 9:00am'
+          },
+          night: {
+            schedule: 'after 7:00pm'
+          }
+        }
+      },
       targets: {},
     },
 
@@ -109,21 +130,19 @@ board.on('ready', function start() {
         this.power_data();
       }, interval);
 
-      setTimeout(()=> {
-        this.call('turn_light_on');
-      }, 3000);
-
-      let grow = this.get('growfile');
-      this.startGrow(growfile);
+      let growfile = this.get('growfile');
+      this.registerTargets(growfile.targets);
+      this.parseCycles(growfile.cycles);
     },
 
     stop: function () {
       clearInterval(emit_data);
+      this.removeAllListeners();
+      this.removeTargets();
     },
 
     restart: function () {
-      let growfile = this.get('growfile');
-      this.removeTargets();
+      this.stop();
       this.start();
     },
     
