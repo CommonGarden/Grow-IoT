@@ -73,17 +73,17 @@ class GrowHub extends Component {
       // },
       {
         type: 'ph',
-        title: 'Water PH',
+        title: 'pH',
         icon: 'wi wi-raindrop'
       },
       {
         type: 'ec',
-        title: 'Water Conductivity',
+        title: 'Conductivity (ec)',
         icon: 'wi wi-barometer',
       },
       {
         type: 'water_temperature',
-        title: 'Resevoir temperature',
+        title: 'Temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius'
       }
@@ -113,6 +113,10 @@ class GrowHub extends Component {
     this.sendCommand(command, options);
   }
 
+  takePicture = () => {
+    this.sendCommand('picture');
+  }
+
   updateGrowfile = () => {
     try {
       let growfile = JSON.parse(document.getElementById('Growfile').value);
@@ -126,6 +130,48 @@ class GrowHub extends Component {
   getEventValue(type) {
     const e = this.props[`${type}Event`];
     return e ? Number(e.event.message).toFixed(2) : 'NA';
+  }
+
+  renderCamera() {
+    const styles = {
+      button: {
+        position: 'relative',
+        bottom: 50
+      },
+      img: {
+        maxHeight: '100%',
+        minHeight: 300,
+        width: '100%',
+      },
+      white: {
+        color: 'white'
+      }
+    }
+
+    if (this.props.ready && this.props.image) {
+      'use strict';
+
+      let image = this.props.image;
+      let link = Images.findOne({_id: image._id}).link();
+
+      return (
+        <div style={styles.main}>
+            <img src={link} style={styles.img} />
+            <IconButton onTouchTap={this.takePicture}
+                        tooltip="Take picture"
+                        style={styles.button}
+                        iconStyle={styles.white} ><CameraIcon /></IconButton>
+        </div>
+      )
+
+    } else return (
+      <div style={styles.img}>No Images
+        <IconButton onTouchTap={this.takePicture}
+                    tooltip="Take picture">
+          <CameraIcon />
+        </IconButton>
+      </div>
+    )
   }
 
   render() {
@@ -182,16 +228,8 @@ class GrowHub extends Component {
         padding: 0,
         marginLeft: 3,
       },
-      image: {
-        maxWidth: 400,
-        minWidth: 300,
-        minHeight: 300,
-        position: 'relative',
-        marginLeft: 300,
-        marginTop: -300,
-        top: 7,
-        left: 16,
-        marginBottom: 14,
+      media: {
+        marginBottom: -55
       }
     }
 
@@ -201,23 +239,8 @@ class GrowHub extends Component {
 
     return (
       <Card style={styles.main}>
-      <CardMedia
-        overlay={
-          <CardTitle 
-            title={ 
-              <h2>Grow Hub
-                <IconButton
-                  tooltip="Options"
-                  tooltipPosition="top-center"
-                  onTouchTap={this.handleOpen}
-                  data-dialog="settingsDialogOpen">
-                  <SettingsIcon />
-                </IconButton>
-              </h2>
-            } 
-            subtitle={properties.description}
-          />}>
-        <CameraComponent thing={this.props.thing} style={styles.image} />
+      <CardMedia style={styles.media}>
+          {this.renderCamera()}
       </CardMedia>
         <CardText>
           <Row>
@@ -332,25 +355,17 @@ class GrowHub extends Component {
   }
 }
 
-// Hack, let's make this a little more elegant...
 GrowHub.propTypes = {
   ecEvent: PropTypes.object,
   phEvent: PropTypes.object,
+  image: PropTypes.object,
   // tempEvent: PropTypes.object,
   water_temperatureEvent: PropTypes.object,
   // humidityEvent: PropTypes.object,
   // luxEvent: PropTypes.object,
-  // fan_power_powerEvent: PropTypes.object,
   light_power_powerEvent: PropTypes.object,
-  // pump_power_powerEvent: PropTypes.object,
-  // fan_power_voltageEvent: PropTypes.object,
-  // pump_power_voltageEvent: PropTypes.object,
   light_power_voltageEvent: PropTypes.object,
-  // fan_power_currentEvent: PropTypes.object,
-  // pump_power_currentEvent: PropTypes.object,
   light_power_currentEvent: PropTypes.object,
-  // fan_power_totalEvent: PropTypes.object,
-  // pump_power_totalEvent: PropTypes.object,
   light_power_totalEvent: PropTypes.object,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
@@ -358,12 +373,21 @@ GrowHub.propTypes = {
 
 export default GrowHubContainer = createContainer(({ thing }) => {
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
+  const imagesHandle = Meteor.subscribe('Thing.images', thing.uuid, 1);
 
-  const ready = [ eventsHandle ].every(
+  const ready = [ eventsHandle, imagesHandle ].every(
     (h) => {
       return h.ready();
     }
   );
+
+  const image = Images.findOne({
+    'meta.thing': thing._id,
+  }, {
+    'sort': {
+      'meta.insertedAt': -1
+    },
+  });
 
   const alerts = Events.find({'event.type': 'alert',
     'thing._id': thing._id}).fetch();
@@ -394,8 +418,9 @@ export default GrowHubContainer = createContainer(({ thing }) => {
   return {
     phEvent,
     ecEvent,
-    // tempEvent,
     water_temperatureEvent,
+    image,
+    // tempEvent,
     // humidityEvent,
     // luxEvent,
     light_power_powerEvent,

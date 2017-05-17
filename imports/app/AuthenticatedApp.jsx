@@ -155,9 +155,7 @@ class AuthenticatedApp extends Component {
             </div>
           }
           iconElementLeft={
-            <a href="/">
-              <img src="/img/white_flower.png" style={styles.logo} />
-            </a>
+            <img src="/img/white_flower.png" style={styles.logo} />
           }
         />
         <AppNavDrawer

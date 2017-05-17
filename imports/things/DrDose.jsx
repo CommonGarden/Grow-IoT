@@ -16,6 +16,9 @@ import Divider from 'material-ui/Divider';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import CircularProgress from 'material-ui/CircularProgress';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import PowerIcon from 'material-ui/svg-icons/action/power-settings-new';
+
 
 class DrDose extends Component {
   constructor(props) {
@@ -58,9 +61,45 @@ class DrDose extends Component {
     this.sendCommand('restart');
   }
 
+  handleDurationChange = (event, newValue) => {
+    this.setState({duration: newValue});
+  }
+
+  handleDose = (event) => {
+    let key = event.currentTarget.dataset.key;
+    let duration = this.state.duration;
+    console.log(key);
+    console.log(duration);
+    this.sendCommand(key, duration);
+    switch (key) {
+      case 'acid':
+        this.setState({ acid: true });
+        setTimeout(()=> {
+          this.setState({ acid: false });
+        }, duration);
+        break;
+      case 'base':
+        this.setState({ base: true });
+        setTimeout(()=> {
+          this.setState({ base: false });
+        }, duration);
+        break;
+      case 'nutrient':
+        this.setState({ nutrient: true });
+        setTimeout(()=> {
+          this.setState({ nutrient: false });
+        }, duration);
+        break;
+    }
+  }
+
   state = {
     dltOpen: false,
     settingsDialogOpen: false,
+    duration: 1000,
+    acid: false,
+    base: false,
+    nutrient: false,
     types: [
       {
         type: 'ph',
@@ -155,6 +194,11 @@ class DrDose extends Component {
         fontSize: 16,
         width: 400
       },
+      actionButton: {
+        float: 'left',
+        padding: 10,
+        marginRight: 10,
+      },
       sensorIcon: {
         marginRight: 5
       },
@@ -225,6 +269,48 @@ class DrDose extends Component {
                 }
               </div>
             </Col>
+            <Col xs={12} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Acid</h3>
+                  <FloatingActionButton secondary={this.state.acid}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-key="acid"
+                    onTouchTap={this.handleDose}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                </div>
+                <div style={styles.actionButton}>
+                  <h3>Base</h3>
+                  <FloatingActionButton secondary={this.state.base}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-key="base"
+                    onTouchTap={this.handleDose}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                </div>
+                <div style={styles.actionButton}>
+                  <h3>Nutrient</h3>
+                  <FloatingActionButton secondary={this.state.nutrient}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-key="nutrient"
+                    onTouchTap={this.handleDose}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                </div>
+              </div>
+            </Col>
+            <Col xs={12} md={4}>
+              <div>
+                <TextField
+                  hintText="Dose duration (milliseconds)"
+                  floatingLabelText="Dose duration (milliseconds)"
+                  data-key="duration"
+                  defaultValue={this.state.duration}
+                  onChange={this.handleDurationChange}
+                />
+              </div>
+            </Col>
           </Row>
           <Dialog
             title="Settings"
@@ -243,6 +329,14 @@ class DrDose extends Component {
               floatingLabelText="Log data every (milliseconds)"
               data-key="interval"
               defaultValue={thing.properties.interval}
+              onChange={this.handleScheduleChange}
+            />
+
+            <TextField
+              hintText="Log data every (milliseconds)"
+              floatingLabelText="Log data every (milliseconds)"
+              data-key="threshold"
+              defaultValue={thing.properties.threshold}
               onChange={this.handleScheduleChange}
             />
             <br/>

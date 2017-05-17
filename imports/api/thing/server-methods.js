@@ -10,7 +10,7 @@ Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
     check(thingUuid, String);
     check(type, String);
-    check(options, Match.OneOf(Object, null, undefined));
+    check(options, Match.OneOf(Object, Number, String, null, undefined));
 
     // TODO: Must be owner of the device.
     let thing = Things.findOne(
