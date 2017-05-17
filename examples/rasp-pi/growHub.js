@@ -64,7 +64,7 @@ board.on('ready', function start() {
       });
 
       board.i2cRead(0x66, 7, function (bytes) {
-        let temp = parseAtlasTemperature(bytes);
+        let temp = Grow.parseAtlasTemperature(bytes);
         if (temp) water_temp = temp;
       });
 
