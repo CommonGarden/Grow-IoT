@@ -26,27 +26,11 @@ class DrDose extends Component {
   }
 
   handleOpen = (event) => {
-    let dialog = event.currentTarget.dataset.dialog;
-    switch (dialog) {
-      case 'dltOpen':
-        this.setState({ dltOpen: true });
-        break;
-      case 'settingsDialogOpen':
-        this.setState({settingsDialogOpen: true});
-        break;
-    }
+    this.setState({settingsDialogOpen: true});
   };
 
   handleClose = (event) => {
-    let dialog = event.currentTarget.dataset.dialog;
-    switch (dialog) {
-      case 'dltOpen':
-        this.setState({ dltOpen: false });
-        break;
-      case 'settingsDialogOpen':
-        this.setState({settingsDialogOpen: false});
-        break;
-    }
+    this.setState({settingsDialogOpen: false});
   };
 
   handleValueChange = (event, newValue) => {
@@ -232,6 +216,7 @@ class DrDose extends Component {
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {
+                    const events = this.getEvents(v.type);
                     return <div key={k}>
                       <div style={styles.sensorData}>
                       <i className={v.icon} 
@@ -249,16 +234,16 @@ class DrDose extends Component {
                       }
                       </div>
                       {
-                      !this.props.ready ? <div><CircularProgress /> Loading</div> :
+                      !this.props.ready || !events ? <div><CircularProgress /> Loading</div> :
                       <Resizable>
-                        <ChartContainer timeRange={this.getEvents(v.type).range()}>
+                        <ChartContainer timeRange={events.range()}>
                           <ChartRow height="150">
                             <YAxis
                               id={v.type}
-                              min={this.getEvents(v.type).min()} max={this.getEvents(v.type).max()}
+                              min={events.min()} max={events.max()}
                               width="30" />
                             <Charts>
-                              <LineChart axis={v.type} series={this.getEvents(v.type)} />
+                              <LineChart axis={v.type} series={events} />
                             </Charts>
                           </ChartRow>
                         </ChartContainer>
