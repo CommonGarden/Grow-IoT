@@ -36,13 +36,13 @@ board.on('ready', function start() {
   //   controller: 'TSL2561'
   // });
 
-  // var multi = new five.Multi({
-  //   controller: 'SI7020'
-  // });
+  var multi = new five.Multi({
+    controller: 'BME280'
+  });
 
   var growHub = new Grow({
-    uuid: '394d94b5-ed0b-4a1c-aae4-bbba6af84ba1',
-    token: 'BMopNmonSwbYpRZRmg5XzGYgkMjYT3MC',
+    uuid: '33b3d1ba-ae24-4e2c-91ee-a549b22b436c',
+    token: 'BPh3tyTsqNKkotEXBrETkBQHaosqxmwu',
     component: 'GrowHub',
 
     properties: {

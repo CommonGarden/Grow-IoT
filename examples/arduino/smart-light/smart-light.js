@@ -24,7 +24,7 @@ board.on('ready', function start() {
     uuid: 'dfdcff53-8cf9-4218-a165-6d8152f8fc7c',
     token: 'qL7C76psYiD9okfgtFQXQnrNPek7omi6',
 
-    component: 'smart-light',
+    component: 'SmartLight',
 
     properties: {
       state: 'off',
@@ -81,17 +81,17 @@ board.on('ready', function start() {
       this.call('turn_off');
     },
 
-    power_data: function () {
-      if (this.light) {
-        this.light.getInfo().then((data)=> {
-          let powerData = data.consumption.get_realtime;
-          this.emit({
-            type: 'power',
-            value: powerData
-          });
-        });
-      }
-    },
+    // power_data: function () {
+    //   if (this.light) {
+    //     this.light.getInfo().then((data)=> {
+    //       let powerData = data.consumption.get_realtime;
+    //       this.emit({
+    //         type: 'power',
+    //         value: powerData
+    //       });
+    //     });
+    //   }
+    // },
 
     turn_on: function () {
       if (this.light) {
@@ -112,10 +112,7 @@ board.on('ready', function start() {
     light_data: function () {
       console.log(lightSensor.value);
 
-      light.emit({
-        type: 'light',
-        value: lightSensor.value
-      });
+      light.emit('light', lightSensor.value);
     },
 
     check_light_data: function () {
