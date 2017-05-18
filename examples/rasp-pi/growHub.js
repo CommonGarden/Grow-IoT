@@ -37,7 +37,7 @@ board.on('ready', function start() {
   // });
 
   var multi = new five.Multi({
-    controller: 'BME280'
+    controller: 'SI7020'
   });
 
   var growHub = new Grow({
@@ -121,8 +121,8 @@ board.on('ready', function start() {
       var interval = this.get('interval');
 
       emit_data = setInterval(()=> {
-        // this.temp_data();
-        // this.hum_data();
+        this.temp_data();
+        this.hum_data();
         // this.light_data();
         this.ph_data();
         this.ec_data();
@@ -226,11 +226,11 @@ board.on('ready', function start() {
       }
     },
 
-    light_data: function () {
-      this.emit('lux', lux.level);
+    // light_data: function () {
+    //   this.emit('lux', lux.level);
       
-      console.log('Light: ' + lux.level);
-    },
+    //   console.log('Light: ' + lux.level);
+    // },
 
     temp_data: function () {
       var currentTemp = multi.thermometer.celsius;
