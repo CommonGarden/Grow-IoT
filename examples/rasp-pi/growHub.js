@@ -36,9 +36,9 @@ board.on('ready', function start() {
   //   controller: 'TSL2561'
   // });
 
-  var multi = new five.Multi({
-    controller: 'SI7020'
-  });
+  // var multi = new five.Multi({
+  //   controller: 'SI7020'
+  // });
 
   var growHub = new Grow({
     uuid: '33b3d1ba-ae24-4e2c-91ee-a549b22b436c',
@@ -121,8 +121,8 @@ board.on('ready', function start() {
       var interval = this.get('interval');
 
       emit_data = setInterval(()=> {
-        this.temp_data();
-        this.hum_data();
+        // this.temp_data();
+        // this.hum_data();
         // this.light_data();
         this.ph_data();
         this.ec_data();
@@ -232,21 +232,21 @@ board.on('ready', function start() {
     //   console.log('Light: ' + lux.level);
     // },
 
-    temp_data: function () {
-      var currentTemp = multi.thermometer.celsius;
+    // temp_data: function () {
+    //   var currentTemp = multi.thermometer.celsius;
 
-      this.emit('temperature', currentTemp);
+    //   this.emit('temperature', currentTemp);
 
-      console.log('Temperature: ' + currentTemp);
-    },
+    //   console.log('Temperature: ' + currentTemp);
+    // },
 
-    hum_data: function () {
-      var currentHumidity = multi.hygrometer.relativeHumidity;
+    // hum_data: function () {
+    //   var currentHumidity = multi.hygrometer.relativeHumidity;
 
-      this.emit('humidity', currentHumidity);
+    //   this.emit('humidity', currentHumidity);
 
-      console.log('Humidity: ' + currentHumidity);
-    }
+    //   console.log('Humidity: ' + currentHumidity);
+    // }
   });
 
   growHub.connect({
