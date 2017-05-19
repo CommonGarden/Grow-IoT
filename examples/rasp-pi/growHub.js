@@ -183,15 +183,15 @@ board.on('ready', function start() {
       });
     },
 
-    power_data: function () {
-      this.light.getInfo().then((data)=> {
-        let powerData = data.consumption.get_realtime;
-        this.emit('light_power_current', powerData.current);
-        this.emit('light_power_voltage', powerData.voltage);
-        this.emit('light_power_power', powerData.power);
-        this.emit('light_power_total', powerData.total);
-      });
-    },
+    // power_data: function () {
+    //   this.light.getInfo().then((data)=> {
+    //     let powerData = data.consumption.get_realtime;
+    //     this.emit('light_power_current', powerData.current);
+    //     this.emit('light_power_voltage', powerData.voltage);
+    //     this.emit('light_power_power', powerData.power);
+    //     this.emit('light_power_total', powerData.total);
+    //   });
+    // },
 
     ec_data: function () {
       // Request a reading, 
