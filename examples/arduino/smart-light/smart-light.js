@@ -1,28 +1,24 @@
 // Require the Grow.js build and johnny-five library.
 const Thing = require('../../../lib/Grow.js');
 const five = require('johnny-five');
-const later = require('later');
 
-// Use local time, not UTC.
-later.date.localTime();
-
-// TODO: use an actual light. : )
-const Hs100Api = require('hs100-api');
 
 // See http://johnny-five.io/ to connect devices besides arduino.
 const board = new five.Board();
 
-
 // When board emits a 'ready' event run this start function.
 board.on('ready', function start() {
   // Define variables
-  var LED = new five.Pin(13),
+  var power = new five.Pin(13),
+    LED = new five.Pin(12),
     lightSensor = new five.Sensor('A1');
+
+  power.high();
 
   // Create a new thing.
   var light = new Thing({
-    uuid: 'dfdcff53-8cf9-4218-a165-6d8152f8fc7c',
-    token: 'qL7C76psYiD9okfgtFQXQnrNPek7omi6',
+    uuid: '89c6c860-08f8-4a85-9f9d-ec6415830eb9',
+    token: '2ne3u7ahfSvuFA7pjgCPX9Ys7yNv5x96',
 
     component: 'SmartLight',
 
@@ -34,10 +30,10 @@ board.on('ready', function start() {
       lightconditions: null,
       cycles: {
         day: {
-          start: 'after 7:00am'
+          schedule: 'after 7:00am'
         },
         night: {
-          start: 'after 8:00pm'
+          schedule: 'after 8:00pm'
         }
       }
     },
@@ -49,17 +45,6 @@ board.on('ready', function start() {
         light.light_data();
         light.check_light_data();
       }, interval);
-
-      var client = new Hs100Api.Client();
-
-      client.startDiscovery().on('plug-new', (plug) => {
-        // There is definitely a better way of doing this.
-        // todo: get energy usage?
-        plug.getInfo().then(console.log);
-        if (plug.name === 'Plant Light') {
-          this.light = plug;
-        }
-      });
 
       this.parseCycles(this.get('cycles'));
     },
@@ -94,25 +79,20 @@ board.on('ready', function start() {
     // },
 
     turn_on: function () {
-      if (this.light) {
-        this.light.setPowerState(true);
-      }
+      LED.high();
       this.set('state', 'on');
       console.log('light on');
     },
 
     turn_off:  function () {
-      if (this.light) {
-        this.light.setPowerState(false);
-      }
+      LED.low();
       this.set('state', 'off');
       console.log('light off');
     },
 
     light_data: function () {
-      console.log(lightSensor.value);
-
-      light.emit('light', lightSensor.value);
+      let value = lightSensor.value;
+      light.emit('light', value);
     },
 
     check_light_data: function () {
@@ -121,7 +101,7 @@ board.on('ready', function start() {
       let currently = this.get('currently');
 
       if ((lightSensor.value < threshold) &&
-        (this.get('lightconditions') != 'dark') &&
+        (this.get('lightconditions') !== 'dark') &&
         (currently === 'day')) {
 
         console.log('Too dark for daylight hours, turning on light.')
@@ -130,7 +110,7 @@ board.on('ready', function start() {
       }
 
       else if ((lightSensor.value >= threshold) &&
-        (this.get('lightconditions') != 'light') &&
+        (this.get('lightconditions') !== 'light') &&
         (currently === 'day')) {
 
         this.set('lightconditions', 'light');
@@ -140,13 +120,6 @@ board.on('ready', function start() {
   });
 
   light.connect({
-    host: 'grow.commongarden.org',
-    tlsOpts: {
-      tls: {
-        servername: 'galaxy.meteor.com'
-      }
-    },
-    port: 443,
-    ssl: true
+    port: 3001
   });
 });
