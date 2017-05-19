@@ -127,7 +127,7 @@ board.on('ready', function start() {
         this.ph_data();
         this.ec_data();
         this.water_temp_data();
-        this.power_data();
+        // this.power_data();
       }, interval);
 
       let growfile = this.get('growfile');
@@ -148,12 +148,12 @@ board.on('ready', function start() {
     
     day: function () {
       console.log('It is day!');
-      this.call('turn_light_on');
+      // this.call('turn_light_on');
     },
 
     night: function () {
       console.log('It is night!');
-      this.call('turn_light_off');
+      // this.call('turn_light_off');
     },
 
     // Note, there are probably more elegant ways of handling subthing methods.
