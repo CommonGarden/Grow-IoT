@@ -5,7 +5,7 @@ const url = require('url');
 const raspio = require('raspi-io');
 const five = require('johnny-five');
 const later = require('later');
-const Hs100Api = require('hs100-api');
+// const Hs100Api = require('hs100-api');
 const _ = require('underscore');
 const NodeWebcam = require('node-webcam');
 const fs = require('fs');
@@ -97,25 +97,25 @@ board.on('ready', function start() {
         if (temp) water_temp = temp;
       });
 
-      var client = new Hs100Api.Client();
+      // var client = new Hs100Api.Client();
 
-      client.startDiscovery().on('plug-new', (plug) => {
-        if (plug.name === 'Plant Light') {
-          console.log('Light connected');
-          this.light = plug;
-          this.light.getInfo().then((data)=> {
-            if (data.sysInfo.relay_state === 1) {
-              this.set('light_state', 'on');
-            } else {
-              this.set('light_state', 'off');
-            }
-          }).catch(
-            (reason) => {
-              console.log('Handle rejected promise ('+reason+') here.');
-            }
-          );
-        }
-      });
+      // client.startDiscovery().on('plug-new', (plug) => {
+      //   if (plug.name === 'Plant Light') {
+      //     console.log('Light connected');
+      //     this.light = plug;
+      //     this.light.getInfo().then((data)=> {
+      //       if (data.sysInfo.relay_state === 1) {
+      //         this.set('light_state', 'on');
+      //       } else {
+      //         this.set('light_state', 'off');
+      //       }
+      //     }).catch(
+      //       (reason) => {
+      //         console.log('Handle rejected promise ('+reason+') here.');
+      //       }
+      //     );
+      //   }
+      // });
 
 
       var interval = this.get('interval');
@@ -157,21 +157,21 @@ board.on('ready', function start() {
     },
 
     // Note, there are probably more elegant ways of handling subthing methods.
-    turn_light_on: function () {
-      console.log('Light on');
-      if (this.light) {
-        this.light.setPowerState(true);
-      }          
-      this.set('light_state', 'on');
-    },
+    // turn_light_on: function () {
+    //   console.log('Light on');
+    //   if (this.light) {
+    //     this.light.setPowerState(true);
+    //   }          
+    //   this.set('light_state', 'on');
+    // },
 
-    turn_light_off: function () {
-      console.log('Light off');
-      if (this.light) {
-        this.light.setPowerState(false);
-      }          
-      this.set('light_state', 'off');
-    },
+    // turn_light_off: function () {
+    //   console.log('Light off');
+    //   if (this.light) {
+    //     this.light.setPowerState(false);
+    //   }          
+    //   this.set('light_state', 'off');
+    // },
 
     picture: function () {
       NodeWebcam.capture( 'image', opts, ( err, data )=> {
