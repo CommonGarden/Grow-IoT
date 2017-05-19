@@ -250,7 +250,7 @@ board.on('ready', function start() {
   });
 
   growHub.connect({
-    host: '172.20.10.4',
+    host: '10.113.107.112',
     port: 3001
   });
 

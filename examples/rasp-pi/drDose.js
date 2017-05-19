@@ -27,8 +27,8 @@ board.on('ready', function start() {
 
   // Create a new grow instance and connect to https://grow.commongarden.org
   var grow = new Grow({
-    uuid: '44f3bded-0245-4e07-b478-289f11207025',
-    token: 'wt9HDFw3XSt4rmjWjAoic2oKmhyvJeWF',
+    uuid: '3080d548-a52e-4e08-9904-973c035533c9',
+    token: 'rwJYs9ufZL2A53R8nQpnxwHjjY44eDXq',
 
     component: 'DrDose',
 
@@ -169,7 +169,7 @@ board.on('ready', function start() {
   });
 
   grow.connect({
-    host: '10.0.0.198',
+    host: '10.113.107.112',
     port: 3001
   });
 
