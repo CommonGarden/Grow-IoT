@@ -52,23 +52,18 @@ board.on('ready', function start() {
       growfile: {
         targets: {
           water_temperature: {
-            min: 22,
-            max: 29
+            min: 10,
+            ideal: 20,
+            max: 25
           },
           ph: {
-            min: 6.9,
-            max: 8.5
+            min: 5.9,
+            ideal: 6.5,
+            max: 7.5
           },
           ec: {
-            max: 500
-          }
-        },
-        cycles: {
-          day: {
-            schedule: 'after 9:00am'
-          },
-          night: {
-            schedule: 'after 7:00pm'
+            min: 200,
+            max: 1500
           }
         }
       },
@@ -97,25 +92,25 @@ board.on('ready', function start() {
         if (temp) water_temp = temp;
       });
 
-      var client = new Hs100Api.Client();
+      // var client = new Hs100Api.Client();
 
-      client.startDiscovery().on('plug-new', (plug) => {
-        if (plug.name === 'Plant Light') {
-          console.log('Light connected');
-          this.light = plug;
-          this.light.getInfo().then((data)=> {
-            if (data.sysInfo.relay_state === 1) {
-              this.set('light_state', 'on');
-            } else {
-              this.set('light_state', 'off');
-            }
-          }).catch(
-            (reason) => {
-              console.log('Handle rejected promise ('+reason+') here.');
-            }
-          );
-        }
-      });
+      // client.startDiscovery().on('plug-new', (plug) => {
+      //   if (plug.name === 'Plant Light') {
+      //     console.log('Light connected');
+      //     this.light = plug;
+      //     this.light.getInfo().then((data)=> {
+      //       if (data.sysInfo.relay_state === 1) {
+      //         this.set('light_state', 'on');
+      //       } else {
+      //         this.set('light_state', 'off');
+      //       }
+      //     }).catch(
+      //       (reason) => {
+      //         console.log('Handle rejected promise ('+reason+') here.');
+      //       }
+      //     );
+      //   }
+      // });
 
 
       var interval = this.get('interval');
@@ -127,12 +122,12 @@ board.on('ready', function start() {
         this.ph_data();
         this.ec_data();
         this.water_temp_data();
-        this.power_data();
+        // this.power_data();
       }, interval);
 
       let growfile = this.get('growfile');
       this.registerTargets(growfile.targets);
-      this.parseCycles(growfile.cycles);
+      // this.parseCycles(growfile.cycles);
     },
 
     stop: function () {
@@ -146,32 +141,32 @@ board.on('ready', function start() {
       this.start();
     },
     
-    day: function () {
-      console.log('It is day!');
-      this.call('turn_light_on');
-    },
+    // day: function () {
+    //   console.log('It is day!');
+    //   this.call('turn_light_on');
+    // },
 
-    night: function () {
-      console.log('It is night!');
-      this.call('turn_light_off');
-    },
+    // night: function () {
+    //   console.log('It is night!');
+    //   this.call('turn_light_off');
+    // },
 
-    // Note, there are probably more elegant ways of handling subthing methods.
-    turn_light_on: function () {
-      console.log('Light on');
-      if (this.light) {
-        this.light.setPowerState(true);
-      }          
-      this.set('light_state', 'on');
-    },
+    // // Note, there are probably more elegant ways of handling subthing methods.
+    // turn_light_on: function () {
+    //   console.log('Light on');
+    //   if (this.light) {
+    //     this.light.setPowerState(true);
+    //   }          
+    //   this.set('light_state', 'on');
+    // },
 
-    turn_light_off: function () {
-      console.log('Light off');
-      if (this.light) {
-        this.light.setPowerState(false);
-      }          
-      this.set('light_state', 'off');
-    },
+    // turn_light_off: function () {
+    //   console.log('Light off');
+    //   if (this.light) {
+    //     this.light.setPowerState(false);
+    //   }          
+    //   this.set('light_state', 'off');
+    // },
 
     picture: function () {
       NodeWebcam.capture( 'image', opts, ( err, data )=> {
@@ -183,15 +178,15 @@ board.on('ready', function start() {
       });
     },
 
-    power_data: function () {
-      this.light.getInfo().then((data)=> {
-        let powerData = data.consumption.get_realtime;
-        this.emit('light_power_current', powerData.current);
-        this.emit('light_power_voltage', powerData.voltage);
-        this.emit('light_power_power', powerData.power);
-        this.emit('light_power_total', powerData.total);
-      });
-    },
+    // power_data: function () {
+    //   this.light.getInfo().then((data)=> {
+    //     let powerData = data.consumption.get_realtime;
+    //     this.emit('light_power_current', powerData.current);
+    //     this.emit('light_power_voltage', powerData.voltage);
+    //     this.emit('light_power_power', powerData.power);
+    //     this.emit('light_power_total', powerData.total);
+    //   });
+    // },
 
     ec_data: function () {
       // Request a reading, 
@@ -226,31 +221,31 @@ board.on('ready', function start() {
       }
     },
 
-    light_data: function () {
-      this.emit('lux', lux.level);
+    // light_data: function () {
+    //   this.emit('lux', lux.level);
       
-      console.log('Light: ' + lux.level);
-    },
+    //   console.log('Light: ' + lux.level);
+    // },
 
-    temp_data: function () {
-      var currentTemp = multi.thermometer.celsius;
+    // temp_data: function () {
+    //   var currentTemp = multi.thermometer.celsius;
 
-      this.emit('temperature', currentTemp);
+    //   this.emit('temperature', currentTemp);
 
-      console.log('Temperature: ' + currentTemp);
-    },
+    //   console.log('Temperature: ' + currentTemp);
+    // },
 
-    hum_data: function () {
-      var currentHumidity = multi.hygrometer.relativeHumidity;
+    // hum_data: function () {
+    //   var currentHumidity = multi.hygrometer.relativeHumidity;
 
-      this.emit('humidity', currentHumidity);
+    //   this.emit('humidity', currentHumidity);
 
-      console.log('Humidity: ' + currentHumidity);
-    }
+    //   console.log('Humidity: ' + currentHumidity);
+    // }
   });
 
   growHub.connect({
-    host: '10.113.107.112',
+    host: '192.168.2.1',
     port: 3001
   });
 
