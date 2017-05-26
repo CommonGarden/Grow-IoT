@@ -7,7 +7,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import { Charts, ChartContainer, ChartRow, YAxis, LineChart } from "react-timeseries-charts";
+import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
 import { TimeSeries, TimeRange, Event } from "pondjs";
 import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -24,6 +24,7 @@ import CameraComponent from './CameraComponent';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
+import CircularProgress from 'material-ui/CircularProgress';
 
 // Should there be a base thing component that has methods like setProperty and sendcommand?
 class GrowHub extends Component {
@@ -90,6 +91,20 @@ class GrowHub extends Component {
     ]
   };
 
+  getEvents(type) {
+    const e = this.props[`${type}Events`];
+
+    let data = {
+      name: type,
+      columns: ["time", "value"],
+      points: []
+    };
+    _.each(e, (value, key, list) => {
+      data.points.unshift([value.event.timestamp.getTime(), value.event.message])
+    });
+    if (data.points[0]) return new TimeSeries(data);
+  }
+
   sendCommand (method, options) {
     Meteor.call('Thing.sendCommand',
       this.props.thing.uuid,
@@ -128,8 +143,22 @@ class GrowHub extends Component {
   }
 
   getEventValue(type) {
-    const e = this.props[`${type}Event`];
-    return e ? Number(e.event.message).toFixed(2) : 'NA';
+    const e = this.props[`${type}Events`];
+    return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+  }
+
+  getEvents(type) {
+    const e = this.props[`${type}Events`];
+
+    let data = {
+      name: type,
+      columns: ["time", "value"],
+      points: []
+    };
+    _.each(e, (value, key, list) => {
+      data.points.unshift([value.event.timestamp.getTime(), value.event.message])
+    });
+    if (data.points[0]) return new TimeSeries(data);
   }
 
   renderCamera() {
@@ -142,6 +171,7 @@ class GrowHub extends Component {
         maxHeight: '100%',
         minHeight: 300,
         width: '100%',
+        // maxWidth: 600
       },
       white: {
         color: 'white'
@@ -198,6 +228,7 @@ class GrowHub extends Component {
       },
       main: {
         margin: '20px',
+        maxWidth: 550,
       },
       sensorData: {
         paddingLeft: 10,
@@ -236,6 +267,7 @@ class GrowHub extends Component {
     const thing = this.props.thing;
     const properties = this.props.thing.properties;
     const alerts = this.props.thing.properties.alerts || {};
+    const width = 400;
 
     return (
       <Card style={styles.main}>
@@ -258,7 +290,10 @@ class GrowHub extends Component {
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {
-                    return <h3 key={k}>
+                    const events = this.getEvents(v.type);
+                    console.log(events);
+                    return <div key={k}>
+                      <div style={styles.sensorData}>
                       <i className={v.icon} 
                         style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
                       {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
@@ -272,35 +307,26 @@ class GrowHub extends Component {
                           <WarningIcon />
                         </IconButton>: <span></span>
                       }
-                    </h3>
+                      </div>
+                      {
+                      !events ? <div><CircularProgress /> Loading</div> :
+                        <ChartContainer timeRange={events.range()} width={width}>
+                          <ChartRow height="150">
+                            <YAxis
+                              id={v.type}
+                              min={events.min()} max={events.max()}
+                              width="30" />
+                            <Charts>
+                              <LineChart axis={v.type} series={events} />
+                            </Charts>
+                          </ChartRow>
+                        </ChartContainer>
+                      }
+                    </div>
                   })
                 }
               </div>
 
-            </Col>
-          </Row>
-          <Divider />
-          <Row>
-            <Col xs={12} md={4}>
-              <div style={styles.actuator}>
-                <div style={styles.actionButton}>
-                  <h3>Light</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-device="light"
-                    onTouchTap={this.handleTap}>
-                    <PowerIcon />
-                  </FloatingActionButton>
-                  <br/>
-                  <div style={styles.powerData}>
-                    <span style={styles.powerStats}><EnergyIcon style={styles.energyIcon} /> Power stats:</span><br/>
-                    Current: {this.getEventValue('light_power_current')}<br/>
-                    Voltage: {this.getEventValue('light_power_voltage')}<br/>
-                    Power: {this.getEventValue('light_power_power')}<br/>
-                    Total: {this.getEventValue('light_power_total')}<br/>
-                  </div>
-                </div>
-              </div>
             </Col>
           </Row>
           <Dialog
@@ -356,17 +382,17 @@ class GrowHub extends Component {
 }
 
 GrowHub.propTypes = {
-  ecEvent: PropTypes.object,
-  phEvent: PropTypes.object,
-  image: PropTypes.object,
+  ecEvents: PropTypes.array,
+  phEvents: PropTypes.array,
+  images: PropTypes.object,
   // tempEvent: PropTypes.object,
-  water_temperatureEvent: PropTypes.object,
+  water_temperatureEvents: PropTypes.array,
   // humidityEvent: PropTypes.object,
   // luxEvent: PropTypes.object,
-  light_power_powerEvent: PropTypes.object,
-  light_power_voltageEvent: PropTypes.object,
-  light_power_currentEvent: PropTypes.object,
-  light_power_totalEvent: PropTypes.object,
+  // light_power_powerEvent: PropTypes.object,
+  // light_power_voltageEvent: PropTypes.object,
+  // light_power_currentEvent: PropTypes.object,
+  // light_power_totalEvent: PropTypes.object,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
 }
@@ -391,42 +417,48 @@ export default GrowHubContainer = createContainer(({ thing }) => {
 
   const alerts = Events.find({'event.type': 'alert',
     'thing._id': thing._id}).fetch();
-  const phEvent = Events.findOne({'event.type': 'ph',
-    'thing._id': thing._id});
-  const ecEvent = Events.findOne({'event.type': 'ec',
-    'thing._id': thing._id});
+  const phEvents = Events.find({'event.type': 'ph',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+  const ecEvents = Events.find({'event.type': 'ec',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
   // const luxEvent = Events.findOne({'event.type': 'lux'});
   // const tempEvent = Events.findOne({'event.type': 'temperature'});
-  const water_temperatureEvent = Events.findOne({'event.type': 'water_temperature',
-    'thing._id': thing._id});
+  const water_temperatureEvents = Events.find({'event.type': 'water_temperature',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
   // const humidityEvent = Events.findOne({'event.type': 'humidity'});
 
-  const light_power_powerEvent = Events.findOne({'event.type': 'light_power_power',
-    'thing._id': thing._id});
+  // const light_power_powerEvent = Events.findOne({'event.type': 'light_power_power',
+  //   'thing._id': thing._id});
 
-  const light_power_voltageEvent = Events.findOne({'event.type': 'light_power_voltage',
-    'thing._id': thing._id});
+  // const light_power_voltageEvent = Events.findOne({'event.type': 'light_power_voltage',
+  //   'thing._id': thing._id});
 
   
-  const light_power_currentEvent = Events.findOne({'event.type': 'light_power_current',
-    'thing._id': thing._id});
+  // const light_power_currentEvent = Events.findOne({'event.type': 'light_power_current',
+  //   'thing._id': thing._id});
 
  
-  const light_power_totalEvent = Events.findOne({'event.type': 'light_power_total',
-    'thing._id': thing._id});
+  // const light_power_totalEvent = Events.findOne({'event.type': 'light_power_total',
+  //   'thing._id': thing._id});
 
   return {
-    phEvent,
-    ecEvent,
-    water_temperatureEvent,
+    phEvents,
+    ecEvents,
+    water_temperatureEvents,
     image,
     // tempEvent,
     // humidityEvent,
     // luxEvent,
-    light_power_powerEvent,
-    light_power_voltageEvent,
-    light_power_currentEvent,
-    light_power_totalEvent,
+    // light_power_powerEvent,
+    // light_power_voltageEvent,
+    // light_power_currentEvent,
+    // light_power_totalEvent,
     alerts,
     ready
   }

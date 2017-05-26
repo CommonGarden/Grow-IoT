@@ -62,9 +62,7 @@ export default class ThingDisplay extends Component {
         <div>
           <p>Connect a device using the following API crendentials or create a component instead.</p>
           <p><b>UUID:</b></p> <p><span className="selectable">
-              <Link to={`/app/thing/${this.props.thing.uuid}`}>
-                {this.props.thing.uuid}
-              </Link>
+            {this.props.thing.uuid}
           </span></p>
           <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
         </div>

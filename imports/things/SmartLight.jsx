@@ -82,9 +82,10 @@ class SmartLight extends Component {
     const events = this.props.data;
 
     const series = new TimeSeries(events);
+    const width = 400;
     return (
       <div>
-        <ChartContainer timeRange={series.range()}>
+        <ChartContainer timeRange={series.range()} width={width}>
           <ChartRow height="150">
             <YAxis
               id="light"
@@ -195,7 +196,7 @@ export default SmartLightContainer = createContainer(({ thing }) => {
     points: []
   };
   _.each(events, (value, key, list) => {
-    data.points.unshift([value.event.timestamp.getTime(), value.event.value])
+    data.points.unshift([value.event.timestamp.getTime(), value.event.message])
   });
   return {
     data,
