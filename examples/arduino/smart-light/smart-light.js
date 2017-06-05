@@ -3,6 +3,9 @@ const Thing = require('../../../lib/Grow.js');
 const five = require('johnny-five');
 const later = require('later');
 
+// Use local time, not UTC.
+later.date.localTime();
+
 // See http://johnny-five.io/ to connect devices besides arduino.
 const board = new five.Board();
 
@@ -17,8 +20,8 @@ board.on('ready', function start() {
 
   // Create a new thing.
   var light = new Thing({
-    uuid: '89c6c860-08f8-4a85-9f9d-ec6415830eb9',
-    token: '2ne3u7ahfSvuFA7pjgCPX9Ys7yNv5x96',
+    uuid: '0ec45202-9c0d-4ad7-b19e-8720abe5d23a',
+    token: 'B5SjPqxrRksvSfn8bLFREcGmo6bHqf36',
 
     component: 'SmartLight',
 

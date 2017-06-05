@@ -53,12 +53,10 @@ board.on('ready', function start() {
         targets: {
           water_temperature: {
             min: 10,
-            ideal: 20,
             max: 25
           },
           ph: {
             min: 5.9,
-            ideal: 6.5,
             max: 7.5
           },
           ec: {
