@@ -9,7 +9,9 @@ Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) 
 `npm install Grow.js`
 
 # Usage
-See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits. This readme, covers Grow.js specific features.
+See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits. 
+
+This readme, covers Grow.js specific features like setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'
 
 ### Targets
 
