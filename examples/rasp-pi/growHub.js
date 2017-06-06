@@ -85,10 +85,10 @@ board.on('ready', function start() {
         if (pH) pH_reading = pH;
       });
 
-      board.i2cRead(0x66, 7, function (bytes) {
-        let temp = Grow.parseAtlasTemperature(bytes);
-        if (temp) water_temp = temp;
-      });
+      // board.i2cRead(0x66, 7, function (bytes) {
+      //   let temp = Grow.parseAtlasTemperature(bytes);
+      //   if (temp) water_temp = temp;
+      // });
 
       // var client = new Hs100Api.Client();
 
@@ -119,7 +119,7 @@ board.on('ready', function start() {
         // this.light_data();
         this.ph_data();
         this.ec_data();
-        this.water_temp_data();
+        // this.water_temp_data();
         // this.power_data();
       }, interval);
 
@@ -208,16 +208,16 @@ board.on('ready', function start() {
       }
     },
 
-    water_temp_data: function () {
-      // Request a reading
-      board.i2cWrite(0x66, [0x52, 0x00]);
+    // water_temp_data: function () {
+    //   // Request a reading
+    //   board.i2cWrite(0x66, [0x52, 0x00]);
 
-      if (water_temp) {
-        this.emit('water_temperature', water_temp);
+    //   if (water_temp) {
+    //     this.emit('water_temperature', water_temp);
 
-        console.log('Resevoir temp: ' + water_temp);
-      }
-    },
+    //     console.log('Resevoir temp: ' + water_temp);
+    //   }
+    // },
 
     // light_data: function () {
     //   this.emit('lux', lux.level);
