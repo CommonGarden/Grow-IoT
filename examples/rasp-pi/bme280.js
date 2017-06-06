@@ -17,13 +17,12 @@ board.on('ready', function start() {
   });
 
   var growHub = new Grow({
-    uuid: '1b38d189-abaa-43fd-9427-be9dc9483267',
-    token: '8hywifWmWgsFXYoGsu6e5yNvfFJzptmd',
-    // component: 'GrowHub',
+    uuid: '732db76b-7d92-4c6c-995f-ec0d34acf6f2',
+    token: '5qL8nsFpqDf7m4cY9u6uFoXDKMfGJHf2',
+
+    component: 'ClimateSensor',
 
     properties: {
-      light_state: null,
-      duration: 2000,
       interval: 6000,
       growfile: {
         targets: {
@@ -36,8 +35,7 @@ board.on('ready', function start() {
             max: 80
           },
         }
-      },
-      targets: {},
+      }
     },
 
     start: function () {
@@ -82,7 +80,7 @@ board.on('ready', function start() {
     }
   });
 
-  // growHub.connect({
-  //   host: '192.168.2.1',
-  // });
+  growHub.connect({
+    host: '10.0.0.198',
+  });
 });
