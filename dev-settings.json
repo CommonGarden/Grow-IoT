@@ -1,4 +1,7 @@
 { 
 	"INFLUX_URL": "localhost",
-	"ELASTIC_URL": false
+	"ELASTIC_URL": false,
+	"S3": false,
+	"TITLE": "Grow-IoT",
+	"LOGO": "public/logo.png"
 }
