@@ -40,7 +40,7 @@ class TestDevice extends Component {
 
           <h2>Test Device</h2>
           <p>State: {thing.properties.state}</p>
-          <p>Temperature: {event ? event.event.value : '-'}</p>
+          <p>Temperature: {event ? event.event.message : '-'}</p>
           <RaisedButton onTouchTap={this.handleTap}>
             {this.props.thing.properties.state === 'on' ? 'Off': 'On'}
           </RaisedButton>

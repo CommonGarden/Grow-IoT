@@ -63,12 +63,12 @@ class SmartLight extends Component {
 
     if (key === 'day') {
       key = 'cycles';
-      cycles['day'].start = newValue;
+      cycles['day'].schedule = newValue;
       this.setProperty(key, cycles);
 
     } else if (key === 'night') {
       key = 'cycles';
-      cycles['night'].start = newValue;
+      cycles['night'].schedule = newValue;
       this.setProperty(key, cycles);
 
     } else {
@@ -85,6 +85,7 @@ class SmartLight extends Component {
     const width = 400;
     return (
       <div>
+        <h2>An example "Thing"</h2>
         <ChartContainer timeRange={series.range()} width={width}>
           <ChartRow height="150">
             <YAxis
@@ -97,7 +98,7 @@ class SmartLight extends Component {
             </Charts>
           </ChartRow>
         </ChartContainer>
-        <h3>Light reading: {event ? event.event.value : '-'}</h3>
+        <h3>Light reading: {event ? event.event.message : '-'}</h3>
 
         <h4>Light: {thing.properties.state}</h4>
         <FloatingActionButton secondary={this.props.thing.properties.state === 'on' ? true: false}
@@ -123,7 +124,7 @@ class SmartLight extends Component {
           hintText="Day start"
           floatingLabelText="Day start"
           data-key="day"
-          defaultValue={thing.properties.cycles.day.start}
+          defaultValue={thing.properties.cycles.day.schedule}
           onChange={this.handleScheduleChange}
         />
         <br/>
@@ -132,7 +133,7 @@ class SmartLight extends Component {
           hintText="Night start"
           floatingLabelText="Night start"
           data-key="night"
-          defaultValue={thing.properties.cycles.night.start}
+          defaultValue={thing.properties.cycles.night.schedule}
           onChange={this.handleScheduleChange}
         />
         <br/>
