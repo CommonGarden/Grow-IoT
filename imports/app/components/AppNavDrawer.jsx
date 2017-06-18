@@ -16,6 +16,8 @@ import HelpIcon from 'material-ui/svg-icons/action/help';
 import FullscreenIcon from 'material-ui/svg-icons/navigation/fullscreen';
 import FullscreenExitIcon from 'material-ui/svg-icons/navigation/fullscreen-exit';
 import SvgIcon from 'material-ui/SvgIcon';
+import Avatar from 'material-ui/Avatar';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 
 const SelectableList = makeSelectable(List);
 
@@ -175,7 +177,15 @@ class AppNavDrawer extends Component {
           value=""
           onChange={this.handleRequestChangeLink}
         >
-          {/* button instead of ListItem to because fullscreen request is not autherized for synthetic events. */}
+          {
+          /* button instead of ListItem to because fullscreen request is not autherized for synthetic events. */}
+          <Subheader>Selectable Contacts</Subheader>
+          <ListItem
+            value={1}
+            primaryText="Wholesome Farms"
+            leftAvatar={<Avatar src="images/ok-128.jpg" />}
+          />
+          <ListItem primaryText="Settings" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<SettingsIcon />} />
           <div className="horizontal layout">
             <button onClick={this.handleFullscreenToggle} style={fsIconStyle} >
               {this.state.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
