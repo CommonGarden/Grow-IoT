@@ -35,16 +35,7 @@ class AppNavDrawer extends Component {
     muiTheme: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
   };
-  state = {
-    fullscreen: false,
-  }
-  componentWillMount () {
-    this.addFullscreenEventListener();
-    this.setFullscreenState();
-  }
-  componentWillUnmount () {
-    this.removeFullscreenEventListener();
-  }
+
   handleClose = () => {
     console.log('clicked')
     this.setState({open: false});
@@ -60,56 +51,11 @@ class AppNavDrawer extends Component {
     this.context.router.push('/');
     this.props.onRequestChangeNavDrawer(false);
   };
-  handleFullscreenToggle = () => {
-    if (this.notFullscreen()) {
-      if (document.documentElement.requestFullScreen) {
-        document.documentElement.requestFullScreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullScreen) {
-        document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-      }
-    } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
-    }
-  }
-  addFullscreenEventListener() {
-    const handler = this.setFullscreenState;
-    if (document.addEventListener) {
-      document.addEventListener('webkitfullscreenchange', handler, false);
-      document.addEventListener('mozfullscreenchange', handler, false);
-      document.addEventListener('fullscreenchange', handler, false);
-      document.addEventListener('MSFullscreenChange', handler, false);
-    }
-  }
-  removeFullscreenEventListener() {
-    const handler = this.setFullscreenState;
-    if (document.removeEventListener) {
-      document.removeEventListener('webkitfullscreenchange', handler, false);
-      document.removeEventListener('mozfullscreenchange', handler, false);
-      document.removeEventListener('fullscreenchange', handler, false);
-      document.removeEventListener('MSFullscreenChange', handler, false);
-    }
-  }
-  notFullscreen() {
-    return (document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen);
-  }
+
   isFunction(fn) {
     return typeof fn === 'function';
   }
-  setFullscreenState = (fn1, fn2) => {
-    if(this.notFullscreen()) {
-      this.setState({ fullscreen : false });
-    } else {
-      this.setState({ fullscreen : true });
-    }
-  }
+
   signOut(e) {
     e.preventDefault();
     // Log out the user and navigate back to the home page on success
@@ -149,6 +95,7 @@ class AppNavDrawer extends Component {
         fontSize: 16,
       },
     };
+
     const fsButtonStyle = {
       backgroundColor: 'white',
       color: 'rgba(0, 0, 0, 0.87)',
@@ -161,9 +108,11 @@ class AppNavDrawer extends Component {
       cursor: 'pointer',
       padding: '0px',
     };
+
     const fsIconStyle = _.extend({}, fsButtonStyle, {
       padding: '12px 32px 12px 16px',
     });
+
     return (
       <Drawer
         style={style}
@@ -179,21 +128,18 @@ class AppNavDrawer extends Component {
         >
           {
           /* button instead of ListItem to because fullscreen request is not autherized for synthetic events. */}
-          <Subheader>Selectable Contacts</Subheader>
+          {
+            // <Subheader>Selectable Contacts</Subheader>
+          }
           <ListItem
             value={1}
             primaryText="Wholesome Farms"
-            leftAvatar={<Avatar src="images/ok-128.jpg" />}
+            leftAvatar={<Avatar src="/img/indoor-farm.jpg" />}
           />
-          <ListItem primaryText="Settings" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<SettingsIcon />} />
-          <div className="horizontal layout">
-            <button onClick={this.handleFullscreenToggle} style={fsIconStyle} >
-              {this.state.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-            </button>
-            <button onClick={this.handleFullscreenToggle} style={fsButtonStyle} className="flex">
-              {this.state.fullscreen ? 'Exit' : 'Go'} Fullscreen 
-            </button>
-          </div>
+          <Divider />
+          {
+          // <ListItem primaryText="Settings" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<SettingsIcon />} />
+          }
           <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />
           <ListItem primaryText="Dev list" value="https://groups.google.com/a/commongarden.org/forum/#!forum/dev" leftIcon={<MailIcon />}/>
         </SelectableList>

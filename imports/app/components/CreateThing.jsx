@@ -38,7 +38,7 @@ export default class CreateThing extends Component {
   };
 
   handleNewDevice = () => {
-    Meteor.call('Thing.new', 
+    Meteor.call('Thing.generateAPIKeys', 
       (error, document) => {
         if (error) {
           throw error;
