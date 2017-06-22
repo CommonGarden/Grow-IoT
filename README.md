@@ -72,6 +72,7 @@ Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growin
 * [Cloud setup](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup)
 * [Elastic support](https://github.com/CommonGarden/Grow-IoT/wiki/Elastic)
 * [Influx support](https://github.com/CommonGarden/Grow-IoT/wiki/Influx-DB)
+* [Graphana setup](https://github.com/CommonGarden/Grow-IoT/wiki/Grafana-Setup)
 * [Running locally](https://github.com/CommonGarden/Grow-IoT/wiki/Running-locally)
 * [Supported hardware](https://github.com/CommonGarden/Grow-IoT/wiki/Supported-hardware)
 
