@@ -1,7 +1,7 @@
 { 
 	"public" : {
-		"title": "Common Garden",
-		"logo": "public/logo.png",
+		"title": "Grow-IoT",
+		"logo": "/img/white_flower.png",
 		"primary_color": "rgb(34, 194, 70)"
     },
 	"INFLUX_URL": "localhost",

@@ -55,6 +55,23 @@ export default class CreateThing extends Component {
     );
   }
 
+  handleCreate = () => {
+    Meteor.call('Thing.new',
+      {
+        uuid: this.state.uuid,
+        token: this.state.token
+      },
+      (error, document) => {
+        if (error) {
+          throw error;
+        } else {
+          this.setState({ open: false, newThingSnackOpen:true});
+
+        }
+      }
+    );
+  }
+
   handleClose = () => {
     this.setState({open: false});
   };
@@ -109,6 +126,10 @@ export default class CreateThing extends Component {
   };
 
   render() {
+    const thingStyle = {
+      minWidth: '350px'
+    }
+
     const actions = [
       <FlatButton
           label="Cancel"
@@ -116,9 +137,9 @@ export default class CreateThing extends Component {
           onTouchTap={this.handleCancel}
       />,
       <FlatButton
-        label="Create component"
+        label="Create"
         primary={true}
-        onTouchTap={this.handleSubmit}
+        onTouchTap={this.handleCreate}
       />
     ];
 
@@ -145,6 +166,28 @@ export default class CreateThing extends Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
+          <div>
+          <p>If you purchased a device enter its UUID and Token here, otherwise use these API credentials when you connect your device.</p>
+          <TextField
+            hintText="Name"
+            // errorText="This field is required"
+            defaultValue={this.state.uuid}
+            floatingLabelText="Name"
+            style={thingStyle}
+          />
+          <br/>
+          <TextField
+            ref="password"
+            defaultValue={this.state.token}
+            // onChange={this.passwordChange}
+            hintText="Secret"
+            style={thingStyle}
+            // errorText="This field is required"
+            // floatingLabelText={
+            //   <em>Secret<Visible/></em>
+            // }
+          />
+        </div>
           <SelectField
             floatingLabelText="Component Type"
             value={this.state.value}

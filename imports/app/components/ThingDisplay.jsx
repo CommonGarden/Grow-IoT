@@ -64,8 +64,6 @@ export default class ThingDisplay extends Component {
     ];
 
     const registered = this.props.thing.registeredAt;
-    // const submitButton =  <FlatButton label="Submit" onTouchTap={this.handleOpen} key={1}/> ;
-    // const deleteButton =  <FlatButton label="Cancel" onTouchTap={this.handleOpen} key={1}/> ;
     const unregisteredText = <Card style={thingStyle}>
       <CardText>
         <div>

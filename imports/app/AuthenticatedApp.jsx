@@ -21,7 +21,6 @@ import NotificationsWidget from './components/NotificationsWidget';
 
 const title = Meteor.settings.public.title || "Grow-IoT";
 const logo = Meteor.settings.public.logo || "/img/white_flower.png";
-const primary_color = Meteor.settings.public.primary_color || "rgb(34, 194, 70)";
 
 class AuthenticatedApp extends Component {
 
@@ -161,9 +160,6 @@ class AuthenticatedApp extends Component {
           iconElementLeft={
             <img src={logo} style={styles.logo} />
           }
-          style={{
-            backgroundColor: primary_color
-          }}
         />
         <AppNavDrawer
           style={styles.navDrawer}

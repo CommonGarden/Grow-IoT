@@ -7,7 +7,6 @@ import AccountsUI from './pages/AccountsUI.jsx';
 
 const title = Meteor.settings.public.title || "Grow-IoT";
 const logo = Meteor.settings.public.logo || "/img/white_flower.png";
-const primary_color = Meteor.settings.public.primary_color || "rgb(34, 194, 70)";
 
 export default class UnauthenticatedApp extends Component {
   render() {
@@ -23,9 +22,6 @@ export default class UnauthenticatedApp extends Component {
               marginTop: 3
             }} />
           }
-          style={{
-            backgroundColor: primary_color
-          }}
         />
         <div className="flex layout vertical">
           <Switch>
