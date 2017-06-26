@@ -31,12 +31,14 @@ class NotificationsWidget extends Component {
     this.getNotificationCount();
     this.callGetCount();
   }
+
   getNotificationCount() {
     Notifications.find({'owner._id' : Meteor.userId(), read: false,}).observe({
       added: this.callGetCount,
       removed: this.callGetCount,
     });
   }
+
   callGetCount = () => {
     setTimeout(() => {
       Meteor.call('Notifications.getCount', (e, r) => {
@@ -46,6 +48,7 @@ class NotificationsWidget extends Component {
       });
     });
   }
+
   handleRead (event) {
     event.preventDefault();
     let id = event.currentTarget.dataset.id;
@@ -59,9 +62,11 @@ class NotificationsWidget extends Component {
       }
     );
   }
+
   goToAllNotifications = () => {
     this.props.history.push(`${this.props.match.url}/notifications`);
   }
+
   renderBadge (count) {
     return count ? <Badge
       badgeContent={count}
@@ -118,7 +123,6 @@ export default NotificationsWidgetContainer = createContainer(() => {
     }
   );
 
-  // Todo: get unread notifications.
   const notifications = Notifications.find({}, { sort: { timestamp: -1 } }).fetch();
 
   return {

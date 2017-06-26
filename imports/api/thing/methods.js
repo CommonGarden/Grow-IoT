@@ -39,23 +39,25 @@ Meteor.methods({
    * Creates a new thing with UUID and Token.
   */
   'Thing.new': function (thing, auth) {
-    check(thing, Match.OneOf(Object, undefined));
+    check(thing, Match.OneOf(Object, null));
     check(auth, Match.OneOf({
       uuid: String,
       token: String
     }, undefined));
 
+    let document;
+
     // Must be a logged in user.
     if (Meteor.userId()) {
       if (auth) {
-        let document = {
+        document = {
           'uuid': auth.uuid,
           'token': auth.token,
           'owner': Meteor.userId(),
           thing,
         };
       } else {
-        let document = {
+        document = {
           'uuid': Meteor.uuid(),
           'token': Random.id(32),
           'owner': Meteor.userId(),

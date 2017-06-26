@@ -44,7 +44,7 @@ export default class CreateThing extends Component {
           throw error;
         } else {
           if (!this.state.open) {
-            this.setState({newThingSnackOpen:true});
+            this.setState({open: true});
           }
           this.setState({
             'uuid': document.uuid,
@@ -57,6 +57,7 @@ export default class CreateThing extends Component {
 
   handleCreate = () => {
     Meteor.call('Thing.new',
+      null,
       {
         uuid: this.state.uuid,
         token: this.state.token
@@ -86,6 +87,14 @@ export default class CreateThing extends Component {
         }
       }
     );
+  }
+
+  nameChange = (e, newValue) => {
+    this.setState({uuid: newValue})
+  }
+
+  tokenChange = (e, newValue) => {
+    this.setState({token: newValue});
   }
 
   nameFieldChange = (e, newValue) => {
@@ -150,8 +159,7 @@ export default class CreateThing extends Component {
     return (
       <span>
         <IconMenu
-          iconButtonElement={<IconButton className={this.props.highlight ? 'pulse' : ''}
-            iconStyle={{color: 'white'}}><ContentAdd /></IconButton>}
+          iconButtonElement={<IconButton className={this.props.highlight ? 'pulse' : ''} iconStyle={{color: 'white'}}><ContentAdd /></IconButton>}
           anchorOrigin={{horizontal: 'left', vertical: 'top'}}
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
         >
@@ -160,7 +168,7 @@ export default class CreateThing extends Component {
           <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleOpen} />
         </IconMenu>
         <Dialog
-          title="Create new component"
+          title="New device"
           actions={actions}
           modal={true}
           open={this.state.open}
@@ -171,6 +179,7 @@ export default class CreateThing extends Component {
           <TextField
             hintText="Name"
             // errorText="This field is required"
+            onChange={this.nameChange}
             defaultValue={this.state.uuid}
             floatingLabelText="Name"
             style={thingStyle}
@@ -179,8 +188,9 @@ export default class CreateThing extends Component {
           <TextField
             ref="password"
             defaultValue={this.state.token}
-            // onChange={this.passwordChange}
+            onChange={this.tokenChange}
             hintText="Secret"
+            floatingLabelText="Secret"
             style={thingStyle}
             // errorText="This field is required"
             // floatingLabelText={

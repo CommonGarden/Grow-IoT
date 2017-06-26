@@ -13,6 +13,8 @@ import _ from 'underscore';
 import Components from '../../things/';
 import { Row, Col } from 'react-flexbox-grid';
 import SvgIcon from 'material-ui/SvgIcon';
+import CircularProgress from 'material-ui/CircularProgress';
+
 
 export default class ThingDisplay extends Component {
   state = {
@@ -64,35 +66,16 @@ export default class ThingDisplay extends Component {
     ];
 
     const registered = this.props.thing.registeredAt;
+    const deleteButton = <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ;
     const unregisteredText = <Card style={thingStyle}>
       <CardText>
         <div>
-          <h3>Create a new thing</h3>
-          <p>If you purchased a device enter its UUID and Token here, otherwise use these API credentials when you connect your device.</p>
-          <TextField
-            hintText="Name"
-            // errorText="This field is required"
-            defaultValue={this.props.thing.uuid}
-            floatingLabelText="Name"
-            style={thingStyle}
-          />
+          <h3>Waiting for thing to connect</h3>
           <br/>
-          <TextField
-            ref="password"
-            // type="password"
-            defaultValue={this.props.thing.token}
-            onChange={this.passwordChange}
-            hintText="Secret"
-            style={thingStyle}
-            // errorText="This field is required"
-            // floatingLabelText={
-            //   <em>Secret<Visible/></em>
-            // }
-          />
+          <CircularProgress />
         </div>
       </CardText>
       <CardActions>
-        <FlatButton label="Submit" onTouchTap={this.handleOpen} />
         <FlatButton label="Cancel" onTouchTap={this.handleOpen} />
       </CardActions>
     </Card>;
