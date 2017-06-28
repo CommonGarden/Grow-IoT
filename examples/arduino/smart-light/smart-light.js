@@ -1,5 +1,5 @@
 // Require the Grow.js build and johnny-five library.
-const Thing = require('../../../lib/Grow.js');
+const Thing = require('../../../dist/Grow.umd.js');
 const five = require('johnny-five');
 const later = require('later');
 
@@ -12,23 +12,23 @@ const board = new five.Board();
 // When board emits a 'ready' event run this start function.
 board.on('ready', function start() {
   // Define variables
-  var power = new five.Pin(13),
-    LED = new five.Pin(12),
+  var power = new five.Pin(11),
+    LED = new five.Pin(13),
     lightSensor = new five.Sensor('A1');
 
   power.high();
 
   // Create a new thing.
   var light = new Thing({
-    uuid: '0ec45202-9c0d-4ad7-b19e-8720abe5d23a',
-    token: 'B5SjPqxrRksvSfn8bLFREcGmo6bHqf36',
+    uuid: 'a5f9c173-ee10-4473-9dd4-6f10bab3f494',
+    token: 'rnKjJYMEFeYiTXPjMGpaesn8SFcrrR8s',
 
     component: 'SmartLight',
 
     properties: {
       state: 'off',
       threshold: 300,
-      interval: 3000,
+      interval: 1000,
       currently: null,
       lightconditions: null,
       cycles: {
@@ -68,18 +68,6 @@ board.on('ready', function start() {
       this.set('currently', 'night');
       this.call('turn_off');
     },
-
-    // power_data: function () {
-    //   if (this.light) {
-    //     this.light.getInfo().then((data)=> {
-    //       let powerData = data.consumption.get_realtime;
-    //       this.emit({
-    //         type: 'power',
-    //         value: powerData
-    //       });
-    //     });
-    //   }
-    // },
 
     turn_on: function () {
       LED.high();
@@ -122,7 +110,5 @@ board.on('ready', function start() {
     }
   });
 
-  light.connect({
-    port: 3001
-  });
+  light.connect({});
 });

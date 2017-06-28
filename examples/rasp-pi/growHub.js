@@ -32,17 +32,13 @@ board.on('ready', function start() {
   // Declare needed variables.
   var pH_reading, eC_reading, water_temp, emit_data;
 
-  // var lux = new five.Light({
-  //   controller: 'TSL2561'
-  // });
-
-  // var multi = new five.Multi({
-  //   controller: 'SI7020'
-  // });
+  var multi = new five.Multi({
+    controller: 'BME280'
+  });
 
   var growHub = new Grow({
-    uuid: '1b38d189-abaa-43fd-9427-be9dc9483267',
-    token: '8hywifWmWgsFXYoGsu6e5yNvfFJzptmd',
+    uuid: 'meow',
+    token: 'meow',
     component: 'GrowHub',
 
     properties: {
@@ -51,10 +47,6 @@ board.on('ready', function start() {
       interval: 6000,
       growfile: {
         targets: {
-          water_temperature: {
-            min: 10,
-            max: 25
-          },
           ph: {
             min: 5.9,
             max: 7.5
@@ -62,7 +54,15 @@ board.on('ready', function start() {
           ec: {
             min: 200,
             max: 1500
-          }
+          },
+          temperature: {
+            min: 10,
+            max: 25
+          },
+          humidity: {
+            min: 10,
+            max: 80
+          },
         }
       },
       targets: {},
@@ -114,8 +114,8 @@ board.on('ready', function start() {
       var interval = this.get('interval');
 
       emit_data = setInterval(()=> {
-        // this.temp_data();
-        // this.hum_data();
+        this.temp_data();
+        this.hum_data();
         // this.light_data();
         this.ph_data();
         this.ec_data();
@@ -225,26 +225,26 @@ board.on('ready', function start() {
     //   console.log('Light: ' + lux.level);
     // },
 
-    // temp_data: function () {
-    //   var currentTemp = multi.thermometer.celsius;
+    temp_data: function () {
+      var currentTemp = multi.thermometer.celsius;
 
-    //   this.emit('temperature', currentTemp);
+      this.emit('temperature', currentTemp);
 
-    //   console.log('Temperature: ' + currentTemp);
-    // },
+      console.log('Temperature: ' + currentTemp);
+    },
 
-    // hum_data: function () {
-    //   var currentHumidity = multi.hygrometer.relativeHumidity;
+    hum_data: function () {
+      var currentHumidity = multi.hygrometer.relativeHumidity;
 
-    //   this.emit('humidity', currentHumidity);
+      this.emit('humidity', currentHumidity);
 
-    //   console.log('Humidity: ' + currentHumidity);
-    // }
+      console.log('Humidity: ' + currentHumidity);
+    }
   });
 
   growHub.connect({
-    host: '192.168.2.1',
-    port: 3001
+    host: '10.0.0.198',
+    port: 3000
   });
 
   // Default is localhost: 3000
