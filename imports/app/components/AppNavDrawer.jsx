@@ -37,12 +37,10 @@ class AppNavDrawer extends Component {
   };
 
   handleClose = () => {
-    console.log('clicked')
     this.setState({open: false});
   }
 
   handleRequestChangeLink = (event, value) => {
-    console.log(event);
     let win = window.open(value, '_blank');
     win.focus();
   };
@@ -63,7 +61,6 @@ class AppNavDrawer extends Component {
   }
 
   signOutCallback(error) {
-    console.log(error);
     if (error === undefined) {
       this.context.router.push('/');
     }
@@ -126,11 +123,7 @@ class AppNavDrawer extends Component {
           value=""
           onChange={this.handleRequestChangeLink}
         >
-          {
-          /* button instead of ListItem to because fullscreen request is not autherized for synthetic events. */}
-          {
-            // <Subheader>Selectable Contacts</Subheader>
-          }
+          {/* button instead of ListItem to because fullscreen request is not autherized for synthetic events. */}        
           <ListItem
             value={1}
             primaryText="Wholesome Farms"
@@ -138,6 +131,7 @@ class AppNavDrawer extends Component {
           />
           <Divider />
           {
+          // <Subheader>0 farmcoin</Subheader>
           // <ListItem primaryText="Settings" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<SettingsIcon />} />
           }
           <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />

@@ -45,7 +45,7 @@ export default class ThingDisplay extends Component {
   render () {
     const thingStyle = {
       // margin: '20px',
-      minWidth: '350px'
+      // minWidth: '350px'
     }
 
     const visibilityStyle = {
@@ -73,6 +73,8 @@ export default class ThingDisplay extends Component {
           <h3>Waiting for thing to connect</h3>
           <br/>
           <CircularProgress />
+          <p>uuid: <span className="selectable">{this.props.thing.uuid}</span></p>
+          <p>token: <span className="selectable">{this.props.thing.token}</span></p>
         </div>
       </CardText>
       <CardActions>

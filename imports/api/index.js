@@ -8,7 +8,7 @@ if (Meteor.isServer) {
   import './images/s3.js';
   import './thing/server-methods';
   import './notifications/server-methods.js';
-  import './events/eventBus';
+  // import './events/eventBus';
   import './elastic';
   import './coap/coap.js';
 }

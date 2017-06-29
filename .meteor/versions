@@ -60,7 +60,7 @@ modules@0.9.1
 modules-runtime@0.8.0
 mongo@1.1.18
 mongo-id@1.0.6
-mwc:mixin@1.0.35
+mwc:mixin@2.0.0
 mwc:synthesis@1.3.10
 mwc:synthesis-assets@0.1.5
 mwc:synthesis-compiler@1.3.8

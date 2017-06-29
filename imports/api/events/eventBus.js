@@ -61,8 +61,8 @@ worker.register({
 worker.start();
 
 function added(id, collection, index) {
-	console.log('added')
-// query MongoDB for the document
+	// console.log('added')
+  // query MongoDB for the document
 }
 
 function removed(id, collection, index) {

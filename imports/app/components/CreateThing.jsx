@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ComponentIcon from 'material-ui/svg-icons/av/web';
@@ -21,6 +22,10 @@ _.each(Components, (value, key)=> {
 });
 
 export default class CreateThing extends Component {
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
+  };
+
   state = {
     open: false,
     newThingSnackOpen: false,
@@ -67,7 +72,10 @@ export default class CreateThing extends Component {
           throw error;
         } else {
           this.setState({ open: false, newThingSnackOpen:true});
-
+          // Todo: urlify the uuid...
+          // TODO: redirect to thing...
+          // debugger;
+          // this.router.push('/app/thing/' + this.state.uuid);
         }
       }
     );
@@ -175,13 +183,13 @@ export default class CreateThing extends Component {
           onRequestClose={this.handleClose}
         >
           <div>
-          <p>If you purchased a device enter its UUID and Token here, otherwise use these API credentials when you connect your device.</p>
+          <p>If you purchased a device enter its credentials here:</p>
           <TextField
-            hintText="Name"
+            hintText="uuid"
             // errorText="This field is required"
             onChange={this.nameChange}
             defaultValue={this.state.uuid}
-            floatingLabelText="Name"
+            floatingLabelText="uuid"
             style={thingStyle}
           />
           <br/>
@@ -189,8 +197,8 @@ export default class CreateThing extends Component {
             ref="password"
             defaultValue={this.state.token}
             onChange={this.tokenChange}
-            hintText="Secret"
-            floatingLabelText="Secret"
+            hintText="token"
+            floatingLabelText="token"
             style={thingStyle}
             // errorText="This field is required"
             // floatingLabelText={
