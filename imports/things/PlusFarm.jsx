@@ -73,12 +73,6 @@ class PlusFarm extends Component {
         icon: 'wi wi-humidity'
       },
       {
-        type: 'light',
-        title: 'Light',
-        icon: 'wi wi-thermometer',
-        unit: 'wi wi-celsius'
-      },
-      {
         type: 'ph',
         title: 'pH',
         icon: 'wi wi-raindrop'
@@ -177,7 +171,7 @@ class PlusFarm extends Component {
       actuator: {
         padding: 10,
         float: 'left',
-        marginRight: 20
+        margin: 20
       },
       actionButton: {
         marginRight: 20,
@@ -230,17 +224,30 @@ class PlusFarm extends Component {
       <Card style={styles.main}>
         <CardText>
           <Row>
-            <Col xs={12} md={6}>
-              <div>
-                <h2>Grow Hub
-                  <IconButton
-                    tooltip="Options"
-                    tooltipPosition="top-center"
-                    onTouchTap={this.handleOpen}>
-                    <SettingsIcon />
-                  </IconButton>
-                </h2>
+            <div>
+              <h2>+Farm
+                <IconButton
+                  tooltip="Options"
+                  tooltipPosition="top-center"
+                  onTouchTap={this.handleOpen}>
+                  <SettingsIcon />
+                </IconButton>
+              </h2>
+            </div>
+            <Col xs={12} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Light</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="light"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                </div>
               </div>
+            </Col>
+            <Col xs={12} md={6}>
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {

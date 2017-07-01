@@ -72,10 +72,10 @@ class GrowMobile extends Component {
         title: 'Room Humidity',
         icon: 'wi wi-humidity'
       },
-      {
-        type: 'lux',
-        title: 'Light (lux)',
-      },
+      // {
+      //   type: 'lux',
+      //   title: 'Light (lux)',
+      // },
       {
         type: 'ph',
         title: 'pH',
@@ -86,12 +86,12 @@ class GrowMobile extends Component {
         title: 'Conductivity (ec)',
         icon: 'wi wi-barometer',
       },
-      {
-        type: 'water_temperature',
-        title: 'Temperature',
-        icon: 'wi wi-thermometer',
-        unit: 'wi wi-celsius'
-      }
+      // {
+      //   type: 'water_temperature',
+      //   title: 'Temperature',
+      //   icon: 'wi wi-thermometer',
+      //   unit: 'wi wi-celsius'
+      // }
     ]
   };
 
@@ -148,7 +148,9 @@ class GrowMobile extends Component {
 
   getEventValue(type) {
     const e = this.props[`${type}Events`];
-    return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+    if (e) {
+      return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+    }
   }
 
   getEvents(type) {
@@ -282,20 +284,22 @@ class GrowMobile extends Component {
           <Row>
             <Col xs={12} md={6}>
               <div>
-                <h2>Grow Hub
+                  <h1>Growmobile</h1>
+                  <img src="/img/growmobile.png"
+                       style={{
+                        maxWidth:100
+                       }}/>
                   <IconButton
                     tooltip="Options"
                     tooltipPosition="top-center"
                     onTouchTap={this.handleOpen}>
                     <SettingsIcon />
                   </IconButton>
-                </h2>
               </div>
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {
                     const events = this.getEvents(v.type);
-                    console.log(events);
                     return <div key={k}>
                       <div style={styles.sensorData}>
                       <i className={v.icon} 
@@ -385,19 +389,19 @@ class GrowMobile extends Component {
   }
 }
 
-GrowHub.propTypes = {
+GrowMobile.propTypes = {
   ecEvents: PropTypes.array,
   phEvents: PropTypes.array,
   images: PropTypes.object,
-  tempEvent: PropTypes.object,
+  tempEvents: PropTypes.array,
   water_temperatureEvents: PropTypes.array,
-  humidityEvent: PropTypes.object,
+  humidityEvents: PropTypes.array,
   luxEvent: PropTypes.object,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
 }
 
-export default GrowHubContainer = createContainer(({ thing }) => {
+export default GrowMobileContainer = createContainer(({ thing }) => {
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
   const imagesHandle = Meteor.subscribe('Thing.images', thing.uuid, 1);
 
@@ -429,14 +433,14 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   });
-  const tempEvent = Events.findOne({'event.type': 'temperature',
+  const tempEvents = Events.find({'event.type': 'temperature',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
-  });
-  const humidityEvent = Events.findOne({'event.type': 'humidity',
+  }).fetch();
+  const humidityEvents = Events.find({'event.type': 'humidity',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
-  });
+  }).fetch();
   const water_temperatureEvents = Events.find({'event.type': 'water_temperature',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
@@ -447,8 +451,8 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     ecEvents,
     water_temperatureEvents,
     image,
-    tempEvent,
-    humidityEvent,
+    tempEvents,
+    humidityEvents,
     luxEvent,
     alerts,
     ready
