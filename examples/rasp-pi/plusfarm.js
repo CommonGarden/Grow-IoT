@@ -1,4 +1,4 @@
-const Grow = require('../../lib/Grow.js');
+const Grow = require('../../dist/Grow.js');
 const ascii = require('ascii-codes');
 const http = require('http');
 const url = require('url');
@@ -24,6 +24,10 @@ board.on('ready', function start() {
 
   var multi = new five.Multi({
     controller: 'BME280'
+  });
+
+  var lux = new five.Light({
+    controller: 'TSL2561'
   });
 
   var plusfarm = new Grow({
@@ -110,7 +114,8 @@ board.on('ready', function start() {
         this.hum_data();
         this.ph_data();
         this.ec_data();
-        // this.water_temp_data();
+        this.light_data();
+        this.water_temp_data();
       }, interval);
 
       let growfile = this.get('growfile');
@@ -187,16 +192,27 @@ board.on('ready', function start() {
       }
     },
 
-    // water_temp_data: function () {
-    //   // Request a reading
-    //   board.i2cWrite(0x66, [0x52, 0x00]);
+    light_data: function () {
+      this.emit({
+        type: 'lux',
+        value: lux.level
+      });
+      
+      console.log('Light: ' + lux.level);
+    },
 
-    //   if (water_temp) {
-    //     this.emit('water_temperature', water_temp);
 
-    //     console.log('Resevoir temp: ' + water_temp);
-    //   }
-    // },
+    water_temp_data: function () {
+      // Request a reading
+      // board.i2cWrite(0x66, [0x52, 0x00]);
+      water_temp = Math.random();
+
+      if (water_temp) {
+        this.emit('water_temperature', water_temp);
+
+        console.log('Resevoir temp: ' + water_temp);
+      }
+    },
 
     temp_data: function () {
       var currentTemp = multi.thermometer.celsius;

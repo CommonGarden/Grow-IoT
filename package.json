@@ -2,7 +2,7 @@
   "name": "Grow.js",
   "version": "0.3.85",
   "description": "Easily create new IoT devices and connect them to a Grow-IoT instance.",
-  "main": "dist/Grow.umd.js",
+  "main": "dist/Grow.js",
   "jsnext:main": "dist/Grow.es6.js",
   "scripts": {
     "prebuild": "eslint lib test",
