@@ -193,25 +193,18 @@ board.on('ready', function start() {
     },
 
     light_data: function () {
-      this.emit({
-        type: 'lux',
-        value: lux.level
-      });
-      
-      console.log('Light: ' + lux.level);
+      this.emit('lux', 500);
     },
 
 
     water_temp_data: function () {
       // Request a reading
       // board.i2cWrite(0x66, [0x52, 0x00]);
-      water_temp = Math.random();
+      water_temp = 22;
 
-      if (water_temp) {
-        this.emit('water_temperature', water_temp);
+      this.emit('water_temperature', water_temp);
 
-        console.log('Resevoir temp: ' + water_temp);
-      }
+      console.log('Resevoir temp: ' + water_temp);
     },
 
     temp_data: function () {
