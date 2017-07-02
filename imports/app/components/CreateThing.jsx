@@ -206,13 +206,15 @@ export default class CreateThing extends Component {
             // }
           />
         </div>
-          <SelectField
-            floatingLabelText="Component Type"
-            value={this.state.value}
-            onChange={this.handleChange}
-          >
-            {componentItems}
-          </SelectField>
+        {
+          // <SelectField
+          //   floatingLabelText="Component Type"
+          //   value={this.state.value}
+          //   onChange={this.handleChange}
+          // >
+          //   {componentItems}
+          // </SelectField>
+        }
         </Dialog>
         <Snackbar
           open={this.state.newThingSnackOpen}

@@ -13,6 +13,7 @@ import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import PowerIcon from 'material-ui/svg-icons/action/power-settings-new';
+import EmptyIcon from 'material-ui/svg-icons/action/opacity';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
@@ -25,6 +26,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
 import CircularProgress from 'material-ui/CircularProgress';
+import Gauge from 'react-svg-gauge';
 
 // Should there be a base thing component that has methods like setProperty and sendcommand?
 class PlusFarm extends Component {
@@ -63,24 +65,41 @@ class PlusFarm extends Component {
     types: [
       {
         type: 'temp',
-        title: 'Room Temparature',
+        title: 'Temparature',
         icon: 'wi wi-thermometer',
-        unit: 'wi wi-celsius'
+        unit: 'wi wi-celsius',
+        max: 40
       },
       {
         type: 'humidity',
-        title: 'Room Humidity',
-        icon: 'wi wi-humidity'
+        title: 'Humidity',
+        icon: 'wi wi-humidity',
+        max: 100
+      },
+      {
+        type: 'lux',
+        title: 'lux',
+        icon: 'wi wi-day-sunny',
+        max: 1000,
       },
       {
         type: 'ph',
         title: 'pH',
-        icon: 'wi wi-raindrop'
+        icon: 'wi wi-raindrop',
+        max: 14,
       },
       {
         type: 'ec',
         title: 'Conductivity (ec)',
         icon: 'wi wi-barometer',
+        max: 2000,
+      },
+      {
+        type: 'water_temperature',
+        title: 'Resevoir temperature',
+        icon: 'wi wi-thermometer',
+        unit: 'wi wi-celsius',
+        max: 40,
       },
     ]
   };
@@ -138,7 +157,9 @@ class PlusFarm extends Component {
 
   getEventValue(type) {
     const e = this.props[`${type}Events`];
-    return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+    if (e) {
+      return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+    }
   }
 
   getEvents(type) {
@@ -157,16 +178,8 @@ class PlusFarm extends Component {
 
   render() {
     const styles = {
-      right: {
-        float: 'right'
-      },
       oneHundred: {
         width: '100%'
-      },
-      options: {
-        marginLeft: 200,
-        position: 'relative',
-        bottom: 100,
       },
       actuator: {
         padding: 10,
@@ -177,32 +190,23 @@ class PlusFarm extends Component {
         marginRight: 20,
         marginleft: 20
       },
+      values: {
+        fontSize: 25
+      },
       main: {
         margin: '20px',
-        maxWidth: 550,
+        minWidth: 800,
       },
       sensorData: {
-        paddingLeft: 10,
-        paddingRight: 10,
-      },
-      powerData: {
         position: 'relative',
-        fontSize: 10,
-        padding: 10,
-        top: 9,
+        top: 25,
+        textAlign: 'center',
       },
       sensorIcon: {
         marginRight: 5
       },
-      energyIcon: {
-        height: 14,
-        width: 14,
-        position: 'relative',
-        left: 2
-      },
-      powerStats: {
-        marginLeft: -22,
-        fontSize: 13
+      settings: {
+        float: 'right'
       },
       smallIcon: {
         height: 15,
@@ -210,8 +214,8 @@ class PlusFarm extends Component {
         padding: 0,
         marginLeft: 3,
       },
-      media: {
-        marginBottom: -55
+      smallFont: {
+        fontSize: 11
       }
     }
 
@@ -223,18 +227,66 @@ class PlusFarm extends Component {
     return (
       <Card style={styles.main}>
         <CardText>
+          <div>
+              <img src="/img/plusfarm.png"
+                   style={{
+                    maxWidth:100
+                   }}/>
+              <IconButton
+                tooltip="Options"
+                tooltipPosition="top-center"
+                onTouchTap={this.handleOpen}
+                style={styles.settings}>
+                <SettingsIcon />
+              </IconButton>
+          </div>
           <Row>
-            <div>
-              <h2>+Farm
-                <IconButton
-                  tooltip="Options"
-                  tooltipPosition="top-center"
-                  onTouchTap={this.handleOpen}>
-                  <SettingsIcon />
-                </IconButton>
-              </h2>
-            </div>
-            <Col xs={12} md={4}>
+              {
+                this.state.types.map((v, k) => {
+                  const events = this.getEvents(v.type);
+                  return <Col xs={4} md={4} key={k}>
+                    <div style={styles.sensorData}>
+                      <h2>
+                        <i className={v.icon} style={styles.sensorIcon}></i>
+                        {v.title}
+                        {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
+                        {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
+                        {
+                          alerts[v.type] ? <span style={styles.smallFont}><IconButton
+                            iconStyle={styles.smallIcon}
+                            style={styles.smallIcon}>
+                            <WarningIcon />
+                          </IconButton> {alerts[v.type]}</span>: <span></span>
+                        }
+                      </h2>
+                    </div>
+                    <Gauge value={this.getEventValue(v.type)}
+                           width={300}
+                           height={200}
+                           max={v.max}
+                           label={null}
+                           valueLabelStyle={styles.values}
+                           color={alerts[v.type] ? 'red': 'green'} />
+                    {
+                    // !events ? <div><CircularProgress /> Loading</div> :
+                    //   <ChartContainer timeRange={events.range()} width={width}>
+                    //     <ChartRow height="150">
+                    //       <YAxis
+                    //         id={v.type}
+                    //         min={events.min()} max={events.max()}
+                    //         width="30" />
+                    //       <Charts>
+                    //         <LineChart axis={v.type} series={events} />
+                    //       </Charts>
+                    //     </ChartRow>
+                    //   </ChartContainer>
+                    }
+                  </Col>
+                })
+              }
+          </Row>
+          <Row>
+            <Col xs={4} md={4}>
               <div style={styles.actuator}>
                 <div style={styles.actionButton}>
                   <h3>Light</h3>
@@ -244,50 +296,52 @@ class PlusFarm extends Component {
                     onTouchTap={this.handleTap}>
                     <PowerIcon />
                   </FloatingActionButton>
+                  <br/>
+                  <TextField
+                    hintText="Day start"
+                    floatingLabelText="Day start"
+                    data-key="interval"
+                    defaultValue={thing.properties.interval}
+                    onChange={this.handleScheduleChange}
+                  />
+                  <br/>
+                  <TextField
+                    hintText="Night start"
+                    floatingLabelText="Night start"
+                    data-key="interval"
+                    defaultValue={thing.properties.interval}
+                    onChange={this.handleScheduleChange}
+                  />
                 </div>
               </div>
             </Col>
-            <Col xs={12} md={6}>
-              <div style={styles.sensorData}>
-                {
-                  this.state.types.map((v, k) => {
-                    const events = this.getEvents(v.type);
-                    console.log(events);
-                    return <div key={k}>
-                      <div style={styles.sensorData}>
-                      <i className={v.icon} 
-                        style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
-                      {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
-                      {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
-                      {
-                        alerts[v.type] ? <IconButton
-                          tooltip={alerts[v.type]}
-                          tooltipPosition="top-center"
-                          iconStyle={styles.smallIcon}
-                          style={styles.smallIcon}>
-                          <WarningIcon />
-                        </IconButton>: <span></span>
-                      }
-                      </div>
-                      {
-                      !events ? <div><CircularProgress /> Loading</div> :
-                        <ChartContainer timeRange={events.range()} width={width}>
-                          <ChartRow height="150">
-                            <YAxis
-                              id={v.type}
-                              min={events.min()} max={events.max()}
-                              width="30" />
-                            <Charts>
-                              <LineChart axis={v.type} series={events} />
-                            </Charts>
-                          </ChartRow>
-                        </ChartContainer>
-                      }
-                    </div>
-                  })
-                }
+            <Col xs={4} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Pump</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="pump"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                </div>
               </div>
-
+            </Col>
+            <Col xs={4} md={4}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Water level</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.water_level_state === 'on' ? true: false}
+                    backgroundColor="red"
+                    data-device="pump"
+                    secondaryColor="green"
+                    onTouchTap={this.handleTap}>
+                    <EmptyIcon />
+                  </FloatingActionButton>
+                  <span style={{margin: 10}}>low</span>
+                </div>
+              </div>
             </Col>
           </Row>
           <Dialog
@@ -385,6 +439,10 @@ export default PlusFarmContainer = createContainer(({ thing }) => {
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
+  const water_temperatureEvents = Events.find({'event.type': 'water_temperature',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
 
   return {
     phEvents,
@@ -393,6 +451,7 @@ export default PlusFarmContainer = createContainer(({ thing }) => {
     humidityEvents,
     luxEvents,
     alerts,
+    water_temperatureEvents,
     ready
   }
 }, PlusFarm);
