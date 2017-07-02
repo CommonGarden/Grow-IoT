@@ -6,10 +6,15 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
+import Visible from 'material-ui/svg-icons/action/visibility';
+import NotVisible from 'material-ui/svg-icons/action/visibility-off';
 import _ from 'underscore';
-import CreateComponent from './CreateComponent.jsx';
+// import CreateComponent from './CreateComponent.jsx';
 import Components from '../../things/';
 import { Row, Col } from 'react-flexbox-grid';
+import SvgIcon from 'material-ui/SvgIcon';
+import CircularProgress from 'material-ui/CircularProgress';
+
 
 export default class ThingDisplay extends Component {
   state = {
@@ -39,7 +44,12 @@ export default class ThingDisplay extends Component {
 
   render () {
     const thingStyle = {
-      margin: '20px',
+      // margin: '20px',
+      // minWidth: '350px'
+    }
+
+    const visibilityStyle = {
+      padding: 10,
     }
 
     const actions = [
@@ -56,24 +66,19 @@ export default class ThingDisplay extends Component {
     ];
 
     const registered = this.props.thing.registeredAt;
-    const deleteButton =  <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ;
+    const deleteButton = <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ;
     const unregisteredText = <Card style={thingStyle}>
       <CardText>
         <div>
-          <p>Connect a device using the following API crendentials or create a component instead.</p>
-          <p><b>UUID:</b></p> <p><span className="selectable">
-              <Link to={`/app/thing/${this.props.thing.uuid}`}>
-                {this.props.thing.uuid}
-              </Link>
-          </span></p>
-          <p><b>TOKEN:</b></p> <p><span className="selectable">{this.props.thing.token}</span></p>
+          <h3>Waiting for thing to connect</h3>
+          <br/>
+          <CircularProgress />
+          <p>uuid: <span className="selectable">{this.props.thing.uuid}</span></p>
+          <p>token: <span className="selectable">{this.props.thing.token}</span></p>
         </div>
       </CardText>
       <CardActions>
-        <CreateComponent uuid={this.props.thing.uuid} token={this.props.thing.token} /> 
-        {
-          deleteButton
-        }
+        <FlatButton label="Cancel" onTouchTap={this.handleOpen} />
       </CardActions>
     </Card>;
 

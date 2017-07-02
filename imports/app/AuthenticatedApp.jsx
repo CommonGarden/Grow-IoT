@@ -19,6 +19,9 @@ import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
 
+const title = Meteor.settings.public.title || "Grow-IoT";
+const logo = Meteor.settings.public.logo || "/img/white_flower.png";
+
 class AuthenticatedApp extends Component {
 
   state = {
@@ -111,7 +114,7 @@ class AuthenticatedApp extends Component {
   };
 
   componentWillMount() {
-    document.title = "Grow IoT";
+    document.title = title;
     // Check that the user is logged in before the component mounts
     if (!this.props.user && !Meteor.loggingIn()) {
       this.props.history.push('/public/account');
@@ -140,7 +143,7 @@ class AuthenticatedApp extends Component {
     return (
       <div>
         <AppBar
-          title={<span style={{cursor: 'pointer'}}>Grow-IoT</span>}
+          title={<span style={{cursor: 'pointer'}}>{title}</span>}
           onTitleTouchTap={this.goHome}
           iconElementRight={
             <div>
@@ -155,7 +158,7 @@ class AuthenticatedApp extends Component {
             </div>
           }
           iconElementLeft={
-            <img src="/img/white_flower.png" style={styles.logo} />
+            <img src={logo} style={styles.logo} />
           }
         />
         <AppNavDrawer

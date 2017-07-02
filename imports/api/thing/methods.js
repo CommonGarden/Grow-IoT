@@ -38,17 +38,54 @@ Meteor.methods({
   /*
    * Creates a new thing with UUID and Token.
   */
-  'Thing.new': function (thing) {
+  'Thing.new': function (thing, auth) {
+    check(thing, Match.OneOf(Object, null));
+    check(auth, Match.OneOf({
+      uuid: String,
+      token: String
+    }, undefined));
+
+    let document;
+
+    // Must be a logged in user.
+    if (Meteor.userId()) {
+      if (auth) {
+        document = {
+          'uuid': auth.uuid,
+          'token': auth.token,
+          'owner': Meteor.userId(),
+          thing,
+        };
+      } else {
+        document = {
+          'uuid': Meteor.uuid(),
+          'token': Random.id(32),
+          'owner': Meteor.userId(),
+          thing,
+        };
+      }
+      if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+
+      return document;
+    }
+  },
+
+  /*
+   * Creates a new thing with UUID and Token.
+  */
+  'Thing.generateAPIKeys': function (thing, auth) {
     check(thing, Match.OneOf(Object, undefined));
-    // Must be a logged in user. Anyone want to do a security audit?
+    check(auth, Match.OneOf({
+      uuid: String,
+      token: String
+    }, undefined));
+
+    // Must be a logged in user.
     if (Meteor.userId()) {
       let document = {
         'uuid': Meteor.uuid(),
         'token': Random.id(32),
-        'owner': Meteor.userId(),
-        thing,
       };
-      if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
       return document;
     }

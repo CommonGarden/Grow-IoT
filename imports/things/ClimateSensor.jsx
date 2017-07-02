@@ -1,42 +1,26 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import PropTypes from 'prop-types';
-import IconButton from 'material-ui/IconButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
 import { TimeSeries, TimeRange, Event } from "pondjs";
-import _ from 'underscore';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import PowerIcon from 'material-ui/svg-icons/action/power-settings-new';
-import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
-import SettingsIcon from 'material-ui/svg-icons/action/settings';
-import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
-import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
-import Divider from 'material-ui/Divider';
-import Subheader from 'material-ui/Subheader';
-import ImageOne from '../app/components/images/ImageOne';
-import CameraComponent from './CameraComponent';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import _ from 'underscore';
+import PropTypes from 'prop-types';
+import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import CircularProgress from 'material-ui/CircularProgress';
 
-// Should there be a base thing component that has methods like setProperty and sendcommand?
-class GrowHub extends Component {
+class ClimateSensor extends Component {
   constructor(props) {
     super(props);
   }
-
-  handleTap = (event) => {
-    let device = event.currentTarget.dataset.device;
-    let command = this.props.thing.properties[`${device}_state`] === 'on' ? `turn_${device}_off` : `turn_${device}_on`;
-    this.sendCommand(command);
-  };
 
   handleOpen = (event) => {
     this.setState({settingsDialogOpen: true});
@@ -47,63 +31,34 @@ class GrowHub extends Component {
   };
 
   handleValueChange = (event, newValue) => {
+    const uuid = this.props.thing.uuid;
     const key = event.target.dataset.key;
     this.setProperty(key, newValue);
   };
 
   handleScheduleChange = (event, newValue) => {
-    this.sendCommand('stop');
     let key = event.target.dataset.key;
     this.setProperty(key, newValue);
-    this.sendCommand('start');
+    this.sendCommand('restart');
   }
 
   state = {
+    dltOpen: false,
     settingsDialogOpen: false,
     types: [
-      // {
-      //   type: 'temp',
-      //   title: 'Room Temparature',
-      //   icon: 'wi wi-thermometer',
-      //   unit: 'wi wi-celsius'
-      // },
-      // {
-      //   type: 'humidity',
-      //   title: 'Room Humidity',
-      //   icon: 'wi wi-humidity'
-      // },
       {
-        type: 'ph',
-        title: 'pH',
-        icon: 'wi wi-raindrop'
-      },
-      {
-        type: 'ec',
-        title: 'Conductivity (ec)',
-        icon: 'wi wi-barometer',
-      },
-      {
-        type: 'water_temperature',
+        type: 'temp',
         title: 'Temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius'
+      },
+      {
+        type: 'humidity',
+        title: 'Humidity',
+        icon: 'wi wi-humidity'
       }
     ]
   };
-
-  getEvents(type) {
-    const e = this.props[`${type}Events`];
-
-    let data = {
-      name: type,
-      columns: ["time", "value"],
-      points: []
-    };
-    _.each(e, (value, key, list) => {
-      data.points.unshift([value.event.timestamp.getTime(), value.event.message])
-    });
-    if (data.points[0]) return new TimeSeries(data);
-  }
 
   sendCommand (method, options) {
     Meteor.call('Thing.sendCommand',
@@ -128,10 +83,6 @@ class GrowHub extends Component {
     this.sendCommand(command, options);
   }
 
-  takePicture = () => {
-    this.sendCommand('picture');
-  }
-
   updateGrowfile = () => {
     try {
       let growfile = JSON.parse(document.getElementById('Growfile').value);
@@ -144,7 +95,9 @@ class GrowHub extends Component {
 
   getEventValue(type) {
     const e = this.props[`${type}Events`];
-    return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+    if (e) {
+    	return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+    }
   }
 
   getEvents(type) {
@@ -161,54 +114,18 @@ class GrowHub extends Component {
     if (data.points[0]) return new TimeSeries(data);
   }
 
-  renderCamera() {
-    const styles = {
-      button: {
-        position: 'relative',
-        bottom: 50
-      },
-      img: {
-        maxHeight: '100%',
-        minHeight: 300,
-        width: '100%',
-        // maxWidth: 600
-      },
-      white: {
-        color: 'white'
-      }
+  onlineSince () {
+    const onlineSince = this.props.thing.onlineSince || false;
+
+    if (!this.props.thing.onlineSince) {
+      return <span>Offline</span>
+    } else {
+      return <span></span>
     }
-
-    if (this.props.ready && this.props.image) {
-      'use strict';
-
-      let image = this.props.image;
-      let link = Images.findOne({_id: image._id}).link();
-
-      return (
-        <div style={styles.main}>
-            <img src={link} style={styles.img} />
-            <IconButton onTouchTap={this.takePicture}
-                        tooltip="Take picture"
-                        style={styles.button}
-                        iconStyle={styles.white} ><CameraIcon /></IconButton>
-        </div>
-      )
-
-    } else return (
-      <div style={styles.img}>No Images
-        <IconButton onTouchTap={this.takePicture}
-                    tooltip="Take picture">
-          <CameraIcon />
-        </IconButton>
-      </div>
-    )
   }
 
   render() {
     const styles = {
-      right: {
-        float: 'right'
-      },
       oneHundred: {
         width: '100%'
       },
@@ -217,41 +134,16 @@ class GrowHub extends Component {
         position: 'relative',
         bottom: 100,
       },
-      actuator: {
-        padding: 10,
-        float: 'left',
-        marginRight: 20
-      },
-      actionButton: {
-        marginRight: 20,
-        marginleft: 20
-      },
       main: {
         margin: '20px',
-        maxWidth: 550,
       },
       sensorData: {
-        paddingLeft: 10,
-        paddingRight: 10,
-      },
-      powerData: {
-        position: 'relative',
-        fontSize: 10,
         padding: 10,
-        top: 9,
+        fontSize: 16,
+        width: 400
       },
       sensorIcon: {
         marginRight: 5
-      },
-      energyIcon: {
-        height: 14,
-        width: 14,
-        position: 'relative',
-        left: 2
-      },
-      powerStats: {
-        marginLeft: -22,
-        fontSize: 13
       },
       smallIcon: {
         height: 15,
@@ -259,21 +151,13 @@ class GrowHub extends Component {
         padding: 0,
         marginLeft: 3,
       },
-      media: {
-        marginBottom: -55
-      }
     }
 
     const thing = this.props.thing;
-    const properties = this.props.thing.properties;
     const alerts = this.props.thing.properties.alerts || {};
-    const width = 400;
 
     return (
       <Card style={styles.main}>
-      <CardMedia style={styles.media}>
-          {this.renderCamera()}
-      </CardMedia>
         <CardText>
           <Row>
             <Col xs={12} md={6}>
@@ -287,15 +171,16 @@ class GrowHub extends Component {
                   </IconButton>
                 </h2>
               </div>
+              {this.onlineSince()}
               <div style={styles.sensorData}>
                 {
                   this.state.types.map((v, k) => {
+                    const eValue = this.getEventValue(v.type);
                     const events = this.getEvents(v.type);
-                    console.log(events);
                     return <div key={k}>
                       <div style={styles.sensorData}>
                       <i className={v.icon} 
-                        style={styles.sensorIcon}></i> {v.title}: <strong>{this.getEventValue(v.type)}</strong>
+                        style={styles.sensorIcon}></i> {v.title}: <strong>{eValue}</strong>
                       {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
                       {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
                       {
@@ -309,8 +194,9 @@ class GrowHub extends Component {
                       }
                       </div>
                       {
-                      !events ? <div><CircularProgress /> Loading</div> :
-                        <ChartContainer timeRange={events.range()} width={width}>
+                      !this.props.ready || !events ? <div><CircularProgress /> Loading</div> :
+                      <Resizable>
+                        <ChartContainer timeRange={events.range()}>
                           <ChartRow height="150">
                             <YAxis
                               id={v.type}
@@ -321,12 +207,12 @@ class GrowHub extends Component {
                             </Charts>
                           </ChartRow>
                         </ChartContainer>
+                      </Resizable>
                       }
                     </div>
                   })
                 }
               </div>
-
             </Col>
           </Row>
           <Dialog
@@ -351,7 +237,6 @@ class GrowHub extends Component {
 
             <TextField
               hintText="Insert valid Growfile JSON"
-              errorText="This field is required."
               floatingLabelText="Growfile"
               id="Growfile"
               ref="Growfile"
@@ -381,85 +266,37 @@ class GrowHub extends Component {
   }
 }
 
-GrowHub.propTypes = {
-  ecEvents: PropTypes.array,
-  phEvents: PropTypes.array,
-  images: PropTypes.object,
-  // tempEvent: PropTypes.object,
-  water_temperatureEvents: PropTypes.array,
-  // humidityEvent: PropTypes.object,
-  // luxEvent: PropTypes.object,
-  // light_power_powerEvent: PropTypes.object,
-  // light_power_voltageEvent: PropTypes.object,
-  // light_power_currentEvent: PropTypes.object,
-  // light_power_totalEvent: PropTypes.object,
-  ready: PropTypes.bool,
+ClimateSensor.propTypes = {
+  humidityEvents: PropTypes.array,
+  tempEvents: PropTypes.array,
   alerts: PropTypes.array,
+  ready: PropTypes.bool,
 }
 
-export default GrowHubContainer = createContainer(({ thing }) => {
+export default ClimateSensorContainer = createContainer(({ thing }) => {
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
-  const imagesHandle = Meteor.subscribe('Thing.images', thing.uuid, 1);
 
-  const ready = [ eventsHandle, imagesHandle ].every(
+  const ready = [ eventsHandle ].every(
     (h) => {
       return h.ready();
     }
   );
 
-  const image = Images.findOne({
-    'meta.thing': thing._id,
-  }, {
-    'sort': {
-      'meta.insertedAt': -1
-    },
-  });
-
-  const alerts = Events.find({'event.type': 'alert',
-    'thing._id': thing._id}).fetch();
-  const phEvents = Events.find({'event.type': 'ph',
-    'thing._id': thing._id}, {
+  const alerts = Events.find({'event.type': 'alert'}, {
     sort: { insertedAt: -1 }
   }).fetch();
-  const ecEvents = Events.find({'event.type': 'ec',
-    'thing._id': thing._id}, {
+  const tempEvents = Events.find({'event.type': 'temperature'}, {
     sort: { insertedAt: -1 }
   }).fetch();
-  // const luxEvent = Events.findOne({'event.type': 'lux'});
-  // const tempEvent = Events.findOne({'event.type': 'temperature'});
-  const water_temperatureEvents = Events.find({'event.type': 'water_temperature',
-    'thing._id': thing._id}, {
+  const humidityEvents = Events.find({'event.type': 'humidity'}, {
     sort: { insertedAt: -1 }
   }).fetch();
-  // const humidityEvent = Events.findOne({'event.type': 'humidity'});
 
-  // const light_power_powerEvent = Events.findOne({'event.type': 'light_power_power',
-  //   'thing._id': thing._id});
-
-  // const light_power_voltageEvent = Events.findOne({'event.type': 'light_power_voltage',
-  //   'thing._id': thing._id});
-
-  
-  // const light_power_currentEvent = Events.findOne({'event.type': 'light_power_current',
-  //   'thing._id': thing._id});
-
- 
-  // const light_power_totalEvent = Events.findOne({'event.type': 'light_power_total',
-  //   'thing._id': thing._id});
 
   return {
-    phEvents,
-    ecEvents,
-    water_temperatureEvents,
-    image,
-    // tempEvent,
-    // humidityEvent,
-    // luxEvent,
-    // light_power_powerEvent,
-    // light_power_voltageEvent,
-    // light_power_currentEvent,
-    // light_power_totalEvent,
+    tempEvents,
+    humidityEvents,
     alerts,
     ready
   }
-}, GrowHub);
+}, ClimateSensor);

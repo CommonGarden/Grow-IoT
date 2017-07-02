@@ -6,111 +6,115 @@ import Fiber from 'fibers';
 import _ from 'underscore';
 import { Match } from 'meteor/check';
 
-const server = coap.createServer();
+const COAP = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).COAP : false;
 
-server.on('request', function(req, res) {
-  Fiber(function () {
-    let urlParts = url.parse(req.url, true);
-    let method = urlParts.pathname.replace(/\//g, '');
-    let payload = JSON.parse(req.payload.toString());
+if (COAP) {
+  const server = coap.createServer();
 
-    let auth = {
-      uuid: payload.uuid,
-      token: payload.token
-    }
+  server.on('request', function(req, res) {
+    Fiber(function () {
+      let urlParts = url.parse(req.url, true);
+      let method = urlParts.pathname.replace(/\//g, '');
+      let payload = JSON.parse(req.payload.toString());
 
-    check(auth, {
-      uuid: String,
-      token: String
-    });
-
-    let thing = Things.findOne(auth, {
-      fields: {
-        _id: 1,
-        properties: 1
+      let auth = {
+        uuid: payload.uuid,
+        token: payload.token
       }
-    });
-    if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    // Todo: more extensive checks.
-    check(payload, Object);
+      check(auth, {
+        uuid: String,
+        token: String
+      });
 
-    switch (method) {
-      case 'register':
-        let config = _.extend(payload, { registeredAt: new Date() });
+      let thing = Things.findOne(auth, {
+        fields: {
+          _id: 1,
+          properties: 1
+        }
+      });
+      if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-        // Update the document
-        if (!Things.update(thing._id, {
-          $set: config
-        })) { throw new Meteor.Error('internal-error', "Internal error."); }
+      // Todo: more extensive checks.
+      check(payload, Object);
 
-        // See publish.js for more ideas on returning messages.... this isn't working as well as it does with ddp.
-        let query = {
-          'thing._id': thing._id,
-          createdAt: {
-            $gte: new Date()
-          }
-        };
+      switch (method) {
+        case 'register':
+          let config = _.extend(payload, { registeredAt: new Date() });
 
-        let options = {
-          fields: {
-            body: 1
-          },
-          sort: {
-            createdAt: 1
-          }
-        };
+          // Update the document
+          if (!Things.update(thing._id, {
+            $set: config
+          })) { throw new Meteor.Error('internal-error', "Internal error."); }
 
-        let handle = Messages.find(query, options).observeChanges({
-          added: function (id, fields) {
-            res.write(JSON.stringify(fields));
-            return Messages.remove(id);
-          }
-        });
-        break;
+          // See publish.js for more ideas on returning messages.... this isn't working as well as it does with ddp.
+          let query = {
+            'thing._id': thing._id,
+            createdAt: {
+              $gte: new Date()
+            }
+          };
 
-      case 'emit':
-        let event = payload.event;
-        check(event, Match.OneOf(String, Object));
+          let options = {
+            fields: {
+              body: 1
+            },
+            sort: {
+              createdAt: 1
+            }
+          };
 
-        return !!Events.insert({
-          thing: {
-            _id: thing._id
-          },
-          event: event,
-          insertedAt: new Date()
-        });
-        break;
+          let handle = Messages.find(query, options).observeChanges({
+            added: function (id, fields) {
+              res.write(JSON.stringify(fields));
+              return Messages.remove(id);
+            }
+          });
+          break;
 
-      case 'setProperty':
-        let key = payload.key;
-        let value = payload.value;
-        check(key, String);
-        check(value, Match.OneOf(String, Number, Boolean, Object));
+        case 'emit':
+          let event = payload.event;
+          check(event, Match.OneOf(String, Object));
 
-        thing.properties[key] = value;
+          return !!Events.insert({
+            thing: {
+              _id: thing._id
+            },
+            event: event,
+            insertedAt: new Date()
+          });
+          break;
 
-        return Things.update(thing._id, {
-          $set: {
-            'properties': thing.properties
-          }
-        });
-        break;
+        case 'setProperty':
+          let key = payload.key;
+          let value = payload.value;
+          check(key, String);
+          check(value, Match.OneOf(String, Number, Boolean, Object));
 
-      default:
-        res.end('Hello ' + req.url.split('/')[1] + '\n');
-        break;
-    }
+          thing.properties[key] = value;
 
-    res.on('finish', function(err) {
-      if(err) {
-        console.log(err);
+          return Things.update(thing._id, {
+            $set: {
+              'properties': thing.properties
+            }
+          });
+          break;
+
+        default:
+          res.end('Hello ' + req.url.split('/')[1] + '\n');
+          break;
       }
-    });
 
-  }).run();
-});
+      res.on('finish', function(err) {
+        if(err) {
+          console.log(err);
+        }
+      });
 
-server.listen(function() {
-  console.log('CoAP server started')
-})
+    }).run();
+  });
+
+  server.listen(function() {
+    console.log('CoAP server started')
+  })
+}

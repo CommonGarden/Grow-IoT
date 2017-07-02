@@ -81,7 +81,7 @@ export default class CreateComponent extends Component {
       <span>
         <FlatButton
           onTouchTap={this.handleOpen}
-          label="Create Component"
+          label="Create"
         >
         </FlatButton>
         <Dialog

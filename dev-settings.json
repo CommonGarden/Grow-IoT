@@ -1,4 +1,11 @@
 { 
+	"public" : {
+		"title": "Grow-IoT",
+		"logo": "/img/white_flower.png",
+		"primary_color": "rgb(34, 194, 70)"
+    },
 	"INFLUX_URL": "localhost",
-	"ELASTIC_URL": false
+	"ELASTIC_URL": false,
+	"S3": false,
+	"COAP": false
 }
