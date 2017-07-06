@@ -100,7 +100,7 @@ class TentacleExample extends Component {
 
   getEventValue(type) {
     const e = this.props[`${type}Events`];
-    return e[0] ? Number(e[0].event.value).toFixed(2) : 'NA';
+    return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
   }
 
   getEvents(type) {
@@ -112,7 +112,7 @@ class TentacleExample extends Component {
       points: []
     };
     _.each(e, (value, key, list) => {
-      data.points.unshift([value.event.timestamp.getTime(), value.event.value])
+      data.points.unshift([value.event.timestamp.getTime(), value.event.message])
     });
     if (data.points[0]) return new TimeSeries(data);
   }

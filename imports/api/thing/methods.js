@@ -24,15 +24,23 @@ Meteor.methods({
         _id: 1
       }
     });
-    if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
     
+    if (!thing) { 
+      // If we don't have a thing register we insert a new one.
+      // Note this devices does not have an owner yet.
+      config = _.extend(config, { registeredAt: new Date() });
 
-    config = _.extend(config, { registeredAt: new Date() });
+      if (!Things.insert(config)) { throw new Meteor.Error('internal-error', "Internal error."); }
+    }
 
-    // Update the document
-    if (!Things.update(thing._id, {
-      $set: config
-    })) { throw new Meteor.Error('internal-error', "Internal error."); }
+    else {
+      config = _.extend(config, { registeredAt: new Date() });
+
+      // Update the document
+      if (!Things.update(thing._id, {
+        $set: config
+      })) { throw new Meteor.Error('internal-error', "Internal error."); }
+    }
   },
 
   /*
@@ -45,28 +53,48 @@ Meteor.methods({
       token: String
     }, undefined));
 
-    let document;
-
-    // Must be a logged in user.
-    if (Meteor.userId()) {
-      if (auth) {
-        document = {
-          'uuid': auth.uuid,
-          'token': auth.token,
-          'owner': Meteor.userId(),
-          thing,
-        };
-      } else {
-        document = {
-          'uuid': Meteor.uuid(),
-          'token': Random.id(32),
-          'owner': Meteor.userId(),
-          thing,
-        };
+    // Check to see we have a registered thing and fetch the document.
+    let registered = Things.findOne(auth, {
+      fields: {
+        _id: 1
       }
-      if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+    });
 
-      return document;
+    if (!registered) { 
+      let document;
+
+      // Must be a logged in user.
+      if (Meteor.userId()) {
+        if (auth) {
+          document = {
+            'uuid': auth.uuid,
+            'token': auth.token,
+            'owner': Meteor.userId(),
+            thing,
+          };
+        } else {
+          document = {
+            'uuid': Meteor.uuid(),
+            'token': Random.id(32),
+            'owner': Meteor.userId(),
+            thing,
+          };
+        }
+        if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+
+        return document;
+      }
+    } else {
+      // Must be a logged in user.
+      if (Meteor.userId()) {
+        document = {
+          'owner': Meteor.userId(),
+        };
+        // Update the document
+        if (!Things.update(registered._id, {
+          $set: document
+        })) { throw new Meteor.Error('internal-error', "Internal error."); }
+      }
     }
   },
 
