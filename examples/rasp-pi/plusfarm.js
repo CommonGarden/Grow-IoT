@@ -22,6 +22,8 @@ board.on('ready', function start() {
   // Declare needed variables.
   var pH_reading, eC_reading, water_temp, emit_data;
 
+  var floatSwitch = new five.Pin('P1-7');
+
   var multi = new five.Multi({
     controller: 'BME280'
   });
@@ -37,6 +39,7 @@ board.on('ready', function start() {
 
     properties: {
       light_state: null,
+      water_level: null,
       duration: 2000,
       interval: 6000,
       growfile: {
@@ -116,6 +119,9 @@ board.on('ready', function start() {
         this.ec_data();
         this.light_data();
         this.water_temp_data();
+        floatSwitch.read(function(error, value) {
+          console.log(value);
+        });
       }, interval);
 
       let growfile = this.get('growfile');
