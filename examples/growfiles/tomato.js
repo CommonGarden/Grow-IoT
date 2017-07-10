@@ -23,7 +23,6 @@ module.exports = {
       max: 61,
     },
     temperature: {
-      unit: 'Celsius',
       min: 17,
       max: 28,
     },

@@ -1,13 +1,10 @@
-const Thing = require('../../lib/Grow.js');
-
-// A rough GrowFile example... first draft, it's crude.
-module.exports = new Thing({
+module.exports = {
   properties: {
     name: 'Grow File example',
     version: '0.1.0',
     
     // todo, register event listeners for these.
-    alerts: {
+    targets: {
       temperature: {
         min: 60,
         max: 80
@@ -37,4 +34,4 @@ module.exports = new Thing({
       }
     }
   }
-});
+}

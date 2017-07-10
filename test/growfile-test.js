@@ -1,4 +1,4 @@
-import Grow from '../lib/Grow.js';
+import Grow from '../dist/Grow.js';
 import _ from 'underscore';
 import cycles from '../examples/growfiles/cycles';
 import phases from '../examples/growfiles/phases';
@@ -81,11 +81,11 @@ describe('Growfile test', () => {
     expect(!!testGrow.controllers.ph).to.equal(true);
     expect(!!testGrow.controllers.ec).to.equal(true);
 
-    testGrow.on('correction', (key, correction)=> {
-      console.log(key);
-      console.log(correction);
-    });
-    testGrow.emit('ph', 6.4);
+    // testGrow.on('correction', (key, correction)=> {
+    //   console.log(key);
+    //   console.log(correction);
+    // });
+    // testGrow.emit('ph', 6.4);
     // testGrow.emit({
     //   type: ''
     // })

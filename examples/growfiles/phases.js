@@ -3,7 +3,7 @@ module.exports = {
     name: 'Grow File example',
     version: '0.1.5',
       
-    alerts: {
+    targets: {
       temperature: {
         min: 17,
         max: 25

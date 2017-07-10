@@ -1,4 +1,4 @@
-import Grow from '../lib/Grow.js';
+import Grow from '../dist/Grow.js';
 import _ from 'underscore';
 
 global.expect = require('chai').expect;
@@ -101,17 +101,17 @@ describe('Grow.js', () => {
     });
   });
 
-  describe('HELPERS', () => {
-    it('should be able to tell if a value is valid ph reading.', () => {
-      expect(testThing.ispH('string')).to.equal(false);
-      expect(testThing.ispH(5.8)).to.equal(true);
-      expect(testThing.ispH(100)).to.equal(false);
-      expect(testThing.ispH(-4)).to.equal(false);
-      expect(testThing.ispH('6.0')).to.equal(true);
-      expect(testThing.ispH(null)).to.equal(false);
-      expect(testThing.ispH(undefined)).to.equal(false);
-    });
-  });
+  // describe('HELPERS', () => {
+  //   it('should be able to tell if a value is valid ph reading.', () => {
+  //     expect(testThing.ispH('string')).to.equal(false);
+  //     expect(testThing.ispH(5.8)).to.equal(true);
+  //     expect(testThing.ispH(100)).to.equal(false);
+  //     expect(testThing.ispH(-4)).to.equal(false);
+  //     expect(testThing.ispH('6.0')).to.equal(true);
+  //     expect(testThing.ispH(null)).to.equal(false);
+  //     expect(testThing.ispH(undefined)).to.equal(false);
+  //   });
+  // });
 
   afterEach(() => {
     delete global.testThing;
