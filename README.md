@@ -177,10 +177,8 @@ Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as th
 ### Sponsors
 Thank you to these forward looking companies that have sponsored us so far:
 
-![White box labs](https://www.whiteboxes.ch/wp-content/uploads/2015/07/cropped-top_logo.png) ![Growmobile](https://user-images.githubusercontent.com/521978/28031804-5812b6ce-655d-11e7-8c22-45d037bf5d4d.jpg) ![Phenomics Labs](https://user-images.githubusercontent.com/521978/28031654-d48845a8-655c-11e7-8b4f-3d84cfe0efbe.jpg)
+![White box labs](https://www.whiteboxes.ch/wp-content/uploads/2015/07/cropped-top_logo.png)
+![Growmobile](https://user-images.githubusercontent.com/521978/28031804-5812b6ce-655d-11e7-8c22-45d037bf5d4d.jpg)
+![Phenomics Labs](https://user-images.githubusercontent.com/521978/28031654-d48845a8-655c-11e7-8b4f-3d84cfe0efbe.jpg)
 
 If your interested in sponsoring this work, or perhaps owning a piece of Common Garden, then please reach out: jake at commongarden.org
-
-# Join the dev list
-
-Link => https://groups.google.com/a/commongarden.org/forum/#!forum/dev
