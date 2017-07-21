@@ -9,13 +9,116 @@ Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) 
 `npm install Grow.js`
 
 # Usage
-See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits. 
+See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits and for connecting to to Grow-IoT. This readme, covers Grow.js specific features like setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'
 
-This readme, covers Grow.js specific features like setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'
+## Grow Files
+There are three main components to a Grow file:
+* [Targets](#targets)
+* [Cycles](#cycles)
+* [Phases](#phases)
+
+You can combine targets, cycles, phases, and metadata into a Growfile! It is nothing more than an object in JavaScript (serialized in JSON).
+
+A basic example:
+```javascript
+const Growjs = require('Grow.js');
+
+let grow = {
+  "name":"Basic grow file",
+  "description": "Metadata goes here."
+  "version":"0.1.0",
+  "phases":{
+    "vegetative":{
+      "targets":{
+        "ph":{
+          "min":6,
+          "ideal":6.15,
+          "max":6.3
+        },
+        "ec":{
+          "min":1400,
+          "ideal":1500,
+          "max":1700
+        },
+        "humidity":{
+          "min":51,
+          "max":61
+        },
+        "temperature":{
+          "min":17,
+          "max":28
+        }
+      },
+      "cycles":{
+        "day":{
+          "schedule":"after 6:00am",
+          "targets":{
+            "temperature":{
+              "ideal":22
+            }
+          }
+        },
+        "night":{
+          "schedule":"after 9:00pm",
+          "targets":{
+            "temperature":{
+              "ideal":18
+            }
+          }
+        }
+      }
+    },
+    "bloom":{
+      "targets":{
+        "ph":{
+          "min":6,
+          "ideal":6.15,
+          "max":6.3
+        },
+        "ec":{
+          "min":1400,
+          "ideal":1500,
+          "max":1700
+        },
+        "humidity":{
+          "min":51,
+          "max":59
+        },
+        "temperature":{
+          "min":17,
+          "max":28
+        }
+      },
+      "cycles":{
+        "day":{
+          "schedule":"after 7:00am",
+          "targets":{
+            "temperature":{
+              "ideal":22
+            }
+          }
+        },
+        "night":{
+          "schedule":"after 7:00pm",
+          "targets":{
+            "temperature":{
+              "ideal":22
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+Growjs.startGrow(grow);
+```
 
 ### Targets
 
-Targets create listeners for events from sensors and emit alerts or correction events. `min`, `max`, and `ideal` are supported.
+Targets create listeners for events from sensors and emit alerts or correction events.
+
+`min`, `max`, and `ideal` are currently supported.
 
 ```javascript
 const Grow = require('Grow.js');
@@ -33,8 +136,11 @@ example.on('alert', (message)=> {
   console.log(message);
 });
 
+// Here we call the registerTargets method.
 example.registerTargets(targets);
 
+// Now when we emit temperature events that are outside the bounds we detect,
+// We also emit alerts.
 example.emit('temperature', {value: 10});
 // { temperature: 'low' }
 
@@ -106,107 +212,6 @@ A plants life cycle might be broke up into the following phases:
 * Harvest
 
 There is much more work to do with regards to phases.
-
-## Growfiles
-You can combine targets, cycles, phases, and metadata into a Growfile! 
-
-For example:
-
-```javascript
-module.exports = {
-  name: 'A plant',
-  version: '0.0.1', // Not grower tested, any recommendations?
-  phases: {
-    vegetative: {
-      // Global targets durning this phase.
-      // min / max set alerts
-      // ideal is the target for the phase or cycle
-      targets: {
-        ph: {
-          min: 6.0,
-          ideal: 6.15,
-          max: 6.3,
-        },
-        ec: {
-          min: 1400,
-          ideal: 1500,
-          max: 1700,
-        },
-        humidity: {
-          min: 51,
-          max: 61
-        },
-        temperature: {
-          min: 17,
-          max: 28
-        }
-      },
-
-      // Cycles are function that have a 'schedule' property
-      cycles: {
-        day: {
-          schedule: 'after 6:00am',
-          targets: {
-            temperature: {
-              ideal: 22
-            }
-          }
-        },
-        night: {
-          schedule: 'after 9:00pm',
-          targets: {
-            temperature: {
-              ideal: 18
-            }
-          }
-        }
-      }
-    },
-
-    bloom: {
-      targets: {
-        ph: {
-          min: 6.0,
-          ideal: 6.15,
-          max: 6.3,
-        },
-        ec: {
-          min: 1400,
-          ideal: 1500,
-          max: 1700,
-        },
-        humidity: {
-          min: 51,
-          max: 59
-        },
-        temperature: {
-          min: 17,
-          max: 28
-        }
-      },
-
-      cycles: {
-        day: {
-          schedule: 'after 7:00am',
-          targets: {
-            temperature: {
-              ideal: 22
-            }
-          }
-        },
-        night: {
-          schedule: 'after 7:00pm',
-          targets: {
-            temperature: {
-              ideal: 22
-            }
-          }
-        }
-      }
-    }
-  }
-};
-```
 
 # Developing
 
