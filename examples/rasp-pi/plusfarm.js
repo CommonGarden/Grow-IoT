@@ -8,6 +8,7 @@ const later = require('later');
 const Hs100Api = require('hs100-api');
 const _ = require('underscore');
 const fs = require('fs');
+const spawn = require('child_process').spawn;
 
 // Use local time, not UTC.
 later.date.localTime();
@@ -39,6 +40,7 @@ board.on('ready', function start() {
 
     properties: {
       light_state: null,
+      pump_state: null,
       water_level: null,
       duration: 2000,
       interval: 6000,
@@ -82,33 +84,11 @@ board.on('ready', function start() {
         if (pH) pH_reading = pH;
       });
 
-      // // Uncomment to use an Atlas Scientific 
+      // // Uncomment to use an Atlas Scientific temp probe
       // board.i2cRead(0x66, 7, function (bytes) {
       //   let temp = Grow.parseAtlasTemperature(bytes);
       //   if (temp) water_temp = temp;
       // });
-
-      // // Uncomment to use an Hs100 smart plug to control the lights
-      // var client = new Hs100Api.Client();
-
-      // client.startDiscovery().on('plug-new', (plug) => {
-      //   if (plug.name === 'Plant Light') {
-      //     console.log('Light connected');
-      //     this.light = plug;
-      //     this.light.getInfo().then((data)=> {
-      //       if (data.sysInfo.relay_state === 1) {
-      //         this.set('light_state', 'on');
-      //       } else {
-      //         this.set('light_state', 'off');
-      //       }
-      //     }).catch(
-      //       (reason) => {
-      //         console.log('Handle rejected promise ('+reason+') here.');
-      //       }
-      //     );
-      //   }
-      // });
-
 
       var interval = this.get('interval');
 
@@ -152,28 +132,27 @@ board.on('ready', function start() {
     // Note, there are probably more elegant ways of handling subthing methods.
     turn_light_on: function () {
       console.log('Light on');
-      if (this.light) {
-        this.light.setPowerState(true);
-      }          
+      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'on', '1']);
       this.set('light_state', 'on');
     },
 
     turn_light_off: function () {
       console.log('Light off');
-      if (this.light) {
-        this.light.setPowerState(false);
-      }          
+      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'off', '1']);
       this.set('light_state', 'off');
     },
 
-    picture: function () {
-      NodeWebcam.capture( 'image', opts, ( err, data )=> {
-        if ( !err ) console.log( 'Image created!' );
-        fs.readFile('./' + data, (err, data) => {
-          if (err) throw err; // Fail if the file can't be read.
-          this.sendImage(data);
-        });
-      });
+    // Note, there are probably more elegant ways of handling subthing methods.
+    turn_pump_on: function () {
+      console.log('Light on');
+      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'on', '2']);
+      this.set('pump_state', 'on');
+    },
+
+    turn_pump_off: function () {
+      console.log('Light off');
+      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'off', '2']);
+      this.set('pump_state', 'off');
     },
 
     ec_data: function () {
