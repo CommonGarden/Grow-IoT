@@ -145,8 +145,6 @@ function createGrowHub(u, t) {
         // this.water_temp_data();
         // this.power_data();
       }, interval);
-
-      this.parseCycles(growfile.properties.cycles);
     },
 
     stop: function () {
@@ -234,5 +232,5 @@ function createGrowHub(u, t) {
     }
   }).connect();
 
-  console.log(growHub);
+  //  Open an image file and send it to server.
 }

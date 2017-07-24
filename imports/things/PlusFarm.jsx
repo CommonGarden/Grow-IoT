@@ -301,7 +301,7 @@ class PlusFarm extends Component {
                     hintText="Day start"
                     floatingLabelText="Day start"
                     data-key="interval"
-                    defaultValue={thing.properties.interval}
+                    defaultValue={thing.properties.day_start}
                     onChange={this.handleScheduleChange}
                   />
                   <br/>
@@ -309,7 +309,7 @@ class PlusFarm extends Component {
                     hintText="Night start"
                     floatingLabelText="Night start"
                     data-key="interval"
-                    defaultValue={thing.properties.interval}
+                    defaultValue={thing.properties.night_start}
                     onChange={this.handleScheduleChange}
                   />
                 </div>
@@ -319,7 +319,7 @@ class PlusFarm extends Component {
               <div style={styles.actuator}>
                 <div style={styles.actionButton}>
                   <h3>Pump</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
+                  <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
                     backgroundColor="rgb(208, 208, 208)"
                     data-device="pump"
                     onTouchTap={this.handleTap}>
