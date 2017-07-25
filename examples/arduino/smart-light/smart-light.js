@@ -1,7 +1,8 @@
 // Require the Grow.js build and johnny-five library.
-const Thing = require('../../../dist/Grow.umd.js');
+const Thing = require('../../../dist/Grow.js');
 const five = require('johnny-five');
 const later = require('later');
+const Hs100Api = require('hs100-api');
 
 // Use local time, not UTC.
 later.date.localTime();
@@ -24,6 +25,8 @@ board.on('ready', function start() {
     token: 'meow',
 
     component: 'SmartLight',
+
+    component: 'https://mywebcomponent.com/mycomponent',
 
     properties: {
       state: 'off',
@@ -49,6 +52,26 @@ board.on('ready', function start() {
         light.check_light_data();
       }, interval);
 
+      var client = new Hs100Api.Client();
+
+      client.startDiscovery().on('plug-new', (plug) => {
+        if (plug.name === 'tplinkplug1') {
+          console.log('Light connected');
+          this.light = plug;
+          this.light.getInfo().then((data)=> {
+            if (data.sysInfo.relay_state === 1) {
+              this.set('state', 'on');
+            } else {
+              this.set('state', 'off');
+            }
+          }).catch(
+            (reason) => {
+              console.log('Handle rejected promise ('+reason+') here.');
+            }
+          );
+        }
+      });
+
       this.parseCycles(this.get('cycles'));
     },
 
@@ -70,15 +93,19 @@ board.on('ready', function start() {
     },
 
     turn_on: function () {
-      LED.high();
-      this.set('state', 'on');
-      console.log('light on');
+      console.log('Light on');
+      if (this.light) {
+        this.light.setPowerState(true);
+      }          
+      this.set('light_state', 'on');
     },
 
-    turn_off:  function () {
-      LED.low();
-      this.set('state', 'off');
-      console.log('light off');
+    turn_off: function () {
+      console.log('Light off');
+      if (this.light) {
+        this.light.setPowerState(false);
+      }          
+      this.set('light_state', 'off');
     },
 
     light_data: function () {

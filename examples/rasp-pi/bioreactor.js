@@ -23,20 +23,24 @@ board.on('ready', function start() {
   // Declare needed variables.
   var pH_reading, eC_reading, water_temp, emit_data;
 
-  var floatSwitch = new five.Pin('P1-7');
+  var relayone = new five.Pin('P1-37');
+  var relaytwo = new five.Pin('P1-38');
+  var relaythree = new five.Pin('P1-39');
 
-  var multi = new five.Multi({
-    controller: 'BME280'
-  });
+  // // Uncomment to enable climate sensor.
+  // var multi = new five.Multi({
+  //   controller: 'BME280'
+  // });
 
+  // // Uncomment to enable light sensor.
   // var lux = new five.Light({
   //   controller: 'TSL2561'
   // });
 
-  var plusfarm = new Grow({
+  var bioreactor = new Grow({
     uuid: 'meow',
     token: 'meow',
-    component: 'PlusFarm',
+    component: 'BioReactor',
 
     properties: {
       light_state: null,
@@ -92,11 +96,10 @@ board.on('ready', function start() {
         if (pH) pH_reading = pH;
       });
 
-      // // Uncomment to use an Atlas Scientific temp probe
-      // board.i2cRead(0x66, 7, function (bytes) {
-      //   let temp = Grow.parseAtlasTemperature(bytes);
-      //   if (temp) water_temp = temp;
-      // });
+      board.i2cRead(0x66, 7, function (bytes) {
+        let temp = Grow.parseAtlasTemperature(bytes);
+        if (temp) water_temp = temp;
+      });
 
       var interval = this.get('interval');
 
@@ -183,15 +186,9 @@ board.on('ready', function start() {
       }
     },
 
-    light_data: function () {
-      this.emit('lux', 500);
-    },
-
-
     water_temp_data: function () {
       // Request a reading
-      // board.i2cWrite(0x66, [0x52, 0x00]);
-      water_temp = 22;
+      board.i2cWrite(0x66, [0x52, 0x00]);
 
       this.emit('water_temperature', water_temp);
 
@@ -215,8 +212,8 @@ board.on('ready', function start() {
     }
   });
 
-  plusfarm.connect({
-    host: '10.0.0.198',
+  bioreactor.connect({
+    host: '10.0.0.14',
     port: 3000
   });
 });
