@@ -267,20 +267,6 @@ class PlusFarm extends Component {
                            label={null}
                            valueLabelStyle={styles.values}
                            color={alerts[v.type] ? 'red': 'green'} />
-                    {
-                    // !events ? <div><CircularProgress /> Loading</div> :
-                    //   <ChartContainer timeRange={events.range()} width={width}>
-                    //     <ChartRow height="150">
-                    //       <YAxis
-                    //         id={v.type}
-                    //         min={events.min()} max={events.max()}
-                    //         width="30" />
-                    //       <Charts>
-                    //         <LineChart axis={v.type} series={events} />
-                    //       </Charts>
-                    //     </ChartRow>
-                    //   </ChartContainer>
-                    }
                   </Col>
                 })
               }
@@ -297,21 +283,23 @@ class PlusFarm extends Component {
                     <PowerIcon />
                   </FloatingActionButton>
                   <br/>
-                  <TextField
-                    hintText="Day start"
-                    floatingLabelText="Day start"
-                    data-key="interval"
-                    defaultValue={thing.properties.day_start}
-                    onChange={this.handleScheduleChange}
-                  />
-                  <br/>
-                  <TextField
-                    hintText="Night start"
-                    floatingLabelText="Night start"
-                    data-key="interval"
-                    defaultValue={thing.properties.night_start}
-                    onChange={this.handleScheduleChange}
-                  />
+                {
+                  // <TextField
+                  //   hintText="Day start"
+                  //   floatingLabelText="Day start"
+                  //   data-key="interval"
+                  //   defaultValue={thing.properties.growfile.night.schedule}
+                  //   onChange={this.handleScheduleChange}
+                  // />
+                  // <br/>
+                  // <TextField
+                  //   hintText="Night start"
+                  //   floatingLabelText="Night start"
+                  //   data-key="interval"
+                  //   defaultValue={thing.properties.growfile.night.schedule}
+                  //   onChange={this.handleScheduleChange}
+                  // />
+                }
                 </div>
               </div>
             </Col>
