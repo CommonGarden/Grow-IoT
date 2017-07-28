@@ -29,7 +29,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Gauge from 'react-svg-gauge';
 
 // Should there be a base thing component that has methods like setProperty and sendcommand?
-class PlusFarm extends Component {
+class BioReactor extends Component {
   constructor(props) {
     super(props);
   }
@@ -384,7 +384,7 @@ class PlusFarm extends Component {
   }
 }
 
-PlusFarm.propTypes = {
+BioReactor.propTypes = {
   ecEvents: PropTypes.array,
   phEvents: PropTypes.array,
   tempEvents: PropTypes.array,
@@ -394,7 +394,7 @@ PlusFarm.propTypes = {
   alerts: PropTypes.array,
 }
 
-export default PlusFarmContainer = createContainer(({ thing }) => {
+export default BioReactorContainer = createContainer(({ thing }) => {
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
 
   const ready = [ eventsHandle ].every(
@@ -442,4 +442,4 @@ export default PlusFarmContainer = createContainer(({ thing }) => {
     water_temperatureEvents,
     ready
   }
-}, PlusFarm);
+}, BioReactor);

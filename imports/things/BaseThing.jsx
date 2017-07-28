@@ -1,12 +1,31 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-// Work in progress.
-// This BaseThing class will perhapse eventually implement common things
-// Like setProperty, sendCommand, deleting a thing, etc.
+// Work in progress. This class contains useful methods for making things.
 export default class BaseThing extends Component {
   constructor(props) {
     super(props);
+  }
+
+  getEvents(type) {
+    const e = this.props[`${type}Events`];
+
+    let data = {
+      name: type,
+      columns: ["time", "value"],
+      points: []
+    };
+    _.each(e, (value, key, list) => {
+      data.points.unshift([value.event.timestamp.getTime(), value.event.message])
+    });
+    if (data.points[0]) return new TimeSeries(data);
+  }
+
+  getEventValue(type) {
+    const e = this.props[`${type}Events`];
+    if (e) {
+      return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+    }
   }
 
   onlineSince () {
@@ -40,6 +59,16 @@ export default class BaseThing extends Component {
       value: value
     };
     this.sendCommand(command, options);
+  }
+
+  updateGrowfile = (file) => {
+    try {
+      let growfile = file || JSON.parse(document.getElementById('Growfile').value);
+      this.setProperty('growfile', growfile);
+      this.sendCommand('restart');
+    } catch (err) {
+      alert(err);
+    }
   }
 }
 
