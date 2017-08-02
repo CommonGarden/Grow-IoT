@@ -19,9 +19,9 @@ example.on('correction', (key, correction)=> {
 
 example.registerTargets(targets);
 
-example.emit('temperature', {value: 10});
+example.emit('temperature', 10);
 // { temperature: 'low' }
 
-example.emit('temperature', {value: 30});
+example.emit('temperature', 30);
 // { temperature: 'high' }
 
