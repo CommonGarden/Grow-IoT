@@ -36,7 +36,8 @@ class BioReactor extends Component {
 
   handleTap = (event) => {
     let device = event.currentTarget.dataset.device;
-    let command = this.props.thing.properties[`${device}_state`] === 'on' ? `turn_${device}_off` : `turn_${device}_on`;
+    let command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
+    console.log(command);
     this.sendCommand(command);
   };
 
@@ -272,62 +273,55 @@ class BioReactor extends Component {
               }
           </Row>
           <Row>
-            <Col xs={4} md={4}>
+            <Col xs={3} md={3}>
               <div style={styles.actuator}>
                 <div style={styles.actionButton}>
-                  <h3>Light</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
+                  <h3>Heater</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.heater === 'on' ? true: false}
                     backgroundColor="rgb(208, 208, 208)"
-                    data-device="light"
-                    onTouchTap={this.handleTap}>
-                    <PowerIcon />
-                  </FloatingActionButton>
-                  <br/>
-                {
-                  // <TextField
-                  //   hintText="Day start"
-                  //   floatingLabelText="Day start"
-                  //   data-key="interval"
-                  //   defaultValue={thing.properties.growfile.night.schedule}
-                  //   onChange={this.handleScheduleChange}
-                  // />
-                  // <br/>
-                  // <TextField
-                  //   hintText="Night start"
-                  //   floatingLabelText="Night start"
-                  //   data-key="interval"
-                  //   defaultValue={thing.properties.growfile.night.schedule}
-                  //   onChange={this.handleScheduleChange}
-                  // />
-                }
-                </div>
-              </div>
-            </Col>
-            <Col xs={4} md={4}>
-              <div style={styles.actuator}>
-                <div style={styles.actionButton}>
-                  <h3>Pump</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-device="pump"
+                    data-device="heater"
                     onTouchTap={this.handleTap}>
                     <PowerIcon />
                   </FloatingActionButton>
                 </div>
               </div>
             </Col>
-            <Col xs={4} md={4}>
+            <Col xs={3} md={3}>
               <div style={styles.actuator}>
                 <div style={styles.actionButton}>
-                  <h3>Water level</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.water_level_state === 'on' ? true: false}
-                    backgroundColor="red"
-                    data-device="pump"
-                    secondaryColor="green"
+                  <h3>Circulation Pump</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.water_pump === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="water_pump"
                     onTouchTap={this.handleTap}>
-                    <EmptyIcon />
+                    <PowerIcon />
                   </FloatingActionButton>
-                  <span style={{margin: 10}}>low</span>
+                </div>
+              </div>
+            </Col>
+            <Col xs={3} md={3}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Airlift</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.airlift === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="airlift"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                </div>
+              </div>
+            </Col>
+            <Col xs={3} md={3}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Aerator</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.aerator === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="aerator"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
                 </div>
               </div>
             </Col>

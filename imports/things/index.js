@@ -8,7 +8,7 @@ import CameraComponent from './CameraComponent';
 import DrDose from './DrDose';
 import ClimateSensor from './ClimateSensor';
 import PlusFarm from './PlusFarm';
-import GrowMobile from './GrowMobile';
+// import GrowMobile from './GrowMobile';
 import BioReactor from './BioReactor';
 
 const components = {
@@ -22,7 +22,7 @@ const components = {
 	DrDose,
 	ClimateSensor,
 	PlusFarm,
-	GrowMobile,
+	// GrowMobile,
 	BioReactor
 };
 
