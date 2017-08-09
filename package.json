@@ -1,6 +1,6 @@
 {
   "name": "Grow.js",
-  "version": "0.3.9",
+  "version": "0.4.0",
   "description": "Easily create new IoT devices and connect them to a Grow-IoT instance.",
   "main": "dist/Grow.js",
   "jsnext:main": "dist/Grow.es6.js",
@@ -32,7 +32,7 @@
   ],
   "homepage": "https://github.com/CommonGarden/Grow.js",
   "dependencies": {
-    "Thing.js": "^0.3.99",
+    "Thing.js": "^0.4.0",
     "ascii-codes": "^1.0.0",
     "ddp": "0.12.1",
     "later": "^1.2.0",

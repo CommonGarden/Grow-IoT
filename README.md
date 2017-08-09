@@ -9,7 +9,9 @@ Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) 
 `npm install Grow.js`
 
 # Usage
-See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits and for connecting to to Grow-IoT. This readme, covers Grow.js specific features like setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'
+Grow.js is an extension of Thing.js, which is an exstension of the node event emitter class. See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits and for connecting to to Grow-IoT. You can also use Grow.js by itself with out connecting to a Grow-IoT instance.
+
+This readme, covers Grow.js specific features like setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'
 
 ## Grow Files
 There are three main components to a Grow file:
@@ -23,12 +25,17 @@ Targets create listeners for events from sensors and emit alerts or correction e
 
 ```javascript
 const Grow = require('Grow.js');
-const example = new Grow({
-  temperature: {
-    min: 17,
-    ideal: 22,
-    max: 28,
-  },
+const example = new Grow();
+
+// Start a Grow by passing in a valid growfile
+example.startGrow({
+  targets: {
+    temperature: {
+      min: 17,
+      ideal: 22,
+      max: 28,
+    }
+  }
 });
 
 // Uses node event emitter api
@@ -119,9 +126,7 @@ In some cases may require a human to transition the grow system towards the next
 
 ## Basic example
 ```javascript
-const Grow = require('Grow.js');
-
-const climaterecipe = new Grow({
+const climaterecipe = {
   "name":"Basic climate recipee",
   "description": "Metadata goes here.",
   "version":"0.1.0",
@@ -209,7 +214,9 @@ const climaterecipe = new Grow({
       }
     }
   }
-});
+};
+
+example.startGrow(climaterecipe)
 
 ```
 

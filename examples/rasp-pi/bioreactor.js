@@ -13,6 +13,42 @@ const spawn = require('child_process').spawn;
 // Use local time, not UTC.
 later.date.localTime();
 
+// Declare variables
+let pH_reading,
+  eC_reading,
+  DO_reading,
+  emit_data,
+  water_temp,
+  heater,
+  airlift,
+  aerator,
+  water_pump,
+  multi,
+  lux;
+
+const nano = new five.Board();
+
+// When board emits a 'ready' event run this start function.
+nano.on('ready', function start() {
+  // Define variables
+  heater = new five.Pin(6);
+  airlift = new five.Pin(7);
+  aerator = new five.Pin(8);
+  water_pump = new five.Pin(9);
+
+  // This requires OneWire support using the ConfigurableFirmata
+  let thermometer = new five.Thermometer({
+    controller: 'DS18B20',
+    pin: 4
+  });
+
+  thermometer.on('change', function() {
+    // console.log(this.celsius + "°C");
+    water_temp = this.celsius;
+  });
+});
+
+
 // Create a new board object
 const board = new five.Board({
   io: new raspio()
@@ -20,31 +56,26 @@ const board = new five.Board({
 
 // When board emits a 'ready' event run this start function.
 board.on('ready', function start() {
-  // Declare needed variables.
-  var pH_reading, eC_reading, water_temp, emit_data;
-
-  var relayone = new five.Pin('P1-37');
-  var relaytwo = new five.Pin('P1-38');
-  var relaythree = new five.Pin('P1-39');
-
   // // Uncomment to enable climate sensor.
-  // var multi = new five.Multi({
+  // let multi = new five.Multi({
   //   controller: 'BME280'
   // });
 
   // // Uncomment to enable light sensor.
-  // var lux = new five.Light({
+  // let lux = new five.Light({
   //   controller: 'TSL2561'
   // });
 
-  var bioreactor = new Grow({
+  const bioreactor = new Grow({
     uuid: 'meow',
     token: 'meow',
     component: 'BioReactor',
-
     properties: {
       light_state: null,
-      pump_state: null,
+      heater: 'off',//1
+      airlift: 'off',//2
+      aerator: 'off',//3
+      water_pump: 'off',//4
       water_level: null,
       duration: 2000,
       interval: 6000,
@@ -96,10 +127,25 @@ board.on('ready', function start() {
         if (pH) pH_reading = pH;
       });
 
-      board.i2cRead(0x66, 7, function (bytes) {
-        let temp = Grow.parseAtlasTemperature(bytes);
-        if (temp) water_temp = temp;
+      // Todo: make static helper for Grow.js
+      board.i2cRead(0x61, 14, function (bytes) {
+        var bytelist = [];
+        if (bytes[0] === 1) {
+          for (i = 0; i < bytes.length; i++) {
+            if (bytes[i] !== 1 && bytes[i] !== 0) {
+              bytelist.push(ascii.symbolForDecimal(bytes[i]));
+            }
+          }
+          DO_reading = bytelist.join('');
+        }
       });
+
+      setTimeout(()=> {
+        this.call('airlift_off');
+        this.call('aerator_off');
+        this.call('heater_off');
+        this.call('water_pump_off');
+      }, 3000);
 
       var interval = this.get('interval');
 
@@ -110,11 +156,10 @@ board.on('ready', function start() {
         this.ec_data();
         this.light_data();
         this.water_temp_data();
+        setTimeout(()=> {
+          this.do_data();
+        }, 1000);
       }, interval);
-
-      let growfile = this.get('growfile');
-      this.registerTargets(growfile.targets);
-      this.parseCycles(growfile.cycles);
     },
 
     stop: function () {
@@ -130,90 +175,119 @@ board.on('ready', function start() {
     
     day: function () {
       console.log('It is day!');
-      this.call('turn_light_on');
+      this.call('airlift_on');
     },
 
     night: function () {
       console.log('It is night!');
-      this.call('turn_light_off');
+      this.call('airlift_off');
     },
 
-    // Note, there are probably more elegant ways of handling subthing methods.
-    turn_light_on: function () {
-      console.log('Light on');
-      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'on', '1']);
-      this.set('light_state', 'on');
+    airlift_on: function () {
+      airlift.low();
+      this.set('airlift', 'on');
     },
 
-    turn_light_off: function () {
-      console.log('Light off');
-      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'off', '1']);
-      this.set('light_state', 'off');
+    airlift_off: function () {
+      airlift.high();
+      this.set('airlift', 'off');
     },
 
-    // Note, there are probably more elegant ways of handling subthing methods.
-    turn_pump_on: function () {
-      console.log('Light on');
-      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'on', '2']);
-      this.set('pump_state', 'on');
+    aerator_on: function () {
+      aerator.low();
+      this.set('aerator', 'on');
     },
 
-    turn_pump_off: function () {
-      console.log('Light off');
-      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'off', '2']);
-      this.set('pump_state', 'off');
+    aerator_off: function () {
+      aerator.high();
+      this.set('aerator', 'off');
+    },
+
+    heater_on: function () {
+      heater.low();
+      this.set('heater', 'on');
+    },
+
+    heater_off: function () {
+      heater.high();
+      this.set('heater', 'off');
+    },
+
+    water_pump_on: function () {
+      water_pump.low();
+      this.set('water_pump', 'on');
+    },
+
+    water_pump_off: function () {
+      water_pump.high();
+      this.set('water_pump', 'off');
     },
 
     ec_data: function () {
       // Request a reading, 
       board.i2cWrite(0x64, [0x52, 0x00]);
 
-      if (eC_reading) {
-        this.emit('ec', eC_reading);
+      this.emit('ec', eC_reading);
 
-        console.log('Conductivity: ' + eC_reading);
-      }
+      console.log('Conductivity: ' + eC_reading);
     },
 
     ph_data: function () {
       // Request a reading
       board.i2cWrite(0x63, [0x52, 0x00]);
 
-      if (pH_reading) {
-        this.emit('ph', pH_reading);
+      this.emit('ph', pH_reading);
 
-        console.log('ph: ' + pH_reading);
-      }
+      console.log('ph: ' + pH_reading);
+    },
+
+    do_data: function () {
+      // Request a reading
+      board.i2cWrite(0x61, [0x52, 0x00]);
+
+      this.emit('dissolved_oxygen', DO_reading);
+
+      console.log('Dissolved oxygen: ' + DO_reading);
     },
 
     water_temp_data: function () {
-      // Request a reading
-      board.i2cWrite(0x66, [0x52, 0x00]);
-
       this.emit('water_temperature', water_temp);
 
-      console.log('Resevoir temp: ' + water_temp);
+      console.log('Temperature: ' + water_temp);
+    },
+
+    light_data: function () {
+      if (!_.isUndefined(lux)) {
+        let light_data = lux.level;
+
+        this.emit('lux', light_data);
+
+        console.log('Lux: ' + light_data)
+      }
     },
 
     temp_data: function () {
-      var currentTemp = multi.thermometer.celsius;
+      if (!_.isUndefined(multi)) {
+        var currentTemp = multi.thermometer.celsius;
 
-      this.emit('temperature', currentTemp);
+        this.emit('temperature', currentTemp);
 
-      console.log('Temperature: ' + currentTemp);
+        console.log('Temperature: ' + currentTemp);
+      }
     },
 
     hum_data: function () {
-      var currentHumidity = multi.hygrometer.relativeHumidity;
+      if (!_.isUndefined(multi)) {
+        var currentHumidity = multi.hygrometer.relativeHumidity;
 
-      this.emit('humidity', currentHumidity);
+        this.emit('humidity', currentHumidity);
 
-      console.log('Humidity: ' + currentHumidity);
+        console.log('Humidity: ' + currentHumidity);
+      }
     }
-  });
-
-  bioreactor.connect({
-    host: '10.0.0.14',
-    port: 3000
+  }).connect({
+    host: '10.0.0.14'
   });
 });
+
+
