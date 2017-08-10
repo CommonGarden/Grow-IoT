@@ -10,6 +10,7 @@ import ClimateSensor from './ClimateSensor';
 import PlusFarm from './PlusFarm';
 // import GrowMobile from './GrowMobile';
 import BioReactor from './BioReactor';
+import Thermostat from './Thermostat';
 
 const components = {
 	GrowHub,
@@ -23,7 +24,8 @@ const components = {
 	ClimateSensor,
 	PlusFarm,
 	// GrowMobile,
-	BioReactor
+	BioReactor,
+	Thermostat
 };
 
 export default components;

@@ -90,11 +90,11 @@ class DrDose extends Component {
         title: 'pH',
         icon: 'wi wi-raindrop'
       },
-      {
-        type: 'ec',
-        title: 'Conductivity (ec)',
-        icon: 'wi wi-barometer',
-      }
+      // {
+      //   type: 'ec',
+      //   title: 'Conductivity (ec)',
+      //   icon: 'wi wi-barometer',
+      // }
     ]
   };
 
@@ -274,24 +274,26 @@ class DrDose extends Component {
                     <PowerIcon />
                   </FloatingActionButton>
                 </div>
-                <div style={styles.actionButton}>
-                  <h3>Nutrient</h3>
-                  <FloatingActionButton secondary={this.state.nutrient}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-key="nutrient"
-                    onTouchTap={this.handleDose}>
-                    <PowerIcon />
-                  </FloatingActionButton>
-                </div>
+                {
+                // <div style={styles.actionButton}>
+                //   <h3>Nutrient</h3>
+                //   <FloatingActionButton secondary={this.state.nutrient}
+                //     backgroundColor="rgb(208, 208, 208)"
+                //     data-key="nutrient"
+                //     onTouchTap={this.handleDose}>
+                //     <PowerIcon />
+                //   </FloatingActionButton>
+                // </div>
+                }
               </div>
             </Col>
             <Col xs={12} md={4}>
               <div>
                 <TextField
-                  hintText="Dose duration (milliseconds)"
-                  floatingLabelText="Dose duration (milliseconds)"
+                  hintText="Target pH"
+                  floatingLabelText="Target pH"
                   data-key="duration"
-                  defaultValue={this.state.duration}
+                  defaultValue="7.0"
                   onChange={this.handleDurationChange}
                 />
               </div>
