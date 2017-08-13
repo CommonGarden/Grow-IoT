@@ -101,15 +101,50 @@ describe('Grow.js', () => {
     });
   });
 
-  // describe('HELPERS', () => {
-  //   it('should be able to tell if a value is valid ph reading.', () => {
-  //     expect(testThing.ispH('string')).to.equal(false);
-  //     expect(testThing.ispH(5.8)).to.equal(true);
-  //     expect(testThing.ispH(100)).to.equal(false);
-  //     expect(testThing.ispH(-4)).to.equal(false);
-  //     expect(testThing.ispH('6.0')).to.equal(true);
-  //     expect(testThing.ispH(null)).to.equal(false);
-  //     expect(testThing.ispH(undefined)).to.equal(false);
+  describe('Calibration', () => {
+    it('should calibrate', () => {
+      let calibration_data = [[3.7, 4], [6.7, 7], [9.8, 10]];
+      testThing.calibrate('ph', calibration_data)
+      expect(testThing.predict('ph', 6.8)).to.equal(7.06);
+    });
+  });
+
+  describe('Analog Sensors', () => {
+    it('should parse an analog pH value', () => {
+      let ph = testThing.parseAnalogpH(467);
+      expect(ph).to.equal(7.98095703125);
+      // TODO: it should do so with options such as a different VREF
+    });
+    it('should parse an analog EC value', () => {
+      let EC = testThing.parseAnalogEC(467);
+      expect(EC).to.equal(229.008544921875);
+    });
+    // it('should parse an analog TDS value', () => {
+    //   let tds = testThing.parseAnalogTDS(467);
+    //   console.log(tds);
+    //   // expect(tds).to.equal(7.06);
+    // });
+  });
+
+
+
+  // // TODO
+  // describe('Atlas Scientific', () => {
+  //   it('should be able to parse I2C response from pH sensor', () => {
+  //     expect(testThing.parseAtlasPH()).to.equal(false);
+  //   });
+
+  //   it('should be able to parse I2C response from EC sensor', () => {
+  //     expect(testThing.parseAtlasEC()).to.equal(false);
+  //     expect(testThing.parseAtlasTDS()).to.equal(false);
+  //   });
+
+  //   it('should be able to parse I2C response from Temperature probe', () => {
+  //     expect(testThing.parseAtlasPH()).to.equal(false);
+  //   });
+
+  //   it('should be able to parse I2C response from Dissolved Oxygen sensor', () => {
+  //     expect(testThing.parseAtlasPH()).to.equal(false);
   //   });
   // });
 

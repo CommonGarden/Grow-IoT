@@ -1,5 +1,5 @@
 // Break this out into separate repo.
-const Grow = require('../../dist/Grow.js');
+const Grow = require('../../lib/Grow.js');
 const five = require('johnny-five');
 
 // Create a new board object
@@ -49,12 +49,12 @@ board.on('ready', function start() {
           min: 7.0,
           // ideal: 7.15,
           max: 7.3,
-          // pid: {
-          //   k_p: 0.25,
-          //   k_i: 0.01,
-          //   k_d: 0.01,
-          //   dt: 1
-          // }
+          pid: {
+            k_p: 0.25,
+            k_i: 0.01,
+            k_d: 0.01,
+            dt: 1
+          }
         },
       },
       interval: 1000,
@@ -65,12 +65,17 @@ board.on('ready', function start() {
       let interval = this.get('interval');
       data_interval = setInterval(()=> {
         this.ph_data();
+        this.temp_data();
       }, interval);
 
       let growfile = this.get('growfile');
       this.registerTargets(growfile);
 
       let threshold = this.get('threshold');
+
+      ph_sensor.on('change', (value)=> {
+        pH_reading = this.parseAnalogpH(value);
+      })
 
       // Listen for correction events from our PID controller
       this.on('correction', (key, correction) => {
@@ -116,16 +121,20 @@ board.on('ready', function start() {
 
     ph_data: function () {
       // Request a reading
-      if (ph_sensor.value) {
-        let ph = Grow.parseAnalogpH(ph_sensor.value);
-        // Send data to the Grow-IoT app.
-        grow.emit('ph', ph);
+      // Send data to the Grow-IoT app.
+      this.emit('ph', pH_reading);
 
-        console.log('ph: ' + ph);
+      console.log('ph: ' + pH_reading);
+    },
+
+    temp_data: function () {
+      // Request a reading
+      if (water_temp) {
+        // Send data to the Grow-IoT app.
+        this.emit('temperature', water_temp);
+
+        console.log('Temperature: ' + water_temp);
       }
     }
-  });
-
-  grow.connect();
-
+  }).connect();
 });

@@ -38,9 +38,9 @@ board.on('ready', function start() {
           ideal: 27,
           max: 29,
           pid: {
-            k_p: 0.25,
-            k_i: 0.01,
-            k_d: 0.01,
+            k_p: 300,
+            k_i: 0,
+            k_d: 200,
             dt: 1
           }
         },
