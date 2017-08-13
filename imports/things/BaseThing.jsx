@@ -5,7 +5,26 @@ import { Meteor } from 'meteor/meteor';
 export default class BaseThing extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      expanded: false,
+    };
   }
+
+  handleExpandChange = (expanded) => {
+    this.setState({expanded: expanded});
+  };
+
+  handleToggle = (event, toggle) => {
+    this.setState({expanded: toggle});
+  };
+
+  handleExpand = () => {
+    this.setState({expanded: true});
+  };
+
+  handleReduce = () => {
+    this.setState({expanded: false});
+  };
 
   getEvents(type) {
     const e = this.props[`${type}Events`];
