@@ -197,7 +197,7 @@ board.on('ready', function start() {
         uuid: 'PASTE_UUID_HERE',
         token: 'PASTE_TOKEN_HERE',
 
-        component: 'smart-light',
+        component: 'SmartLight',
 
         properties: {
             state: 'off',
