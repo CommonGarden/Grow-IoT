@@ -85,7 +85,7 @@ class SmartLight extends Component {
     const width = 400;
     return (
       <div>
-        <h2>An example "Thing"</h2>
+        <h2>Smart Light</h2>
         <ChartContainer timeRange={series.range()} width={width}>
           <ChartRow height="150">
             <YAxis

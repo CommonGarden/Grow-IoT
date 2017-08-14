@@ -36,7 +36,7 @@ function createGrowHub(u, t) {
   const growHub = new Thing({
     uuid: u,
     token: t,
-    component: 'PlusFarm',
+    component: 'BioReactor',
 
     // Properties can be updated by the API
     properties: {
@@ -146,7 +146,7 @@ function createGrowHub(u, t) {
         // this.power_data();
       }, interval);
 
-      this.parseCycles(growfile.properties.cycles);
+      // this.parseCycles(growfile.properties.cycles);
     },
 
     stop: function () {

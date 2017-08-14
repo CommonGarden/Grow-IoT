@@ -8,6 +8,9 @@ import CameraComponent from './CameraComponent';
 import DrDose from './DrDose';
 import ClimateSensor from './ClimateSensor';
 import PlusFarm from './PlusFarm';
+// import GrowMobile from './GrowMobile';
+import BioReactor from './BioReactor';
+import Thermostat from './Thermostat';
 
 const components = {
 	GrowHub,
@@ -19,7 +22,10 @@ const components = {
 	CameraComponent,
 	DrDose,
 	ClimateSensor,
-	PlusFarm
+	PlusFarm,
+	// GrowMobile,
+	BioReactor,
+	Thermostat
 };
 
 export default components;

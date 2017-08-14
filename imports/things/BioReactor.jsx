@@ -27,17 +27,38 @@ import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
 import CircularProgress from 'material-ui/CircularProgress';
 import Gauge from 'react-svg-gauge';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
 
 // Should there be a base thing component that has methods like setProperty and sendcommand?
-class PlusFarm extends Component {
+class BioReactor extends Component {
   constructor(props) {
     super(props);
   }
 
   handleTap = (event) => {
     let device = event.currentTarget.dataset.device;
-    let command = this.props.thing.properties[`${device}_state`] === 'on' ? `turn_${device}_off` : `turn_${device}_on`;
+    let command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
+    console.log(command);
     this.sendCommand(command);
+  };
+
+  handleExpandChange = (expanded) => {
+    this.setState({expanded: expanded});
+  };
+
+  handleToggle = (event, toggle) => {
+    this.setState({expanded: toggle});
+  };
+
+  handleExpand = () => {
+    this.setState({expanded: true});
+  };
+
+  handleReduce = () => {
+    this.setState({expanded: false});
   };
 
   handleOpen = (event) => {
@@ -62,6 +83,7 @@ class PlusFarm extends Component {
 
   state = {
     settingsDialogOpen: false,
+    expanded: true,
     types: [
       {
         type: 'temp',
@@ -77,10 +99,10 @@ class PlusFarm extends Component {
         max: 100
       },
       {
-        type: 'lux',
-        title: 'lux',
+        type: 'dissolved_oxygen',
+        title: 'Dissolved Oxygen',
         icon: 'wi wi-day-sunny',
-        max: 1000,
+        max: 36,
       },
       {
         type: 'ph',
@@ -195,7 +217,7 @@ class PlusFarm extends Component {
       },
       main: {
         margin: '20px',
-        minWidth: 800,
+        // minWidth: 800,
       },
       sensorData: {
         position: 'relative',
@@ -222,15 +244,39 @@ class PlusFarm extends Component {
     const thing = this.props.thing;
     const properties = this.props.thing.properties;
     const alerts = this.props.thing.properties.alerts || {};
-    const width = 400;
+    // const width = 400;
 
     return (
-      <Card style={styles.main}>
+      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+        {
+        // <CardHeader
+        //   title="Compost Tea Brewer"
+        //   subtitle="Batch #1"
+        //   // avatar="/img/black_flower.png"
+        //   // actAsExpander={true}
+        //   // showExpandableButton={true}
+        //   children={
+        //     <IconMenu
+        //       tooltip="Menu"
+        //       tooltipPosition="top-center"
+        //       iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        //       anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+        //       targetOrigin={{horizontal: 'left', vertical: 'top'}}
+        //       style={{float:'right'}}
+        //     >
+        //       <MenuItem primaryText="Event History" />
+        //       <MenuItem primaryText="Settings" onTouchTap={this.handleOpen} />
+        //       <MenuItem primaryText="Cancel Grow" />
+        //     </IconMenu>
+        //   }
+        // />
+        }
         <CardText>
+        {
           <div>
-              <img src="/img/plusfarm.png"
+              <img src="/img/black_flower.png"
                    style={{
-                    maxWidth:100
+                    maxWidth:40
                    }}/>
               <IconButton
                 tooltip="Options"
@@ -240,13 +286,16 @@ class PlusFarm extends Component {
                 <SettingsIcon />
               </IconButton>
           </div>
+          }
+        </CardText>
+        <CardText>
           <Row>
               {
                 this.state.types.map((v, k) => {
                   const events = this.getEvents(v.type);
-                  return <Col xs={4} md={4} key={k}>
+                  return <Col xs={6} md={4} key={k}>
                     <div style={styles.sensorData}>
-                      <h2>
+                      <h4>
                         <i className={v.icon} style={styles.sensorIcon}></i>
                         {v.title}
                         {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
@@ -258,11 +307,11 @@ class PlusFarm extends Component {
                             <WarningIcon />
                           </IconButton> {alerts[v.type]}</span>: <span></span>
                         }
-                      </h2>
+                      </h4>
                     </div>
                     <Gauge value={this.getEventValue(v.type)}
-                           width={300}
-                           height={200}
+                           width={175}
+                           height={125}
                            max={v.max}
                            label={null}
                            valueLabelStyle={styles.values}
@@ -271,63 +320,65 @@ class PlusFarm extends Component {
                 })
               }
           </Row>
+        </CardText>
+        <CardHeader
+          title="Compost Tea Brewer"
+          subtitle="Batch #1"
+          // avatar="/img/black_flower.png"
+          actAsExpander={true}
+          showExpandableButton={true}
+        />
+        <CardText expandable={true}>
           <Row>
-            <Col xs={4} md={4}>
+            <Col xs={3} md={3}>
               <div style={styles.actuator}>
                 <div style={styles.actionButton}>
-                  <h3>Light</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
+                  <h3>Heater</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.heater === 'on' ? true: false}
                     backgroundColor="rgb(208, 208, 208)"
-                    data-device="light"
-                    onTouchTap={this.handleTap}>
-                    <PowerIcon />
-                  </FloatingActionButton>
-                  <br/>
-                {
-                  // <TextField
-                  //   hintText="Day start"
-                  //   floatingLabelText="Day start"
-                  //   data-key="interval"
-                  //   defaultValue={thing.properties.growfile.night.schedule}
-                  //   onChange={this.handleScheduleChange}
-                  // />
-                  // <br/>
-                  // <TextField
-                  //   hintText="Night start"
-                  //   floatingLabelText="Night start"
-                  //   data-key="interval"
-                  //   defaultValue={thing.properties.growfile.night.schedule}
-                  //   onChange={this.handleScheduleChange}
-                  // />
-                }
-                </div>
-              </div>
-            </Col>
-            <Col xs={4} md={4}>
-              <div style={styles.actuator}>
-                <div style={styles.actionButton}>
-                  <h3>Pump</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-device="pump"
+                    data-device="heater"
                     onTouchTap={this.handleTap}>
                     <PowerIcon />
                   </FloatingActionButton>
                 </div>
               </div>
             </Col>
-            <Col xs={4} md={4}>
+            <Col xs={3} md={3}>
               <div style={styles.actuator}>
                 <div style={styles.actionButton}>
-                  <h3>Water level</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.water_level_state === 'on' ? true: false}
-                    backgroundColor="red"
-                    data-device="pump"
-                    secondaryColor="green"
+                  <h3>Circulation Pump</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.water_pump === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="water_pump"
                     onTouchTap={this.handleTap}>
-                    <EmptyIcon />
+                    <PowerIcon />
                   </FloatingActionButton>
-                  <span style={{margin: 10}}>low</span>
+                </div>
+              </div>
+            </Col>
+            <Col xs={3} md={3}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Airlift</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.airlift === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="airlift"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
+                </div>
+              </div>
+            </Col>
+            <Col xs={3} md={3}>
+              <div style={styles.actuator}>
+                <div style={styles.actionButton}>
+                  <h3>Aerator</h3>
+                  <FloatingActionButton secondary={this.props.thing.properties.aerator === 'on' ? true: false}
+                    backgroundColor="rgb(208, 208, 208)"
+                    data-device="aerator"
+                    onTouchTap={this.handleTap}>
+                    <PowerIcon />
+                  </FloatingActionButton>
                 </div>
               </div>
             </Col>
@@ -384,17 +435,19 @@ class PlusFarm extends Component {
   }
 }
 
-PlusFarm.propTypes = {
+BioReactor.propTypes = {
   ecEvents: PropTypes.array,
   phEvents: PropTypes.array,
   tempEvents: PropTypes.array,
   humidityEvents: PropTypes.array,
   luxEvents: PropTypes.array,
+  dissolved_oxygenEvents: PropTypes.array,
+  water_temperatureEvents: PropTypes.array,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
 }
 
-export default PlusFarmContainer = createContainer(({ thing }) => {
+export default BioReactorContainer = createContainer(({ thing }) => {
   const eventsHandle = Meteor.subscribe('Thing.events', thing.uuid);
 
   const ready = [ eventsHandle ].every(
@@ -419,6 +472,12 @@ export default PlusFarmContainer = createContainer(({ thing }) => {
   }, {
     sort: { insertedAt: -1 }
   }).fetch();
+  const dissolved_oxygenEvents = Events.find({
+    'event.type': 'dissolved_oxygen',
+    'thing._id': thing._id
+  }, {
+    sort: { insertedAt: -1 }
+  }).fetch();
   const tempEvents = Events.find({'event.type': 'temperature',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
@@ -437,9 +496,10 @@ export default PlusFarmContainer = createContainer(({ thing }) => {
     ecEvents,
     tempEvents,
     humidityEvents,
+    dissolved_oxygenEvents,
     luxEvents,
     alerts,
     water_temperatureEvents,
     ready
   }
-}, PlusFarm);
+}, BioReactor);
