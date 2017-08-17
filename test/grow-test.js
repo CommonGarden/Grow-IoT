@@ -119,6 +119,7 @@ describe('Grow.js', () => {
       let EC = testThing.parseAnalogEC(467);
       expect(EC).to.equal(229.008544921875);
     });
+    // TODO
     // it('should parse an analog TDS value', () => {
     //   let tds = testThing.parseAnalogTDS(467);
     //   console.log(tds);
@@ -128,7 +129,7 @@ describe('Grow.js', () => {
 
 
 
-  // // TODO
+  // // TODO: get response examples to test
   // describe('Atlas Scientific', () => {
   //   it('should be able to parse I2C response from pH sensor', () => {
   //     expect(testThing.parseAtlasPH()).to.equal(false);

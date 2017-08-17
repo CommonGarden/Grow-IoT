@@ -164,6 +164,7 @@ setTimeout(()=> {
           this.ec_data();
           this.light_data();
           this.water_temp_data();
+          this.air_pressure_data();
           setTimeout(()=> {
             this.do_data();
           }, 1000);
@@ -274,13 +275,23 @@ setTimeout(()=> {
         }
       },
 
-      temp_data: function () {
+      air_pressure_data: function () {
         if (!_.isUndefined(multi)) {
           var currentTemp = multi.thermometer.celsius;
 
           this.emit('temperature', currentTemp);
 
           console.log('Temperature: ' + currentTemp);
+        }
+      },
+
+      temp_data: function () {
+        if (!_.isUndefined(multi)) {
+          var pressure = multi.barometer.pressure;
+
+          this.emit('pressure', pressure);
+
+          console.log('Air Pressure: ' + pressure);
         }
       },
 
