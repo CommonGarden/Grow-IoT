@@ -1,3 +1,4 @@
+import BaseThing from '../app/components/BaseThing';
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -7,8 +8,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
-import { TimeSeries, TimeRange, Event } from "pondjs";
+// import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
 import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -21,6 +21,7 @@ import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ImageOne from '../app/components/images/ImageOne';
+import GrowFile from '../app/components/GrowFile';
 import CameraComponent from './CameraComponent';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
@@ -30,10 +31,12 @@ import Gauge from 'react-svg-gauge';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import moment from 'moment';
+
 
 
 // Should there be a base thing component that has methods like setProperty and sendcommand?
-class BioReactor extends Component {
+class BioReactor extends BaseThing {
   constructor(props) {
     super(props);
   }
@@ -43,36 +46,20 @@ class BioReactor extends Component {
     let command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
     console.log(command);
     this.sendCommand(command);
-  };
-
-  handleExpandChange = (expanded) => {
-    this.setState({expanded: expanded});
-  };
-
-  handleToggle = (event, toggle) => {
-    this.setState({expanded: toggle});
-  };
-
-  handleExpand = () => {
-    this.setState({expanded: true});
-  };
-
-  handleReduce = () => {
-    this.setState({expanded: false});
-  };
+  }
 
   handleOpen = (event) => {
     this.setState({settingsDialogOpen: true});
-  };
+  }
 
   handleClose = (event) => {
     this.setState({settingsDialogOpen: false});
-  };
+  }
 
   handleValueChange = (event, newValue) => {
     const key = event.target.dataset.key;
     this.setProperty(key, newValue);
-  };
+  }
 
   handleScheduleChange = (event, newValue) => {
     this.sendCommand('stop');
@@ -96,6 +83,18 @@ class BioReactor extends Component {
         type: 'humidity',
         title: 'Humidity',
         icon: 'wi wi-humidity',
+        max: 100
+      },
+      {
+        type: 'pressure',
+        title: 'Air pressure',
+        icon: 'wi wi-humidity',
+        max: 100
+      },
+      {
+        type: 'lux',
+        title: 'Light (lux)',
+        icon: 'wi wi-day-sunny',
         max: 100
       },
       {
@@ -126,76 +125,10 @@ class BioReactor extends Component {
     ]
   };
 
-  // getEvents(type) {
-  //   const e = this.props[`${type}Events`];
 
-  //   let data = {
-  //     name: type,
-  //     columns: ["time", "value"],
-  //     points: []
-  //   };
-  //   _.each(e, (value, key, list) => {
-  //     data.points.unshift([value.event.timestamp.getTime(), value.event.message])
-  //   });
-  //   if (data.points[0]) return new TimeSeries(data);
-  // }
-
-  sendCommand (method, options) {
-    Meteor.call('Thing.sendCommand',
-      this.props.thing.uuid,
-      method,
-      options,
-      (error, documentId) => {
-        if (error) {
-          console.error("Error", error);
-          return alert(`Error: ${error.reason || error}`);
-        }
-      }
-    );
-  }
-
-  setProperty = (key, value) => {
-    let command = 'setProperty';
-    let options = {
-      key: key,
-      value: value
-    };
-    this.sendCommand(command, options);
-  }
 
   takePicture = () => {
     this.sendCommand('picture');
-  }
-
-  updateGrowfile = () => {
-    try {
-      let growfile = JSON.parse(document.getElementById('Growfile').value);
-      this.setProperty('growfile', growfile);
-      this.sendCommand('restart');
-    } catch (err) {
-      alert(err);
-    }
-  }
-
-  getEventValue(type) {
-    const e = this.props[`${type}Events`];
-    if (e) {
-      return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
-    }
-  }
-
-  getEvents(type) {
-    const e = this.props[`${type}Events`];
-
-    let data = {
-      name: type,
-      columns: ["time", "value"],
-      points: []
-    };
-    _.each(e, (value, key, list) => {
-      data.points.unshift([value.event.timestamp.getTime(), value.event.message])
-    });
-    if (data.points[0]) return new TimeSeries(data);
   }
 
   render() {
@@ -219,9 +152,12 @@ class BioReactor extends Component {
         margin: '20px',
         // minWidth: 800,
       },
+      padding: {
+        padding: 30
+      },
       sensorData: {
-        position: 'relative',
-        top: 25,
+        // position: 'relative',
+        // top: 25,
         textAlign: 'center',
       },
       sensorIcon: {
@@ -244,58 +180,53 @@ class BioReactor extends Component {
     const thing = this.props.thing;
     const properties = this.props.thing.properties;
     const alerts = this.props.thing.properties.alerts || {};
-    // const width = 400;
 
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         {
-        // <CardHeader
-        //   title="Compost Tea Brewer"
-        //   subtitle="Batch #1"
-        //   // avatar="/img/black_flower.png"
-        //   // actAsExpander={true}
-        //   // showExpandableButton={true}
-        //   children={
-        //     <IconMenu
-        //       tooltip="Menu"
-        //       tooltipPosition="top-center"
-        //       iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-        //       anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-        //       targetOrigin={{horizontal: 'left', vertical: 'top'}}
-        //       style={{float:'right'}}
-        //     >
-        //       <MenuItem primaryText="Event History" />
-        //       <MenuItem primaryText="Settings" onTouchTap={this.handleOpen} />
-        //       <MenuItem primaryText="Cancel Grow" />
-        //     </IconMenu>
-        //   }
-        // />
+        <CardHeader
+          title="Compost Tea Brewer"
+          subtitle="Batch #1"
+          // avatar="/img/black_flower.png"
+          actAsExpander={true}
+          showExpandableButton={true}
+          // children={
+          //   <IconMenu
+          //     tooltip="Menu"
+          //     tooltipPosition="top-center"
+          //     iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+          //     anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          //     targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          //     style={{float:'right'}}
+          //   >
+          //     <MenuItem primaryText="Event History" />
+          //     <MenuItem primaryText="Settings" onTouchTap={this.handleOpen} />
+          //     <MenuItem primaryText="Cancel Grow" />
+          //   </IconMenu>
+          // }
+        />
+        // <div>
+        //     <img src="/img/black_flower.png"
+        //          style={{
+        //           maxWidth:40
+        //          }}/>
+            // <IconButton
+            //   tooltip="Options"
+            //   tooltipPosition="top-center"
+            //   onTouchTap={this.handleOpen}
+            //   style={styles.settings}>
+            //   <SettingsIcon />
+            // </IconButton>
+        // </div>
         }
         <CardText>
-        {
-          <div>
-              <img src="/img/black_flower.png"
-                   style={{
-                    maxWidth:40
-                   }}/>
-              <IconButton
-                tooltip="Options"
-                tooltipPosition="top-center"
-                onTouchTap={this.handleOpen}
-                style={styles.settings}>
-                <SettingsIcon />
-              </IconButton>
-          </div>
-          }
-        </CardText>
-        <CardText>
-          <Row>
+          <Row style={{margin: -20}}>
               {
                 this.state.types.map((v, k) => {
                   const events = this.getEvents(v.type);
-                  return <Col xs={6} md={4} key={k}>
+                  return this.getEventValue(v.type) !== 'NA' ? <Col xs={6} md={3} key={k}>
                     <div style={styles.sensorData}>
-                      <h4>
+                      <h4 style={{position: 'relative', bottom: -25}}>
                         <i className={v.icon} style={styles.sensorIcon}></i>
                         {v.title}
                         {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
@@ -308,81 +239,115 @@ class BioReactor extends Component {
                           </IconButton> {alerts[v.type]}</span>: <span></span>
                         }
                       </h4>
+                      <Gauge value={this.getEventValue(v.type)}
+                             width={175}
+                             height={125}
+                             max={v.max}
+                             label={null}
+                             valueLabelStyle={styles.values}
+                             color={alerts[v.type] ? 'red': 'green'} />
                     </div>
-                    <Gauge value={this.getEventValue(v.type)}
-                           width={175}
-                           height={125}
-                           max={v.max}
-                           label={null}
-                           valueLabelStyle={styles.values}
-                           color={alerts[v.type] ? 'red': 'green'} />
-                  </Col>
+                  </Col>: null;
                 })
               }
           </Row>
         </CardText>
-        <CardHeader
-          title="Compost Tea Brewer"
-          subtitle="Batch #1"
-          // avatar="/img/black_flower.png"
-          actAsExpander={true}
-          showExpandableButton={true}
-        />
         <CardText expandable={true}>
           <Row>
-            <Col xs={3} md={3}>
-              <div style={styles.actuator}>
-                <div style={styles.actionButton}>
-                  <h3>Heater</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.heater === 'on' ? true: false}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-device="heater"
-                    onTouchTap={this.handleTap}>
-                    <PowerIcon />
-                  </FloatingActionButton>
+            <Col xs={12} md={6} style={styles.padding}>
+              <Row>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h3>Heater</h3>
+                      <FloatingActionButton secondary={this.props.thing.properties.heater === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="heater"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h3>Circulation Pump</h3>
+                      <FloatingActionButton secondary={this.props.thing.properties.water_pump === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="water_pump"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h3>Airlift</h3>
+                      <FloatingActionButton secondary={this.props.thing.properties.airlift === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="airlift"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h3>Aerator</h3>
+                      <FloatingActionButton secondary={this.props.thing.properties.aerator === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="aerator"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                {
+                <div style={styles.padding}>
+                
+                <TextField
+                  hintText="Log data every (milliseconds)"
+                  floatingLabelText="Log data every (milliseconds)"
+                  data-key="interval"
+                  defaultValue={thing.properties.interval}
+                  onChange={this.handleScheduleChange}
+                />
+                <br/>
+
+                <TextField
+                  hintText="Insert valid Growfile JSON"
+                  errorText="This field is required."
+                  floatingLabelText="Growfile"
+                  id="Growfile"
+                  ref="Growfile"
+                  defaultValue={JSON.stringify(thing.properties.growfile, null, 2)}
+                  multiLine={true}
+                  style={styles.oneHundred}
+                  rows={10}
+                />
+                <br/>
+                <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
                 </div>
-              </div>
+                }
+              </Row>
             </Col>
-            <Col xs={3} md={3}>
-              <div style={styles.actuator}>
-                <div style={styles.actionButton}>
-                  <h3>Circulation Pump</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.water_pump === 'on' ? true: false}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-device="water_pump"
-                    onTouchTap={this.handleTap}>
-                    <PowerIcon />
-                  </FloatingActionButton>
-                </div>
-              </div>
-            </Col>
-            <Col xs={3} md={3}>
-              <div style={styles.actuator}>
-                <div style={styles.actionButton}>
-                  <h3>Airlift</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.airlift === 'on' ? true: false}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-device="airlift"
-                    onTouchTap={this.handleTap}>
-                    <PowerIcon />
-                  </FloatingActionButton>
-                </div>
-              </div>
-            </Col>
-            <Col xs={3} md={3}>
-              <div style={styles.actuator}>
-                <div style={styles.actionButton}>
-                  <h3>Aerator</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.aerator === 'on' ? true: false}
-                    backgroundColor="rgb(208, 208, 208)"
-                    data-device="aerator"
-                    onTouchTap={this.handleTap}>
-                    <PowerIcon />
-                  </FloatingActionButton>
-                </div>
-              </div>
+            <Col xs={12} md={6} style={styles.padding}>
+              <h3>Event History</h3>
+              {
+                  this.props.events.map((v, k) => {
+                    return <p key={k}>{v.event.message}<span style={{float:'right'}}>{moment(v.event.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</span></p>
+                  })
+              }
+              <p><a href='#'>Show full History</a></p>
             </Col>
           </Row>
+
           <Dialog
             title="Settings"
             actions={<FlatButton
@@ -416,14 +381,6 @@ class BioReactor extends Component {
             />
             <br/>
             <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
-            <br/>
-            <br/>
-            <br/>
-            <Divider />
-            <p>Auth credentials:</p>
-            <p>uuid: {thing.uuid}</p>
-            <p>token: {thing.token}</p>
-            <RaisedButton label="Delete Grow Hub" secondary={true} />
           </Dialog>
           <br/>
         </CardText>
@@ -436,6 +393,7 @@ class BioReactor extends Component {
 }
 
 BioReactor.propTypes = {
+  events: PropTypes.array,
   ecEvents: PropTypes.array,
   phEvents: PropTypes.array,
   tempEvents: PropTypes.array,
@@ -455,6 +413,8 @@ export default BioReactorContainer = createContainer(({ thing }) => {
       return h.ready();
     }
   );
+
+  const events = Events.find({'thing._id': thing._id}, {limit: 20}).fetch();
 
   const alerts = Events.find({'event.type': 'alert',
     'thing._id': thing._id}).fetch();
@@ -492,6 +452,7 @@ export default BioReactorContainer = createContainer(({ thing }) => {
   }).fetch();
 
   return {
+    events,
     phEvents,
     ecEvents,
     tempEvents,
