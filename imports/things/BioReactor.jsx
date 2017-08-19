@@ -341,7 +341,7 @@ class BioReactor extends BaseThing {
               <h3>Event History</h3>
               {
                   this.props.events.map((v, k) => {
-                    return <p key={k}>{v.event.message}<span style={{float:'right'}}>{moment(v.event.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</span></p>
+                    return <p key={k}>{v.event.type} {v.event.message}<span style={{float:'right'}}>{moment(v.event.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</span></p>
                   })
               }
               <p><a href='#'>Show full History</a></p>
