@@ -102,7 +102,20 @@ describe('Grow.js', () => {
   });
 
   describe('Calibration', () => {
-    it('should calibrate', () => {
+    it('should calibrate based on one known value', () => {
+      testThing.calibrate('ph', [6.7, 7])
+      expect(testThing.predict('ph', 6.8)).to.equal(7.1);
+      expect(testThing.predict('ph', 4.0)).to.equal(4.3);
+      expect(testThing.predict('ph', 10.0)).to.equal(10.3);
+    });
+
+    it('should calibrate two points', () => {
+      let calibration_data = [[3.7, 4], [6.7, 7]];
+      testThing.calibrate('ph', calibration_data)
+      expect(Number(testThing.predict('ph', 6.8))).to.equal(7.1);
+    });
+
+    it('should calibrate three points', () => {
       let calibration_data = [[3.7, 4], [6.7, 7], [9.8, 10]];
       testThing.calibrate('ph', calibration_data)
       expect(testThing.predict('ph', 6.8)).to.equal(7.06);
@@ -118,36 +131,29 @@ describe('Grow.js', () => {
     it('should parse an analog EC value', () => {
       let EC = testThing.parseAnalogEC(467);
       expect(EC).to.equal(229.008544921875);
+      // TODO: it should do so with options such as a different VREF
     });
-    // TODO
-    // it('should parse an analog TDS value', () => {
-    //   let tds = testThing.parseAnalogTDS(467);
-    //   console.log(tds);
-    //   // expect(tds).to.equal(7.06);
-    // });
   });
 
+  // TODO: get response examples to test
+  describe('Atlas Scientific', () => {
+    it('should be able to parse I2C response from pH sensor', () => {
+      expect(testThing.parseAtlasPH([1, 255, 255, 255])).to.equal(0);
+    });
 
+    it('should be able to parse I2C response from Conductivity sensor', () => {
+      expect(testThing.parseAtlasEC([1, 255, 255, 255])).to.equal(0);
+      // expect(testThing.parseAtlasTDS([1, 255, 255, 255])).to.equal(0);
+    });
 
-  // // TODO: get response examples to test
-  // describe('Atlas Scientific', () => {
-  //   it('should be able to parse I2C response from pH sensor', () => {
-  //     expect(testThing.parseAtlasPH()).to.equal(false);
-  //   });
+    it('should be able to parse I2C response from Temperature probe', () => {
+      expect(testThing.parseAtlasTemperature([1, 255, 255, 255])).to.equal(0);
+    });
 
-  //   it('should be able to parse I2C response from EC sensor', () => {
-  //     expect(testThing.parseAtlasEC()).to.equal(false);
-  //     expect(testThing.parseAtlasTDS()).to.equal(false);
-  //   });
-
-  //   it('should be able to parse I2C response from Temperature probe', () => {
-  //     expect(testThing.parseAtlasPH()).to.equal(false);
-  //   });
-
-  //   it('should be able to parse I2C response from Dissolved Oxygen sensor', () => {
-  //     expect(testThing.parseAtlasPH()).to.equal(false);
-  //   });
-  // });
+    it('should be able to parse I2C response from Dissolved Oxygen sensor', () => {
+      expect(testThing.parseAtlasDissolvedOxygen([1, 255, 255, 255])).to.equal(0);
+    });
+  });
 
   afterEach(() => {
     delete global.testThing;
