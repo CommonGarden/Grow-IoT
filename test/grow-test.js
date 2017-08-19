@@ -1,4 +1,4 @@
-import Grow from '../dist/Grow.js';
+import Grow from '../lib/Grow.js';
 import _ from 'underscore';
 
 global.expect = require('chai').expect;
@@ -102,7 +102,7 @@ describe('Grow.js', () => {
   });
 
   describe('Calibration', () => {
-    it('should calibrate based on one known value', () => {
+    it('should calibrate based on one measured value and a known value', () => {
       testThing.calibrate('ph', [6.7, 7])
       expect(testThing.predict('ph', 6.8)).to.equal(7.1);
       expect(testThing.predict('ph', 4.0)).to.equal(4.3);
@@ -119,6 +119,18 @@ describe('Grow.js', () => {
       let calibration_data = [[3.7, 4], [6.7, 7], [9.8, 10]];
       testThing.calibrate('ph', calibration_data)
       expect(testThing.predict('ph', 6.8)).to.equal(7.06);
+    });
+
+    it('should create new calibration data', () => {
+      testThing.calibrate('ph', [6.7, 7.0])
+      expect(testThing.predict('ph', 6.8)).to.equal(7.1);
+      testThing.calibrate('ph', [3, 4])
+      expect(testThing.predict('ph', 6.8)).to.equal(7.1);
+    });
+
+    it('should add to existing calibration data', () => {
+      testThing.calibrate('ph', [3.7, 4]);
+      expect(testThing.predict('ph', 6.8)).to.equal(7.1);
     });
   });
 
