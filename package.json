@@ -35,6 +35,7 @@
     "Thing.js": "^0.4.0",
     "ascii-codes": "^1.0.0",
     "ddp": "0.12.1",
+    "json-stringify-safe": "^5.0.1",
     "later": "^1.2.0",
     "mathjs": "^3.14.2",
     "node-pid-controller": "^1.0.0",

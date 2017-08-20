@@ -47,59 +47,18 @@ describe('Grow.js', () => {
     global.testThing = new Grow(thing);
   });
 
-  describe('PROPERTIES', () => {
-    it('should have cloned metadata', () => {
-      expect(testThing.token).to.equal(null);
-      expect(testThing.uuid).to.equal(null);
+  describe('State', () => {
+    it('should write state to file', () => {
+      let statefulThing = new Grow(thing, 'state.json')
+      // TODO: it should do so with options such as a different VREF
     });
-
-    it('should get a property', () => {
-      expect(testThing.get('state')).to.equal('on');
-    });
-
-    it('should set a property', () => {
-      testThing.set('state', 'off');
-      expect(testThing.get('state')).to.equal('off');
-    });
-
-    it('should emit an event when a property is set', () => {
-      var event = false;
-      testThing.on('property-updated', () => {
-        return event = true;
-      });
-      testThing.set('state', 'testing');
-      expect(testThing.get('state')).to.equal('testing');
-      expect(event).to.equal(true);
+    it('should parse an analog EC value', () => {
+      let EC = testThing.parseAnalogEC(467);
+      expect(EC).to.equal(229.008544921875);
+      // TODO: it should do so with options such as a different VREF
     });
   });
 
-  describe('METHODS', () => {
-    it('should start or initialize correctly', () => {
-      expect(testThing.get('testStart')).to.equal(true);
-      expect(testThing.get('testInitialize')).to.equal(true);
-    });
-
-    it('should be able to call a method.', () => {
-      expect(testThing.call('testMethod')).to.equal('test');
-    });
-
-    it('should contain a list of methods', () => {
-      expect(testThing.functions.length).to.equal(4);
-    });
-
-    it('should be able to call a method with options.', () => {
-      expect(testThing.call('testOptions', 1000)).to.equal(1000);
-    });
-
-    it('should emit an event when a method is called', () => {
-      var event = false;
-      testThing.on('testMethod', () => {
-        return event = true;
-      });
-      testThing.call('testMethod');
-      expect(event).to.equal(true);
-    });
-  });
 
   describe('Calibration', () => {
     it('should calibrate based on one measured value and a known value', () => {

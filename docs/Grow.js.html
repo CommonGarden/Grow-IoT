@@ -1,62 +1,81 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" charset="utf-8">
     <title>Grow.js</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/cayman.css">
-    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
   </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Grow.js</h1>
-      <h2 class="project-tagline">Easily create new IoT devices and connect them to a Grow-IoT instance.</h2><a href="https://github.com/CommonGarden/Grow.js" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/Grow.js" target="_blank" class="btn">View on npm</a>
-    </section>
-    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
-      <div class="row">
-        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
-          <ul id="sidebar" class="nav nav-stacked fixed">
-            <li><a href="index.html">Main</a></li>
-            <li class="active"><a href="Grow.js.html">Grow.js
-                <ul class="nav nav-stacked">
-                  <li><a href="#Grow"><i class="alert alert-success"></i><span>Grow</span></a>
-                  </li>
-                  <li><a href="#registerTargets"><i class="alert alert-info"></i><span>registerTargets</span></a>
-                  </li>
-                  <li><a href="#removeTargets"><i class="alert alert-info"></i><span>removeTargets</span></a>
-                  </li>
-                  <li><a href="#startGrow"><i class="alert alert-info"></i><span>startGrow</span></a>
-                  </li>
-                  <li><a href="#startPhase"><i class="alert alert-info"></i><span>startPhase</span></a>
-                  </li>
-                  <li><a href="#parseCycles"><i class="alert alert-info"></i><span>parseCycles</span></a>
-                  </li>
-                  <li><a href="#ispH"><i class="alert alert-info"></i><span>ispH</span></a>
-                  </li>
-                  <li><a href="#parseEC"><i class="alert alert-info"></i><span>parseEC</span></a>
-                  </li>
-                  <li><a href="#average"><i class="alert alert-info"></i><span>average</span></a>
-                  </li>
-                  <li><a href="#connect"><i class="alert alert-info"></i><span>connect</span></a>
-                  </li>
-                  <li><a href="#sendImage"><i class="alert alert-success"></i><span>sendImage</span></a>
-                  </li>
-                  <li><a href="#emit"><i class="alert alert-success"></i><span>emit</span></a>
-                  </li>
-                  <li><a href="#set"><i class="alert alert-success"></i><span>set</span></a>
-                  </li>
-                </ul></a></li>
-          </ul>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
         </div>
-        <div class="col-md-9">
-          <section id="Grow">
-            <h1>Grow</h1>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>Grow.js</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="Grow.js.html">Grow.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#exports"><i class="alert alert-success"></i><span>exports</span></a>
+              </li>
+              <li><a href="#saveState"><i class="alert alert-success"></i><span>saveState</span></a>
+              </li>
+              <li><a href="#registerTargets"><i class="alert alert-info"></i><span>registerTargets</span></a>
+              </li>
+              <li><a href="#removeTargets"><i class="alert alert-info"></i><span>removeTargets</span></a>
+              </li>
+              <li><a href="#startGrow"><i class="alert alert-info"></i><span>startGrow</span></a>
+              </li>
+              <li><a href="#startPhase"><i class="alert alert-info"></i><span>startPhase</span></a>
+              </li>
+              <li><a href="#parseCycles"><i class="alert alert-info"></i><span>parseCycles</span></a>
+              </li>
+              <li><a href="#calibrate"><i class="alert alert-info"></i><span>calibrate</span></a>
+              </li>
+              <li><a href="#predict"><i class="alert alert-info"></i><span>predict</span></a>
+              </li>
+              <li><a href="#parseAnalogEC"><i class="alert alert-info"></i><span>parseAnalogEC</span></a>
+              </li>
+              <li><a href="#parseAnalogpH"><i class="alert alert-info"></i><span>parseAnalogpH</span></a>
+              </li>
+              <li><a href="#parseAtlasPH"><i class="alert alert-info"></i><span>parseAtlasPH</span></a>
+              </li>
+              <li><a href="#parseAtlasEC"><i class="alert alert-info"></i><span>parseAtlasEC</span></a>
+              </li>
+              <li><a href="#parseAtlasTDS"><i class="alert alert-info"></i><span>parseAtlasTDS</span></a>
+              </li>
+              <li><a href="#parseAtlasTemperature"><i class="alert alert-info"></i><span>parseAtlasTemperature</span></a>
+              </li>
+              <li><a href="#parseAtlasDissolvedOxygen"><i class="alert alert-info"></i><span>parseAtlasDissolvedOxygen</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="exports">
+            <h1>exports</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">class</div><span>&nbsp;</span><span>new Grow()</span><span>&nbsp;</span><span>&nbsp;</span><span class="label label-default">extends</span><span>&nbsp;</span><span>Thing</span>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>module.exports</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -81,31 +100,48 @@
             </tbody>
           </table>
           <div class="description"><p>Grow is an extension of a Thing (which is basically a fancy event emitter).<br />See <a href="https://github.com/CommonGarden/Thing.js">Thing.js</a> for more info on Things...</p></div>
-          <pre><code class="language-javascript">class Grow extends Thing {
-  constructor(config) {
+          <pre><code class="language-javascript">module.exports = class Grow extends Thing {
+  constructor(config, path_to_statefile) {
     super(config);
 
-    this.config = config;
+    this.buffers = {};
 
-    this.controllers = {};
-    this.alerts = {};
-    this.targets = {};
+    // If provided with calibration data should we automatically calibrate?
+    this.calibration_data = {};
+    this.calibrations = {};</code></pre>
+          <section id="saveState">
+            <h1>saveState</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.saveState</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Writes current state to a .json file</p></div>
+          <pre><code class="language-javascript">this.saveState = ()=&gt; {
+  fs.writeFile(path_to_statefile, stringify(this, null, 4), function (error) {
+    if (error) return console.log('Error', error);
+  });
+}
 
-    if (!this.properties) {
-      this.properties = {};
-    }
-
-    if (!this.uuid &amp;&amp; !this.token) {
-      new Error('UUID and token are required to connect to a Grow-IoT instance.');
-    }
-
-    this._messageHandlerInstalled = false;
+if (path_to_statefile) {
+  try {
+    // HACK: there must be a better way to require state.json
+    // This is for when Grow.js is in the node_modules folder.
+    let state = require(path_to_statefile);
+    console.log('Loading state from ' + path_to_statefile);
+    _.extend(this, state);
+    this.saveState();
+  } catch (err) {
+    console.log(err);
+    this.saveState()
+  }
+}
   }</code></pre>
           <section id="registerTargets">
             <h1>registerTargets</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.registerTargets()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerTargets()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -126,50 +162,63 @@
           </table>
           <div class="description"><p>Creates listeners for targets objects in grow files.</p></div>
           <pre><code class="language-javascript">registerTargets(targets) {
-  _.extend(this.targets, targets);
+  this.controllers = this.controllers || {};
+  this.alerts = this.alerts || {};
+  this.targets = _.extend(this.targets, targets);
   _.each(targets, (value, key) =&gt; {
     if (value.ideal) {
       // Create a controller with defaults.
-      this.controllers[key] = new Controller({
-        k_p: 0.25,
-        k_i: 0.01,
-        k_d: 0.01,
-        dt: 1
-      });
+      // Allow for them to define control parameters?
+      if (typeof value.pid === 'object') {
+        this.controllers[key] = new Controller(value.pid);
+      } else {
+        this.controllers[key] = new Controller({
+          k_p: 0.25,
+          k_i: 0.01,
+          k_d: 0.01,
+          dt: 1
+        });
+      }
 
       // Simply set the target
       this.controllers[key].setTarget(value.ideal);
     }
 
     this.on(key, (eventData) =&gt; {
-      if (value.min &amp;&amp; eventData.value &lt; value.min) {
-        if (this.alerts[key] !== 'low') {
-          let alert = {};
-          alert[key] = 'low';
-          _.extend(this.alerts, alert);
-          this.emit('alert', alert);
-        }
-      }
-
-      else if (value.max &amp;&amp; eventData.value &gt; value.max) {
-        if (this.alerts[key] !== 'high') {
-          let alert = {};
-          alert[key] = 'high';
-          _.extend(this.alerts, alert);
-          this.emit('alert', alert);
-        }
-      }
-
-      else {
+      if (Number(eventData) !== 'NaN') {
         if (value.ideal) {
-          let correction = this.controllers[key].update(eventData.value);
+          let correction = this.controllers[key].update(eventData);
           this.emit('correction', key, correction);
         }
-        if (this.alerts[key]) {
-          let alert = {};
-          alert[key] = 'ok';
-          this.emit('alert', alert);
-          this.alerts = _.omit(this.alerts, key);
+
+        if (value.min &amp;&amp; eventData &lt; value.min) {
+          if (this.alerts[key] !== 'low') {
+            let alert = {};
+            alert[key] = 'low';
+            _.extend(this.alerts, alert);
+            this.set('alerts', this.alerts);
+            this.emit('alert', alert);
+          }
+        }
+
+        else if (value.max &amp;&amp; eventData &gt; value.max) {
+          if (this.alerts[key] !== 'high') {
+            let alert = {};
+            alert[key] = 'high';
+            _.extend(this.alerts, alert);
+            this.set('alerts', this.alerts);
+            this.emit('alert', alert);
+          }
+        }
+
+        else {
+          if (this.alerts[key]) {
+            let alert = {};
+            alert[key] = 'ok';
+            this.emit('alert', alert);
+            this.alerts = _.omit(this.alerts, key);
+            this.set('alerts', this.alerts);
+          }
         }
       }
     });
@@ -181,7 +230,7 @@
             <h1>removeTargets</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.removeTargets()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>removeTargets()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -209,9 +258,11 @@
       this.controllers = _.omit(this.controllers, value)
     });
   } else if (_.isObject(targets)) {
-    this.removeAllListeners(key);
-    this.targets = _.omit(this.targets, key);
-    this.controllers = _.omit(this.controllers, key)
+    _.each(targets, (value, key) =&gt; {
+      this.removeAllListeners(key);
+      this.targets = _.omit(this.targets, key);
+      this.controllers = _.omit(this.controllers, key)
+    });
   } else if (typeof targets === 'string') {
     this.removeAllListeners(targets);
     this.targets = _.omit(this.targets, targets);
@@ -225,7 +276,7 @@
             <h1>startGrow</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.startGrow()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>startGrow()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -262,7 +313,7 @@
             <h1>startPhase</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.startPhase()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>startPhase()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -310,7 +361,7 @@
             <h1>parseCycles</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.parseCycles()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseCycles()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -350,11 +401,11 @@
     }, scheduledTime);
   });
 }</code></pre>
-          <section id="ispH">
-            <h1>ispH</h1>
+          <section id="calibrate">
+            <h1>calibrate</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.ispH()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>calibrate()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -367,30 +418,356 @@
             </thead>
             <tbody>
               <tr>
-                <td>reading</td>
-                <td>Number, String</td>
-                <td><p>The reading to check.</p></td>
+                <td>eventname</td>
+                <td>String</td>
+                <td><p>The name of the event to calibrate</p></td>
+              </tr>
+              <tr>
+                <td>calibration_data</td>
+                <td>Array</td>
+                <td><p>The &#39;training&#39; data</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td></td>
               </tr>
               <tr>
                 <td>return</td>
-                <td>Boolean</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Calibrates</p></div>
+          <pre><code class="language-javascript">calibrate (eventname, calibration_data, options) {
+  // make sure calibration data of in the format of list of lists with a length of 2
+  if (!this.calibrations[eventname]) {
+    if (calibration_data.length &gt;= 2 &amp;&amp; typeof calibration_data[1] === 'object') {
+      this.calibrations[eventname] = regression.linear(calibration_data, options);
+    } else {
+      this.calibrations[eventname] = {
+        points: calibration_data,
+        predict: function (value) {
+          return [0, value + (calibration_data[1] - calibration_data[0])];
+        }
+      }
+    }
+  } else {
+    // if it's there is only one calibration reference point 
+    if (typeof this.calibrations[eventname].points[1] !== 'object') {
+      let points = [this.calibrations[eventname].points];
+      this.calibrations[eventname].points = points;
+      this.calibrations[eventname].points.push(calibration_data);
+    } else {
+      this.calibrations[eventname].points.push(calibration_data);
+    }
+  }
+}</code></pre>
+          <section id="predict">
+            <h1>predict</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>predict()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>eventname</td>
+                <td>String</td>
+                <td><p>The name of the event to calibrate</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Number</td>
+                <td><p>The value to be calibrated</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns a calibrated value based on known values.</p></div>
+          <pre><code class="language-javascript">predict (eventname, value) {
+  let regression = this.calibrations[eventname];
+  if (regression) {
+    return regression.predict(value)[1];
+  } else {
+    return value;
+  }
+}</code></pre>
+          <section id="parseAnalogEC">
+            <h1>parseAnalogEC</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAnalogEC()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>value</td>
+                <td>Number</td>
+                <td><p>The analog (0-1024) reading to convert.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Converts readings from an analog ph sensor into pH.<br />Maybe we should pass in a temperature value too so we can acount for that?</p></div>
+          <pre><code class="language-javascript">parseAnalogEC (value, options) {
+  if (!this.buffers['ec']) {
+    this.buffers['ec'] = [];
+  }
+  this.buffers['ec'].push(value);
+  let bufferLength = options ? options.bufferLength: 10;
+  if (this.buffers['ec'].length &gt; bufferLength) {
+    this.buffers['ec'].shift()
+  }
+  let VREF = options? options.VREF: 5;
+  let AnalogAverage = math.median(this.buffers['ec']);
+  let averageVoltage= AnalogAverage*VREF/1024.0;
+  let temperature = 25.0; //when no temperature sensor ,temperature should be 25^C default
+  let TempCoefficient=1.0+0.0185*(temperature-25.0); //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.0185*(fTP-25.0));
+  let CoefficientVolatge = averageVoltage/TempCoefficient;   
+  if(CoefficientVolatge&gt;3300) {
+    console.log('Out of the range!'); //&gt;20ms/cm,out of the range
+  }
+  else{ 
+    let ECvalue;
+    ECvalue=5.3*CoefficientVolatge+2278; //10ms/cm&lt;EC&lt;20ms/cm
+    ECvalue = ECvalue/10.0;
+    return ECvalue;
+  }
+}</code></pre>
+          <section id="parseAnalogpH">
+            <h1>parseAnalogpH</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAnalogpH()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>value</td>
+                <td>Number</td>
+                <td><p>The analog (0-1024) reading to convert.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Converts readings from an analog ph sensor into pH.</p></div>
+          <pre><code class="language-javascript">parseAnalogpH (value, options) {
+  if (!this.buffers['ph']) {
+    this.buffers['ph'] = [];
+  }
+  this.buffers['ph'].push(value);
+  let VREF = options? options.VREF: 5;
+  let AnalogAverage = math.median(this.buffers['ph']);
+  let averageVoltage= AnalogAverage*(VREF/1024);
+  let bufferLength = options? options.bufferLength: 10;
+  if (this.buffers['ph'].length &gt; bufferLength) {
+    this.buffers['ph'].shift()
+  }
+  return averageVoltage * 3.5;
+}</code></pre>
+          <section id="parseAtlasPH">
+            <h1>parseAtlasPH</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasPH()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>Number, String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
                 <td></td>
               </tr>
             </tbody>
           </table>
           <div class="description"><p>Returns true if the reading falls in a valid pH range.</p></div>
-          <pre><code class="language-javascript">ispH (reading) {
-  if (reading &gt; 0 &amp;&amp; reading &lt;= 14) {
-    return true;
-  } else {
-    return false;
+          <pre><code class="language-javascript">parseAtlasPH (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join(''));
   }
 }</code></pre>
-          <section id="parseEC">
-            <h1>parseEC</h1>
+          <section id="parseAtlasEC">
+            <h1>parseAtlasEC</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.parseEC()</span><span>&nbsp;</span>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasEC()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses EC reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseAtlasEC (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join('').split(',')[0]);
+  }
+}</code></pre>
+          <section id="parseAtlasTDS">
+            <h1>parseAtlasTDS</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasTDS()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses TDS reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseAtlasTDS (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join('').split(',')[1]);
+  }
+}</code></pre>
+          <section id="parseAtlasTemperature">
+            <h1>parseAtlasTemperature</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasTemperature()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses EC reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseAtlasTemperature (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join(''));
+  }
+}</code></pre>
+          <section id="parseAtlasDissolvedOxygen">
+            <h1>parseAtlasDissolvedOxygen</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasDissolvedOxygen()</span><span>&nbsp;</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -409,319 +786,42 @@
               </tr>
               <tr>
                 <td>return</td>
-                <td>Boolean</td>
+                <td>Number</td>
                 <td></td>
               </tr>
             </tbody>
           </table>
           <div class="description"><p>Parses EC reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
-          <pre><code class="language-javascript">parseEC (reading) {
-  if (typeof reading === 'string') {
-    return reading.split(',')[0];
-  } else {
-    return false;
-  }
-}</code></pre>
-          <section id="average">
-            <h1>average</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.average()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>listOfReadings</td>
-                <td>Array</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>return</td>
-                <td>Number</td>
-                <td><p>The average value</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Average a list of readings.</p></div>
-          <pre><code class="language-javascript">average (listOfReadings) {
-  var average = 0;
-  for (var i = listOfReadings.length - 1; i &gt;= 0; i--) {
-    if (listOfReadings[i] !== undefined &amp;&amp; listOfReadings !== 0) {
-      average += Number(listOfReadings[i]);
-    }
-  }
-
-  return average / listOfReadings.length;
-}</code></pre>
-          <section id="connect">
-            <h1>connect</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Grow.prototype.connect()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>options</td>
-                <td>Object</td>
-                <td><p>Connection options</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Connects to Grow-IoT server over DDP. Help us support more protocols (like CoAP)! ; )</p></div>
-          <pre><code class="language-javascript">connect (options) {
-  this.ddpclient = new DDPClient(_.defaults(options, {
-    host: 'localhost',
-    port: 3000,
-    ssl: false,
-    maintainCollections: false
-  }));
-
-  this.ddpclient.connect((error, wasReconnect) =&gt; {
-    if (error) {
-      console.log(error)
-    }
-
-    if (wasReconnect) {
-      console.log('Reestablishment of a Grow server connection.');
-    } else {
-      console.log('Grow server connection established.');
-    }
-
-    this.ddpclient.call(
-      'Thing.register',
-      [{uuid: this.uuid, token: this.token}, this.config],
-      (error, result) =&gt; {
-        if (error) {
-          console.log(error);
-        }
-
-        this.afterConnect(result);
-      }
-    );
-  });
-
-  this.afterConnect = (result) =&gt; {
-    this.ddpclient.subscribe(
-      'Thing.messages',
-      [{uuid: this.uuid, token: this.token}],
-      (error) =&gt; {
-        if (error) return console.log(error);
-
-        if (!this._messageHandlerInstalled) {
-          this._messageHandlerInstalled = true;
-
-          this.ddpclient.on('message', (data)=&gt; {
-            data = JSON.parse(data);
-
-            if (data.msg !== 'added' || data.collection !== 'Things.messages') {
-              return;
-            }
-
-            let command = data.fields.body;
-            let opts = command.options;
-            let type = command.type;
-            if (type === 'setProperty') {
-              this.set(opts.key, opts.value);
-            } else if (opts) {
-              this.call(type, opts);
-            } else {
-              this.call(type);
-            }
-          });
-        }
-      }
-    );
-  };</code></pre>
-          <section id="sendImage">
-            <h1>sendImage</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.sendImage</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td>Object</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Sends an image (buffer) to the Grow-IoT server.</p></div>
-          <pre><code class="language-javascript">this.sendImage = (buffer) =&gt; {
-  this.ddpclient.call(
-    'Image.new',
-    [{uuid: this.uuid, token: this.token}, buffer],
-    function (error, result) {
-      if (error) {
-        console.log(error, result);
+          <pre><code class="language-javascript">parseAtlasDissolvedOxygen (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
       }
     }
-  );
-}</code></pre>
-          <section id="emit">
-            <h1>emit</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.emit</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>event</td>
-                <td>Object</td>
-                <td><p>The event to emit</p></td>
-              </tr>
-              <tr>
-                <td>return</td>
-                <td></td>
-                <td><p>this</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Emits event to Grow-IoT server. Adds a timestamp to the event<br />since the API expects a timestamped object.</p></div>
-          <pre><code class="language-javascript">this.emit = (event, message) =&gt; {
-  if (typeof event === 'object') {
-    event.timestamp = new Date();
-    super.emit(event.type, event);
+    return Number(bytelist.join(''));
   }
-
-  else if (typeof event === 'string') {
-    super.emit(event, message);
-    event = {
-      type: event,
-      message,
-      timestamp: new Date()
-    }
-  }
-
-  this.ddpclient.call(
-    'Thing.emit',
-    [{uuid: this.uuid, token: this.token}, event],
-    function (error, result) {
-      if (error) {
-        console.log(error, result);
-      }
-    }
-  );
-
-  return this;
-}</code></pre>
-          <section id="set">
-            <h1>set</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.set</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>key</td>
-                <td>String</td>
-                <td><p>Key of the of the property you wish to update</p></td>
-              </tr>
-              <tr>
-                <td>value</td>
-                <td>Object, List, String, Number, Boolean</td>
-                <td><p>The new value to set the property to.</p></td>
-              </tr>
-              <tr>
-                <td>return</td>
-                <td></td>
-                <td><p>this</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Update thing property on thing and Grow-IoT server.</p></div>
-          <pre><code class="language-javascript">this.set = (key, value) =&gt; {
-  super.set(key, value);
-
-  if (this.ddpclient) {
-    this.ddpclient.call(
-      'Thing.setProperty',
-      [{uuid: this.uuid, token: this.token}, key, value],
-      function (error, result) {
-        if (error) {
-          console.log(error);
-        }
-      }
-    );
-  }
-
-  return this;
 }
-  }
-};
-
-module.exports = Grow;</code></pre>
-          <div class="footer site-footer">
-            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
-            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
-          </div>
+};</code></pre>
         </div>
       </div>
-    </section>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/affix.js"></script>
-    <script src="js/dropdown.js"></script>
-    <script src="js/scrollspy.js"></script>
-    <script src="js/prism.js"></script>
-    <script src="js/prism-bash.js"></script>
-    <script>
-      $(document).ready(function(){
-        $('body').scrollspy({
-          target: ".bs-docs-sidebar",
-          offset: 40
-        });
-        $('#sidebar').affix({
-          offset:{
-            bottom:60,
-            top: 60
-          }
-        }) 
-      });
-    </script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
   </body>
 </html>
