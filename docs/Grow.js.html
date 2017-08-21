@@ -37,8 +37,6 @@
             <ul class="nav nav-list bs-docs-sidenav affix-top">
               <li><a href="#exports"><i class="alert alert-success"></i><span>exports</span></a>
               </li>
-              <li><a href="#saveState"><i class="alert alert-success"></i><span>saveState</span></a>
-              </li>
               <li><a href="#registerTargets"><i class="alert alert-info"></i><span>registerTargets</span></a>
               </li>
               <li><a href="#removeTargets"><i class="alert alert-info"></i><span>removeTargets</span></a>
@@ -93,6 +91,11 @@
                 <td><p>The thing object.</p></td>
               </tr>
               <tr>
+                <td>path_to_datafile</td>
+                <td>String</td>
+                <td><p>Path to db file (enables a light weight database)</p></td>
+              </tr>
+              <tr>
                 <td>return</td>
                 <td>Grow</td>
                 <td><p>A new Grow instance.</p></td>
@@ -101,41 +104,18 @@
           </table>
           <div class="description"><p>Grow is an extension of a Thing (which is basically a fancy event emitter).<br />See <a href="https://github.com/CommonGarden/Thing.js">Thing.js</a> for more info on Things...</p></div>
           <pre><code class="language-javascript">module.exports = class Grow extends Thing {
-  constructor(config, path_to_statefile) {
+  constructor(config, path_to_datafile) {
     super(config);
 
     this.buffers = {};
 
     // If provided with calibration data should we automatically calibrate?
     this.calibration_data = {};
-    this.calibrations = {};</code></pre>
-          <section id="saveState">
-            <h1>saveState</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>this.saveState</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <div class="description"><p>Writes current state to a .json file</p></div>
-          <pre><code class="language-javascript">this.saveState = ()=&gt; {
-  fs.writeFile(path_to_statefile, stringify(this, null, 4), function (error) {
-    if (error) return console.log('Error', error);
-  });
-}
+    this.calibrations = {};
 
-if (path_to_statefile) {
-  try {
-    // HACK: there must be a better way to require state.json
-    // This is for when Grow.js is in the node_modules folder.
-    let state = require(path_to_statefile);
-    console.log('Loading state from ' + path_to_statefile);
-    _.extend(this, state);
-    this.saveState();
-  } catch (err) {
-    console.log(err);
-    this.saveState()
-  }
-}
+    if (path_to_datafile) {
+      this.db = new Datastore({ filename: path_to_datafile, autoload: true });
+    }
   }</code></pre>
           <section id="registerTargets">
             <h1>registerTargets</h1>
