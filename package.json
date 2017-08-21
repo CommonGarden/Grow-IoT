@@ -38,6 +38,7 @@
     "json-stringify-safe": "^5.0.1",
     "later": "^1.2.0",
     "mathjs": "^3.14.2",
+    "nedb": "^1.8.0",
     "node-pid-controller": "^1.0.0",
     "regression": "^2.0.0",
     "underscore": ">=1.8.3"
