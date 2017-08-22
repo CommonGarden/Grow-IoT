@@ -1,5 +1,4 @@
-// TODO: a plant example... which is really just a simple model of a plant.
-const Thing = require('../../dist/Thing.es6.js');
+const Thing = require('../../dist/Thing.js');
 
 module.exports = new Thing({
 	properties: {

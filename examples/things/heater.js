@@ -1,7 +1,6 @@
-// TODO: a plant example... which is really just a simple model of a plant.
-const Thing = require('../../dist/Thing.es6.js');
+const Thing = require('../../dist/Thing.js');
 
-// TODO: hs100 example with space heater plugged in.
+// Third party APIs are easy to integrate!
 const Hs100Api = require('hs100-api');
 
 

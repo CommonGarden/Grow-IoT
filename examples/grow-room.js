@@ -1,4 +1,4 @@
-const Thing = require('../dist/Thing.es6.js');
+const Thing = require('../dist/Thing.js');
 
 // Lets import a few things!
 const heater = require('./things/heater');

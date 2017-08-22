@@ -1,4 +1,4 @@
-const Thing = require('../../dist/Thing.es6.js');
+const Thing = require('../../dist/Thing.js');
 const Hs100Api = require('hs100-api');
 
 // This is meant to be a generic smart-plug class.

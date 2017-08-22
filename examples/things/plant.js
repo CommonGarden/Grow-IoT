@@ -1,5 +1,5 @@
 // TODO: a plant example... which is really just a simple model of a plant.
-const Thing = require('../../dist/Thing.es6.js');
+const Thing = require('../../dist/Thing.js');
 
 // A rough GrowFile example... first draft, it's crude.
 module.exports = new Thing({

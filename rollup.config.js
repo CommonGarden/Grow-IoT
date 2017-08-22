@@ -11,13 +11,8 @@ export default {
   targets: [
     {
       dest: pkg['main'],
-      format: 'umd',
+      format: 'cjs',
       moduleName: 'rollupStarterProject',
-      sourceMap: true
-    },
-    {
-      dest: pkg['jsnext:main'],
-      format: 'es',
       sourceMap: true
     }
   ]

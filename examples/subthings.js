@@ -1,5 +1,5 @@
 // This is to experiment with the concept of subthings.
-const Thing = require('../dist/Thing.es6.js');
+const Thing = require('../dist/Thing.js');
 // NEW! Import things.
 const testThing = require('./things/test-thing.js');
 
