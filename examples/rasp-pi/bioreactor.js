@@ -148,13 +148,6 @@ setTimeout(()=> {
           }
         });
 
-        // setTimeout(()=> {
-        //   this.call('airlift_off');
-        //   this.call('aerator_off');
-        //   this.call('heater_off');
-        //   this.call('water_pump_off');
-        // }, 3000);
-
         var interval = this.get('interval');
 
         emit_data = setInterval(()=> {
