@@ -13,6 +13,10 @@ describe('Growfile test', () => {
     global.testGrow = new Grow({});
   });
 
+  it('should load the database', ()=> {
+    let grow = new Grow({}, 'test');
+  });
+
   it('should parse and schedule cycles', () => {
     testGrow.parseCycles(cycles.properties.cycles);
   });

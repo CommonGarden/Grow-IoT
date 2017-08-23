@@ -26,8 +26,6 @@ board.on('ready', function start() {
 
     component: 'SmartLight',
 
-    component: 'https://mywebcomponent.com/mycomponent',
-
     properties: {
       state: 'off',
       threshold: 300,
@@ -94,18 +92,20 @@ board.on('ready', function start() {
 
     turn_on: function () {
       console.log('Light on');
-      if (this.light) {
-        this.light.setPowerState(true);
-      }          
-      this.set('light_state', 'on');
+      // if (this.light) {
+      //   this.light.setPowerState(true);
+      // }      
+      LED.high()    
+      this.set('state', 'on');
     },
 
     turn_off: function () {
       console.log('Light off');
-      if (this.light) {
-        this.light.setPowerState(false);
-      }          
-      this.set('light_state', 'off');
+      // if (this.light) {
+      //   this.light.setPowerState(false);
+      // }
+      LED.low()          
+      this.set('state', 'off');
     },
 
     light_data: function () {
