@@ -8,10 +8,10 @@ Grow.js is an extension of [Thing.js](https://github.com/CommonGarden/Thing.js) 
 
 `npm install Grow.js`
 
-# Usage
-Grow.js is an extension of Thing.js, which is an exstension of the node event emitter class. See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits and for connecting to to Grow-IoT. You can also use Grow.js by itself with out connecting to a Grow-IoT instance.
+# Grow.js
+Grow.js is an extension of Thing.js, which is an exstension of the [node event emitter class](https://nodejs.org/dist/latest-v8.x/docs/api/). See [Thing.js](https://github.com/CommonGarden/Thing.js) for more information about the Thing api which Grow.js inherits and for connecting to to Grow-IoT. You can also use Grow.js by itself with out connecting to a Grow-IoT instance.
 
-This readme, covers Grow.js specific features like setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'
+This readme, covers Grow.js specific features like sensor calibration, setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'
 
 ## Grow Files
 There are three main components to a Grow file:
@@ -80,6 +80,27 @@ You can use the correction to control heaters, dosing pumps, and more! For contr
     }
   },
 ```
+
+#### Calibration
+
+Grow.js contains some utilities for calibrating sensors. The `calibrate()` method takes an `eventname`, and calibration data in the form of a list that has in the format `[measuredValue, knowValue]`. Calibration data can be a list of the lists for example:
+
+```
+let calibration_data = [[10, 11], [20.5, 21], [30, 29]]
+
+example.calibrate('temperature', calibration_data)
+
+// New calibration points can be added like so
+example.calibrate('temperature', [25, 24.9])
+```
+
+The `predict()` method uses available calibration data to run a regression on the known values. It takes an `eventname` argument and a `value`.
+
+```
+example.predict('temperature', 31)
+```
+
+If no calibration data is defined for the event it simply returns the value.
 
 ### Cycles
 Cycles are functions that are called at specific times in succession (for example, during the course of a day).
