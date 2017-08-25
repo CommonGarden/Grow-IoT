@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "meteor npm i && meteor",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "opencollective postinstall"
   },
   "keywords": [
     "IoT",
@@ -45,6 +46,7 @@
     "moment": "^2.17.1",
     "mongodb": "^2.2.16",
     "monq": "^0.3.6",
+    "opencollective": "^1.0.3",
     "pondjs": "^0.8.5",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -86,5 +88,10 @@
       "import/resolver": "meteor"
     },
     "rules": {}
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/Grow-IoT",
+    "logo": "https://opencollective.com/opencollective/logo.txt"
   }
 }

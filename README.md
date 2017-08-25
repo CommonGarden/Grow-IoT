@@ -1,6 +1,6 @@
 # Grow-IoT
 
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
+[![Backers on Open Collective](https://opencollective.com/Grow-IoT/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/Grow-IoT/sponsors/badge.svg)](#sponsors) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
 
 ## Installing Grow-IoT
 
@@ -166,6 +166,36 @@ Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growin
 * [Graphana setup](https://github.com/CommonGarden/Grow-IoT/wiki/Grafana-Setup)
 * [Running locally](https://github.com/CommonGarden/Grow-IoT/wiki/Running-locally)
 * [Supported hardware](https://github.com/CommonGarden/Grow-IoT/wiki/Supported-hardware)
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
+<a href="graphs/contributors"><img src="https://opencollective.com/Grow-IoT/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/Grow-IoT#backer)]
+
+<a href="https://opencollective.com/Grow-IoT#backers" target="_blank"><img src="https://opencollective.com/Grow-IoT/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/Grow-IoT#sponsor)]
+
+<a href="https://opencollective.com/Grow-IoT/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/2/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/3/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/4/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/5/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/6/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/7/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/8/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/9/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".
