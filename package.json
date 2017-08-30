@@ -23,7 +23,6 @@
   "homepage": "https://github.com/CommonGarden/Grow-IoT",
   "dependencies": {
     "aws-sdk": "^2.62.0",
-    "babel-runtime": "^6.18.0",
     "bcrypt": "^0.8.7",
     "bson-ext": "^1.0.1",
     "bufferutil": "^1.2.1",
@@ -65,6 +64,7 @@
     "Grow.js": "^0.3.75",
     "babel-eslint": "^7.1.1",
     "babel-preset-stage-1": "^6.22.0",
+    "babel-runtime": "^6.18.0",
     "eslint": "^3.12.2",
     "eslint-import-resolver-meteor": "^0.3.3",
     "eslint-plugin-import": "^2.2.0",
