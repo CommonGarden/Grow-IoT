@@ -34,8 +34,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import moment from 'moment';
 
 
-
-// Should there be a base thing component that has methods like setProperty and sendcommand?
 class BioReactor extends BaseThing {
   constructor(props) {
     super(props);
@@ -122,14 +120,13 @@ class BioReactor extends BaseThing {
         unit: 'wi wi-celsius',
         max: 40,
       },
+      {
+        type: 'water_level',
+        title: 'Water level',
+        max: 100,
+      },
     ]
   };
-
-
-
-  takePicture = () => {
-    this.sendCommand('picture');
-  }
 
   render() {
     const styles = {
@@ -401,6 +398,7 @@ BioReactor.propTypes = {
   luxEvents: PropTypes.array,
   dissolved_oxygenEvents: PropTypes.array,
   water_temperatureEvents: PropTypes.array,
+  water_levelEvents: PropTypes.array,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
 }
@@ -418,34 +416,48 @@ export default BioReactorContainer = createContainer(({ thing }) => {
 
   const alerts = Events.find({'event.type': 'alert',
     'thing._id': thing._id}).fetch();
+
   const phEvents = Events.find({'event.type': 'ph',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
+
   const ecEvents = Events.find({'event.type': 'ec',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
+
   const luxEvents = Events.find({
   	'event.type': 'lux',
     'thing._id': thing._id
   }, {
     sort: { insertedAt: -1 }
   }).fetch();
+
+  const water_levelEvents = Events.find({
+    'event.type': 'water_level',
+    'thing._id': thing._id
+  }, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+
   const dissolved_oxygenEvents = Events.find({
     'event.type': 'dissolved_oxygen',
     'thing._id': thing._id
   }, {
     sort: { insertedAt: -1 }
   }).fetch();
+
   const tempEvents = Events.find({'event.type': 'temperature',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
+
   const humidityEvents = Events.find({'event.type': 'humidity',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
+
   const water_temperatureEvents = Events.find({'event.type': 'water_temperature',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
@@ -461,6 +473,7 @@ export default BioReactorContainer = createContainer(({ thing }) => {
     luxEvents,
     alerts,
     water_temperatureEvents,
+    water_levelEvents,
     ready
   }
 }, BioReactor);
