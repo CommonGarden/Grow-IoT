@@ -24,6 +24,8 @@ let pH_reading,
   aerator,
   water_pump,
   multi,
+  level,
+  level_ref,
   lux;
 
 const nano = new five.Board();
@@ -35,6 +37,8 @@ nano.on('ready', function start() {
   airlift = new five.Pin(7);
   aerator = new five.Pin(8);
   water_pump = new five.Pin(9);
+  level = new five.Sensor('A2');
+  level_ref = new five.Sensor('A3');
 
   // This requires OneWire support using the ConfigurableFirmata
   let thermometer = new five.Thermometer({
@@ -73,10 +77,10 @@ setTimeout(()=> {
       component: 'BioReactor',
       properties: {
         light_state: null,
-        heater: 'on',//1
-        airlift: 'on',//2
-        aerator: 'on',//3
-        water_pump: 'on',//4
+        heater: 'off',//1
+        airlift: 'off',//2
+        aerator: 'off',//3
+        water_pump: 'off',//4
         water_level: null,
         duration: 2000,
         interval: 6000,
@@ -158,6 +162,7 @@ setTimeout(()=> {
           this.light_data();
           this.water_temp_data();
           this.air_pressure_data();
+          this.water_level();
           setTimeout(()=> {
             this.do_data();
           }, 1000);
@@ -256,6 +261,13 @@ setTimeout(()=> {
         this.emit('water_temperature', water_temp);
 
         console.log('Temperature: ' + water_temp);
+      },
+
+      water_level_data: function () {
+        this.emit('water_level', level);
+
+        console.log('Water level: ' + level);
+        console.log('Water level ref: ' + level_ref);
       },
 
       light_data: function () {
