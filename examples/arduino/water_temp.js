@@ -15,7 +15,7 @@ board.on('ready', function start() {
   // This requires OneWire support using the ConfigurableFirmata
   let thermometer = new five.Thermometer({
     controller: 'DS18B20',
-    pin: 3
+    pin: 4
   });
 
   thermometer.on('change', function() {
@@ -89,13 +89,13 @@ board.on('ready', function start() {
     // Note, there are probably more elegant ways of handling subthing methods.
     turn_on: function () {
       console.log('Heater on');
-      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'on', '4']);
+      // var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'on', '4']);
       this.set('state', 'on');
     },
 
     turn_off: function () {
       console.log('Heater off');
-      var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'off', '4']);
+      // var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'off', '4']);
       this.set('state', 'off');
     },
 

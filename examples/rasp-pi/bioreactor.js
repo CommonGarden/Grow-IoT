@@ -40,16 +40,19 @@ nano.on('ready', function start() {
   level = new five.Sensor('A2');
   level_ref = new five.Sensor('A3');
 
-  // This requires OneWire support using the ConfigurableFirmata
-  let thermometer = new five.Thermometer({
-    controller: 'DS18B20',
-    pin: 4
-  });
+  try {
+    // This requires OneWire support using the ConfigurableFirmata
+    let thermometer = new five.Thermometer({
+      controller: 'DS18B20',
+      pin: 4
+    });
 
-  thermometer.on('change', function() {
-    // console.log(this.celsius + "°C");
-    water_temp = this.celsius;
-  });
+    thermometer.on('change', function() {
+      water_temp = this.celsius;
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // We use a setTimeout here to make sure the nano is fully setup.
@@ -61,15 +64,20 @@ setTimeout(()=> {
 
   // When board emits a 'ready' event run this start function.
   board.on('ready', function start() {
-    // // Uncomment to enable climate sensor.
-    let multi = new five.Multi({
-      controller: 'BME280'
-    });
 
-    // // Uncomment to enable light sensor.
-    // let lux = new five.Light({
-    //   controller: 'TSL2561'
-    // });
+    try {
+      // Uncomment to enable climate sensor.
+      let multi = new five.Multi({
+        controller: 'BME280'
+      });
+
+      // Uncomment to enable light sensor.
+      let lux = new five.Light({
+        controller: 'TSL2561'
+      });
+    } catch (err) {
+      console.log(err);
+    }
 
     const bioreactor = new Grow({
       uuid: 'meow',
@@ -77,10 +85,10 @@ setTimeout(()=> {
       component: 'BioReactor',
       properties: {
         light_state: null,
-        heater: 'off',//1
-        airlift: 'off',//2
-        aerator: 'off',//3
-        water_pump: 'off',//4
+        heater: 'on',//1
+        airlift: 'on',//2
+        aerator: 'on',//3
+        water_pump: 'on',//4
         water_level: null,
         duration: 2000,
         interval: 6000,
@@ -162,7 +170,7 @@ setTimeout(()=> {
           this.light_data();
           this.water_temp_data();
           this.air_pressure_data();
-          this.water_level();
+          this.water_level_data();
           setTimeout(()=> {
             this.do_data();
           }, 1000);
@@ -282,11 +290,11 @@ setTimeout(()=> {
 
       air_pressure_data: function () {
         if (!_.isUndefined(multi)) {
-          var currentTemp = multi.thermometer.celsius;
+          var pressure = multi.barometer.pressure;
 
-          this.emit('temperature', currentTemp);
+          this.emit('pressure', pressure);
 
-          console.log('Temperature: ' + currentTemp);
+          console.log('Pressure: ' + pressure);
         }
       },
 
