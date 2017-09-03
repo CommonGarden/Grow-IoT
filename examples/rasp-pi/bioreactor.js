@@ -37,22 +37,22 @@ nano.on('ready', function start() {
   airlift = new five.Pin(7);
   aerator = new five.Pin(8);
   water_pump = new five.Pin(9);
-  level = new five.Sensor('A2');
-  level_ref = new five.Sensor('A3');
+  level = new five.Sensor('A3');
+  level_ref = new five.Sensor('A2');
 
-  try {
-    // This requires OneWire support using the ConfigurableFirmata
-    let thermometer = new five.Thermometer({
-      controller: 'DS18B20',
-      pin: 4
-    });
+  // This requires OneWire support using the ConfigurableFirmata
+  let thermometer = new five.Thermometer({
+    controller: 'DS18B20',
+    pin: 4
+  });
 
-    thermometer.on('change', function() {
+  thermometer.on('change', function() {
+    try {
       water_temp = this.celsius;
-    });
-  } catch (err) {
-    console.log(err);
-  }
+    } catch(err) {
+      console.log(err);
+    }
+  });
 });
 
 // We use a setTimeout here to make sure the nano is fully setup.
@@ -64,31 +64,16 @@ setTimeout(()=> {
 
   // When board emits a 'ready' event run this start function.
   board.on('ready', function start() {
-
-    try {
-      // Uncomment to enable climate sensor.
-      let multi = new five.Multi({
-        controller: 'BME280'
-      });
-
-      // Uncomment to enable light sensor.
-      let lux = new five.Light({
-        controller: 'TSL2561'
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    const bioreactor = new Grow({
+    let bioreactor = new Grow({
       uuid: 'meow',
       token: 'meow',
       component: 'BioReactor',
       properties: {
         light_state: null,
-        heater: 'on',//1
-        airlift: 'on',//2
-        aerator: 'on',//3
-        water_pump: 'on',//4
+        heater: 'off',//1
+        airlift: 'off',//2
+        aerator: 'off',//3
+        water_pump: 'off',//4
         water_level: null,
         duration: 2000,
         interval: 6000,
@@ -103,8 +88,8 @@ setTimeout(()=> {
               max: 1500
             },
             temperature: {
-              min: 22,
-              ideal: 27,
+              min: 19,
+              ideal: 22,
               max: 29,
               pid: {
                 k_p: 300,
@@ -137,53 +122,78 @@ setTimeout(()=> {
         // See Johnny-Five docs: http://johnny-five.io
         board.i2cConfig();
 
-        board.i2cRead(0x64, 32, function (bytes) {
-          let eC = Grow.parseAtlasEC(bytes);
+        board.i2cRead(0x64, 32, (bytes)=> {
+          let eC = this.parseAtlasEC(bytes);
           if (eC) eC_reading = eC;
         });
 
-        board.i2cRead(0x63, 7, function (bytes) {
-          let pH = Grow.parseAtlasPH(bytes);
+        board.i2cRead(0x63, 7, (bytes)=> {
+          let pH = this.parseAtlasPH(bytes);
           if (pH) pH_reading = pH;
         });
 
         // Todo: make static helper for Grow.js
-        board.i2cRead(0x61, 14, function (bytes) {
-          var bytelist = [];
-          if (bytes[0] === 1) {
-            for (i = 0; i < bytes.length; i++) {
-              if (bytes[i] !== 1 && bytes[i] !== 0) {
-                bytelist.push(ascii.symbolForDecimal(bytes[i]));
-              }
-            }
-            DO_reading = bytelist.join('');
-          }
+        board.i2cRead(0x61, 14, (bytes)=> {
+          let DO = this.parseAtlasDissolvedOxygen(bytes);
+          if (DO) DO_reading = DO;
         });
+
+        board.i2cRead(0x61, 14, (bytes)=> {
+          let DO = this.parseAtlasDissolvedOxygen(bytes);
+          if (DO) DO_reading = DO;
+        });
+
+        setTimeout(()=> {
+          this.airlift_off();
+          this.aerator_off();
+          this.heater_off();
+          this.water_pump_off();
+
+          multi = new five.Multi({
+            controller: 'BME280'
+          });
+
+          // // Uncomment to enable light sensor.
+          // let lux = new five.Light({
+          //   controller: 'TSL2561'
+          // });
+        }, 3000);
 
         var interval = this.get('interval');
 
         emit_data = setInterval(()=> {
           this.temp_data();
           this.hum_data();
-          this.ph_data();
-          this.ec_data();
           this.light_data();
-          this.water_temp_data();
+          this.water_pump_on();
           this.air_pressure_data();
           this.water_level_data();
           setTimeout(()=> {
-            this.do_data();
-          }, 1000);
-        }, interval);
+            this.ph_data();
+            this.ec_data();
+            this.water_temp_data();
+            setTimeout(()=> {
+              this.do_data();
+              this.water_pump_off();
+            }, 1000);
+          }, 30000)
+        }, interval > 60000 ? interval: 60000);
+
+        let growfile = this.get('growfile');
+        this.startGrow(growfile);
+
+        this.emit('message', 'Running')
       },
 
       stop: function () {
+        this.emit('message', 'Stopped');
         clearInterval(emit_data);
         this.removeAllListeners();
         this.removeTargets();
       },
 
       restart: function () {
+        this.emit('message', 'Restarting');
         this.stop();
         this.start();
       },
@@ -266,16 +276,21 @@ setTimeout(()=> {
       },
 
       water_temp_data: function () {
-        this.emit('water_temperature', water_temp);
+        if (!_.isUndefined(water_temp)) {
+          this.emit('water_temperature', water_temp);
 
-        console.log('Temperature: ' + water_temp);
+          console.log('Temperature: ' + water_temp);
+        }
       },
 
       water_level_data: function () {
-        this.emit('water_level', level);
+        if (!_.isUndefined(level)) {
+          // HACK: do proper math.
+          this.emit('water_level', level.value);
 
-        console.log('Water level: ' + level);
-        console.log('Water level ref: ' + level_ref);
+          console.log('Water level: ' + level.value);
+          console.log('Water level ref: ' + level_ref.value);
+        }
       },
 
       light_data: function () {
@@ -300,11 +315,11 @@ setTimeout(()=> {
 
       temp_data: function () {
         if (!_.isUndefined(multi)) {
-          var pressure = multi.barometer.pressure;
+          var temperature = multi.barometer.pressure;
 
-          this.emit('pressure', pressure);
+          this.emit('temperature', temperature);
 
-          console.log('Air Pressure: ' + pressure);
+          console.log('Temperature: ' + temperature);
         }
       },
 
@@ -317,8 +332,12 @@ setTimeout(()=> {
           console.log('Humidity: ' + currentHumidity);
         }
       }
-    }).connect({
-      host: '10.0.0.14'
-    });
+    })
+
+    setTimeout(()=> {
+      bioreactor.connect({
+        host: '10.0.0.14'
+      });
+    }, 2000)
   });
 }, 3000);
