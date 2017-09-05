@@ -1,0 +1,37 @@
+{ 
+  "public" : {
+    "title": "Grow-IoT",
+    "logo": "/img/white_flower.png",
+    "primary_color": "rgb(34, 194, 70)"
+  },
+  "INFLUX_URL": "localhost",
+  "ELASTIC_URL": false,
+  "S3": false,
+  "COAP": false,
+  "electron": {
+    "name": "Grow-IoT",
+    "icon": {
+      "darwin": "public/favicon.ico",
+      "win32": "public/favicon.ico"
+    },
+    "version": "0.1.0",
+    "description": "A really cool app.",
+    "rootUrl": "https://grow.commongarden.org",
+    "launchPath": "/",
+    "downloadUrls": {
+      "win32": "https://grow.commongarden.org/download/win/",
+      "darwin": "https://grow.commongarden.org/download/osx/{{version}}/MyApp.zip"
+    },
+    "sign": "Developer ID Application: ...",
+    "height": 768,
+    "width": 1024,
+    "frame": true,
+    "title-bar-style": "hidden",
+    "resizable": true,
+    "protocols": [{
+      "name": "Grow-IoT",
+      "schemes": ["grow"]
+    }],
+    "appSrcDir": "/"
+  }
+}
