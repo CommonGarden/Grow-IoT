@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>Grow.js</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>Grow.js</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="Grow.js.html">Grow.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#exports"><i class="alert alert-success"></i><span>exports</span></a>
+              </li>
+              <li><a href="#registerTargets"><i class="alert alert-info"></i><span>registerTargets</span></a>
+              </li>
+              <li><a href="#removeTargets"><i class="alert alert-info"></i><span>removeTargets</span></a>
+              </li>
+              <li><a href="#startGrow"><i class="alert alert-info"></i><span>startGrow</span></a>
+              </li>
+              <li><a href="#startPhase"><i class="alert alert-info"></i><span>startPhase</span></a>
+              </li>
+              <li><a href="#parseCycles"><i class="alert alert-info"></i><span>parseCycles</span></a>
+              </li>
+              <li><a href="#calibrate"><i class="alert alert-info"></i><span>calibrate</span></a>
+              </li>
+              <li><a href="#predict"><i class="alert alert-info"></i><span>predict</span></a>
+              </li>
+              <li><a href="#parseAnalogEC"><i class="alert alert-info"></i><span>parseAnalogEC</span></a>
+              </li>
+              <li><a href="#parseAnalogpH"><i class="alert alert-info"></i><span>parseAnalogpH</span></a>
+              </li>
+              <li><a href="#parseAtlasPH"><i class="alert alert-info"></i><span>parseAtlasPH</span></a>
+              </li>
+              <li><a href="#parseAtlasEC"><i class="alert alert-info"></i><span>parseAtlasEC</span></a>
+              </li>
+              <li><a href="#parseAtlasTDS"><i class="alert alert-info"></i><span>parseAtlasTDS</span></a>
+              </li>
+              <li><a href="#parseAtlasTemperature"><i class="alert alert-info"></i><span>parseAtlasTemperature</span></a>
+              </li>
+              <li><a href="#parseAtlasDissolvedOxygen"><i class="alert alert-info"></i><span>parseAtlasDissolvedOxygen</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="exports">
+            <h1>exports</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>module.exports</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>config</td>
+                <td>Object</td>
+                <td><p>The thing object.</p></td>
+              </tr>
+              <tr>
+                <td>path_to_datafile</td>
+                <td>String</td>
+                <td><p>Path to db file (enables a light weight database)</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Grow</td>
+                <td><p>A new Grow instance.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Grow is an extension of a Thing (which is basically a fancy event emitter).<br />See <a href="https://github.com/CommonGarden/Thing.js">Thing.js</a> for more info on Things...</p></div>
+          <pre><code class="language-javascript">module.exports = class Grow extends Thing {
+  constructor(config, path_to_datafile) {
+    super(config);
+
+    this.buffers = {};
+
+    // If provided with calibration data should we automatically calibrate?
+    this.calibration_data = {};
+    this.calibrations = {};
+
+    if (path_to_datafile) {
+      this.db = new Datastore({ filename: path_to_datafile, autoload: true });
+    }
+  }</code></pre>
+          <section id="registerTargets">
+            <h1>registerTargets</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>registerTargets()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>targets</td>
+                <td>Object</td>
+                <td><p>An object contain event keys and corresponding min / max values.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates listeners for targets objects in grow files.</p></div>
+          <pre><code class="language-javascript">registerTargets(targets) {
+  this.controllers = this.controllers || {};
+  this.alerts = this.alerts || {};
+  this.targets = _.extend(this.targets, targets);
+  _.each(targets, (value, key) =&gt; {
+    if (value.ideal) {
+      // Create a controller with defaults.
+      // Allow for them to define control parameters?
+      if (typeof value.pid === 'object') {
+        this.controllers[key] = new Controller(value.pid);
+      } else {
+        this.controllers[key] = new Controller({
+          k_p: 0.25,
+          k_i: 0.01,
+          k_d: 0.01,
+          dt: 1
+        });
+      }
+
+      // Simply set the target
+      this.controllers[key].setTarget(value.ideal);
+    }
+
+    this.on(key, (eventData) =&gt; {
+      if (Number(eventData) !== 'NaN') {
+        if (value.ideal) {
+          let correction = this.controllers[key].update(eventData);
+          this.emit('correction', key, correction);
+        }
+
+        if (value.min &amp;&amp; eventData &lt; value.min) {
+          if (this.alerts[key] !== 'low') {
+            let alert = {};
+            alert[key] = 'low';
+            _.extend(this.alerts, alert);
+            this.set('alerts', this.alerts);
+            this.emit('alert', alert);
+          }
+        }
+
+        else if (value.max &amp;&amp; eventData &gt; value.max) {
+          if (this.alerts[key] !== 'high') {
+            let alert = {};
+            alert[key] = 'high';
+            _.extend(this.alerts, alert);
+            this.set('alerts', this.alerts);
+            this.emit('alert', alert);
+          }
+        }
+
+        else {
+          if (this.alerts[key]) {
+            let alert = {};
+            alert[key] = 'ok';
+            this.emit('alert', alert);
+            this.alerts = _.omit(this.alerts, key);
+            this.set('alerts', this.alerts);
+          }
+        }
+      }
+    });
+  });
+
+  this.emit('targets-updated', targets);
+}</code></pre>
+          <section id="removeTargets">
+            <h1>removeTargets</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>removeTargets()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>targets</td>
+                <td>Object</td>
+                <td><p>Alerts to be removed.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Remove targets</p></div>
+          <pre><code class="language-javascript">removeTargets(targets) {
+  if (_.isArray(targets)) {
+    _.each(targets, (value, key) =&gt; {
+      this.removeAllListeners(value);
+      this.targets = _.omit(this.targets, value);
+      this.controllers = _.omit(this.controllers, value)
+    });
+  } else if (_.isObject(targets)) {
+    _.each(targets, (value, key) =&gt; {
+      this.removeAllListeners(key);
+      this.targets = _.omit(this.targets, key);
+      this.controllers = _.omit(this.controllers, key)
+    });
+  } else if (typeof targets === 'string') {
+    this.removeAllListeners(targets);
+    this.targets = _.omit(this.targets, targets);
+    this.controllers = _.omit(this.controllers, targets)
+  } else {
+    this.targets = {};
+    this.removeAllListeners();
+  }
+}</code></pre>
+          <section id="startGrow">
+            <h1>startGrow</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>startGrow()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>growfile</td>
+                <td>Object</td>
+                <td><p>The Growfile object.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Start the Growfile from the first phase.</p></div>
+          <pre><code class="language-javascript">startGrow (growfile) {
+  if (growfile.phases) {
+    let key = _.keys(growfile.phases)[0];
+    this.startPhase(key, growfile);
+  } else {
+    if (growfile.targets) {
+      this.registerTargets(growfile.targets);
+    }
+    if (growfile.cycles) {
+      this.parseCycles(growfile.cycles);
+    }
+  }
+}</code></pre>
+          <section id="startPhase">
+            <h1>startPhase</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>startPhase()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>phaseKey</td>
+                <td>String</td>
+                <td><p>The key of the phase to start.</p></td>
+              </tr>
+              <tr>
+                <td>growfile</td>
+                <td>Object</td>
+                <td><p>The Growfile object.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Start a new phase, such as going from vegetative to bloom, or to &#39;harvest&#39;.</p></div>
+          <pre><code class="language-javascript">startPhase (phaseKey, growfile) {
+  let phases = growfile.phases;
+  let cycles = phases[phaseKey].cycles;
+  let targets = phases[phaseKey].targets;
+
+  this.currentPhase = phaseKey;
+
+  try {
+    if (targets) {
+      this.registerTargets(targets)
+    }
+
+    if (cycles) {
+      this.parseCycles(cycles);
+    }
+  } catch (error) {
+    console.log(error);
+  };
+}</code></pre>
+          <section id="parseCycles">
+            <h1>parseCycles</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseCycles()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>cycles</td>
+                <td>Object</td>
+                <td><p>An object containing cycle objects</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Schedules the cycles component of a phase or simple Growfile.</p></div>
+          <pre><code class="language-javascript">parseCycles(cycles) {
+  _.each(cycles, (list, iteratee)=&gt; {
+    let scheduledTime = later.parse.text(String(cycles[iteratee].schedule));
+    return later.setTimeout(()=&gt; {
+      try {
+        if (cycles[iteratee].targets) {
+          this.registerTargets(cycles[iteratee].targets);
+        }
+
+        if(cycles[iteratee].options) {
+          this.call(iteratee, cycles[iteratee].options);
+        } else {
+          this.call(iteratee);
+        }
+      } catch (error) {
+        console.log(error);
+      };
+    }, scheduledTime);
+  });
+}</code></pre>
+          <section id="calibrate">
+            <h1>calibrate</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>calibrate()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>eventname</td>
+                <td>String</td>
+                <td><p>The name of the event to calibrate</p></td>
+              </tr>
+              <tr>
+                <td>calibration_data</td>
+                <td>Array</td>
+                <td><p>The &#39;training&#39; data</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Calibrates</p></div>
+          <pre><code class="language-javascript">calibrate (eventname, calibration_data, options) {
+  // make sure calibration data of in the format of list of lists with a length of 2
+  if (!this.calibrations[eventname]) {
+    if (calibration_data.length &gt;= 2 &amp;&amp; typeof calibration_data[1] === 'object') {
+      this.calibrations[eventname] = regression.linear(calibration_data, options);
+    } else {
+      this.calibrations[eventname] = {
+        points: calibration_data,
+        predict: function (value) {
+          return [0, value + (calibration_data[1] - calibration_data[0])];
+        }
+      }
+    }
+  } else {
+    // if it's there is only one calibration reference point 
+    if (typeof this.calibrations[eventname].points[1] !== 'object') {
+      let points = [this.calibrations[eventname].points];
+      this.calibrations[eventname].points = points;
+      this.calibrations[eventname].points.push(calibration_data);
+    } else {
+      this.calibrations[eventname].points.push(calibration_data);
+    }
+  }
+}</code></pre>
+          <section id="predict">
+            <h1>predict</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>predict()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>eventname</td>
+                <td>String</td>
+                <td><p>The name of the event to calibrate</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Number</td>
+                <td><p>The value to be calibrated</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns a calibrated value based on known values.</p></div>
+          <pre><code class="language-javascript">predict (eventname, value) {
+  let regression = this.calibrations[eventname];
+  if (regression) {
+    return regression.predict(value)[1];
+  } else {
+    return value;
+  }
+}</code></pre>
+          <section id="parseAnalogEC">
+            <h1>parseAnalogEC</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAnalogEC()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>value</td>
+                <td>Number</td>
+                <td><p>The analog (0-1024) reading to convert.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Converts readings from an analog ph sensor into pH.<br />Maybe we should pass in a temperature value too so we can acount for that?</p></div>
+          <pre><code class="language-javascript">parseAnalogEC (value, options) {
+  if (!this.buffers['ec']) {
+    this.buffers['ec'] = [];
+  }
+  this.buffers['ec'].push(value);
+  let bufferLength = options ? options.bufferLength: 10;
+  if (this.buffers['ec'].length &gt; bufferLength) {
+    this.buffers['ec'].shift()
+  }
+  let VREF = options? options.VREF: 5;
+  let AnalogAverage = math.median(this.buffers['ec']);
+  let averageVoltage= AnalogAverage*VREF/1024.0;
+  let temperature = 25.0; //when no temperature sensor ,temperature should be 25^C default
+  let TempCoefficient=1.0+0.0185*(temperature-25.0); //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.0185*(fTP-25.0));
+  let CoefficientVolatge = averageVoltage/TempCoefficient;   
+  if(CoefficientVolatge&gt;3300) {
+    console.log('Out of the range!'); //&gt;20ms/cm,out of the range
+  }
+  else{ 
+    let ECvalue;
+    ECvalue=5.3*CoefficientVolatge+2278; //10ms/cm&lt;EC&lt;20ms/cm
+    ECvalue = ECvalue/10.0;
+    return ECvalue;
+  }
+}</code></pre>
+          <section id="parseAnalogpH">
+            <h1>parseAnalogpH</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAnalogpH()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>value</td>
+                <td>Number</td>
+                <td><p>The analog (0-1024) reading to convert.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Converts readings from an analog ph sensor into pH.</p></div>
+          <pre><code class="language-javascript">parseAnalogpH (value, options) {
+  if (!this.buffers['ph']) {
+    this.buffers['ph'] = [];
+  }
+  this.buffers['ph'].push(value);
+  let VREF = options? options.VREF: 5;
+  let AnalogAverage = math.median(this.buffers['ph']);
+  let averageVoltage= AnalogAverage*(VREF/1024);
+  let bufferLength = options? options.bufferLength: 10;
+  if (this.buffers['ph'].length &gt; bufferLength) {
+    this.buffers['ph'].shift()
+  }
+  return averageVoltage * 3.5;
+}</code></pre>
+          <section id="parseAtlasPH">
+            <h1>parseAtlasPH</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasPH()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>Number, String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns true if the reading falls in a valid pH range.</p></div>
+          <pre><code class="language-javascript">parseAtlasPH (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join(''));
+  }
+}</code></pre>
+          <section id="parseAtlasEC">
+            <h1>parseAtlasEC</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasEC()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses EC reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseAtlasEC (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join('').split(',')[0]);
+  }
+}</code></pre>
+          <section id="parseAtlasTDS">
+            <h1>parseAtlasTDS</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasTDS()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses TDS reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseAtlasTDS (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join('').split(',')[1]);
+  }
+}</code></pre>
+          <section id="parseAtlasTemperature">
+            <h1>parseAtlasTemperature</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasTemperature()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>bytes</td>
+                <td>String</td>
+                <td><p>The I2C response to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses EC reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseAtlasTemperature (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join(''));
+  }
+}</code></pre>
+          <section id="parseAtlasDissolvedOxygen">
+            <h1>parseAtlasDissolvedOxygen</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>parseAtlasDissolvedOxygen()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>reading</td>
+                <td>String</td>
+                <td><p>The reading to parse.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Parses EC reading from data returned from Atlas Scientific Conductivity sensor.</p></div>
+          <pre><code class="language-javascript">parseAtlasDissolvedOxygen (bytes) {
+  let bytelist = [];
+  if (bytes[0] === 1) {
+    for (let i = 0; i &lt; bytes.length; i++) {
+      if (bytes[i] !== 1 &amp;&amp; bytes[i] !== 0) {
+        bytelist.push(ascii.symbolForDecimal(bytes[i]));
+      }
+    }
+    return Number(bytelist.join(''));
+  }
+}
+};</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>
