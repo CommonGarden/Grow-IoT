@@ -32,6 +32,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import moment from 'moment';
+import JustGauge from './JustGage';
 
 
 class BioReactor extends BaseThing {
@@ -42,7 +43,6 @@ class BioReactor extends BaseThing {
   handleTap = (event) => {
     let device = event.currentTarget.dataset.device;
     let command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
-    console.log(command);
     this.sendCommand(command);
   }
 
@@ -83,12 +83,12 @@ class BioReactor extends BaseThing {
         icon: 'wi wi-humidity',
         max: 100
       },
-      {
-        type: 'pressure',
-        title: 'Air pressure',
-        icon: 'wi wi-humidity',
-        max: 100
-      },
+      // {
+      //   type: 'pressure',
+      //   title: 'Air pressure',
+      //   icon: 'wi wi-humidity',
+      //   max: 100
+      // },
       {
         type: 'lux',
         title: 'Light (lux)',
@@ -217,7 +217,8 @@ class BioReactor extends BaseThing {
         // </div>
         }
         <CardText>
-          <Row style={{margin: -20}}>
+          <JustGauge min={0} max={100} value={25} title="Test" label="Test" />
+           <Row style={{margin: -20}}>
               {
                 this.state.types.map((v, k) => {
                   const events = this.getEvents(v.type);
@@ -247,6 +248,7 @@ class BioReactor extends BaseThing {
                   </Col>: null;
                 })
               }
+          }
           </Row>
         </CardText>
         <CardText expandable={true}>
@@ -338,7 +340,7 @@ class BioReactor extends BaseThing {
               <h3>Event History</h3>
               {
                   this.props.events.map((v, k) => {
-                    return <p key={k}>{v.event.type} {v.event.message}<span style={{float:'right'}}>{moment(v.event.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</span></p>
+                    return <p key={k}>{v.event.type} <span style={{marginLeft: 10}}>{v.event.message}</span><span style={{float:'right'}}>{moment(v.event.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</span></p>
                   })
               }
               <p><a href='#'>Show full History</a></p>
