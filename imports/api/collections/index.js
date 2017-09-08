@@ -5,6 +5,6 @@ import { Things } from './things';
 // import { Notifications } from './notifications';
 import { Images } from './images';
 
-if (Meteor.isServer) {
+// if (Meteor.isServer) {
 	import { Messages } from './messages';
-}
+// }

@@ -4,14 +4,14 @@
 
 ## Installing Grow-IoT
 
-You need to install [Meteor](https://www.meteor.com/) first (if you haven't already).
+You need to install [Meteor](https://www.meteor.com/) first (if you haven't already). You will also need to install a version of [yarn](https://www.yarnpkg.com/) >= 1.x.
 
 Then:
 
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-meteor npm install
+yarn install
 meteor
 ```
 
