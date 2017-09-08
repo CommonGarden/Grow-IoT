@@ -5,11 +5,7 @@ let pkg = require('./package.json');
 let external = Object.keys(pkg.dependencies);
 
 export default {
-<<<<<<< HEAD
-  entry: 'lib/Grow.js',
-=======
   entry: 'lib/Thing.js',
->>>>>>> thing
   plugins: [babel(babelrc())],
   external: external,
   targets: [
@@ -18,17 +14,6 @@ export default {
       format: 'cjs',
       moduleName: 'rollupStarterProject',
       sourceMap: true
-<<<<<<< HEAD
-    },
-    {
-      dest: pkg['jsnext:main'],
-      format: 'es',
-      sourceMap: true
     }
   ]
 };
-=======
-    }
-  ]
-};
->>>>>>> thing

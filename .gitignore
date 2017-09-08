@@ -3,6 +3,15 @@ npm-debug.log
 .build*
 settings.json
 node_modules
+<<<<<<< HEAD
 build
 dist
 .DS_Store
+=======
+coverage
+tmp
+
+# Users Environment Variables
+.lock-wscript
+dist
+>>>>>>> thing
