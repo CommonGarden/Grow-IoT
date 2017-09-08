@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>Grow.js</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>Grow.js</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li class="active"><a href="index.html">Main</a></li>
+            <li><a href="Grow.js.html">Grow.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="Main" class="readme"><h1>Grow.js</h1>
+<p><a href="https://travis-ci.org/CommonGarden/Grow.js"><img src="https://travis-ci.org/CommonGarden/Grow.js.svg?branch=development" alt="Build Status"></a> <a href="https://codeclimate.com/github/CommonGarden/Grow.js"><img src="https://codeclimate.com/github/CommonGarden/Grow.js/badges/gpa.svg" alt="Code Climate"></a> <a href="https://gitter.im/CommonGarden/Grow.js?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/CommonGarden/Grow.js.svg" alt="Join the chat at https://gitter.im/CommonGarden/Grow.js"></a></p>
+<p>Grow.js is an extension of <a href="https://github.com/CommonGarden/Thing.js">Thing.js</a> with extra utilities for growers.</p>
+<h3>Installation</h3>
+<p><code>npm install Grow.js</code></p>
+<h1>Usage</h1>
+<p>Grow.js is an extension of Thing.js, which is an exstension of the node event emitter class. See <a href="https://github.com/CommonGarden/Thing.js">Thing.js</a> for more information about the Thing api which Grow.js inherits and for connecting to to Grow-IoT. You can also use Grow.js by itself with out connecting to a Grow-IoT instance.</p>
+<p>This readme, covers Grow.js specific features like setting up event listeners for monitoring evnvironment data, scheduling, and parsing 'Growfiles.'</p>
+<h2>Grow Files</h2>
+<p>There are three main components to a Grow file:</p>
+<ul>
+<li><a href="#targets">Targets</a></li>
+<li><a href="#cycles">Cycles</a></li>
+<li><a href="#phases">Phases</a></li>
+</ul>
+<h3>Targets</h3>
+<p>Targets create listeners for events from sensors and emit alerts or correction events. <code>min</code>, <code>max</code>, and <code>ideal</code> are currently supported.</p>
+<pre><code class="language-javascript">const Grow = require('Grow.js');
+const example = new Grow();
+
+// Start a Grow by passing in a valid growfile
+example.startGrow({
+  targets: {
+    temperature: {
+      min: 17,
+      ideal: 22,
+      max: 28,
+    }
+  }
+});
+
+// Uses node event emitter api
+example.on('alert', (message)=&gt; {
+  console.log(message);
+});
+
+// If a value falls below a threshhold we emit an alert
+example.emit('temperature', 10);
+// { temperature: 'low' }
+
+// Likewise if it is above the threshold
+example.emit('temperature', 30);
+// { temperature: 'high' }
+
+</code></pre>
+<p>If an <code>ideal</code> is specified for a target a <a href="https://en.wikipedia.org/wiki/PID_controller">PID controller</a> is created and emits <code>correction</code> events. Continuing from the above example...</p>
+<pre><code class="language-javascript">    testGrow.on('corrections', (key, correction)=&gt; {
+      console.log(key);
+      console.log(correction);
+    });
+    testGrow.emit('temperature', 17);
+    // temperature
+    // 0.04050000000000009
+</code></pre>
+<p>You can use the correction to control heaters, dosing pumps, and more! For control over the PID controller's parameters you can pass in options under a <code>pid</code> property:</p>
+<pre><code class="language-javascript">  temperature: {
+    min: 17,
+    ideal: 22,
+    max: 28,
+    pid: {
+      k_p: 1,
+      k_i: 2,
+      k_d: 2,
+      dt: 10
+    }
+  },
+</code></pre>
+<h3>Cycles</h3>
+<p>Cycles are functions that are called at specific times in succession (for example, during the course of a day).</p>
+<p>Cycles are also a way of defining <em>moving targets</em>. For example, you might have a different target daytime and nighttime temperature.</p>
+<pre><code class="language-javascript">example.parseCycles({
+  day: {
+    schedule: 'after 7:00am',
+    targets: {
+      temperature: {
+        ideal: 22
+      }
+    }
+  },
+  night: {
+    schedule: 'after 7:00pm',
+    targets: {
+      temperature: {
+        ideal: 18
+      }
+    }
+  }
+})
+</code></pre>
+<p>In the example above the 'day' event will be emitted after 7:00am. Various internet of things devices such as lights can listen for those events, and respond accordingly (such as turning the lights on).</p>
+<h3>Phases</h3>
+<p>Cycles and targets aren't enough to fully express a plant's life cycle. Phases are a way to create groups of cycles and/or targets.</p>
+<p>A plants life cycle might be broke up into the following phases:</p>
+<ul>
+<li>Seedling</li>
+<li>Vegatative</li>
+<li>Flowering</li>
+<li>Harvest</li>
+</ul>
+<p>Each might have different environmental conditions with regards to lighting, pH, nutrients, temperature, etc.</p>
+<p>Phases may have a <code>length</code> attribute which specifies how long they last.</p>
+<p>In some cases may require a human to transition the grow system towards the next phase (such as transplanting seedlings, or replacing the water in the resevoir). In other words, phases may automatically or manually transition into the next phase.</p>
+<h2>Basic example</h2>
+<pre><code class="language-javascript">const climaterecipe = {
+  &quot;name&quot;:&quot;Basic climate recipee&quot;,
+  &quot;description&quot;: &quot;Metadata goes here.&quot;,
+  &quot;version&quot;:&quot;0.1.0&quot;,
+  &quot;phases&quot;:{
+    &quot;vegetative&quot;:{
+      &quot;length&quot;: &quot;28 days&quot;
+      &quot;targets&quot;:{
+        &quot;ph&quot;:{
+          &quot;min&quot;:6,
+          &quot;ideal&quot;:6.15,
+          &quot;max&quot;:6.3
+        },
+        &quot;ec&quot;:{
+          &quot;min&quot;:1400,
+          &quot;ideal&quot;:1500,
+          &quot;max&quot;:1700
+        },
+        &quot;humidity&quot;:{
+          &quot;min&quot;:51,
+          &quot;max&quot;:61
+        },
+        &quot;temperature&quot;:{
+          &quot;min&quot;:17,
+          &quot;max&quot;:28
+        }
+      },
+      &quot;cycles&quot;:{
+        &quot;day&quot;:{
+          &quot;schedule&quot;:&quot;after 6:00am&quot;,
+          &quot;targets&quot;:{
+            &quot;temperature&quot;:{
+              &quot;ideal&quot;:22
+            }
+          }
+        },
+        &quot;night&quot;:{
+          &quot;schedule&quot;:&quot;after 9:00pm&quot;,
+          &quot;targets&quot;:{
+            &quot;temperature&quot;:{
+              &quot;ideal&quot;:18
+            }
+          }
+        }
+      }
+    },
+    &quot;bloom&quot;:{
+      &quot;length&quot;: &quot;32 days&quot;
+      &quot;targets&quot;:{
+        &quot;ph&quot;:{
+          &quot;min&quot;:6,
+          &quot;ideal&quot;:6.15,
+          &quot;max&quot;:6.3
+        },
+        &quot;ec&quot;:{
+          &quot;min&quot;:1400,
+          &quot;ideal&quot;:1500,
+          &quot;max&quot;:1700
+        },
+        &quot;humidity&quot;:{
+          &quot;min&quot;:51,
+          &quot;max&quot;:59
+        },
+        &quot;temperature&quot;:{
+          &quot;min&quot;:17,
+          &quot;max&quot;:28
+        }
+      },
+      &quot;cycles&quot;:{
+        &quot;day&quot;:{
+          &quot;schedule&quot;:&quot;after 7:00am&quot;,
+          &quot;targets&quot;:{
+            &quot;temperature&quot;:{
+              &quot;ideal&quot;:22
+            }
+          }
+        },
+        &quot;night&quot;:{
+          &quot;schedule&quot;:&quot;after 7:00pm&quot;,
+          &quot;targets&quot;:{
+            &quot;temperature&quot;:{
+              &quot;ideal&quot;:22
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+example.startGrow(climaterecipe)
+
+</code></pre>
+<p>Climate recipees in Grow.js are serialized as JSON, which means the same recipees can play well in JavaScript, Python, C++, and more! Interoperability and standardization are things we should strive for.</p>
+<p>There is lot's of future work to be done! As a potential forum for working on such projects, I think a W3C community group would be great.</p>
+<p>If you have thoughts or suggestions, I would love to hear them.</p>
+<h1>Developing</h1>
+<p>Code is written in ES6, and compiled using <a href="https://github.com/rollup/rollup">rollup</a>.</p>
+<p><code>npm run build</code> builds the library.</p>
+<p><code>npm run test</code> builds the library, and runs tests in the test folder.</p>
+<p>The documentation is written in jsdoc, built using <a href="https://mr-doc.github.io/">Mr-Doc</a>, and on the <a href="https://github.com/CommonGarden/Grow.js/tree/gh-pages">gh-pages branch of this repo</a>.</p>
+<h2>License</h2>
+<p>Grow.js is released under the 2-Clause BSD License, sometimes referred to as the &quot;Simplified BSD License&quot; or the &quot;FreeBSD License&quot;.</p>
+</section>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

@@ -2,6 +2,7 @@
 npm-debug.log
 .build*
 settings.json
-state.json
 node_modules
+build
+dist
 .DS_Store
