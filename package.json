@@ -1,6 +1,6 @@
 {
   "name": "Grow-IoT",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "A meteor application for the Internet of Living things.",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/CommonGarden/Grow-IoT"
   },
   "scripts": {
-    "start": "meteor npm i && meteor",
+    "start": "yarn install && meteor",
     "lint": "eslint .",
     "postinstall": "opencollective postinstall"
   },
