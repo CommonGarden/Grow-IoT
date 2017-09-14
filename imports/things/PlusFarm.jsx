@@ -104,19 +104,19 @@ class PlusFarm extends Component {
     ]
   };
 
-  getEvents(type) {
-    const e = this.props[`${type}Events`];
+  // getEvents(type) {
+  //   const e = this.props[`${type}Events`];
 
-    let data = {
-      name: type,
-      columns: ["time", "value"],
-      points: []
-    };
-    _.each(e, (value, key, list) => {
-      data.points.unshift([value.event.timestamp.getTime(), value.event.message])
-    });
-    if (data.points[0]) return new TimeSeries(data);
-  }
+  //   let data = {
+  //     name: type,
+  //     columns: ["time", "value"],
+  //     points: []
+  //   };
+  //   _.each(e, (value, key, list) => {
+  //     data.points.unshift([value.event.timestamp.getTime(), value.event.message])
+  //   });
+  //   if (data.points[0]) return new TimeSeries(data);
+  // }
 
   sendCommand (method, options) {
     Meteor.call('Thing.sendCommand',
@@ -267,20 +267,6 @@ class PlusFarm extends Component {
                            label={null}
                            valueLabelStyle={styles.values}
                            color={alerts[v.type] ? 'red': 'green'} />
-                    {
-                    // !events ? <div><CircularProgress /> Loading</div> :
-                    //   <ChartContainer timeRange={events.range()} width={width}>
-                    //     <ChartRow height="150">
-                    //       <YAxis
-                    //         id={v.type}
-                    //         min={events.min()} max={events.max()}
-                    //         width="30" />
-                    //       <Charts>
-                    //         <LineChart axis={v.type} series={events} />
-                    //       </Charts>
-                    //     </ChartRow>
-                    //   </ChartContainer>
-                    }
                   </Col>
                 })
               }
@@ -297,21 +283,23 @@ class PlusFarm extends Component {
                     <PowerIcon />
                   </FloatingActionButton>
                   <br/>
-                  <TextField
-                    hintText="Day start"
-                    floatingLabelText="Day start"
-                    data-key="interval"
-                    defaultValue={thing.properties.interval}
-                    onChange={this.handleScheduleChange}
-                  />
-                  <br/>
-                  <TextField
-                    hintText="Night start"
-                    floatingLabelText="Night start"
-                    data-key="interval"
-                    defaultValue={thing.properties.interval}
-                    onChange={this.handleScheduleChange}
-                  />
+                {
+                  // <TextField
+                  //   hintText="Day start"
+                  //   floatingLabelText="Day start"
+                  //   data-key="interval"
+                  //   defaultValue={thing.properties.growfile.night.schedule}
+                  //   onChange={this.handleScheduleChange}
+                  // />
+                  // <br/>
+                  // <TextField
+                  //   hintText="Night start"
+                  //   floatingLabelText="Night start"
+                  //   data-key="interval"
+                  //   defaultValue={thing.properties.growfile.night.schedule}
+                  //   onChange={this.handleScheduleChange}
+                  // />
+                }
                 </div>
               </div>
             </Col>
@@ -319,7 +307,7 @@ class PlusFarm extends Component {
               <div style={styles.actuator}>
                 <div style={styles.actionButton}>
                   <h3>Pump</h3>
-                  <FloatingActionButton secondary={this.props.thing.properties.light_state === 'on' ? true: false}
+                  <FloatingActionButton secondary={this.props.thing.properties.pump_state === 'on' ? true: false}
                     backgroundColor="rgb(208, 208, 208)"
                     data-device="pump"
                     onTouchTap={this.handleTap}>

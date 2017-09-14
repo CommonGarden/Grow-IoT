@@ -1,17 +1,17 @@
 # Grow-IoT
 
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
+[![Backers on Open Collective](https://opencollective.com/Grow-IoT/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/Grow-IoT/sponsors/badge.svg)](#sponsors) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
 
 ## Installing Grow-IoT
 
-You need to install [Meteor](https://www.meteor.com/) first (if you haven't already).
+You need to install [Meteor](https://www.meteor.com/) first (if you haven't already). You will also need to install a version of [yarn](https://www.yarnpkg.com/) >= 1.x.
 
 Then:
 
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-meteor npm install
+yarn install
 meteor
 ```
 
@@ -167,14 +167,34 @@ Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growin
 * [Running locally](https://github.com/CommonGarden/Grow-IoT/wiki/Running-locally)
 * [Supported hardware](https://github.com/CommonGarden/Grow-IoT/wiki/Supported-hardware)
 
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
+<a href="graphs/contributors"><img src="https://opencollective.com/Grow-IoT/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/Grow-IoT#backer)]
+
+<a href="https://opencollective.com/Grow-IoT#backers" target="_blank"><img src="https://opencollective.com/Grow-IoT/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/Grow-IoT#sponsor)]
+
+<a href="https://opencollective.com/Grow-IoT/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/2/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/3/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/4/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/5/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/6/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/7/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/8/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/Grow-IoT/sponsor/9/website" target="_blank"><img src="https://opencollective.com/Grow-IoT/sponsor/9/avatar.svg"></a>
+
+
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".
-
-### Sponsors
-Thank you to these forward looking companies that have sponsored us so far:
-
-![White box labs](https://www.whiteboxes.ch/wp-content/uploads/2015/07/cropped-top_logo.png)
-![Growmobile](https://user-images.githubusercontent.com/521978/28031804-5812b6ce-655d-11e7-8c22-45d037bf5d4d.jpg)
-![Phenomics Labs](https://user-images.githubusercontent.com/521978/28031654-d48845a8-655c-11e7-8b4f-3d84cfe0efbe.jpg)
-
-If your interested in sponsoring this work, or perhaps owning a piece of Common Garden, then please reach out: jake at commongarden.org

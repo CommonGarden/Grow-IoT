@@ -1,14 +1,16 @@
 {
   "name": "Grow-IoT",
-  "version": "0.4.0",
+  "version": "0.5.0",
+  "private": true,
   "description": "A meteor application for the Internet of Living things.",
   "repository": {
     "type": "git",
     "url": "https://github.com/CommonGarden/Grow-IoT"
   },
   "scripts": {
-    "start": "meteor npm i && meteor",
-    "lint": "eslint ."
+    "start": "yarn install && meteor",
+    "lint": "eslint .",
+    "postinstall": "opencollective postinstall"
   },
   "keywords": [
     "IoT",
@@ -40,11 +42,11 @@
     "gridfs-stream": "^1.1.1",
     "influx": "^5.0.6",
     "inquirer": "^2.0.0",
-    "knox": "^0.9.2",
     "meteor-node-stubs": "^0.2.3",
     "moment": "^2.17.1",
     "mongodb": "^2.2.16",
     "monq": "^0.3.6",
+    "opencollective": "^1.0.3",
     "pondjs": "^0.8.5",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -64,11 +66,14 @@
   "devDependencies": {
     "Grow.js": "^0.3.75",
     "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-stage-1": "^6.22.0",
     "eslint": "^3.12.2",
     "eslint-import-resolver-meteor": "^0.3.3",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-meteor": "^4.0.1",
+    "later": "^1.2.0",
+    "lerna": "^2.1.2",
     "redux-devtools": "^3.4.0"
   },
   "eslintConfig": {
@@ -86,5 +91,20 @@
       "import/resolver": "meteor"
     },
     "rules": {}
+  },
+  "engines": {
+    "node": ">=6.0.0",
+    "yarn": "^1.0.0"
+  },
+  "lint-staged": {
+    "*.{js,mjs}": "eslint"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/Grow-IoT",
+    "logo": "https://opencollective.com/opencollective/logo.txt"
   }
 }

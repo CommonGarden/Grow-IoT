@@ -1,2 +1,2 @@
-import './observe';
+// import './observe';
 import './worker';
