@@ -11,7 +11,7 @@ Then:
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-yarn install
+meteor npm install
 meteor
 ```
 

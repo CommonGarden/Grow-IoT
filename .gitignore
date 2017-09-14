@@ -9,6 +9,13 @@ dist
 coverage
 tmp
 state
+.elasticbeanstalk*
+.ebextensions*
 
 # Users Environment Variables
 .lock-wscript
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
