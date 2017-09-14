@@ -1,5 +1,5 @@
-import Grow from '../lib/Grow.js';
-import _ from 'underscore';
+const Grow = require('../dist/Grow.js');
+const _ = require('underscore');
 
 global.expect = require('chai').expect;
 
@@ -52,13 +52,7 @@ describe('Grow.js', () => {
       let statefulThing = new Grow(thing, 'state.json')
       // TODO: it should do so with options such as a different VREF
     });
-    it('should parse an analog EC value', () => {
-      let EC = testThing.parseAnalogEC(467);
-      expect(EC).to.equal(229.008544921875);
-      // TODO: it should do so with options such as a different VREF
-    });
   });
-
 
   describe('Calibration', () => {
     it('should calibrate based on one measured value and a known value', () => {

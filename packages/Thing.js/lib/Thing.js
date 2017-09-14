@@ -26,12 +26,12 @@ class Thing extends EventEmitter {
       this.initialize();
     }
 
-    if (!_.isUndefined(this.start)){
+    if (!_.isUndefined(this.start)) {
       this.start();
     }
 
     this._messageHandlerInstalled = false;
-    
+
     // Emit 'ready' event to show that the Thing has initialized.
     this.emit('ready');
   }
@@ -41,7 +41,7 @@ class Thing extends EventEmitter {
    * @param {String} key The property to be updated.
    * @param {Object | Number | String | Boolean} value The value to update the property to.
    */
-  set (key, value) {
+  set(key, value) {
     this.properties[key] = value;
     this.emit('property-updated', key);
   }
@@ -50,7 +50,7 @@ class Thing extends EventEmitter {
    * @param {String} key Use to get the current value of a property.
    * @returns {Object | Number | String | Boolean}
    */
-  get (key) {
+  get(key) {
     return this.properties[key];
   }
 
@@ -60,12 +60,11 @@ class Thing extends EventEmitter {
    * @param      {Object}  options Optional, options to call with the function.
    * @returns    {Object | Number | String | Null | Boolean}  output Returns any returns of the called method. 
    */
-  call (method, options) {
+  call(method, options) {
     try {
       if (!_.isUndefined(options)) {
         var output = this[method](options);
-      }
-      else {
+      } else {
         var output = this[method]();
       }
 
@@ -76,8 +75,7 @@ class Thing extends EventEmitter {
       } else {
         this.emit(method, options);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -86,7 +84,7 @@ class Thing extends EventEmitter {
    * Connects to Grow-IoT server over DDP. Help us support more protocols (like CoAP)! ; )
    * @param {Object}  options  Connection options
    */
-  connect (options) {
+  connect(options) {
     if (!this.uuid && !this.token) {
       throw new Error('UUID and token are required to connect to a Grow-IoT instance.');
     }
@@ -100,7 +98,7 @@ class Thing extends EventEmitter {
 
     this.ddpclient.connect((error, wasReconnect) => {
       if (error) {
-        console.log(error)
+        console.log(error);
       }
 
       if (wasReconnect) {
@@ -109,67 +107,55 @@ class Thing extends EventEmitter {
         console.log('Grow server connection established.');
       }
 
-      this.ddpclient.call(
-        'Thing.register',
-        [{uuid: this.uuid, token: this.token}, this.config],
-        (error, result) => {
-          if (error) {
-            console.log(error);
-          }
-
-          this.afterConnect(result);
+      this.ddpclient.call('Thing.register', [{ uuid: this.uuid, token: this.token }, this.config], (error, result) => {
+        if (error) {
+          console.log(error);
         }
-      );
+
+        this.afterConnect(result);
+      });
     });
 
-    this.afterConnect = (result) => {
-      this.ddpclient.subscribe(
-        'Thing.messages',
-        [{uuid: this.uuid, token: this.token}],
-        (error) => {
-          if (error) return console.log(error);
+    this.afterConnect = result => {
+      this.ddpclient.subscribe('Thing.messages', [{ uuid: this.uuid, token: this.token }], error => {
+        if (error) return console.log(error);
 
-          if (!this._messageHandlerInstalled) {
-            this._messageHandlerInstalled = true;
+        if (!this._messageHandlerInstalled) {
+          this._messageHandlerInstalled = true;
 
-            this.ddpclient.on('message', (data)=> {
-              data = JSON.parse(data);
+          this.ddpclient.on('message', data => {
+            data = JSON.parse(data);
 
-              if (data.msg !== 'added' || data.collection !== 'Things.messages') {
-                return;
-              }
+            if (data.msg !== 'added' || data.collection !== 'Things.messages') {
+              return;
+            }
 
-              let command = data.fields.body;
-              let opts = command.options;
-              let type = command.type;
-              if (type === 'setProperty') {
-                this.set(opts.key, opts.value);
-              } else if (opts) {
-                this.call(type, opts);
-              } else {
-                this.call(type);
-              }
-            });
-          }
+            let command = data.fields.body;
+            let opts = command.options;
+            let type = command.type;
+            if (type === 'setProperty') {
+              this.set(opts.key, opts.value);
+            } else if (opts) {
+              this.call(type, opts);
+            } else {
+              this.call(type);
+            }
+          });
         }
-      );
+      });
     };
 
     /**
      * Sends an image (buffer) to the Grow-IoT server.
      * @param {Object}  
      */
-    this.sendImage = (buffer) => {
-      this.ddpclient.call(
-        'Image.new',
-        [{uuid: this.uuid, token: this.token}, buffer],
-        function (error, result) {
-          if (error) {
-            console.log(error, result);
-          }
+    this.sendImage = buffer => {
+      this.ddpclient.call('Image.new', [{ uuid: this.uuid, token: this.token }, buffer], function (error, result) {
+        if (error) {
+          console.log(error, result);
         }
-      );
-    }
+      });
+    };
 
     /**
      * Emits event to Grow-IoT server. Adds a timestamp to the event
@@ -184,20 +170,16 @@ class Thing extends EventEmitter {
         message,
         args,
         timestamp: new Date()
-      }
+      };
 
-      this.ddpclient.call(
-        'Thing.emit',
-        [{uuid: this.uuid, token: this.token}, event],
-        function (error, result) {
-          if (error) {
-            console.log(error, result);
-          }
+      this.ddpclient.call('Thing.emit', [{ uuid: this.uuid, token: this.token }, event], function (error, result) {
+        if (error) {
+          console.log(error, result);
         }
-      );
+      });
 
       return this;
-    }
+    };
 
     /**
      * Update thing property on thing and Grow-IoT server.
@@ -210,28 +192,24 @@ class Thing extends EventEmitter {
       this.emit('property-updated', key);
 
       if (this.ddpclient) {
-        this.ddpclient.call(
-          'Thing.setProperty',
-          [{uuid: this.uuid, token: this.token}, key, value],
-          function (error, result) {
-            if (error) {
-              console.log(error);
-            }
+        this.ddpclient.call('Thing.setProperty', [{ uuid: this.uuid, token: this.token }, key, value], function (error, result) {
+          if (error) {
+            console.log(error);
           }
-        );
+        });
       }
 
       return this;
-    }
+    };
   }
 
   /**
    * Create a CoAP server (Needs work... see: https://github.com/mcollina/node-coap)
    * Don't use in production yet... but do help us get it to the point where we can.
    */
-  listen (options) {
+  listen(options) {
     // todo pass options into server...
-    this.server = coap.createServer((req, res)=> {      
+    this.server = coap.createServer((req, res) => {
       var urlParts = url.parse(req.url, true);
 
       // var req = coap.request('coap://[::1]/Matteo');
@@ -247,27 +225,21 @@ class Thing extends EventEmitter {
           let key = urlParts.query.key;
           let value = urlParts.query.value;
           this.set(key, value);
-          res.writeHead(200, {'Content-Type': 'application/json'});
-          res.end(JSON.stringify({key: value}));
-        }
-
-        else if (method === 'get') {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ key: value }));
+        } else if (method === 'get') {
           let key = urlParts.query.key;
           let property = this.get(key);
-          res.writeHead(200, {'Content-Type': 'application/json'});
-          res.end(JSON.stringify({value: property}));
-        }
-
-        else {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ value: property }));
+        } else {
           var output = this.call(method, req.payload.toString());
-          res.writeHead(200, {'Content-Type': 'application/json'});
-          res.end(JSON.stringify({output}));
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ output }));
         }
-      }
-
-      catch (error) {
+      } catch (error) {
         console.log(error);
-        res.writeHead(404, {'Content-Type': 'text/plain'});
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end(error);
       }
     }).listen();
@@ -278,16 +250,16 @@ class Thing extends EventEmitter {
    * Don't use in production yet... but do help us get it to the point where we can.
    * @param {Object}  options  Connection options
    */
-  coapConnect (options) {
-    this.register = (options) => {
+  coapConnect(options) {
+    this.register = options => {
       let req = coap.request({
         pathname: 'register',
         observe: true
       });
-      
+
       req.write(JSON.stringify(this.uuid));
 
-      req.on('response', (res)=> {
+      req.on('response', res => {
         let command = JSON.parse(res.payload.toString()).body;
         let opts = command.options;
         let type = command.type;
@@ -301,7 +273,7 @@ class Thing extends EventEmitter {
       });
 
       req.end();
-    }
+    };
 
     this.register(options);
 
@@ -321,21 +293,21 @@ class Thing extends EventEmitter {
         message,
         args,
         timestamp: new Date()
-      }
+      };
 
       let req = coap.request({
         pathname: 'emit'
-      })
-      
+      });
+
       req.write(JSON.stringify({
         uuid: this.uuid,
         token: this.token,
         event
       }));
 
-      req.on('response', function(res) {
-        res.pipe(process.stdout)
-      })
+      req.on('response', function (res) {
+        res.pipe(process.stdout);
+      });
 
       req.end();
 
@@ -355,7 +327,7 @@ class Thing extends EventEmitter {
       let req = coap.request({
         pathname: 'setProperty'
       });
-      
+
       req.write(JSON.stringify({
         uuid: this.uuid,
         token: this.token,
@@ -363,8 +335,8 @@ class Thing extends EventEmitter {
         value: value
       }));
 
-      req.on('response', function(res) {
-        res.pipe(process.stdout)
+      req.on('response', function (res) {
+        res.pipe(process.stdout);
       });
 
       req.end();
@@ -374,6 +346,6 @@ class Thing extends EventEmitter {
 
     return this;
   }
-};
+}
 
 module.exports = Thing;

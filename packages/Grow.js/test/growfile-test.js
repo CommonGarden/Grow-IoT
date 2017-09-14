@@ -1,9 +1,9 @@
-import Grow from '../dist/Grow.js';
-import _ from 'underscore';
-import cycles from '../examples/growfiles/cycles';
-import phases from '../examples/growfiles/phases';
-import cannabis from '../examples/growfiles/cannabis';
-import tomato from '../examples/growfiles/tomato';
+const Grow = require('../dist/Grow.js');
+const _ = require('underscore');
+const cycles = require('./cycles');
+const phases = require('./phases');
+const cannabis = require('./cannabis');
+const tomato = require('./tomato');
 
 const expect = require('chai').expect;
 
@@ -14,7 +14,7 @@ describe('Growfile test', () => {
   });
 
   it('should load the database', ()=> {
-    let grow = new Grow({}, 'test');
+    let grow = new Grow({}, 'state');
   });
 
   it('should parse and schedule cycles', () => {
@@ -30,7 +30,7 @@ describe('Growfile test', () => {
     expect(testGrow.currentPhase).to.equal('vegetative');
   });
 
-  it('should start a phase from a Growfile', () => {
+  it('should start a phase = require(a Growfile', () => {
     testGrow.startPhase('bloom', cannabis);
     expect(testGrow.currentPhase).to.equal('bloom');
   });
@@ -157,7 +157,7 @@ describe('Growfile test', () => {
 
     testGrow.removeTargets('humidity');
 
-    // Should remove specified target from targets object
+    // Should remove specified target = require(targets object
     expect(!!testGrow.targets.humidity).to.equal(false);
 
     // Should remove relevant target controllers

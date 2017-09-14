@@ -51,8 +51,6 @@
     "babelrc-rollup": "^1.1.0",
     "chai": "^3.5.0",
     "eslint": "^2.11.1",
-    "hs100-api": "^0.3.0",
-    "johnny-five": "^0.9.49",
     "mocha": "^2.5.3",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.5.1",

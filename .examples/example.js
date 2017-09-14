@@ -1,6 +1,6 @@
-const Growjs = require('../dist/Grow.js');
+const Growjs = require('Grow.js');
 
-const Grow = new Growjs({});
+const Grow = new Growjs();
 
 let climateRecipe = {
   'name':'Basic grow file',

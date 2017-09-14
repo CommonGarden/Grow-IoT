@@ -27,8 +27,7 @@
     "url": "https://github.com/CommonGarden/Thing.js/issues"
   },
   "files": [
-    "lib",
-    "dist"
+    "lib"
   ],
   "homepage": "https://github.com/CommonGarden/Thing.js",
   "devDependencies": {

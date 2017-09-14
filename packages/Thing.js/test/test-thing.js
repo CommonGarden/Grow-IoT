@@ -1,4 +1,4 @@
-const Thing = require('../dist/Thing.js');
+const Thing = require('../lib/Thing.js');
 const _ = require('underscore');
 const coap = require('coap');
 

@@ -1,5 +1,5 @@
-import Grow from '../lib/Grow.js';
-import _ from 'underscore';
+const Grow = require('../dist/Grow.js');
+const _ = require('underscore');
 
 global.expect = require('chai').expect;
 
