@@ -97,7 +97,10 @@
     "*.{js,mjs}": "eslint"
   },
   "workspaces": [
-    "packages/*"
+    "lib/*",
+    "examples/*",
+    "things/*",
+    "growfiles/*"
   ],
   "collective": {
     "type": "opencollective",
