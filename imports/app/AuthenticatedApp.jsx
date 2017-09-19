@@ -1,193 +1,128 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Link, Switch } from 'react-router-dom';
-import AppBar from 'material-ui/AppBar';
-import spacing from 'material-ui/styles/spacing';
-import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
-import {darkWhite, lightWhite, grey900} from 'material-ui/styles/colors';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
-import AppNavDrawer from './components/AppNavDrawer';
-import ThingsList from './pages/ThingsList.jsx';
-import ThingView from './pages/ThingView.jsx';
-import AllNotifications from './pages/AllNotifications.jsx';
-import CreateThing from './components/CreateThing.jsx';
-import NotificationsWidget from './components/NotificationsWidget';
-
-const title = Meteor.settings.public.title || "Grow-IoT";
-const logo = Meteor.settings.public.logo || "/img/white_flower.png";
+const { Header, Content, Footer, Sider } = Layout;
+const SubMenu = Menu.SubMenu;
 
 class AuthenticatedApp extends Component {
-
   state = {
-    navDrawerOpen: false,
-    highlightCreate: false,
+    collapsed: false,
   };
-
-  getStyles() {
-    const styles = {
-      appBar: {
-        position: 'fixed',
-        top: 0,
-      },
-      root: {
-        paddingTop: spacing.desktopKeylineIncrement,
-        minHeight: 400,
-      },
-      content: {
-        margin: spacing.desktopGutter,
-      },
-      contentWhenMedium: {
-        margin: `${spacing.desktopGutter * 2}px ${spacing.desktopGutter * 3}px`,
-      },
-      footer: {
-        backgroundColor: grey900,
-        textAlign: 'center',
-      },
-      a: {
-        color: darkWhite,
-      },
-      p: {
-        margin: '0 auto',
-        padding: 0,
-        color: lightWhite,
-        maxWidth: 356,
-      },
-      iconButton: {
-        color: darkWhite,
-      },
-      logo: {
-        width: 25,
-        height: 'auto',
-        marginTop: 3
-      }
-    };
-
-    if (this.props.width === MEDIUM || this.props.width === LARGE) {
-      styles.content = Object.assign(styles.content, styles.contentWhenMedium);
-    }
-
-    return styles;
-  }
-
-  handleTouchTapLeftIconButton = () => {
-    this.setState({
-      navDrawerOpen: !this.state.navDrawerOpen,
-    });
-  };
-
-  handleChangeRequestNavDrawer = (open) => {
-    this.setState({
-      navDrawerOpen: open,
-    });
-  };
-
-  handleChangeList = (event, value) => {
-    this.context.router.push(value);
-    this.setState({
-      navDrawerOpen: false,
-    });
-  };
-
-  handleChangeMuiTheme = (muiTheme) => {
-    this.setState({
-      muiTheme: muiTheme,
-    });
-  };
-
-  handleOpen = () => {
-    this.setState({navDrawerOpen: true})
-  };
-
-  handleThingsChange = (things) => {
-    this.setState({highlightCreate: !things.length});
-  };
-
-  goHome = (e) => {
-    const rootUrl = this.props.match.url;
-    this.props.history.push(`${rootUrl}/things`);
-  };
-
   componentWillMount() {
-    document.title = title;
+    document.title = 'Dashboard';
     // Check that the user is logged in before the component mounts
-    if (!this.props.user && !Meteor.loggingIn()) {
+    if (!this.props.userId && !Meteor.loggingIn()) {
       this.props.history.push('/public/account');
     }
   }
-
-  // When the data changes, this method is called
   componentDidUpdate(prevProps, prevState) {
     // Now check that they are still logged in. Redirect to sign in page if they aren't.
-    if (!this.props.user) {
+    if (!this.props.userId) {
       this.props.history.push('/public/account');
     }
   }
-
-  componentDidMount() {
-    this._mounted =  true;
+  onCollapse = (collapsed) => {
+    this.setState({ collapsed });
   }
-
-  componentWillUnmount() {
-    this._mounted =  false;
+  handleLogout = (e) => {
+    e.preventDefault();
+    Meteor.logout();
   }
-
   render() {
-    const rootUrl = this.props.match.url;
-    const styles = this.getStyles();
+    const logoClass = this.state.collapsed ? 'collapsed' : '';
     return (
-      <div>
-        <AppBar
-          title={<span style={{cursor: 'pointer'}}>{title}</span>}
-          onTitleTouchTap={this.goHome}
-          iconElementRight={
-            <div>
-              <NotificationsWidget history={this.props.history} match={this.props.match}/>
-              <CreateThing highlight={this.state.highlightCreate}/>
-              <IconButton tooltip="Menu"
-                tooltipPosition="bottom-left"
-                iconStyle={{color: 'white'}}
-                onTouchTap={this.handleOpen}>
-                <MenuIcon />
-              </IconButton>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider
+          collapsible
+          collapsed={this.state.collapsed}
+          onCollapse={this.onCollapse}
+        >
+          <style jsx>{`
+.logo {
+  height: 64px;
+  padding: 2px 10px;
+}
+.logo span {
+  font-size: 20px;
+  color: white;
+}
+.logo img {
+  height: 60px;
+}
+.logo.collapsed span {
+  display: none;
+}
+.main {
+  height: 100vh;
+}
+            `}</style>
+          <div className={`logo layout horizontal center-justified ${logoClass}`}>
+            <img src='/img/white_flower.png' alt="white flower logo" className="icon" />
+            <span className="title layout vertical center-justified flex center">Grow IoT</span>
+          </div>
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+            <Menu.Item key="1">
+              <Icon type="pie-chart" />
+              <span>Option 1</span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Icon type="desktop" />
+              <span>Option 2</span>
+            </Menu.Item>
+            <SubMenu
+              key="sub1"
+              title={<span><Icon type="user" /><span>User</span></span>}
+            >
+              <Menu.Item key="3">Tom</Menu.Item>
+              <Menu.Item key="4">Bill</Menu.Item>
+              <Menu.Item key="5">Alex</Menu.Item>
+            </SubMenu>
+            <SubMenu
+              key="sub2"
+              title={<span><Icon type="team" /><span>Team</span></span>}
+            >
+              <Menu.Item key="6">Team 1</Menu.Item>
+              <Menu.Item key="8">Team 2</Menu.Item>
+            </SubMenu>
+            <Menu.Item key="9">
+              <a href="/logout" onClick={this.handleLogout}>
+                <Icon type="logout" />
+                <span>Logout</span>
+              </a>
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout>
+          <Header style={{ background: '#fff', padding: 0 }} />
+          <Content style={{ margin: '0 16px' }}>
+            <Breadcrumb style={{ margin: '12px 0' }}>
+              <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+            </Breadcrumb>
+            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+              Under development;
             </div>
-          }
-          iconElementLeft={
-            <img src={logo} style={styles.logo} />
-          }
-        />
-        <AppNavDrawer
-          style={styles.navDrawer}
-          location={location}
-          docked={false}
-          onRequestChangeNavDrawer={this.handleChangeRequestNavDrawer}
-          onChangeList={this.handleChangeList}
-          open={this.state.navDrawerOpen}
-        />
-        <div className="layout vertical flex center center-justified">
-          <Switch>
-            <Redirect exact from={`${rootUrl}/`} to={`${rootUrl}/things`}/>
-            <Route path={`${rootUrl}/things`} render={routeProps=> <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
-            <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView  user={this.props.user} {...routeProps}/>}/>
-            <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
-          </Switch>
-        </div>
-      </div>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>
+            COMMON GARDEN
+            <div>
+              Software and automation for Growers of all kinds
+            </div>
+          </Footer>
+        </Layout>
+      </Layout>
     );
   }
 }
-
 AuthenticatedApp.propTypes = {
-  user: PropTypes.object,
-}
+  userId: PropTypes.string,
+};
 
-export default withWidth()(AuthenticatedAppContainer = createContainer(() => {
+export default AuthenticatedAppContainer = withTracker(() => {
   return {
-    user: Meteor.user(),
-  }
-}, AuthenticatedApp));
+    userId: Meteor.userId(),
+  };
+})(AuthenticatedApp);
