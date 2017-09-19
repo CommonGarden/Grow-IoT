@@ -29,7 +29,7 @@ class SignUp extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ loggingIn: true });
-    this.props.form.validateFields((error1, { email, password }) => {
+    this.props.form.validateFieldsAndScroll((error1, { email, password }) => {
       if (!error1) {
         return Accounts.createUser({
           email,
@@ -106,6 +106,9 @@ class SignUp extends React.Component {
 .login-form-button {
   width: 100%;
 }
+.agreement {
+  font-size: 0.97em;
+}
           `}</style>
         <Row>
           <Col span={6} />
@@ -176,16 +179,23 @@ class SignUp extends React.Component {
                   // </Col>
                   // </Row>
                   // </FormItem>
+                  // <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
+                  // {getFieldDecorator('agreement', {
+                  // rules: [{ required: true, message: 'Required!' }],
+                  // valuePropName: 'checked',
+                  // })(
+                  // <Checkbox>I have read the <Link to="/public/user-agreement">agreement</Link></Checkbox>
+                  // )}
+                  // </FormItem>
                 }
-                <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
-                  {getFieldDecorator('agreement', {
-                    valuePropName: 'checked',
-                  })(
-                    <Checkbox>I have read the <Link to="/public/user-agreement">agreement</Link></Checkbox>
-                  )}
-                </FormItem>
                 <FormItem {...tailFormItemLayout}>
-                  <Button type="primary" htmlType="submit">Register</Button>
+                  <Button type="primary" htmlType="submit" loading={this.state.loggingIn}>Register</Button>
+                  <div className="agreement">
+                    By signing up, you agree to our&nbsp;
+                    <Link to="/public/user-agreement">
+                      Terms of Use, Privacy Policy
+                    </Link>
+                  </div>
                   <div className="horizontal layout">
                     <span> Already a member? <Link to="/public/account/signin">Sign In</Link></span>
                   </div>
