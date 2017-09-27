@@ -19,7 +19,7 @@ import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
-import ImageOne from '../app/components/images/ImageOne';
+import ImageOne from '../../app/components/images/ImageOne';
 import CameraComponent from './CameraComponent';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';

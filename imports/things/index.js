@@ -1,21 +1,17 @@
-import GrowHub from './GrowHub';
-import NotificationsComponent from './NotificationsComponent';
-import TestDevice from './TestDevice.jsx';
-import SmartLight from './SmartLight.jsx';
+import GrowHub from './GrowHub/GrowHub';
+import TestDevice from './Misc/TestDevice.jsx';
+import SmartLight from './SmartLight/SmartLight.jsx';
 import ImageComponent from './ImageComponent';
-import TentacleExample from './TentacleExample';
-import CameraComponent from './CameraComponent';
-import DrDose from './DrDose';
-import ClimateSensor from './ClimateSensor';
-import PlusFarm from './PlusFarm';
-// import GrowMobile from './GrowMobile';
-import BioReactor from './BioReactor';
-import Thermostat from './Thermostat';
+import TentacleExample from './Misc/TentacleExample';
+import CameraComponent from './Camera/CameraComponent';
+import DrDose from './Misc/DrDose';
+import ClimateSensor from './Misc/ClimateSensor';
+import PlusFarm from './Misc/PlusFarm';
+import Thermostat from './Misc/Thermostat';
 
 const components = {
 	GrowHub,
 	SmartLight,
-	NotificationsComponent,
 	TentacleExample,
 	TestDevice,
 	ImageComponent,
@@ -23,7 +19,6 @@ const components = {
 	DrDose,
 	ClimateSensor,
 	PlusFarm,
-	// GrowMobile,
 	BioReactor,
 	Thermostat
 };
