@@ -1,0 +1,16 @@
+{
+  "name": "smart-light",
+  "version": "1.0.0",
+  "description": "A simple light sensor and led light Grow-IoT example.",
+  "main": "smart-light.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "Grow.js": "^0.4.0",
+    "johnny-five": "^0.11.6",
+    "later": "^1.2.0"
+  }
+}

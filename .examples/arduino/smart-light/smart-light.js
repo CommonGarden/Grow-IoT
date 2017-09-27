@@ -2,7 +2,6 @@
 const Thing = require('Grow.js');
 const five = require('johnny-five');
 const later = require('later');
-const Hs100Api = require('hs100-api');
 
 // Use local time, not UTC.
 later.date.localTime();
