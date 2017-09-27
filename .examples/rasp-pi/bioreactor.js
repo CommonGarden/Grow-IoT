@@ -132,11 +132,6 @@ setTimeout(()=> {
           if (pH) pH_reading = pH;
         });
 
-        // Todo: make static helper for Grow.js
-        board.i2cRead(0x61, 14, (bytes)=> {
-          let DO = this.parseAtlasDissolvedOxygen(bytes);
-          if (DO) DO_reading = DO;
-        });
 
         board.i2cRead(0x61, 14, (bytes)=> {
           let DO = this.parseAtlasDissolvedOxygen(bytes);

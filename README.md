@@ -11,12 +11,11 @@ Then:
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-meteor npm install
+yarn
 meteor
 ```
 
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
-
 
 ## Connecting devices (or virtual things)
 Create a new device (click the '+' button) and take note of the device `uuid` and `token`. Then run (in a seperate terminal):
@@ -28,106 +27,15 @@ Paste in the `uuid` and `token` and presto! You've connected your first thing to
 
 You can find then component for this device in `imports/examples/GrowHub.jsx`.
 
-# Thing.js
+# Connecting sensors and actuators
 
-A helper library for creating and connecting new devices.
+In the `packages` directory, we've started 2 libraries to help you connect sensors and actuators and create grow systems out of them.
+* [Thing.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Thing.js): A general purpose internet of things library... basically a fancy event emitter
+* [Grow.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Grow.js): extends the Thing class with a bunch of useful things for growers like scheduling, registering listeners and alerts, etc.
 
-```bash
-npm install Thing.js
-```
+Hardware examples live in the `.examples` folder (the folder is hidden, because Meteor is dumb and tries to build everything). The corresponding UI components live in`imports/things/`.
 
-You can interact with the Grow-IoT api using the Distributed Data Protocol. *There are DDP Clients available in many different programming languages*, see http://meteorpedia.com/read/DDP_Clients for a list.
-
-We are also slowly adding support for connecting devices over the [CoAP protocol](http://coap.technology/). See the experimental server in `imports/api/coap.js`.
-
-### If you are a grower
-Checkout Grow.js! It extends the Thing class with a bunch of useful things for growers like scheduling, registering listeners and alerts, etc.
-
-### Usage
-
-TODO: better example... with ui
-
-Include `Thing.js`:
-```javascript
-const Thing = require('Thing.js');
-```
-
-Make a new thing and pass in an object.
-
-```javascript
-
-const Light = new Thing({
-  // Properties can be set by the API
-  properties: {
-    state: null,
-  },
-
-  turn_light_on: function () {
-    console.log('light on');
-    Light.set('state', 'on');
-  },
-
-  turn_light_off: function () {
-    console.log('light off');
-    Light.set('state', 'off');
-  }
-});
-
-// Things are an extension of the node EventEmitter class 
-// Thus have the same API
-Light.on('property-updated', function(key, value) {
-  console.log('Light turned ' + value);
-});
-
-// Calling a method emits an event
-Light.call('turn_light_on');
-// light on
-// Light turned on.
-
-```
-
-### Connection options
-
-The connect method takes a configuration object.
-
-The `host` property is where the device will connect to a Grow-IoT instance. By default the `host` is set to `localhost` and the port is set to Meteor's standard of `3000`. This works nicely for usb devices like Arduino.
-
-For connecting over wifi, connect your device to wifi and set the `host` to the IP address where the Grow-IoT instance is running. Pass the options to the `connect()` method like so:
-
-```javascript
-grow.connect({
-    "host": "YOUR_IP_HERE"
-})
-```
-
-#### Connecting over SSL
-You can connect securely to our Grow-IoT alpha instance on https://grow.commongarden.org, or see the [Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT) to easily start your own IoT network locally or hosted on [Meteor Galaxy](https://galaxy.meteor.com).
-
-SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address pass the following the `connect()` method.
-
-```javascript
-grow.connect({
-    "host": "YOUR_IP_HERE",
-    "port": 443,
-    "ssl": true
-})
-```
-
-If you are hosting on a cloud instance such as [Meteor Galaxy](https://galaxy.meteor.com), you might need specify the servername. The example below shows you how to connect securely to the instance at [grow.commongarden.org](https://grow.commongarden.org):
-
-```javascript
-grow.connect({
-    "host": "grow.commongarden.org",
-    "tlsOpts": {
-        "tls": {
-            "servername": "galaxy.meteor.com"
-        }
-    },
-    "port": 443,
-    "ssl": true
-});
-```
-
+**See [Thing.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Thing.js) for more info on creating and connecting devices.**
 
 ### Adding custom devices components
 
@@ -138,16 +46,18 @@ To do so:
 3. `import CustomComponent from './CustomComponent'`
 4. Lastly, add `CustomComponent` to the exported `components` object.
 
-## What's included ##
+## What's included
 
 In the repo you'll find the following directories and files:
 
 File/Folder   | Provides
 --------------|----------------------------------------------------------------
+`.examples`   | Hardware examples (arduino, Raspberry Pi, etc.)
 `.meteor`     | Meteor stuff, well documented in other places.
 `.sandstorm`  | Sandstorm.io stuff (can)
 `client`      | Imports things and starts the React app.
 `imports`     | API, UI, and thing examples live here
+`packages`    | Grow.js and Thing.js live here.
 `public`      | Fonts and other static, public assets live here.
 `tests`       | Unit and Thread conformance tests
 `server`      | Imports the server code.
@@ -167,18 +77,27 @@ Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growin
 * [Running locally](https://github.com/CommonGarden/Grow-IoT/wiki/Running-locally)
 * [Supported hardware](https://github.com/CommonGarden/Grow-IoT/wiki/Supported-hardware)
 
+# Roadmap
+
+There's a lot to do.
+* [CoAP](https://github.com/CommonGarden/Grow-IoT/issues/300) (it's been started but not tested very well)
+* [Graph-QL](https://github.com/CommonGarden/Grow-IoT/issues/315)
+* [User profiles](https://github.com/CommonGarden/Grow-IoT/issues/382)
+* Better data visualizations (timeseries without having to use grafana anyone?)
+* [Administration](https://github.com/CommonGarden/Grow-IoT/issues/370) (a green house or lab involves more than one user often)
+* [Logic ui](https://github.com/CommonGarden/Grow-IoT/issues/306) (a.k.a. advanced interoperablity) a.k.a. "Swarms"
+* [Environments](https://github.com/CommonGarden/Grow-IoT/issues/311) (creating groups of things)
+
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
 <a href="graphs/contributors"><img src="https://opencollective.com/Grow-IoT/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/Grow-IoT#backer)]
 
 <a href="https://opencollective.com/Grow-IoT#backers" target="_blank"><img src="https://opencollective.com/Grow-IoT/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

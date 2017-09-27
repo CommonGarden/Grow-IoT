@@ -87,13 +87,13 @@ grow.connect({
 ```
 
 #### Connecting over SSL
-You can connect securely to our Grow-IoT alpha instance on https://grow.commongarden.org, or see the [Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT) to easily start your own IoT network locally or hosted on [Meteor Galaxy](https://galaxy.meteor.com).
+You can connect securely to our Grow-IoT beta instance on https://grow.commongarden.org, or see the [Grow-IoT repo](https://github.com/CommonGarden/Grow-IoT) to easily start your own IoT network locally or hosted on [Meteor Galaxy](https://galaxy.meteor.com).
 
 SSL is supported though will require a bit more setup. If you are hosting your instance off a computer with a dedicated IP address pass the following the `connect()` method.
 
 ```javascript
 grow.connect({
-    "host": "YOUR_IP_HERE",
+    "host": "grow.commongarden.org",
     "port": 443,
     "ssl": true
 })
