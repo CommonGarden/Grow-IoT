@@ -6,9 +6,9 @@ import Fiber from 'fibers';
 import _ from 'underscore';
 import { Match } from 'meteor/check';
 
-const COAP = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).COAP : false;
+// const COAP = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).COAP : false;
 
-if (COAP) {
+// if (COAP) {
   const server = coap.createServer();
 
   server.on('request', function(req, res) {
@@ -116,5 +116,5 @@ if (COAP) {
 
   server.listen(function() {
     console.log('CoAP server started')
-  })
-}
+  });
+// }

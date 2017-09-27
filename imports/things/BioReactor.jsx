@@ -32,7 +32,6 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import moment from 'moment';
-import JustGauge from './JustGage';
 
 
 class BioReactor extends BaseThing {
@@ -217,7 +216,6 @@ class BioReactor extends BaseThing {
         // </div>
         }
         <CardText>
-          <JustGauge min={0} max={100} value={25} title="Test" label="Test" />
            <Row style={{margin: -20}}>
               {
                 this.state.types.map((v, k) => {
