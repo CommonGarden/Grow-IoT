@@ -296,11 +296,11 @@ module.exports = class Grow extends Thing {
   }
 
   /**
-   * Parses Atlas Scientific reading from data returned from an EZO sensor.
-   * @param {String} reading  The reading to parse.
+   * Parses an ascii response.
+   * @param {list} response  The ascii buffer to parse.
    * @return {Number}
    */
-  parseAtlasScientific (bytes) {
+  parseAsciiResponse (bytes) {
     let bytelist = [];
     if (bytes[0] === 1) {
       for (let i = 0; i < bytes.length; i++) {
@@ -311,112 +311,4 @@ module.exports = class Grow extends Thing {
       return bytelist.join('');
     }
   }
-
-  // // DEPRICATE THE FOLLOWING... it's basically the same code over and over.
-  // /**
-  //  * Returns true if the reading falls in a valid pH range.
-  //  * @param {Number | String} bytes  The I2C response to parse.
-  //  * @return {Number}
-  //  */
-  // parseAtlasPH (bytes) {
-  //   let bytelist = [];
-  //   if (bytes[0] === 1) {
-  //     for (let i = 0; i < bytes.length; i++) {
-  //       if (bytes[i] !== 1 && bytes[i] !== 0) {
-  //         bytelist.push(ascii.symbolForDecimal(bytes[i]));
-  //       }
-  //     }
-  //     return Number(bytelist.join(''));
-  //   }
-  // }
-
-  // // DEPRICATE THE FOLLOWING... it's basically the same code over and over.
-  // /**
-  //  * Parses EC reading from data returned from Atlas Scientific Conductivity sensor.
-  //  * @param {String} bytes  The I2C response to parse.
-  //  * @return {Number}
-  //  */
-  // parseAtlasEC (bytes) {
-  //   let bytelist = [];
-  //   if (bytes[0] === 1) {
-  //     for (let i = 0; i < bytes.length; i++) {
-  //       if (bytes[i] !== 1 && bytes[i] !== 0) {
-  //         bytelist.push(ascii.symbolForDecimal(bytes[i]));
-  //       }
-  //     }
-  //     return Number(bytelist.join('').split(',')[0]);
-  //   }
-  // }
-
-  // /**
-  //  * Parses EC reading from data returned from Atlas Scientific Conductivity sensor.
-  //  * @param {String} bytes  The I2C response to parse.
-  //  * @return {Number}
-  //  */
-  // // DEPRICATE THE FOLLOWING... it's basically the same code over and over.
-  // parseAtlasEC (bytes) {
-  //   let bytelist = [];
-  //   if (bytes[0] === 1) {
-  //     for (let i = 0; i < bytes.length; i++) {
-  //       if (bytes[i] !== 1 && bytes[i] !== 0) {
-  //         bytelist.push(ascii.symbolForDecimal(bytes[i]));
-  //       }
-  //     }
-  //     return Number(bytelist.join('').split(',')[0]);
-  //   }
-  // }
-
-  // // DEPRICATE THE FOLLOWING... it's basically the same code over and over.
-  // /**
-  //  * Parses TDS reading from data returned from Atlas Scientific Conductivity sensor.
-  //  * @param {String} bytes  The I2C response to parse.
-  //  * @return {Number}
-  //  */
-  // parseAtlasTDS (bytes) {
-  //   let bytelist = [];
-  //   if (bytes[0] === 1) {
-  //     for (let i = 0; i < bytes.length; i++) {
-  //       if (bytes[i] !== 1 && bytes[i] !== 0) {
-  //         bytelist.push(ascii.symbolForDecimal(bytes[i]));
-  //       }
-  //     }
-  //     return Number(bytelist.join('').split(',')[1]);
-  //   }
-  // }
-
-  // // DEPRICATE THE FOLLOWING... it's basically the same code over and over.
-  // /**
-  //  * Parses EC reading from data returned from Atlas Scientific Conductivity sensor.
-  //  * @param {String} bytes  The I2C response to parse.
-  //  * @return {Number}
-  //  */
-  // parseAtlasTemperature (bytes) {
-  //   let bytelist = [];
-  //   if (bytes[0] === 1) {
-  //     for (let i = 0; i < bytes.length; i++) {
-  //       if (bytes[i] !== 1 && bytes[i] !== 0) {
-  //         bytelist.push(ascii.symbolForDecimal(bytes[i]));
-  //       }
-  //     }
-  //     return Number(bytelist.join(''));
-  //   }
-  // }
-
-  // // DEPRICATE THE FOLLOWING... it's basically the same code over and over.
-  // /**
-  //  * Parses EC reading from data returned from Atlas Scientific Conductivity sensor.
-  //  * @param {String} reading  The reading to parse.
-  //  * @return {Number}
-  //  */
-  // parseAtlasDissolvedOxygen (bytes) {
-  //   let bytelist = [];
-  //   if (bytes[0] === 1) {
-  //     for (let i = 0; i < bytes.length; i++) {
-  //       if (bytes[i] !== 1 && bytes[i] !== 0) {
-  //         bytelist.push(ascii.symbolForDecimal(bytes[i]));
-  //       }
-  //     }
-  //     return Number(bytelist.join(''));
-  //   }
-  // }
 };
