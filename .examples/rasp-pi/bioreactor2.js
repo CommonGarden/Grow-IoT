@@ -12,12 +12,12 @@ later.date.localTime();
 let pH_reading,
   eC_reading,
   DO_reading,
+  orp_reading,
   emit_data,
   water_temp,
   heater,
-  airlift,
-  aerator,
-  water_pump,
+  doser,
+  circ_pump,
   multi,
   level,
   level_ref,
@@ -34,14 +34,14 @@ setTimeout(()=> {
   board.on('ready', function start() {
 
   	// Define variables
-  	circ_pump = new five.Pin('GPIO-26');
-  	doser = new five.Pin('GPIO-20');
-  	heater = new five.Pin('GPIO-21');
+  	circ_pump = new five.Pin('GPIO26');
+  	doser = new five.Pin('GPIO20');
+  	heater = new five.Pin('GPIO21');
 
     let bioreactor = new Grow({
       uuid: 'meow',
       token: 'meow',
-      component: 'BioReactor',
+      component: 'Thermostat',
       properties: {
         light_state: null,
         heater: 'off',//1
@@ -50,42 +50,54 @@ setTimeout(()=> {
         water_level: null,
         duration: 2000,
         interval: 6000,
+        threshold: 50,
         growfile: {
-          targets: {
-            ph: {
-              min: 5.9,
-              max: 7.5
-            },
-            ec: {
-              min: 200,
-              max: 1500
-            },
-            temperature: {
-              min: 19,
-              ideal: 22,
-              max: 29,
-              pid: {
-                k_p: 300,
-                k_i: 0,
-                k_d: 200,
-                dt: 1
+          name: 'Yeast',
+          version: '0.1.0', // Not grower tested, any recommendations?
+          phases: {
+            ferment: {
+              length: '2 days',
+              targets: {
+                // Expect pH to be ~4 when done
+                ph: {
+                  min: 3.5,
+                  max: 9.0,
+                },
+
+                // Goes down over time
+                dissolved_oxygen: {
+                  min: 1.0,
+                },
+
+                // Might start as negative or positive and tend toward zero?
+                // orp: {
+                //   min: 1400,
+                //   ideal: 1500,
+                //   max: 1700,
+                // },
+
+                temperature: {
+                  min: 24,
+                  ideal: 32,
+                  max: 36,
+                  pid: {
+                    k_p: 200,
+                    k_i: 0,
+                    k_d: 100,
+                    dt: 1
+                  }
+                }
+              },
+
+              // Cycles are function that have a 'schedule' property
+              cycles: {
+                feed: {
+                  schedule: 'after 6:00am',
+                }
               }
-            },
-            humidity: {
-              min: 10,
-              max: 60
-            },
-          },
-          cycles: {
-            day: {
-              schedule: 'after 7:00am',
-            },
-            night: {
-              schedule: 'after 7:00pm',
             }
           }
-        },
-        targets: {},
+        }
       },
 
       start: function () {
@@ -93,61 +105,71 @@ setTimeout(()=> {
 
         // This must be called prior to any I2C reads or writes.
         // See Johnny-Five docs: http://johnny-five.io
-        board.i2cConfig();
+        // board.i2cConfig();
 
-        board.i2cRead(0x64, 32, (bytes)=> {
-          let eC = this.parseAtlasEC(bytes);
-          if (eC) eC_reading = eC;
+        // board.i2cRead(0x64, 32, (bytes)=> {
+        //   let eC = this.parseAtlasEC(bytes);
+        //   if (eC) eC_reading = eC;
+        // });
+
+        // board.i2cRead(0x63, 7, (bytes)=> {
+        //   let pH = this.parseAtlasPH(bytes);
+        //   if (pH) pH_reading = pH;
+        // });
+
+        board.i2cRead(0x62, 7, (bytes)=> {
+          let orp = Number(this.parseAtlasScientific(bytes));
+          if (orp) orp_reading = orp;
         });
 
-        board.i2cRead(0x63, 7, (bytes)=> {
-          let pH = this.parseAtlasPH(bytes);
-          if (pH) pH_reading = pH;
-        });
+        // board.i2cRead(0x61, 14, (bytes)=> {
+        //   let DO = this.parseAtlasDissolvedOxygen(bytes);
+        //   if (DO) DO_reading = DO;
+        // });
 
+        this.circ_pump_off();
+        this.doser_off();
+        this.heater_off();
 
-        board.i2cRead(0x61, 14, (bytes)=> {
-          let DO = this.parseAtlasDissolvedOxygen(bytes);
-          if (DO) DO_reading = DO;
-        });
+        // multi = new five.Multi({
+        //   controller: 'BME280'
+        // });
 
-        setTimeout(()=> {
-          this.circ_pump_off();
-          this.doser_off();
-          this.heater_off();
-
-          multi = new five.Multi({
-            controller: 'BME280'
-          });
-
-          // // Uncomment to enable light sensor.
-          // let lux = new five.Light({
-          //   controller: 'TSL2561'
-          // });
-        }, 3000);
+        // // Uncomment to enable light sensor.
+        // let lux = new five.Light({
+        //   controller: 'TSL2561'
+        // });
 
         var interval = this.get('interval');
 
         emit_data = setInterval(()=> {
-          this.temp_data();
-          this.hum_data();
-          this.light_data();
-          this.circ_pump_on();
-          this.air_pressure_data();
-          this.water_level_data();
-          setTimeout(()=> {
-            this.ph_data();
-            this.ec_data();
-            this.water_temp_data();
-            setTimeout(()=> {
-              this.do_data();
-              this.circ_pump_off();
-            }, 1000);
-          }, 30000)
-        }, interval > 60000 ? interval: 60000);
+          let py = spawn('python', ['max31865.py']);
+
+          py.stdout.on('data', (data)=> {
+            console.log(data.toString());
+            this.emit('temperature', data.toString());
+          });
+        }, interval);
 
         let growfile = this.get('growfile');
         this.startGrow(growfile);
+
+        console.log(this);
+
+        let threshold = this.get('threshold');
+
+        this.on('correction', (key, correction)=> {
+          let heater_state = this.get('heater');
+          if (correction > threshold) {
+            if (heater_state === 'off') {
+              this.heater_on();
+            }
+          } else {
+            if (heater_state !== 'off') {
+              this.heater_off();
+            }
+          }
+        });
 
         this.emit('message', 'Running')
       },
@@ -167,7 +189,7 @@ setTimeout(()=> {
       
       feed: function () {
       	console.log('Feeding time!')
-      }
+      },
 
       day: function () {
         console.log('It is day!');
@@ -199,11 +221,13 @@ setTimeout(()=> {
 
       heater_on: function () {
         heater.low();
+        console.log('on')
         this.set('heater', 'on');
       },
 
       heater_off: function () {
         heater.high();
+        console.log('off')
         this.set('heater', 'off');
       },
 
@@ -214,6 +238,14 @@ setTimeout(()=> {
         this.emit('ec', eC_reading);
 
         console.log('Conductivity: ' + eC_reading);
+      },
+
+      orp_data: function () {
+        board.i2cWrite(0x62, [0x52, 0x00]);
+
+        this.emit('orp', orp_reading);
+
+        console.log('ORP: ' + orp_reading);
       },
 
       ph_data: function () {
