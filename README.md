@@ -54,7 +54,7 @@ File/Folder   | Provides
 --------------|----------------------------------------------------------------
 `.examples`   | Hardware examples (arduino, Raspberry Pi, etc.)
 `.meteor`     | Meteor stuff, well documented in other places.
-`.sandstorm`  | Sandstorm.io stuff (can)
+`.sandstorm`  | Sandstorm.io stuff
 `client`      | Imports things and starts the React app.
 `imports`     | API, UI, and thing examples live here
 `packages`    | Grow.js and Thing.js live here.
