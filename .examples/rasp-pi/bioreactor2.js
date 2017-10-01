@@ -41,7 +41,7 @@ setTimeout(()=> {
     let bioreactor = new Grow({
       uuid: 'meow',
       token: 'meow',
-      component: 'Thermostat',
+      component: 'BioReactor',
       properties: {
         light_state: null,
         heater: 'off',//1
@@ -49,7 +49,7 @@ setTimeout(()=> {
         doser: 'off',//3
         water_level: null,
         duration: 2000,
-        interval: 6000,
+        interval: 30000,
         threshold: 50,
         growfile: {
           name: 'Yeast',
@@ -105,40 +105,45 @@ setTimeout(()=> {
 
         // This must be called prior to any I2C reads or writes.
         // See Johnny-Five docs: http://johnny-five.io
-        // board.i2cConfig();
+        board.i2cConfig();
+
 
         // board.i2cRead(0x64, 32, (bytes)=> {
         //   let eC = this.parseAtlasEC(bytes);
         //   if (eC) eC_reading = eC;
         // });
 
-        // board.i2cRead(0x63, 7, (bytes)=> {
-        //   let pH = this.parseAtlasPH(bytes);
-        //   if (pH) pH_reading = pH;
-        // });
+        board.i2cRead(0x63, 7, (bytes)=> {
+          let pH = this.parseAtlasPH(bytes);
+          if (pH) pH_reading = pH;
+        });
 
         board.i2cRead(0x62, 7, (bytes)=> {
-          let orp = Number(this.parseAtlasScientific(bytes));
+          let orp = Number(this.parseAtlasPH(bytes));
           if (orp) orp_reading = orp;
         });
 
-        // board.i2cRead(0x61, 14, (bytes)=> {
-        //   let DO = this.parseAtlasDissolvedOxygen(bytes);
-        //   if (DO) DO_reading = DO;
-        // });
+        board.i2cRead(0x61, 14, (bytes)=> {
+          let DO = this.parseAtlasDissolvedOxygen(bytes);
+          if (DO) DO_reading = DO;
+        });
 
         this.circ_pump_off();
         this.doser_off();
         this.heater_off();
 
-        // multi = new five.Multi({
-        //   controller: 'BME280'
-        // });
+        // try {
+        //   multi = new five.Multi({
+        //     controller: 'BME280'
+        //   });
 
-        // // Uncomment to enable light sensor.
-        // let lux = new five.Light({
-        //   controller: 'TSL2561'
-        // });
+        //   // Uncomment to enable light sensor.
+        //   lux = new five.Light({
+        //     controller: 'TSL2561'
+        //   });
+        // } catch (error) {
+        //   console.log(error);
+        // }
 
         var interval = this.get('interval');
 
@@ -146,18 +151,29 @@ setTimeout(()=> {
           let py = spawn('python', ['max31865.py']);
 
           py.stdout.on('data', (data)=> {
-            console.log(data.toString());
-            this.emit('temperature', data.toString());
+            console.log("Temperature: " + data.toString());
+            this.emit('water_temperature', data.toString());
           });
+
+          // this.light_data();
+          this.circ_pump_on();
+          this.air_pressure_data();
+          setTimeout(()=> {
+            this.ph_data();
+            this.orp_data();
+            setTimeout(()=> {
+              this.do_data();
+              this.circ_pump_off();
+            }, 1000);
+          }, 30000)
         }, interval);
 
         let growfile = this.get('growfile');
         this.startGrow(growfile);
 
-        console.log(this);
-
         let threshold = this.get('threshold');
 
+        // Turn the heater on or off. Gee, wouldn't it be nice to do this stuff with a gui?
         this.on('correction', (key, correction)=> {
           let heater_state = this.get('heater');
           if (correction > threshold) {
@@ -271,16 +287,6 @@ setTimeout(()=> {
           this.emit('water_temperature', water_temp);
 
           console.log('Temperature: ' + water_temp);
-        }
-      },
-
-      water_level_data: function () {
-        if (!_.isUndefined(level)) {
-          // HACK: do proper math.
-          this.emit('water_level', level.value);
-
-          console.log('Water level: ' + level.value);
-          console.log('Water level ref: ' + level_ref.value);
         }
       },
 
