@@ -69,13 +69,6 @@ setTimeout(()=> {
                   min: 1.0,
                 },
 
-                // Might start as negative or positive and tend toward zero?
-                // orp: {
-                //   min: 1400,
-                //   ideal: 1500,
-                //   max: 1700,
-                // },
-
                 temperature: {
                   min: 24,
                   ideal: 32,
@@ -161,10 +154,10 @@ setTimeout(()=> {
           setTimeout(()=> {
             this.ph_data();
             this.orp_data();
-            setTimeout(()=> {
+            // setTimeout(()=> {
               this.do_data();
               this.circ_pump_off();
-            }, 1000);
+            // }, 1000);
           }, 30000)
         }, interval);
 

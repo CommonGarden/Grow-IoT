@@ -5,7 +5,7 @@ import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
-import BaseThing from './BaseThing';
+import BaseThing from '../BaseThing/BaseThing';
 
 class CameraComponent extends BaseThing {
   constructor(props) {
