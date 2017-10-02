@@ -1,6 +1,6 @@
 {
   "name": "Grow.js",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Easily create new IoT devices and connect them to a Grow-IoT instance.",
   "main": "dist/Grow.js",
   "jsnext:main": "dist/Grow.es6.js",

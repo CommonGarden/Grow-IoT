@@ -1,4 +1,4 @@
-import BaseThing from 'BaseThing/BaseThing';
+import BaseThing from '../BaseThing/BaseThing';
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -20,9 +20,9 @@ import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
-import ImageOne from '../app/components/images/ImageOne';
-import GrowFile from '../app/components/GrowFile';
-import CameraComponent from './CameraComponent';
+import ImageOne from '../../app/components/images/ImageOne';
+import GrowFile from '../../app/components/GrowFile';
+import CameraComponent from '../Camera/CameraComponent';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
@@ -71,7 +71,7 @@ class BioReactor extends BaseThing {
     types: [
       {
         type: 'temp',
-        title: 'Temparature',
+        title: 'Room Temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius',
         max: 40
@@ -82,12 +82,13 @@ class BioReactor extends BaseThing {
         icon: 'wi wi-humidity',
         max: 100
       },
-      // {
-      //   type: 'pressure',
-      //   title: 'Air pressure',
-      //   icon: 'wi wi-humidity',
-      //   max: 100
-      // },
+      {
+        type: 'orp',
+        title: 'Oxygen Reduction Potential',
+        icon: 'wi wi-humidity',
+        min: -2000,
+        max: 2000
+      },
       {
         type: 'lux',
         title: 'Light (lux)',
@@ -114,7 +115,7 @@ class BioReactor extends BaseThing {
       },
       {
         type: 'water_temperature',
-        title: 'Resevoir temperature',
+        title: 'Water temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius',
         max: 40,
@@ -216,44 +217,43 @@ class BioReactor extends BaseThing {
         // </div>
         }
         <CardText>
-           <Row style={{margin: -20}}>
-              {
-                this.state.types.map((v, k) => {
-                  const events = this.getEvents(v.type);
-                  return this.getEventValue(v.type) !== 'NA' ? <Col xs={6} md={3} key={k}>
-                    <div style={styles.sensorData}>
-                      <h4 style={{position: 'relative', bottom: -25}}>
-                        <i className={v.icon} style={styles.sensorIcon}></i>
-                        {v.title}
-                        {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
-                        {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
-                        {
-                          alerts[v.type] ? <span style={styles.smallFont}><IconButton
-                            iconStyle={styles.smallIcon}
-                            style={styles.smallIcon}>
-                            <WarningIcon />
-                          </IconButton> {alerts[v.type]}</span>: <span></span>
-                        }
-                      </h4>
-                      <Gauge value={this.getEventValue(v.type)}
-                             width={175}
-                             height={125}
-                             max={v.max}
-                             label={null}
-                             valueLabelStyle={styles.values}
-                             color={alerts[v.type] ? 'red': 'green'} />
-                    </div>
-                  </Col>: null;
-                })
-              }
-          }
+          <Row style={{margin: -20}}>
+            {
+              this.state.types.map((v, k) => {
+                const events = this.getEvents(v.type);
+                return this.getEventValue(v.type) !== 'NA' ? <Col xs={6} md={3} key={k}>
+                  <div style={styles.sensorData}>
+                    <h4 style={{position: 'relative', bottom: -25}}>
+                      <i className={v.icon} style={styles.sensorIcon}></i>
+                      {v.title}
+                      {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>: null}
+                      {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
+                      {
+                        alerts[v.type] ? <span style={styles.smallFont}><IconButton
+                          iconStyle={styles.smallIcon}
+                          style={styles.smallIcon}>
+                          <WarningIcon />
+                        </IconButton> {alerts[v.type]}</span>: <span></span>
+                      }
+                    </h4>
+                    <Gauge value={this.getEventValue(v.type)}
+                           width={175}
+                           height={125}
+                           max={v.max}
+                           label={null}
+                           valueLabelStyle={styles.values}
+                           color={alerts[v.type] ? 'red': 'green'} />
+                  </div>
+                </Col>: null;
+              })
+            }
           </Row>
         </CardText>
         <CardText expandable={true}>
           <Row>
             <Col xs={12} md={6} style={styles.padding}>
               <Row>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={4}>
                   <div style={styles.actuator}>
                     <div style={styles.actionButton}>
                       <h3>Heater</h3>
@@ -266,39 +266,26 @@ class BioReactor extends BaseThing {
                     </div>
                   </div>
                 </Col>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={4}>
                   <div style={styles.actuator}>
                     <div style={styles.actionButton}>
-                      <h3>Circulation Pump</h3>
-                      <FloatingActionButton secondary={this.props.thing.properties.water_pump === 'on' ? true: false}
+                      <h3>Circulation</h3>
+                      <FloatingActionButton secondary={this.props.thing.properties.circ_pump === 'on' ? true: false}
                         backgroundColor="rgb(208, 208, 208)"
-                        data-device="water_pump"
+                        data-device="circ_pump"
                         onTouchTap={this.handleTap}>
                         <PowerIcon />
                       </FloatingActionButton>
                     </div>
                   </div>
                 </Col>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={4}>
                   <div style={styles.actuator}>
                     <div style={styles.actionButton}>
-                      <h3>Airlift</h3>
-                      <FloatingActionButton secondary={this.props.thing.properties.airlift === 'on' ? true: false}
+                      <h3>Doser</h3>
+                      <FloatingActionButton secondary={this.props.thing.properties.doser === 'on' ? true: false}
                         backgroundColor="rgb(208, 208, 208)"
-                        data-device="airlift"
-                        onTouchTap={this.handleTap}>
-                        <PowerIcon />
-                      </FloatingActionButton>
-                    </div>
-                  </div>
-                </Col>
-                <Col xs={6} md={3}>
-                  <div style={styles.actuator}>
-                    <div style={styles.actionButton}>
-                      <h3>Aerator</h3>
-                      <FloatingActionButton secondary={this.props.thing.properties.aerator === 'on' ? true: false}
-                        backgroundColor="rgb(208, 208, 208)"
-                        data-device="aerator"
+                        data-device="doser"
                         onTouchTap={this.handleTap}>
                         <PowerIcon />
                       </FloatingActionButton>
@@ -399,6 +386,7 @@ BioReactor.propTypes = {
   dissolved_oxygenEvents: PropTypes.array,
   water_temperatureEvents: PropTypes.array,
   water_levelEvents: PropTypes.array,
+  orpEvents: PropTypes.array,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
 }
@@ -428,7 +416,7 @@ export default BioReactorContainer = createContainer(({ thing }) => {
   }).fetch();
 
   const luxEvents = Events.find({
-  	'event.type': 'lux',
+    'event.type': 'lux',
     'thing._id': thing._id
   }, {
     sort: { insertedAt: -1 }
@@ -447,6 +435,12 @@ export default BioReactorContainer = createContainer(({ thing }) => {
   }, {
     sort: { insertedAt: -1 }
   }).fetch();
+
+  const orpEvents = Events.find({'event.type': 'orp',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+
 
   const tempEvents = Events.find({'event.type': 'temperature',
     'thing._id': thing._id}, {
@@ -467,6 +461,7 @@ export default BioReactorContainer = createContainer(({ thing }) => {
     events,
     phEvents,
     ecEvents,
+    orpEvents,
     tempEvents,
     humidityEvents,
     dissolved_oxygenEvents,

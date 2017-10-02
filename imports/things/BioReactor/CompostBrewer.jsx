@@ -71,7 +71,7 @@ class BioReactor extends BaseThing {
     types: [
       {
         type: 'temp',
-        title: 'Temparature',
+        title: 'Temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius',
         max: 40
@@ -82,12 +82,13 @@ class BioReactor extends BaseThing {
         icon: 'wi wi-humidity',
         max: 100
       },
-      // {
-      //   type: 'pressure',
-      //   title: 'Air pressure',
-      //   icon: 'wi wi-humidity',
-      //   max: 100
-      // },
+      {
+        type: 'orp',
+        title: 'Oxygen Reduction Potential',
+        icon: 'wi wi-humidity',
+        min: -2000
+        max: 2000
+      },
       {
         type: 'lux',
         title: 'Light (lux)',

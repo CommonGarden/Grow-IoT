@@ -296,11 +296,11 @@ module.exports = class Grow extends Thing {
   }
 
   /**
-   * Returns true if the reading falls in a valid pH range.
-   * @param {Number | String} bytes  The I2C response to parse.
+   * Parses an ascii response.
+   * @param {list} response  The ascii buffer to parse.
    * @return {Number}
    */
-  parseAtlasPH (bytes) {
+  parseAsciiResponse (bytes) {
     let bytelist = [];
     if (bytes[0] === 1) {
       for (let i = 0; i < bytes.length; i++) {
@@ -308,75 +308,7 @@ module.exports = class Grow extends Thing {
           bytelist.push(ascii.symbolForDecimal(bytes[i]));
         }
       }
-      return Number(bytelist.join(''));
-    }
-  }
-
-  /**
-   * Parses EC reading from data returned from Atlas Scientific Conductivity sensor.
-   * @param {String} bytes  The I2C response to parse.
-   * @return {Number}
-   */
-  parseAtlasEC (bytes) {
-    let bytelist = [];
-    if (bytes[0] === 1) {
-      for (let i = 0; i < bytes.length; i++) {
-        if (bytes[i] !== 1 && bytes[i] !== 0) {
-          bytelist.push(ascii.symbolForDecimal(bytes[i]));
-        }
-      }
-      return Number(bytelist.join('').split(',')[0]);
-    }
-  }
-
-  /**
-   * Parses TDS reading from data returned from Atlas Scientific Conductivity sensor.
-   * @param {String} bytes  The I2C response to parse.
-   * @return {Number}
-   */
-  parseAtlasTDS (bytes) {
-    let bytelist = [];
-    if (bytes[0] === 1) {
-      for (let i = 0; i < bytes.length; i++) {
-        if (bytes[i] !== 1 && bytes[i] !== 0) {
-          bytelist.push(ascii.symbolForDecimal(bytes[i]));
-        }
-      }
-      return Number(bytelist.join('').split(',')[1]);
-    }
-  }
-
-  /**
-   * Parses EC reading from data returned from Atlas Scientific Conductivity sensor.
-   * @param {String} bytes  The I2C response to parse.
-   * @return {Number}
-   */
-  parseAtlasTemperature (bytes) {
-    let bytelist = [];
-    if (bytes[0] === 1) {
-      for (let i = 0; i < bytes.length; i++) {
-        if (bytes[i] !== 1 && bytes[i] !== 0) {
-          bytelist.push(ascii.symbolForDecimal(bytes[i]));
-        }
-      }
-      return Number(bytelist.join(''));
-    }
-  }
-
-  /**
-   * Parses EC reading from data returned from Atlas Scientific Conductivity sensor.
-   * @param {String} reading  The reading to parse.
-   * @return {Number}
-   */
-  parseAtlasDissolvedOxygen (bytes) {
-    let bytelist = [];
-    if (bytes[0] === 1) {
-      for (let i = 0; i < bytes.length; i++) {
-        if (bytes[i] !== 1 && bytes[i] !== 0) {
-          bytelist.push(ascii.symbolForDecimal(bytes[i]));
-        }
-      }
-      return Number(bytelist.join(''));
+      return bytelist.join('');
     }
   }
 };
