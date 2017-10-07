@@ -1,7 +1,7 @@
 import Influx from 'influx';
 import { Meteor } from 'meteor/meteor';
 
-const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
+const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : "ec2-34-214-153-209.us-west-2.compute.amazonaws.com";
 
 console.log('Influx URL: ' + INFLUX_URL);
 
