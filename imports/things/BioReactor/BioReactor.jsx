@@ -399,7 +399,7 @@ export default BioReactorContainer = createContainer(({ thing }) => {
     }
   );
 
-  const events = Events.find({'thing._id': thing._id}, {limit: 20}).fetch();
+  const events = Events.find({'thing._id': thing._id, 'event.type': {'$nin': [ 'temperature', 'humidity', 'water_temperature', 'orp', 'ph', 'dissolved_oxygen', 'lux', 'ec'] }}, {limit: 20}).fetch();
 
   const alerts = Events.find({'event.type': 'alert',
     'thing._id': thing._id}).fetch();
