@@ -71,7 +71,7 @@ class BioReactor extends BaseThing {
     types: [
       {
         type: 'temp',
-        title: 'Room Temperature',
+        title: 'Air Temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius',
         max: 40
@@ -84,8 +84,8 @@ class BioReactor extends BaseThing {
       },
       {
         type: 'orp',
-        title: 'Oxygen Reduction Potential',
-        icon: 'wi wi-humidity',
+        title: 'ORP',
+        icon: 'wi wi-raindrop',
         min: -2000,
         max: 2000
       },
@@ -98,7 +98,7 @@ class BioReactor extends BaseThing {
       {
         type: 'dissolved_oxygen',
         title: 'Dissolved Oxygen',
-        icon: 'wi wi-day-sunny',
+        icon: 'wi wi-raindrop',
         max: 36,
       },
       {
@@ -182,9 +182,8 @@ class BioReactor extends BaseThing {
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         {
         <CardHeader
-          title="Compost Tea Brewer"
-          subtitle="Batch #1"
-          // avatar="/img/black_flower.png"
+          title="Ferment"
+          subtitle="Vessel #1"
           actAsExpander={true}
           showExpandableButton={true}
           // children={
