@@ -8,7 +8,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-// import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
+import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
 import _ from 'underscore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -51,6 +51,10 @@ class BioReactor extends BaseThing {
 
   handleClose = (event) => {
     this.setState({settingsDialogOpen: false});
+  }
+
+  handleLogChange = (event) => {
+    // update state
   }
 
   handleValueChange = (event, newValue) => {
@@ -147,14 +151,11 @@ class BioReactor extends BaseThing {
       },
       main: {
         margin: '20px',
-        // minWidth: 800,
       },
       padding: {
         padding: 30
       },
       sensorData: {
-        // position: 'relative',
-        // top: 25,
         textAlign: 'center',
       },
       sensorIcon: {
@@ -180,41 +181,12 @@ class BioReactor extends BaseThing {
 
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-        {
         <CardHeader
           title="Ferment"
           subtitle="Vessel #1"
           actAsExpander={true}
           showExpandableButton={true}
-          // children={
-          //   <IconMenu
-          //     tooltip="Menu"
-          //     tooltipPosition="top-center"
-          //     iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-          //     anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-          //     targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          //     style={{float:'right'}}
-          //   >
-          //     <MenuItem primaryText="Event History" />
-          //     <MenuItem primaryText="Settings" onTouchTap={this.handleOpen} />
-          //     <MenuItem primaryText="Cancel Grow" />
-          //   </IconMenu>
-          // }
         />
-        // <div>
-        //     <img src="/img/black_flower.png"
-        //          style={{
-        //           maxWidth:40
-        //          }}/>
-            // <IconButton
-            //   tooltip="Options"
-            //   tooltipPosition="top-center"
-            //   onTouchTap={this.handleOpen}
-            //   style={styles.settings}>
-            //   <SettingsIcon />
-            // </IconButton>
-        // </div>
-        }
         <CardText>
           <Row style={{margin: -20}}>
             {
@@ -291,37 +263,52 @@ class BioReactor extends BaseThing {
                     </div>
                   </div>
                 </Col>
-                {
+              </Row>
+              <Row>
                 <div style={styles.padding}>
                 
                 <TextField
-                  hintText="Log data every (milliseconds)"
+                  hintText="Cycle every (milliseconds)"
                   floatingLabelText="Log data every (milliseconds)"
                   data-key="interval"
                   defaultValue={thing.properties.interval}
                   onChange={this.handleScheduleChange}
+                  fullWidth={true}
                 />
-                <br/>
 
                 <TextField
                   hintText="Insert valid Growfile JSON"
-                  errorText="This field is required."
                   floatingLabelText="Growfile"
                   id="Growfile"
                   ref="Growfile"
                   defaultValue={JSON.stringify(thing.properties.growfile, null, 2)}
                   multiLine={true}
-                  style={styles.oneHundred}
                   rows={10}
+                  fullWidth={true}
+
                 />
-                <br/>
                 <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
                 </div>
-                }
               </Row>
             </Col>
             <Col xs={12} md={6} style={styles.padding}>
-              <h3>Event History</h3>
+              <h3>Log</h3>
+              <div style={{marginBottom: 20}}>
+              <TextField
+                id="log"
+                ref="log"
+                hintText="Insert timestamped log entries here"
+                floatingLabelText="Insert timestamped log entries here"
+                onChange={this.handleLogChange}
+                fullWidth={true}
+              />
+              <FlatButton
+                label="Log event"
+                primary={true}
+                onTouchTap={this.emit}
+              />
+              </div>
+              <Divider />
               {
                   this.props.events.map((v, k) => {
                     return <p key={k}>{v.event.type} <span style={{marginLeft: 10}}>{v.event.message}</span><span style={{float:'right'}}>{moment(v.event.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</span></p>

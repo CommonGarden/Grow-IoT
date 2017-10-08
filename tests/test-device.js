@@ -6,6 +6,7 @@ var args = process.argv.slice(2);
 var uuid = args[0];
 var token = args[1];
 
+// TODO: add component?
 var questions = [
   {
     type: 'input',
