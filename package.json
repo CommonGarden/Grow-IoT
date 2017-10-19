@@ -7,6 +7,8 @@
     "url": "https://github.com/CommonGarden/Grow-IoT"
   },
   "scripts": {
+    "precommit": "lint-staged",
+    "prepare": "lerna run prepare",
     "start": "meteor npm install && meteor",
     "lint": "eslint .",
     "postinstall": "opencollective postinstall"
@@ -90,6 +92,9 @@
   },
   "lint-staged": {
     "*.{js,mjs}": "eslint"
+  },
+  "engines": {
+    "yarn": "^1.2.0"
   },
   "workspaces": [
     "packages/*"

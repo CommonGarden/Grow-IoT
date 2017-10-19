@@ -6,6 +6,5 @@
   },
   "INFLUX_URL": "localhost",
   "ELASTIC_URL": false,
-  "S3": false,
-  "COAP": false
+  "S3": false
 }
