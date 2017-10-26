@@ -117,3 +117,5 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".
+>>>>>>> development
+>>>>>>> close-413

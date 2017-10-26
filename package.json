@@ -1,6 +1,7 @@
 {
   "name": "Grow-IoT",
   "version": "0.5.0",
+  "private": true,
   "description": "A meteor application for the Internet of Living things.",
   "repository": {
     "type": "git",

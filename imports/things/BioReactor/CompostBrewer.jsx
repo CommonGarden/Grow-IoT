@@ -1,4 +1,4 @@
-import BaseThing from 'BaseThing/BaseThing';
+import BaseThing from '../BaseThing/BaseThing';
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -20,9 +20,9 @@ import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
-import ImageOne from '../app/components/images/ImageOne';
-import GrowFile from '../app/components/GrowFile';
-import CameraComponent from './CameraComponent';
+import ImageOne from '../../app/components/images/ImageOne';
+import GrowFile from '../../app/components/GrowFile';
+import CameraComponent from '../Camera/CameraComponent';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
@@ -86,7 +86,7 @@ class BioReactor extends BaseThing {
         type: 'orp',
         title: 'Oxygen Reduction Potential',
         icon: 'wi wi-humidity',
-        min: -2000
+        min: -2000,
         max: 2000
       },
       {
