@@ -1,0 +1,17 @@
+{ 
+  "short_name": "Grow-IoT",
+  "name": "Grow-IoT",
+  "icons": [
+    {
+      "src": "img/white_flower.png",
+      "sizes": "400x400",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/dashboard/main/home",
+  "display": "standalone",
+  "orientation": "landscape",
+  "theme_color":"#00897b",
+  "background":"#00897b",
+  "background_color":"#00897b"
+}

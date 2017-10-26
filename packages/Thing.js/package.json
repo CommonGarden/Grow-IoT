@@ -1,0 +1,52 @@
+{
+  "name": "Thing.js",
+  "version": "0.4.0",
+  "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
+  "main": "dist/Thing.js",
+  "scripts": {
+    "prebuild": "eslint lib test",
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "pretest": "npm run build",
+    "test": "mocha",
+    "prepublish": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CommonGarden/Thing.js"
+  },
+  "keywords": [
+    "IoT",
+    "Internet of Things",
+    "thing",
+    "iot"
+  ],
+  "author": "CommonGarden",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CommonGarden/Thing.js/issues"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://github.com/CommonGarden/Thing.js",
+  "devDependencies": {
+    "babel-eslint": "^8.0.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-register": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "babelrc-rollup": "^3.0.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.6.1",
+    "mocha": "^2.5.3",
+    "rollup": "^0.49.3",
+    "rollup-plugin-babel": "^3.0.2",
+    "source-map-support": "^0.4.16"
+  },
+  "dependencies": {
+    "coap": "^0.21.0",
+    "ddp": "^0.12.1",
+    "underscore": "^1.8.3"
+  }
+}
