@@ -1,3 +1,25 @@
-node_modules/
-lib/
-bower_components/
+lib
+bower_components
+
+.npm*
+npm-debug.log
+.build*
+settings.json
+node_modules
+build
+dist
+.DS_Store
+coverage
+tmp
+state
+.elasticbeanstalk*
+.ebextensions*
+
+# Users Environment Variables
+.lock-wscript
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+>>>>>>> close-413
