@@ -22,7 +22,7 @@
     "graphql-server-express": "^0.6.0",
     "graphql-subscriptions": "^0.3.0",
     "graphql-tools": "^0.10.0",
-    "grow-graphql-schema": "file:///Users/tkay/coding/grow/grow-graphql-schema-1.0.1.tgz",
+    "grow-graphql-schema": "^1.0.2",
     "grow-mongoose-models": "^1.0.3",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
