@@ -4,7 +4,7 @@ import { Match } from 'meteor/check';
 import { _ } from 'underscore';
 import influx from '../influx/influx';
 
-const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : "ec2-34-214-153-209.us-west-2.compute.amazonaws.com";
+const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 
 Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {

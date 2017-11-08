@@ -14,7 +14,6 @@ import fs from 'fs';
 if (process.env.S3) {
   Meteor.settings.s3 = JSON.parse(process.env.S3).s3;
 
-
   const s3Conf = Meteor.settings.s3 || {};
   const bound  = Meteor.bindEnvironment((callback) => {
     return callback();

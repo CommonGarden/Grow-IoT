@@ -83,16 +83,6 @@ export default class BaseThing extends Component {
     };
     this.sendCommand(command, options);
   }
-
-  updateGrowfile = (file) => {
-    try {
-      let growfile = file || JSON.parse(document.getElementById('Growfile').value);
-      this.setProperty('growfile', growfile);
-      this.sendCommand('restart');
-    } catch (err) {
-      alert(err);
-    }
-  }
 }
 
 

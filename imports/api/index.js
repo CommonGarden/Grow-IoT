@@ -15,4 +15,4 @@ if (Meteor.isServer) {
 
 import './thing/methods';
 import './notifications/methods';
-// import './images/methods';
+import './images/methods';

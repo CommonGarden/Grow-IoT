@@ -140,30 +140,30 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
   }
 });
 
-Meteor.publish('Thing.images', function (uuid, l) {
-  check(uuid, String);
-  check(l, Number);
+// Meteor.publish('Thing.images', function (uuid, l) {
+//   check(uuid, String);
+//   check(l, Number);
 
-  let thing = Things.findOne({
-    'uuid': uuid,
-    'owner': this.userId
-  }
-  , {
-    fields: {
-      _id: 1
-    }
-  });
+//   let thing = Things.findOne({
+//     'uuid': uuid,
+//     'owner': this.userId
+//   }
+//   , {
+//     fields: {
+//       _id: 1
+//     }
+//   });
 
-  if (!thing) throw new Meteor.Error('unauthorized', "Unauthorized.");
+//   if (!thing) throw new Meteor.Error('unauthorized', "Unauthorized.");
 
-  const limit = l || 10;
-  return Images.find(
-    {'meta.thing': thing._id}
-    , {
-      'sort': {
-        'meta.insertedAt': -1
-      },
-      limit
-    }).cursor;
-});
+//   const limit = l || 10;
+//   return Images.find(
+//     {'meta.thing': thing._id}
+//     , {
+//       'sort': {
+//         'meta.insertedAt': -1
+//       },
+//       limit
+//     }).cursor;
+// });
 
