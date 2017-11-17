@@ -18,14 +18,14 @@ meteor
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
 ## Connecting devices (or virtual things)
-Create a new device (click the '+' button) and take note of the device `uuid` and `token`. Then run (in a seperate terminal):
+Create a new device (click the '+' button) and create a device `uuid` and `token`. Then run (in a seperate terminal):
 
 ```bash
 node tests/test-grow-hub.js
 ```
-Paste in the `uuid` and `token` and presto! You've connected your first thing to Grow-IoT.
+Paste in the `uuid` and `token` you created and presto! You've connected your first thing to Grow-IoT.
 
-You can find then component for this device in `imports/examples/GrowHub.jsx`.
+You can find then component for this device in `imports/things/GrowHub.jsx`.
 
 # Connecting sensors and actuators
 
