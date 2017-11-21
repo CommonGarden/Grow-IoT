@@ -1,4 +1,4 @@
-const Grow = require('../dist/Grow.js');
+const Grow = require('../lib/Grow.js');
 const _ = require('underscore');
 
 global.expect = require('chai').expect;
