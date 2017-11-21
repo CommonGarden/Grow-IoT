@@ -101,22 +101,9 @@ describe('Grow.js', () => {
   });
 
   // TODO: get response examples to test
-  describe('Atlas Scientific', () => {
-    it('should be able to parse I2C response from pH sensor', () => {
-      expect(testThing.parseAtlasPH([1, 255, 255, 255])).to.equal(0);
-    });
-
-    it('should be able to parse I2C response from Conductivity sensor', () => {
-      expect(testThing.parseAtlasEC([1, 255, 255, 255])).to.equal(0);
-      // expect(testThing.parseAtlasTDS([1, 255, 255, 255])).to.equal(0);
-    });
-
-    it('should be able to parse I2C response from Temperature probe', () => {
-      expect(testThing.parseAtlasTemperature([1, 255, 255, 255])).to.equal(0);
-    });
-
-    it('should be able to parse I2C response from Dissolved Oxygen sensor', () => {
-      expect(testThing.parseAtlasDissolvedOxygen([1, 255, 255, 255])).to.equal(0);
+  describe('Utilities', () => {
+    it('should be able to parse ASCII response', () => {
+      expect(testThing.parseAsciiResponse([1, 255, 255, 255])).to.equal('');
     });
   });
 
