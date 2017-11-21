@@ -43,7 +43,7 @@ class Thing extends EventEmitter {
    */
   set(key, value) {
     this.properties[key] = value;
-    this.emit('property-updated', key);
+    this.emit('property-updated', key, value);
   }
 
   /* Get a property by key.

@@ -2,16 +2,41 @@
 
 [![Backers on Open Collective](https://opencollective.com/Grow-IoT/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/Grow-IoT/sponsors/badge.svg)](#sponsors) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
 
+The Grow-IoT project is managed as a mono-repo with a bunch of seperately published packages such as:
+* [Grow.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Grow.js)
+* [Thing.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Thing.js)
+* [grow-graphql-api-server](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/graphql-api)
+* [rest-api](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/rest-api)
+
+See our [basic Raspberry pi example](https://github.com/CommonGarden/BasicRaspberryPiExample) to get started with devices.
+
 ## Installing Grow-IoT
 
-You need to install [Meteor](https://www.meteor.com/) first (if you haven't already). You will also need to install a version of [yarn](https://www.yarnpkg.com/) that supports [workspaces](https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/) adequately (`yarn >= 1.2`).
+You need to install [Meteor](https://www.meteor.com/) first (if you haven't already). 
 
-Then:
+You will also need to install [Lerna](https://github.com/lerna/lerna), which we use to manage all the packages that comprise Grow-IoT!
+
+```bash
+npm install -g lerna
+```
+
+Then clone the repo and enter the new directory:
 
 ```bash
 git clone https://github.com/CommonGarden/Grow-IoT
 cd Grow-IoT
-yarn
+```
+
+Finally install the needed software dependencies:
+
+```
+meteor npm install
+lerna bootstrap
+```
+
+Start the Grow-IoT server with the `meteor` command:
+
+```
 meteor
 ```
 
@@ -52,16 +77,12 @@ Example grow systems:
 More on the way! Contributions welcome!
 
 # Organization
-The Grow-IoT project is managed as a mono-repo with a bunch of seperately published packages.
-
-This is to make cross testing between all the different components easier, and the modularity means you can use a Library like [Grow.js](https://www.npmjs.com/package/Grow.js) and hopefully find it useful without the rest of the Grow-IoT stack.
-
 In the repo you'll find the following directories and files:
 
 File/Folder   | Provides
 --------------|----------------------------------------------------------------
 `.examples`   | Hardware examples (arduino, Raspberry Pi, etc.)
-`.meteor`     | Meteor stuff, well documented in other places.
+`.meteor`     | Meteor stuff, well documented in [other places](http://docs.meteor.com/#/full/).
 `.sandstorm`  | Sandstorm.io stuff
 `client`      | Imports things and starts the React app.
 `imports`     | API, UI, and thing examples live here
@@ -86,9 +107,11 @@ There's a lot to do.
 * [Graph-QL](https://github.com/CommonGarden/Grow-IoT/issues/315)
 * [User profiles](https://github.com/CommonGarden/Grow-IoT/issues/382)
 * Better data visualizations (timeseries without having to use grafana anyone?)
-* [Administration and device management](https://github.com/CommonGarden/Grow-IoT/issues/370) (a green house or lab involves more than one user often)
+* [Options to replace mongodb and influxdb](https://github.com/CommonGarden/Grow-IoT/issues/417).
 * [Logic ui](https://github.com/CommonGarden/Grow-IoT/issues/306) (a.k.a. advanced interoperablity) a.k.a. "Swarms"
 * [Environments](https://github.com/CommonGarden/Grow-IoT/issues/311) (creating groups of things)
+* [Administration and device management](https://github.com/CommonGarden/Grow-IoT/issues/370) (a green house or lab involves more than one user often)
+
 
 ## Contributors
 

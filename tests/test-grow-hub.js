@@ -36,7 +36,7 @@ function createGrowHub(u, t) {
   const growHub = new Thing({
     uuid: u,
     token: t,
-    component: 'BioReactor',
+    component: 'GrowHub',
 
     // Properties can be updated by the API
     properties: {

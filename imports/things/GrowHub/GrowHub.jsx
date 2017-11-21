@@ -55,8 +55,26 @@ class GrowHub extends BaseThing {
   }
 
   handleTap = (event) => {
+    let command;
     let device = event.currentTarget.dataset.device;
-    let command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
+    let doser_mapping = {
+      acid: 'relay1',
+      base: 'relay2',
+      nutrient_a: 'relay3',
+      nutrient_b: 'relay4'
+    }
+    if (_.contains(['fan', 'heater', 'humidifier', 'light'], device)) {
+      command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
+    } else {
+      let doser_mapping = {
+        relay1: 'acid',
+        relay2: 'base',
+        relay3: 'nutrient_a',
+        relay4: 'nutrient_b'
+      }
+      command = this.props.thing.properties[doser_mapping[`${device}`]] === 'on' ? `${device}_off` : `${device}_on`;
+    }
+    console.log(command);
     this.sendCommand(command);
   }
 
@@ -218,19 +236,20 @@ class GrowHub extends BaseThing {
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         {
         <CardHeader
-          title="Basil"
-          subtitle="Batch #1"
+          contenteditable="true"
+          title={thing.properties.growfile.name}
+          subtitle={thing.properties.growfile.batch}
           actAsExpander={false}
           showExpandableButton={false}
-          children={
-            <IconButton
-              tooltip="Options"
-              tooltipPosition="top-center"
-              onTouchTap={this.handleOpen}
-              style={styles.settings}>
-              <SettingsIcon />
-            </IconButton>
-          }
+          // children={
+          //   <IconButton
+          //     tooltip="Options"
+          //     tooltipPosition="top-center"
+          //     onTouchTap={this.handleOpen}
+          //     style={styles.settings}>
+          //     <SettingsIcon />
+          //   </IconButton>
+          // }
         />
         }
         <CardText>
@@ -277,10 +296,10 @@ class GrowHub extends BaseThing {
           <Row>
             <Col xs={12} md={6}>
               <Row>
-                <Col xs={6} md={4}>
+                <Col xs={6} md={3}>
                   <div style={styles.actuator}>
                     <div style={styles.actionButton}>
-                      <h3>Fan</h3>
+                      <h4>Fan</h4>
                       <FloatingActionButton secondary={this.props.thing.properties.fan === 'on' ? true: false}
                         backgroundColor="rgb(208, 208, 208)"
                         data-device="fan"
@@ -290,10 +309,36 @@ class GrowHub extends BaseThing {
                     </div>
                   </div>
                 </Col>
-                <Col xs={6} md={4}>
+                <Col xs={6} md={3}>
                   <div style={styles.actuator}>
                     <div style={styles.actionButton}>
-                      <h3>Light</h3>
+                      <h4>Heater</h4>
+                      <FloatingActionButton secondary={this.props.thing.properties.heater === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="heater"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h4>Humidifier</h4>
+                      <FloatingActionButton secondary={this.props.thing.properties.humidifier === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="humidifier"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h4>Light</h4>
                       <FloatingActionButton secondary={this.props.thing.properties.light === 'on' ? true: false}
                         backgroundColor="rgb(208, 208, 208)"
                         data-device="light"
@@ -303,13 +348,54 @@ class GrowHub extends BaseThing {
                     </div>
                   </div>
                 </Col>
-                <Col xs={6} md={4}>
+              </Row>
+              <Row>
+                <Col xs={6} md={3}>
                   <div style={styles.actuator}>
                     <div style={styles.actionButton}>
-                      <h3>Humidifier</h3>
-                      <FloatingActionButton secondary={this.props.thing.properties.doser === 'on' ? true: false}
+                      <h4>Acid</h4>
+                      <FloatingActionButton secondary={this.props.thing.properties.acid === 'on' ? true: false}
                         backgroundColor="rgb(208, 208, 208)"
-                        data-device="doser"
+                        data-device="relay1"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h4>Base</h4>
+                      <FloatingActionButton secondary={this.props.thing.properties.base === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="relay2"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h4>Nutrient-A</h4>
+                      <FloatingActionButton secondary={this.props.thing.properties.nutrient_a === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="relay3"
+                        onTouchTap={this.handleTap}>
+                        <PowerIcon />
+                      </FloatingActionButton>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div style={styles.actuator}>
+                    <div style={styles.actionButton}>
+                      <h4>Nutrient-B</h4>
+                      <FloatingActionButton secondary={this.props.thing.properties.nutrient_b === 'on' ? true: false}
+                        backgroundColor="rgb(208, 208, 208)"
+                        data-device="relay4"
                         onTouchTap={this.handleTap}>
                         <PowerIcon />
                       </FloatingActionButton>
@@ -326,13 +412,21 @@ class GrowHub extends BaseThing {
                   defaultValue={thing.properties.interval}
                   onChange={this.handleScheduleChange}
                 />
+
+                <br/>
                 <TextField
-                  hintText="Light threshold"
-                  data-key="lux_threshold"
-                  floatingLabelText="Light threshold"
-                  defaultValue={thing.properties.lux_threshold}
-                  onChange={this.handleValueChange}
+                  hintText="Insert valid Growfile JSON"
+                  errorText="This field is required."
+                  floatingLabelText="Growfile"
+                  id="Growfile"
+                  ref="Growfile"
+                  defaultValue={JSON.stringify(thing.properties.growfile, null, 2)}
+                  onChange = {this.handleGrowfileChange}
+                  multiLine={true}
+                  style={styles.oneHundred}
+                  rows={10}
                 />
+                <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
                 </Col>
             </Row>
           </CardText>

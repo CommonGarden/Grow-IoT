@@ -1,0 +1,1299 @@
+0 silly input []
+1 silly flags { _: [ 'bootstrap' ],
+1 silly flags   'reject-cycles': false,
+1 silly flags   rejectCycles: false,
+1 silly flags   args: [] }
+2 verbose rootPath /home/jacobhartnell/Dev/GROW/Grow-IoT
+3 info version 2.5.1
+4 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/VERSION
+5 silly initialize attempt
+6 silly npmConfig { registry: undefined,
+6 silly npmConfig   npmClient: undefined,
+6 silly npmConfig   npmClientArgs: undefined,
+6 silly npmConfig   mutex: undefined }
+7 silly initialize success
+8 silly execute attempt
+9 info Bootstrapping 6 packages
+10 info lifecycle preinstall
+11 silly runScript preinstall grow-mongoose-models
+12 silly grow-mongoose-models
+13 silly runScript preinstall Thing.js
+14 silly Thing.js
+15 silly runScript preinstall grow-graphql-schema
+16 silly grow-graphql-schema
+17 silly runScript preinstall Grow.js
+18 silly Grow.js
+19 silly runScript preinstall grow-rest-api
+20 silly grow-rest-api
+21 silly runScript preinstall grow-graphql-api-server
+22 silly grow-graphql-api-server
+23 silly hasMatchingDependency grow-graphql-api-server grow-graphql-schema
+24 silly hasMatchingDependency grow-graphql-api-server grow-mongoose-models
+25 silly hasMatchingDependency grow-graphql-schema grow-mongoose-models
+26 silly hasMatchingDependency Grow.js Thing.js
+27 silly hasMatchingDependency grow-rest-api grow-mongoose-models
+28 silly hasDependencyInstalled Grow.js babel-eslint
+29 silly dependencyIsSatisfied [ 'babel-eslint',
+29 silly dependencyIsSatisfied   '^8.0.0',
+29 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+30 verbose dependencyIsSatisfied babel-eslint false
+31 silly hasDependencyInstalled Thing.js babel-eslint
+32 silly dependencyIsSatisfied [ 'babel-eslint',
+32 silly dependencyIsSatisfied   '^8.0.0',
+32 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+33 verbose dependencyIsSatisfied babel-eslint false
+34 silly hasDependencyInstalled Grow.js chai
+35 silly dependencyIsSatisfied [ 'chai',
+35 silly dependencyIsSatisfied   '^4.1.2',
+35 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+36 verbose dependencyIsSatisfied chai false
+37 silly hasDependencyInstalled Thing.js chai
+38 silly dependencyIsSatisfied [ 'chai',
+38 silly dependencyIsSatisfied   '^4.1.2',
+38 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+39 verbose dependencyIsSatisfied chai false
+40 silly hasDependencyInstalled Grow.js eslint
+41 silly dependencyIsSatisfied [ 'eslint',
+41 silly dependencyIsSatisfied   '^4.6.1',
+41 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+42 verbose dependencyIsSatisfied eslint false
+43 silly hasDependencyInstalled Thing.js eslint
+44 silly dependencyIsSatisfied [ 'eslint',
+44 silly dependencyIsSatisfied   '^4.6.1',
+44 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+45 verbose dependencyIsSatisfied eslint false
+46 silly hasDependencyInstalled grow-graphql-api-server eslint
+47 silly dependencyIsSatisfied [ 'eslint',
+47 silly dependencyIsSatisfied   '^3.14.1',
+47 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+48 verbose dependencyIsSatisfied eslint true
+49 silly hasDependencyInstalled grow-rest-api eslint
+50 silly dependencyIsSatisfied [ 'eslint',
+50 silly dependencyIsSatisfied   '^3.14.1',
+50 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+51 verbose dependencyIsSatisfied eslint true
+52 silly hasDependencyInstalled grow-graphql-schema eslint
+53 silly dependencyIsSatisfied [ 'eslint',
+53 silly dependencyIsSatisfied   '^3.18.0',
+53 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+54 verbose dependencyIsSatisfied eslint true
+55 silly hasDependencyInstalled grow-mongoose-models eslint
+56 silly dependencyIsSatisfied [ 'eslint',
+56 silly dependencyIsSatisfied   '^3.15.0',
+56 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+57 verbose dependencyIsSatisfied eslint true
+58 silly hasDependencyInstalled grow-graphql-api-server eslint-plugin-import
+59 silly dependencyIsSatisfied [ 'eslint-plugin-import',
+59 silly dependencyIsSatisfied   '^2.2.0',
+59 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+60 verbose dependencyIsSatisfied eslint-plugin-import false
+61 silly hasDependencyInstalled grow-graphql-schema eslint-plugin-import
+62 silly dependencyIsSatisfied [ 'eslint-plugin-import',
+62 silly dependencyIsSatisfied   '^2.2.0',
+62 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+63 verbose dependencyIsSatisfied eslint-plugin-import false
+64 silly hasDependencyInstalled grow-mongoose-models eslint-plugin-import
+65 silly dependencyIsSatisfied [ 'eslint-plugin-import',
+65 silly dependencyIsSatisfied   '^2.2.0',
+65 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+66 verbose dependencyIsSatisfied eslint-plugin-import false
+67 silly hasDependencyInstalled grow-rest-api eslint-plugin-import
+68 silly dependencyIsSatisfied [ 'eslint-plugin-import',
+68 silly dependencyIsSatisfied   '^2.2.0',
+68 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+69 verbose dependencyIsSatisfied eslint-plugin-import false
+70 silly hasDependencyInstalled grow-graphql-schema eslint-plugin-jsx-a11y
+71 silly dependencyIsSatisfied [ 'eslint-plugin-jsx-a11y',
+71 silly dependencyIsSatisfied   '^4.0.0',
+71 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+72 verbose dependencyIsSatisfied eslint-plugin-jsx-a11y true
+73 silly hasDependencyInstalled Thing.js babel-runtime
+74 silly dependencyIsSatisfied [ 'babel-runtime',
+74 silly dependencyIsSatisfied   '^6.26.0',
+74 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+75 verbose dependencyIsSatisfied babel-runtime false
+76 silly hasDependencyInstalled grow-mongoose-models bcrypt
+77 silly dependencyIsSatisfied [ 'bcrypt',
+77 silly dependencyIsSatisfied   '^1.0.2',
+77 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+78 verbose dependencyIsSatisfied bcrypt false
+79 silly hasDependencyInstalled grow-rest-api bcrypt
+80 silly dependencyIsSatisfied [ 'bcrypt',
+80 silly dependencyIsSatisfied   '^1.0.2',
+80 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+81 verbose dependencyIsSatisfied bcrypt false
+82 silly hasDependencyInstalled Thing.js coap
+83 silly dependencyIsSatisfied [ 'coap',
+83 silly dependencyIsSatisfied   '^0.21.0',
+83 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+84 verbose dependencyIsSatisfied coap false
+85 silly hasDependencyInstalled grow-mongoose-models moment
+86 silly dependencyIsSatisfied [ 'moment',
+86 silly dependencyIsSatisfied   '^2.17.1',
+86 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+87 verbose dependencyIsSatisfied moment false
+88 silly hasDependencyInstalled grow-rest-api moment
+89 silly dependencyIsSatisfied [ 'moment',
+89 silly dependencyIsSatisfied   '^2.17.1',
+89 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+90 verbose dependencyIsSatisfied moment false
+91 silly hasDependencyInstalled grow-graphql-api-server babel-cli
+92 silly dependencyIsSatisfied [ 'babel-cli',
+92 silly dependencyIsSatisfied   '^6.22.2',
+92 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+93 verbose dependencyIsSatisfied babel-cli false
+94 silly hasDependencyInstalled grow-graphql-schema babel-cli
+95 silly dependencyIsSatisfied [ 'babel-cli',
+95 silly dependencyIsSatisfied   '^6.22.2',
+95 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+96 verbose dependencyIsSatisfied babel-cli false
+97 silly hasDependencyInstalled grow-mongoose-models babel-cli
+98 silly dependencyIsSatisfied [ 'babel-cli',
+98 silly dependencyIsSatisfied   '^6.14.0',
+98 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+99 verbose dependencyIsSatisfied babel-cli false
+100 silly hasDependencyInstalled grow-rest-api babel-cli
+101 silly dependencyIsSatisfied [ 'babel-cli',
+101 silly dependencyIsSatisfied   '^6.14.0',
+101 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+102 verbose dependencyIsSatisfied babel-cli false
+103 silly hasDependencyInstalled grow-graphql-api-server babel-core
+104 silly dependencyIsSatisfied [ 'babel-core',
+104 silly dependencyIsSatisfied   '^6.22.1',
+104 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+105 verbose dependencyIsSatisfied babel-core false
+106 silly hasDependencyInstalled grow-graphql-schema babel-core
+107 silly dependencyIsSatisfied [ 'babel-core',
+107 silly dependencyIsSatisfied   '^6.22.1',
+107 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+108 verbose dependencyIsSatisfied babel-core false
+109 silly hasDependencyInstalled grow-graphql-api-server babel-preset-es2015
+110 silly dependencyIsSatisfied [ 'babel-preset-es2015',
+110 silly dependencyIsSatisfied   '^6.14.0',
+110 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+111 verbose dependencyIsSatisfied babel-preset-es2015 false
+112 silly hasDependencyInstalled grow-graphql-schema babel-preset-es2015
+113 silly dependencyIsSatisfied [ 'babel-preset-es2015',
+113 silly dependencyIsSatisfied   '^6.14.0',
+113 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+114 verbose dependencyIsSatisfied babel-preset-es2015 false
+115 silly hasDependencyInstalled grow-mongoose-models babel-preset-es2015
+116 silly dependencyIsSatisfied [ 'babel-preset-es2015',
+116 silly dependencyIsSatisfied   '^6.14.0',
+116 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+117 verbose dependencyIsSatisfied babel-preset-es2015 false
+118 silly hasDependencyInstalled grow-rest-api babel-preset-es2015
+119 silly dependencyIsSatisfied [ 'babel-preset-es2015',
+119 silly dependencyIsSatisfied   '^6.14.0',
+119 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+120 verbose dependencyIsSatisfied babel-preset-es2015 false
+121 silly hasDependencyInstalled Grow.js babel-preset-es2015
+122 silly dependencyIsSatisfied [ 'babel-preset-es2015',
+122 silly dependencyIsSatisfied   '^6.24.0',
+122 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+123 verbose dependencyIsSatisfied babel-preset-es2015 false
+124 silly hasDependencyInstalled Thing.js babel-preset-es2015
+125 silly dependencyIsSatisfied [ 'babel-preset-es2015',
+125 silly dependencyIsSatisfied   '^6.24.0',
+125 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+126 verbose dependencyIsSatisfied babel-preset-es2015 false
+127 silly hasDependencyInstalled grow-graphql-api-server eslint-config-airbnb-base
+128 silly dependencyIsSatisfied [ 'eslint-config-airbnb-base',
+128 silly dependencyIsSatisfied   '^11.0.1',
+128 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+129 verbose dependencyIsSatisfied eslint-config-airbnb-base true
+130 silly hasDependencyInstalled grow-rest-api eslint-config-airbnb-base
+131 silly dependencyIsSatisfied [ 'eslint-config-airbnb-base',
+131 silly dependencyIsSatisfied   '^11.0.1',
+131 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+132 verbose dependencyIsSatisfied eslint-config-airbnb-base true
+133 silly hasDependencyInstalled grow-mongoose-models eslint-config-airbnb-base
+134 silly dependencyIsSatisfied [ 'eslint-config-airbnb-base',
+134 silly dependencyIsSatisfied   '^11.1.0',
+134 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+135 verbose dependencyIsSatisfied eslint-config-airbnb-base true
+136 silly hasDependencyInstalled grow-graphql-api-server jest
+137 silly dependencyIsSatisfied [ 'jest',
+137 silly dependencyIsSatisfied   '^18.1.0',
+137 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+138 verbose dependencyIsSatisfied jest false
+139 silly hasDependencyInstalled grow-graphql-schema jest
+140 silly dependencyIsSatisfied [ 'jest',
+140 silly dependencyIsSatisfied   '^18.1.0',
+140 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+141 verbose dependencyIsSatisfied jest false
+142 silly hasDependencyInstalled grow-mongoose-models jest
+143 silly dependencyIsSatisfied [ 'jest',
+143 silly dependencyIsSatisfied   '^18.1.0',
+143 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+144 verbose dependencyIsSatisfied jest false
+145 silly hasDependencyInstalled grow-rest-api jest
+146 silly dependencyIsSatisfied [ 'jest',
+146 silly dependencyIsSatisfied   '^18.1.0',
+146 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+147 verbose dependencyIsSatisfied jest false
+148 silly hasDependencyInstalled grow-graphql-api-server nodemon
+149 silly dependencyIsSatisfied [ 'nodemon',
+149 silly dependencyIsSatisfied   '^1.11.0',
+149 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+150 verbose dependencyIsSatisfied nodemon false
+151 silly hasDependencyInstalled grow-graphql-api-server body-parser
+152 silly dependencyIsSatisfied [ 'body-parser',
+152 silly dependencyIsSatisfied   '^1.16.0',
+152 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+153 verbose dependencyIsSatisfied body-parser false
+154 silly hasDependencyInstalled grow-rest-api body-parser
+155 silly dependencyIsSatisfied [ 'body-parser',
+155 silly dependencyIsSatisfied   '^1.16.0',
+155 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+156 verbose dependencyIsSatisfied body-parser false
+157 silly hasDependencyInstalled grow-graphql-api-server cors
+158 silly dependencyIsSatisfied [ 'cors',
+158 silly dependencyIsSatisfied   '^2.8.3',
+158 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+159 verbose dependencyIsSatisfied cors false
+160 silly hasDependencyInstalled grow-graphql-api-server dotenv
+161 silly dependencyIsSatisfied [ 'dotenv',
+161 silly dependencyIsSatisfied   '^4.0.0',
+161 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+162 verbose dependencyIsSatisfied dotenv false
+163 silly hasDependencyInstalled grow-graphql-schema dotenv
+164 silly dependencyIsSatisfied [ 'dotenv',
+164 silly dependencyIsSatisfied   '^4.0.0',
+164 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+165 verbose dependencyIsSatisfied dotenv false
+166 silly hasDependencyInstalled grow-graphql-api-server express
+167 silly dependencyIsSatisfied [ 'express',
+167 silly dependencyIsSatisfied   '^4.14.1',
+167 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+168 verbose dependencyIsSatisfied express false
+169 silly hasDependencyInstalled grow-rest-api express
+170 silly dependencyIsSatisfied [ 'express',
+170 silly dependencyIsSatisfied   '^4.14.1',
+170 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+171 verbose dependencyIsSatisfied express false
+172 silly hasDependencyInstalled grow-graphql-api-server express-session
+173 silly dependencyIsSatisfied [ 'express-session',
+173 silly dependencyIsSatisfied   '^1.15.0',
+173 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+174 verbose dependencyIsSatisfied express-session false
+175 silly hasDependencyInstalled grow-graphql-api-server graphql
+176 silly dependencyIsSatisfied [ 'graphql',
+176 silly dependencyIsSatisfied   '^0.9.1',
+176 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+177 verbose dependencyIsSatisfied graphql false
+178 silly hasDependencyInstalled grow-graphql-schema graphql
+179 silly dependencyIsSatisfied [ 'graphql',
+179 silly dependencyIsSatisfied   '^0.9.1',
+179 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+180 verbose dependencyIsSatisfied graphql false
+181 silly hasDependencyInstalled grow-graphql-api-server graphql-server-express
+182 silly dependencyIsSatisfied [ 'graphql-server-express',
+182 silly dependencyIsSatisfied   '^0.6.0',
+182 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+183 verbose dependencyIsSatisfied graphql-server-express false
+184 silly hasDependencyInstalled grow-graphql-api-server graphql-subscriptions
+185 silly dependencyIsSatisfied [ 'graphql-subscriptions',
+185 silly dependencyIsSatisfied   '^0.3.0',
+185 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+186 verbose dependencyIsSatisfied graphql-subscriptions false
+187 silly hasDependencyInstalled grow-graphql-api-server graphql-tools
+188 silly dependencyIsSatisfied [ 'graphql-tools',
+188 silly dependencyIsSatisfied   '^0.10.0',
+188 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+189 verbose dependencyIsSatisfied graphql-tools false
+190 silly hasDependencyInstalled grow-graphql-schema graphql-tools
+191 silly dependencyIsSatisfied [ 'graphql-tools',
+191 silly dependencyIsSatisfied   '^0.11.0',
+191 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+192 verbose dependencyIsSatisfied graphql-tools false
+193 silly hasDependencyInstalled grow-graphql-api-server node-uuid
+194 silly dependencyIsSatisfied [ 'node-uuid',
+194 silly dependencyIsSatisfied   '^1.4.7',
+194 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+195 verbose dependencyIsSatisfied node-uuid false
+196 silly hasDependencyInstalled grow-graphql-api-server passport
+197 silly dependencyIsSatisfied [ 'passport',
+197 silly dependencyIsSatisfied   '^0.3.2',
+197 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+198 verbose dependencyIsSatisfied passport false
+199 silly hasDependencyInstalled grow-graphql-api-server passport-local
+200 silly dependencyIsSatisfied [ 'passport-local',
+200 silly dependencyIsSatisfied   '^1.0.0',
+200 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+201 verbose dependencyIsSatisfied passport-local false
+202 silly hasDependencyInstalled grow-graphql-api-server subscriptions-transport-ws
+203 silly dependencyIsSatisfied [ 'subscriptions-transport-ws',
+203 silly dependencyIsSatisfied   '^0.5.0',
+203 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules' ]
+204 verbose dependencyIsSatisfied subscriptions-transport-ws false
+205 silly hasDependencyInstalled grow-graphql-schema eslint-config-airbnb
+206 silly dependencyIsSatisfied [ 'eslint-config-airbnb',
+206 silly dependencyIsSatisfied   '^14.1.0',
+206 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+207 verbose dependencyIsSatisfied eslint-config-airbnb true
+208 silly hasDependencyInstalled grow-graphql-schema eslint-plugin-react
+209 silly dependencyIsSatisfied [ 'eslint-plugin-react',
+209 silly dependencyIsSatisfied   '^6.10.3',
+209 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+210 verbose dependencyIsSatisfied eslint-plugin-react true
+211 silly hasDependencyInstalled grow-graphql-schema mongoose
+212 silly dependencyIsSatisfied [ 'mongoose',
+212 silly dependencyIsSatisfied   '^4.9.2',
+212 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules' ]
+213 verbose dependencyIsSatisfied mongoose false
+214 silly hasDependencyInstalled grow-mongoose-models mongoose
+215 silly dependencyIsSatisfied [ 'mongoose',
+215 silly dependencyIsSatisfied   '^4.8.1',
+215 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+216 verbose dependencyIsSatisfied mongoose false
+217 silly hasDependencyInstalled grow-rest-api mongoose
+218 silly dependencyIsSatisfied [ 'mongoose',
+218 silly dependencyIsSatisfied   '^4.8.1',
+218 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+219 verbose dependencyIsSatisfied mongoose false
+220 silly hasDependencyInstalled Grow.js babel-preset-es2015-rollup
+221 silly dependencyIsSatisfied [ 'babel-preset-es2015-rollup',
+221 silly dependencyIsSatisfied   '^3.0.0',
+221 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+222 verbose dependencyIsSatisfied babel-preset-es2015-rollup false
+223 silly hasDependencyInstalled Thing.js babel-preset-es2015-rollup
+224 silly dependencyIsSatisfied [ 'babel-preset-es2015-rollup',
+224 silly dependencyIsSatisfied   '^3.0.0',
+224 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+225 verbose dependencyIsSatisfied babel-preset-es2015-rollup false
+226 silly hasDependencyInstalled Grow.js babel-register
+227 silly dependencyIsSatisfied [ 'babel-register',
+227 silly dependencyIsSatisfied   '^6.24.0',
+227 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+228 verbose dependencyIsSatisfied babel-register false
+229 silly hasDependencyInstalled Thing.js babel-register
+230 silly dependencyIsSatisfied [ 'babel-register',
+230 silly dependencyIsSatisfied   '^6.26.0',
+230 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+231 verbose dependencyIsSatisfied babel-register false
+232 silly hasDependencyInstalled Grow.js babelrc-rollup
+233 silly dependencyIsSatisfied [ 'babelrc-rollup',
+233 silly dependencyIsSatisfied   '^3.0.0',
+233 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+234 verbose dependencyIsSatisfied babelrc-rollup false
+235 silly hasDependencyInstalled Thing.js babelrc-rollup
+236 silly dependencyIsSatisfied [ 'babelrc-rollup',
+236 silly dependencyIsSatisfied   '^3.0.0',
+236 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+237 verbose dependencyIsSatisfied babelrc-rollup false
+238 silly hasDependencyInstalled Grow.js mocha
+239 silly dependencyIsSatisfied [ 'mocha',
+239 silly dependencyIsSatisfied   '^2.5.3',
+239 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+240 verbose dependencyIsSatisfied mocha false
+241 silly hasDependencyInstalled Thing.js mocha
+242 silly dependencyIsSatisfied [ 'mocha',
+242 silly dependencyIsSatisfied   '^2.5.3',
+242 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+243 verbose dependencyIsSatisfied mocha false
+244 silly hasDependencyInstalled Grow.js rollup
+245 silly dependencyIsSatisfied [ 'rollup',
+245 silly dependencyIsSatisfied   '^0.49.3',
+245 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+246 verbose dependencyIsSatisfied rollup false
+247 silly hasDependencyInstalled Thing.js rollup
+248 silly dependencyIsSatisfied [ 'rollup',
+248 silly dependencyIsSatisfied   '^0.49.3',
+248 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+249 verbose dependencyIsSatisfied rollup false
+250 silly hasDependencyInstalled Grow.js rollup-plugin-babel
+251 silly dependencyIsSatisfied [ 'rollup-plugin-babel',
+251 silly dependencyIsSatisfied   '^3.0.2',
+251 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+252 verbose dependencyIsSatisfied rollup-plugin-babel false
+253 silly hasDependencyInstalled Thing.js rollup-plugin-babel
+254 silly dependencyIsSatisfied [ 'rollup-plugin-babel',
+254 silly dependencyIsSatisfied   '^3.0.2',
+254 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+255 verbose dependencyIsSatisfied rollup-plugin-babel false
+256 silly hasDependencyInstalled Grow.js source-map-support
+257 silly dependencyIsSatisfied [ 'source-map-support',
+257 silly dependencyIsSatisfied   '^0.4.14',
+257 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+258 verbose dependencyIsSatisfied source-map-support false
+259 silly hasDependencyInstalled Thing.js source-map-support
+260 silly dependencyIsSatisfied [ 'source-map-support',
+260 silly dependencyIsSatisfied   '^0.4.16',
+260 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+261 verbose dependencyIsSatisfied source-map-support false
+262 silly hasDependencyInstalled Grow.js ascii-codes
+263 silly dependencyIsSatisfied [ 'ascii-codes',
+263 silly dependencyIsSatisfied   '^1.0.0',
+263 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+264 verbose dependencyIsSatisfied ascii-codes false
+265 silly hasDependencyInstalled Grow.js json-stringify-safe
+266 silly dependencyIsSatisfied [ 'json-stringify-safe',
+266 silly dependencyIsSatisfied   '^5.0.1',
+266 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+267 verbose dependencyIsSatisfied json-stringify-safe false
+268 silly hasDependencyInstalled Grow.js later
+269 silly dependencyIsSatisfied [ 'later',
+269 silly dependencyIsSatisfied   '^1.2.0',
+269 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+270 verbose dependencyIsSatisfied later false
+271 silly hasDependencyInstalled Grow.js mathjs
+272 silly dependencyIsSatisfied [ 'mathjs',
+272 silly dependencyIsSatisfied   '^3.16.3',
+272 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+273 verbose dependencyIsSatisfied mathjs false
+274 silly hasDependencyInstalled Grow.js nedb
+275 silly dependencyIsSatisfied [ 'nedb',
+275 silly dependencyIsSatisfied   '^1.8.0',
+275 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+276 verbose dependencyIsSatisfied nedb false
+277 silly hasDependencyInstalled Grow.js node-pid-controller
+278 silly dependencyIsSatisfied [ 'node-pid-controller',
+278 silly dependencyIsSatisfied   '^1.0.0',
+278 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+279 verbose dependencyIsSatisfied node-pid-controller false
+280 silly hasDependencyInstalled Grow.js regression
+281 silly dependencyIsSatisfied [ 'regression',
+281 silly dependencyIsSatisfied   '^2.0.0',
+281 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+282 verbose dependencyIsSatisfied regression false
+283 silly hasDependencyInstalled Grow.js underscore
+284 silly dependencyIsSatisfied [ 'underscore',
+284 silly dependencyIsSatisfied   '>=1.8.3',
+284 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules' ]
+285 verbose dependencyIsSatisfied underscore false
+286 silly hasDependencyInstalled Thing.js underscore
+287 silly dependencyIsSatisfied [ 'underscore',
+287 silly dependencyIsSatisfied   '^1.8.3',
+287 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+288 verbose dependencyIsSatisfied underscore false
+289 silly hasDependencyInstalled grow-mongoose-models bluebird
+290 silly dependencyIsSatisfied [ 'bluebird',
+290 silly dependencyIsSatisfied   '^3.4.7',
+290 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+291 verbose dependencyIsSatisfied bluebird false
+292 silly hasDependencyInstalled grow-rest-api bluebird
+293 silly dependencyIsSatisfied [ 'bluebird',
+293 silly dependencyIsSatisfied   '^3.4.7',
+293 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+294 verbose dependencyIsSatisfied bluebird false
+295 silly hasDependencyInstalled grow-mongoose-models chance
+296 silly dependencyIsSatisfied [ 'chance',
+296 silly dependencyIsSatisfied   '^1.0.4',
+296 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+297 verbose dependencyIsSatisfied chance false
+298 silly hasDependencyInstalled grow-rest-api chance
+299 silly dependencyIsSatisfied [ 'chance',
+299 silly dependencyIsSatisfied   '^1.0.4',
+299 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+300 verbose dependencyIsSatisfied chance false
+301 silly hasDependencyInstalled grow-mongoose-models es6-error
+302 silly dependencyIsSatisfied [ 'es6-error',
+302 silly dependencyIsSatisfied   '^4.0.1',
+302 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+303 verbose dependencyIsSatisfied es6-error false
+304 silly hasDependencyInstalled grow-rest-api es6-error
+305 silly dependencyIsSatisfied [ 'es6-error',
+305 silly dependencyIsSatisfied   '^4.0.1',
+305 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+306 verbose dependencyIsSatisfied es6-error false
+307 silly hasDependencyInstalled grow-mongoose-models lodash
+308 silly dependencyIsSatisfied [ 'lodash',
+308 silly dependencyIsSatisfied   '^4.17.4',
+308 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+309 verbose dependencyIsSatisfied lodash false
+310 silly hasDependencyInstalled grow-rest-api lodash
+311 silly dependencyIsSatisfied [ 'lodash',
+311 silly dependencyIsSatisfied   '^4.17.4',
+311 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+312 verbose dependencyIsSatisfied lodash false
+313 silly hasDependencyInstalled grow-mongoose-models zxcvbn
+314 silly dependencyIsSatisfied [ 'zxcvbn',
+314 silly dependencyIsSatisfied   '^4.4.1',
+314 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/node_modules' ]
+315 verbose dependencyIsSatisfied zxcvbn false
+316 silly hasDependencyInstalled grow-rest-api zxcvbn
+317 silly dependencyIsSatisfied [ 'zxcvbn',
+317 silly dependencyIsSatisfied   '^4.4.1',
+317 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+318 verbose dependencyIsSatisfied zxcvbn false
+319 silly hasDependencyInstalled grow-rest-api jsonwebtoken
+320 silly dependencyIsSatisfied [ 'jsonwebtoken',
+320 silly dependencyIsSatisfied   '^7.2.1',
+320 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+321 verbose dependencyIsSatisfied jsonwebtoken false
+322 silly hasDependencyInstalled grow-rest-api morgan
+323 silly dependencyIsSatisfied [ 'morgan',
+323 silly dependencyIsSatisfied   '^1.7.0',
+323 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules' ]
+324 verbose dependencyIsSatisfied morgan false
+325 silly hasDependencyInstalled Thing.js ddp
+326 silly dependencyIsSatisfied [ 'ddp',
+326 silly dependencyIsSatisfied   '^0.12.1',
+326 silly dependencyIsSatisfied   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/node_modules' ]
+327 verbose dependencyIsSatisfied ddp false
+328 silly root dependencies []
+329 silly leaf dependencies {
+329 silly leaf dependencies   "Grow.js": [
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-eslint@^8.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "chai@^4.1.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint@^4.6.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015@^6.24.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015-rollup@^3.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-register@^6.24.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babelrc-rollup@^3.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "mocha@^2.5.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "rollup@^0.49.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "rollup-plugin-babel@^3.0.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "source-map-support@^0.4.14",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "ascii-codes@^1.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "json-stringify-safe@^5.0.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "later@^1.2.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "mathjs@^3.16.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "nedb@^1.8.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "node-pid-controller@^1.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "regression@^2.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "underscore@>=1.8.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     }
+329 silly leaf dependencies   ],
+329 silly leaf dependencies   "Thing.js": [
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-eslint@^8.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "chai@^4.1.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint@^4.6.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-runtime@^6.26.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "coap@^0.21.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015@^6.24.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015-rollup@^3.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-register@^6.26.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babelrc-rollup@^3.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "mocha@^2.5.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "rollup@^0.49.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "rollup-plugin-babel@^3.0.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "source-map-support@^0.4.16",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "underscore@^1.8.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "ddp@^0.12.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     }
+329 silly leaf dependencies   ],
+329 silly leaf dependencies   "grow-graphql-api-server": [
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint@^3.14.1",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-plugin-import@^2.2.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-cli@^6.22.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-core@^6.22.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015@^6.14.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-config-airbnb-base@^11.0.1",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "jest@^18.1.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "nodemon@^1.11.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "body-parser@^1.16.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "cors@^2.8.3",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "dotenv@^4.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "express@^4.14.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "express-session@^1.15.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "graphql@^0.9.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "graphql-server-express@^0.6.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "graphql-subscriptions@^0.3.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "graphql-tools@^0.10.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "node-uuid@^1.4.7",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "passport@^0.3.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "passport-local@^1.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "subscriptions-transport-ws@^0.5.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     }
+329 silly leaf dependencies   ],
+329 silly leaf dependencies   "grow-rest-api": [
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint@^3.14.1",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-plugin-import@^2.2.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "bcrypt@^1.0.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "moment@^2.17.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-cli@^6.14.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015@^6.14.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-config-airbnb-base@^11.0.1",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "jest@^18.1.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "body-parser@^1.16.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "express@^4.14.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "mongoose@^4.8.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "bluebird@^3.4.7",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "chance@^1.0.4",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "es6-error@^4.0.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "lodash@^4.17.4",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "zxcvbn@^4.4.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "jsonwebtoken@^7.2.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "morgan@^1.7.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     }
+329 silly leaf dependencies   ],
+329 silly leaf dependencies   "grow-graphql-schema": [
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint@^3.18.0",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-plugin-import@^2.2.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-plugin-jsx-a11y@^4.0.0",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-cli@^6.22.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-core@^6.22.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015@^6.14.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "jest@^18.1.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "dotenv@^4.0.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "graphql@^0.9.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "graphql-tools@^0.11.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-config-airbnb@^14.1.0",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-plugin-react@^6.10.3",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "mongoose@^4.9.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     }
+329 silly leaf dependencies   ],
+329 silly leaf dependencies   "grow-mongoose-models": [
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint@^3.15.0",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-plugin-import@^2.2.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "bcrypt@^1.0.2",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "moment@^2.17.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-cli@^6.14.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "babel-preset-es2015@^6.14.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "eslint-config-airbnb-base@^11.1.0",
+329 silly leaf dependencies       "isSatisfied": true
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "jest@^18.1.0",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "mongoose@^4.8.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "bluebird@^3.4.7",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "chance@^1.0.4",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "es6-error@^4.0.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "lodash@^4.17.4",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     },
+329 silly leaf dependencies     {
+329 silly leaf dependencies       "dependency": "zxcvbn@^4.4.1",
+329 silly leaf dependencies       "isSatisfied": false
+329 silly leaf dependencies     }
+329 silly leaf dependencies   ]
+329 silly leaf dependencies }
+330 info Installing external dependencies
+331 verbose actions 6 actions, concurrency 4
+332 silly installInDir Grow.js [ 'babel-eslint@^8.0.0',
+332 silly installInDir   'chai@^4.1.2',
+332 silly installInDir   'eslint@^4.6.1',
+332 silly installInDir   'babel-preset-es2015@^6.24.0',
+332 silly installInDir   'babel-preset-es2015-rollup@^3.0.0',
+332 silly installInDir   'babel-register@^6.24.0',
+332 silly installInDir   'babelrc-rollup@^3.0.0',
+332 silly installInDir   'mocha@^2.5.3',
+332 silly installInDir   'rollup@^0.49.3',
+332 silly installInDir   'rollup-plugin-babel@^3.0.2',
+332 silly installInDir   'source-map-support@^0.4.14',
+332 silly installInDir   'ascii-codes@^1.0.0',
+332 silly installInDir   'json-stringify-safe@^5.0.1',
+332 silly installInDir   'later@^1.2.0',
+332 silly installInDir   'mathjs@^3.16.3',
+332 silly installInDir   'nedb@^1.8.0',
+332 silly installInDir   'node-pid-controller@^1.0.0',
+332 silly installInDir   'regression@^2.0.0',
+332 silly installInDir   'underscore@>=1.8.3' ]
+333 silly installInDir backup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/package.json
+334 silly rename [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/package.json',
+334 silly rename   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/package.json.lerna_backup' ]
+335 silly installInDir Thing.js [ 'babel-eslint@^8.0.0',
+335 silly installInDir   'chai@^4.1.2',
+335 silly installInDir   'eslint@^4.6.1',
+335 silly installInDir   'babel-runtime@^6.26.0',
+335 silly installInDir   'coap@^0.21.0',
+335 silly installInDir   'babel-preset-es2015@^6.24.0',
+335 silly installInDir   'babel-preset-es2015-rollup@^3.0.0',
+335 silly installInDir   'babel-register@^6.26.0',
+335 silly installInDir   'babelrc-rollup@^3.0.0',
+335 silly installInDir   'mocha@^2.5.3',
+335 silly installInDir   'rollup@^0.49.3',
+335 silly installInDir   'rollup-plugin-babel@^3.0.2',
+335 silly installInDir   'source-map-support@^0.4.16',
+335 silly installInDir   'underscore@^1.8.3',
+335 silly installInDir   'ddp@^0.12.1' ]
+336 silly installInDir backup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/package.json
+337 silly rename [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/package.json',
+337 silly rename   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/package.json.lerna_backup' ]
+338 silly installInDir graphql-api [ 'eslint@^3.14.1',
+338 silly installInDir   'eslint-plugin-import@^2.2.0',
+338 silly installInDir   'babel-cli@^6.22.2',
+338 silly installInDir   'babel-core@^6.22.1',
+338 silly installInDir   'babel-preset-es2015@^6.14.0',
+338 silly installInDir   'eslint-config-airbnb-base@^11.0.1',
+338 silly installInDir   'jest@^18.1.0',
+338 silly installInDir   'nodemon@^1.11.0',
+338 silly installInDir   'body-parser@^1.16.0',
+338 silly installInDir   'cors@^2.8.3',
+338 silly installInDir   'dotenv@^4.0.0',
+338 silly installInDir   'express@^4.14.1',
+338 silly installInDir   'express-session@^1.15.0',
+338 silly installInDir   'graphql@^0.9.1',
+338 silly installInDir   'graphql-server-express@^0.6.0',
+338 silly installInDir   'graphql-subscriptions@^0.3.0',
+338 silly installInDir   'graphql-tools@^0.10.0',
+338 silly installInDir   'node-uuid@^1.4.7',
+338 silly installInDir   'passport@^0.3.2',
+338 silly installInDir   'passport-local@^1.0.0',
+338 silly installInDir   'subscriptions-transport-ws@^0.5.0' ]
+339 silly installInDir backup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/package.json
+340 silly rename [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/package.json',
+340 silly rename   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/package.json.lerna_backup' ]
+341 silly installInDir rest-api [ 'eslint@^3.14.1',
+341 silly installInDir   'eslint-plugin-import@^2.2.0',
+341 silly installInDir   'bcrypt@^1.0.2',
+341 silly installInDir   'moment@^2.17.1',
+341 silly installInDir   'babel-cli@^6.14.0',
+341 silly installInDir   'babel-preset-es2015@^6.14.0',
+341 silly installInDir   'eslint-config-airbnb-base@^11.0.1',
+341 silly installInDir   'jest@^18.1.0',
+341 silly installInDir   'body-parser@^1.16.0',
+341 silly installInDir   'express@^4.14.1',
+341 silly installInDir   'mongoose@^4.8.1',
+341 silly installInDir   'bluebird@^3.4.7',
+341 silly installInDir   'chance@^1.0.4',
+341 silly installInDir   'es6-error@^4.0.1',
+341 silly installInDir   'lodash@^4.17.4',
+341 silly installInDir   'zxcvbn@^4.4.1',
+341 silly installInDir   'jsonwebtoken@^7.2.1',
+341 silly installInDir   'morgan@^1.7.0' ]
+342 silly installInDir backup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/package.json
+343 silly rename [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/package.json',
+343 silly rename   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/package.json.lerna_backup' ]
+344 silly installInDir writing tempJson { dependencies:
+344 silly installInDir    { 'babel-eslint': '^8.0.0',
+344 silly installInDir      chai: '^4.1.2',
+344 silly installInDir      eslint: '^4.6.1',
+344 silly installInDir      'babel-preset-es2015': '^6.24.0',
+344 silly installInDir      'babel-preset-es2015-rollup': '^3.0.0',
+344 silly installInDir      'babel-register': '^6.24.0',
+344 silly installInDir      'babelrc-rollup': '^3.0.0',
+344 silly installInDir      mocha: '^2.5.3',
+344 silly installInDir      rollup: '^0.49.3',
+344 silly installInDir      'rollup-plugin-babel': '^3.0.2',
+344 silly installInDir      'source-map-support': '^0.4.14',
+344 silly installInDir      'ascii-codes': '^1.0.0',
+344 silly installInDir      'json-stringify-safe': '^5.0.1',
+344 silly installInDir      later: '^1.2.0',
+344 silly installInDir      mathjs: '^3.16.3',
+344 silly installInDir      nedb: '^1.8.0',
+344 silly installInDir      'node-pid-controller': '^1.0.0',
+344 silly installInDir      regression: '^2.0.0',
+344 silly installInDir      underscore: '>=1.8.3' } }
+345 silly installInDir writing tempJson { dependencies:
+345 silly installInDir    { 'babel-eslint': '^8.0.0',
+345 silly installInDir      chai: '^4.1.2',
+345 silly installInDir      eslint: '^4.6.1',
+345 silly installInDir      'babel-runtime': '^6.26.0',
+345 silly installInDir      coap: '^0.21.0',
+345 silly installInDir      'babel-preset-es2015': '^6.24.0',
+345 silly installInDir      'babel-preset-es2015-rollup': '^3.0.0',
+345 silly installInDir      'babel-register': '^6.26.0',
+345 silly installInDir      'babelrc-rollup': '^3.0.0',
+345 silly installInDir      mocha: '^2.5.3',
+345 silly installInDir      rollup: '^0.49.3',
+345 silly installInDir      'rollup-plugin-babel': '^3.0.2',
+345 silly installInDir      'source-map-support': '^0.4.16',
+345 silly installInDir      underscore: '^1.8.3',
+345 silly installInDir      ddp: '^0.12.1' } }
+346 silly installInDir writing tempJson { dependencies:
+346 silly installInDir    { eslint: '^3.14.1',
+346 silly installInDir      'eslint-plugin-import': '^2.2.0',
+346 silly installInDir      'babel-cli': '^6.22.2',
+346 silly installInDir      'babel-core': '^6.22.1',
+346 silly installInDir      'babel-preset-es2015': '^6.14.0',
+346 silly installInDir      'eslint-config-airbnb-base': '^11.0.1',
+346 silly installInDir      jest: '^18.1.0',
+346 silly installInDir      nodemon: '^1.11.0',
+346 silly installInDir      'body-parser': '^1.16.0',
+346 silly installInDir      cors: '^2.8.3',
+346 silly installInDir      dotenv: '^4.0.0',
+346 silly installInDir      express: '^4.14.1',
+346 silly installInDir      'express-session': '^1.15.0',
+346 silly installInDir      graphql: '^0.9.1',
+346 silly installInDir      'graphql-server-express': '^0.6.0',
+346 silly installInDir      'graphql-subscriptions': '^0.3.0',
+346 silly installInDir      'graphql-tools': '^0.10.0',
+346 silly installInDir      'node-uuid': '^1.4.7',
+346 silly installInDir      passport: '^0.3.2',
+346 silly installInDir      'passport-local': '^1.0.0',
+346 silly installInDir      'subscriptions-transport-ws': '^0.5.0' } }
+347 silly installInDir writing tempJson { dependencies:
+347 silly installInDir    { eslint: '^3.14.1',
+347 silly installInDir      'eslint-plugin-import': '^2.2.0',
+347 silly installInDir      bcrypt: '^1.0.2',
+347 silly installInDir      moment: '^2.17.1',
+347 silly installInDir      'babel-cli': '^6.14.0',
+347 silly installInDir      'babel-preset-es2015': '^6.14.0',
+347 silly installInDir      'eslint-config-airbnb-base': '^11.0.1',
+347 silly installInDir      jest: '^18.1.0',
+347 silly installInDir      'body-parser': '^1.16.0',
+347 silly installInDir      express: '^4.14.1',
+347 silly installInDir      mongoose: '^4.8.1',
+347 silly installInDir      bluebird: '^3.4.7',
+347 silly installInDir      chance: '^1.0.4',
+347 silly installInDir      'es6-error': '^4.0.1',
+347 silly installInDir      lodash: '^4.17.4',
+347 silly installInDir      zxcvbn: '^4.4.1',
+347 silly installInDir      jsonwebtoken: '^7.2.1',
+347 silly installInDir      morgan: '^1.7.0' } }
+348 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js' }
+349 silly installInDir [ 'npm', [ 'install' ] ]
+350 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api' }
+351 silly installInDir [ 'npm', [ 'install' ] ]
+352 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js' }
+353 silly installInDir [ 'npm', [ 'install' ] ]
+354 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api' }
+355 silly installInDir [ 'npm', [ 'install' ] ]
+356 silly installInDir cleanup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/package.json
+357 silly renameSync [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/package.json.lerna_backup',
+357 silly renameSync   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/package.json' ]
+358 verbose installed leaf Thing.js
+359 silly installInDir graphql-schema [ 'eslint@^3.18.0',
+359 silly installInDir   'eslint-plugin-import@^2.2.0',
+359 silly installInDir   'eslint-plugin-jsx-a11y@^4.0.0',
+359 silly installInDir   'babel-cli@^6.22.2',
+359 silly installInDir   'babel-core@^6.22.1',
+359 silly installInDir   'babel-preset-es2015@^6.14.0',
+359 silly installInDir   'jest@^18.1.0',
+359 silly installInDir   'dotenv@^4.0.0',
+359 silly installInDir   'graphql@^0.9.1',
+359 silly installInDir   'graphql-tools@^0.11.0',
+359 silly installInDir   'eslint-config-airbnb@^14.1.0',
+359 silly installInDir   'eslint-plugin-react@^6.10.3',
+359 silly installInDir   'mongoose@^4.9.2' ]
+360 silly installInDir backup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/package.json
+361 silly rename [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/package.json',
+361 silly rename   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/package.json.lerna_backup' ]
+362 silly installInDir writing tempJson { dependencies:
+362 silly installInDir    { eslint: '^3.18.0',
+362 silly installInDir      'eslint-plugin-import': '^2.2.0',
+362 silly installInDir      'eslint-plugin-jsx-a11y': '^4.0.0',
+362 silly installInDir      'babel-cli': '^6.22.2',
+362 silly installInDir      'babel-core': '^6.22.1',
+362 silly installInDir      'babel-preset-es2015': '^6.14.0',
+362 silly installInDir      jest: '^18.1.0',
+362 silly installInDir      dotenv: '^4.0.0',
+362 silly installInDir      graphql: '^0.9.1',
+362 silly installInDir      'graphql-tools': '^0.11.0',
+362 silly installInDir      'eslint-config-airbnb': '^14.1.0',
+362 silly installInDir      'eslint-plugin-react': '^6.10.3',
+362 silly installInDir      mongoose: '^4.9.2' } }
+363 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema' }
+364 silly installInDir [ 'npm', [ 'install' ] ]
+365 silly installInDir cleanup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/package.json
+366 silly renameSync [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/package.json.lerna_backup',
+366 silly renameSync   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/package.json' ]
+367 verbose installed leaf Grow.js
+368 silly installInDir mongoose-models [ 'eslint@^3.15.0',
+368 silly installInDir   'eslint-plugin-import@^2.2.0',
+368 silly installInDir   'bcrypt@^1.0.2',
+368 silly installInDir   'moment@^2.17.1',
+368 silly installInDir   'babel-cli@^6.14.0',
+368 silly installInDir   'babel-preset-es2015@^6.14.0',
+368 silly installInDir   'eslint-config-airbnb-base@^11.1.0',
+368 silly installInDir   'jest@^18.1.0',
+368 silly installInDir   'mongoose@^4.8.1',
+368 silly installInDir   'bluebird@^3.4.7',
+368 silly installInDir   'chance@^1.0.4',
+368 silly installInDir   'es6-error@^4.0.1',
+368 silly installInDir   'lodash@^4.17.4',
+368 silly installInDir   'zxcvbn@^4.4.1' ]
+369 silly installInDir backup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json
+370 silly rename [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json',
+370 silly rename   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json.lerna_backup' ]
+371 silly installInDir writing tempJson { dependencies:
+371 silly installInDir    { eslint: '^3.15.0',
+371 silly installInDir      'eslint-plugin-import': '^2.2.0',
+371 silly installInDir      bcrypt: '^1.0.2',
+371 silly installInDir      moment: '^2.17.1',
+371 silly installInDir      'babel-cli': '^6.14.0',
+371 silly installInDir      'babel-preset-es2015': '^6.14.0',
+371 silly installInDir      'eslint-config-airbnb-base': '^11.1.0',
+371 silly installInDir      jest: '^18.1.0',
+371 silly installInDir      mongoose: '^4.8.1',
+371 silly installInDir      bluebird: '^3.4.7',
+371 silly installInDir      chance: '^1.0.4',
+371 silly installInDir      'es6-error': '^4.0.1',
+371 silly installInDir      lodash: '^4.17.4',
+371 silly installInDir      zxcvbn: '^4.4.1' } }
+372 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models' }
+373 silly installInDir [ 'npm', [ 'install' ] ]
+374 silly installInDir cleanup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/package.json
+375 silly renameSync [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/package.json.lerna_backup',
+375 silly renameSync   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/package.json' ]
+376 verbose installed leaf grow-graphql-api-server
+377 silly installInDir cleanup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/package.json
+378 silly renameSync [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/package.json.lerna_backup',
+378 silly renameSync   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/package.json' ]
+379 verbose installed leaf grow-rest-api
+380 silly installInDir cleanup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/package.json
+381 silly renameSync [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/package.json.lerna_backup',
+381 silly renameSync   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/package.json' ]
+382 verbose installed leaf grow-graphql-schema
+383 silly installInDir cleanup /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json
+384 silly renameSync [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json.lerna_backup',
+384 silly renameSync   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json' ]
+385 verbose installed leaf grow-mongoose-models
+386 info Symlinking packages and binaries
+387 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/package.json
+388 silly hasMatchingDependency grow-graphql-api-server grow-graphql-schema
+389 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json
+390 silly hasMatchingDependency grow-graphql-api-server grow-mongoose-models
+391 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules/grow-graphql-schema
+392 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules/grow-mongoose-models
+393 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json
+394 silly hasMatchingDependency grow-graphql-schema grow-mongoose-models
+395 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules/grow-mongoose-models
+396 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js/package.json
+397 silly hasMatchingDependency Grow.js Thing.js
+398 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules/Thing.js
+399 silly isSymlink /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules/Thing.js
+400 verbose isSymlink [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules/Thing.js',
+400 verbose isSymlink   false ]
+401 warn EREPLACE_EXIST Thing.js is already installed for Grow.js. Replacing with symlink...
+402 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models/package.json
+403 silly hasMatchingDependency grow-rest-api grow-mongoose-models
+404 silly existsSync /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules/grow-mongoose-models
+405 silly mkdirp /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules
+406 silly symlink [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema',
+406 silly symlink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules/grow-graphql-schema',
+406 silly symlink   'junction' ]
+407 silly createSymbolicLink [ '../../graphql-schema',
+407 silly createSymbolicLink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules/grow-graphql-schema',
+407 silly createSymbolicLink   'junction' ]
+408 silly mkdirp /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules
+409 silly symlink [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models',
+409 silly symlink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules/grow-mongoose-models',
+409 silly symlink   'junction' ]
+410 silly createSymbolicLink [ '../../mongoose-models',
+410 silly createSymbolicLink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-api/node_modules/grow-mongoose-models',
+410 silly createSymbolicLink   'junction' ]
+411 silly packageActions finished grow-graphql-api-server
+412 silly mkdirp /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules
+413 silly symlink [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models',
+413 silly symlink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules/grow-mongoose-models',
+413 silly symlink   'junction' ]
+414 silly createSymbolicLink [ '../../mongoose-models',
+414 silly createSymbolicLink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/graphql-schema/node_modules/grow-mongoose-models',
+414 silly createSymbolicLink   'junction' ]
+415 silly packageActions finished grow-graphql-schema
+416 silly rimraf /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules/Thing.js
+417 verbose rimraf removed /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules/Thing.js
+418 silly mkdirp /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules
+419 silly symlink [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js',
+419 silly symlink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules/Thing.js',
+419 silly symlink   'junction' ]
+420 silly createSymbolicLink [ '../../Thing.js',
+420 silly createSymbolicLink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Grow.js/node_modules/Thing.js',
+420 silly createSymbolicLink   'junction' ]
+421 silly packageActions finished Grow.js
+422 silly packageActions finished grow-mongoose-models
+423 silly mkdirp /home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules
+424 silly symlink [ '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models',
+424 silly symlink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules/grow-mongoose-models',
+424 silly symlink   'junction' ]
+425 silly createSymbolicLink [ '../../mongoose-models',
+425 silly createSymbolicLink   '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/rest-api/node_modules/grow-mongoose-models',
+425 silly createSymbolicLink   'junction' ]
+426 silly packageActions finished grow-rest-api
+427 silly packageActions finished Thing.js
+428 info lifecycle postinstall
+429 silly runScript postinstall grow-mongoose-models
+430 silly grow-mongoose-models
+431 silly runScript postinstall Thing.js
+432 silly Thing.js
+433 silly runScript postinstall grow-graphql-schema
+434 silly grow-graphql-schema
+435 silly runScript postinstall Grow.js
+436 silly Grow.js
+437 silly runScript postinstall grow-rest-api
+438 silly grow-rest-api
+439 silly runScript postinstall grow-graphql-api-server
+440 silly grow-graphql-api-server
+441 info lifecycle prepublish
+442 silly runScript prepublish grow-mongoose-models
+443 silly runScriptInDir prepublish [] mongoose-models
+444 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/mongoose-models' }
+445 silly runScript prepublish Thing.js
+446 silly runScriptInDir prepublish [] Thing.js
+447 silly getExecOpts { cwd: '/home/jacobhartnell/Dev/GROW/Grow-IoT/packages/Thing.js' }
+448 silly grow-mongoose-models
+449 error execute Error occured with 'grow-mongoose-models' while running 'npm run prepublish'
+450 error npm run prepublish [grow-mongoose-models] Output from stdout:
+451 error npm run prepublish [grow-mongoose-models] Output from stderr:
+452 error execute Error occured with 'grow-mongoose-models' while running 'npm run prepublish'
