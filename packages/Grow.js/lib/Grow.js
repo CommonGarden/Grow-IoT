@@ -58,7 +58,7 @@ module.exports = class Grow extends Thing {
         this.controllers[key].setTarget(value.ideal);
       }
 
-      this.on(key, (eventData) => {
+      this.addListener(key, (eventData) => {
         if (Number(eventData) !== 'NaN') {
           if (value.ideal) {
             let correction = this.controllers[key].update(eventData);

@@ -10,6 +10,7 @@ import PlusFarm from './Misc/PlusFarm';
 import Thermostat from './Misc/Thermostat';
 import BioReactor from './BioReactor/BioReactor';
 import CompostBrewer from './BioReactor/CompostBrewer';
+import GrowHubGauges from './GrowHub/GrowHubGauges';
 
 const components = {
 	GrowHub,
@@ -23,7 +24,8 @@ const components = {
 	PlusFarm,
 	BioReactor,
 	Thermostat,
-	CompostBrewer
+	CompostBrewer,
+	GrowHubGauges
 };
 
 export default components;
