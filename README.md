@@ -81,7 +81,6 @@ In the repo you'll find the following directories and files:
 
 File/Folder   | Provides
 --------------|----------------------------------------------------------------
-`.examples`   | Hardware examples (arduino, Raspberry Pi, etc.)
 `.meteor`     | Meteor stuff, well documented in [other places](http://docs.meteor.com/#/full/).
 `.sandstorm`  | Sandstorm.io stuff
 `client`      | Imports things and starts the React app.
