@@ -1,6 +1,8 @@
 lib
 bower_components
 
+state.json
+
 .npm*
 npm-debug.log
 .build*
@@ -22,5 +24,4 @@ state
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
->>>>>>> close-413
->>>>>>> close-413
+
