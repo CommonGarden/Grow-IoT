@@ -1,14 +1,10 @@
 {
   "name": "grow-graphql-api-server",
-  "version": "1.0.0",
-  "description": "grow-iot graphql api server",
+  "version": "0.1.0",
+  "description": "Grow-IoT graphql api server",
   "main": "index.js",
   "scripts": {
-    "compile": "npm run clean && babel --presets es2015 -d lib/ src/",
-    "clean": "rm -rf lib/",
-    "prepublish": "npm run compile",
-    "start": "nodemon lib/index.js --watch api --exec babel-node",
-    "test": "npm run compile && jest"
+    "test": "mocha"
   },
   "author": "CommonGarden",
   "license": "BSD-2-Clause",

@@ -4,11 +4,7 @@
   "description": "grow mongoose models",
   "main": "index.js",
   "scripts": {
-    "compile": "npm run clean && babel --presets es2015 -d lib/ src/",
-    "clean": "rm -rf lib/",
-    "prepublish": "npm run compile",
-    "start": "node lib/server.js",
-    "test": "npm run compile && jest"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

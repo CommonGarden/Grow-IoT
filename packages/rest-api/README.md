@@ -1,13 +1,5 @@
 # grow-rest-api
-Rest API for [Grow-IoT](https://github.com/CommonGarden/Grow-IoT/) project
-
-# Installation
-
-```sh
-git clone git@github.com:aruntk/grow-rest-api.git
-npm install
-npm run compile
-```
+Rest API package for [Grow-IoT](https://github.com/CommonGarden/Grow-IoT/) project
 
 # Running
 

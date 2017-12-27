@@ -1,14 +1,11 @@
 {
   "name": "grow-rest-api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "grow-iot rest api",
   "main": "index.js",
   "scripts": {
-    "compile": "npm run clean && babel --presets es2015 -d lib/ src/",
-    "clean": "rm -rf lib/",
-    "prepublish": "npm run compile",
-    "start": "node lib/server.js",
-    "test": "npm run compile && jest"
+    "start": "index.js",
+    "test": "npm run test"
   },
   "author": "CommonGarden",
   "license": "BSD-2-Clause",
