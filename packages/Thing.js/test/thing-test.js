@@ -1,5 +1,5 @@
-const Grow = require('../lib/Grow.js');
-const _ = require('underscore');
+const Thing = require('../lib/Thing.js');
+const coap = require('coap');
 
 global.expect = require('chai').expect;
 
@@ -29,7 +29,7 @@ global.expect = require('chai').expect;
       testMethod: function () {
         return 'test';
       },
-
+          
       testOptions: function (option) {
         return option;
       },
@@ -42,9 +42,10 @@ global.expect = require('chai').expect;
 })();
 
 
-describe('Grow.js', () => {
+describe('Thing test', () => {
+  // Do we really need a new thing every time?
   beforeEach(() => {
-    global.testThing = new Grow(thing);
+    global.testThing = new Thing(thing);
   });
 
   describe('PROPERTIES', () => {

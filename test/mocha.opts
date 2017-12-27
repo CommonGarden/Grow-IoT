@@ -1,2 +1,1 @@
---recursive
-packages/*/test
+--recursive packages/*/test
