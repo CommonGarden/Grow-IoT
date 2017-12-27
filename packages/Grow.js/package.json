@@ -1,6 +1,6 @@
 {
   "name": "Grow.js",
-  "version": "0.4.1",
+  "version": "0.4.16",
   "description": "Easily create new IoT devices and connect them to a Grow-IoT instance.",
   "main": "dist/Grow.js",
   "jsnext:main": "dist/Grow.es6.js",
@@ -36,11 +36,12 @@
     "ascii-codes": "^1.0.0",
     "json-stringify-safe": "^5.0.1",
     "later": "^1.2.0",
-    "mathjs": "^3.16.3",
+    "mathjs": "^3.17.0",
     "nedb": "^1.8.0",
     "node-pid-controller": "^1.0.0",
     "regression": "^2.0.0",
-    "underscore": ">=1.8.3"
+    "underscore": ">=1.8.3",
+    "wildcards": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.0",

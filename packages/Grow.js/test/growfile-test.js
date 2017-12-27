@@ -1,9 +1,9 @@
 const Grow = require('../lib/Grow.js');
 const _ = require('underscore');
-const cycles = require('./cycles');
-const phases = require('./phases');
-const cannabis = require('./cannabis');
-const tomato = require('./tomato');
+const cycles = require('../growfiles/cycles');
+const phases = require('../growfiles/phases');
+const cannabis = require('../growfiles/cannabis');
+const tomato = require('../growfiles/tomato');
 
 const expect = require('chai').expect;
 

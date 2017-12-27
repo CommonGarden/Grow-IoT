@@ -8,6 +8,7 @@ const fs = require('fs');
 const regression = require('regression');
 const stringify = require('json-stringify-safe');
 const Datastore = require('nedb');
+const events = require('wildcards');
 
 /**
  * Grow is an extension of a Thing (which is basically a fancy event emitter).
@@ -26,8 +27,19 @@ module.exports = class Grow extends Thing {
     this.calibration_data = {};
     this.calibrations = {};
 
+    // Perhaps just set these as config options? 'database' and 'state'.
+    // Perhaps state should just be reserved for the Growfile?
     if (path_to_datafile) {
       this.db = new Datastore({ filename: path_to_datafile, autoload: true });
+    }
+
+
+    // if a database is configured, all events are stored in the database.
+    if (this.db) {
+      events(this, '*', (event, value, ...params)=>{
+        console.log('%s %s %s', event, value, params);
+        this.db.insert({type: event, value: value, params: params, timestamp: new Date()});
+      });
     }
   }
 
@@ -60,7 +72,7 @@ module.exports = class Grow extends Thing {
 
       this.addListener(key, (eventData) => {
         if (Number(eventData) !== 'NaN') {
-          if (value.ideal) {
+          if (value.ideal && eventData) {
             let correction = this.controllers[key].update(eventData);
             this.emit('correction', key, correction);
           }

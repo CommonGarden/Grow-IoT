@@ -22,6 +22,7 @@ class Thing extends EventEmitter {
       this.properties = {};
     }
 
+    // Consider implementing 'setup' rather than 'start' or 'initialize'...
     if (!_.isUndefined(this.initialize)) {
       this.initialize();
     }
@@ -29,6 +30,8 @@ class Thing extends EventEmitter {
     if (!_.isUndefined(this.start)) {
       this.start();
     }
+
+    // Consider implementing a 'loop' much like in arduino...
 
     this._messageHandlerInstalled = false;
 

@@ -9,10 +9,15 @@ import { Match } from 'meteor/check';
 const server = coap.createServer();
 
 server.on('request', function(req, res) {
+  // console.log(req)
   Fiber(function () {
     let urlParts = url.parse(req.url, true);
     let method = urlParts.pathname.replace(/\//g, '');
     let payload = JSON.parse(req.payload.toString());
+
+    console.log(urlParts);
+    console.log(method);
+    console.log(payload);
 
     let auth = {
       uuid: payload.uuid,
