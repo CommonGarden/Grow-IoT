@@ -1,11 +1,11 @@
 {
   "name": "grow-rest-api",
-  "version": "0.1.0",
+  "version": "0.4.16",
   "description": "grow-iot rest api",
   "main": "index.js",
   "scripts": {
     "start": "index.js",
-    "test": "npm run test"
+    "test": "mocha"
   },
   "author": "CommonGarden",
   "license": "BSD-2-Clause",
@@ -17,12 +17,6 @@
     "eslint-plugin-import": "^2.2.0",
     "jest": "^18.1.0"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "src/",
-      "node_modules/"
-    ]
-  },
   "dependencies": {
     "bcrypt": "^1.0.2",
     "bluebird": "^3.4.7",
@@ -30,7 +24,7 @@
     "chance": "^1.0.4",
     "es6-error": "^4.0.1",
     "express": "^4.14.1",
-    "grow-mongoose-models": "^1.0.3",
+    "grow-mongoose-models": "^0.4.16",
     "jsonwebtoken": "^7.2.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",

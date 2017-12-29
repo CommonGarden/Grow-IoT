@@ -1,6 +1,6 @@
 {
   "name": "grow-graphql-api-server",
-  "version": "0.1.0",
+  "version": "0.4.16",
   "description": "Grow-IoT graphql api server",
   "main": "index.js",
   "scripts": {
@@ -18,8 +18,8 @@
     "graphql-server-express": "^0.6.0",
     "graphql-subscriptions": "^0.3.0",
     "graphql-tools": "^0.10.0",
-    "grow-graphql-schema": "^1.0.2",
-    "grow-mongoose-models": "^1.0.3",
+    "grow-graphql-schema": "^0.4.16",
+    "grow-mongoose-models": "^0.4.16",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",

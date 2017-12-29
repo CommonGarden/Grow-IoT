@@ -1,6 +1,6 @@
 {
   "name": "grow-mongoose-models",
-  "version": "1.0.3",
+  "version": "0.4.16",
   "description": "grow mongoose models",
   "main": "index.js",
   "scripts": {
