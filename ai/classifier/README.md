@@ -1,4 +1,4 @@
-# opal
+# Image Classifier
 A plant disease classifier
 
 ## Requirements
