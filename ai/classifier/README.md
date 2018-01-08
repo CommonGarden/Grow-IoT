@@ -1,8 +1,10 @@
-# opal
+# Image Classifier
 A plant disease classifier
 
 ## Requirements
 - [TensorFlow](https://www.tensorflow.org/install/)
+- [Matplotlib](https://matplotlib.org/)
+- [Pillow](https://pillow.readthedocs.io/en/5.0.0/)
 
 ### Installation (Mac)
 
