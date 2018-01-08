@@ -68,6 +68,22 @@ describe('Growfile test', () => {
     expect(event).to.equal(true);
   });
 
+  it('should emit anomaly events', () => {
+    testGrow.registerTargets({
+      temperature: {
+        min: 15,
+        max: 25,
+      }
+    });
+    var event = false;
+    testGrow.on('alert', (key, message)=> {
+      return event = !event;
+    });
+    testGrow.emit('temperature', -1000);
+    testGrow.emit('temperature', 1000);
+    expect(event).to.equal(true);
+  });
+
   // Todo....
   it('should create a PID controller if an ideal is specified', () => {
     testGrow.registerTargets({

@@ -83,7 +83,7 @@ module.exports = class Grow extends Thing {
               alert[key] = 'low';
               _.extend(this.alerts, alert);
               this.set('alerts', this.alerts);
-              this.emit('alert', alert);
+              this.emit('alert', alert, eventData);
             }
           }
 
@@ -93,7 +93,19 @@ module.exports = class Grow extends Thing {
               alert[key] = 'high';
               _.extend(this.alerts, alert);
               this.set('alerts', this.alerts);
-              this.emit('alert', alert);
+              this.emit('alert', alert, eventData);
+            }
+          }
+
+          else if (value.bounds) {
+            if (eventData < value.bounds[0] || eventData > value.bounds[1]  ) {
+              if (this.alerts[key] !== 'anomaly') {
+                let alert = {};
+                alert[key] = 'anomaly';
+                _.extend(this.alerts, alert);
+                this.set('alerts', this.alerts);
+                this.emit('alert', alert, eventData);
+              }
             }
           }
 
@@ -103,7 +115,7 @@ module.exports = class Grow extends Thing {
               alert[key] = 'ok';
               this.emit('alert', alert);
               this.alerts = _.omit(this.alerts, key);
-              this.set('alerts', this.alerts);
+              this.set('alerts', this.alerts, eventData);
             }
           }
         }
@@ -277,6 +289,7 @@ module.exports = class Grow extends Thing {
     let TempCoefficient=1.0+0.0185*(temperature-25.0); //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.0185*(fTP-25.0));
     let CoefficientVolatge = averageVoltage/TempCoefficient;   
     if(CoefficientVolatge>3300) {
+      // todo: emit out of bounds
       console.log('Out of the range!'); //>20ms/cm,out of the range
     }
     else{ 

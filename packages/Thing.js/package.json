@@ -1,8 +1,8 @@
 {
   "name": "Thing.js",
-  "version": "0.4.16",
+  "version": "0.4.17",
   "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
-  "main": "dist/Thing.js",
+  "main": "lib/Thing.js",
   "scripts": {
     "test": "mocha",
     "prepublish": "npm test"
