@@ -12,7 +12,7 @@ def load_train(train_path, image_size, classes):
     cls = []
 
     print('Going to read training images')
-    for fields in classes:
+    for fields in classes:   
         index = classes.index(fields)
         print('Now going to read {} files (Index: {})'.format(fields, index))
         path = os.path.join(train_path, fields, '*g')
@@ -83,7 +83,6 @@ class DataSet(object):
       self._epochs_done += 1
       start = 0
       self._index_in_epoch = batch_size
-
       assert batch_size <= self._num_examples
     end = self._index_in_epoch
 
@@ -96,7 +95,7 @@ def read_train_sets(train_path, image_size, classes, validation_size):
   data_sets = DataSets()
 
   images, labels, img_names, cls = load_train(train_path, image_size, classes)
-  images, labels, img_names, cls = shuffle(images, labels, img_names, cls)
+  images, labels, img_names, cls = shuffle(images, labels, img_names, cls)  
 
   if isinstance(validation_size, float):
     validation_size = int(validation_size * images.shape[0])
@@ -115,3 +114,5 @@ def read_train_sets(train_path, image_size, classes, validation_size):
   data_sets.valid = DataSet(validation_images, validation_labels, validation_img_names, validation_cls)
 
   return data_sets
+
+
