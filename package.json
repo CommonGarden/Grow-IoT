@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/CommonGarden/Grow-IoT"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "scripts": {
     "precommit": "lint-staged",
     "prepare": "lerna run prepare",

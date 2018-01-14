@@ -20,8 +20,8 @@ import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
 
-const title = Meteor.settings.public.title || "Grow-IoT";
-const logo = Meteor.settings.public.logo || "/img/white_flower.png";
+const title = Meteor.settings.public.title || 'Grow-IoT';
+const logo = Meteor.settings.public.logo || '/img/white_flower.png';
 
 class AuthenticatedApp extends Component {
 
@@ -131,11 +131,11 @@ class AuthenticatedApp extends Component {
   }
 
   componentDidMount() {
-    this._mounted =  true;
+    this._mounted = true;
   }
 
   componentWillUnmount() {
-    this._mounted =  false;
+    this._mounted = false;
   }
 
   render() {
@@ -175,7 +175,7 @@ class AuthenticatedApp extends Component {
             <Redirect exact from={`${rootUrl}/`} to={`${rootUrl}/things`}/>
             <Route path={`${rootUrl}/things`} render={routeProps=> <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
             <Route path={`${rootUrl}/logic`} render={routeProps=> <LogicView user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
-            <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView  user={this.props.user} {...routeProps}/>}/>
+            <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
           </Switch>
         </div>

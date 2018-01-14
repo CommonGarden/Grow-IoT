@@ -5,6 +5,7 @@ state.json
 
 .npm*
 npm-debug.log
+yarn-error.log
 .build*
 settings.json
 node_modules
@@ -24,4 +25,3 @@ state
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-
