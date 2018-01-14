@@ -16,7 +16,6 @@ import {blue300, indigo900} from 'material-ui/styles/colors';
 
 
 
-
 class LogicView extends Component {
   state = {
     loading: false,
@@ -45,7 +44,7 @@ class LogicView extends Component {
               )
             }
           </Row>
-        </Grid> 
+        </Grid>
       );
     } else {
       return (

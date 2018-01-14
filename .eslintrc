@@ -32,7 +32,7 @@
     "strict": 0,
     "no-empty": 0,
     "indent": [2, 2],
-    "quotes": [1, "single"],
+    "quotes": ["error", "single"],
     "no-multi-spaces": [1, {
       "exceptions": {
         "VariableDeclarator": true,
