@@ -7,6 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import './weather-icons.min.css';
 
 Meteor.startup(() => {
+
   injectTapEventPlugin();
   render(<Routes />, document.getElementById('root'));
 });
