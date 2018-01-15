@@ -15,6 +15,9 @@ dist
 coverage
 tmp
 state
+state~
+
+
 .elasticbeanstalk*
 .ebextensions*
 

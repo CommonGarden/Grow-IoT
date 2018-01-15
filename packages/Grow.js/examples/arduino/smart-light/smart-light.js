@@ -43,7 +43,7 @@ board.on('ready', function start() {
 
     start: function () {
       var interval = this.get('interval');
-      
+
       this.interval = setInterval(function () {
         light.light_data();
         light.check_light_data();
