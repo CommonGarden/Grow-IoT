@@ -98,7 +98,7 @@ module.exports = class Grow extends Thing {
           }
 
           else if (value.bounds) {
-            if (eventData < value.bounds[0] || eventData > value.bounds[1]  ) {
+            if (eventData < value.bounds[0] || eventData > value.bounds[1] ) {
               if (this.alerts[key] !== 'anomaly') {
                 let alert = {};
                 alert[key] = 'anomaly';
@@ -200,9 +200,13 @@ module.exports = class Grow extends Thing {
    * @param {Object} cycles  An object containing cycle objects
    */
   parseCycles(cycles) {
-    _.each(cycles, (list, iteratee)=> {
+    console.log('CYCLES: ', cycles);
+    _.each(cycles, (list, iteratee) => {
+      console.log('SCHEDULED TIMEOUT: ', scheduledTime);
+      console.log('GIVEN TIME WINDOW', String(cycles[iteratee].schedule));
+      console.log('ITERATEE: ', iteratee);
       let scheduledTime = later.parse.text(String(cycles[iteratee].schedule));
-      return later.setTimeout(()=> {
+      return later.setTimeout(() => {
         try {
           if (cycles[iteratee].targets) {
             this.registerTargets(cycles[iteratee].targets);
@@ -216,7 +220,7 @@ module.exports = class Grow extends Thing {
         } catch (error) {
           console.log(error);
         };
-      }, scheduledTime);
+      }, scheduledTime)
     });
   }
 
@@ -241,7 +245,7 @@ module.exports = class Grow extends Thing {
         }
       }
     } else {
-      // if it's there is only one calibration reference point 
+      // if it's there is only one calibration reference point
       if (typeof this.calibrations[eventname].points[1] !== 'object') {
         let points = [this.calibrations[eventname].points];
         this.calibrations[eventname].points = points;
@@ -287,12 +291,12 @@ module.exports = class Grow extends Thing {
     let averageVoltage= AnalogAverage*VREF/1024.0;
     let temperature = 25.0; //when no temperature sensor ,temperature should be 25^C default
     let TempCoefficient=1.0+0.0185*(temperature-25.0); //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.0185*(fTP-25.0));
-    let CoefficientVolatge = averageVoltage/TempCoefficient;   
+    let CoefficientVolatge = averageVoltage/TempCoefficient;
     if(CoefficientVolatge>3300) {
       // todo: emit out of bounds
       console.log('Out of the range!'); //>20ms/cm,out of the range
     }
-    else{ 
+    else{
       let ECvalue;
       ECvalue=5.3*CoefficientVolatge+2278; //10ms/cm<EC<20ms/cm
       ECvalue = ECvalue/10.0;
