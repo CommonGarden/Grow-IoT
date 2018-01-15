@@ -13,19 +13,28 @@ module.exports = {
           min: 6.0,
           ideal: 6.15,
           max: 6.3,
+          bounds: [0,14]
         },
         ec: {
           min: 1400,
           ideal: 1500,
           max: 1700,
+          bounds: [0,5000]
         },
         humidity: {
           min: 51,
-          max: 61
+          max: 61,
+          bounds: [0,100]
         },
         temperature: {
           min: 17,
-          max: 28
+          max: 28,
+          bounds: [-30, 50]
+        },
+        water_temperature: {
+          min: 14,
+          max: 28,
+          bounds: [-20, 200]
         }
       },
 

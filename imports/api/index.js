@@ -11,6 +11,7 @@ if (Meteor.isServer) {
   // import './events/eventBus';
   // import './elastic';
   import './coap/coap.js';
+  import './Users/server/index.js';
 }
 
 import './thing/methods';
