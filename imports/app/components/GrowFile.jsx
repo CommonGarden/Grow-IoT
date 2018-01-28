@@ -1,12 +1,11 @@
-// TODO: make a component for a grow-file.
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-// import Badge from 'material-ui/Badge';
+import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
-// import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 import Subheader from 'material-ui/Subheader';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -16,8 +15,6 @@ import StartIcon from 'material-ui/svg-icons/av/play-arrow';
 import StopIcon from 'material-ui/svg-icons/av/stop';
 import SkipIcon from 'material-ui/svg-icons/av/skip-next';
 import PreviousIcon from 'material-ui/svg-icons/av/skip-previous';
-
-// import WarningIcon from 'material-ui/svg-icons/alert/warning';
 
 export default class GrowFile extends Component {
   constructor(props) {
@@ -64,9 +61,8 @@ export default class GrowFile extends Component {
             floatingLabelText="Growfile"
             id="Growfile"
             ref="Growfile"
-            // defaultValue={JSON.stringify(this.props.thing.properties.growfile, null, 2)}
+            defaultValue={JSON.stringify(this.props.growfile, null, 2)}
             multiLine={true}
-            // style={styles.oneHundred}
             rows={10}
           />
       <br/>
@@ -75,24 +71,7 @@ export default class GrowFile extends Component {
   }
 };
 
-// NotificationsWidget.propTypes = {
-//   notifications: PropTypes.array,
-//   ready: PropTypes.bool,
-// }
-
-// export default NotificationsWidgetContainer = createContainer(() => {
-//   const notificationsHandle = Meteor.subscribe('Notifications.all', { limit: 5 });
-
-//   const ready = [ notificationsHandle ].every(
-//     (h) => {
-//       return h.ready();
-//     }
-//   );
-
-//   const notifications = Notifications.find({}, { sort: { timestamp: -1 } }).fetch();
-
-//   return {
-//     ready,
-//     notifications
-//   }
-// }, NotificationsWidget);
+GrowFile.propTypes = {
+   growfile: PropTypes.object,
+   ready: PropTypes.bool,
+}

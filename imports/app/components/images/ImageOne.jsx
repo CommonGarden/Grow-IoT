@@ -3,7 +3,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 
-
 class ImageOne extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +33,7 @@ ImageOne.propTypes = {
 // Get images!
 export default ImageOneContainer = createContainer(({ uuid }) => {
   const imagesHandle = Meteor.subscribe('Thing.images', uuid, 1);
-  
+
   const ready = [ imagesHandle ].every(
     (h) => {
       return h.ready();

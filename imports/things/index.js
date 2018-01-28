@@ -11,6 +11,7 @@ import Thermostat from './Misc/Thermostat';
 import BioReactor from './BioReactor/BioReactor';
 import CompostBrewer from './BioReactor/CompostBrewer';
 import GrowHubGauges from './GrowHub/GrowHubGauges';
+import NewHub from './GrowHub/newhub.jsx';
 
 const components = {
 	GrowHub,
@@ -25,7 +26,8 @@ const components = {
 	BioReactor,
 	Thermostat,
 	CompostBrewer,
-	GrowHubGauges
+	GrowHubGauges,
+  NewHub
 };
 
 export default components;

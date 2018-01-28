@@ -102,11 +102,10 @@ Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growin
 ## Roadmap
 
 There's a lot to do.
-* [CoAP](https://github.com/CommonGarden/Grow-IoT/issues/300) (it's been started but not tested very well)
 * [Graph-QL](https://github.com/CommonGarden/Grow-IoT/issues/315)
+* [CoAP](https://github.com/CommonGarden/Grow-IoT/issues/300) (it's been started but not tested very well)
 * [User profiles](https://github.com/CommonGarden/Grow-IoT/issues/382)
 * Better data visualizations (timeseries without having to use grafana anyone?)
-* [Options to replace mongodb and influxdb](https://github.com/CommonGarden/Grow-IoT/issues/417).
 * [Logic ui](https://github.com/CommonGarden/Grow-IoT/issues/306) (a.k.a. advanced interoperablity) a.k.a. "Swarms"
 * [Environments](https://github.com/CommonGarden/Grow-IoT/issues/311) (creating groups of things)
 * [Administration and device management](https://github.com/CommonGarden/Grow-IoT/issues/370) (a green house or lab involves more than one user often)

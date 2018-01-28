@@ -11,8 +11,46 @@ export default class BaseThing extends Component {
     super(props);
     this.state = {
       expanded: false,
+      settingsDialogOpen: true
     };
   }
+
+  handleOpen = (event) => {
+    this.setState({settingsDialogOpen: true});
+  };
+
+  handleClose = (event) => {
+    this.setState({settingsDialogOpen: false});
+  };
+
+  handleValueChange = (event, newValue) => {
+    const key = event.target.dataset.key;
+    this.setProperty(key, newValue);
+  };
+
+  handleScheduleChange = (event, newValue) => {
+    this.sendCommand('stop');
+    let key = event.target.dataset.key;
+    this.setProperty(key, newValue);
+    this.sendCommand('start');
+  };
+
+  handleGrowfileChange = (event, newValue) => {
+    // console.log(newValue);
+    let growfile = JSON.parse(newValue);
+    // console.log(growfile);
+    this.setState({growfile : growfile});
+  };
+
+  updateGrowfile = () => {
+    try {
+      let growfile = this.state.growfile;
+      this.setProperty('growfile', growfile);
+      this.sendCommand('restart');
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   handleExpandChange = (expanded) => {
     this.setState({expanded: expanded});
