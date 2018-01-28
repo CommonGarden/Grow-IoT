@@ -1,4 +1,4 @@
 {
-  "presets": [ "stage-1" ],
+  "presets": [ "babel-preset-meteor" ],
   "plugins": ["transform-class-properties"]
 }

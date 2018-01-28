@@ -16,6 +16,8 @@ import AppNavDrawer from './components/AppNavDrawer';
 import ThingsList from './pages/ThingsList.jsx';
 import ThingView from './pages/ThingView.jsx';
 import LogicView from './pages/LogicView.jsx';
+// import Profile from './pages/Profile.jsx';
+// import Camera from './components/Camera.jsx';
 import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
