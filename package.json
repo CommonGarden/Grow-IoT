@@ -52,6 +52,8 @@
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
     "monq": "^0.3.7",
+    "mosca": "^2.7.0",
+    "mqtt": "^2.15.1",
     "opencollective": "^1.0.3",
     "pondjs": "^0.8.5",
     "randomfill": "^1.0.3",

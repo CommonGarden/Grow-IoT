@@ -511,8 +511,8 @@ GrowHub.propTypes = {
   water_levelEvents: PropTypes.array,
   orpEvents: PropTypes.array,
   co2Events: PropTypes.array,
-  moisture1Events: PropTypes.array,
-  moisture2Events: PropTypes.array,
+  moisture_1Events: PropTypes.array,
+  moisture_2Events: PropTypes.array,
   pressureEvents: PropTypes.array,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
@@ -542,12 +542,12 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     sort: { insertedAt: -1 }
   }).fetch();
 
-  const moisture1Events = Events.find({'event.type': 'moisture_1',
+  const moisture_1Events = Events.find({'event.type': 'moisture_1',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
 
-  const moisture2Events = Events.find({'event.type': 'moisture_2',
+  const moisture_2Events = Events.find({'event.type': 'moisture_2',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
@@ -614,8 +614,8 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     dissolved_oxygenEvents,
     luxEvents,
     co2Events,
-    moisture1Events,
-    moisture2Events,
+    moisture_1Events,
+    moisture_2Events,
     alerts,
     water_temperatureEvents,
     water_levelEvents,

@@ -1,3 +1,5 @@
+"use strict";
+
 // Require the Grow.js build and johnny-five library.
 const Thing = require('Grow.js');
 const five = require('johnny-five');
@@ -20,8 +22,8 @@ board.on('ready', function start() {
 
   // Create a new thing.
   var light = new Thing({
-    uuid: 'meow',
-    token: 'meow',
+    uuid: 'testmeow',
+    token: 'testmeow',
 
     component: 'SmartLight',
 
@@ -49,26 +51,6 @@ board.on('ready', function start() {
         light.check_light_data();
       }, interval);
 
-      var client = new Hs100Api.Client();
-
-      client.startDiscovery().on('plug-new', (plug) => {
-        if (plug.name === 'tplinkplug1') {
-          console.log('Light connected');
-          this.light = plug;
-          this.light.getInfo().then((data)=> {
-            if (data.sysInfo.relay_state === 1) {
-              this.set('state', 'on');
-            } else {
-              this.set('state', 'off');
-            }
-          }).catch(
-            (reason) => {
-              console.log('Handle rejected promise ('+reason+') here.');
-            }
-          );
-        }
-      });
-
       this.parseCycles(this.get('cycles'));
     },
 
@@ -90,19 +72,13 @@ board.on('ready', function start() {
     },
 
     turn_on: function () {
-      console.log('Light on');
-      // if (this.light) {
-      //   this.light.setPowerState(true);
-      // }      
+      console.log('Light on');    
       LED.high()    
       this.set('state', 'on');
     },
 
     turn_off: function () {
       console.log('Light off');
-      // if (this.light) {
-      //   this.light.setPowerState(false);
-      // }
       LED.low()          
       this.set('state', 'off');
     },
