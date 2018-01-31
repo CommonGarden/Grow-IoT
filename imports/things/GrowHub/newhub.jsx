@@ -107,7 +107,7 @@ class GrowHub extends BaseThing {
             <Col xs={12} md={6}>
               <Row>
                   {
-                      types && types.actuatators ? types.actuators.map((value, key) => {
+                      types && types.actuators ? types.actuators.map((value, key) => {
                           console.log(value);
                           console.log(key);
                           <Col xs={6} md={3}>
@@ -115,14 +115,14 @@ class GrowHub extends BaseThing {
                                   <div style={styles.actionButton}>
                                      <div>
                                          <DropDownMenu value={value.role} onChange={this.handleChange}>
-                                             <MenuItem value={1} primaryText="Never" />
-                                             <MenuItem value={2} primaryText="Every Night" />
-                                             <MenuItem value={3} primaryText="Weeknights" />
-                                             <MenuItem value={4} primaryText="Weekends" />
-                                             <MenuItem value={5} primaryText="Weekly" />
+                                             <MenuItem value={1} primaryText="Heater" />
+                                             <MenuItem value={2} primaryText="Fan" />
+                                             <MenuItem value={3} primaryText="Humidifier" />
+                                             <MenuItem value={4} primaryText="Dehumidifier" />
+                                             <MenuItem value={5} primaryText="Light" />
                                          </DropDownMenu>
                                      </div>
-                                      <FloatingActionButton secondary={this.props.thing.properties.fan === 'on' ? true: false}
+                                      <FloatingActionButton secondary={value.state === 'on' ? true: false}
                                                             backgroundColor="rgb(208, 208, 208)"
                                                             data-device="fan"
                                                             onTouchTap={this.handleTap}>

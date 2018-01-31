@@ -123,17 +123,10 @@ class AppNavDrawer extends Component {
         <SelectableList
           value=""
           onChange={this.handleRequestChangeLink}
-        >
-          {/* button instead of ListItem to because fullscreen request is not autherized for synthetic events. */}        
-          <ListItem
-            value={1}
-            primaryText="Wholesome Farms"
-            leftAvatar={<Avatar src="/img/indoor-farm.jpg" />}
-          />
-          <Divider />
+        > 
           <ListItem primaryText="Camera" value="/camera" leftIcon={<CameraIcon />} />
           <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />
-          <ListItem primaryText="Settings" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<SettingsIcon />} />
+          <ListItem primaryText="Settings" value="/app/settings" leftIcon={<SettingsIcon />} />
         </SelectableList>
         <ListItem primaryText="Sign Out" onTouchTap={this.signOut} leftIcon={
           <SvgIcon>
