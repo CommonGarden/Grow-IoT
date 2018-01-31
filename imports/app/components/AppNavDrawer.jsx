@@ -18,6 +18,7 @@ import FullscreenExitIcon from 'material-ui/svg-icons/navigation/fullscreen-exit
 import SvgIcon from 'material-ui/SvgIcon';
 import Avatar from 'material-ui/Avatar';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 
 const SelectableList = makeSelectable(List);
 
@@ -130,12 +131,9 @@ class AppNavDrawer extends Component {
             leftAvatar={<Avatar src="/img/indoor-farm.jpg" />}
           />
           <Divider />
-          {
-          // <Subheader>0 farmcoin</Subheader>
-          // <ListItem primaryText="Settings" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<SettingsIcon />} />
-          }
+          <ListItem primaryText="Camera" value="/camera" leftIcon={<CameraIcon />} />
           <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />
-          <ListItem primaryText="Dev list" value="https://groups.google.com/a/commongarden.org/forum/#!forum/dev" leftIcon={<MailIcon />}/>
+          <ListItem primaryText="Settings" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<SettingsIcon />} />
         </SelectableList>
         <ListItem primaryText="Sign Out" onTouchTap={this.signOut} leftIcon={
           <SvgIcon>
