@@ -55,7 +55,7 @@ class ThingsList extends Component {
   }
 }
 
-ThingsList.PropTypes = {
+ThingsList.propTypes = {
   Things: PropTypes.array,
 }
 

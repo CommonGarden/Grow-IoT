@@ -63,6 +63,18 @@ class NotificationsWidget extends Component {
     );
   }
 
+  handleReadAll (event) {
+    event.preventDefault();
+    Meteor.call('Notifications.markAllRead',
+      (error, documentId) => {
+        if (error) {
+          console.error("Error", error);
+          return alert(`Error: ${error.reason || error}`);
+        }
+      }
+    );
+  }
+
   goToAllNotifications = () => {
     this.props.history.push(`${this.props.match.url}/notifications`);
   }
@@ -102,6 +114,8 @@ class NotificationsWidget extends Component {
             })
           }
           <MenuItem value="all" primaryText="See all notifications" onTouchTap={this.goToAllNotifications}/>
+          <MenuItem value="all" primaryText="Mark all as read" onTouchTap={this.handleReadAll}/>
+
         </IconMenu>
         {this.renderBadge(this.state.notificationCount)}
       </span>
