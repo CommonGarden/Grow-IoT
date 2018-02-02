@@ -38,6 +38,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import moment from 'moment';
 import styles from './styles.js';
 import DropDownMenu from 'material-ui/DropDownMenu';
+import AutoComplete from 'material-ui/AutoComplete';
 
 class GrowHub extends BaseThing {
   constructor(props) {
@@ -53,6 +54,7 @@ class GrowHub extends BaseThing {
   state = {
     settingsDialogOpen: false,
     expanded: true,
+    dataSource: ['heater', 'fan', 'light', 'humidifier', 'dehumidifier'],
   }
 
   render() {
@@ -108,30 +110,19 @@ class GrowHub extends BaseThing {
               <Row>
                   {
                       types && types.actuators ? types.actuators.map((value, key) => {
-                          console.log(value);
-                          console.log(key);
-                          <Col xs={6} md={3}>
+                          return <Col xs={6} md={3} key={key}>
                               <div style={styles.actuator}>
                                   <div style={styles.actionButton}>
-                                     <div>
-                                         <DropDownMenu value={value.role} onChange={this.handleChange}>
-                                             <MenuItem value={1} primaryText="Heater" />
-                                             <MenuItem value={2} primaryText="Fan" />
-                                             <MenuItem value={3} primaryText="Humidifier" />
-                                             <MenuItem value={4} primaryText="Dehumidifier" />
-                                             <MenuItem value={5} primaryText="Light" />
-                                         </DropDownMenu>
-                                     </div>
-                                      <FloatingActionButton secondary={value.state === 'on' ? true: false}
+                                      <p>{value.role}</p>
+                                      <FloatingActionButton secondary={this.props.thing.properties[value.role] === 'on' ? true: false}
                                                             backgroundColor="rgb(208, 208, 208)"
-                                                            data-device="fan"
+                                                            data-device={value.role}
                                                             onTouchTap={this.handleTap}>
                                           <PowerIcon />
                                       </FloatingActionButton>
                                   </div>
                               </div>
                           </Col>
-
                       }): null
                   }
               </Row>
