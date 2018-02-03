@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { Random } from 'meteor/random';
 import { EJSON } from 'meteor/ejson';
+import uuid from 'uuid/v1';
 
 /*
  * Thing methods
@@ -24,8 +25,8 @@ Meteor.methods({
         _id: 1
       }
     });
-    
-    if (!thing) { 
+
+    if (!thing) {
       // If we don't have a thing register we insert a new one.
       // Note this devices does not have an owner yet.
       config = _.extend(config, { registeredAt: new Date() });
@@ -60,7 +61,7 @@ Meteor.methods({
       }
     });
 
-    if (!registered) { 
+    if (!registered) {
       let document;
 
       // Must be a logged in user.
@@ -74,7 +75,7 @@ Meteor.methods({
           };
         } else {
           document = {
-            'uuid': Meteor.uuid(),
+            'uuid': uuid(),
             'token': Random.id(32),
             'owner': Meteor.userId(),
             thing,
@@ -111,7 +112,7 @@ Meteor.methods({
     // Must be a logged in user.
     if (Meteor.userId()) {
       let document = {
-        'uuid': Meteor.uuid(),
+        'uuid': uuid(),
         'token': Random.id(32),
       };
 

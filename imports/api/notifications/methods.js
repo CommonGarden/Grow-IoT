@@ -34,5 +34,14 @@ Meteor.methods({
         'read':true
       }
     });
+  },
+
+    // Mark a notification as read by id.
+  'Notifications.markAllRead': function () {
+    return Notifications.update({'owner._id': this.userId}, {
+      $set: {
+        'read':true
+      }
+    }, {multi: true});
   }
 });

@@ -17,9 +17,6 @@ class ThingView extends Component {
     this.subThings();
   }
 
-  componentWillReceiveProps(nextProps) {
-  }
-
   subThings(){
     this.setState({ loading: true });
     Meteor.subscribe('Things.one', this.props.match.params.uuid, (h) => {

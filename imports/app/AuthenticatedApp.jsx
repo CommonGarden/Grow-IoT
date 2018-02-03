@@ -16,6 +16,9 @@ import AppNavDrawer from './components/AppNavDrawer';
 import ThingsList from './pages/ThingsList.jsx';
 import ThingView from './pages/ThingView.jsx';
 import LogicView from './pages/LogicView.jsx';
+import Profile from './pages/Profile.jsx';
+import Camera from './components/Camera.jsx';
+import EventHistory from './pages/EventHistory.jsx';
 import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
@@ -145,7 +148,7 @@ class AuthenticatedApp extends Component {
       <div>
         <AppBar
           title={<span style={{cursor: 'pointer'}}>{title}</span>}
-          onTitleTouchTap={this.goHome}
+          onTitleClick={this.goHome}
           iconElementRight={
             <div>
               <NotificationsWidget history={this.props.history} match={this.props.match}/>
@@ -175,7 +178,9 @@ class AuthenticatedApp extends Component {
             <Redirect exact from={`${rootUrl}/`} to={`${rootUrl}/things`}/>
             <Route path={`${rootUrl}/things`} render={routeProps=> <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
             <Route path={`${rootUrl}/logic`} render={routeProps=> <LogicView user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
+            <Route path={`${rootUrl}/settings`} render={routeProps=> <Profile user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView user={this.props.user} {...routeProps}/>}/>
+            <Route path={`${rootUrl}/events/:uuid`} render={routeProps => <EventHistory user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
           </Switch>
         </div>

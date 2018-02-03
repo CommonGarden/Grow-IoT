@@ -44,7 +44,7 @@ import { Table,
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-
+import AutoComplete from 'material-ui/AutoComplete';
 
 class GrowHub extends BaseThing {
   constructor(props) {
@@ -115,6 +115,7 @@ class GrowHub extends BaseThing {
   state = {
     settingsDialogOpen: false,
     expanded: true,
+    dataSource: ['heater', 'fan', 'light', 'humidifier', 'ac', 'acid', 'base', 'nutrient_a', 'nutrient_b', 'dehumidifier', 'pump', 'valve', 'vent'],
     types: [
       {
         type: 'temp',
@@ -178,6 +179,21 @@ class GrowHub extends BaseThing {
         title: 'Water level',
         max: 100,
       },
+      {
+        type: 'co2',
+        title: 'Carbon Dioxide',
+        max: 5000,
+      },
+      {
+        type: 'moisture_1',
+        title: 'Moisture sensor #1',
+        max: 100
+      },
+      {
+        type: 'moisture_2',
+        title: 'Moisture sensor #2',
+        max: 100
+      }
     ]
   }
 
@@ -494,6 +510,9 @@ GrowHub.propTypes = {
   water_temperatureEvents: PropTypes.array,
   water_levelEvents: PropTypes.array,
   orpEvents: PropTypes.array,
+  co2Events: PropTypes.array,
+  moisture1Events: PropTypes.array,
+  moisture2Events: PropTypes.array,
   pressureEvents: PropTypes.array,
   ready: PropTypes.bool,
   alerts: PropTypes.array,
@@ -508,12 +527,27 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     }
   );
 
-  const events = Events.find({'thing._id': thing._id, 'event.type': {'$nin': [ 'temperature', 'humidity', 'water_temperature', 'orp', 'ph', 'dissolved_oxygen', 'lux', 'ec', 'pressure', 'correction'] }}, {limit: 20, sort: { insertedAt: -1 }}).fetch();
+  const events = Events.find({'thing._id': thing._id, 'event.type': {'$nin': [ 'temperature', 'humidity', 'water_temperature', 'orp', 'ph', 'dissolved_oxygen', 'lux', 'ec', 'pressure', 'correction', 'moisture_1', 'moisture_2', 'co2'] }}, {limit: 20, sort: { insertedAt: -1 }}).fetch();
 
   const alerts = Events.find({'event.type': 'alert',
     'thing._id': thing._id}).fetch();
 
   const phEvents = Events.find({'event.type': 'ph',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+
+  const co2Events = Events.find({'event.type': 'co2',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+
+  const moisture1Events = Events.find({'event.type': 'moisture_1',
+    'thing._id': thing._id}, {
+    sort: { insertedAt: -1 }
+  }).fetch();
+
+  const moisture2Events = Events.find({'event.type': 'moisture_2',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
@@ -579,6 +613,9 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     humidityEvents,
     dissolved_oxygenEvents,
     luxEvents,
+    co2Events,
+    moisture1Events,
+    moisture2Events,
     alerts,
     water_temperatureEvents,
     water_levelEvents,
