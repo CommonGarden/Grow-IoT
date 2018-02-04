@@ -43,14 +43,13 @@ meteor
 And that's it! Visit http://localhost:3000 with your browser of choice; you should now have the application running.
 
 ## Connecting devices (or virtual things)
-Create a new device (click the '+' button) and create a device `uuid` and `token`. Then run (in a seperate terminal):
+Create a new device (click the '+' button) and create a device. Enter "test" for both the `uuid` and `token`. Then run the mock device driver (in a seperate terminal):
 
 ```bash
-node tests/test-grow-hub.js
+node packages/Grow.js/examples/test-device.js
 ```
-Paste in the `uuid` and `token` you created and presto! You've connected your first thing to Grow-IoT.
 
-You can find then component for this device in `imports/things/GrowHub.jsx`.
+You can find the ui component for this device in `imports/things/misc/Thermostat.jsx`.
 
 # Connecting sensors and actuators
 
@@ -58,21 +57,23 @@ In the `packages` directory, we've started 2 libraries to help you connect senso
 * [Thing.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Thing.js): A general purpose internet of things library... basically a fancy event emitter
 * [Grow.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Grow.js): extends the Thing class with a bunch of useful things for growers like scheduling, registering listeners and alerts, etc.
 
-Hardware examples live in the `.examples` folder (the folder is hidden, because Meteor is dumb and tries to build everything). The corresponding UI components live in`imports/things/`.
+Hardware examples live in those packages' `examples` folder. Corresponding UI components live in `imports/things/`.
 
 **See [Thing.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Thing.js) for more info on creating and connecting devices.**
 
 ### Adding custom components
 To do so:
 
-1. Make a new `CustomComponent.jsx` file in `imports/things/'` or `yarn add package-name`
+1. Make a new `CustomComponent.jsx` file in `imports/things/'` or `npm install package-name` if the component is published on [npm](https://www.npmjs.com/).
 2. Open `imports/things/index.js`.
 3. `import CustomComponent from './CustomComponent'`
 4. Lastly, add `CustomComponent` to the exported `components` object.
 
-Example grow systems:
-* https://github.com/CommonGarden/Fermenter
-* https://github.com/CommonGarden/CompostBrewer
+Example devices and grow systems:
+* [Basic Raspberry Pi example](https://github.com/CommonGarden/Grow-Hub)
+* [General Grow Controller](https://github.com/CommonGarden/Grow-Hub)
+* [Fermenter](https://github.com/CommonGarden/Fermenter)
+* [Compost Brewer](https://github.com/CommonGarden/CompostBrewer)
 
 More on the way! Contributions welcome!
 
@@ -83,13 +84,15 @@ File/Folder   | Provides
 --------------|----------------------------------------------------------------
 `.meteor`     | Meteor stuff, well documented in [other places](http://docs.meteor.com/#/full/).
 `.sandstorm`  | Sandstorm.io stuff
+`ai`          | AI and Machine learning code
 `client`      | Imports things and starts the React app.
-`imports`     | API, UI, and thing examples live here
-`packages`    | Grow.js and Thing.js live here.
+`docs`        | Project documentation
+`imports`     | API, App, and thing web component examples live here
+`packages`    | Grow.js, Thing.js, and other standalone packages live here.
 `public`      | Fonts and other static, public assets live here.
 `tests`       | Unit and Thread conformance tests
 `server`      | Imports the server code.
-`tests`       | Hmmm....
+`test`        | Tests
 
 Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growing assortment of useful info, including:
 * [Cloud setup](https://github.com/CommonGarden/Grow-IoT/wiki/Cloud-setup)
@@ -103,10 +106,10 @@ Our [wiki](https://github.com/CommonGarden/Grow-IoT/wiki) also contains a growin
 
 There's a lot to do.
 * [Graph-QL](https://github.com/CommonGarden/Grow-IoT/issues/315)
-* [CoAP](https://github.com/CommonGarden/Grow-IoT/issues/300) (it's been started but not tested very well)
+* [MQTT](https://github.com/CommonGarden/Grow-IoT/issues/224)
 * [User profiles](https://github.com/CommonGarden/Grow-IoT/issues/382)
-* Better data visualizations (timeseries without having to use grafana anyone?)
-* [Logic ui](https://github.com/CommonGarden/Grow-IoT/issues/306) (a.k.a. advanced interoperablity) a.k.a. "Swarms"
+* [Camera](https://github.com/CommonGarden/Grow-IoT/issues/374)
+* [Image storage and retreival with IPFS](https://github.com/CommonGarden/Grow-IoT/issues/416)
 * [Environments](https://github.com/CommonGarden/Grow-IoT/issues/311) (creating groups of things)
 * [Administration and device management](https://github.com/CommonGarden/Grow-IoT/issues/370) (a green house or lab involves more than one user often)
 
@@ -115,7 +118,6 @@ There's a lot to do.
 
 This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
 <a href="graphs/contributors"><img src="https://opencollective.com/Grow-IoT/contributors.svg?width=890" /></a>
-
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".

@@ -1,3 +1,4 @@
+// Todo: make this into a more useful mock driver for different components.
 var Thing = require('../lib/Thing.js');
 var inquirer = require('inquirer');
 var _ = require('underscore')

@@ -43,7 +43,7 @@
     "flexboxgrid": "^6.3.1",
     "gridfs-stream": "^1.1.1",
     "influx": "^5.0.7",
-    "inquirer": "^3.2.3",
+    "inquirer": "^3.3.0",
     "jquery": "^3.3.1",
     "jquery-validation": "^1.17.0",
     "material-ui": "^0.20.0",
