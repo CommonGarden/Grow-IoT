@@ -1,8 +1,8 @@
 import React from 'react';
-import Webcam from 'react-webcam';
+import ImageUpload from 'react-images-upload';
 
-class Component extends React.Component {
+export default class Component extends React.Component {
   render() {
-    return <Webcam/>;
+    return <ImageUpload/>;
   }
 }

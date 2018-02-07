@@ -27,7 +27,7 @@ const components = {
 	Thermostat,
 	CompostBrewer,
 	GrowHubGauges,
-    NewHub,
+  NewHub,
 };
 
 export default components;

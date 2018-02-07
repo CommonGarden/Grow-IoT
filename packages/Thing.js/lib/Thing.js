@@ -150,7 +150,7 @@ class Thing extends EventEmitter {
 
     /**
      * Sends an image (buffer) to the Grow-IoT server.
-     * @param {Object}  
+     * @param {Object}
      */
     this.sendImage = buffer => {
       this.ddpclient.call('Image.new', [{ uuid: this.uuid, token: this.token }, buffer], function (error, result) {
@@ -207,8 +207,7 @@ class Thing extends EventEmitter {
   }
 
   /**
-   * Create a CoAP server (Needs work... see: https://github.com/mcollina/node-coap)
-   * Don't use in production yet... but do help us get it to the point where we can.
+   * Create a CoAP server
    */
   listen(options) {
     // todo pass options into server...
