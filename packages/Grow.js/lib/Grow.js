@@ -200,11 +200,7 @@ module.exports = class Grow extends Thing {
    * @param {Object} cycles  An object containing cycle objects
    */
   parseCycles(cycles) {
-    console.log('CYCLES: ', cycles);
     _.each(cycles, (list, iteratee) => {
-      console.log('SCHEDULED TIMEOUT: ', scheduledTime);
-      console.log('GIVEN TIME WINDOW', String(cycles[iteratee].schedule));
-      console.log('ITERATEE: ', iteratee);
       let scheduledTime = later.parse.text(String(cycles[iteratee].schedule));
       return later.setTimeout(() => {
         try {
