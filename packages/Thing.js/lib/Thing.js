@@ -96,7 +96,7 @@ class Thing extends EventEmitter {
       host: 'localhost',
       port: 3000,
       ssl: false,
-      maintainCollections: false
+      maintainCollections: true
     }));
 
     this.ddpclient.connect((error, wasReconnect) => {

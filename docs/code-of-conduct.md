@@ -24,5 +24,3 @@ If you believe someone is violating the code of conduct, we ask that you report 
 * **When we disagree, try to understand why.** Disagreements, both social and technical, happen all the time and Common Garden is no exception. It is important that we resolve disagreements and differing views constructively. Remember that we are different. The strength of Common Garden comes from its varied community, people from a wide range of backgrounds. Different people have different perspectives on issues. Being unable to understand why someone holds a viewpoint does not mean that they are wrong. Do not forget that it is human to err and blaming each other does not get us anywhere, rather offer to help resolving issues and to help learn from mistakes.
 
 Original text courtesy of the [Django project](https://www.djangoproject.com/conduct/).
-
-_See [our guiding principles](Principles) as well._

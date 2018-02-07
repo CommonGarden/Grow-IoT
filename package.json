@@ -2,12 +2,14 @@
   "name": "Grow-IoT",
   "version": "0.5.1",
   "description": "A monorepo for the Internet of Living things.",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/CommonGarden/Grow-IoT"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=6",
+    "yarn": "^1.2.1"
   },
   "scripts": {
     "precommit": "lint-staged",
@@ -108,6 +110,9 @@
     },
     "rules": {}
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "lint-staged": {
     "*.{js,mjs}": "eslint"
   },
