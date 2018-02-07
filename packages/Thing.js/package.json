@@ -1,6 +1,6 @@
 {
   "name": "Thing.js",
-  "version": "0.4.17",
+  "version": "0.4.2",
   "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
   "main": "lib/Thing.js",
   "scripts": {

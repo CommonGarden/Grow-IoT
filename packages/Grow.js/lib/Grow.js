@@ -33,7 +33,7 @@ module.exports = class Grow extends Thing {
       this.db = new Datastore({ filename: path_to_datafile, autoload: true });
     }
 
-
+    // BUG: doesn't emit sensor events...
     // if a database is configured, all events are stored in the database.
     if (this.db) {
       events(this, '*', (event, value, ...params)=>{

@@ -1,4 +1,4 @@
-let Thing = require('../lib/Grow.js');
+let Thing = require('Grow.js');
 
 let testDevice = new Thing({
   uuid: 'test',
