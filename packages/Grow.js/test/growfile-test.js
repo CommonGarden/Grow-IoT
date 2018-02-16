@@ -10,13 +10,13 @@ const expect = require('chai').expect;
 describe('Growfile test', () => {
 
   beforeEach(() => {
-      global.testGrow = new Grow({}, 'state');
+      global.testGrow = new Grow({});
   });
 
-  //it('should load the database', ()=> {
-    //let grow = new Grow({}, 'state');
-    //console.log(testGrow.db);
-  //});
+  it('should load the database', ()=> {
+    let grow = new Grow({}, 'state.json');
+    console.log(grow.db);
+  });
 
   it('should parse and schedule cycles', () => {
     testGrow.parseCycles(cycles.properties.cycles);
