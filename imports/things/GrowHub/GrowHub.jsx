@@ -22,7 +22,7 @@ import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ImageOne from '../../app/components/images/ImageOne';
 import GrowFile from '../../app/components/GrowFile';
-import CameraComponent from '../Camera/CameraComponent';
+//import CameraComponent from '../Camera/CameraComponent';
 import {
   Card,
   CardActions,

@@ -1,6 +1,6 @@
 # Grow-IoT
 
-[![Backers on Open Collective](https://opencollective.com/Grow-IoT/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/Grow-IoT/sponsors/badge.svg)](#sponsors) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=master)](https://travis-ci.org/CommonGarden/Grow-IoT)
+[![Backers on Open Collective](https://opencollective.com/Grow-IoT/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/Grow-IoT/sponsors/badge.svg)](#sponsors) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/CommonGarden/Grow-IoT) [![BSD license](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/CommonGarden/Grow-IoT/blob/master/LICENSE) [![Build Status](https://travis-ci.org/CommonGarden/Grow-IoT.svg?branch=development)](https://travis-ci.org/CommonGarden/Grow-IoT)
 
 The Grow-IoT project is managed as a mono-repo with a bunch of seperately published packages such as:
 * [Grow.js](https://github.com/CommonGarden/Grow-IoT/tree/development/packages/Grow.js)
@@ -17,6 +17,8 @@ You need to install [Meteor](https://www.meteor.com/) first (if you haven't alre
 You will also need to install [yarn](https://yarnpkg.com/), which we use to manage all the packages that comprise Grow-IoT!
 
 See the [yarn website](https://yarnpkg.com/) for platform specific installation instructions.
+=======
+You will also need to install [yarn](https://yarnpkg.com/), which we use to manage all the packages that comprise Grow-IoT! See the [yarn website](https://yarnpkg.com/) for platform specific installation instructions.
 
 Then clone the repo and enter the new directory:
 

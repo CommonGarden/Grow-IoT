@@ -3,7 +3,7 @@ import TestDevice from './Misc/TestDevice.jsx';
 import SmartLight from './SmartLight/SmartLight.jsx';
 import ImageComponent from './Camera/ImageComponent';
 import TentacleExample from './Misc/TentacleExample';
-import CameraComponent from './Camera/CameraComponent';
+//import CameraComponent from './Camera/CameraComponent';
 import DrDose from './Misc/DrDose';
 import ClimateSensor from './Misc/ClimateSensor';
 import PlusFarm from './Misc/PlusFarm';
@@ -19,7 +19,7 @@ const components = {
 	TentacleExample,
 	TestDevice,
 	ImageComponent,
-	CameraComponent,
+	//CameraComponent,
 	DrDose,
 	ClimateSensor,
 	PlusFarm,

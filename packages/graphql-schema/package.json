@@ -40,9 +40,9 @@
   },
   "dependencies": {
     "dotenv": "^4.0.0",
-    "graphql": "^0.9.1",
-    "graphql-tools": "^0.11.0",
+    "graphql": "^0.13.1",
+    "graphql-tools": "^2.21.0",
     "grow-mongoose-models": "^0.4.16",
-    "mongoose": "^4.9.2"
+    "mongoose": "^5.0.6"
   }
 }

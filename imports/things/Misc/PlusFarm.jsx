@@ -21,7 +21,7 @@ import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ImageOne from '../../app/components/images/ImageOne';
-import CameraComponent from '../Camera/CameraComponent';
+//import CameraComponent from '../Camera/CameraComponent';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';

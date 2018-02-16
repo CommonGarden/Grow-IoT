@@ -28,9 +28,10 @@
   "dependencies": {
     "Thing.js": "^0.4.17",
     "ascii-codes": "^1.0.0",
+    "hypercore": "^6.12.2",
     "json-stringify-safe": "^5.0.1",
     "later": "^1.2.0",
-    "mathjs": "^3.17.0",
+    "mathjs": "^3.20.2",
     "nedb": "^1.8.0",
     "node-pid-controller": "^1.0.0",
     "regression": "^2.0.0",

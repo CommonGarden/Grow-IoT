@@ -47,7 +47,7 @@ describe('Grow.js', () => {
     global.testThing = new Grow(thing);
   });
 
-  describe('State', () => {
+  /*describe('State', () => {
     it('should store all events to file', () => {
       let statefulThing = new Grow(thing, 'state.json')
       statefulThing.emit('temperature', Math.random());
@@ -59,7 +59,7 @@ describe('Grow.js', () => {
       });
       console.log(data);
     });
-  });
+  });*/
 
   describe('Calibration', () => {
     it('should calibrate based on one measured value and a known value', () => {
