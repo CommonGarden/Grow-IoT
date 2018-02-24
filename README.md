@@ -14,13 +14,7 @@ See our [basic Raspberry pi example](https://github.com/CommonGarden/BasicRaspbe
 
 You need to install [Meteor](https://www.meteor.com/) first (if you haven't already). 
 
-You will also need to install [Lerna](https://github.com/lerna/lerna) and [yarn](https://yarnpkg.com/), which we use to manage all the packages that comprise Grow-IoT!
-
-You can install lerna with:
-
-```bash
-npm install -g lerna
-```
+You will also need to install [yarn](https://yarnpkg.com/), which we use to manage all the packages that comprise Grow-IoT!
 
 See the [yarn website](https://yarnpkg.com/) for platform specific installation instructions.
 
