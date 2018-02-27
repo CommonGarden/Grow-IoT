@@ -16,7 +16,7 @@ coverage
 tmp
 state
 state~
-
+data
 
 .elasticbeanstalk*
 .ebextensions*
