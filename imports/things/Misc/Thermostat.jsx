@@ -165,7 +165,10 @@ class Thermostat extends Component {
           />
           <br/>
         </CardText>
-      </Card>
+        <CardActions>
+          {this.props.actions}
+        </CardActions>
+     </Card>
     );
   }
 

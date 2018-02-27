@@ -47,12 +47,19 @@ describe('Grow.js', () => {
     global.testThing = new Grow(thing);
   });
 
-  describe('State', () => {
-    it('should write state to file', () => {
+  /*describe('State', () => {
+    it('should store all events to file', () => {
       let statefulThing = new Grow(thing, 'state.json')
-      // TODO: it should do so with options such as a different VREF
+      statefulThing.emit('temperature', Math.random());
+      let data;
+      statefulThing.db.find({}, (err, docs) => {
+        //console.log(err);
+        //console.log(docs);
+        data = docs
+      });
+      console.log(data);
     });
-  });
+  });*/
 
   describe('Calibration', () => {
     it('should calibrate based on one measured value and a known value', () => {

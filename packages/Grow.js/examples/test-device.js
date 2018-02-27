@@ -29,7 +29,7 @@ let testDevice = new Thing({
   start: function () {
     var interval = this.get('interval');
     data_interval = setInterval(()=> {
-      this.temp_data();
+        this.temp_data();
     }, interval);
 
     var growfile = this.get('growfile');
@@ -66,13 +66,11 @@ let testDevice = new Thing({
   // Note, there are probably more elegant ways of handling subthing methods.
   turn_on: function () {
     console.log('Heater on');
-    // var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'on', '4']);
     this.set('state', 'on');
   },
 
   turn_off: function () {
     console.log('Heater off');
-    // var process = spawn('dlipower', ['--hostname', '192.168.0.100', '--user', 'admin', '--password', '1234', 'off', '4']);
     this.set('state', 'off');
   },
 
@@ -80,8 +78,10 @@ let testDevice = new Thing({
     let temp = Math.random() * 10;
     this.emit('temperature', temp);
 
-    console.log('temperature: ' + temp);
+      console.log('temperature: ' + temp);
+
+      return temp;
   }
-});
+}, 'state.json');
 
 testDevice.connect();

@@ -1,4 +1,3 @@
 {
-  "presets": [ "babel-preset-meteor" ],
-  "plugins": ["transform-class-properties"]
+    "presets": [ "babel-preset-meteor" ]
 }

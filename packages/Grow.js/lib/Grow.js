@@ -8,6 +8,7 @@ const fs = require('fs');
 const regression = require('regression');
 const stringify = require('json-stringify-safe');
 const Datastore = require('nedb');
+const hypercore = require('hypercore');
 const events = require('wildcards');
 
 /**
@@ -30,7 +31,8 @@ module.exports = class Grow extends Thing {
     // Perhaps just set these as config options? 'database' and 'state'.
     // Perhaps state should just be reserved for the Growfile?
     if (path_to_datafile) {
-      this.db = new Datastore({ filename: path_to_datafile, autoload: true });
+        this.db = new Datastore({ filename: path_to_datafile, autoload: true });
+        this.feed = hypercore('./data', {valueEncoding: 'json'});
     }
 
     // BUG: doesn't emit sensor events...
@@ -39,6 +41,7 @@ module.exports = class Grow extends Thing {
       events(this, '*', (event, value, ...params)=>{
         console.log('%s %s %s', event, value, params);
         this.db.insert({type: event, value: value, params: params, timestamp: new Date()});
+        this.feed.append({type: event, value: value, params: params, timestamp: new Date()});
       });
     }
   }
@@ -200,11 +203,7 @@ module.exports = class Grow extends Thing {
    * @param {Object} cycles  An object containing cycle objects
    */
   parseCycles(cycles) {
-    console.log('CYCLES: ', cycles);
     _.each(cycles, (list, iteratee) => {
-      console.log('SCHEDULED TIMEOUT: ', scheduledTime);
-      console.log('GIVEN TIME WINDOW', String(cycles[iteratee].schedule));
-      console.log('ITERATEE: ', iteratee);
       let scheduledTime = later.parse.text(String(cycles[iteratee].schedule));
       return later.setTimeout(() => {
         try {

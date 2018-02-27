@@ -19,18 +19,18 @@
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
-    "bluebird": "^3.4.7",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.16.0",
-    "chance": "^1.0.4",
+    "chance": "^1.0.13",
     "es6-error": "^4.0.1",
     "express": "^4.14.1",
     "grow-mongoose-models": "^0.4.16",
     "jsonwebtoken": "^7.2.1",
     "lodash": "^4.17.4",
-    "moment": "^2.17.1",
-    "mongoose": "^4.8.1",
-    "morgan": "^1.7.0",
-    "zxcvbn": "^4.4.1"
+    "moment": "^2.20.1",
+    "mongoose": "^5.0.6",
+    "morgan": "^1.9.0",
+    "zxcvbn": "^4.4.2"
   },
   "repository": {
     "type": "git",

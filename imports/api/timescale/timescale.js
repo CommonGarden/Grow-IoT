@@ -1,11 +1,7 @@
 import Influx from 'influx';
 import { Meteor } from 'meteor/meteor';
 
-if (process.env.METEOR_SETTINGS) {
-    const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
-} else {
-    const INFLUX_URL = process.env.INFLUX_URL ? process.env.INFLUX_URL: false;
-}
+const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 
 console.log('Influx URL: ' + INFLUX_URL);
 
