@@ -163,4 +163,28 @@ Meteor.methods({
 
     return Things.remove(thing._id);
   },
+
+  /*
+   * TODO be able to share a read only view of the device publically.
+   */
+    'Thing.setAccess': function (uuid, options) {
+        check(uuid, String);
+        // TODO a more robust check of the options object
+        check(options, Object);
+        // Users can only delete things they own... someone please audit this...
+        let thing = Things.findOne({
+            'uuid': uuid,
+            'owner': Meteor.userId()
+        });
+        if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
+
+        return Things.update(thing._id, {
+            $set: {
+                publicReadonly: options.publicReadonly
+            }
+        });
+    }
 });
+
+
+let getThingByUUID

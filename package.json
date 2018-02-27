@@ -1,6 +1,6 @@
 {
   "name": "Grow-IoT",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A monorepo for the Internet of Living things.",
   "private": true,
   "repository": {
@@ -17,7 +17,7 @@
     "start": "meteor npm install && meteor",
     "lint": "eslint .",
     "postinstall": "opencollective postinstall",
-    "test": "mocha"
+    "test": "mocha --exit"
   },
   "keywords": [
     "IoT",

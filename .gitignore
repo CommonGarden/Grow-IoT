@@ -1,4 +1,3 @@
-lib
 bower_components
 
 state.json
@@ -16,7 +15,7 @@ coverage
 tmp
 state
 state~
-
+data
 
 .elasticbeanstalk*
 .ebextensions*
