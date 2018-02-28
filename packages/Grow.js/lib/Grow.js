@@ -7,9 +7,6 @@ const math = require('mathjs');
 const fs = require('fs');
 const regression = require('regression');
 const stringify = require('json-stringify-safe');
-const Datastore = require('nedb');
-const hypercore = require('hypercore');
-const events = require('wildcards');
 
 /**
  * Grow is an extension of a Thing (which is basically a fancy event emitter).
@@ -20,30 +17,13 @@ const events = require('wildcards');
  */
 module.exports = class Grow extends Thing {
   constructor(config, path_to_datafile) {
-    super(config);
+    super(config, path_to_datafile);
 
     this.buffers = {};
 
-    // If provided with calibration data should we automatically calibrate?
+    // TODO If provided with calibration data should automatically calibrate
     this.calibration_data = {};
     this.calibrations = {};
-
-    // Perhaps just set these as config options? 'database' and 'state'.
-    // Perhaps state should just be reserved for the Growfile?
-    if (path_to_datafile) {
-        this.db = new Datastore({ filename: path_to_datafile, autoload: true });
-        this.feed = hypercore('./data', {valueEncoding: 'json'});
-    }
-
-    // BUG: doesn't emit sensor events...
-    // if a database is configured, all events are stored in the database.
-    if (this.db) {
-      events(this, '*', (event, value, ...params)=>{
-        console.log('%s %s %s', event, value, params);
-        this.db.insert({type: event, value: value, params: params, timestamp: new Date()});
-        this.feed.append({type: event, value: value, params: params, timestamp: new Date()});
-      });
-    }
   }
 
   /**
@@ -57,8 +37,8 @@ module.exports = class Grow extends Thing {
     _.each(targets, (value, key) => {
       if (value.ideal) {
         // Create a controller with defaults.
-        // Allow for them to define control parameters?
         if (typeof value.pid === 'object') {
+          // TODO check shape of object
           this.controllers[key] = new Controller(value.pid);
         } else {
           this.controllers[key] = new Controller({

@@ -76,5 +76,5 @@ function testDevice (u, t, c) {
     },
   });
 
-  testDevice.connect();
+  testDevice.coap.connect();
 }
