@@ -16,8 +16,6 @@ You need to install [Meteor](https://www.meteor.com/) first (if you haven't alre
 
 You will also need to install [yarn](https://yarnpkg.com/), which we use to manage all the packages that comprise Grow-IoT!
 
-See the [yarn website](https://yarnpkg.com/) for platform specific installation instructions.
-=======
 You will also need to install [yarn](https://yarnpkg.com/), which we use to manage all the packages that comprise Grow-IoT! See the [yarn website](https://yarnpkg.com/) for platform specific installation instructions.
 
 Then clone the repo and enter the new directory:
