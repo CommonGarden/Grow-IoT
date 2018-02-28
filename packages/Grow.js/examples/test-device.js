@@ -82,6 +82,6 @@ let testDevice = new Thing({
 
       return temp;
   }
-}, 'state.json');
+});
 
 testDevice.connect();

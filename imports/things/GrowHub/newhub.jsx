@@ -71,6 +71,7 @@ class GrowHub extends BaseThing {
           actAsExpander={false}
           showExpandableButton={false}
         />
+        {this.onlineSince()}
         <CardText>
           <Row style={{margin: -20}}>
             {
