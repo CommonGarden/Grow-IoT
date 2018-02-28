@@ -1,6 +1,6 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
-const ddp = require('./ddp');
+//const ddp = require('./ddp');
 const coap = require('./coap');
 const http = require('./http');
 const mqtt = require('./mqtt');
@@ -19,10 +19,6 @@ class Thing extends EventEmitter {
 
         _.extend(this, config);
         this.functions = _.functions(config);
-
-        this.ddp = ddp;
-        this.coap = coap;
-        this.mqtt = mqtt;
 
         if (path_to_dat_folder) {
             this.feed = hypercore(path_to_dat_folder, {valueEncoding: 'json'});
@@ -104,5 +100,13 @@ class Thing extends EventEmitter {
         }
     }
 }
+
+require('./ddp.js')(Thing);
+
+/*
+Thing.prototype.ddp = ddp;
+Thing.prototype.coap = coap;
+Thing.prototype.mqtt = mqtt;
+*/
 
 module.exports = Thing;
