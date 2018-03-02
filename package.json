@@ -47,6 +47,7 @@
     "hypercore-archiver": "^4.4.1",
     "influx": "^5.0.7",
     "inquirer": "^5.1.0",
+    "is-ci": "^1.1.0",
     "jquery": "^3.3.1",
     "jquery-validation": "^1.17.0",
     "material-ui": "^0.20.0",

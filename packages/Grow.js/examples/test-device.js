@@ -1,4 +1,4 @@
-let Thing = require('Grow.js');
+let Thing = require('../lib/Grow.js');
 
 let testDevice = new Thing({
   uuid: 'test',
@@ -84,4 +84,8 @@ let testDevice = new Thing({
   }
 });
 
-testDevice.connect();
+testDevice.connect({
+    host: 'grow.commongarden.org',
+    port: 443,
+    ssl: true
+});

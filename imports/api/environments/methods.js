@@ -6,13 +6,13 @@ import { EJSON } from 'meteor/ejson';
 import uuid from 'uuid/v1';
 
 /*
- * Thing methods
+ * Environment methods
 */
 Meteor.methods({
   /*
    * Registers a thing.
   */
-  'Thing.register': function (auth, config) {
+  'Environment.register': function (auth, config) {
     check(auth, {
       uuid: String,
       token: String
@@ -20,7 +20,7 @@ Meteor.methods({
     check(config, Object);
 
     // Check to see we have that thing and fetch the document.
-    let thing = Things.findOne(auth, {
+    let thing = Environments.findOne(auth, {
       fields: {
         _id: 1
       }
@@ -31,14 +31,14 @@ Meteor.methods({
       // Note this devices does not have an owner yet.
       config = _.extend(config, { registeredAt: new Date() });
 
-      if (!Things.insert(config)) { throw new Meteor.Error('internal-error', "Internal error."); }
+      if (!Environments.insert(config)) { throw new Meteor.Error('internal-error', "Internal error."); }
     }
 
     else {
       config = _.extend(config, { registeredAt: new Date() });
 
       // Update the document
-      if (!Things.update(thing._id, {
+      if (!Environments.update(thing._id, {
         $set: config
       })) { throw new Meteor.Error('internal-error', "Internal error."); }
     }
@@ -47,7 +47,7 @@ Meteor.methods({
   /*
    * Creates a new thing with UUID and Token.
   */
-  'Thing.new': function (thing, auth) {
+  'Environment.new': function (thing, auth) {
     check(thing, Match.OneOf(Object, null));
     check(auth, Match.OneOf({
       uuid: String,
@@ -55,7 +55,7 @@ Meteor.methods({
     }, undefined));
 
     // Check to see we have a registered thing and fetch the document.
-    let registered = Things.findOne(auth, {
+    let registered = Environments.findOne(auth, {
       fields: {
         _id: 1
       }
@@ -81,7 +81,7 @@ Meteor.methods({
             thing,
           };
         }
-        if (!Things.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
+        if (!Environments.insert(document)) { throw new Meteor.Error('internal-error', "Internal error."); }
 
         return document;
       }
@@ -92,7 +92,7 @@ Meteor.methods({
           'owner': Meteor.userId(),
         };
         // Update the document
-        if (!Things.update(registered._id, {
+        if (!Environments.update(registered._id, {
           $set: document
         })) { throw new Meteor.Error('internal-error', "Internal error."); }
       }
@@ -102,7 +102,7 @@ Meteor.methods({
   /*
    * Creates a new thing with UUID and Token.
   */
-  'Thing.generateAPIKeys': function (thing, auth) {
+  'Environment.generateAPIKeys': function (thing, auth) {
     check(thing, Match.OneOf(Object, undefined));
     check(auth, Match.OneOf({
       uuid: String,
@@ -123,7 +123,7 @@ Meteor.methods({
   /*
    * Set property
   */
-  'Thing.setProperty': function (auth, key, value) {
+  'Environment.setProperty': function (auth, key, value) {
     check(auth, {
       uuid: String,
       token: String
@@ -131,7 +131,7 @@ Meteor.methods({
     check(key, String);
     check(value, Match.OneOf(String, Number, Object, Boolean));
 
-    let thing = Things.findOne(auth, {
+    let thing = Environments.findOne(auth, {
       fields: {
         _id: 1,
         properties: 1
@@ -141,7 +141,7 @@ Meteor.methods({
 
     thing.properties[key] = value;
 
-    return Things.update(thing._id, {
+    return Environments.update(thing._id, {
       $set: {
         'properties': thing.properties
       }
@@ -151,34 +151,34 @@ Meteor.methods({
   /*
    * Delete thing.
   */
-  'Thing.delete': function (uuid) {
+  'Environment.delete': function (uuid) {
     check(uuid, String);
 
     // Users can only delete things they own... someone please audit this...
-    let thing = Things.findOne({
+    let thing = Environments.findOne({
       'uuid': uuid,
       'owner': Meteor.userId()
     });
     if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-    return Things.remove(thing._id);
+    return Environments.remove(thing._id);
   },
 
   /*
    * TODO be able to share a read only view of the device publically.
    */
-    'Thing.setAccess': function (uuid, options) {
+    'Environment.setAccess': function (uuid, options) {
         check(uuid, String);
         // TODO a more robust check of the options object
         check(options, Object);
         // Users can only delete things they own... someone please audit this...
-        let thing = Things.findOne({
+        let thing = Environments.findOne({
             'uuid': uuid,
             'owner': Meteor.userId()
         });
         if (!thing) { throw new Meteor.Error('unauthorized', "Unauthorized."); }
 
-        return Things.update(thing._id, {
+        return Environments.update(thing._id, {
             $set: {
                 publicReadonly: options.publicReadonly
             }
@@ -187,10 +187,10 @@ Meteor.methods({
 });
 
 
-function getThingByUUID (uuid) {
+function getEnvironmentByUUID (uuid) {
     check(uuid, String);
     // Users can only delete things they own... someone please audit this...
-    let thing = Things.findOne({
+    let thing = Environments.findOne({
         'uuid': uuid,
         'owner': Meteor.userId()
     });
