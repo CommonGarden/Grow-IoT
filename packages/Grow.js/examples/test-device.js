@@ -85,7 +85,7 @@ let testDevice = new Thing({
 });
 
 testDevice.connect({
-    host: 'grow.commongarden.org',
-    port: 443,
-    ssl: true
+//    host: 'grow.commongarden.org',
+//    port: 443,
+//    ssl: true
 });

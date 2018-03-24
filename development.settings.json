@@ -5,6 +5,6 @@
     "primary_color": "rgb(34, 194, 70)"
   },
   "INFLUX_URL": "localhost",
-  "ELASTIC_URL": false,
+  "ELASTIC_URL": "localhost",
   "S3": false
 }
