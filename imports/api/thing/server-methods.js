@@ -4,7 +4,15 @@ import { Match } from 'meteor/check';
 import { _ } from 'underscore';
 import influx from '../influx/influx';
 
-const INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
+let INFLUX_URL = false;
+
+if (process.env.METEOR_SETTINGS) {
+    INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
+} else {
+    INFLUX_URL = process.env.INFLUX_URL ? process.env.INFLUX_URL: false;
+}
+
+console.log(INFLUX_URL);
 
 Meteor.methods({
   'Thing.sendCommand': function (thingUuid, type, options) {
