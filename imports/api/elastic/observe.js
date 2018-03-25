@@ -8,7 +8,7 @@ const enqueueTask = function (id, type, collection, index) {
     index,
   };
   queue.enqueue('elastic', task, (err, job) => {
-    // console.log('enqueued:', job.data);
+    console.log('enqueued:', job.data);
   });
 };
 
