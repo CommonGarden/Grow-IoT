@@ -2,13 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Accounts } from 'meteor/accounts-base';
 import editProfile from './edit-profile';
-// import rateLimit from '../../../modules/rate-limit';
 
 Meteor.methods({
   'users.sendVerificationEmail': function usersSendVerificationEmail() {
     return Accounts.sendVerificationEmail(this.userId);
   },
+
   'users.editProfile': function usersEditProfile(profile) {
+    // TODO: make sure user is logged in, if not, throw error.
     check(profile, {
       emailAddress: String,
       profile: {
@@ -27,11 +28,3 @@ Meteor.methods({
   },
 });
 
-/*rateLimit({
-  methods: [
-    'users.sendVerificationEmail',
-    'users.editProfile',
-  ],
-  limit: 5,
-  timeRange: 1000,
-});*/

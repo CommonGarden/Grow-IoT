@@ -33,6 +33,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.40",
     "@std/esm": "^0.21.7",
+    "aws-sdk": "^2.213.1",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
     "bson-ext": "^1.0.1",
@@ -41,6 +42,7 @@
     "coap": "^0.21.0",
     "elasticsearch": "^14.1.0",
     "enzyme": "^3.3.0",
+    "express": "^4.16.3",
     "fibers": "^2.0.0",
     "flexboxgrid": "^6.3.1",
     "gridfs-stream": "^1.1.1",
@@ -57,6 +59,7 @@
     "mongodb": "^3.0.2",
     "monq": "^0.3.7",
     "mqtt": "^2.15.3",
+    "node-red": "^0.18.4",
     "opencollective": "^1.0.3",
     "pg": "^7.4.1",
     "pondjs": "^0.8.8",
