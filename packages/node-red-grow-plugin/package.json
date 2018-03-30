@@ -1,0 +1,22 @@
+{
+    "name": "node-red-grow-plugin",
+    "version": "0.1.0",
+    "description": "A Grow.js node for node-red, allowing you to use growfiles with flows!",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "node-red"
+    ],
+    "author": "Common Garden",
+    "license": "MIT",
+    "dependencies": {
+        "Grow.js": "^0.4.17"
+    },
+    "node-red" : {
+        "nodes": {
+            "node-red-grow-plugin": "node-red-grow-plugin.js"
+        }
+    }
+}
