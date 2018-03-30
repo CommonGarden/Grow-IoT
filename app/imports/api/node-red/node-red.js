@@ -1,6 +1,8 @@
 var express = require("express");
 var RED = require("node-red");
-var growPlugin = require("node-red-grow-plugin");
+
+// TODO
+//var growPlugin = require("node-red-grow-plugin");
 
 // Create an Express app
 var app = express();
