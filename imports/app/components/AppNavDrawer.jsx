@@ -19,6 +19,7 @@ import SvgIcon from 'material-ui/SvgIcon';
 import Avatar from 'material-ui/Avatar';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
+import BuildIcon from 'material-ui/svg-icons/action/build';
 
 const SelectableList = makeSelectable(List);
 
@@ -123,7 +124,8 @@ class AppNavDrawer extends Component {
         <SelectableList
           value=""
           onChange={this.handleRequestChangeLink}
-        > 
+        >
+          <ListItem primaryText="Logic" value="/red" leftIcon={<BuildIcon />} />
           <ListItem primaryText="Camera" value="/camera" leftIcon={<CameraIcon />} />
           <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />
           <ListItem primaryText="Settings" value="/app/settings" leftIcon={<SettingsIcon />} />
