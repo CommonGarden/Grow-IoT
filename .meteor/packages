@@ -38,5 +38,5 @@ static-html
 # mwc:mixin
 # mwc:synthesis
 # mwc:synthesis-assets
-ostrio:files
+# ostrio:files
 # useful:connectivity

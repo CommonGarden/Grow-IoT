@@ -61,8 +61,6 @@ npm-bcrypt@0.9.3
 npm-mongo@2.2.34
 observe-sequence@1.0.16
 ordered-dict@1.1.0
-ostrio:cookies@2.2.4
-ostrio:files@1.9.7
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2
 practicalmeteor:mocha@2.4.5_6

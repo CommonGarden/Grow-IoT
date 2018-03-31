@@ -126,7 +126,7 @@ class AppNavDrawer extends Component {
           onChange={this.handleRequestChangeLink}
         >
           <ListItem primaryText="Logic" value="/red" leftIcon={<BuildIcon />} />
-          <ListItem primaryText="Camera" value="/camera" leftIcon={<CameraIcon />} />
+          <ListItem primaryText="Camera" value="/app/camera" leftIcon={<CameraIcon />} />
           <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />
           <ListItem primaryText="Settings" value="/app/settings" leftIcon={<SettingsIcon />} />
         </SelectableList>

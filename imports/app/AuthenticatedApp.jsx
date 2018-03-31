@@ -22,6 +22,7 @@ import EventHistory from './pages/EventHistory.jsx';
 import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
+import CameraComponent from './components/Camera.jsx';
 
 const title = Meteor.settings.public.title || 'Grow-IoT';
 const logo = Meteor.settings.public.logo || '/img/white_flower.png';
@@ -182,6 +183,7 @@ class AuthenticatedApp extends Component {
             <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/events/:uuid`} render={routeProps => <EventHistory user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
+            <Route path={`${rootUrl}/camera`} component={CameraComponent} />
           </Switch>
         </div>
       </div>
