@@ -1,0 +1,52 @@
+{
+  "name": "grow-graphql-api-server",
+  "version": "0.4.16",
+  "description": "Grow-IoT graphql api server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "CommonGarden",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "cors": "^2.8.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "express-session": "^1.15.0",
+    "graphql": "^0.13.1",
+    "graphql-server-express": "^1.3.2",
+    "graphql-subscriptions": "^0.5.7",
+    "graphql-tools": "^2.21.0",
+    "grow-graphql-schema": "^0.4.16",
+    "grow-mongoose-models": "^0.4.16",
+    "node-uuid": "^1.4.7",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "subscriptions-transport-ws": "^0.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-preset-es2015": "^6.14.0",
+    "eslint": "^3.14.1",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "jest": "^18.1.0",
+    "nodemon": "^1.11.0"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "src/",
+      "node_modules/"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CommonGarden/graphql-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CommonGarden/graphql-api/issues"
+  },
+  "homepage": "https://github.com/CommonGarden/graphql-api#readme"
+}
