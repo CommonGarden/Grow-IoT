@@ -39,6 +39,7 @@ import moment from 'moment';
 import styles from './styles.js';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import AutoComplete from 'material-ui/AutoComplete';
+import Iframe from 'react-iframe';
 
 class GrowHub extends BaseThing {
   constructor(props) {
@@ -54,7 +55,6 @@ class GrowHub extends BaseThing {
   state = {
     settingsDialogOpen: false,
     expanded: true,
-    dataSource: ['heater', 'fan', 'light', 'humidifier', 'dehumidifier'],
   }
 
   render() {
