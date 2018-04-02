@@ -23,6 +23,7 @@ export default class App extends React.Component {
                 onChange={this.onDrop}
                 imgExtension={['.jpg', '.gif', '.png', '.gif']}
                 maxFileSize={5242880}
+                withPreview={true}
             />
         );
     }
