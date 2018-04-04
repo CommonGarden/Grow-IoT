@@ -13,7 +13,7 @@ mongo@1.4.2                   # The database Meteor supports right now
 session@1.1.7                 # Client-side reactive dictionary for your app
 tracker@1.1.3                 # Meteor's client-side reactive programming library
 es5-shim@4.7.0               # ECMAScript 5 compatibility for older browsers.
-ecmascript@0.10.0              # Enable ECMAScript2015+ syntax in app code
+ecmascript@0.10.6              # Enable ECMAScript2015+ syntax in app code
 
 
 ### ADD-ONS
