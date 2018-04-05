@@ -33,6 +33,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.40",
     "@std/esm": "^0.21.7",
+    "Grow.js": "^0.4.17",
     "aws-sdk": "^2.213.1",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",

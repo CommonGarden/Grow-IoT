@@ -1,14 +1,16 @@
-let Thing = require('../lib/Grow.js');
+let Thing = require('Grow.js');
+let types = require('./types.js');
 
 let testDevice = new Thing({
   uuid: 'test',
   token: 'test',
 
-  component: 'Thermostat',
+  component: 'NewHub',
 
   // Properties can be updated by the API
   properties: {
-    state: 'off',
+      state: 'off',
+      types: types,
     growfile: {
       temperature: {
         min: 1,

@@ -41,6 +41,15 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import AutoComplete from 'material-ui/AutoComplete';
 import Iframe from 'react-iframe';
 
+let GRAFANA_URL = false;
+if (Meteor.settings.public.GRAFANA_URL) {
+    GRAFANA_URL = Meteor.settings.public.GRAFANA_URL ? Meteor.settings.public.GRAFANA_URL : false;
+} else {
+    GRAFANA_URL = process.env.GRAFANA_URL ? process.env.GRAFANA_URL: false;
+}
+
+console.log('Grafana URL: ' + GRAFANA_URL);
+
 class GrowHub extends BaseThing {
   constructor(props) {
     super(props);
@@ -72,6 +81,17 @@ class GrowHub extends BaseThing {
           showExpandableButton={false}
         />
         {this.onlineSince()}
+        {
+            // TODO: append thing details to URL, see cg-grafana in packages/
+            GRAFANA_URL ? <Iframe url={GRAFANA_URL}
+                                  width="100%"
+                                  height="100%"
+                                  id="myId"
+                                  className="myClassname"
+                                  display="initial"
+                                  position="relative"
+                                  allowFullScreen/>:null
+        }
         <CardText>
           <Row style={{margin: -20}}>
             {

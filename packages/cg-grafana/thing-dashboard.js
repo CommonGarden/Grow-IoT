@@ -14,7 +14,7 @@ dashboard = {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": "events",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",

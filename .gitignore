@@ -1,7 +1,4 @@
-bower_components
-
-state.json
-
+# Node.js
 .npm*
 npm-debug.log
 yarn-error.log
@@ -13,10 +10,14 @@ dist
 .DS_Store
 coverage
 tmp
+
+# Our code base
 state
 state~
 data
+state.json
 
+# AWS
 .elasticbeanstalk*
 .ebextensions*
 
@@ -30,3 +31,9 @@ data
 
 # Node-Red
 ~
+
+# Misc
+bower_components
+
+# Docker
+meta

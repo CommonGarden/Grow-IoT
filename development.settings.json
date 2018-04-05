@@ -2,7 +2,8 @@
   "public" : {
     "title": "Grow-IoT",
     "logo": "/img/white_flower.png",
-    "primary_color": "rgb(34, 194, 70)"
+    "primary_color": "rgb(34, 194, 70)",
+      "GRAFANA_URL": "https://data.commongarden.org"
   },
   "INFLUX_URL": "localhost",
   "ELASTIC_URL": "localhost",

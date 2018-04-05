@@ -1,0 +1,29 @@
+version: '3'
+services:
+  grafana:
+    image: "grafana/grafana"
+    ports:
+      - "3333:3000"
+  influxdb:
+    image: "influxdb"
+    command: "influxd"
+    volumes:
+      - $PWD:/var/lib/influxdb
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+      - influxdb
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUX_URL=influxdb
+      - GRAFANA_URL=http://localhost:3333
+      - MONGO_URL=mongodb://mongo:27017/meteor
+  mongo:
+    image: mongo:latest
+    command: mongod --storageEngine=wiredTiger
+    volumes:
+      - $PWD:/var/lib/mongodb
