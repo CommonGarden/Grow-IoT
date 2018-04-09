@@ -3,7 +3,7 @@
     "title": "Grow-IoT",
     "logo": "/img/white_flower.png",
     "primary_color": "rgb(34, 194, 70)",
-      "GRAFANA_URL": "https://data.commongarden.org"
+      "GRAFANA_URL": "http://localhost:3000"
   },
   "INFLUX_URL": "localhost",
   "ELASTIC_URL": "localhost",

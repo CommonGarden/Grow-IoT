@@ -9,14 +9,9 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
-import Chip from 'material-ui/Chip';
-import FontIcon from 'material-ui/FontIcon';
-import SvgIconFace from 'material-ui/svg-icons/action/face';
-import {blue300, indigo900} from 'material-ui/styles/colors';
 
 
-
-class LogicView extends Component {
+class ThingsList extends Component {
   state = {
     loading: false,
   }
@@ -32,19 +27,14 @@ class LogicView extends Component {
           <Row className="layout horizontal center-justified">
             {
               things.map((v, k) => {
-                console.log(v);
                 return (
-                  <Chip
-                    key={k}
-                  >
-                    {v.uuid}
-                  </Chip>
+                  <ThingDisplay thing={v} key={k}/>
                 )
               }
               )
             }
           </Row>
-        </Grid>
+        </Grid> 
       );
     } else {
       return (
@@ -65,11 +55,11 @@ class LogicView extends Component {
   }
 }
 
-LogicView.PropTypes = {
+ThingsList.propTypes = {
   Things: PropTypes.array,
 }
 
-export default LogicViewContainer= createContainer(({ user, thingsChanged }) => {
+export default ThingsListContainer= createContainer(({ user, thingsChanged }) => {
   const things = Things.find().fetch();
   const h = Meteor.subscribe('Things.list');
 
@@ -78,4 +68,4 @@ export default LogicViewContainer= createContainer(({ user, thingsChanged }) => 
     thingsChanged,
     loading: h.ready(),
   }
-}, LogicView);
+}, ThingsList);

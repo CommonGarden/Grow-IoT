@@ -36,13 +36,41 @@ export default class CreateThing extends Component {
     value: 0,
   };
 
+  generateAPIKeys = () => {
+    return Meteor.call('Thing.generateAPIKeys', 
+      (error, document) => {
+        if (error) {
+          throw error;
+        } else {
+          if (!this.state.open) {
+            this.setState({open: true});
+          }
+          this.setState({
+            'uuid': document.uuid,
+            'token': document.token
+          });
+          return document;
+        }
+      }
+    );
+  }
+
   // Modify to create a new thing.
   handleOpen = () => {
     this.setState({open: true});
     this.handleNewDevice();
   };
 
+  handleNewEnvironment = () => {
+    // TODO
+  }
+
+  handleNewOrganism = () => {
+    // TODO
+  }
+
   handleNewDevice = () => {
+    console.log(this.generateAPIKeys());
     Meteor.call('Thing.generateAPIKeys', 
       (error, document) => {
         if (error) {
@@ -173,9 +201,9 @@ export default class CreateThing extends Component {
         >
           <Subheader>Create new:</Subheader>
           <MenuItem primaryText="Device" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewDevice} />
-          {
-          // <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleOpen} />
-          }
+          <MenuItem primaryText="Environment" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewEnvironment} />
+          <MenuItem primaryText="Organism" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewOrganism} />
+          <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleOpen} />
         </IconMenu>
         <Dialog
           title="New device"

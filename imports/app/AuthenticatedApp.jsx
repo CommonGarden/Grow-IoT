@@ -15,7 +15,8 @@ import MenuItem from 'material-ui/MenuItem';
 import AppNavDrawer from './components/AppNavDrawer';
 import ThingsList from './pages/ThingsList.jsx';
 import ThingView from './pages/ThingView.jsx';
-import LogicView from './pages/LogicView.jsx';
+import EnvironmentsList from './pages/EnvironmentsList.jsx';
+import EnvironmentsView from './pages/EnvironmentsView.jsx';
 import Profile from './pages/Profile.jsx';
 import Camera from './components/Camera.jsx';
 import EventHistory from './pages/EventHistory.jsx';
@@ -178,9 +179,10 @@ class AuthenticatedApp extends Component {
           <Switch>
             <Redirect exact from={`${rootUrl}/`} to={`${rootUrl}/things`}/>
             <Route path={`${rootUrl}/things`} render={routeProps=> <ThingsList user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
-            <Route path={`${rootUrl}/logic`} render={routeProps=> <LogicView user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
+            <Route path={`${rootUrl}/environments`} render={routeProps=> <EnvironmentsList user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
             <Route path={`${rootUrl}/settings`} render={routeProps=> <Profile user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView user={this.props.user} {...routeProps}/>}/>
+            <Route path={`${rootUrl}/environment/:uuid`} render={routeProps => <EnvironmentView user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/events/:uuid`} render={routeProps => <EventHistory user={this.props.user} {...routeProps}/>}/>
             <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
             <Route path={`${rootUrl}/camera`} component={CameraComponent} />

@@ -41,12 +41,10 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import AutoComplete from 'material-ui/AutoComplete';
 import Iframe from 'react-iframe';
 
-let GRAFANA_URL = false;
-if (Meteor.settings.public.GRAFANA_URL) {
-    GRAFANA_URL = Meteor.settings.public.GRAFANA_URL ? Meteor.settings.public.GRAFANA_URL : false;
-} else {
-    GRAFANA_URL = process.env.GRAFANA_URL ? process.env.GRAFANA_URL: false;
-}
+// Ummmm, there is no process variable in the browser... should we use SSR?
+let GRAFANA_URL = GRAFANA_URL = process.env.GRAFANA_URL ? process.env.GRAFANA_URL: (
+    Meteor.settings.public.GRAFANA_URL ? Meteor.settings.public.GRAFANA_URL: 'http://localhost:3333'
+);
 
 console.log('Grafana URL: ' + GRAFANA_URL);
 

@@ -14,7 +14,7 @@ if (Meteor.isServer) {
   import './Users/server/index.js';
   import './node-red/node-red.js';
 }
-console.log('n');
+
 import './thing/methods';
 import './notifications/methods';
 // import './images/methods';
