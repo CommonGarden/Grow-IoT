@@ -9,13 +9,14 @@ let testDevice = new Thing({
 
   // Properties can be updated by the API
   properties: {
-      state: 'off',
-      types: types,
+    state: 'off',
+    types: types,
+    automation_enabled: false,
     growfile: {
       temperature: {
-        min: 1,
+        min: 0,
         ideal: 4,
-        max: 9,
+        max: 100,
         pid: {
           k_p: 300,
           k_i: 0,
@@ -31,7 +32,7 @@ let testDevice = new Thing({
   start: function () {
     var interval = this.get('interval');
     data_interval = setInterval(()=> {
-        this.temp_data();
+        this.emit_data();
     }, interval);
 
     var growfile = this.get('growfile');
@@ -41,13 +42,16 @@ let testDevice = new Thing({
 
     // Listen for correction events from our PID controller
     this.on('correction', (key, correction) => {
-      // console.log(key, correction);
-      if (Math.abs(correction) > threshold) {
-        if (key === 'temperature') {
-          if (correction > 0) {
-            this.call('turn_on');
-          } else {
-            this.call('turn_off');
+      console.log(key, correction);
+      let automation_enabled = this.get('automation_enabled');
+      if (automation_enabled) {
+        if (Math.abs(correction) > threshold) {
+          if (key === 'temperature') {
+            if (correction > 0) {
+              this.call('turn_on');
+            } else {
+              this.call('turn_off');
+            }
           }
         }
       }
@@ -76,13 +80,17 @@ let testDevice = new Thing({
     this.set('state', 'off');
   },
 
-  temp_data: function () {
-    let temp = Math.random() * 10;
-    this.emit('temperature', temp);
-
-      console.log('temperature: ' + temp);
-
-      return temp;
+  emit_data: function () {
+    this.emit('temperature', Math.random() * 10);
+    this.emit('humidity', Math.random() * 10);
+    this.emit('pressure', Math.random() * 10);
+    this.emit('lux', Math.random() * 10);
+    this.emit('co2', Math.random() * 10);
+    this.emit('water_temperature', Math.random() * 10);
+    this.emit('ph', Math.random() * 10);
+    this.emit('ec', Math.random() * 10);
+    this.emit('orp', Math.random() * 10);
+    this.emit('dissolved_oxygen', Math.random() * 10);
   }
 });
 

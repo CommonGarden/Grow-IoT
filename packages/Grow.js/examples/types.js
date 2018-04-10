@@ -27,7 +27,7 @@ module.exports = {
   ],
   sensors: [
       {
-        type: 'temp',
+        type: 'temperature',
         title: 'Air Temperature',
         icon: 'wi wi-thermometer',
         unit: 'wi wi-celsius',
@@ -84,24 +84,9 @@ module.exports = {
         max: 40,
       },
       {
-        type: 'water_level',
-        title: 'Water level',
-        max: 100,
-      },
-      {
         type: 'co2',
-          title: 'Carbon Dioxide',
+        title: 'Carbon Dioxide',
         max: 5000,
       },
-      {
-        type: 'moisture_1',
-        title: 'Moisture sensor #1',
-        max: 100
-      },
-      {
-        type: 'moisture_2',
-        title: 'Moisture sensor #2',
-        max: 100
-      }
     ]
 }

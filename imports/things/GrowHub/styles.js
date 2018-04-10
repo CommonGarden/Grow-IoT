@@ -28,7 +28,9 @@ export default {
     marginRight: 5
   },
   settings: {
-    float: 'right'
+    float: 'right',
+    bottom: 30,
+    marginBottom: -30
   },
   smallIcon: {
     height: 15,

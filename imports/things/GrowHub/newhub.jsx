@@ -40,6 +40,7 @@ import styles from './styles.js';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import AutoComplete from 'material-ui/AutoComplete';
 import Iframe from 'react-iframe';
+import Toggle from 'material-ui/Toggle';
 
 // Ummmm, there is no process variable in the browser... should we use SSR?
 let GRAFANA_URL = GRAFANA_URL = process.env.GRAFANA_URL ? process.env.GRAFANA_URL: (
@@ -61,7 +62,7 @@ class GrowHub extends BaseThing {
 
   state = {
     settingsDialogOpen: false,
-    expanded: true,
+    expanded: false,
   }
 
   render() {
@@ -71,28 +72,45 @@ class GrowHub extends BaseThing {
     const types = thing.properties.types;
 
     return (
-      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-        <CardHeader
-          title={thing.properties.growfile.name}
+      <Card expanded={this.state.expanded}
+            onExpandChange={this.handleExpandChange}
+            style={{backgroundColor: '#f8f8f8'}}>
+         <CardHeader
+          title={thing.properties.growfile.name ? thing.properties.growfile.name: 'Grow Controller'}
           subtitle={thing.properties.growfile.batch}
-          actAsExpander={false}
+          actAsExpander={true}
           showExpandableButton={false}
-        />
-        {this.onlineSince()}
-        {
-            // TODO: append thing details to URL, see cg-grafana in packages/
-            GRAFANA_URL ? <Iframe url={GRAFANA_URL}
-                                  width="100%"
-                                  height="100%"
-                                  id="myId"
-                                  className="myClassname"
-                                  display="initial"
-                                  position="relative"
-                                  allowFullScreen/>:null
-        }
-        <CardText>
+          children={
+            <IconButton
+              tooltip="Options"
+              tooltipPosition="top-center"
+              onTouchTap={this.handleOpen}
+              style={styles.settings}>
+              <SettingsIcon />
+            </IconButton>
+          }
+         />
+         {this.onlineSince()}
+         {
+           GRAFANA_URL ? <Iframe url={
+             GRAFANA_URL +
+                                      '/dashboard/script/thing.js?orgId=1&id=' +
+                                      thing._id + '&types='+
+                                      encodeURIComponent(JSON.stringify(types))
+           }
+                                 width="100%"
+                                 height="800px"
+                                 id="myId"
+                                 className="myClassname"
+                                 display="initial"
+                                 position="relative"
+                                 allowFullScreen/>: null
+         }
+         <CardText expandable={true}>
           <Row style={{margin: -20}}>
             {
+              /*
+              // TODO: collapsed view
               types && types.sensors ? types.sensors.map((v, k) => {
                 const events = this.getEvents(v.type);
                 return this.getEventValue(v.type) !== 'NA' ? <Col xs={6} md={3} key={k}>
@@ -110,16 +128,10 @@ class GrowHub extends BaseThing {
                         </IconButton> {alerts[v.type]}</span>: <span></span>
                       }
                     </h3>
-                    <Gauge value={this.getEventValue(v.type)}
-                           width={175}
-                           height={125}
-                           max={v.max}
-                           label={null}
-                           valueLabelStyle={styles.values}
-                           color={alerts[v.type] ? 'red': 'green'} />
                   </div>
                 </Col>:null
               }): null
+              */
             }
           </Row>
         </CardText>
@@ -154,21 +166,11 @@ class GrowHub extends BaseThing {
                   defaultValue={thing.properties.interval}
                   onChange={this.handleScheduleChange}
                 />
-
                 <br/>
-                <TextField
-                  hintText="Insert valid Growfile JSON"
-                  errorText="This field is required."
-                  floatingLabelText="Growfile"
-                  id="Growfile"
-                  ref="Growfile"
-                  defaultValue={JSON.stringify(thing.properties.growfile, null, 2)}
-                  onChange = {this.handleGrowfileChange}
-                  multiLine={true}
-                  style={styles.oneHundred}
-                  rows={10}
+                <Toggle
+                  label="Automation"
+                  toggled={false}
                 />
-                <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
                 </Col>
             </Row>
           </CardText>
@@ -184,6 +186,12 @@ class GrowHub extends BaseThing {
             onRequestClose={this.handleClose}
             open={this.state.settingsDialogOpen}>
 
+            <h2>Reboot</h2>
+            <p>Rebooting the device will result in the device temporarilly going offline.</p>
+            <RaisedButton label="Reboot device" primary={true} onTouchTap={this.updateGrowfile}/>
+            <br/>
+
+            <h2>Grow settings</h2>
             <TextField
               hintText="Insert valid Growfile JSON"
               errorText="This field is required."
@@ -197,10 +205,11 @@ class GrowHub extends BaseThing {
               rows={10}
             />
             <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
-          </Dialog>
-        <CardActions>
-          {this.props.actions}
-        </CardActions>
+            <h2>Delete</h2>
+            <p>WARNING, this will delete your device and all it's event history!</p>
+            {this.props.actions}
+         </Dialog>
+
       </Card>
     )
   }
@@ -289,7 +298,6 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
-
 
   const tempEvents = Events.find({'event.type': 'temperature',
     'thing._id': thing._id}, {

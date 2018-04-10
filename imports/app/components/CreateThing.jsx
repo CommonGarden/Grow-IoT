@@ -5,6 +5,8 @@ import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ComponentIcon from 'material-ui/svg-icons/av/web';
 import DevicesIcon from 'material-ui/svg-icons/hardware/router'
+import EnvironmentIcon from 'material-ui/svg-icons/image/nature-people';
+import OrganismIcon from 'material-ui/svg-icons/image/filter-vintage';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -201,10 +203,11 @@ export default class CreateThing extends Component {
         >
           <Subheader>Create new:</Subheader>
           <MenuItem primaryText="Device" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewDevice} />
-          <MenuItem primaryText="Environment" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewEnvironment} />
-          <MenuItem primaryText="Organism" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewOrganism} />
+          <MenuItem primaryText="Environment" leftIcon={<EnvironmentIcon />} onTouchTap={this.handleNewEnvironment} />
+          <MenuItem primaryText="Organism" leftIcon={<OrganismIcon />} onTouchTap={this.handleNewOrganism} />
           <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleOpen} />
         </IconMenu>
+
         <Dialog
           title="New device"
           actions={actions}
@@ -230,22 +233,36 @@ export default class CreateThing extends Component {
             hintText="token"
             floatingLabelText="token"
             style={thingStyle}
-            // errorText="This field is required"
-            // floatingLabelText={
-            //   <em>Secret<Visible/></em>
-            // }
           />
         </div>
-        {
-          // <SelectField
-          //   floatingLabelText="Component Type"
-          //   value={this.state.value}
-          //   onChange={this.handleChange}
-          // >
-          //   {componentItems}
-          // </SelectField>
-        }
         </Dialog>
+
+        <Dialog
+          title="New environment"
+          actions={actions}
+          modal={true}
+          open={this.state.open_environment}
+          onRequestClose={this.handleCloseEnvironment}
+        >
+          <div>
+          <p>If you purchased a device enter its credentials here:</p>
+          <TextField
+            hintText="Name"
+            onChange={this.nameFieldChange}
+            defaultValue={this.state.thingName}
+            floatingLabelText="Name"
+            style={thingStyle}
+          />
+        </div>
+          <SelectField
+            floatingLabelText="Component Type"
+            value={this.state.value}
+            onChange={this.handleChange}
+          >
+            {componentItems}
+          </SelectField>
+        </Dialog>
+
         <Snackbar
           open={this.state.newThingSnackOpen}
           message="Thing created"

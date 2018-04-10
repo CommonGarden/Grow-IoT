@@ -15,8 +15,7 @@ Meteor.startup(() => {
         collection,
         index,
       };
-        // If type == alert, send notification?
-        console.log(id, type, collection);
+
       queue.enqueue('events', task, (err, job) => {
         if (err) {throw err}
       });
@@ -65,7 +64,6 @@ Meteor.startup(() => {
   worker.start();
 
   function added(id, collection, index) {
-    // console.log('added')
     // query MongoDB for the document
   }
 
