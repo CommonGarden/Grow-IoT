@@ -17,12 +17,37 @@ let testDevice = new Thing({
         min: 0,
         ideal: 4,
         max: 100,
-        pid: {
-          k_p: 300,
-          k_i: 0,
-          k_d: 200,
-          dt: 1
-        }
+        threshold: 1,
+      },
+      humidity: {
+        min: 0,
+        ideal: 4,
+        max: 100,
+        threshold: 1,
+      },
+      pressure: {
+        min: 0,
+        ideal: 4,
+        max: 100,
+        threshold: 1,
+      },
+      co2: {
+        min: 0,
+        ideal: 4,
+        max: 100,
+        threshold: 1,
+      },
+      ph: {
+        min: 0,
+        ideal: 4,
+        max: 100,
+        threshold: 1,
+      },
+      ec: {
+        min: 0,
+        ideal: 4,
+        max: 100,
+        threshold: 1,
       },
     },
     interval: 1000,

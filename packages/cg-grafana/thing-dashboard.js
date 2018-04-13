@@ -116,6 +116,7 @@ for (var i = 0; i < sensors.length; i++) {
           "steppedLine": false,
           "targets": [
             {
+              "alias": sensor.type,
               "dsType": "influxdb",
               "groupBy": [
                 {

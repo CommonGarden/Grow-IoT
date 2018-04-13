@@ -97,6 +97,21 @@ Base64@~0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/Base64/-/Base64-0.2.1.tgz#ba3a4230708e186705065e66babdd4c35cf60028"
 
+Grow.js@^0.4.17:
+  version "0.4.17"
+  resolved "https://registry.yarnpkg.com/Grow.js/-/Grow.js-0.4.17.tgz#db6677d8b7433ca7cf333bac96d0d16c49d3293f"
+  dependencies:
+    Thing.js "^0.4.17"
+    ascii-codes "^1.0.0"
+    json-stringify-safe "^5.0.1"
+    later "^1.2.0"
+    mathjs "^3.17.0"
+    nedb "^1.8.0"
+    node-pid-controller "^1.0.0"
+    regression "^2.0.0"
+    underscore ">=1.8.3"
+    wildcards "^1.0.2"
+
 JSONStream@^1.0.4:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.2.tgz#c102371b6ec3a7cf3b847ca00c20bb0fce4c6dea"
@@ -6084,7 +6099,7 @@ material-ui@^0.20.0:
     simple-assign "^0.1.0"
     warning "^3.0.0"
 
-mathjs@^3.20.2:
+mathjs@^3.17.0, mathjs@^3.20.2:
   version "3.20.2"
   resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-3.20.2.tgz#3218aebde7de8cb5627c8fe3a1a216bf399ba91d"
   dependencies:
@@ -7797,6 +7812,10 @@ react-flexbox-grid@^2.0.0:
 react-flip-move@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-3.0.1.tgz#7bb5351c6e1d9778baf748cc5292aa98250c3401"
+
+react-forecast@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/react-forecast/-/react-forecast-0.0.7.tgz#5941e8dafc81e1adaf070c42bde7f27f25419639"
 
 react-grid-layout@^0.16.4:
   version "0.16.4"

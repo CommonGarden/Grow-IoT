@@ -111,7 +111,7 @@ class GrowHub extends BaseThing {
           <Row style={{margin: -20}}>
             {
               /*
-              // TODO: collapsed view, should just display icons with values
+              // TODO: collapsed view
               types && types.sensors ? types.sensors.map((v, k) => {
                 const events = this.getEvents(v.type);
                 return this.getEventValue(v.type) !== 'NA' ? <Col xs={6} md={3} key={k}>
@@ -142,10 +142,10 @@ class GrowHub extends BaseThing {
               <Row>
                   {
                       types && types.actuators ? types.actuators.map((value, key) => {
-                           return <Col xs={6} md={3} key={key}>
+                          return <Col xs={6} md={3} key={key}>
                               <div style={styles.actuator}>
                                   <div style={styles.actionButton}>
-                                      <p>{value.title}</p>
+                                      <p>{value.role}</p>
                                       <FloatingActionButton secondary={this.props.thing.properties[value.role] === 'on' ? true: false}
                                                             backgroundColor="rgb(208, 208, 208)"
                                                             data-device={value.role}
@@ -160,13 +160,20 @@ class GrowHub extends BaseThing {
               </Row>
               </Col>
               <Col xs={12} md={6}>
-                <div style={{padding:40}}>
+                  defaultValue={thing.properties.interval}
+                  onChange={this.handleScheduleChange}
+                />
+                <br/>
                 <Toggle
                   label="Automation"
                   toggled={false}
                 />
-                </div>
-              </Col>
+                {
+                  thing.properties.growfile ? Object.keys(thing.properties.growfile).map((v, k) => {
+                      console.log(value, key);
+                  }):null
+                }
+                </Col>
             </Row>
           </CardText>
           <Dialog
@@ -181,6 +188,10 @@ class GrowHub extends BaseThing {
             onRequestClose={this.handleClose}
             open={this.state.settingsDialogOpen}>
 
+            <h2>Reboot</h2>
+            <p>Rebooting the device will result in the device temporarilly going offline.</p>
+            <RaisedButton label="Reboot device" primary={true} onTouchTap={this.updateGrowfile}/>
+            <br/>
 
             <h2>Grow settings</h2>
             <TextField
@@ -191,7 +202,7 @@ class GrowHub extends BaseThing {
               onChange={this.handleScheduleChange}
             />
             <br/>
-            <TextField
+          <TextField
               hintText="Insert valid Growfile JSON"
               errorText="This field is required."
               floatingLabelText="Growfile"
@@ -204,14 +215,10 @@ class GrowHub extends BaseThing {
               rows={10}
             />
             <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
-            <h2>Reboot</h2>
-            <p>Rebooting the device will result in the device temporarilly going offline.</p>
-            <RaisedButton label="Reboot device" primary={true} onTouchTap={this.updateGrowfile}/>
-            <br/>
             <h2>Delete</h2>
             <p>WARNING, this will delete your device and all it's event history!</p>
             {this.props.actions}
-          </Dialog>
+         </Dialog>
       </Card>
     )
   }

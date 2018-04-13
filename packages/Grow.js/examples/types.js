@@ -4,24 +4,28 @@ module.exports = {
           type: 'relay',
           state: 'off',
           number: 1,
+          title: 'Fan',
           role: 'fan'
       },
       {
           type: 'relay',
           state: 'off',
           number: 2,
+          title: 'Humidifier',
           role: 'humidifier'
       },
       {
           type: 'relay',
           state: 'off',
           number: 3,
+          title: 'Heater',
           role: 'heater'
       },
       {
           type: 'relay',
           state: 'off',
           number: 4,
+          title: 'Light',
           role: 'light'
       }
   ],

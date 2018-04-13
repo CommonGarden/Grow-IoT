@@ -69,6 +69,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-flexbox-grid": "^2.0.0",
+    "react-forecast": "^0.0.7",
     "react-grid-layout": "^0.16.4",
     "react-iframe": "^1.1.0",
     "react-images-upload": "^1.0.6",

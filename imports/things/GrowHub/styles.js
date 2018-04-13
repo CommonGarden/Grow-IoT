@@ -29,7 +29,7 @@ export default {
   },
   settings: {
     float: 'right',
-    bottom: 30,
+    bottom: 5,
     marginBottom: -30
   },
   smallIcon: {

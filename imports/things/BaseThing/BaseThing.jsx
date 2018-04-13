@@ -36,9 +36,7 @@ export default class BaseThing extends Component {
   };
 
   handleGrowfileChange = (event, newValue) => {
-    // console.log(newValue);
     let growfile = JSON.parse(newValue);
-    // console.log(growfile);
     this.setState({growfile : growfile});
   };
 
@@ -90,10 +88,8 @@ export default class BaseThing extends Component {
   }
 
   onlineSince () {
-    const onlineSince = this.props.thing.onlineSince || false;
-
     if (!this.props.thing.onlineSince) {
-      return <span>Offline</span>
+      return <span style={{marginLeft:'1.2em'}}>Offline</span>
     } else {
       return <span></span>
     }
