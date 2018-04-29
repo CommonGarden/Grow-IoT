@@ -24,6 +24,7 @@ export default class App extends React.Component {
                 imgExtension={['.jpg', '.gif', '.png', '.gif']}
                 maxFileSize={5242880}
                 withPreview={true}
+                style={{maxWidth: '100%'}}
             />
         );
     }

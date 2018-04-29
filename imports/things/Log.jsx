@@ -65,12 +65,23 @@ class Log extends Component {
         />
         <RaisedButton label="Log" primary={true} onTouchTap={this.log}/>
         {
-          this.props.ready ? this.props.events.map((v, k) => {
+        this.props.ready ? <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHeaderColumn>ID</TableHeaderColumn>
+              <TableHeaderColumn>Name</TableHeaderColumn>
+              <TableHeaderColumn>Status</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          {
+          this.props.events.map((v, k) => {
             return <TableRow key={k}>
               <TableRowColumn>{typeof v.event === 'string' ? v.event: ""}</TableRowColumn>
               <TableRowColumn>{moment(v.event.insertedAt).format('MMMM Do YYYY, h:mm:ss a')}</TableRowColumn>
             </TableRow>
-          }): <CircularProgress />
+          })
+          }
+        </Table>: <CircularProgress />
         }
         <CardActions>
           {this.props.actions}
@@ -88,7 +99,6 @@ Log.propTypes = {
 export default LogContainer= createContainer((props) => {
   const uuid = props.thing.uuid;
   const thing = Things.findOne({ uuid: uuid });
-  console.log(thing);
   const eventsHandle = Meteor.subscribe('Thing.events', uuid);
   const ready = [ eventsHandle ].every(
     (h) => {
@@ -96,7 +106,7 @@ export default LogContainer= createContainer((props) => {
     }
   );
 
-  const events = Events.find({}, {limit: 20, sort: { insertedAt: -1 }}).fetch();
+  const events = Events.find({'thing._id': thing._id}, {limit: 20, sort: { insertedAt: -1 }}).fetch();
 
   return {
     events: events,

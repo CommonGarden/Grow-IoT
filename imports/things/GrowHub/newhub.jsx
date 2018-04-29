@@ -17,6 +17,7 @@ import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import EnergyIcon from 'material-ui/svg-icons/image/flash-on';
+import ChartIcon from 'material-ui/svg-icons/editor/show-chart';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import GrowFile from '../../app/components/GrowFile';
@@ -41,10 +42,11 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import AutoComplete from 'material-ui/AutoComplete';
 import Iframe from 'react-iframe';
 import Toggle from 'material-ui/Toggle';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 // Ummmm, there is no process variable in the browser... should we use SSR?
 let GRAFANA_URL = GRAFANA_URL = process.env.GRAFANA_URL ? process.env.GRAFANA_URL: (
-    Meteor.settings.public.GRAFANA_URL ? Meteor.settings.public.GRAFANA_URL: 'http://localhost:3333'
+    Meteor.settings.public.GRAFANA_URL ? Meteor.settings.public.GRAFANA_URL: 'https://data.commongarden.org'
 );
 
 console.log('Grafana URL: ' + GRAFANA_URL);
@@ -62,7 +64,24 @@ class GrowHub extends BaseThing {
 
   state = {
     settingsDialogOpen: false,
+    grafanaDashboardOpen: false,
     expanded: false,
+    value: 3
+  }
+
+  handleToggleGrfanaDashboard = () => {
+    this.setState({grafanaDashboardOpen: !this.state.grafanaDashboardOpen});
+  }
+
+  handleAutomationStartStop = (event) => {
+    let enabled = event.currentTarget.dataset.enabled;
+    this.setProperty('automation_enabled', !enabled);
+  }
+
+  // Rename sendCommand to send?
+  // Add to BaseThing?
+  reboot = () => {
+    this.sendCommand('reboot');
   }
 
   render() {
@@ -73,44 +92,30 @@ class GrowHub extends BaseThing {
     const growfile = thing.properties.growfile;
 
     return (
-      <Card expanded={this.state.expanded}
-            onExpandChange={this.handleExpandChange}
-            style={{backgroundColor: '#f8f8f8'}}>
-         <CardHeader
-          title={thing.properties.growfile.name ? thing.properties.growfile.name: 'Grow Controller'}
-          subtitle={thing.properties.growfile.batch}
-          actAsExpander={true}
-          showExpandableButton={false}
-          children={
-            <IconButton
-              tooltip="Options"
-              tooltipPosition="top-center"
-              onTouchTap={this.handleOpen}
-              style={styles.settings}>
-              <SettingsIcon />
-            </IconButton>
-          }
-         />
+      <Card>
+      <Toolbar>
+        <ToolbarGroup firstChild={true} style={{marginLeft: 0}}>
+          <ToolbarTitle text="Grow Controller"/>
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <IconButton
+            tooltip="Show charts"
+            tooltipPosition="top-center"
+            onTouchTap={this.handleToggleGrfanaDashboard}>
+            <ChartIcon />
+          </IconButton>
+          <IconButton
+            tooltip="Options"
+            tooltipPosition="top-center"
+            onTouchTap={this.handleOpen}>
+            <SettingsIcon />
+          </IconButton>
+       </ToolbarGroup>
+      </Toolbar>
          {this.onlineSince()}
-         {
-           GRAFANA_URL ? <Iframe url={
-             GRAFANA_URL +
-                                      '/dashboard/script/thing.js?orgId=1&id=' +
-                                      thing._id + '&types='+
-                                      encodeURIComponent(JSON.stringify(types))
-           }
-                                 width="100%"
-                                 height="800px"
-                                 id="myId"
-                                 className="myClassname"
-                                 display="initial"
-                                 position="relative"
-                                 allowFullScreen/>: null
-         }
-         <CardText expandable={true}>
+         <CardText>
           <Row style={{margin: -20}}>
             {
-              /*
               // TODO: collapsed view, should just display icons with values
               types && types.sensors ? types.sensors.map((v, k) => {
                 const events = this.getEvents(v.type);
@@ -132,7 +137,6 @@ class GrowHub extends BaseThing {
                   </div>
                 </Col>:null
               }): null
-              */
             }
           </Row>
         </CardText>
@@ -163,7 +167,9 @@ class GrowHub extends BaseThing {
                 <div style={{padding:40}}>
                 <Toggle
                   label="Automation"
-                  toggled={false}
+                  toggled={properties.automation_enabled}
+                  data-enabled={properties.automation_enabled}
+                  onTouchTap={this.handleAutomationStartStop}
                 />
                 </div>
               </Col>
@@ -180,8 +186,6 @@ class GrowHub extends BaseThing {
             autoScrollBodyContent={true}
             onRequestClose={this.handleClose}
             open={this.state.settingsDialogOpen}>
-
-
             <h2>Grow settings</h2>
             <TextField
               hintText="Log data every (milliseconds)"
@@ -206,11 +210,35 @@ class GrowHub extends BaseThing {
             <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
             <h2>Reboot</h2>
             <p>Rebooting the device will result in the device temporarilly going offline.</p>
-            <RaisedButton label="Reboot device" primary={true} onTouchTap={this.updateGrowfile}/>
+            <RaisedButton label="Reboot device" primary={true} onTouchTap={this.reboot}/>
             <br/>
             <h2>Delete</h2>
             <p>WARNING, this will delete your device and all it's event history!</p>
             {this.props.actions}
+          </Dialog>
+          <Dialog
+            contentStyle={{width:'80%', maxWidth: '100%'}}
+            bodyStyle={{backgroundColor: '#f8f8f8', padding: 0}}
+            actions={<FlatButton
+              label="Close"
+              primary={true}
+              onTouchTap={this.handleToggleGrfanaDashboard}
+            />}
+            modal={false}
+            autoScrollBodyContent={true}
+            onRequestClose={this.handleToggleGrfanaDashboard}
+            open={this.state.grafanaDashboardOpen}>
+            {
+              // HACK: this is passing a lot of info through the url.
+              GRAFANA_URL ? <Iframe url={
+                GRAFANA_URL +
+                                         '/dashboard/script/thing.js?orgId=1&id=' +
+                                         thing._id + '&types='+
+                                         encodeURIComponent(JSON.stringify(types))
+              }
+                                    id="myId"
+                                    allowFullScreen/>: null
+            }
           </Dialog>
       </Card>
     )
@@ -221,7 +249,7 @@ GrowHub.propTypes = {
   events: PropTypes.array,
   ecEvents: PropTypes.array,
   phEvents: PropTypes.array,
-  tempEvents: PropTypes.array,
+  temperatureEvents: PropTypes.array,
   humidityEvents: PropTypes.array,
   luxEvents: PropTypes.array,
   dissolved_oxygenEvents: PropTypes.array,
@@ -301,7 +329,7 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     sort: { insertedAt: -1 }
   }).fetch();
 
-  const tempEvents = Events.find({'event.type': 'temperature',
+  const temperatureEvents = Events.find({'event.type': 'temperature',
     'thing._id': thing._id}, {
     sort: { insertedAt: -1 }
   }).fetch();
@@ -326,7 +354,7 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     phEvents,
     ecEvents,
     orpEvents,
-    tempEvents,
+    temperatureEvents,
     humidityEvents,
     dissolved_oxygenEvents,
     luxEvents,

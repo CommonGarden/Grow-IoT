@@ -212,8 +212,10 @@ export default class CreateThing extends Component {
         >
           <Subheader>Create new:</Subheader>
           <MenuItem primaryText="Device" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewDevice} />
-          <MenuItem primaryText="Environment" leftIcon={<EnvironmentIcon />} onTouchTap={this.handleNewEnvironment} />
-          <MenuItem primaryText="Organism" leftIcon={<OrganismIcon />} onTouchTap={this.handleNewOrganism} />
+          {
+          // <MenuItem primaryText="Environment" leftIcon={<EnvironmentIcon />} onTouchTap={this.handleNewEnvironment} />
+          // <MenuItem primaryText="Organism" leftIcon={<OrganismIcon />} onTouchTap={this.handleNewOrganism} />
+          }
           <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleNewComponent} />
         </IconMenu>
 

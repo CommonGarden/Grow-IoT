@@ -8,6 +8,9 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
       - GF_AUTH_ANONYMOUS_ORG_ROLE=viewer
+    volumes:
+      - ./dashboards:/usr/share/grafana/public/dashboards
+
   influxdb:
     image: "influxdb"
     command: "influxd"

@@ -96,7 +96,7 @@ Meteor.methods({
     if (event.type === 'alert') {
       let key = _.keys(event.message)[0];
       let notification = 'Alert: ' + key + ' ' + event.message[key];
-      Meteor.call('Notifications.new', 
+      Meteor.call('Notifications.new',
         notification,
         thing.owner,
         (error, document) => {
