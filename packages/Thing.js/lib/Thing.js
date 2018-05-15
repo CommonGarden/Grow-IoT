@@ -181,6 +181,18 @@ class Thing extends EventEmitter {
         }
       });
 
+      // Auto reconnect doesn't always work.
+      // Here we set an interval to check connection status
+      this.checkConnectionInterval = setInterval(()=> {
+        if (this.ddpclient._connectionFailed) {
+          console.log('Connection failed! Reconnecting...');
+          this.ddpclient.close();
+          setTimeout(()=> {
+            this.connect(options);
+          }, 1000)
+        }
+      }, 10000);
+
       return this;
     };
 

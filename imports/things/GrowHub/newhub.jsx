@@ -43,6 +43,8 @@ import AutoComplete from 'material-ui/AutoComplete';
 import Iframe from 'react-iframe';
 import Toggle from 'material-ui/Toggle';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import WebCam from '../Camera/WebCamComponent.jsx';
+
 
 // Ummmm, there is no process variable in the browser... should we use SSR?
 let GRAFANA_URL = GRAFANA_URL = process.env.GRAFANA_URL ? process.env.GRAFANA_URL: (
@@ -113,6 +115,7 @@ class GrowHub extends BaseThing {
        </ToolbarGroup>
       </Toolbar>
          {this.onlineSince()}
+         { types && types.camera || types.cameras ? <WebCam thing={thing} />: null}
          <CardText>
           <Row style={{margin: -20}}>
             {
@@ -217,7 +220,7 @@ class GrowHub extends BaseThing {
             {this.props.actions}
           </Dialog>
           <Dialog
-            contentStyle={{width:'80%', maxWidth: '100%'}}
+            contentStyle={{width:'95%', maxWidth: '100%'}}
             bodyStyle={{backgroundColor: '#f8f8f8', padding: 0}}
             actions={<FlatButton
               label="Close"
@@ -236,7 +239,12 @@ class GrowHub extends BaseThing {
                                          thing._id + '&types='+
                                          encodeURIComponent(JSON.stringify(types))
               }
+                                    width="100%"
+                                    height="800px"
                                     id="myId"
+                                    className="myClassname"
+                                    display="initial"
+                                    position="relative"
                                     allowFullScreen/>: null
             }
           </Dialog>

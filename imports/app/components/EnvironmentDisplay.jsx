@@ -10,22 +10,21 @@ import Visible from 'material-ui/svg-icons/action/visibility';
 import NotVisible from 'material-ui/svg-icons/action/visibility-off';
 import _ from 'underscore';
 // import CreateComponent from './CreateComponent.jsx';
-import Components from '../../things/';
 import { Row, Col } from 'react-flexbox-grid';
 import SvgIcon from 'material-ui/SvgIcon';
 import CircularProgress from 'material-ui/CircularProgress';
 
 
-export default class ThingDisplay extends Component {
+export default class EnvironmentDisplay extends Component {
   state = {
     dltOpen: false,
   };
 
-  deleteThing = () => {
-    const thing = this.props.thing;
+  deleteEnvironment = () => {
+    const environment = this.props.environment;
     this.handleClose();
-    Meteor.call('Thing.delete',
-      thing.uuid,
+    Meteor.call('Environment.delete',
+      environment.uuid,
       (error, document) => {
         if (error) {
           throw error;
@@ -43,7 +42,7 @@ export default class ThingDisplay extends Component {
   };
 
   render () {
-    const thingStyle = {
+    const environmentStyle = {
       // margin: '20px',
       // minWidth: '350px'
     }
@@ -61,20 +60,20 @@ export default class ThingDisplay extends Component {
       <FlatButton
         label="Yes"
         primary={true}
-        onTouchTap={this.deleteThing}
+        onTouchTap={this.deleteEnvironment}
       />,
     ];
 
-    const registered = this.props.thing.registeredAt;
+    const registered = this.props.registeredAt;
     const deleteButton = <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ;
-    const unregisteredText = <Card style={thingStyle}>
+    const unregisteredText = <Card style={environmentStyle}>
       <CardText>
         <div>
-          <h3>Waiting for thing to connect</h3>
+          <h3>Waiting for environment to connect</h3>
           <br/>
           <CircularProgress />
-          <p>uuid: <span className="selectable">{this.props.thing.uuid}</span></p>
-          <p>token: <span className="selectable">{this.props.thing.token}</span></p>
+          <p>uuid: <span className="selectable">{this.props.environment.uuid}</span></p>
+          <p>token: <span className="selectable">{this.props.environment.token}</span></p>
         </div>
       </CardText>
       <CardActions>
@@ -82,11 +81,10 @@ export default class ThingDisplay extends Component {
       </CardActions>
     </Card>;
 
-    const RegisteredText = Components[this.props.thing.component];
     return (
       <Col xs={12} style={{flexBasis: 'initial'}}>
         {
-          registered ? <RegisteredText thing={this.props.thing} actions={
+          registered ? <RegisteredText environment={this.props.environment} actions={
             [ deleteButton ]
           }>
         </RegisteredText>

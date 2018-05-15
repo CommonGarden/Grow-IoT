@@ -18,7 +18,7 @@ export default class AccountsBottomNavigation extends Component {
   render() {
     const signInIcon = <FontIcon className="material-icons"></FontIcon>;
     const signUpIcon = <FontIcon className="material-icons"></FontIcon>;
-    
+
     return (
       <Paper zDepth={1}>
         <BottomNavigation selectedIndex={this.state.selectedIndex}>

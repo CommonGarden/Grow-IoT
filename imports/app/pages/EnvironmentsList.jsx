@@ -11,7 +11,7 @@ import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 
 
-class ThingsList extends Component {
+class EnvironmentsList extends Component {
   state = {
     loading: false,
   }
@@ -19,22 +19,23 @@ class ThingsList extends Component {
   componentWillMount() {
   }
 
-  renderThings() {
-    const things = this.props.Things;
-    if (things && things.length) {
+  renderEnvironments() {
+    const environments = this.props.Environments;
+
+    if (environments && environments.length) {
       return (
         <Grid>
           <Row className="layout horizontal center-justified">
             {
-              things.map((v, k) => {
+              environments.map((v, k) => {
                 return (
-                  <ThingDisplay thing={v} key={k}/>
+                  <p key={k}>{v.uuid}</p>
                 )
               }
               )
             }
           </Row>
-        </Grid> 
+        </Grid>
       );
     } else {
       return (
@@ -50,22 +51,22 @@ class ThingsList extends Component {
       }
     };
     return (
-      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
+      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderEnvironments()
     )
   }
 }
 
-ThingsList.propTypes = {
-  Things: PropTypes.array,
+EnvironmentsList.propTypes = {
+  Environments: PropTypes.array,
 }
 
-export default ThingsListContainer= createContainer(({ user, thingsChanged }) => {
-  const things = Things.find().fetch();
-  const h = Meteor.subscribe('Things.list');
+export default EnvironmentsListContainer= createContainer(({ user, thingsChanged }) => {
+  const h = Meteor.subscribe('Environments.list');
+  const environments = Environments.find().fetch();
 
   return {
-    Things: things,
+    Environments: environments,
     thingsChanged,
     loading: h.ready(),
   }
-}, ThingsList);
+}, EnvironmentsList);

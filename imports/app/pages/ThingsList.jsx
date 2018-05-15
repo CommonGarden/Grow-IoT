@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 
-
 class ThingsList extends Component {
   state = {
     loading: false,
@@ -34,7 +33,7 @@ class ThingsList extends Component {
               )
             }
           </Row>
-        </Grid> 
+        </Grid>
       );
     } else {
       return (

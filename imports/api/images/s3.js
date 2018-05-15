@@ -12,12 +12,15 @@ import fs from 'fs';
 
 // Example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx""}}' meteor
 if (process.env.S3) {
-  Meteor.settings.s3 = JSON.parse(process.env.S3).s3;
+  settings = process.env.S3;
 
-  const s3Conf = Meteor.settings.s3 || {};
+  const s3Conf = settings || {};
   const bound  = Meteor.bindEnvironment((callback) => {
     return callback();
   });
+
+  console.log(typeof s3Conf)
+  console.log(s3Conf)
 
   // Check settings existence in `Meteor.settings`
   // This is the best practice for app security
@@ -182,6 +185,6 @@ if (process.env.S3) {
       _origRemove.call(this, search);
     };
   } else {
-    throw new Meteor.Error(401, 'Missing Meteor file settings');
+    console.log('Missing Meteor file settings');
   }
 }

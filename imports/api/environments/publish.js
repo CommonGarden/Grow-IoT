@@ -1,33 +1,33 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-Meteor.publish('Thing.messages', function(auth) {
-  let thing, handle, options, query;
+Meteor.publish('Environment.messages', function(auth) {
+  let environment, handle, options, query;
 
   check(auth, {
     uuid: String,
     token: String
   });
 
-  thing = Things.findOne(auth, {
+  environment = Environments.findOne(auth, {
     fields: {
       _id: 1,
       owner: 1
     }
   });
 
-  if (!thing) {
+  if (!environment) {
     throw new Meteor.Error('unauthorized', "Unauthorized.");
   }
 
-  Things.update(thing._id, {
+  Environments.update(environment._id, {
     $set: {
       onlineSince: new Date()
     }
   });
 
   query = {
-    'thing._id': thing._id,
+    'environment._id': environment._id,
     createdAt: {
       $gte: new Date()
     }
@@ -45,8 +45,8 @@ Meteor.publish('Thing.messages', function(auth) {
   handle = Messages.find(query, options).observeChanges({
     added: (function(_this) {
       return function(id, fields) {
-        _this.added('Things.messages', id, fields);
-        _this.removed('Things.messages', id);
+        _this.added('Environments.messages', id, fields);
+        _this.removed('Environments.messages', id);
         return Messages.remove(id);
       };
     })(this)
@@ -61,8 +61,8 @@ Meteor.publish('Thing.messages', function(auth) {
       }
       handle = null;
       return Meteor.setTimeout(function() {
-        Things.update({
-          _id: thing._id,
+        Environments.update({
+          _id: environment._id,
           onlineSince: {
             $lt: new Date(new Date().valueOf() - 5000)
           }
@@ -71,11 +71,11 @@ Meteor.publish('Thing.messages', function(auth) {
             onlineSince: false
           }
         });
-        Meteor.call('Thing.emit', auth, {
-          message: "Thing offline"
+        Meteor.call('Environment.emit', auth, {
+          message: "Environment offline"
         }, function(error, documentId) {
           if (error) {
-            return console.error("New Thing.event Error", error);
+            return console.error("New Environment.event Error", error);
           }
         });
       }, 5000);
@@ -83,26 +83,26 @@ Meteor.publish('Thing.messages', function(auth) {
   })(this));
 });
 
-Meteor.publish('Things.list', function() {
-  return Things.find({
+Meteor.publish('Environments.list', function() {
+  return Environments.find({
     owner: this.userId
   });
 });
 
-Meteor.publish('Things.one', function(ThingUuid) {
-  check(ThingUuid, String);
-  return Things.find({
-    uuid: ThingUuid,
+Meteor.publish('Environments.one', function(EnvironmentUuid) {
+  check(EnvironmentUuid, String);
+  return Environments.find({
+    uuid: EnvironmentUuid,
     owner: this.userId
   });
 });
 
-Meteor.publish('Thing.events', function(uuid, type, l) {
+Meteor.publish('Environment.events', function(uuid, type, l) {
   check(uuid, String);
   check(type, Match.OneOf(String, undefined));
   check(l, Match.OneOf(Number, undefined));
 
-  let thing = Things.findOne({
+  let environment = Environments.findOne({
     'uuid': uuid,
     'owner': this.userId
   }
@@ -112,12 +112,12 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
       }
     });
 
-  if (!thing) { throw new Meteor.Error('not-found', `Thing '${uuid}' cannot be found.`); }
+  if (!environment) { throw new Meteor.Error('not-found', `Environment '${uuid}' cannot be found.`); }
 
   const limit = l || 100;
   if (type === undefined) {
     return Events.find(
-      {'thing._id': thing._id}
+      {'environment._id': environment._id}
       , {
         'sort': {
           'insertedAt': -1
@@ -128,7 +128,7 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
 
   if (type) {
     return Events.find({
-      'thing._id': thing._id,
+      'environment._id': environment._id,
       'event.type': type,
     }
       , {
@@ -140,11 +140,11 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
   }
 });
 
-// Meteor.publish('Thing.images', function (uuid, l) {
+// Meteor.publish('Environment.images', function (uuid, l) {
 //   check(uuid, String);
 //   check(l, Number);
 
-//   let thing = Things.findOne({
+//   let environment = Environments.findOne({
 //     'uuid': uuid,
 //     'owner': this.userId
 //   }
@@ -154,11 +154,11 @@ Meteor.publish('Thing.events', function(uuid, type, l) {
 //     }
 //   });
 
-//   if (!thing) throw new Meteor.Error('unauthorized', "Unauthorized.");
+//   if (!environment) throw new Meteor.Error('unauthorized', "Unauthorized.");
 
 //   const limit = l || 10;
 //   return Images.find(
-//     {'meta.thing': thing._id}
+//     {'meta.environment': environment._id}
 //     , {
 //       'sort': {
 //         'meta.insertedAt': -1

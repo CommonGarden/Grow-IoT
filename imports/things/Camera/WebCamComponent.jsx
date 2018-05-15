@@ -64,7 +64,7 @@ class CameraComponent extends BaseThing {
               hintText="Milliseconds between pictures"
               floatingLabelText="Schedule photo"
               defaultValue="60000"
-              data-key="interval"
+              data-key="picture_interval"
               onChange={this.handleScheduleChange}
               inputStyle={styles.white}
               floatingLabelStyle={styles.white}

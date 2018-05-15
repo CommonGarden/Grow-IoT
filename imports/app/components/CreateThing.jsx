@@ -42,7 +42,6 @@ export default class CreateThing extends Component {
   };
 
   generateAPIKeys = () => {
-    console.log('Creating API keys');
     return Meteor.call('Thing.generateAPIKeys',
       (error, document) => {
         if (error) {
@@ -60,6 +59,7 @@ export default class CreateThing extends Component {
 
   handleNewEnvironment = () => {
     this.setState({open_environment: true});
+    this.generateAPIKeys();
   }
 
   handleNewOrganism = () => {
@@ -144,12 +144,27 @@ export default class CreateThing extends Component {
 
   handleChange = (event, index, value) => this.setState({value});
 
-  handleSubmit = () => {
-    console.log(this.state);
+  handleCreateEnvironment = () => {
+    let uuid = this.state.uuid;
+    let token = this.state.token;
+     Meteor.call('Environment.new',
+      null,
+      {
+        uuid: this.state.uuid,
+        token: this.state.token
+      },
+      (error, document) => {
+        if (error) {
+          throw error;
+        }
+      }
+     );
+  };
 
-    const uuid = this.state.uuid;
-    const token = this.state.token;
-     Meteor.call('Thing.new',
+  handleSubmit = () => {
+    let uuid = this.state.uuid;
+    let token = this.state.token;
+    Meteor.call('Thing.new',
       null,
       {
         uuid: this.state.uuid,
@@ -212,8 +227,8 @@ export default class CreateThing extends Component {
         >
           <Subheader>Create new:</Subheader>
           <MenuItem primaryText="Device" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewDevice} />
+          <MenuItem primaryText="Environment" leftIcon={<EnvironmentIcon />} onTouchTap={this.handleNewEnvironment} />
           {
-          // <MenuItem primaryText="Environment" leftIcon={<EnvironmentIcon />} onTouchTap={this.handleNewEnvironment} />
           // <MenuItem primaryText="Organism" leftIcon={<OrganismIcon />} onTouchTap={this.handleNewOrganism} />
           }
           <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleNewComponent} />
@@ -259,7 +274,7 @@ export default class CreateThing extends Component {
               <FlatButton
                 label="Create"
                 primary={true}
-                onTouchTap={this.handleSubmit}
+                onTouchTap={this.handleCreateEnvironment}
               />
             ]
           }

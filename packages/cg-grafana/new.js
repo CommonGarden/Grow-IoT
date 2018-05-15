@@ -78,14 +78,9 @@ dashboard = {
 }
 
 var sensors = types.sensors;
-var x = 0;
-var y = 0;
 
 for (var i = 0; i < sensors.length; i++) {
   var sensor = sensors[i];
-
-  console.log(sensor);
-
   var panel = {
       "collapse": false,
       "height": 250,
@@ -116,7 +111,7 @@ for (var i = 0; i < sensors.length; i++) {
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 4,
+          "span": 12,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -216,20 +211,14 @@ for (var i = 0; i < sensors.length; i++) {
       "titleSize": "h6"
   };
 
-  if (x >= 16) {
-    x = 0;
-    y = y + 7;
-  }
-  x = x + 8;
-
   dashboard.rows.push(panel);
 }
 
-console.log(dashboard);
-
-// Hide side menu
 $( document ).ready(function() {
-  $('.sidemenu').hide();
+  $('.navbar-section-wrapper').hide();
+  $('.navbar-brand-btn').hide();
 });
 
 return dashboard;
+
+

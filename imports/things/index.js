@@ -7,6 +7,7 @@ import GrowHubGauges from './GrowHub/GrowHubGauges';
 import NewHub from './GrowHub/newhub.jsx';
 import TodoList from './TodoList.jsx';
 import Log from './Log.jsx';
+import WebCam from './Camera/WebCamComponent.jsx';
 
 const components = {
   Log,
@@ -14,6 +15,7 @@ const components = {
 	SmartLight,
 	TestDevice,
 	ImageComponent,
+  WebCam,
 	Thermostat,
 	GrowHubGauges,
   NewHub,
