@@ -110,6 +110,18 @@ class Thing extends EventEmitter {
         console.log('Grow server connection established.');
       }
 
+      // Auto reconnect doesn't always work.
+      // Here we set an interval to check connection status
+      this.checkConnectionInterval = setInterval(()=> {
+        if (this.ddpclient._connectionFailed) {
+          console.log('Connection failed! Reconnecting...');
+          this.ddpclient.close();
+          setTimeout(()=> {
+            this.connect(options);
+          }, 1000)
+        }
+      }, 10000);
+
       this.ddpclient.call('Thing.register', [{ uuid: this.uuid, token: this.token }, this.config], (error, result) => {
         if (error) {
           console.log(error);
@@ -180,18 +192,6 @@ class Thing extends EventEmitter {
           console.log(error, result);
         }
       });
-
-      // Auto reconnect doesn't always work.
-      // Here we set an interval to check connection status
-      this.checkConnectionInterval = setInterval(()=> {
-        if (this.ddpclient._connectionFailed) {
-          console.log('Connection failed! Reconnecting...');
-          this.ddpclient.close();
-          setTimeout(()=> {
-            this.connect(options);
-          }, 1000)
-        }
-      }, 10000);
 
       return this;
     };

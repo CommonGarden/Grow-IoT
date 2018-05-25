@@ -29,7 +29,7 @@ global.expect = require('chai').expect;
       testMethod: function () {
         return 'test';
       },
-          
+
       testOptions: function (option) {
         return option;
       },

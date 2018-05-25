@@ -1,4 +1,4 @@
-let Thing = require('Grow.js');
+let Thing = require('../lib/Grow.js');
 let types = require('./types.js');
 
 let testDevice = new Thing({
@@ -121,6 +121,6 @@ let testDevice = new Thing({
 
 testDevice.connect({
     //host: 'grow.commongarden.org',
-    port: 3055,
+    //port: 443,
     //ssl: true
 });
