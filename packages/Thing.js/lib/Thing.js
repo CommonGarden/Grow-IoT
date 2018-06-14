@@ -3,6 +3,9 @@ const EventEmitter = require('events');
 const DDPClient = require('ddp');
 const coap = require('coap');
 const url = require('url');
+const Datastore = require('nedb');
+const hypercore = require('hypercore');
+const events = require('wildcards');
 
 /**
  * A Thing is an extension of [node's built-in EventEmitter class](https://nodejs.org/api/events.html).
@@ -11,7 +14,7 @@ const url = require('url');
  * @return {Thing}   A new thing object
  */
 class Thing extends EventEmitter {
-  constructor(config) {
+  constructor(config, path_to_datafile) {
     super();
 
     this.config = config;
@@ -29,6 +32,22 @@ class Thing extends EventEmitter {
 
     if (!_.isUndefined(this.start)) {
       this.start();
+    }
+
+    // Perhaps just set these as config options? 'database' and 'state'.
+    // Perhaps state should just be reserved for the Growfile?
+    if (path_to_datafile) {
+      this.db = new Datastore({ filename: path_to_datafile, autoload: true });
+      this.feed = hypercore('./data', {valueEncoding: 'json'});
+    }
+
+    // if a database is configured, all events are stored in the database.
+    if (this.db) {
+      events(this, '*', (event, value, ...params)=>{
+        console.log('%s %s %s', event, value, params);
+        this.db.insert({type: event, value: value, params: params, timestamp: new Date()});
+        this.feed.append({type: event, value: value, params: params, timestamp: new Date()});
+      });
     }
 
     // Consider implementing a 'loop' much like in arduino...
@@ -187,6 +206,12 @@ class Thing extends EventEmitter {
         timestamp: new Date()
       };
 
+      // if a database is configured, all events are stored in the database.
+      if (this.db) {
+        this.db.insert(event);
+        this.feed.append(event);
+      }
+
       this.ddpclient.call('Thing.emit', [{ uuid: this.uuid, token: this.token }, event], function (error, result) {
         if (error) {
           console.log(error, result);
@@ -308,6 +333,12 @@ class Thing extends EventEmitter {
         args,
         timestamp: new Date()
       };
+
+      // if a database is configured, all events are stored in the database.
+      if (this.db) {
+        this.db.insert({type: event, message, params: args, timestamp: new Date()});
+        this.feed.append({type: event, message, params: args, timestamp: new Date()});
+      }
 
       let req = coap.request({
         pathname: 'emit'

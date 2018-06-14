@@ -1,6 +1,6 @@
 {
   "name": "Thing.js",
-  "version": "0.4.4",
+  "version": "0.4.6",
   "description": "Create thing objects with properties, actions, and events. Use for IoT devices or even living things like plants.",
   "main": "lib/Thing.js",
   "scripts": {
@@ -26,7 +26,10 @@
   "dependencies": {
     "coap": "^0.22.0",
     "ddp": "^0.12.1",
-    "underscore": "^1.8.3"
+    "hypercore": "^6.15.0",
+    "nedb": "^1.8.0",
+    "underscore": "^1.8.3",
+    "wildcards": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.0",

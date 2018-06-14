@@ -11,25 +11,27 @@ import S3 from 'aws-sdk/clients/s3'; // http://docs.aws.amazon.com/AWSJavaScript
 import fs from 'fs';
 
 // Example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx""}}' meteor
-if (process.env.S3) {
-  settings = process.env.S3;
+if (process.env.S3_bucket && process.env.S3_region && process.env.S3_key && process.env.S3_secret){
+  let settings = {
+    bucket: process.env.S3_bucket,
+    region: process.env.S3_region,
+    key: process.env.S3_key,
+    secret: process.env.S3_secret
+  };
 
-  const s3Conf = settings || {};
+  console.log(settings);
+
   const bound  = Meteor.bindEnvironment((callback) => {
     return callback();
   });
 
-  console.log(typeof s3Conf)
-  console.log(s3Conf)
-
-  // Check settings existence in `Meteor.settings`
   // This is the best practice for app security
-  if (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region) {
+  if (settings) {
     // Create a new S3 object
     const s3 = new S3({
-      secretAccessKey: s3Conf.secret,
-      accessKeyId: s3Conf.key,
-      region: s3Conf.region,
+      secretAccessKey: settings.secret,
+      accessKeyId: settings.key,
+      region: settings.region,
       // sslEnabled: true, // optional
       httpOptions: {
         timeout: 6000,
@@ -62,7 +64,7 @@ if (process.env.S3) {
           s3.putObject({
             // ServerSideEncryption: 'AES256', // Optional
             StorageClass: 'STANDARD',
-            Bucket: s3Conf.bucket,
+            Bucket: settings.bucket,
             Key: filePath,
             Body: fs.createReadStream(vRef.path),
             ContentType: vRef.type,
@@ -111,7 +113,7 @@ if (process.env.S3) {
           // content-disposition, chunked "streaming" and cache-control
           // we're using low-level .serve() method
           const opts = {
-            Bucket: s3Conf.bucket,
+            Bucket: settings.bucket,
             Key: path
           };
 
@@ -168,7 +170,7 @@ if (process.env.S3) {
           if (vRef && vRef.meta && vRef.meta.pipePath) {
             // Remove the object from AWS:S3 first, then we will call the original FilesCollection remove
             s3.deleteObject({
-              Bucket: s3Conf.bucket,
+              Bucket: settings.bucket,
               Key: vRef.meta.pipePath,
             }, (error) => {
               bound(() => {
@@ -185,6 +187,6 @@ if (process.env.S3) {
       _origRemove.call(this, search);
     };
   } else {
-    console.log('Missing Meteor file settings');
+    console.log('Missing S3 settings');
   }
 }

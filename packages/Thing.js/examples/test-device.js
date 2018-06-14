@@ -74,7 +74,11 @@ function testDevice (u, t, c) {
       console.log('off');
       testDevice.set('state', 'off');
     },
-  });
+  }, 'data.json');
 
   testDevice.connect();
+
+  setTimeout(()=> {
+    testDevice.feed.get(0, console.log)
+  }, 3000)
 }

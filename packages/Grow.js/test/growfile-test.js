@@ -15,7 +15,6 @@ describe('Growfile test', () => {
 
   it('should load the database', ()=> {
     let grow = new Grow({}, 'state.json');
-    console.log(grow.db);
   });
 
   it('should parse and schedule cycles', () => {

@@ -94,6 +94,26 @@ describe('Grow.js', () => {
     });
   });
 
+  // describe('Anomoly detection', ()=> {
+  //   it('should emit an anomaly event when a value is out of bounds', ()=> {
+  //     testThing.registerTargets({
+  //       pH: {
+  //         min: 5.0,
+  //         ideal: 6.0,
+  //         max: 7.0,
+  //         bounds: [0,14]
+  //       },
+  //     });
+  //     let event = false;
+  //     testThing.on('alert', (anomaly)=> {
+  //       return event = anomaly;
+  //     });
+  //     testThing.emit('ph', 10);
+  //     console.log(event)
+  //     expect(event).to.equal(true);
+  //   });
+  // });
+
   describe('Analog Sensors', () => {
     it('should parse an analog pH value', () => {
       let ph = testThing.parseAnalogpH(467);
