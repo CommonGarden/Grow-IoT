@@ -167,7 +167,7 @@ class GrowHub extends BaseThing {
               </Row>
               </Col>
               {
-                {/* properties.automation_enabled ? <Col xs={12} md={6}>
+                properties.automation_enabled ? <Col xs={12} md={6}>
                     <div style={{padding:40}}>
                     <Toggle
                     label="Automation"
@@ -176,7 +176,7 @@ class GrowHub extends BaseThing {
                     onTouchTap={this.handleAutomationStartStop}
                     />
                     </div>
-                    </Col>: null */}
+                    </Col>: null
               }
             </Row>
           </CardText>
@@ -235,7 +235,7 @@ class GrowHub extends BaseThing {
             open={this.state.grafanaDashboardOpen}>
             {
               // HACK: this is passing a lot of info through the url.
-              GRAFANA_URL ? <div style="overflow:auto;-webkit-overflow-scrolling:touch"><Iframe url={
+              GRAFANA_URL ? <div style={{overflow:'auto', WebkitOverflowScrolling:'touch'}}><Iframe url={
                 GRAFANA_URL +
                                          '/dashboard/script/thing.js?orgId=1&id=' +
                                          thing._id + '&types='+

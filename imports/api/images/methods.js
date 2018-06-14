@@ -38,6 +38,7 @@ Meteor.methods({
         throw error;
       } else {
         console.log(fileRef.name + ' is successfully saved to FS. _id: ' + fileRef._id);
+        Images.onAfterUpload(fileRef)
       }
     });
   },
