@@ -1,6 +1,6 @@
 {
   "name": "Grow-IoT",
-  "version": "0.5.2",
+  "version": "0.5.5",
   "description": "A monorepo for the Internet of Living things.",
   "private": true,
   "repository": {

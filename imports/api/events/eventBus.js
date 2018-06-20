@@ -4,7 +4,6 @@ export const MONGO_URL = process.env.MONGO_URL;
 export const client = monq(MONGO_URL);
 export const queue = client.queue('eventsqueue');
 
-// A work in progress...
 Meteor.startup(() => {
   let initialized = false;
   const enqueueTask = function (id, type, collection, index) {

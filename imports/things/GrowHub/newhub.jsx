@@ -46,10 +46,7 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import WebCam from '../Camera/WebCamComponent.jsx';
 
 
-// Ummmm, there is no process variable in the browser... should we use SSR?
-let GRAFANA_URL = GRAFANA_URL = process.env.GRAFANA_URL ? process.env.GRAFANA_URL: (
-    Meteor.settings.public.GRAFANA_URL ? Meteor.settings.public.GRAFANA_URL: 'https://data.commongarden.org'
-);
+let GRAFANA_URL = Meteor.settings.public.GRAFANA_URL ? Meteor.settings.public.GRAFANA_URL: 'https://data.commongarden.org'
 
 console.log('Grafana URL: ' + GRAFANA_URL);
 

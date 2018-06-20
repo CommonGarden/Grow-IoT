@@ -57,13 +57,13 @@ class AppNavDrawer extends Component {
     return typeof fn === 'function';
   }
 
-  signOut(e) {
+  signOut = (e) => {
     e.preventDefault();
     // Log out the user and navigate back to the home page on success
     Meteor.logout(this.signOutCallback);
   }
 
-  signOutCallback(error) {
+  signOutCallback = (error) => {
     if (error === undefined) {
       this.context.router.push('/');
     }

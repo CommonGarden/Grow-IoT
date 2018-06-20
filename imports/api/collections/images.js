@@ -9,27 +9,18 @@ import stream from 'stream';
 import S3 from 'aws-sdk/clients/s3';
 import fs from 'fs';
 
-let settings;
+let settings, s3;
 
-// USE METEOR_SETTING Environment settings instead
-// https://docs.meteor.com/api/core.html#Meteor-settings
-// if (process.env.METEOR_SETTINGS) {
 if (process.env.S3_bucket && process.env.S3_region && process.env.S3_key && process.env.S3_secret){
-  let settings = {
+  settings = {
     bucket: process.env.S3_bucket,
     region: process.env.S3_region,
     key: process.env.S3_key,
     secret: process.env.S3_secret
   };
-}
 
-const bound  = Meteor.bindEnvironment((callback) => {
-  return callback();
-});
-
-if (settings) {
   // Create a new S3 object
-  const s3 = new S3({
+  s3 = new S3({
     secretAccessKey: settings.secret,
     accessKeyId: settings.key,
     region: settings.region,
@@ -39,9 +30,11 @@ if (settings) {
       agent: false
     }
   });
-} else {
-  console.log('Missing S3 settings');
 }
+
+const bound  = Meteor.bindEnvironment((callback) => {
+  return callback();
+});
 
 // Declare the Meteor file collection on the Server
 Images = new FilesCollection({
@@ -168,7 +161,7 @@ Images.remove = function (search) {
   const cursor = this.collection.find(search);
   cursor.forEach((fileRef) => {
     _.each(fileRef.versions, (vRef) => {
-      if (vRef && vRef.meta && vRef.meta.pipePath) {
+      if (vRef && vRef.meta && vRef.meta.pipePath && Meteor.isServer) {
         // Remove the object from AWS:S3 first, then we will call the original FilesCollection remove
         s3.deleteObject({
           Bucket: settings.bucket,

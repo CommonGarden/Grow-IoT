@@ -3,9 +3,14 @@
     "title": "Grow-IoT",
     "logo": "/img/white_flower.png",
     "primary_color": "rgb(34, 194, 70)",
-      "GRAFANA_URL": "http://localhost:3000"
+    "GRAFANA_URL": "http://localhost:3000",
+    "S3": {
+      "bucket": "grow-iot",
+      "region": "us-west-2",
+      "key": "AKIAIGMH2HUOY2NIB76",
+      "secret": "Q5lutKgnyQ2Or1cFniNiwR2EGukR6Vn4l+EULNgy"
+    }
   },
-  "INFLUX_URL": "localhost",
-  "ELASTIC_URL": "localhost",
-  "S3": false
+  "INFLUX_URL": false,
+  "ELASTIC_URL": false
 }
