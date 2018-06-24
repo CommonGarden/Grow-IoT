@@ -1,23 +1,23 @@
 import ExtendableError from 'es6-error';
 
 class AccountError extends ExtendableError {
-  constructor(type, code, message) {
-    super(message);
-    this.type = type;
-    this.code = code;
-    this.errno = code;
-  }
+    constructor(type, code, message) {
+        super(message);
+        this.type = type;
+        this.code = code;
+        this.errno = code;
+    }
 }
 
 /**
  * Creates a specific error class
  */
 function buildError(type, code, message) {
-  return class extends AccountError {
-    constructor() {
-      super(type, code, message);
-    }
-  }
+    return class extends AccountError {
+        constructor() {
+            super(type, code, message);
+        }
+    };
 }
 
 export { AccountError };

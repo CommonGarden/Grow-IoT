@@ -1,0 +1,23 @@
+@media (max-width: 370px) {
+    .device {
+        min-width:300px;
+    }
+}
+
+@media (min-width: 370px) {
+    .device {
+        min-width:360px;
+    }
+}
+
+@media (min-width: 500px) {
+    .device {
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 2000px) {
+    .device {
+        min-width:800px;
+    }
+}

@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { TimeSeries, TimeRange, Event } from "pondjs";
 import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
 // import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
+import CircularProgress from 'material-ui/CircularProgress';
 
 // Work in progress. This class contains useful methods for making things.
 export default class BaseThing extends Component {
@@ -89,7 +89,7 @@ export default class BaseThing extends Component {
 
   onlineSince () {
     if (!this.props.thing.onlineSince) {
-      return <span style={{marginLeft:'1.2em'}}>Offline</span>
+      return <span style={{marginLeft:'1.2em'}}><CircularProgress />Offline</span>
     } else {
       return <span></span>
     }

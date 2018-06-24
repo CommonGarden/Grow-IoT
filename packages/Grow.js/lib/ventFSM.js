@@ -1,4 +1,4 @@
-let machina = require('machina')
+let machina = require('machina');
 const events = require('wildcards');
 
 var vehicleSignal = new machina.Fsm( {
@@ -8,16 +8,16 @@ var vehicleSignal = new machina.Fsm( {
     // setup behavior, etc. It receives the same arguments
     // (options) as the constructor function.
     initialize: function( options ) {
-      // your setup code goes here...
-      console.log('Initialized')
+        // your setup code goes here...
+        console.log('Initialized');
     },
 
-    namespace: "vehicle-signal",
+    namespace: 'vehicle-signal',
 
     // `initialState` tells machina what state to start the FSM in.
     // The default value is "uninitialized". Not providing
     // this value will throw an exception in v1.0+
-    initialState: "uninitialized",
+    initialState: 'uninitialized',
 
     // The states object's top level properties are the
     // states in which the FSM can exist. Each state object
@@ -28,8 +28,8 @@ var vehicleSignal = new machina.Fsm( {
             // Input handlers are usually functions. They can
             // take arguments, too (even though this one doesn't)
             // The "*" handler is special (more on that in a bit)
-            "*": function() {
-              this.deferUntilTransition();
+            '*': function() {
+                this.deferUntilTransition();
 
                 // The VENT should either open or close fully so we can determine the state of the vent
 
@@ -41,7 +41,7 @@ var vehicleSignal = new machina.Fsm( {
                 // call `transition` externally, you usually end up with the
                 // cleanest approach if you endeavor to transition *internally*
                 // and just pass input to the FSM.
-                this.transition( "open" );
+                this.transition( 'open' );
             }
         },
         open: {
@@ -49,16 +49,16 @@ var vehicleSignal = new machina.Fsm( {
             // immediately as the FSM transitions into the new state
             _onEnter: function() {
                 this.timer = setTimeout( function() {
-                    this.handle( "timeout" );
+                    this.handle( 'timeout' );
                 }.bind( this ), 30000 );
-                this.emit( "vehicles", { status: 'OPEN' } );
+                this.emit( 'vehicles', { status: 'OPEN' } );
             },
             // If all you need to do is transition to a new state
             // inside an input handler, you can provide the string
             // name of the state in place of the input handler function.
-            timeout: "open-interruptible",
+            timeout: 'open-interruptible',
             pedestrianWaiting: function() {
-                this.deferUntilTransition( "open-interruptible" );
+                this.deferUntilTransition( 'open-interruptible' );
             },
             // _onExit is a special handler that is invoked just before
             // the FSM leaves the current state and transitions to another
@@ -66,19 +66,19 @@ var vehicleSignal = new machina.Fsm( {
                 clearTimeout( this.timer );
             }
         },
-        "open-interruptible": {
-            pedestrianWaiting: "yellow"
+        'open-interruptible': {
+            pedestrianWaiting: 'yellow'
         },
         yellow: {
             _onEnter: function() {
                 this.timer = setTimeout( function() {
-                    this.handle( "timeout" );
+                    this.handle( 'timeout' );
                 }.bind( this ), 5000 );
                 // machina FSMs are event emitters. Here we're
                 // emitting a custom event and data, etc.
-                this.emit( "vehicles", { status: 'YELLOW' } );
+                this.emit( 'vehicles', { status: 'YELLOW' } );
             },
-            timeout: "closed",
+            timeout: 'closed',
             _onExit: function() {
                 clearTimeout( this.timer );
             }
@@ -86,11 +86,11 @@ var vehicleSignal = new machina.Fsm( {
         closed: {
             _onEnter: function() {
                 this.timer = setTimeout( function() {
-                    this.handle( "timeout" );
+                    this.handle( 'timeout' );
                 }.bind( this ), 1000 );
-                this.emit( "vehicles", { status: 'CLOSED' } );
+                this.emit( 'vehicles', { status: 'CLOSED' } );
             },
-            _reset: "open",
+            _reset: 'open',
             _onExit: function() {
                 clearTimeout(this.timer);
             }
@@ -101,16 +101,16 @@ var vehicleSignal = new machina.Fsm( {
     // make for a terribly expressive API. As a general rule, you wrap calls
     // to `handle` with more semantically meaningful method calls like these:
     reset: function() {
-        this.handle( "_reset" );
+        this.handle( '_reset' );
     },
 
     pedestrianWaiting: function() {
-        this.handle( "pedestrianWaiting" );
+        this.handle( 'pedestrianWaiting' );
     }
 } );
 
 events(vehicleSignal, '*', (event, value, ...params)=>{
-  console.log(event);
+    console.log(event);
 });
 
 
@@ -125,5 +125,5 @@ vehicleSignal.pedestrianWaiting();
 vehicleSignal.reset();
 
 vehicleSignal.on('vehicles', (info)=> {
-  console.log(info)
+    console.log(info);
 });

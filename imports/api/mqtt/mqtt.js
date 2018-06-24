@@ -1,13 +1,13 @@
-var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://localhost')
+var mqtt = require('mqtt');
+var client  = mqtt.connect('mqtt://localhost');
 
 client.on('connect', function () {
-  client.subscribe('presence')
-  client.publish('presence', 'Hello mqtt')
-})
+    client.subscribe('presence');
+    client.publish('presence', 'Hello mqtt');
+});
  
 client.on('message', function (topic, message) {
-  // message is Buffer
-  console.log(message.toString())
-  client.end()
-})
+    // message is Buffer
+    console.log(message.toString());
+    client.end();
+});

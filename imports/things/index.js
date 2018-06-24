@@ -10,15 +10,15 @@ import Log from './Log.jsx';
 import WebCam from './Camera/WebCamComponent.jsx';
 
 const components = {
-  Log,
-  TodoList,
-	SmartLight,
-	TestDevice,
-	ImageComponent,
-  WebCam,
-	Thermostat,
-	GrowHubGauges,
-  NewHub,
+    Log,
+    TodoList,
+    SmartLight,
+    TestDevice,
+    ImageComponent,
+    WebCam,
+    Thermostat,
+    GrowHubGauges,
+    NewHub,
 };
 
 export default components;

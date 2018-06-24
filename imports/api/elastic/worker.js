@@ -12,68 +12,68 @@ if (process.env.METEOR_SETTINGS) {
 
 
 Meteor.startup(() => {
-  if (ELASTIC_URL) {
-    const esClient = new elasticsearch.Client({
-      host: ELASTIC_URL
-    });
+    if (ELASTIC_URL) {
+        const esClient = new elasticsearch.Client({
+            host: ELASTIC_URL
+        });
 
-    const MongoClient = MongoDriver.MongoClient; 
-    const esSync = {};
-    MongoClient.connect(MONGO_URL, function(err, db) {
-      esSync.db = db;
-    });
+        const MongoClient = MongoDriver.MongoClient; 
+        const esSync = {};
+        MongoClient.connect(MONGO_URL, function(err, db) {
+            esSync.db = db;
+        });
 
-    const worker = client.worker(['eventsqueue']);
+        const worker = client.worker(['eventsqueue']);
 
-    worker.register({
-      elastic: function (params, callback) {
-        try {
-          processParams(params);
-          callback(null, params);
-        } catch (err) {
-          callback(err);
+        worker.register({
+            elastic: function (params, callback) {
+                try {
+                    processParams(params);
+                    callback(null, params);
+                } catch (err) {
+                    callback(err);
+                }
+            }
+        });
+
+        worker.start();
+
+        function processParams(params) {
+            switch(params.type) {
+                case 'added':
+                    added(params.id, params.collection, params.index);
+                    break;
+                case 'removed': 
+                    removed(params.id, params.collection, params.index);
+                    break;
+                default:
+                    break;
+            }
+
         }
-      }
-    });
 
-    worker.start();
-
-    function processParams(params) {
-      switch(params.type) {
-        case 'added':
-          added(params.id, params.collection, params.index);
-          break;
-        case 'removed': 
-          removed(params.id, params.collection, params.index);
-          break;
-        default:
-          break;
-      }
-
-    }
-
-    function added(id, collection, index) {
-      // query MongoDB for the document
-      esSync.db.collection(collection).find({_id: id}).toArray(
-        function (err, docs) {
-          // index data on elasticsearch
-          const _doc = _.omit(docs[0], '_id');
-          esClient.index({
-            index,
-            type: collection,
-            id,
-            body: _doc // because there's only one doc
-          });
+        function added(id, collection, index) {
+            // query MongoDB for the document
+            esSync.db.collection(collection).find({_id: id}).toArray(
+                function (err, docs) {
+                    // index data on elasticsearch
+                    const _doc = _.omit(docs[0], '_id');
+                    esClient.index({
+                        index,
+                        type: collection,
+                        id,
+                        body: _doc // because there's only one doc
+                    });
+                }
+            );
         }
-      )
-    }
 
-    function removed(id, collection, index) {
-      esClient.delete({
-        index,
-        type: collection,
-        id,
-      });
+        function removed(id, collection, index) {
+            esClient.delete({
+                index,
+                type: collection,
+                id,
+            });
+        }
     }
-  }
 });

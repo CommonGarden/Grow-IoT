@@ -1,45 +1,22 @@
 {
-  "parser": "babel-eslint",
-  "settings": {
-    "ecmascript": 6
-  },
-  "ecmaFeatures": {
-    "modules": true,
-    "classes": true,
-    "arrowFunctions": true,
-    "binaryLiterals": true,
-    "blockBindings": true,
-    "defaultParams": true,
-    "forOf": true,
-    "generators": true,
-    "objectLiteralComputedProperties": true,
-    "objectLiteralDuplicateProperties": true,
-    "objectLiteralShorthandMethods": true,
-    "objectLiteralShorthandProperties": true,
-    "octalLiterals": true,
-    "regexUFlag": true,
-    "regexYFlag": true,
-    "superInFunctions": true,
-    "templateStrings": true,
-    "unicodeCodePointEscapes": true,
-    "globalReturn": true
-  },
-  "env": {
-    "mocha": true,
-    "node": true
-  },
-  "rules": {
-    "strict": 0,
-    "no-empty": 0,
-    "indent": [2, 2],
-    "quotes": ["error", "single"],
-    "no-multi-spaces": [1, {
-      "exceptions": {
-        "VariableDeclarator": true,
-        "FunctionExpression": true
-      }
-    }],
-    "key-spacing": [0, {"align": "value"}],
-    "no-underscore-dangle": 0
-  }
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true,
+    },
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["warn", 4, {
+            "SwitchCase": 1
+        }],
+        "linebreak-style": ["warn", "unix"],
+        "quotes": ["warn", "single"],
+        "no-console": ["off"],
+        "no-unused-vars": ["warn"],
+        "no-undef":  ["warn"],
+        "semi": ["warn", "always"]
+    }
 }
