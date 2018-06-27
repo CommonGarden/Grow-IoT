@@ -6,11 +6,17 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
-
+import LeftChevron from 'material-ui/svg-icons/navigation/chevron-left';
+import IconButton from 'material-ui/IconButton';
 
 class ThingView extends Component {
   state = {
     loading: false,
+  }
+
+  back = () => {
+    console.log('going back')
+    window.history.back()
   }
 
   componentWillMount() {
@@ -26,11 +32,27 @@ class ThingView extends Component {
 
   renderThings() {
     const thing = this.props.Thing;
+    console.log(this.props.history);
+
     if (thing) {
       return (
-          <div className="layout horizontal center-justified">
-            <ThingDisplay thing={thing}/>
-          </div>
+        <div className="layout horizontal center-justified">
+          <IconButton
+            onTouchTap={this.back}
+            style={{
+              height: 30,
+              width: 'auto',
+              position: 'absolute',
+              left: 10,
+              zIndex: 10
+            }}
+            iconStyle={{
+              color: 'white',
+            }}>
+            <LeftChevron />
+          </IconButton>
+          <ThingDisplay thing={thing}/>
+        </div>
       );
     } else {
       return (
@@ -56,7 +78,7 @@ class ThingView extends Component {
   }
 }
 
-ThingView.PropTypes = {
+ThingView.propTypes = {
   Thing: PropTypes.object,
 }
 

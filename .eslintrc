@@ -3,12 +3,21 @@
         "es6": true,
         "browser": true,
         "node": true,
+        "mocha": true,
+        "meteor": true
     },
     "parserOptions": {
         "ecmaVersion": 8,
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
+    "plugins": [
+        "mocha"
+    ],
     "rules": {
+        "mocha/no-exclusive-tests": "error",
         "indent": ["warn", 4, {
             "SwitchCase": 1
         }],

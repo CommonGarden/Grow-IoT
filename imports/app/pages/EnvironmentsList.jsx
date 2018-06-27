@@ -9,7 +9,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
-
+import AppBarComponent from '../components/AppBar.jsx';
 
 class EnvironmentsList extends Component {
   state = {
@@ -24,6 +24,8 @@ class EnvironmentsList extends Component {
 
     if (environments && environments.length) {
       return (
+        <div>
+        <AppBarComponent />
         <Grid>
           <Row className="layout horizontal center-justified">
             {
@@ -36,6 +38,7 @@ class EnvironmentsList extends Component {
             }
           </Row>
         </Grid>
+        </div>
       );
     } else {
       return (

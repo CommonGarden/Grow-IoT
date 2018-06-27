@@ -9,7 +9,7 @@ import spacing from 'material-ui/styles/spacing';
 
 export default {
   spacing: spacing,
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: 'Futura, sans-serif',
   palette: {
     primary1Color: darkBlack,
     primary2Color: grey300,

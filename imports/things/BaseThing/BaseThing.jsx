@@ -83,7 +83,12 @@ export default class BaseThing extends Component {
   getEventValue(type) {
     const e = this.props[`${type}Events`];
     if (e) {
-      return e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+      let value = e[0] ? Number(e[0].event.message).toFixed(2) : 'NA';
+      if (!isNaN(value)){
+        return value;
+      } else {
+        return e[0] ? e[0].event.message: 'NA';
+      }
     }
   }
 

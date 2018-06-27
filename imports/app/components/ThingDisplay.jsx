@@ -10,7 +10,7 @@ import NotVisible from 'material-ui/svg-icons/action/visibility-off';
 import _ from 'underscore';
 // import CreateComponent from './CreateComponent.jsx';
 import Components from '../../things/';
-import { Row, Col } from 'react-flexbox-grid';
+/* import { Row, Col } from 'react-flexbox-grid';*/
 import SvgIcon from 'material-ui/SvgIcon';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -87,7 +87,7 @@ export default class ThingDisplay extends Component {
 
     const RegisteredText = Components[this.props.thing.component];
     return (
-      <Col xs={12} style={{flexBasis: 'initial'}}>
+      <div style={{flexBasis: 'initial'}}>
         {
           registered ? <RegisteredText thing={this.props.thing} actions={
             [ deleteButton ]
@@ -103,7 +103,7 @@ export default class ThingDisplay extends Component {
           open={this.state.dltOpen}
           onRequestClose={this.handleClose}
         />
-      </Col>
+      </div>
     )
   }
 }

@@ -56,7 +56,17 @@ class GrowHub extends BaseThing {
   }
 
   handleToggleGrfanaDashboard = () => {
-    this.setState({grafanaDashboardOpen: !this.state.grafanaDashboardOpen});
+    /* this.setState({grafanaDashboardOpen: !this.state.grafanaDashboardOpen});*/
+    let thing = this.props.thing
+    let url = GRAFANA_URL + '/dashboard/script/thing.js?orgId=1&id=' + thing._id + '&types='+ encodeURIComponent(JSON.stringify(thing.properties.types));
+    let win = window.open(url, '_blank');
+    win.focus();
+ }
+
+  goToThingPage = () => {
+    let value = 'thing/' + this.props.thing.uuid;
+    let win = window.open(value, '_blank');
+    win.focus();
   }
 
   handleAutomationStartStop = (event) => {
@@ -77,17 +87,23 @@ class GrowHub extends BaseThing {
     const types = thing.properties.types;
     const growfile = thing.properties.growfile;
     /*
-       TODO add deviders between readings?
-       TODO add labels for toggle switches
+       TODO style labels for toggle switches
        TODO use react-images-upload for taking pictures with a cellphone
-    */
+
+       TODO 20px border on each side
+       TODO 25px between text and sensor icon
+       TODO Move text closer to icon
+
+     */
     return (
       <Card className='device'>
-    <CardMedia
+        <CardMedia
       overlay={
   <Toolbar style={{backgroundColor:'transparent'}}>
     <ToolbarGroup firstChild={true} style={{marginLeft: 0}}>
-      <ToolbarTitle text={thing.name ? thing.name:"Grow Controller"} style={{color:'white'}}/>
+      <ToolbarTitle text={thing.name ? thing.name:"Grow Controller"}
+                    onTouchTap={this.goToThingPage}
+                    style={{color:'white', cursor:'pointer', fontFamily: 'FuturaBold'}}/>
     </ToolbarGroup>
         <ToolbarGroup>
         {
@@ -120,23 +136,26 @@ class GrowHub extends BaseThing {
     >
       <img src="/img/Placeholder_Image.jpg" alt="Add photo" />
     </CardMedia>
-         {this.onlineSince()}
-         { types && types.camera || types.cameras ? <WebCam thing={thing} />: null}
-         <CardText>
+    {/* {this.onlineSince()} */}
+      { types && types.camera || types.cameras ? <WebCam thing={thing} />: null }
+    <CardText>
       <Row style={{margin: -20}}>
-            <List style={{width:'100%', padding: 10}}>
-            <Subheader>Sensors</Subheader>
+            <List style={{width:'100%', padding:0}}>
+              <Subheader style={styles.subHeader}>Sensors</Subheader>
             {
               // TODO: collapsed view, should just display icons with values
               types && types.sensors ? types.sensors.map((v, k) => {
                 const events = this.getEvents(v.type);
                 return this.getEventValue(v.type) !== 'NA' ? <ListItem
-                key={k}
-                primaryText={v.title}
-                leftAvatar={v.icon ? <i className={v.icon} style={{top:19}}></i>:<i className='wi wi-barometer'
-                                                                                    style={{top:19}}></i>}
-                rightIcon={<span>
-                  {this.getEventValue(v.type)}
+                  key={k}
+                                                               style={styles.listItem}
+
+                 innerDivStyle={{lineHeight: '25px'}}
+                primaryText={<span>{v.title}</span>}
+                leftAvatar={v.icon ? <i className={v.icon} style={styles.icon}></i>:<i className='wi wi-barometer'
+                                                                                    style={styles.icon}></i>}
+                rightIcon={<span style={styles.rightIcon}>
+                  {<span style={styles.sensorReading}>{this.getEventValue(v.type)}</span>}
                   {v.unit ? <i className={v.unit} style={styles.sensorIcon}></i>:null}
                   {v.comment ? <span style={styles.sensorIcon}>{v.comment}</span>: null}
                   {
@@ -151,39 +170,25 @@ class GrowHub extends BaseThing {
               }): null
             }
       </List>
-          </Row>
-        </CardText>
-        <CardText>
-          <Row>
-             <List style={{width:'100%', padding: 10}}>
-             <Subheader>Actuators</Subheader>
+      {/* </Row>
+          </CardText>
+          <CardText>
+          <Row> */}
+             <List style={{width:'100%'}}>
+             <Subheader style={styles.subHeader}>Actuators</Subheader>
                   {
                     types && types.actuators ? types.actuators.map((value, key) => {
                       return <ListItem
-                        key={key}
+                               key={key}
+                        style={styles.listItem}
                         primaryText={value.title}
-                        leftAvatar={value.icon ? <i className={value.icon}></i>:<PowerIcon style={{top:16}}/>}
-                        rightToggle={<Toggle data-device={value.role} onTouchTap={this.handleTap}
-                                             label={this.props.thing.properties[value.role]} />}
-                      />
-
-
-                        {
-                          {/* <Col xs={6} md={3} key={key}>
-                              <div style={styles.actuator}>
-                              <div style={styles.actionButton}>
-                              <p>{value.title}</p>
-                              <FloatingActionButton secondary={this.props.thing.properties[value.role] === 'on' ? true: false}
-                              backgroundColor="rgb(208, 208, 208)"
-                              data-device={value.role}
-                              onTouchTap={this.handleTap}>
-                              <PowerIcon />
-                              </FloatingActionButton>
-                              </div>
-                              </div>
-                              </Col> */}
-                      }
-                      }): null
+                        leftAvatar={value.icon ? <i className={value.icon} style={styles.icon}></i>:<PowerIcon style={styles.icon} />}
+                               rightToggle={<Toggle data-device={value.role}
+                                                    onTouchTap={this.handleTap}
+                               style={styles.rightToggle} labelStyle={styles.toggleLabel}
+                                                                label={this.props.thing.properties[value.role]}
+                        toggled={thing.properties[value.role] === 'on'} />}
+                      />}): null
                   }
               </List>
               </Row>
@@ -241,35 +246,6 @@ class GrowHub extends BaseThing {
             <p>WARNING, this will delete your device and all it's event history!</p>
             {this.props.actions}
           </Dialog>
-          <Dialog
-            contentStyle={{width:'95%', maxWidth: '100%'}}
-            bodyStyle={{backgroundColor: '#f8f8f8', padding: 0}}
-            actions={<FlatButton
-              label="Close"
-              primary={true}
-              onTouchTap={this.handleToggleGrfanaDashboard}
-            />}
-            modal={false}
-            autoScrollBodyContent={true}
-            onRequestClose={this.handleToggleGrfanaDashboard}
-            open={this.state.grafanaDashboardOpen}>
-            {
-              // HACK: this is passing a lot of info through the url.
-              GRAFANA_URL ? <div style={{overflow:'auto', WebkitOverflowScrolling:'touch'}}><Iframe url={
-                GRAFANA_URL +
-                                         '/dashboard/script/thing.js?orgId=1&id=' +
-                                         thing._id + '&types='+
-                                         encodeURIComponent(JSON.stringify(types))
-              }
-                                    width="100%"
-                                    height="800px"
-                                    id="myId"
-                                    className="myClassname"
-                                    display="initial"
-                                    position="relative"
-                                    allowFullScreen/></div>: null
-            }
-          </Dialog>
       </Card>
     )
   }
@@ -309,7 +285,9 @@ export default GrowHubContainer = createContainer(({ thing }) => {
     let eventType = types.sensors[i].type
 
     // TODO remove unneeded 'Events' string in BaseThing.jsx
-    allEvents[eventType + 'Events'] =  Events.find({'event.type': eventType, 'thing._id': thing._id}).fetch();
+    allEvents[eventType + 'Events'] =  Events.find({'event.type': eventType, 'thing._id': thing._id}, {
+      sort: { insertedAt: -1 }
+    }).fetch();
   }
 
   allEvents['alerts'] = Events.find({'event.type': 'alerts', 'thing._id': thing._id}).fetch()
