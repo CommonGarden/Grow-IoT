@@ -241,15 +241,15 @@ class GrowHub extends BaseThing {
           subtitle={thing.properties.growfile.batch}
           actAsExpander={false}
           showExpandableButton={false}
-          // children={
-          //   <IconButton
-          //     tooltip="Options"
-          //     tooltipPosition="top-center"
-          //     onTouchTap={this.handleOpen}
-          //     style={styles.settings}>
-          //     <SettingsIcon />
-          //   </IconButton>
-          // }
+          children={
+            <IconButton
+              tooltip="Options"
+              tooltipPosition="top-center"
+              onTouchTap={this.handleOpen}
+              style={styles.settings}>
+              <SettingsIcon />
+            </IconButton>
+          }
         />
         }
         <CardText>

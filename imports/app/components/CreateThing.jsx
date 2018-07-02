@@ -5,6 +5,8 @@ import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ComponentIcon from 'material-ui/svg-icons/av/web';
 import DevicesIcon from 'material-ui/svg-icons/hardware/router'
+import EnvironmentIcon from 'material-ui/svg-icons/image/nature-people';
+import OrganismIcon from 'material-ui/svg-icons/image/filter-vintage';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -16,7 +18,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Components from '../../things/';
 import _ from 'underscore';
 
-let components = []
+let components = [];
 _.each(Components, (value, key)=> {
   components.push({name:key});
 });
@@ -27,7 +29,10 @@ export default class CreateThing extends Component {
   };
 
   state = {
-    open: false,
+    open_device: false,
+    open_environment: false,
+    open_organism: false,
+    open_component: false,
     newThingSnackOpen: false,
     uuid: '',
     token: '',
@@ -36,28 +41,39 @@ export default class CreateThing extends Component {
     value: 0,
   };
 
-  // Modify to create a new thing.
-  handleOpen = () => {
-    this.setState({open: true});
-    this.handleNewDevice();
-  };
-
-  handleNewDevice = () => {
-    Meteor.call('Thing.generateAPIKeys', 
+  generateAPIKeys = () => {
+    return Meteor.call('Thing.generateAPIKeys',
       (error, document) => {
         if (error) {
           throw error;
         } else {
-          if (!this.state.open) {
-            this.setState({open: true});
-          }
           this.setState({
             'uuid': document.uuid,
             'token': document.token
           });
+          return document;
         }
       }
     );
+  }
+
+  handleNewEnvironment = () => {
+    this.setState({open_environment: true});
+    this.generateAPIKeys();
+  }
+
+  handleNewOrganism = () => {
+    this.setState({open_organism: true});
+  }
+
+  handleNewComponent = () => {
+    this.setState({open_component: true});
+    this.generateAPIKeys();
+  }
+
+  handleNewDevice = () => {
+    this.setState({open_device: true});
+    this.generateAPIKeys();
   }
 
   handleCreate = () => {
@@ -71,22 +87,33 @@ export default class CreateThing extends Component {
         if (error) {
           throw error;
         } else {
-          this.setState({ open: false, newThingSnackOpen:true});
-          // Todo: urlify the uuid...
-          // TODO: redirect to thing...
-          // debugger;
-          // this.router.push('/app/thing/' + this.state.uuid);
+          this.setState({ open_device: false, newThingSnackOpen:true});
         }
       }
     );
   }
 
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({open_device: false});
   };
+
+  handleCloseEnvironment = () => {
+    this.setState({open_environment: false});
+  }
+
+  handleCloseOrgansim = () => {
+    this.setState({open_organism: false});
+  }
+
+  handleCloseComponent = () => {
+    this.setState({open_component: false});
+  }
 
   handleCancel = () => {
     this.handleClose();
+    this.handleCloseComponent();
+    this.handleCloseOrgansim();
+    this.handleCloseEnvironment();
     Meteor.call('Thing.delete',
       this.state.uuid,
       (error, document) => {
@@ -117,26 +144,53 @@ export default class CreateThing extends Component {
 
   handleChange = (event, index, value) => this.setState({value});
 
+  handleCreateEnvironment = () => {
+    let uuid = this.state.uuid;
+    let token = this.state.token;
+     Meteor.call('Environment.new',
+      null,
+      {
+        uuid: this.state.uuid,
+        token: this.state.token
+      },
+      (error, document) => {
+        if (error) {
+          throw error;
+        }
+      }
+     );
+  };
+
   handleSubmit = () => {
-    const uuid = this.state.uuid;
-    const token = this.state.token;
+    let uuid = this.state.uuid;
+    let token = this.state.token;
+    Meteor.call('Thing.new',
+      null,
+      {
+        uuid: this.state.uuid,
+        token: this.state.token
+      },
+      (error, document) => {
+        if (error) {
+          throw error;
+        }
+      }
+     );
+
     const component = this.state.components[this.state.value];
     if (component) {
       Meteor.call('Thing.register',
-        { uuid, token },
+        { uuid: this.state.uuid, token: this.state.token },
         {
           component: component.name,
           onlineSince: true,
-          properties: {
-            state: 'off'
-          }
         },
         (error, document) => {
           if (error) {
             console.error("New deviceerror", error);
             return alert(`New deviceerror: ${error.reason || error}`);
           }
-          this.setState({ open: false, newThingSnackOpen:true});
+          this.setState({ open_component: false, newThingSnackOpen:true});
         }
       );
     }
@@ -173,22 +227,24 @@ export default class CreateThing extends Component {
         >
           <Subheader>Create new:</Subheader>
           <MenuItem primaryText="Device" leftIcon={<DevicesIcon />} onTouchTap={this.handleNewDevice} />
+          <MenuItem primaryText="Environment" leftIcon={<EnvironmentIcon />} onTouchTap={this.handleNewEnvironment} />
           {
-          // <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleOpen} />
+          // <MenuItem primaryText="Organism" leftIcon={<OrganismIcon />} onTouchTap={this.handleNewOrganism} />
           }
+          <MenuItem primaryText="Component" leftIcon={<ComponentIcon />} onTouchTap={this.handleNewComponent} />
         </IconMenu>
+
         <Dialog
           title="New device"
           actions={actions}
           modal={true}
-          open={this.state.open}
+          open={this.state.open_device}
           onRequestClose={this.handleClose}
         >
           <div>
           <p>If you purchased a device enter its credentials here:</p>
           <TextField
             hintText="uuid"
-            // errorText="This field is required"
             onChange={this.nameChange}
             defaultValue={this.state.uuid}
             floatingLabelText="uuid"
@@ -202,22 +258,90 @@ export default class CreateThing extends Component {
             hintText="token"
             floatingLabelText="token"
             style={thingStyle}
-            // errorText="This field is required"
-            // floatingLabelText={
-            //   <em>Secret<Visible/></em>
-            // }
           />
         </div>
-        {
-          // <SelectField
-          //   floatingLabelText="Component Type"
-          //   value={this.state.value}
-          //   onChange={this.handleChange}
-          // >
-          //   {componentItems}
-          // </SelectField>
-        }
         </Dialog>
+
+        <Dialog
+          title="New environment"
+          actions={
+            [
+              <FlatButton
+                label="Cancel"
+                primary={true}
+                onTouchTap={this.handleCancel}
+              />,
+              <FlatButton
+                label="Create"
+                primary={true}
+                onTouchTap={this.handleCreateEnvironment}
+              />
+            ]
+          }
+          modal={true}
+          open={this.state.open_environment}
+          onRequestClose={this.handleCloseEnvironment}
+        >
+          <div>
+          <TextField
+            hintText="Name"
+            onChange={this.nameFieldChange}
+            defaultValue={this.state.thingName}
+            floatingLabelText="Name"
+            style={thingStyle}
+          />
+          </div>
+        </Dialog>
+
+        <Dialog
+          title="New organsim"
+          actions={actions}
+          modal={true}
+          open={this.state.open_organism}
+          onRequestClose={this.handleCloseOrgansim}
+        >
+          <div>
+          <TextField
+            hintText="Name"
+            onChange={this.nameFieldChange}
+            defaultValue={this.state.thingName}
+            floatingLabelText="Name"
+            style={thingStyle}
+          />
+          </div>
+        </Dialog>
+
+        <Dialog
+          title="New component"
+          actions={
+            [
+              <FlatButton
+                label="Cancel"
+                primary={true}
+                onTouchTap={this.handleCancel}
+              />,
+              <FlatButton
+                label="Create"
+                primary={true}
+                onTouchTap={this.handleSubmit}
+              />
+            ]
+          }
+          modal={true}
+          open={this.state.open_component}
+          onRequestClose={this.handleCloseComponent}
+        >
+          <div>
+           <SelectField
+            floatingLabelText="Component Type"
+            value={this.state.value}
+            onChange={this.handleChange}
+          >
+             {componentItems}
+          </SelectField>
+          </div>
+        </Dialog>
+
         <Snackbar
           open={this.state.newThingSnackOpen}
           message="Thing created"

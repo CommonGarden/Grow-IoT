@@ -20,7 +20,6 @@ There are three main components to a Grow file:
 * [Phases](#phases)
 
 ### Targets
-
 Targets create listeners for events from sensors and emit alerts or correction events. `min`, `max`, and `ideal` are currently supported.
 
 ```javascript

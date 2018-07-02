@@ -1,4 +1,7 @@
-node_modules
 ai
+data
+meta
+node_modules
+wal
 .sandstorm
 .github

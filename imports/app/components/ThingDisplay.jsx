@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
 import Visible from 'material-ui/svg-icons/action/visibility';
@@ -11,10 +10,11 @@ import NotVisible from 'material-ui/svg-icons/action/visibility-off';
 import _ from 'underscore';
 // import CreateComponent from './CreateComponent.jsx';
 import Components from '../../things/';
-import { Row, Col } from 'react-flexbox-grid';
+/* import { Row, Col } from 'react-flexbox-grid';*/
 import SvgIcon from 'material-ui/SvgIcon';
 import CircularProgress from 'material-ui/CircularProgress';
-
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 
 export default class ThingDisplay extends Component {
   state = {
@@ -66,7 +66,10 @@ export default class ThingDisplay extends Component {
     ];
 
     const registered = this.props.thing.registeredAt;
-    const deleteButton = <FlatButton label="Delete" onTouchTap={this.handleOpen} key={1}/> ;
+    const deleteButton = <RaisedButton backgroundColor="red"
+                                       label="Delete"
+                                       onTouchTap={this.handleOpen}
+                                       key={1}/> ;
     const unregisteredText = <Card style={thingStyle}>
       <CardText>
         <div>
@@ -84,7 +87,7 @@ export default class ThingDisplay extends Component {
 
     const RegisteredText = Components[this.props.thing.component];
     return (
-      <Col xs={12} style={{flexBasis: 'initial'}}>
+      <div style={{flexBasis: 'initial'}}>
         {
           registered ? <RegisteredText thing={this.props.thing} actions={
             [ deleteButton ]
@@ -100,7 +103,7 @@ export default class ThingDisplay extends Component {
           open={this.state.dltOpen}
           onRequestClose={this.handleClose}
         />
-      </Col>
+      </div>
     )
   }
 }

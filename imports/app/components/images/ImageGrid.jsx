@@ -53,7 +53,7 @@ class ImageGrid extends Component {
       }
     };
 
-    if (this.props.ready) {       
+    if (this.props.ready) {
       return (
         <div style={styles.root}>
           <GridList
@@ -101,10 +101,10 @@ ImageGrid.propTypes = {
   ready: PropTypes.bool,
 }
 
-// // Get images!
+// Get images!
 export default ImageGridContainer = createContainer(({ thing }) => {
   const imagesHandle = Meteor.subscribe('Images.all');
-  
+
   const ready = [ imagesHandle ].every(
     (h) => {
       return h.ready();

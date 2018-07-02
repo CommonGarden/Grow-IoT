@@ -1,0 +1,51 @@
+@media (max-width: 370px) {
+    .device {
+        min-width:300px;
+    }
+}
+
+@media (min-width: 370px) {
+    .device {
+        min-width:360px;
+    }
+}
+
+@media (min-width: 500px) {
+    .device {
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 2000px) {
+    .device {
+        min-width:800px;
+    }
+}
+
+.warning {
+    background-color: #ff9f00;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-left: 32px;
+    padding-right: 17px;
+    border-radius: 4px;
+    color: white;
+}
+
+.warning-icon {
+    color: white !important;
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    z-index: 10;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.right-icon {
+    margin-right: 50px !important;
+}
+
+.right-icon-warning {
+    margin-right: 83px !important;
+}

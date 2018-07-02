@@ -1,66 +1,183 @@
+// See https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration
 import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
+import { Random } from 'meteor/random';
 import { FilesCollection } from 'meteor/ostrio:files';
-import Grid from 'gridfs-stream';
-import { MongoInternals } from 'meteor/mongo';
+import stream from 'stream';
+
+// http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
+import S3 from 'aws-sdk/clients/s3';
 import fs from 'fs';
 
-// See: https://github.com/VeliovGroup/Meteor-Files/wiki/GridFS-Integration
-let gfs;
-if (Meteor.isServer) {
-  gfs = Grid(
-    MongoInternals.defaultRemoteCollectionDriver().mongo.db,
-    MongoInternals.NpmModule
-  );
+let settings, s3;
+
+if (process.env.S3_bucket && process.env.S3_region && process.env.S3_key && process.env.S3_secret){
+    settings = {
+        bucket: process.env.S3_bucket,
+        region: process.env.S3_region,
+        key: process.env.S3_key,
+        secret: process.env.S3_secret
+    };
+
+    // Create a new S3 object
+    s3 = new S3({
+        secretAccessKey: settings.secret,
+        accessKeyId: settings.key,
+        region: settings.region,
+        sslEnabled: true,
+        httpOptions: {
+            timeout: 6000,
+            agent: false
+        }
+    });
 }
 
-Images = new FilesCollection({
-  collectionName: 'Images',
-  allowClientCode: false,
-  storagePath: 'assets/app/uploads',
-  debug: Meteor.isServer && process.env.NODE_ENV === 'development',
-  onBeforeUpload(file) {
-    if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) return true;
-    return 'Please upload image, with size equal or less than 10MB';
-  },
-  onAfterUpload(image) {
-    // Move file to GridFS
-    Object.keys(image.versions).forEach(versionName => {
-      const metadata = { versionName, imageId: image._id, storedAt: new Date() }; // Optional
-      const writeStream = gfs.createWriteStream({ filename: image.name, metadata });
-
-      fs.createReadStream(image.versions[versionName].path).pipe(writeStream);
-
-      writeStream.on('close', Meteor.bindEnvironment(file => {
-        const property = `versions.${versionName}.meta.gridFsFileId`;
-
-        // If we store the ObjectID itself, Meteor (EJSON?) seems to convert it to a
-        // LocalCollection.ObjectID, which GFS doesn't understand.
-        this.collection.update(image._id, { $set: { [property]: file._id.toString() } });
-        this.unlink(this.collection.findOne(image._id), versionName); // Unlink files from FS
-      }));
-    });
-  },
-  interceptDownload(http, image, versionName) {
-    // Serve file from GridFS
-    const _id = (image.versions[versionName].meta || {}).gridFsFileId;
-    if (_id) {
-      const readStream = gfs.createReadStream({ _id });
-      readStream.on('error', err => { throw err; });
-      readStream.pipe(http.response);
-    }
-    return Boolean(_id); // Serve file from either GridFS or FS if it wasn't uploaded yet
-  },
-  onAfterRemove(images) {
-    // Remove corresponding file from GridFS
-    images.forEach(image => {
-      Object.keys(image.versions).forEach(versionName => {
-        const _id = (image.versions[versionName].meta || {}).gridFsFileId;
-        if (_id) gfs.remove({ _id }, err => { if (err) throw err; });
-      });
-    });
-  }
+const bound  = Meteor.bindEnvironment((callback) => {
+    return callback();
 });
 
-if (Meteor.isServer) {
-  // Images.denyClient();
-}
+// Declare the Meteor file collection on the Server
+Images = new FilesCollection({
+    debug: false, // Change to `true` for debugging
+    storagePath: 'files',
+    collectionName: 'Images',
+    // Disallow Client to execute remove, use the Meteor.method
+    allowClientCode: false,
+
+    // Start moving files to AWS:S3
+    // after fully received by the Meteor server
+    onAfterUpload(fileRef) {
+        if (settings) {
+            // Run through each of the uploaded file
+            _.each(fileRef.versions, (vRef, version) => {
+                // Create the AWS:S3 object.
+                // Feel free to change the storage class from, see the documentation,
+                // `STANDARD_IA` is the best deal for low access files.
+                // Key is the file name we are creating on AWS:S3, so it will be like files/XXXXXXXXXXXXXXXXX-original.XXXX
+                // Body is the file stream we are sending to AWS
+                s3.putObject({
+                    // ServerSideEncryption: 'AES256', // Optional
+                    StorageClass: 'STANDARD',
+                    Bucket: settings.bucket,
+                    Key: vRef.path,
+                    Body: fs.createReadStream(vRef.path),
+                    ContentType: vRef.type,
+                }, (error) => {
+                    bound(() => {
+                        if (error) {
+                            console.error(error);
+                        } else {
+                            // Update FilesCollection with link to the file at AWS
+                            const upd = { $set: {} };
+                            upd['$set']['versions.' + version + '.meta.pipePath'] = vRef.path;
+
+                            this.collection.update({
+                                _id: fileRef._id
+                            }, upd, (updError) => {
+                                if (updError) {
+                                    console.error(updError);
+                                } else {
+                                    // Unlink original files from FS after successful upload to AWS:S3
+                                    this.unlink(this.collection.findOne(fileRef._id), version);
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        }
+    },
+
+
+    // Intercept access to the file
+    // And redirect request to AWS:S3
+    interceptDownload(http, fileRef, version) {
+        let path;
+
+        if (fileRef && fileRef.versions && fileRef.versions[version] && fileRef.versions[version].meta && fileRef.versions[version].meta.pipePath) {
+            path = fileRef.versions[version].meta.pipePath;
+        }
+        if (path && settings) {
+            // If file is successfully moved to AWS:S3
+            // We will pipe request to AWS:S3
+            // So, original link will stay always secure
+
+            // To force ?play and ?download parameters
+            // and to keep original file name, content-type,
+            // content-disposition, chunked "streaming" and cache-control
+            // we're using low-level .serve() method
+            const opts = {
+                Bucket: settings.bucket,
+                Key: path
+            };
+
+            if (http.request.headers.range) {
+                const vRef  = fileRef.versions[version];
+                let range   = _.clone(http.request.headers.range);
+                const array = range.split(/bytes=([0-9]*)-([0-9]*)/);
+                const start = parseInt(array[1]);
+                let end     = parseInt(array[2]);
+                if (isNaN(end)) {
+                    // Request data from AWS:S3 by small chunks
+                    end       = (start + this.chunkSize) - 1;
+                    if (end >= vRef.size) {
+                        end     = vRef.size - 1;
+                    }
+                }
+                opts.Range   = `bytes=${start}-${end}`;
+                http.request.headers.range = `bytes=${start}-${end}`;
+            }
+
+            const fileColl = this;
+            s3.getObject(opts, function (error) {
+                if (error) {
+                    console.error(error);
+                    if (!http.response.finished) {
+                        http.response.end();
+                    }
+                } else {
+                    if (http.request.headers.range && this.httpResponse.headers['content-range']) {
+                        // Set proper range header in according to what is returned from AWS:S3
+                        http.request.headers.range = this.httpResponse.headers['content-range'].split('/')[0].replace('bytes ', 'bytes=');
+                    }
+
+                    const dataStream = new stream.PassThrough();
+                    fileColl.serve(http, fileRef, fileRef.versions[version], version, dataStream);
+                    dataStream.end(this.data.Body);
+                }
+            });
+
+            return true;
+        }
+        // While file is not yet uploaded to AWS:S3
+        // It will be served file from FS
+        return false;
+    }
+});
+
+// Intercept FilesCollection's remove method to remove file from AWS:S3
+const _origRemove = Images.remove;
+Images.remove = function (search) {
+    const cursor = this.collection.find(search);
+    cursor.forEach((fileRef) => {
+        _.each(fileRef.versions, (vRef) => {
+            if (vRef && vRef.meta && vRef.meta.pipePath && Meteor.isServer) {
+                // Remove the object from AWS:S3 first, then we will call the original FilesCollection remove
+                s3.deleteObject({
+                    Bucket: settings.bucket,
+                    Key: vRef.meta.pipePath,
+                }, (error) => {
+                    bound(() => {
+                        if (error) {
+                            console.error(error);
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+    //remove original file from database
+    _origRemove.call(this, search);
+};
+

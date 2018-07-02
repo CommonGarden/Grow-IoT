@@ -20,6 +20,7 @@ import Avatar from 'material-ui/Avatar';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 import BuildIcon from 'material-ui/svg-icons/action/build';
+import EnvironmentIcon from 'material-ui/svg-icons/image/nature-people';
 
 const SelectableList = makeSelectable(List);
 
@@ -56,13 +57,13 @@ class AppNavDrawer extends Component {
     return typeof fn === 'function';
   }
 
-  signOut(e) {
+  signOut = (e) => {
     e.preventDefault();
     // Log out the user and navigate back to the home page on success
     Meteor.logout(this.signOutCallback);
   }
 
-  signOutCallback(error) {
+  signOutCallback = (error) => {
     if (error === undefined) {
       this.context.router.push('/');
     }
@@ -125,8 +126,9 @@ class AppNavDrawer extends Component {
           value=""
           onChange={this.handleRequestChangeLink}
         >
+          <ListItem primaryText="Environments" value="/app/environments" leftIcon={<EnvironmentIcon />} />
           <ListItem primaryText="Logic" value="/red" leftIcon={<BuildIcon />} />
-          <ListItem primaryText="Camera" value="/app/camera" leftIcon={<CameraIcon />} />
+          {/* <ListItem primaryText="Camera" value="/app/camera" leftIcon={<CameraIcon />} /> */}
           <ListItem primaryText="Issues and Feedback" value="https://github.com/CommonGarden/Grow-IoT/" leftIcon={<FeedbackIcon />} />
           <ListItem primaryText="Settings" value="/app/settings" leftIcon={<SettingsIcon />} />
         </SelectableList>

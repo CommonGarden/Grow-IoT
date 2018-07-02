@@ -1,8 +1,24 @@
+@font-face {
+    font-family: Futura;
+    src: url(/font/Futura/FuturaStd-Light.otf);
+}
+
+* { font-family: Futura, sans-serif }
+
+@font-face {
+    font-family: FuturaBold;
+    src: url(/font/Futura/FuturaStd-Bold.otf);
+}
+
+@font-face {
+    font-family: FuturaCondensed;
+    src: url(/font/Futura/FuturaStd-CondensedLight.otf);
+}
+
 #region2 {
   width: 500px;
 }
 body {
-  font-family: sans-serif;
   position: absolute;
   top: 0;
   bottom: 0;

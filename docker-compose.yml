@@ -4,11 +4,18 @@ services:
     image: "grafana/grafana"
     ports:
       - "3333:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=viewer
+    volumes:
+      - ./dashboards:/usr/share/grafana/public/dashboards
+
   influxdb:
     image: "influxdb"
     command: "influxd"
     volumes:
-      - $PWD:/var/lib/influxdb
+      - .:/var/lib/influxdb
   web:
     build: .
     ports:
@@ -26,4 +33,4 @@ services:
     image: mongo:latest
     command: mongod --storageEngine=wiredTiger
     volumes:
-      - $PWD:/var/lib/mongodb
+      - .:/var/lib/mongodb

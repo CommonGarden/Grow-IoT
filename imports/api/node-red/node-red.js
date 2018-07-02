@@ -1,5 +1,5 @@
-var express = require("express");
-var RED = require("node-red");
+var express = require('express');
+var RED = require('node-red');
 
 // TODO
 //var growPlugin = require("node-red-grow-plugin");
@@ -9,9 +9,9 @@ var app = express();
 
 // See node-red configuration documentation for options.
 var settings = {
-    httpRoot:"/red",
-    httpNodeRoot: "/api",
-    adminAuth: require("./user-authentication"),
+    httpRoot:'/red',
+    httpNodeRoot: '/api',
+    adminAuth: require('./user-authentication'),
     editorTheme: {
         projects: {
             enabled: true

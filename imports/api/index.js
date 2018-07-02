@@ -3,12 +3,11 @@ import './collections';
 
 if (Meteor.isServer) {
   import './thing/publish';
+  import './environments/publish.js';
   import './notifications/publish';
-//  import './images/publish';
-//  import './images/s3.js';
+  import './images/publish';
   import './thing/server-methods';
   import './notifications/server-methods.js';
-  import './events/eventBus';
   import './elastic';
   import './coap/coap.js';
   import './Users/server/index.js';
@@ -17,4 +16,5 @@ if (Meteor.isServer) {
 
 import './thing/methods';
 import './notifications/methods';
-// import './images/methods';
+import './environments/methods'
+import './images/methods';

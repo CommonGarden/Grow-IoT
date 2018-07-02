@@ -1,36 +1,42 @@
 export default {
+  subHeader: {
+    height:32,
+    backgroundColor: '#f5f5f5',
+    paddingTop: 10,
+    paddingLeft: 30,
+    lineHeight:'unset',
+    borderBottom: '1px solid #eeeeee'
+  },
+  listItem: {
+    borderBottom: '1px solid #eeeeee',
+    fontSize: 18,
+    height: 64
+  },
   oneHundred: {
     width: '100%'
   },
-  actuator: {
-    padding: 10,
-    float: 'left',
-    margin: 20
+  icon: {
+    position: 'absolute',
+    top: 18,
+    left: 30,
+    fontSize: 22
   },
-  actionButton: {
-    marginRight: 20,
-    marginleft: 20
+  rightIcon: {
+    marginRight: 50,
   },
-  values: {
-    fontSize: 25
-  },
-  main: {
-    margin: '20px',
-    // minWidth: 800,
-  },
-  padding: {
-    padding: 30
-  },
-  sensorData: {
-    textAlign: 'center',
+  rightToggle: {
+    marginRight: 30
   },
   sensorIcon: {
-    marginRight: 5
+    display: 'inline'
   },
-  settings: {
-    float: 'right'
+  sensorReading: {
+    fontSize: 22,
+    fontFamily: 'FuturaCondensed',
+    position: 'relative',
+    top: 5
   },
-  smallIcon: {
+  smallicon: {
     height: 15,
     width: 15,
     padding: 0,
@@ -38,5 +44,9 @@ export default {
   },
   smallFont: {
     fontSize: 11
+  },
+  toggleLabel: {
+    marginLeft: -10,
+    paddingRight: 10
   }
 };

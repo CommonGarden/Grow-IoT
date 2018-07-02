@@ -9,7 +9,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
-
+import AppBarComponent from '../components/AppBar.jsx';
 
 class ThingsList extends Component {
   state = {
@@ -23,6 +23,7 @@ class ThingsList extends Component {
     const things = this.props.Things;
     if (things && things.length) {
       return (
+        <div>
         <Grid>
           <Row className="layout horizontal center-justified">
             {
@@ -34,7 +35,8 @@ class ThingsList extends Component {
               )
             }
           </Row>
-        </Grid> 
+        </Grid>
+        </div>
       );
     } else {
       return (
@@ -50,7 +52,11 @@ class ThingsList extends Component {
       }
     };
     return (
-      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
+      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : <div>
+        <AppBarComponent />
+        {this.renderThings()}
+      </div>
+
     )
   }
 }

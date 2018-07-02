@@ -4,7 +4,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import UnauthenticatedApp from './UnauthenticatedApp.jsx';
 import AuthenticatedApp from './AuthenticatedApp.jsx';
 import Theme from './Theme.jsx';
-
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 

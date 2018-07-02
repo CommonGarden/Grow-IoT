@@ -9,14 +9,9 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
-import Chip from 'material-ui/Chip';
-import FontIcon from 'material-ui/FontIcon';
-import SvgIconFace from 'material-ui/svg-icons/action/face';
-import {blue300, indigo900} from 'material-ui/styles/colors';
+import AppBarComponent from '../components/AppBar.jsx';
 
-
-
-class LogicView extends Component {
+class EnvironmentsList extends Component {
   state = {
     loading: false,
   }
@@ -24,27 +19,26 @@ class LogicView extends Component {
   componentWillMount() {
   }
 
-  renderThings() {
-    const things = this.props.Things;
-    if (things && things.length) {
+  renderEnvironments() {
+    const environments = this.props.Environments;
+
+    if (environments && environments.length) {
       return (
+        <div>
+        <AppBarComponent />
         <Grid>
           <Row className="layout horizontal center-justified">
             {
-              things.map((v, k) => {
-                console.log(v);
+              environments.map((v, k) => {
                 return (
-                  <Chip
-                    key={k}
-                  >
-                    {v.uuid}
-                  </Chip>
+                  <p key={k}>{v.uuid}</p>
                 )
               }
               )
             }
           </Row>
         </Grid>
+        </div>
       );
     } else {
       return (
@@ -60,22 +54,22 @@ class LogicView extends Component {
       }
     };
     return (
-      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderThings()
+      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : this.renderEnvironments()
     )
   }
 }
 
-LogicView.PropTypes = {
-  Things: PropTypes.array,
+EnvironmentsList.propTypes = {
+  Environments: PropTypes.array,
 }
 
-export default LogicViewContainer= createContainer(({ user, thingsChanged }) => {
-  const things = Things.find().fetch();
-  const h = Meteor.subscribe('Things.list');
+export default EnvironmentsListContainer= createContainer(({ user, thingsChanged }) => {
+  const h = Meteor.subscribe('Environments.list');
+  const environments = Environments.find().fetch();
 
   return {
-    Things: things,
+    Environments: environments,
     thingsChanged,
     loading: h.ready(),
   }
-}, LogicView);
+}, EnvironmentsList);

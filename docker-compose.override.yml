@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    build:
+      args:
+        INSTALL_MONGO: "false"
+      dockerfile: Dockerfile-dev
+    volumes:
+      - .:/opt/meteor/src
