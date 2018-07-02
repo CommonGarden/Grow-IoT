@@ -8,8 +8,8 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/dashboard/main/home",
-  "display": "standalone",
+  "start_url": "/app/things",
+  "display": "fullscreen",
   "orientation": "landscape",
   "theme_color":"#00897b",
   "background":"#00897b",
