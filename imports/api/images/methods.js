@@ -25,7 +25,7 @@ Meteor.methods({
         if (!thing) { throw new Meteor.Error('unauthorized', 'Unauthorized.'); }
 
         let imageFile = Buffer.from(file);
-      console.log(Images.addFile);
+
         Images.write(imageFile, {
             meta: {
                 thing: thing._id,
