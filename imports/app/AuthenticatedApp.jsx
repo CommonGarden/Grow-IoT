@@ -14,7 +14,6 @@ import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
 import CameraComponent from './components/Camera.jsx';
-import DeviceDashboard from '../things/GrowHub/newhub.jsx';
 
 const title = Meteor.settings.public.title || 'Grow-IoT';
 class AuthenticatedApp extends Component {

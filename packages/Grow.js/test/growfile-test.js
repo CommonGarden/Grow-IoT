@@ -68,21 +68,32 @@ describe('Growfile test', () => {
         expect(event).to.equal(true);
     });
 
-    // it('should emit anomaly events', () => {
-    //   testGrow.registerTargets({
-    //     temperature: {
-    //       min: 15,
-    //       max: 25,
-    //     }
-    //   });
-    //   var event = false;
-    //   testGrow.on('alert', (key, message)=> {
-    //     return event = !event;
-    //   });
-    //   testGrow.emit('temperature', -1000);
-    //   testGrow.emit('temperature', 1000);
-    //   expect(event).to.equal(true);
-    // });
+    it('should check whether a sensor reading is in bounds', () => {
+      testGrow.registerTargets({
+        temperature: {
+          min: 15,
+          max: 25,
+          bounds: [0,100]
+        }
+      });
+
+      var event = false;
+      testGrow.on('alert', (key, message)=> {
+        return event = true;
+      });
+      let value_1 = -1000;
+      let value_2 = 1000;
+
+      if(testGrow.inBounds('temperature', value_1)) {
+        testGrow.emit('temperature', -1000);
+      }
+
+      if(testGrow.inBounds('temperature', value_2)) {
+        testGrow.emit('temperature', 1000);
+      }
+
+      expect(event).to.equal(false);
+    });
 
     // Todo....
     it('should create a PID controller if an ideal is specified', () => {
@@ -100,58 +111,48 @@ describe('Growfile test', () => {
         });
         expect(!!testGrow.controllers.ph).to.equal(true);
         expect(!!testGrow.controllers.ec).to.equal(true);
+    });
 
-    // testGrow.on('correction', (key, correction)=> {
-    //   console.log(key);
-    //   console.log(correction);
+    // it('should emit OK alert events', () => {
+    //     testGrow.registerTargets({
+    //         temperature: {
+    //             min: 15,
+    //             max: 25,
+    //         }
+    //     });
+    //     var event = false;
+    //     testGrow.on('alert', (alert)=> {
+    //         return event = alert['temperature'];
+    //     });
+    //     testGrow.emit('temperature', 10);
+    //     testGrow.emit('temperature', 15);
+    //     expect(event).to.equal('ok');
+    //     // Shouldn't emit multiple 'ok' events
+    //     event = false;
+    //     testGrow.emit('temperature', 15);
+    //     expect(event).to.equal(false);
     // });
-    // testGrow.emit('ph', 6.4);
-    // testGrow.emit({
-    //   type: ''
-    // })
-    // console.log(testGrow);
-    });
 
-    it('should emit OK alert events', () => {
-        testGrow.registerTargets({
-            temperature: {
-                min: 15,
-                max: 25,
-            }
-        });
-        var event = false;
-        testGrow.on('alert', (alert)=> {
-            return event = alert['temperature'];
-        });
-        testGrow.emit('temperature', 10);
-        testGrow.emit('temperature', 15);
-        expect(event).to.equal('ok');
-        // Shouldn't emit multiple 'ok' events
-        event = false;
-        testGrow.emit('temperature', 15);
-        expect(event).to.equal(false);
-    });
-
-    it('should emit OK alert events even if there is a correction', () => {
-        testGrow.registerTargets({
-            temperature: {
-                min: 15,
-                ideal: 20,
-                max: 25,
-            }
-        });
-        var event = false;
-        testGrow.on('alert', (alert)=> {
-            return event = alert['temperature'];
-        });
-        testGrow.emit('temperature', 10);
-        testGrow.emit('temperature', 15);
-        expect(event).to.equal('ok');
-        // Shouldn't emit multiple 'ok' events
-        event = false;
-        testGrow.emit('temperature', 15);
-        expect(event).to.equal(false);
-    });
+    // it('should emit OK alert events even if there is a correction', () => {
+    //     testGrow.registerTargets({
+    //         temperature: {
+    //             min: 15,
+    //             ideal: 20,
+    //             max: 25,
+    //         }
+    //     });
+    //     var event = false;
+    //     testGrow.on('alert', (alert)=> {
+    //         return event = alert['temperature'];
+    //     });
+    //     testGrow.emit('temperature', 10);
+    //     testGrow.emit('temperature', 15);
+    //     expect(event).to.equal('ok');
+    //     // Shouldn't emit multiple 'ok' events
+    //     event = false;
+    //     testGrow.emit('temperature', 15);
+    //     expect(event).to.equal(false);
+    // });
 
 
     it('should cleanly remove targets', () => {

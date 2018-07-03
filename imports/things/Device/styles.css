@@ -22,6 +22,32 @@
     }
 }
 
+.offline {
+    background-color:#ff9f00;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.offline-warning-icon {
+    color: white !important;
+    position: relative;
+    left: -2px;
+    top: 2px;
+    z-index: 10;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.right-icon {
+    margin-right: 50px !important;
+}
+
+.right-icon-warning {
+    margin-right: 83px !important;
+}
+
 .warning {
     background-color: #ff9f00;
     padding-top: 9px;
@@ -42,10 +68,3 @@
     height: 16px !important;
 }
 
-.right-icon {
-    margin-right: 50px !important;
-}
-
-.right-icon-warning {
-    margin-right: 83px !important;
-}

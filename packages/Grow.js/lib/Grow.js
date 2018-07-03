@@ -24,6 +24,7 @@ module.exports = class Grow extends Thing {
         // If provided with calibration data should we automatically calibrate?
         this.calibration_data = {};
         this.calibrations = {};
+        this.targets = {}
     }
 
     /**
@@ -80,27 +81,10 @@ module.exports = class Grow extends Thing {
                         }
                     }
 
-                    // An alert isn't good enough, we need to hook into the emit function
-                    // Events must be run through the Grow.js rules before being emitted to the server...
-                    else if (value.bounds) {
-                        if (value.bounds.length === 2) {
-                            if (eventData < value.bounds[0] || eventData > value.bounds[1] ) {
-                                if (this.alerts[key] !== 'anomaly') {
-                                    let alert = {};
-                                    alert[key] = 'anomaly';
-                                    _.extend(this.alerts, alert);
-                                    this.set('alerts', this.alerts);
-                                    this.emit('alert', alert, eventData);
-                                }
-                            }
-                        }
-                    }
-
                     else {
                         if (this.alerts[key]) {
                             let alert = {};
                             alert[key] = 'ok';
-                            this.emit('alert', alert);
                             this.alerts = _.omit(this.alerts, key);
                             this.set('alerts', this.alerts, eventData);
                         }
@@ -112,7 +96,30 @@ module.exports = class Grow extends Thing {
         this.emit('targets-updated', targets);
     }
 
-    /**
+  inBounds (key, value) {
+    let targets = this.targets[key];
+    if (targets && targets.bounds) {
+      if (targets.bounds.length === 2) {
+        if (value < targets.bounds[0] || value > targets.bounds[1] ) {
+          if (this.alerts[key] !== 'anomaly') {
+            let alert = {};
+            alert[key] = 'anomaly';
+            _.extend(this.alerts, alert);
+            this.set('alerts', this.alerts);
+          }
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        console.log('Warning: bounds should be a list of length 2');
+      }
+    } else {
+      console.log('No bounds configured for ' + key);
+    }
+  }
+
+   /**
    * Remove targets
    * @param {Object} targets  Alerts to be removed.
    */

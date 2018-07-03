@@ -42,25 +42,9 @@ class GrowHub extends BaseThing {
     super(props);
   }
 
-  handleTap = (event) => {
-    let device = event.currentTarget.dataset.device;
-    let command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
-    this.sendCommand(command);
-  }
-
   state = {
     settingsDialogOpen: false,
-    grafanaDashboardOpen: false,
     expanded: false,
-    /* value: 3*/
-  }
-
-  handleToggleGrfanaDashboard = () => {
-    /* this.setState({grafanaDashboardOpen: !this.state.grafanaDashboardOpen});*/
-    let thing = this.props.thing
-    let url = GRAFANA_URL + '/dashboard/script/thing.js?orgId=1&id=' + thing._id + '&types='+ encodeURIComponent(JSON.stringify(thing.properties.types));
-    let win = window.open(url, '_blank');
-    win.focus();
   }
 
   goToThingPage = () => {
@@ -74,17 +58,39 @@ class GrowHub extends BaseThing {
     this.setProperty('automation_enabled', !enabled);
   }
 
-  takePicture = () => {
-    this.sendCommand('picture');
+  handleNameChange = (event, newValue) => {
+    if (!Things.update(this.props.thing._id, {
+      $set: {name: newValue}
+    })) { throw new Meteor.Error('internal-error', 'Internal error.'); }
   }
 
-  // Add to BaseThing?
-  reboot = () => {
-    this.sendCommand('reboot');
+  handleTap = (event) => {
+    let device = event.currentTarget.dataset.device;
+    let command = this.props.thing.properties[`${device}`] === 'on' ? `${device}_off` : `${device}_on`;
+    this.sendCommand(command);
+  }
+
+  handleToggleGrfanaDashboard = () => {
+    let thing = this.props.thing
+    let url = GRAFANA_URL + '/dashboard/script/thing.js?orgId=1&id=' + thing._id + '&types='+ encodeURIComponent(JSON.stringify(thing.properties.types));
+    let win = window.open(url, '_blank');
+    win.focus();
   }
 
   imageTap = () => {
     console.log('tapped')
+  }
+
+  onlineSince () {
+    if (!this.props.thing.onlineSince) {
+      return <div className='offline'><WarningIcon className='offline-warning-icon' />No Server Connection</div>
+    } else {
+      return null
+    }
+  }
+
+  takePicture = () => {
+    this.sendCommand('picture');
   }
 
   render() {
@@ -102,8 +108,10 @@ class GrowHub extends BaseThing {
 
     return (
       <Card className='device'>
+        {this.onlineSince()}
         <CardMedia
           onTouchTap={link? null:this.imageTap}
+          /* overlayContentStyle={{backgroundColor:'#5db975'}}*/
           overlay={
             <Toolbar style={{backgroundColor:'transparent'}}>
               <ToolbarGroup firstChild={true} style={{marginLeft: 0}}>
@@ -140,15 +148,16 @@ class GrowHub extends BaseThing {
 
           }
         >
-        { types && types.camera ? <img src={link ? link: "/img/Placeholder_Image.jpg"} alt="Add photo" />:null}
+          { types && types.camera ? <img src={link ? link: "/img/Placeholder_Image.jpg"}
+                                         alt="Add photo" />:<div style={{minHeight: 60}}></div>}
         </CardMedia>
-        {/* {this.onlineSince()} */}
         <CardText>
           <Row style={{margin: -20}}>
-            <List style={{width:'100%', padding:0}}>
-              <Subheader style={styles.subHeader}>Sensors</Subheader>
+           <List style={{width:'100%', padding:0}}>
+      {
+        types && types.sensors ? <Subheader style={styles.subHeader}>Sensors</Subheader>: null
+      }
               {
-                // TODO: collapsed view, should just display icons with values
                 types && types.sensors ? types.sensors.map((v, k) => {
                   const events = this.getEvents(v.type);
                   return this.getEventValue(v.type) !== 'NA' ? <ListItem
@@ -161,7 +170,7 @@ class GrowHub extends BaseThing {
                                                                                                                                                    style={styles.icon}></i>}
                                                                  rightIcon={<span className={ alerts[v.type] ? "right-icon-warning":"right-icon"}>
                                                                    {
-                                                                    alerts[v.type] ? <WarningIcon className="warning-icon" />:null
+                                                                     alerts[v.type] ? <WarningIcon className="warning-icon" />:null
                                                                    }
                                                                    <span style={styles.sensorReading} className={alerts[v.type] ? "warning": null}>
                                                                      {this.getEventValue(v.type)}
@@ -178,7 +187,9 @@ class GrowHub extends BaseThing {
                 <CardText>
                 <Row> */}
               <List style={{width:'100%'}}>
-                <Subheader style={styles.subHeader}>Actuators</Subheader>
+                {
+                  types && types.actuators ? <Subheader style={styles.subHeader}>Actuators</Subheader>: null
+                }
                 {
                   types && types.actuators ? types.actuators.map((value, key) => {
                     return <ListItem
@@ -208,18 +219,14 @@ class GrowHub extends BaseThing {
                   onRequestClose={this.handleClose}
                   open={this.state.settingsDialogOpen}>
                   <h2>Grow settings</h2>
-                  {
-                    properties.automation_enabled ? <Col xs={12} md={6}>
-                      <div style={{padding:40}}>
-                        <Toggle
-                          label="Automation"
-                          toggled={properties.automation_enabled}
-                          data-enabled={properties.automation_enabled}
-                          onTouchTap={this.handleAutomationStartStop}
-                        />
-                      </div>
-                    </Col>: null
-                  }
+                  <TextField
+                    hintText="Device name"
+                    floatingLabelText="Device name"
+                    data-key="name"
+                    defaultValue={thing.name ? thing.name: "Grow Controller"}
+                    onChange={this.handleNameChange}
+                  />
+                  <br/>
                   <TextField
                     hintText="Log data every (milliseconds)"
                     floatingLabelText="Log data every (milliseconds)"
@@ -241,6 +248,22 @@ class GrowHub extends BaseThing {
                     rows={10}
                   />
                   <RaisedButton label="Update Growfile" primary={true} onTouchTap={this.updateGrowfile}/>
+                  {
+                    properties.automation_enabled ? <Col xs={12} md={6}>
+                      <div style={{padding:40}}>
+                        <Toggle
+                          label="Automation"
+                          toggled={properties.automation_enabled}
+                          data-enabled={properties.automation_enabled}
+                          onTouchTap={this.handleAutomationStartStop}
+                        />
+                      </div>
+                    </Col>: null
+                  }
+                  <h2>Device credentials</h2>
+                  <p>These credentials are unique to your device. Keep them secret.</p>
+                  <p>UUID: {thing.uuid}</p>
+                  <p>TOKEN: {thing.token}</p>
                   <h2>Reboot</h2>
                   <p>Rebooting the device will result in the device temporarilly going offline.</p>
                   <RaisedButton label="Reboot device" primary={true} onTouchTap={this.reboot}/>

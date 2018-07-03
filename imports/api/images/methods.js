@@ -25,7 +25,7 @@ Meteor.methods({
         if (!thing) { throw new Meteor.Error('unauthorized', 'Unauthorized.'); }
 
         let imageFile = Buffer.from(file);
-
+      console.log(Images.addFile);
         Images.write(imageFile, {
             meta: {
                 thing: thing._id,
@@ -37,7 +37,8 @@ Meteor.methods({
             if (error) {
                 throw error;
             } else {
-                console.log(fileRef.name + ' is successfully saved to FS. _id: ' + fileRef._id);
+              console.log(fileRef.name + ' is successfully saved to FS. _id: ' + fileRef._id);
+              // console.log(fileRef)
                 Images.onAfterUpload(fileRef);
             }
         });
