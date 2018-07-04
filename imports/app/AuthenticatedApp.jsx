@@ -8,12 +8,10 @@ import ThingView from './pages/ThingView.jsx';
 import EnvironmentsList from './pages/EnvironmentsList.jsx';
 import EnvironmentsView from './pages/EnvironmentsView.jsx';
 import Profile from './pages/Profile.jsx';
-import Camera from './components/Camera.jsx';
 import EventHistory from './pages/EventHistory.jsx';
 import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
-import CameraComponent from './components/Camera.jsx';
 import ThingDetail from './pages/ThingDetail.jsx';
 import DeviceSettings from './components/things/Device/DeviceSettings.jsx';
 

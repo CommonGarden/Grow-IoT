@@ -4,9 +4,9 @@ import { Meteor } from 'meteor/meteor';
 let INFLUX_URL = false;
 
 if (process.env.METEOR_SETTINGS) {
-    INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
+  INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 } else {
-    INFLUX_URL = process.env.INFLUX_URL ? process.env.INFLUX_URL: false;
+  INFLUX_URL = process.env.INFLUX_URL ? process.env.INFLUX_URL: false;
 }
 
 console.log('Influx URL: ' + INFLUX_URL);
@@ -32,14 +32,14 @@ if (INFLUX_URL) {
   });
 
   influx.getDatabaseNames()
-  .then(names => {
-    if (!names.includes('events')) {
-      return influx.createDatabase('events');
-    }
-  })
-  .catch(err => {
-    console.error(err);
-  })
+    .then(names => {
+      if (!names.includes('events')) {
+        return influx.createDatabase('events');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+    })
 
   export default influx;
 }

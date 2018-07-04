@@ -93,6 +93,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-meteor": "^4.2.0",
+    "eslint-plugin-mocha": "^5.0.0",
     "lerna": "^2.9.0",
     "redux-devtools": "^3.4.0"
   },

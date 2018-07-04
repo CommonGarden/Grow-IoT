@@ -18,7 +18,7 @@
     ],
     "rules": {
         "mocha/no-exclusive-tests": "error",
-        "indent": ["warn", 4, {
+        "indent": ["warn", 2, {
             "SwitchCase": 1
         }],
         "linebreak-style": ["warn", "unix"],
@@ -27,5 +27,12 @@
         "no-unused-vars": ["warn"],
         "no-undef":  ["warn"],
         "semi": ["warn", "always"]
+    },
+    "globals": {
+        "Events": true,
+        "Environments": true,
+        "Images": true,
+        "Messages": true,
+        "Things": true
     }
 }

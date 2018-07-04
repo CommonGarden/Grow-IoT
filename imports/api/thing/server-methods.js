@@ -7,112 +7,112 @@ import influx from '../influx/influx';
 let INFLUX_URL = false;
 
 if (process.env.METEOR_SETTINGS) {
-    INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
+  INFLUX_URL = process.env.METEOR_SETTINGS ? JSON.parse(process.env.METEOR_SETTINGS).INFLUX_URL : false;
 } else {
-    INFLUX_URL = process.env.INFLUX_URL ? process.env.INFLUX_URL: false;
+  INFLUX_URL = process.env.INFLUX_URL ? process.env.INFLUX_URL: false;
 }
 
 console.log(INFLUX_URL);
 
 Meteor.methods({
-    'Thing.sendCommand': function (thingUuid, type, options) {
-        check(thingUuid, String);
-        check(type, String);
-        check(options, Match.OneOf(Object, Number, String, null, undefined));
+  'Thing.sendCommand': function (thingUuid, type, options) {
+    check(thingUuid, String);
+    check(type, String);
+    check(options, Match.OneOf(Object, Number, String, null, undefined));
 
-        // TODO: Must be owner of the device.
-        let thing = Things.findOne(
-            {uuid: thingUuid}
-            , {
-                fields: {
-                    _id: 1
-                }
-            });
+    // TODO: Must be owner of the device.
+    let thing = Things.findOne(
+      {uuid: thingUuid}
+      , {
+        fields: {
+          _id: 1
+        }
+      });
 
-        if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
+    if (!thing) { throw new Meteor.Error('not-found', `Thing '${thingUuid}' cannot be found.`); }
 
-        let document = {
-            createdAt: new Date(),
-            thing: {
-                _id: thing._id
-            },
-            body: {
-                type: type,
-                options: options
-            }
-        };
+    let document = {
+      createdAt: new Date(),
+      thing: {
+        _id: thing._id
+      },
+      body: {
+        type: type,
+        options: options
+      }
+    };
 
-        Messages.insert(document);
-    },
+    Messages.insert(document);
+  },
 
-    /*
+  /*
    * Emit an event.
-  */
-    'Thing.emit': function (auth, event) {
-        check(auth, {
-            uuid: String,
-            token: String
+   */
+  'Thing.emit': function (auth, event) {
+    check(auth, {
+      uuid: String,
+      token: String
+    });
+    check(event, Match.OneOf(String, Object));
+
+    let thing = Things.findOne(auth, {
+      fields: {
+        _id: 1,
+        owner: 1
+      }
+    });
+
+    if (!thing) { throw new Meteor.Error('unauthorized', 'Unauthorized.'); }
+
+    if (INFLUX_URL) {
+      let dataPoint = {
+        measurement: 'events',
+        tags: { thing: thing._id, type: event.type }
+      };
+
+      if (_.isNumber(event.message)) {
+        _.extend(dataPoint, {
+          fields: {value: event.message}
         });
-        check(event, Match.OneOf(String, Object));
+      }
 
-        let thing = Things.findOne(auth, {
-            fields: {
-                _id: 1,
-                owner: 1
-            }
+      else if (_.isString(event.message)) {
+        _.extend(dataPoint, {
+          fields: {message: event.message}
         });
+      }
 
-        if (!thing) { throw new Meteor.Error('unauthorized', 'Unauthorized.'); }
+      if (dataPoint.fields) {
+        influx.writePoints([
+          dataPoint
+        ]).catch(err => {
+          if (err.message !== 'No host available') {
+            if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
+          }
+        });
+      }
+    }
 
-        if (INFLUX_URL) {
-            let dataPoint = {
-                measurement: 'events',
-                tags: { thing: thing._id, type: event.type }
-            };
-
-            if (_.isNumber(event.message)) {
-                _.extend(dataPoint, {
-                    fields: {value: event.message}
-                });
-            }
-
-            else if (_.isString(event.message)) {
-                _.extend(dataPoint, {
-                    fields: {message: event.message}
-                });
-            }
-
-            if (dataPoint.fields) {
-                influx.writePoints([
-                    dataPoint
-                ]).catch(err => {
-                    if (err.message !== 'No host available') {
-                        if (err.errno !== 'ECONNREFUSED') console.error(`Error saving data to InfluxDB! ${err.stack}`);
-                    }
-                });
-            }
+    if (event.type === 'alert') {
+      let key = _.keys(event.message)[0];
+      let notification = 'Alert: ' + key + ' ' + event.message[key];
+      Meteor.call('Notifications.new',
+        notification,
+        thing.owner,
+        (error, document) => {
+          if (error) {
+            console.error('New notification error', error);
+          }
         }
+      );
+    }
 
-        if (event.type === 'alert') {
-            let key = _.keys(event.message)[0];
-            let notification = 'Alert: ' + key + ' ' + event.message[key];
-            Meteor.call('Notifications.new',
-                notification,
-                thing.owner,
-                (error, document) => {
-                    if (error) {
-                        console.error('New notification error', error);
-                    }
-                }
-            );
-        }
-
-        return !!Events.insert({
-            thing: {
-                _id: thing._id
-            },
-            event: event,
-            insertedAt: new Date()
-        });
-    },
+    return !!Events.insert({
+      thing: {
+        _id: thing._id
+      },
+      event: event,
+      insertedAt: new Date()
+    });
+  },
 });

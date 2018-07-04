@@ -15,7 +15,6 @@ import MenuItem from 'material-ui/MenuItem';
 import AppNavDrawer from '../components/AppNavDrawer';
 import CreateThing from '../components/CreateThing.jsx';
 import NotificationsWidget from '../components/NotificationsWidget';
-import CameraComponent from '../components/Camera.jsx';
 
 const title = Meteor.settings.public.title || 'Grow-IoT';
 const logo = Meteor.settings.public.logo || '/img/white_flower.png';

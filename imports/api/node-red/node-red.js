@@ -9,15 +9,15 @@ var app = express();
 
 // See node-red configuration documentation for options.
 var settings = {
-    httpRoot:'/red',
-    httpNodeRoot: '/api',
-    adminAuth: require('./user-authentication'),
-    editorTheme: {
-        projects: {
-            enabled: true
-        }
-    },
-    functionGlobalContext: { }    // enables global context
+  httpRoot:'/red',
+  httpNodeRoot: '/api',
+  adminAuth: require('./user-authentication'),
+  editorTheme: {
+    projects: {
+      enabled: true
+    }
+  },
+  functionGlobalContext: { }    // enables global context
 };
 
 // Initialise the runtime with Meteor http server and settings

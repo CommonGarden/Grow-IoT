@@ -1,7 +1,5 @@
 const Grow = require('../lib/Grow.js');
-const _ = require('underscore');
 const cycles = require('../examples/growfiles/cycles');
-const phases = require('../examples/growfiles/phases');
 const cannabis = require('../examples/growfiles/cannabis');
 const tomato = require('../examples/growfiles/tomato');
 
@@ -11,10 +9,6 @@ describe('Growfile test', () => {
 
     beforeEach(() => {
         global.testGrow = new Grow({});
-    });
-
-    it('should load the database', ()=> {
-        let grow = new Grow({}, 'state.json');
     });
 
     it('should parse and schedule cycles', () => {

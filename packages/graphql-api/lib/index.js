@@ -15,7 +15,7 @@ import { subscriptionManager } from './subscriptions';
 import config from './config';
 const schema = executableSchema({ config });
 // import {
-  // APP_SECRET,
+// APP_SECRET,
 // } from './apiKeys';
 // const app_secret = APP_SECRET || config.secret;
 
@@ -30,14 +30,14 @@ const app = express();
 
 //FIXES CORS ERROR
 const whitelist = [
-    'http://localhost:3000',
+  'http://localhost:3000',
 ];
 const corsOptions = {
-    origin(origin, callback){
-        const originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-        callback(null, originIsWhitelisted);
-    },
-    credentials: true
+  origin(origin, callback){
+    const originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true
 };
 
 app.use(cors(corsOptions));
@@ -47,12 +47,12 @@ app.use(bodyParser.json());
 // import './auth.js'; //see snippet below
 // // passport's session piggy-backs on express-session
 // app.use(
-  // session({
-    // genid: function(req) {
-      // return uuid.v4();
-    // },
-    // secret: app_secret,
-  // })
+// session({
+// genid: function(req) {
+// return uuid.v4();
+// },
+// secret: app_secret,
+// })
 // );
 
 // app.use(passport.initialize());
@@ -122,19 +122,20 @@ app.use('/graphiql', graphiqlExpress({
 app.get('/',
   function(req, res) {
     res.render('home', { user: req.user });
-  });
+  }
+);
 
 
 // app.get('/login',
-  // function(req, res){
-    // res.render('login');
-  // });
+// function(req, res){
+// res.render('login');
+// });
 
 //login route for passport
 // app.post('/login', passport.authenticate('local', {
-  // successRedirect: '/',
-  // failureRedirect: '/login',
-  // failureFlash: true
+// successRedirect: '/',
+// failureRedirect: '/login',
+// failureFlash: true
 // }) );
 
 
@@ -144,22 +145,22 @@ app.listen(PORT, () => console.log( // eslint-disable-line no-console
 
 // WebSocket server for subscriptions
 // const websocketServer = createServer((request, response) => {
-  // response.writeHead(404);
-  // response.end();
+// response.writeHead(404);
+// response.end();
 // });
 
 // websocketServer.listen(WS_PORT, () => console.log( // eslint-disable-line no-console
-  // `Websocket Server is now running on http://localhost:${WS_PORT}`
+// `Websocket Server is now running on http://localhost:${WS_PORT}`
 // ));
 
 // // eslint-disable-next-line
 // new SubscriptionServer(
-  // {
-    // subscriptionManager,
+// {
+// subscriptionManager,
 
-    // // onSubscribe: (msg, params) => {
+// // onSubscribe: (msg, params) => {
 
-    // // },
-  // },
-  // websocketServer
+// // },
+// },
+// websocketServer
 // );

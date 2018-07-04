@@ -8,7 +8,7 @@ import CameraAlt from 'material-ui/svg-icons/image/camera-alt';
 import Visible from 'material-ui/svg-icons/action/visibility';
 import NotVisible from 'material-ui/svg-icons/action/visibility-off';
 import _ from 'underscore';
-// import CreateComponent from './CreateComponent.jsx';
+//import CreateComponent from './CreateComponent.jsx';
 import Components from './things/';
 /* import { Row, Col } from 'react-flexbox-grid';*/
 import SvgIcon from 'material-ui/SvgIcon';
