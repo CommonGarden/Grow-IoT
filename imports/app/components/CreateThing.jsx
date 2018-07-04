@@ -15,7 +15,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import Subheader from 'material-ui/Subheader';
 import Snackbar from 'material-ui/Snackbar';
-import Components from '../../things/';
+import Components from './things/';
 import _ from 'underscore';
 
 let components = [];

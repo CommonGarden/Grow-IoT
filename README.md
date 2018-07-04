@@ -43,10 +43,10 @@ And that's it! Visit http://localhost:3000 with your browser of choice; you shou
 Create a new device (click the '+' button) and create a device. Enter "test" for both the `uuid` and `token`. Then run the mock device driver (in a seperate terminal):
 
 ```bash
-node packages/Grow.js/examples/test-device.js
+node packages/Grow.js/examples/test-grow-hub.js
 ```
 
-You can find the ui component for this device in `imports/things/misc/Thermostat.jsx`.
+You can find the ui component for this device in `imports/app/components/things/Device/Device.jsx`.
 
 # Connecting sensors and actuators
 
@@ -62,7 +62,7 @@ Hardware examples live in those packages' `examples` folder. Corresponding UI co
 To do so:
 
 1. Make a new `CustomComponent.jsx` file in `imports/things/'` or `npm install package-name` if the component is published on [npm](https://www.npmjs.com/).
-2. Open `imports/things/index.js`.
+2. Open `imports/app/components/things/index.js`.
 3. `import CustomComponent from './CustomComponent'`
 4. Lastly, add `CustomComponent` to the exported `components` object.
 
@@ -71,8 +71,6 @@ Example devices and grow systems:
 * [General Grow Controller](https://github.com/CommonGarden/Grow-Hub)
 * [Fermenter](https://github.com/CommonGarden/Fermenter)
 * [Compost Brewer](https://github.com/CommonGarden/CompostBrewer)
-
-More on the way! Contributions welcome!
 
 # Organization
 In the repo you'll find the following directories and files:
@@ -109,12 +107,6 @@ There's a lot to do.
 * [Image storage and retreival with IPFS](https://github.com/CommonGarden/Grow-IoT/issues/416)
 * [Environments](https://github.com/CommonGarden/Grow-IoT/issues/311) (creating groups of things)
 * [Administration and device management](https://github.com/CommonGarden/Grow-IoT/issues/370) (a green house or lab involves more than one user often)
-
-
-## Contributors
-
-This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
-<a href="graphs/contributors"><img src="https://opencollective.com/Grow-IoT/contributors.svg?width=890" /></a>
 
 ## License
 Grow-IoT is released under the 2-Clause BSD License, sometimes referred to as the "Simplified BSD License" or the "FreeBSD License".

@@ -15,7 +15,7 @@ import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
 import CameraComponent from './components/Camera.jsx';
 import ThingDetail from './pages/ThingDetail.jsx';
-import DeviceSettings from '../things/Device/DeviceSettings.jsx';
+import DeviceSettings from './components/things/Device/DeviceSettings.jsx';
 
 const title = Meteor.settings.public.title || 'Grow-IoT';
 

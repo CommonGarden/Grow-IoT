@@ -5,7 +5,7 @@ let testDevice = new Thing({
     uuid: 'test',
     token: 'test',
 
-    component: 'NewHub',
+    // component: 'NewHub',
 
     // Properties can be updated by the API
     properties: {

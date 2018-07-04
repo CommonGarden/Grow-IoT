@@ -9,7 +9,7 @@ import Visible from 'material-ui/svg-icons/action/visibility';
 import NotVisible from 'material-ui/svg-icons/action/visibility-off';
 import _ from 'underscore';
 // import CreateComponent from './CreateComponent.jsx';
-import Components from '../../things/';
+import Components from './things/';
 /* import { Row, Col } from 'react-flexbox-grid';*/
 import SvgIcon from 'material-ui/SvgIcon';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -86,7 +86,8 @@ export default class ThingDisplay extends Component {
     </Card>;
 
     // THIS IS WHERE THE ACTION HAPPENS
-    const RegisteredText = Components[this.props.thing.component];
+    // TODO if component is not defined, throw a more helpful error
+    const RegisteredText = Components[this.props.thing.component ? this.props.thing.component:"Device"];
     return (
       <div style={{flexBasis: 'initial'}}>
         {
