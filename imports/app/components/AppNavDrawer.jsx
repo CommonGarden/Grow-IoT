@@ -65,7 +65,7 @@ class AppNavDrawer extends Component {
 
   signOutCallback = (error) => {
     if (error === undefined) {
-      this.context.router.push('/');
+      this.props.history.push('/');
     }
   }
 

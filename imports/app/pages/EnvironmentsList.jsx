@@ -25,7 +25,7 @@ class EnvironmentsList extends Component {
     if (environments && environments.length) {
       return (
         <div>
-        <AppBarComponent />
+        <AppBarComponent {...this.props} />
         <Grid>
           <Row className="layout horizontal center-justified">
             {

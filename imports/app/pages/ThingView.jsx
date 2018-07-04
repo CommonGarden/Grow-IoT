@@ -15,8 +15,7 @@ class ThingView extends Component {
   }
 
   back = () => {
-    console.log('going back')
-    window.history.back()
+    this.props.history.push('/app/things');
   }
 
   componentWillMount() {
@@ -32,7 +31,6 @@ class ThingView extends Component {
 
   renderThings() {
     const thing = this.props.Thing;
-    console.log(this.props.history);
 
     if (thing) {
       return (
@@ -51,7 +49,7 @@ class ThingView extends Component {
             }}>
             <LeftChevron />
           </IconButton>
-          <ThingDisplay thing={thing}/>
+          <ThingDisplay thing={thing} {...this.props}/>
         </div>
       );
     } else {

@@ -159,6 +159,7 @@ class AppBarComponent extends Component {
           }
         />
         <AppNavDrawer
+          {...this.props}
           style={styles.navDrawer}
           location={location}
           docked={false}

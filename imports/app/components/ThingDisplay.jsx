@@ -85,11 +85,12 @@ export default class ThingDisplay extends Component {
       </CardActions>
     </Card>;
 
+    // THIS IS WHERE THE ACTION HAPPENS
     const RegisteredText = Components[this.props.thing.component];
     return (
       <div style={{flexBasis: 'initial'}}>
         {
-          registered ? <RegisteredText thing={this.props.thing} actions={
+          registered ? <RegisteredText {...this.props} actions={
             [ deleteButton ]
           }>
         </RegisteredText>

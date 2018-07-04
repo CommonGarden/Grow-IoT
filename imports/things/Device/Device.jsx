@@ -12,9 +12,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PowerIcon from 'material-ui/svg-icons/action/power-settings-new';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import ChartIcon from 'material-ui/svg-icons/editor/show-chart';
-/* import Divider from 'material-ui/Divider';*/
 import Subheader from 'material-ui/Subheader';
-/* import GrowFile from '../../app/components/GrowFile';*/
 import {
   Card,
   CardActions,
@@ -26,12 +24,9 @@ import {
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import { Row, Col } from 'react-flexbox-grid';
 import styles from './styles.js';
-/* import Iframe from 'react-iframe';*/
 import Toggle from 'material-ui/Toggle';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-/* import WebCam from '../Camera/WebCamComponent.jsx';*/
 import {List, ListItem} from 'material-ui/List';
-/* import MediaQuery from 'react-responsive';*/
 import './styles.css';
 import CameraIcon from 'material-ui/svg-icons/image/camera-alt';
 
@@ -45,12 +40,6 @@ class GrowHub extends BaseThing {
   state = {
     settingsDialogOpen: false,
     expanded: false,
-  }
-
-  goToThingPage = () => {
-    let value = 'thing/' + this.props.thing.uuid;
-    let win = window.open(value, '_blank');
-    win.focus();
   }
 
   handleAutomationStartStop = (event) => {
@@ -116,7 +105,7 @@ class GrowHub extends BaseThing {
             <Toolbar style={{backgroundColor:'transparent'}}>
               <ToolbarGroup firstChild={true} style={{marginLeft: 0}}>
                 <ToolbarTitle text={thing.name ? thing.name:"Grow Controller"}
-                                   onTouchTap={this.goToThingPage}
+            onTouchTap={()=> {this.props.history.push('thing/' + this.props.thing.uuid)}}
                                    style={{color:'white', cursor:'pointer', fontFamily: 'FuturaBold'}}/>
               </ToolbarGroup>
               <ToolbarGroup>
@@ -138,7 +127,7 @@ class GrowHub extends BaseThing {
                 <IconButton
                   tooltip="Options"
                            tooltipPosition="top-center"
-                           onTouchTap={this.handleOpen}
+                           onTouchTap={()=>{this.props.history.push('/app/device/settings/'+ thing.uuid)}}
                            iconStyle={{color:'white'}}
                 >
                   <SettingsIcon />
@@ -166,6 +155,7 @@ class GrowHub extends BaseThing {
 
                                                                  innerDivStyle={{lineHeight: '25px'}}
                                                                  primaryText={<span>{v.title}</span>}
+                  onTouchTap={()=> {this.props.history.push('/app/detail/' + this.props.thing.uuid + '/' + v.type)}}
                                                                  leftAvatar={v.icon ? <i className={v.icon} style={styles.icon}></i>:<i className='wi wi-barometer'
                                                                                                                                                    style={styles.icon}></i>}
                                                                  rightIcon={<span className={ alerts[v.type] ? "right-icon-warning":"right-icon"}>

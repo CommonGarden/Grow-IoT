@@ -29,7 +29,7 @@ class ThingsList extends Component {
             {
               things.map((v, k) => {
                 return (
-                  <ThingDisplay thing={v} key={k}/>
+                  <ThingDisplay {...this.props}  thing={v} key={k}/>
                 )
               }
               )
@@ -52,8 +52,8 @@ class ThingsList extends Component {
       }
     };
     return (
-      this.state.loading ? <CircularProgress size={80} thickness={5} style={styles.circProg} /> : <div>
-        <AppBarComponent />
+      this.state.loading ? <CircularPrgress size={80} thickness={5} style={styles.circProg} /> : <div>
+        <AppBarComponent {...this.props} />
         {this.renderThings()}
       </div>
 

@@ -14,8 +14,11 @@ import AllNotifications from './pages/AllNotifications.jsx';
 import CreateThing from './components/CreateThing.jsx';
 import NotificationsWidget from './components/NotificationsWidget';
 import CameraComponent from './components/Camera.jsx';
+import ThingDetail from './pages/ThingDetail.jsx';
+import DeviceSettings from '../things/Device/DeviceSettings.jsx';
 
 const title = Meteor.settings.public.title || 'Grow-IoT';
+
 class AuthenticatedApp extends Component {
   componentWillMount() {
     document.title = title;
@@ -50,6 +53,8 @@ class AuthenticatedApp extends Component {
         <Route path={`${rootUrl}/environments`} render={routeProps=> <EnvironmentsList user={this.props.user} thingsChanged={this.handleThingsChange} {...routeProps}/>}/>
         <Route path={`${rootUrl}/settings`} render={routeProps=> <Profile user={this.props.user} {...routeProps}/>}/>
         <Route path={`${rootUrl}/thing/:uuid`} render={routeProps => <ThingView user={this.props.user} {...routeProps}/>}/>
+        <Route path={`${rootUrl}/detail/:uuid/:type`} render={routeProps => <ThingDetail user={this.props.user} {...routeProps}/>} />
+        <Route path={`${rootUrl}/device/settings/:uuid`} render={routeProps => <DeviceSettings user={this.props.user} {...routeProps}/>} />
         <Route path={`${rootUrl}/environment/:uuid`} render={routeProps => <EnvironmentView user={this.props.user} {...routeProps}/>}/>
         <Route path={`${rootUrl}/events/:uuid`} render={routeProps => <EventHistory user={this.props.user} {...routeProps}/>}/>
         <Route path={`${rootUrl}/notifications`} component={AllNotifications} />
