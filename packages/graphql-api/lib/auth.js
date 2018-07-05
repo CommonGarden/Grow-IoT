@@ -9,7 +9,7 @@ passport.use('local', new LocalStrategy(
       if(is_login_valid){
         return User.findOne( { username: username });
       } else {
-        throw new Error("invalid username or password");
+        throw new Error('invalid username or password');
       }
     })
       .then( ( user ) => {
