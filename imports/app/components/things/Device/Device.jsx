@@ -100,12 +100,12 @@ class GrowHub extends BaseThing {
         {this.onlineSince()}
         <CardMedia
           onTouchTap={link? null:this.imageTap}
-          /* overlayContentStyle={{backgroundColor:'#5db975'}}*/
+          overlayContentStyle={{paddingTop:4, backgroundColor:'#5db975'}}
           overlay={
             <Toolbar style={{backgroundColor:'transparent'}}>
               <ToolbarGroup firstChild={true} style={{marginLeft: 0}}>
                 <ToolbarTitle text={thing.name ? thing.name:"Grow Controller"}
-            onTouchTap={()=> {this.props.history.push('thing/' + this.props.thing.uuid)}}
+                                   onTouchTap={()=> {this.props.history.push('thing/' + this.props.thing.uuid)}}
                                    style={{color:'white', cursor:'pointer', fontFamily: 'FuturaBold'}}/>
               </ToolbarGroup>
               <ToolbarGroup>
@@ -142,10 +142,10 @@ class GrowHub extends BaseThing {
         </CardMedia>
         <CardText>
           <Row style={{margin: -20}}>
-           <List style={{width:'100%', padding:0}}>
-      {
-        types && types.sensors ? <Subheader style={styles.subHeader}>Sensors</Subheader>: null
-      }
+            <List style={{width:'100%', padding:0}}>
+              {
+                types && types.sensors ? <Subheader style={styles.subHeader}>Sensors</Subheader>: null
+              }
               {
                 types && types.sensors ? types.sensors.map((v, k) => {
                   const events = this.getEvents(v.type);
@@ -155,7 +155,7 @@ class GrowHub extends BaseThing {
 
                                                                  innerDivStyle={{lineHeight: '25px'}}
                                                                  primaryText={<span>{v.title}</span>}
-                  onTouchTap={()=> {this.props.history.push('/app/detail/' + this.props.thing.uuid + '/' + v.type)}}
+                                                                 onTouchTap={()=> {this.props.history.push('/app/detail/' + this.props.thing.uuid + '/' + v.type)}}
                                                                  leftAvatar={v.icon ? <i className={v.icon} style={styles.icon}></i>:<i className='wi wi-barometer'
                                                                                                                                                    style={styles.icon}></i>}
                                                                  rightIcon={<span className={ alerts[v.type] ? "right-icon-warning":"right-icon"}>

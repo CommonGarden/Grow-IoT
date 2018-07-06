@@ -8,7 +8,7 @@ import ThingDisplay from '../components/ThingDisplay.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 import LeftChevron from 'material-ui/svg-icons/navigation/chevron-left';
 import IconButton from 'material-ui/IconButton';
-import { Charts, ChartContainer, ChartRow, YAxis, LineChart, Resizable } from "react-timeseries-charts";
+import { Charts, ChartContainer, ChartRow, YAxis, LineChart, AreaChart, Resizable, styler } from "react-timeseries-charts";
 import { TimeSeries, TimeRange, Event } from "pondjs";
 import {
   Card,
@@ -20,6 +20,7 @@ import {
 } from 'material-ui/Card';
 import AppBar from 'material-ui/AppBar';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import './styles.css';
 
 class ThingDetail extends Component {
   state = {
@@ -63,6 +64,54 @@ class ThingDetail extends Component {
       }
     };
 
+    /* const lineChartStyle = new styler([
+     *   {key: "value", color: "white", width: 1.5, dashed: false},
+     * ]);*/
+
+    const axisStyle = {
+      values: {
+        labelColor: "white",
+        labelWeight: 100,
+        labelSize: 11,
+        stroke: 'none',
+        fill: 'white'
+      },
+      axis: {
+        axisColor: "white",
+        axisWidth: 1
+      },
+      label: {
+        stroke: "none",
+        fill: "#FFF", // Default label color
+        fontWeight: 200,
+        fontSize: 14,
+        /* font: '"Goudy Bookletter 1911", sans-serif"'*/
+      },
+      ticks: {
+        fill: "white !important",
+        stroke: "#FFF",
+        color: 'white'
+        /* opacity: 0.2*/
+      }
+    };
+
+    const lineChartStyle = {
+      "value": {
+        line: {
+          normal: {stroke: 'white', fill: "none", strokeWidth: 1},
+          highlighted: {stroke: 'yellow', fill: "none", strokeWidth: 1},
+          selected: {stroke: 'white', fill: "none", strokeWidth: 2},
+          muted: {stroke: 'white', fill: "none", opacity: 0.4, strokeWidth: 1}
+        },
+        area: {
+          normal: {fill: 'white', stroke: "none", opacity: 0.25},
+          highlighted: {fill: 'white', stroke: "none", opacity: 0.25},
+          selected: {fill: 'white', stroke: "none", opacity: 0.25},
+          muted: {fill: 'white', stroke: "none", opacity: 0.25}
+        }
+      }
+    }
+
     const thing = this.props.thing;
     const series = this.getEvents(this.props.type);
     const sensors = thing ? thing.properties.types.sensors: null;
@@ -79,17 +128,17 @@ class ThingDetail extends Component {
     }
 
     return (
-      this.props.ready ? <div>
+      this.props.ready ? <div style={{backgroundColor:'#5db975', height:'100%', width: '100%', position: 'absolute'}}>
         <AppBar
           title={thing.name}
           titleStyle={{
             textAlign: 'center',
             fontSize: 16,
-            color: 'black'
+            color: 'white'
           }}
           style={{
-            color: 'black',
-            backgroundColor: 'transparent',
+            color: 'white',
+            backgroundColor: '#5db975',
             boxShadow: 'none'
           }}
           iconElementLeft={
@@ -103,26 +152,27 @@ class ThingDetail extends Component {
                            zIndex: 10
                          }}
                          iconStyle={{
-                           color: 'black',
-                           fill: 'black'
+                           color: 'white',
+                           fill: 'white'
                          }}>
               <LeftChevron />
             </IconButton>
           }
         />
-        <div style={{textAlign:'center'}}>
+        <div style={{textAlign:'center', color: 'white'}}>
           <h2>{typeInfo? typeInfo.title:this.props.type}</h2>
           <h1>{this.getEventValue(this.props.type)}{typeInfo.unit ? <i className={typeInfo.unit}></i>:null}</h1>
         </div>
-        <Resizable>
-          <ChartContainer timeRange={series.range()} width={400}>
+        <Resizable style={{marginLeft:-20}}>
+          <ChartContainer timeRange={series.range()} width={400} timeAxisStyle={axisStyle}>
             <ChartRow height="350">
               <YAxis
                 id="light"
                 min={series.min()} max={series.max()}
-                width="60" />
+                width="60"
+                style={axisStyle}/>
               <Charts>
-                <LineChart axis="light" series={series} />
+                <AreaChart axis="light" series={series} style={lineChartStyle} />
               </Charts>
             </ChartRow>
           </ChartContainer>
