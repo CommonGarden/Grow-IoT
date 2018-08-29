@@ -2,10 +2,9 @@ let Thing = require('../lib/Grow.js');
 let types = require('./types.js');
 
 let testDevice = new Thing({
-    uuid: 'test',
-    token: 'test',
-
-    // component: 'NewHub',
+    uuid: 'test2',
+    token: 'test2',
+    // component: 'MyCust',
 
     // Properties can be updated by the API
     properties: {

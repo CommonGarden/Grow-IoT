@@ -41,7 +41,7 @@ module.exports = {
             // Cycles are function that have a 'schedule' property
             cycles: {
                 day: {
-                    schedule: 'after 6:00am',
+                    schedule: '',
                     targets: {
                         temperature: {
                             ideal: 22

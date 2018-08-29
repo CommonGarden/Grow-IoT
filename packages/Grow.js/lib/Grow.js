@@ -16,14 +16,13 @@ const regression = require('regression');
 module.exports = class Grow extends Thing {
   constructor(config, path_to_datafile) {
     super(config, path_to_datafile);
-
     this.buffers = {};
 
     // If provided with calibration data should we automatically calibrate?
     this.calibration_data = {};
     this.calibrations = {};
     this.targets = {};
-  }
+   }
 
   /**
    * Creates listeners for targets objects in grow files.
@@ -56,7 +55,7 @@ module.exports = class Grow extends Thing {
         if (Number(eventData) !== 'NaN') {
           if (value.ideal && eventData) {
             let correction = this.controllers[key].update(eventData);
-            this.emit('correction', key, correction);
+            this.emit('correction', key, correction, eventData, value);
           }
 
           if (value.min && eventData < value.min) {

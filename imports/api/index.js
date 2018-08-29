@@ -12,6 +12,7 @@ if (Meteor.isServer) {
   import './coap/coap.js';
   import './Users/server/index.js';
   import './node-red/node-red.js';
+  // import './rest-api/lib/server.js';
 }
 
 import './thing/methods';
