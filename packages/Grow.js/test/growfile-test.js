@@ -107,6 +107,19 @@ describe('Growfile test', () => {
         expect(!!testGrow.controllers.ec).to.equal(true);
     });
 
+
+    it('calibration should be accessible in the start annd initialize functions', ()=> {
+        let inside;
+        let g = new Grow({
+            start: ()=> {
+                inside = this.calibrations;
+            }
+        });
+
+        // this doesn't work, both these should be the same
+        expect(g.calibrations).to.equal(inside);
+    });
+
     // it('should emit OK alert events', () => {
     //     testGrow.registerTargets({
     //         temperature: {

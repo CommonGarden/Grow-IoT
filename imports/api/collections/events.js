@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
 
 // Create a collection where users can only modify documents that
 // they own. Ownership is tracked by an 'owner' field on each
@@ -33,3 +34,20 @@ Events.deny({
   },
   fetch: ['locked'] // no need to fetch 'owner'
 });
+
+// Auto expire events evey day. InfluxDB should be used for permenant event storage.
+// Large numbers of events will cause Mongo queries to take to long resulting in a 502 error
+if (Meteor.isServer) {
+    var clear = function() {
+        var min = new Date(new Date() - 86400000);
+        Events.remove({
+            insertedAt: {$lt: min}
+        });
+    };
+
+
+    Meteor.startup(function() {
+        clear();
+        Meteor.setInterval(clear, 86400000);
+    });
+}

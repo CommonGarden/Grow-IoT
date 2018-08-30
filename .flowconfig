@@ -1,0 +1,14 @@
+[ignore]
+.*/node_modules/.*
+.*/.meteor/.*
+
+[include]
+.*/imports/.*
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

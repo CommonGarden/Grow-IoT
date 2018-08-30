@@ -1,130 +1,136 @@
 {
-  "name": "Grow-IoT",
-  "version": "0.5.5",
-  "description": "A monorepo for the Internet of Living things.",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CommonGarden/Grow-IoT"
-  },
-  "engines": {
-    "node": ">=8",
-    "yarn": "^1.3.1"
-  },
-  "scripts": {
-    "precommit": "lint-staged",
-    "prepare": "lerna run prepare",
-    "start": "meteor npm install && meteor",
-    "lint": "eslint .",
-    "postinstall": "opencollective postinstall",
-    "test": "mocha --exit"
-  },
-  "keywords": [
-    "IoT",
-    "Internet of Things",
-    "thing"
-  ],
-  "author": "CommonGarden",
-  "license": "BSD-2-Clause",
-  "bugs": {
-    "url": "https://github.com/CommonGarden/Grow-IoT/issues"
-  },
-  "homepage": "https://github.com/CommonGarden/Grow-IoT",
-  "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.51",
-    "@material-ui/core": "^1.3.1",
-    "@std/esm": "^0.21.7",
-    "aws-sdk": "^2.213.1",
-    "babel-runtime": "^6.26.0",
-    "bcrypt": "^1.0.3",
-    "bson-ext": "^1.0.1",
-    "bufferutil": "^3.0.2",
-    "cheerio": "^1.0.0-rc.2",
-    "coap": "^0.22.0",
-    "elasticsearch": "^14.1.0",
-    "enzyme": "^3.3.0",
-    "express": "^4.16.3",
-    "fibers": "^2.0.0",
-    "flexboxgrid": "^6.3.1",
-    "gridfs-stream": "^1.1.1",
-    "influx": "^5.0.7",
-    "inquirer": "^5.1.0",
-    "is-ci": "^1.1.0",
-    "jquery": "^3.3.1",
-    "jquery-validation": "^1.17.0",
-    "material-ui": "^0.20.1",
-    "meteor-node-stubs": "^0.3.3",
-    "mocha": "^5.0.1",
-    "moment": "^2.18.1",
-    "mongodb": "^3.0.2",
-    "monq": "^0.3.7",
-    "mqtt": "^2.15.3",
-    "node-red": "^0.18.7",
-    "opencollective": "^1.0.3",
-    "pondjs": "^0.8.8",
-    "randomfill": "^1.0.4",
-    "react": "^16.2.0",
-    "react-bootstrap": "^0.32.1",
-    "react-dom": "^16.2.0",
-    "react-flexbox-grid": "^2.0.0",
-    "react-grid-layout": "^0.16.4",
-    "react-iframe": "^1.1.0",
-    "react-images-upload": "^1.0.6",
-    "react-redux": "^5.0.7",
-    "react-responsive": "^4.1.0",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-svg-gauge": "^1.0.7",
-    "react-tap-event-plugin": "^3.0.2",
-    "react-timeseries-charts": "^0.13.1",
-    "react-title-component": "^1.0.1",
-    "redux": "^3.7.2",
-    "utf-8-validate": "^4.0.0",
-    "uuid": "^3.2.1",
-    "weather-icons": "^1.3.2"
-  },
-  "devDependencies": {
-    "babel-eslint": "^8.0.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "chai": "^4.1.2",
-    "eslint": "^4.18.0",
-    "eslint-import-resolver-meteor": "^0.4.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-meteor": "^4.2.0",
-    "eslint-plugin-mocha": "^5.0.0",
-    "lerna": "^2.9.0",
-    "redux-devtools": "^3.4.0"
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "allowImportExportEverywhere": true
+    "name": "Grow-IoT",
+    "version": "0.5.5",
+    "description": "A monorepo for the Internet of Living things.",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CommonGarden/Grow-IoT"
     },
-    "files": [
-      "packages/*/test/**/*.js"
-    ],
-    "plugins": [
-      "meteor"
-    ],
-    "extends": [
-      "plugin:meteor/recommended"
-    ],
-    "settings": {
-      "import/resolver": "meteor"
+    "engines": {
+        "node": ">=8",
+        "yarn": "^1.3.1"
     },
-    "rules": {}
-  },
-  "workspaces": [
-    "packages/*"
-  ],
-  "lint-staged": {
-    "*.{js,mjs}": "eslint"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/Grow-IoT",
-    "logo": "https://opencollective.com/opencollective/logo.txt"
-  }
+    "scripts": {
+        "precommit": "lint-staged",
+        "prepare": "lerna run prepare",
+        "start": "meteor npm install && meteor",
+        "lint": "eslint .",
+        "flow": "flow",
+        "postinstall": "opencollective postinstall",
+        "test": "mocha --exit"
+    },
+    "keywords": [
+        "IoT",
+        "Internet of Things",
+        "thing"
+    ],
+    "author": "CommonGarden",
+    "license": "BSD-2-Clause",
+    "bugs": {
+        "url": "https://github.com/CommonGarden/Grow-IoT/issues"
+    },
+    "homepage": "https://github.com/CommonGarden/Grow-IoT",
+    "dependencies": {
+        "@babel/runtime": "^7.0.0-beta.55",
+        "@material-ui/core": "^1.3.1",
+        "@std/esm": "^0.21.7",
+        "aws-sdk": "^2.213.1",
+        "babel-runtime": "^6.26.0",
+        "bcrypt": "^1.0.3",
+        "bson-ext": "^1.0.1",
+        "bufferutil": "^3.0.2",
+        "cheerio": "^1.0.0-rc.2",
+        "coap": "^0.22.0",
+        "elasticsearch": "^14.1.0",
+        "enzyme": "^3.3.0",
+        "express": "^4.16.3",
+        "fibers": "^2.0.0",
+        "flexboxgrid": "^6.3.1",
+        "gridfs-stream": "^1.1.1",
+        "grow-mongoose-models": "^1.0.3",
+        "influx": "^5.0.7",
+        "inquirer": "^5.1.0",
+        "is-ci": "^1.1.0",
+        "jquery": "^3.3.1",
+        "jquery-validation": "^1.17.0",
+        "jsonwebtoken": "^8.3.0",
+        "material-ui": "^0.20.1",
+        "meteor-node-stubs": "^0.3.3",
+        "mocha": "^5.0.1",
+        "moment": "^2.18.1",
+        "mongodb": "^3.0.2",
+        "mongoose": "^5.2.10",
+        "monq": "^0.3.7",
+        "morgan": "^1.9.0",
+        "mqtt": "^2.15.3",
+        "node-red": "^0.18.7",
+        "opencollective": "^1.0.3",
+        "pondjs": "^0.8.8",
+        "randomfill": "^1.0.4",
+        "react": "^16.2.0",
+        "react-bootstrap": "^0.32.1",
+        "react-dom": "^16.2.0",
+        "react-flexbox-grid": "^2.0.0",
+        "react-grid-layout": "^0.16.4",
+        "react-iframe": "^1.1.0",
+        "react-images-upload": "^1.0.6",
+        "react-redux": "^5.0.7",
+        "react-responsive": "^4.1.0",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "react-svg-gauge": "^1.0.7",
+        "react-tap-event-plugin": "^3.0.2",
+        "react-timeseries-charts": "^0.13.1",
+        "react-title-component": "^1.0.1",
+        "redux": "^3.7.2",
+        "utf-8-validate": "^4.0.0",
+        "uuid": "^3.2.1",
+        "weather-icons": "^1.3.2"
+    },
+    "devDependencies": {
+        "babel-eslint": "^8.0.0",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-preset-stage-1": "^6.24.1",
+        "chai": "^4.1.2",
+        "eslint": "^4.18.0",
+        "eslint-import-resolver-meteor": "^0.4.0",
+        "eslint-plugin-import": "^2.7.0",
+        "eslint-plugin-jsx-a11y": "^6.0.2",
+        "eslint-plugin-meteor": "^4.2.0",
+        "eslint-plugin-mocha": "^5.0.0",
+        "flow-bin": "^0.79.1",
+        "lerna": "^2.9.0",
+        "redux-devtools": "^3.4.0"
+    },
+    "eslintConfig": {
+        "parser": "babel-eslint",
+        "parserOptions": {
+            "allowImportExportEverywhere": true
+        },
+        "files": [
+            "packages/*/test/**/*.js"
+        ],
+        "plugins": [
+            "meteor"
+        ],
+        "extends": [
+            "plugin:meteor/recommended"
+        ],
+        "settings": {
+            "import/resolver": "meteor"
+        },
+        "rules": {}
+    },
+    "workspaces": [
+        "packages/*"
+    ],
+    "lint-staged": {
+        "*.{js,mjs}": "eslint"
+    },
+    "collective": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/Grow-IoT",
+        "logo": "https://opencollective.com/opencollective/logo.txt"
+    }
 }

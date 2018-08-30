@@ -32,10 +32,17 @@ module.exports = {
     sensors: [
         {
             type: 'temperature',
-            title: 'Air Temperature',
+            title: 'Temperature in greenhouse 1',
             icon: 'wi wi-thermometer',
             unit: 'wi wi-celsius',
             max: 40
+        },
+        {
+            type: 'orp',
+            title: 'ORP',
+            icon: 'wi wi-raindrop',
+            min: -2000,
+            max: 2000
         },
         {
             type: 'humidity',
@@ -47,13 +54,6 @@ module.exports = {
             type: 'pressure',
             title: 'Atmospheric pressure',
             icon: 'wi wi-barometer',
-            max: 2000
-        },
-        {
-            type: 'orp',
-            title: 'ORP',
-            icon: 'wi wi-raindrop',
-            min: -2000,
             max: 2000
         },
         {
